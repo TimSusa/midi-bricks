@@ -22,6 +22,12 @@ class App extends Component {
       console.log('WebMIDI is not supported in this browser.')
     }
   }
+  componentDidMount() {
+    const tmp = window.localStorage.getItem('slider-entries')
+    if (!tmp) return
+    const me = JSON.parse(tmp)
+    this.setState({ sliderEntries: me })
+  }
 
   render() {
     return (
@@ -40,10 +46,10 @@ class App extends Component {
     return entries.map((sliderEntry, idx) => {
       return (
         <div key={`slider-${idx}`}  >
-        <VolumeSlider value={entries[idx].val} onChange={val => this.handleSliderChange(val, idx)} />
-        CC: 
+          <VolumeSlider value={entries[idx].val} onChange={val => this.handleSliderChange(val, idx)} />
+          CC:
         <input id="number" type="number" name={`slider-name-${idx}`} value={entries[idx].midiCC} onChange={this.handleCcChange} />
-      </div>
+        </div>
       )
     })
   }
@@ -54,32 +60,38 @@ class App extends Component {
     const idx = tmp[tmp.length - 1]
     newSliderEntries[idx].midiCC = e.target.value
     this.setState({ sliderEntries: newSliderEntries })
+    this.saveToLocalStorage()
   }
+
   addSlider = () => {
     const oldEntries = this.state.sliderEntries
-    
+
     const entry = {
       val: 50,
-      midiCC: parseInt(oldEntries[oldEntries.length-1].midiCC) + 1 //count up last entry
+      midiCC: parseInt(oldEntries[oldEntries.length - 1].midiCC) + 1 //count up last entry
     }
 
     const newEntries = [...oldEntries, entry]
     this.setState({
       sliderEntries: newEntries
-    })
-
+    }, () => this.saveToLocalStorage())
   }
+
   handleSliderChange = (val, idx) => {
     let newSliderEntries = this.state.sliderEntries
     newSliderEntries[idx].val = val
 
     this.setState({
       sliderEntries: newSliderEntries
-    })
+    }, this.saveToLocalStorage())
     const midiCC = this.state.sliderEntries[idx].midiCC
     var ccMessage = [0xb0, midiCC, parseInt(val)];
     var output = this.state.midiAccess.outputs.get(this.state.outputId);
     output.send(ccMessage);  //omitting the timestamp means send immediately.
+  }
+
+  saveToLocalStorage = () => {
+    window.localStorage.setItem('slider-entries', JSON.stringify(this.state.sliderEntries))
   }
 
   onMIDISuccess = (midiAccess) => {
@@ -139,28 +151,6 @@ class App extends Component {
         "' version:'" + output.version + "'")
     }
   }
-
-
-  // unused, but useful
-  // midiMessageReceived = (ev) => {
-  //   var cmd = ev.data[0] >> 4
-  //   var channel = ev.data[0] & 0xf
-  //   var noteNumber = ev.data[1]
-  //   var velocity = 0
-  //   if (ev.data.length > 2) { velocity = ev.data[2] }
-
-  //   // MIDI noteon with velocity=0 is the same as noteoff
-  //   if (cmd == 8 || ((cmd == 9) && (velocity == 0))) { // noteoff
-  //     // noteOff(noteNumber);
-  //   } else if (cmd == 9) { // note on
-  //     // noteOn(noteNumber, velocity);
-  //   } else if (cmd == 11) { // controller message
-  //     // controller(noteNumber, velocity);
-  //   } else {
-  //     // probably sysex!
-  //   }
-  // }
-
 }
 
 export default App
