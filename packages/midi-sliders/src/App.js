@@ -59,8 +59,7 @@ class App extends Component {
     const tmp = e.target.name.split('-')
     const idx = tmp[tmp.length - 1]
     newSliderEntries[idx].midiCC = e.target.value
-    this.setState({ sliderEntries: newSliderEntries })
-    this.saveToLocalStorage()
+    this.setState({ sliderEntries: newSliderEntries }, this.saveToLocalStorage())
   }
 
   addSlider = () => {
