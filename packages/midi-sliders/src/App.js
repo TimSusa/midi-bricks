@@ -47,9 +47,11 @@ class App extends Component {
       return (
         <div key={`slider-${idx}`}  >
           <VolumeSlider value={entries[idx].val} onChange={val => this.handleSliderChange(val, idx)} />
-          CC:
+          <p>{this.state.sliderEntries[idx].val}</p>
+          <p>CC:</p>
         <input id="number" type="number" name={`slider-name-${idx}`} value={entries[idx].midiCC} onChange={this.handleCcChange} />
-          <button onClick={this.handleRemoveClick.bind(this, idx)}>remove</button>
+        <br />
+        <button onClick={this.handleRemoveClick.bind(this, idx)}>remove</button>
         </div>
       )
     })

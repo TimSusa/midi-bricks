@@ -30,3 +30,12 @@
 .sliders {
   display: flex
 }
+
+.rangeslider-vertical {
+  height: 250px;
+}
+
+input {
+  width: 70px;
+  margin: 5px;
+}
