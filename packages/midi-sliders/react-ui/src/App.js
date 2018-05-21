@@ -80,7 +80,7 @@ class App extends Component {
 
     const entry = {
       val: 50,
-      midiCC: parseInt(oldEntries[oldEntries.length - 1].midiCC) + 1 //count up last entry
+      midiCC: parseInt(oldEntries.length > 0 ? oldEntries[oldEntries.length - 1].midiCC : 59) + 1 //count up last entry
     }
 
     const newEntries = [...oldEntries, entry]
