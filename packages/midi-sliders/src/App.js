@@ -49,11 +49,20 @@ class App extends Component {
           <VolumeSlider value={entries[idx].val} onChange={val => this.handleSliderChange(val, idx)} />
           CC:
         <input id="number" type="number" name={`slider-name-${idx}`} value={entries[idx].midiCC} onChange={this.handleCcChange} />
+          <button onClick={this.handleRemoveClick.bind(this, idx)}>remove</button>
         </div>
       )
     })
   }
-
+  handleRemoveClick = (idx) => {
+    let oldState = this.state.sliderEntries
+    if (idx > -1) {
+      oldState.splice(idx, 1);
+    }
+    this.setState({
+      sliderEntries: oldState
+    }, this.saveToLocalStorage())
+  }
   handleCcChange = (e) => {
     let newSliderEntries = this.state.sliderEntries
     const tmp = e.target.name.split('-')
