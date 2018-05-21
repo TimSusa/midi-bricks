@@ -23,6 +23,8 @@ class App extends Component {
     }
   }
   componentDidMount() {
+    this.detectChromeBrowser()
+    
     const tmp = window.localStorage.getItem('slider-entries')
     if (!tmp) return
     const me = JSON.parse(tmp)
@@ -49,9 +51,9 @@ class App extends Component {
           <VolumeSlider value={entries[idx].val} onChange={val => this.handleSliderChange(val, idx)} />
           <p>{this.state.sliderEntries[idx].val}</p>
           <p>CC:</p>
-        <input id="number" type="number" name={`slider-name-${idx}`} value={entries[idx].midiCC} onChange={this.handleCcChange} />
-        <br />
-        <button onClick={this.handleRemoveClick.bind(this, idx)}>remove</button>
+          <input id="number" type="number" name={`slider-name-${idx}`} value={entries[idx].midiCC} onChange={this.handleCcChange} />
+          <br />
+          <button onClick={this.handleRemoveClick.bind(this, idx)}>remove</button>
         </div>
       )
     })
@@ -159,6 +161,37 @@ class App extends Component {
       console.log("Output port [type:'" + output.type + "'] id:'" + output.id +
         "' manufacturer:'" + output.manufacturer + "' name:'" + output.name +
         "' version:'" + output.version + "'")
+    }
+  }
+
+  detectChromeBrowser = () => {
+    // please note, 
+    // that IE11 now returns undefined again for window.chrome
+    // and new Opera 30 outputs true for window.chrome
+    // and new IE Edge outputs to true now for window.chrome
+    // and if not iOS Chrome check
+    // so use the below updated condition
+    var isChromium = window.chrome;
+    var winNav = window.navigator;
+    var vendorName = winNav.vendor;
+    var isOpera = typeof window.opr !== "undefined";
+    var isIEedge = winNav.userAgent.indexOf("Edge") > -1;
+    var isIOSChrome = winNav.userAgent.match("CriOS");
+
+    if (isIOSChrome) {
+      console.log('is Google Chrome on IOS');
+      alert('is Google Chrome on IOS');
+    } else if (
+      isChromium !== null &&
+      typeof isChromium !== "undefined" &&
+      vendorName === "Google Inc." &&
+      isOpera === false &&
+      isIEedge === false
+    ) {
+      console.log('is Google Chrome :-)');
+    } else {
+      console.log('not Google Chrome');
+      alert('Sry. This App will only work with Google Chrome Browser.');
     }
   }
 }
