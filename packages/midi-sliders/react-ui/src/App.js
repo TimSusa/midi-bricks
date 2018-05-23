@@ -11,10 +11,13 @@ class App extends Component {
       midiCC: CC_MIDI_START_VAL
     }],
     midiAccess: {},
-    outputId: ''
+    outputId: '',
+    availableDrivers: [{outputId: '', name: ''}]
   }
   constructor(props) {
     super(props)
+    this.detectChromeBrowser()
+
     if (navigator.requestMIDIAccess) {
       navigator.requestMIDIAccess({ sysex: true })
         .then(this.onMIDISuccess, this.onMIDIFailure)
@@ -22,19 +25,23 @@ class App extends Component {
       console.log('WebMIDI is not supported in this browser.')
     }
   }
-  componentDidMount() {
-    this.detectChromeBrowser()
-    
+  componentWillMount() {
+
     const tmp = window.localStorage.getItem('slider-entries')
     if (!tmp) return
     const me = JSON.parse(tmp)
-    this.setState({ sliderEntries: me })
+
+    const outputId =  JSON.parse(window.localStorage.getItem('selected-driver'))
+    this.setState({ sliderEntries: me, outputId })
   }
 
   render() {
     return (
       <div className='App'>
         <h2>MIDI Sliders</h2>
+        <select onChange={this.handleDriverSelectionChange} value={this.state.outputId}>
+          {this.renderDriverSelection()}        
+        </select>
         <button onClick={this.addSlider}>Add Slider</button>
         <div className='sliders'>
           {this.renderSliders()}
@@ -43,13 +50,21 @@ class App extends Component {
     )
   }
 
+  renderDriverSelection = () => {
+    return this.state.availableDrivers.map( (item, idx) => {
+      return (
+        <option key={`driver-${idx}`} value={item.outputId}>{item.name}</option>
+      )
+    } )
+  }
+
   renderSliders = () => {
     const entries = this.state.sliderEntries
     return entries.map((sliderEntry, idx) => {
       return (
         <div key={`slider-${idx}`}  >
           <VolumeSlider value={entries[idx].val} onChange={val => this.handleSliderChange(val, idx)} />
-          <p>{this.state.sliderEntries[idx].val}</p>
+          <p>{entries[idx].val}</p>
           <p>CC:</p>
           <input id="number" type="number" name={`slider-name-${idx}`} value={entries[idx].midiCC} onChange={this.handleCcChange} />
           <br />
@@ -58,52 +73,57 @@ class App extends Component {
       )
     })
   }
+
+  handleDriverSelectionChange = (e) => {
+    this.setState({outputId: e.target.value}, () => this.saveToLocalStorage())
+  }
+
   handleRemoveClick = (idx) => {
-    let oldState = this.state.sliderEntries
+    let sliderEntries = this.state.sliderEntries
     if (idx > -1) {
-      oldState.splice(idx, 1);
+      sliderEntries.splice(idx, 1)
     }
     this.setState({
-      sliderEntries: oldState
+      sliderEntries
     }, this.saveToLocalStorage())
   }
   handleCcChange = (e) => {
-    let newSliderEntries = this.state.sliderEntries
+    let sliderEntries = this.state.sliderEntries
     const tmp = e.target.name.split('-')
     const idx = tmp[tmp.length - 1]
-    newSliderEntries[idx].midiCC = e.target.value
-    this.setState({ sliderEntries: newSliderEntries }, this.saveToLocalStorage())
+    sliderEntries[idx].midiCC = e.target.value
+    this.setState({ sliderEntries }, this.saveToLocalStorage())
   }
 
   addSlider = () => {
-    const oldEntries = this.state.sliderEntries
+    const sliderEntries = this.state.sliderEntries
 
     const entry = {
-      val: 50,
-      midiCC: parseInt(oldEntries.length > 0 ? oldEntries[oldEntries.length - 1].midiCC : 59) + 1 //count up last entry
+      val: 80,
+      midiCC: parseInt(sliderEntries.length > 0 ? sliderEntries[sliderEntries.length - 1].midiCC : 59) + 1 //count up last entry
     }
 
-    const newEntries = [...oldEntries, entry]
+    const newEntries = [...sliderEntries, entry]
     this.setState({
       sliderEntries: newEntries
     }, () => this.saveToLocalStorage())
   }
 
   handleSliderChange = (val, idx) => {
-    let newSliderEntries = this.state.sliderEntries
-    newSliderEntries[idx].val = val
-
-    this.setState({
-      sliderEntries: newSliderEntries
-    }, this.saveToLocalStorage())
-    const midiCC = this.state.sliderEntries[idx].midiCC
+    let sliderEntries = this.state.sliderEntries
+    sliderEntries[idx].val = val
+    const midiCC = sliderEntries[idx].midiCC
     var ccMessage = [0xb0, midiCC, parseInt(val)];
     var output = this.state.midiAccess.outputs.get(this.state.outputId);
     output.send(ccMessage);  //omitting the timestamp means send immediately.
+    this.setState({
+      sliderEntries
+    }, this.saveToLocalStorage())
   }
 
   saveToLocalStorage = () => {
     window.localStorage.setItem('slider-entries', JSON.stringify(this.state.sliderEntries))
+    window.localStorage.setItem('selected-driver', JSON.stringify(this.state.outputId))
   }
 
   onMIDISuccess = (midiAccess) => {
@@ -154,14 +174,16 @@ class App extends Component {
         "' manufacturer:'" + input.manufacturer + "' name:'" + input.name +
         "' version:'" + input.version + "'")
     }
-
+    let availableDrivers = []
     for (var entry of midiAccess.outputs) {
       var output = entry[1]
-      this.setState({ outputId: output.id })
       console.log("Output port [type:'" + output.type + "'] id:'" + output.id +
         "' manufacturer:'" + output.manufacturer + "' name:'" + output.name +
         "' version:'" + output.version + "'")
+
+      availableDrivers.push({outputId: output.id, name: output.name})
     }
+    this.setState({availableDrivers})
   }
 
   detectChromeBrowser = () => {
