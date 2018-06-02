@@ -9,7 +9,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import VolumeSlider from '../VolumeSlider'
 import { withStyles } from '@material-ui/core/styles'
 
-const ChannelStripList = ({ classes, entries, availableDrivers, handleInputLabel, handleSliderChange, handleNoteTrigger, handleNoteToggle, handleCcChange, handleDriverSelectionChange, handleRemoveClick }) => {
+const ChannelStripList = ({ classes, entries, availableDrivers, handleInputLabel, handleSliderChange, handleNoteTrigger, handleNoteToggle, handleCcChange, handleDriverSelectionChange, handleRemoveClick, handleMidiChannelChange }) => {
   if (!entries) return
   return (
     <div className={classes.root}>
@@ -53,7 +53,7 @@ const ChannelStripList = ({ classes, entries, availableDrivers, handleInputLabel
                   className={classes.input}
                   id='number'
                   type='number'
-                  name={`slider-name-${idx}`}
+                  name={`input-cc-name-${idx}`}
                   value={entries[idx].midiCC}
                   onChange={handleCcChange} />
               </Tooltip>
@@ -71,7 +71,18 @@ const ChannelStripList = ({ classes, entries, availableDrivers, handleInputLabel
                   </Select>
                 </FormControl>
               </Tooltip>
-
+              <Tooltip
+                placement='top'
+                title='You can set the MIDI Channel here.'
+              >
+                <Input
+                  className={classes.input}
+                  id='number'
+                  type='number'
+                  name={`input-channel-name-${idx}`}
+                  value={entries[idx].midiChannel}
+                  onChange={handleMidiChannelChange.bind(this, idx)} />
+              </Tooltip>
               <br />
               <Button variant='raised' onClick={handleRemoveClick.bind(this, idx)}>
                 <Typography

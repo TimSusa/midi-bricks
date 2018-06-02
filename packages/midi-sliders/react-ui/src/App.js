@@ -16,7 +16,8 @@ class App extends Component {
       val: 50,
       midiCC: CC_MIDI_START_VAL,
       outputId: '',
-      isNoteOn: false
+      isNoteOn: false,
+      midiChannel: 1
     }],
     midiAccess: {},
     availableDrivers: [{ outputId: '', name: '' }]
@@ -73,6 +74,7 @@ class App extends Component {
           handleNoteToggle={this.handleNoteToggle}
           handleCcChange={this.handleCcChange}
           handleDriverSelectionChange={this.handleDriverSelectionChange}
+          handleMidiChannelChange={this.handleMidiChannelChange}
           handleRemoveClick={this.handleRemoveClick}
         />
       </div>
@@ -88,8 +90,8 @@ class App extends Component {
     const val = sliderEntries[idx].val
     const midiCC = sliderEntries[idx].midiCC
     const outputId = this.state.sliderEntries[idx].outputId
-    const noteOn = [0x92, midiCC, parseInt(val, 10)];
-    const noteOff = [0x82, midiCC, parseInt(val, 10)];
+    const noteOn = [0x8f + parseInt(sliderEntries[idx].midiChannel, 10), midiCC, parseInt(val, 10)];
+    const noteOff = [0x7f + parseInt(sliderEntries[idx].midiChannel, 10), midiCC, parseInt(val, 10)];
     const output = this.state.midiAccess.outputs.get(outputId);
 
     if (sliderEntries[idx].isNoteOn) {
@@ -105,8 +107,8 @@ class App extends Component {
     const val = sliderEntries[idx].val
     const midiCC = sliderEntries[idx].midiCC
     const outputId = this.state.sliderEntries[idx].outputId
-    const noteOn = [0x92, midiCC, parseInt(val, 10)];
-    const noteOff = [0x82, midiCC, parseInt(val, 10)];
+    const noteOn = [0x8f + parseInt(sliderEntries[idx].midiChannel, 10), midiCC, parseInt(val, 10)];
+    const noteOff = [0x7f + parseInt(sliderEntries[idx].midiChannel, 10), midiCC, parseInt(val, 10)];
     const output = this.state.midiAccess.outputs.get(outputId);
 
     output.send(noteOn);
@@ -149,13 +151,22 @@ class App extends Component {
     this.setState({ sliderEntries }, this.saveToLocalStorage())
   }
 
+  handleMidiChannelChange = (idx, e) => {
+    let {sliderEntries} = this.state
+    sliderEntries[idx].midiChannel = e.target.value
+    this.setState({
+      sliderEntries
+    }, () => this.saveToLocalStorage())
+  }
+
   addSlider = () => {
     const sliderEntries = this.state.sliderEntries || []
     const entry = {
       label: 'label' + (sliderEntries.length + 1),
       val: 80,
       midiCC: parseInt(sliderEntries.length > 0 ? sliderEntries[sliderEntries.length - 1].midiCC : 59, 10) + 1, //count up last entry,
-      outputId: this.state.availableDrivers[0].outputId
+      outputId: this.state.availableDrivers[0].outputId,
+      midiChannel: 1
     }
 
     const newEntries = [...sliderEntries, entry]
@@ -169,7 +180,7 @@ class App extends Component {
     sliderEntries[idx].val = val
     const midiCC = sliderEntries[idx].midiCC
     const outputId = this.state.sliderEntries[idx].outputId
-    var ccMessage = [0xb0, midiCC, parseInt(val, 10)];
+    var ccMessage = [0xaf + parseInt(sliderEntries[idx].midiChannel, 10), midiCC, parseInt(val, 10)];
     var output = this.state.midiAccess.outputs.get(outputId);
     output.send(ccMessage);  //omitting the timestamp means send immediately.
     this.setState({
