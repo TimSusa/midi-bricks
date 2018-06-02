@@ -64,7 +64,7 @@ class App extends Component {
             value={this.state.sliderEntries[idx].label} />
           <VolumeSlider value={entries[idx].val} onChange={val => this.handleSliderChange(val, idx)} />
           <p>{entries[idx].val}</p>
-
+          <button onClick={this.handleNoteTrigger.bind(this, idx)}>trigger Note</button>
           <input id="number" type="number" name={`slider-name-${idx}`} value={entries[idx].midiCC} onChange={this.handleCcChange} />
 
           <br />
@@ -76,6 +76,24 @@ class App extends Component {
         </div>
       )
     })
+  }
+
+  handleNoteTrigger = (idx, e) => {
+    const sliderEntries = this.state.sliderEntries
+    const val = sliderEntries[idx].val
+    const midiCC = sliderEntries[idx].midiCC
+    const outputId = this.state.sliderEntries[idx].outputId
+    const noteOn = [0x92, midiCC, parseInt(val)];
+    const noteOff = [0x82, midiCC, parseInt(val)];
+    const output = this.state.midiAccess.outputs.get(outputId);
+
+    output.send(noteOn);
+    setTimeout(
+      function () {
+        output.send(noteOff);
+      },
+      100
+    );
   }
 
   handleInputLabel = (idx, e) => {
