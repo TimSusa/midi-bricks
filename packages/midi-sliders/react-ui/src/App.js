@@ -1,4 +1,15 @@
 import React, { Component } from 'react'
+import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
+import MenuItem from '@material-ui/core/MenuItem';
+import Typography from '@material-ui/core/Typography'
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import { withStyles } from '@material-ui/core/styles';
+import withRoot from './withRoot';
+
 import VolumeSlider from './VolumeSlider'
 import './App.css'
 
@@ -42,11 +53,22 @@ class App extends Component {
   }
 
   render() {
+    const { classes } = this.props
     return (
-      <div className='App'>
-        <h2>MIDI Sliders</h2>
-        <button onClick={this.addSlider}>Add Slider</button>
-        <div className='sliders'>
+      <div className={classes.root}>
+        <Typography
+          className={classes.heading}
+          variant="display2"
+          gutterBottom>
+          MIDI Sliders
+        </Typography>
+        <Button
+          variant='raised'
+          className={this.props.classes.button}
+          onClick={this.addSlider}>
+          Add Slider
+        </Button>
+        <div className={classes.sliders}>
           {this.renderSliders()}
         </div>
       </div>
@@ -54,12 +76,14 @@ class App extends Component {
   }
 
   renderSliders = () => {
+    const { classes } = this.props
     const entries = this.state.sliderEntries
     if (!entries) return
     return entries.map((sliderEntry, idx) => {
       return (
-        <div key={`slider-${idx}`}>
-          <input
+        <div key={`slider-${idx}`} className={classes.sliderContainer}>
+          <Input
+            className={classes.input}
             type='text'
             onChange={this.handleInputLabel.bind(this, idx)}
             value={this.state.sliderEntries[idx].label} />
@@ -67,22 +91,40 @@ class App extends Component {
             value={entries[idx].val}
             onChange={val => this.handleSliderChange(val, idx)} />
           <p>{entries[idx].val}</p>
-          <button
+          <Button
+            className={classes.button}
+            variant='raised'
+
             onClick={this.handleNoteTrigger.bind(this, idx)}>
             trigger Note On / Off
-          </button>
-          <button
+          </Button>
+          <Button
+            className={classes.button}
+            variant='raised'
             onClick={this.handleNoteToggle.bind(this, idx)}>
-              toggle Note {entries[idx].isNoteOn ? 'Off ' : 'On'}
-          </button>
-          <input id="number" type="number" name={`slider-name-${idx}`} value={entries[idx].midiCC} onChange={this.handleCcChange} />
+            toggle Note {entries[idx].isNoteOn ? 'Off ' : 'On'}
+          </Button>
+          <Input
+            className={classes.input}
+            id="number"
+            type="number"
+            name={`slider-name-${idx}`}
+            value={entries[idx].midiCC}
+            onChange={this.handleCcChange} />
 
           <br />
-          <select onChange={this.handleDriverSelectionChange.bind(this, idx)} value={this.state.sliderEntries[idx].outputId}>
-            {this.renderDriverSelection()}
-          </select>
+          <FormControl className={classes.formControl}>
+            {/* <InputLabel htmlFor="cc">CC</InputLabel> */}
+            <Select
+              className={classes.select}
+              onChange={this.handleDriverSelectionChange.bind(this, idx)}
+              value={this.state.sliderEntries[idx].outputId}>
+              {this.renderDriverSelection()}
+            </Select>
+          </FormControl>
+
           <br />
-          <button onClick={this.handleRemoveClick.bind(this, idx)}>remove</button>
+          <Button variant='raised' onClick={this.handleRemoveClick.bind(this, idx)}>remove</Button>
         </div>
       )
     })
@@ -134,7 +176,7 @@ class App extends Component {
   renderDriverSelection = () => {
     return this.state.availableDrivers.map((item, idx) => {
       return (
-        <option key={`driver-${idx}`} value={item.outputId}>{item.name}</option>
+        <MenuItem key={`driver-${idx}`} value={item.outputId}>{item.name}</MenuItem>
       )
     })
   }
@@ -287,4 +329,37 @@ class App extends Component {
   }
 }
 
-export default App
+const styles = theme => ({
+  root: {
+    textAlign: 'center'
+  },
+  heading: {
+    marginTop: theme.spacing.unit * 2
+  },
+  sliders: {
+    display: 'flex',
+  },
+  sliderContainer: {
+    textAlign: 'center',
+    padding: theme.spacing.unit * 1,
+    width: 200
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+  input: {
+    width: 100,
+    margin: theme.spacing.unit
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    maxWidth: 140
+  },
+  select: {
+    margin: theme.spacing.unit,
+    width: 150
+  }
+});
+
+// export default App
+export default withRoot(withStyles(styles)(App));
