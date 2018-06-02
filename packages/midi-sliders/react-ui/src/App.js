@@ -66,7 +66,10 @@ class App extends Component {
           variant='raised'
           className={this.props.classes.button}
           onClick={this.addSlider}>
-          Add Slider
+          <Typography
+            variant="caption">
+            add slider
+          </Typography>
         </Button>
         <div className={classes.sliders}>
           {this.renderSliders()}
@@ -90,19 +93,26 @@ class App extends Component {
           <VolumeSlider
             value={entries[idx].val}
             onChange={val => this.handleSliderChange(val, idx)} />
-          <p>{entries[idx].val}</p>
+          <Typography className={classes.caption}>{entries[idx].val}</Typography>
           <Button
             className={classes.button}
             variant='raised'
 
             onClick={this.handleNoteTrigger.bind(this, idx)}>
-            trigger Note On / Off
+            <Typography
+              variant="caption">
+              trigger note
+            </Typography>
           </Button>
           <Button
             className={classes.button}
             variant='raised'
             onClick={this.handleNoteToggle.bind(this, idx)}>
-            toggle Note {entries[idx].isNoteOn ? 'Off ' : 'On'}
+            <Typography
+              variant="caption">
+              toggle Note {entries[idx].isNoteOn ? 'Off ' : 'On'}
+            </Typography>
+
           </Button>
           <Input
             className={classes.input}
@@ -124,7 +134,12 @@ class App extends Component {
           </FormControl>
 
           <br />
-          <Button variant='raised' onClick={this.handleRemoveClick.bind(this, idx)}>remove</Button>
+          <Button variant='raised' onClick={this.handleRemoveClick.bind(this, idx)}>
+            <Typography
+              variant="caption">
+              remove
+            </Typography>
+          </Button>
         </div>
       )
     })
@@ -349,7 +364,12 @@ const styles = theme => ({
   },
   input: {
     width: 100,
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
+    color: 'rgba(0, 0, 0, 0.54)',
+    fontSize: '1rem',
+    fonWeight: 400,
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    lineHeight: '1.375em'
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -357,7 +377,19 @@ const styles = theme => ({
   },
   select: {
     margin: theme.spacing.unit,
-    width: 150
+    width: 150,
+    color: 'rgba(0, 0, 0, 0.54)',
+    fontSize: '1rem',
+    fonWeight: 400,
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    lineHeight: '1.375em'
+  },
+  caption: {
+    color: 'rgba(0, 0, 0, 0.54)',
+    fontSize: '1rem',
+    fonWeight: 400,
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    lineHeight: '1.375em'
   }
 });
 
