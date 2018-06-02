@@ -1,20 +1,13 @@
 import React, { Component } from 'react'
 import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography'
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
 import { withStyles } from '@material-ui/core/styles';
 import withRoot from './withRoot';
 
-import VolumeSlider from './VolumeSlider'
+import ChannelStripList from './channel-strip-list/ChannelStripList'
 import './App.css'
 
 const CC_MIDI_START_VAL = 60
-const LABEL_START_VAL = 'label 0'
 
 class App extends Component {
   state = {
@@ -71,79 +64,22 @@ class App extends Component {
             add slider
           </Typography>
         </Button>
-        <div className={classes.sliders}>
-          {this.renderSliders()}
-        </div>
+        <ChannelStripList
+          entries={this.state.sliderEntries}
+          availableDrivers={this.state.availableDrivers}
+          handleInputLabel={this.handleInputLabel}
+          handleSliderChange={this.handleSliderChange}
+          handleNoteTrigger={this.handleNoteTrigger}
+          handleNoteToggle={this.handleNoteToggle}
+          handleCcChange={this.handleCcChange}
+          handleDriverSelectionChange={this.handleDriverSelectionChange}
+          handleRemoveClick={this.handleRemoveClick}
+        />
       </div>
     )
   }
 
-  renderSliders = () => {
-    const { classes } = this.props
-    const entries = this.state.sliderEntries
-    if (!entries) return
-    return entries.map((sliderEntry, idx) => {
-      return (
-        <div key={`slider-${idx}`} className={classes.sliderContainer}>
-          <Input
-            className={classes.input}
-            type='text'
-            onChange={this.handleInputLabel.bind(this, idx)}
-            value={this.state.sliderEntries[idx].label} />
-          <VolumeSlider
-            value={entries[idx].val}
-            onChange={val => this.handleSliderChange(val, idx)} />
-          <Typography className={classes.caption}>{entries[idx].val}</Typography>
-          <Button
-            className={classes.button}
-            variant='raised'
 
-            onClick={this.handleNoteTrigger.bind(this, idx)}>
-            <Typography
-              variant="caption">
-              trigger note
-            </Typography>
-          </Button>
-          <Button
-            className={classes.button}
-            variant='raised'
-            onClick={this.handleNoteToggle.bind(this, idx)}>
-            <Typography
-              variant="caption">
-              toggle Note {entries[idx].isNoteOn ? 'Off ' : 'On'}
-            </Typography>
-
-          </Button>
-          <Input
-            className={classes.input}
-            id="number"
-            type="number"
-            name={`slider-name-${idx}`}
-            value={entries[idx].midiCC}
-            onChange={this.handleCcChange} />
-
-          <br />
-          <FormControl className={classes.formControl}>
-            {/* <InputLabel htmlFor="cc">CC</InputLabel> */}
-            <Select
-              className={classes.select}
-              onChange={this.handleDriverSelectionChange.bind(this, idx)}
-              value={this.state.sliderEntries[idx].outputId}>
-              {this.renderDriverSelection()}
-            </Select>
-          </FormControl>
-
-          <br />
-          <Button variant='raised' onClick={this.handleRemoveClick.bind(this, idx)}>
-            <Typography
-              variant="caption">
-              remove
-            </Typography>
-          </Button>
-        </div>
-      )
-    })
-  }
 
   handleNoteToggle = (idx, e) => {
     let { sliderEntries } = this.state
@@ -152,8 +88,8 @@ class App extends Component {
     const val = sliderEntries[idx].val
     const midiCC = sliderEntries[idx].midiCC
     const outputId = this.state.sliderEntries[idx].outputId
-    const noteOn = [0x92, midiCC, parseInt(val)];
-    const noteOff = [0x82, midiCC, parseInt(val)];
+    const noteOn = [0x92, midiCC, parseInt(val, 10)];
+    const noteOff = [0x82, midiCC, parseInt(val, 10)];
     const output = this.state.midiAccess.outputs.get(outputId);
 
     if (sliderEntries[idx].isNoteOn) {
@@ -169,8 +105,8 @@ class App extends Component {
     const val = sliderEntries[idx].val
     const midiCC = sliderEntries[idx].midiCC
     const outputId = this.state.sliderEntries[idx].outputId
-    const noteOn = [0x92, midiCC, parseInt(val)];
-    const noteOff = [0x82, midiCC, parseInt(val)];
+    const noteOn = [0x92, midiCC, parseInt(val, 10)];
+    const noteOff = [0x82, midiCC, parseInt(val, 10)];
     const output = this.state.midiAccess.outputs.get(outputId);
 
     output.send(noteOn);
@@ -186,14 +122,6 @@ class App extends Component {
     let tmp = this.state.sliderEntries
     tmp[idx].label = e.target.value
     this.setState({ sliderEntries: tmp }, () => this.saveToLocalStorage())
-  }
-
-  renderDriverSelection = () => {
-    return this.state.availableDrivers.map((item, idx) => {
-      return (
-        <MenuItem key={`driver-${idx}`} value={item.outputId}>{item.name}</MenuItem>
-      )
-    })
   }
 
   handleDriverSelectionChange = (idx, e) => {
@@ -226,7 +154,7 @@ class App extends Component {
     const entry = {
       label: 'label' + (sliderEntries.length + 1),
       val: 80,
-      midiCC: parseInt(sliderEntries.length > 0 ? sliderEntries[sliderEntries.length - 1].midiCC : 59) + 1, //count up last entry,
+      midiCC: parseInt(sliderEntries.length > 0 ? sliderEntries[sliderEntries.length - 1].midiCC : 59, 10) + 1, //count up last entry,
       outputId: this.state.availableDrivers[0].outputId
     }
 
@@ -241,7 +169,7 @@ class App extends Component {
     sliderEntries[idx].val = val
     const midiCC = sliderEntries[idx].midiCC
     const outputId = this.state.sliderEntries[idx].outputId
-    var ccMessage = [0xb0, midiCC, parseInt(val)];
+    var ccMessage = [0xb0, midiCC, parseInt(val, 10)];
     var output = this.state.midiAccess.outputs.get(outputId);
     output.send(ccMessage);  //omitting the timestamp means send immediately.
     this.setState({
@@ -258,7 +186,7 @@ class App extends Component {
     this.listInputsAndOutputs()
 
     var inputs = midiAccess.inputs
-    var outputs = midiAccess.outputs
+    // var outputs = midiAccess.outputs
 
     var inputIterators = inputs.values()
     var firstInput = inputIterators.next().value
@@ -274,7 +202,7 @@ class App extends Component {
 
   handleMidiMessage = (message) => {
     var command = message.data[0]
-    var note = message.data[1]
+    // var note = message.data[1]
     var velocity = (message.data.length > 2) ? message.data[2] : 0 // a velocity value might not be included with a noteOff command
 
     switch (command) {
@@ -288,6 +216,8 @@ class App extends Component {
       case 128: // noteOff
         // noteOff(note);
         break
+      default: 
+        
       // we could easily expand this switch statement to cover other types of commands such as controllers or sysex
     }
   }
@@ -301,8 +231,8 @@ class App extends Component {
         "' version:'" + input.version + "'")
     }
     let availableDrivers = []
-    for (var entry of midiAccess.outputs) {
-      var output = entry[1]
+    for (var outputEntry of midiAccess.outputs) {
+      var output = outputEntry[1]
       console.log("Output port [type:'" + output.type + "'] id:'" + output.id +
         "' manufacturer:'" + output.manufacturer + "' name:'" + output.name +
         "' version:'" + output.version + "'")
@@ -351,33 +281,12 @@ const styles = theme => ({
   heading: {
     marginTop: theme.spacing.unit * 2
   },
-  sliders: {
-    display: 'flex',
-  },
-  sliderContainer: {
-    textAlign: 'center',
-    padding: theme.spacing.unit * 1,
-    width: 200
-  },
   button: {
     margin: theme.spacing.unit,
   },
   input: {
     width: 100,
     margin: theme.spacing.unit,
-    color: 'rgba(0, 0, 0, 0.54)',
-    fontSize: '1rem',
-    fonWeight: 400,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em'
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    maxWidth: 140
-  },
-  select: {
-    margin: theme.spacing.unit,
-    width: 150,
     color: 'rgba(0, 0, 0, 0.54)',
     fontSize: '1rem',
     fonWeight: 400,
