@@ -64,13 +64,14 @@ class App extends Component {
     if (!entries) return
     return entries.map((sliderEntry, idx) => {
       return (
-        <div key={`slider-${idx}`}  >
+        <div key={`slider-${idx}`}>
           <VolumeSlider value={entries[idx].val} onChange={val => this.handleSliderChange(val, idx)} />
           <p>{entries[idx].val}</p>
           <p>CC:</p>
           <input id="number" type="number" name={`slider-name-${idx}`} value={entries[idx].midiCC} onChange={this.handleCcChange} />
           <br />
           <button onClick={this.handleRemoveClick.bind(this, idx)}>remove</button>
+          <br />
           <select onChange={this.handleDriverSelectionChange.bind(this, idx)} value={this.state.sliderEntries[idx].outputId}>
           {this.renderDriverSelection()}        
         </select>
