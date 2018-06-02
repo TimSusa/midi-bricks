@@ -11,7 +11,8 @@ class App extends Component {
       label: 'label',
       val: 50,
       midiCC: CC_MIDI_START_VAL,
-      outputId: ''
+      outputId: '',
+      isNoteOn: false
     }],
     midiAccess: {},
     availableDrivers: [{ outputId: '', name: '' }]
@@ -62,9 +63,18 @@ class App extends Component {
             type='text'
             onChange={this.handleInputLabel.bind(this, idx)}
             value={this.state.sliderEntries[idx].label} />
-          <VolumeSlider value={entries[idx].val} onChange={val => this.handleSliderChange(val, idx)} />
+          <VolumeSlider
+            value={entries[idx].val}
+            onChange={val => this.handleSliderChange(val, idx)} />
           <p>{entries[idx].val}</p>
-          <button onClick={this.handleNoteTrigger.bind(this, idx)}>trigger Note</button>
+          <button
+            onClick={this.handleNoteTrigger.bind(this, idx)}>
+            trigger Note On / Off
+          </button>
+          <button
+            onClick={this.handleNoteToggle.bind(this, idx)}>
+              toggle Note {entries[idx].isNoteOn ? 'Off ' : 'On'}
+          </button>
           <input id="number" type="number" name={`slider-name-${idx}`} value={entries[idx].midiCC} onChange={this.handleCcChange} />
 
           <br />
@@ -76,6 +86,25 @@ class App extends Component {
         </div>
       )
     })
+  }
+
+  handleNoteToggle = (idx, e) => {
+    let { sliderEntries } = this.state
+    sliderEntries[idx].isNoteOn = !sliderEntries[idx].isNoteOn
+
+    const val = sliderEntries[idx].val
+    const midiCC = sliderEntries[idx].midiCC
+    const outputId = this.state.sliderEntries[idx].outputId
+    const noteOn = [0x92, midiCC, parseInt(val)];
+    const noteOff = [0x82, midiCC, parseInt(val)];
+    const output = this.state.midiAccess.outputs.get(outputId);
+
+    if (sliderEntries[idx].isNoteOn) {
+      output.send(noteOn);
+    } else {
+      output.send(noteOff);
+    }
+    this.setState({ sliderEntries })
   }
 
   handleNoteTrigger = (idx, e) => {
