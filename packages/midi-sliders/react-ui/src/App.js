@@ -29,7 +29,11 @@ class App extends Component {
   componentWillMount() {
 
     const tmp = window.localStorage.getItem('slider-entries')
-    if (!tmp) return
+    if (!tmp) {
+      console.warn('Could not load from local storage. Settings not found.')
+      return
+    }
+    console.log(tmp);
     const me = JSON.parse(tmp)
 
     this.setState({ sliderEntries: me })
@@ -57,6 +61,7 @@ class App extends Component {
 
   renderSliders = () => {
     const entries = this.state.sliderEntries
+    if (!entries) return
     return entries.map((sliderEntry, idx) => {
       return (
         <div key={`slider-${idx}`}  >
@@ -100,11 +105,11 @@ class App extends Component {
   }
 
   addSlider = () => {
-    const sliderEntries = this.state.sliderEntries
-
+    const sliderEntries = this.state.sliderEntries || []
     const entry = {
       val: 80,
-      midiCC: parseInt(sliderEntries.length > 0 ? sliderEntries[sliderEntries.length - 1].midiCC : 59) + 1 //count up last entry
+      midiCC: parseInt(sliderEntries.lenght > 0 ? sliderEntries[sliderEntries.length - 1].midiCC : 59) + 1, //count up last entry,
+      outputId: this.state.availableDrivers[0].outputId
     }
 
     const newEntries = [...sliderEntries, entry]
@@ -118,7 +123,6 @@ class App extends Component {
     sliderEntries[idx].val = val
     const midiCC = sliderEntries[idx].midiCC
     const outputId = this.state.sliderEntries[idx].outputId
-    console.log(outputId);
     var ccMessage = [0xb0, midiCC, parseInt(val)];
     var output = this.state.midiAccess.outputs.get(outputId);
     output.send(ccMessage);  //omitting the timestamp means send immediately.
@@ -129,7 +133,6 @@ class App extends Component {
 
   saveToLocalStorage = () => {
     window.localStorage.setItem('slider-entries', JSON.stringify(this.state.sliderEntries))
-    window.localStorage.setItem('selected-driver', JSON.stringify(this.state.outputId))
   }
 
   onMIDISuccess = (midiAccess) => {
