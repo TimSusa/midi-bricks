@@ -15,6 +15,7 @@ class App extends Component {
     midiAccess: {},
     availableDrivers: [{ outputId: '', name: '' }]
   }
+
   constructor(props) {
     super(props)
     this.detectChromeBrowser()
@@ -26,8 +27,8 @@ class App extends Component {
       console.log('WebMIDI is not supported in this browser.')
     }
   }
-  componentWillMount() {
 
+  componentWillMount() {
     const tmp = window.localStorage.getItem('slider-entries')
     if (!tmp) {
       console.warn('Could not load from local storage. Settings not found.')
@@ -35,7 +36,6 @@ class App extends Component {
     }
     console.log(tmp);
     const me = JSON.parse(tmp)
-
     this.setState({ sliderEntries: me })
   }
 
@@ -49,14 +49,6 @@ class App extends Component {
         </div>
       </div>
     )
-  }
-
-  renderDriverSelection = () => {
-    return this.state.availableDrivers.map((item, idx) => {
-      return (
-        <option key={`driver-${idx}`} value={item.outputId}>{item.name}</option>
-      )
-    })
   }
 
   renderSliders = () => {
@@ -80,11 +72,18 @@ class App extends Component {
     })
   }
 
+  renderDriverSelection = () => {
+    return this.state.availableDrivers.map((item, idx) => {
+      return (
+        <option key={`driver-${idx}`} value={item.outputId}>{item.name}</option>
+      )
+    })
+  }
+
   handleDriverSelectionChange = (idx, e) => {
     console.log('handledriverselectionchange ', idx, e.target.value);
     let tmp = this.state.sliderEntries
     tmp[idx].outputId = e.target.value
-
     this.setState({ sliderEntries: tmp }, () => this.saveToLocalStorage())
   }
 
@@ -139,7 +138,6 @@ class App extends Component {
 
   onMIDISuccess = (midiAccess) => {
     this.setState({ midiAccess })
-
     this.listInputsAndOutputs()
 
     var inputs = midiAccess.inputs
