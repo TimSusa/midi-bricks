@@ -35,7 +35,7 @@ class App extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const tmp = window.localStorage.getItem('slider-entries')
     if (!tmp) {
       console.warn('Could not load from local storage. Settings not found.')
@@ -44,7 +44,22 @@ class App extends Component {
     console.log(tmp);
     const me = JSON.parse(tmp)
     this.setState({ sliderEntries: me })
+
+    window.addEventListener(
+      "beforeunload",
+      this.saveStateToLocalStorage.bind(this)
+    );
   }
+
+  componentWillUnmount() {
+    window.removeEventListener(
+      "beforeunload",
+      this.saveStateToLocalStorage.bind(this)
+    );
+
+    // saves if component has a chance to unmount
+    this.saveStateToLocalStorage();
+}
 
   render() {
     const { classes } = this.props
@@ -87,12 +102,11 @@ class App extends Component {
     let { sliderEntries } = this.state
     sliderEntries[idx].isNoteOn = !sliderEntries[idx].isNoteOn
 
-    const val = sliderEntries[idx].val
-    const midiCC = sliderEntries[idx].midiCC
-    const outputId = this.state.sliderEntries[idx].outputId
-    const noteOn = [0x8f + parseInt(sliderEntries[idx].midiChannel, 10), midiCC, parseInt(val, 10)];
-    const noteOff = [0x7f + parseInt(sliderEntries[idx].midiChannel, 10), midiCC, parseInt(val, 10)];
-    const output = this.state.midiAccess.outputs.get(outputId);
+    const {
+      output,
+      noteOn, 
+      noteOff
+    } = this.getMidiOutputNoteOnOf(idx)
 
     if (sliderEntries[idx].isNoteOn) {
       output.send(noteOn);
@@ -103,13 +117,11 @@ class App extends Component {
   }
 
   handleNoteTrigger = (idx, e) => {
-    const sliderEntries = this.state.sliderEntries
-    const val = sliderEntries[idx].val
-    const midiCC = sliderEntries[idx].midiCC
-    const outputId = this.state.sliderEntries[idx].outputId
-    const noteOn = [0x8f + parseInt(sliderEntries[idx].midiChannel, 10), midiCC, parseInt(val, 10)];
-    const noteOff = [0x7f + parseInt(sliderEntries[idx].midiChannel, 10), midiCC, parseInt(val, 10)];
-    const output = this.state.midiAccess.outputs.get(outputId);
+    const {
+      output,
+      noteOn, 
+      noteOff
+    } = this.getMidiOutputNoteOnOf(idx)
 
     output.send(noteOn);
     setTimeout(
@@ -120,17 +132,32 @@ class App extends Component {
     );
   }
 
+  getMidiOutputNoteOnOf = (idx) => {
+    const {sliderEntries} = this.state
+    const val = sliderEntries[idx].val
+    const midiCC = sliderEntries[idx].midiCC
+    const outputId = sliderEntries[idx].outputId
+    const noteOn = [0x8f + parseInt(sliderEntries[idx].midiChannel, 10), midiCC, parseInt(val, 10)];
+    const noteOff = [0x7f + parseInt(sliderEntries[idx].midiChannel, 10), midiCC, parseInt(val, 10)];
+    const output = this.state.midiAccess.outputs.get(outputId);
+
+    return {
+      output,
+      noteOn, 
+      noteOff
+    }
+  }
+
   handleInputLabel = (idx, e) => {
     let tmp = this.state.sliderEntries
     tmp[idx].label = e.target.value
-    this.setState({ sliderEntries: tmp }, () => this.saveToLocalStorage())
+    this.setState({ sliderEntries: tmp })
   }
 
   handleDriverSelectionChange = (idx, e) => {
-    console.log('handledriverselectionchange ', idx, e.target.value);
     let tmp = this.state.sliderEntries
     tmp[idx].outputId = e.target.value
-    this.setState({ sliderEntries: tmp }, () => this.saveToLocalStorage())
+    this.setState({ sliderEntries: tmp })
   }
 
   handleRemoveClick = (idx) => {
@@ -140,7 +167,7 @@ class App extends Component {
     }
     this.setState({
       sliderEntries
-    }, this.saveToLocalStorage())
+    })
   }
 
   handleCcChange = (e) => {
@@ -148,7 +175,7 @@ class App extends Component {
     const tmp = e.target.name.split('-')
     const idx = tmp[tmp.length - 1]
     sliderEntries[idx].midiCC = e.target.value
-    this.setState({ sliderEntries }, this.saveToLocalStorage())
+    this.setState({ sliderEntries })
   }
 
   handleMidiChannelChange = (idx, e) => {
@@ -156,7 +183,7 @@ class App extends Component {
     sliderEntries[idx].midiChannel = e.target.value
     this.setState({
       sliderEntries
-    }, () => this.saveToLocalStorage())
+    })
   }
 
   addSlider = () => {
@@ -172,7 +199,7 @@ class App extends Component {
     const newEntries = [...sliderEntries, entry]
     this.setState({
       sliderEntries: newEntries
-    }, () => this.saveToLocalStorage())
+    })
   }
 
   handleSliderChange = (val, idx) => {
@@ -185,10 +212,10 @@ class App extends Component {
     output.send(ccMessage);  //omitting the timestamp means send immediately.
     this.setState({
       sliderEntries
-    }, this.saveToLocalStorage())
+    })
   }
 
-  saveToLocalStorage = () => {
+  saveStateToLocalStorage = () => {
     window.localStorage.setItem('slider-entries', JSON.stringify(this.state.sliderEntries))
   }
 
