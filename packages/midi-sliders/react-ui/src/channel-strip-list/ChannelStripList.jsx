@@ -5,6 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Typography from '@material-ui/core/Typography'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
+import Tooltip from '@material-ui/core/Tooltip'
 import VolumeSlider from '../VolumeSlider'
 import { withStyles } from '@material-ui/core/styles'
 
@@ -44,24 +45,32 @@ const ChannelStripList = ({ classes, entries, availableDrivers, handleInputLabel
                 </Typography>
 
               </Button>
-              <Input
-                className={classes.input}
-                id='number'
-                type='number'
-                name={`slider-name-${idx}`}
-                value={entries[idx].midiCC}
-                onChange={handleCcChange} />
-
+              <Tooltip
+                placement='top'
+                title='You can set a CC Value or Note Message here.'
+              >
+                <Input
+                  className={classes.input}
+                  id='number'
+                  type='number'
+                  name={`slider-name-${idx}`}
+                  value={entries[idx].midiCC}
+                  onChange={handleCcChange} />
+              </Tooltip>
               <br />
-              <FormControl className={classes.formControl}>
-                {/* <InputLabel htmlFor="cc">CC</InputLabel> */}
-                <Select
-                  className={classes.select}
-                  onChange={handleDriverSelectionChange.bind(this, idx)}
-                  value={entries[idx].outputId}>
-                  {renderDriverSelection(availableDrivers)}
-                </Select>
-              </FormControl>
+              <Tooltip
+                placement='top'
+                title={getSelectedDriverName(availableDrivers, entries[idx].outputId)}>
+                <FormControl className={classes.formControl}>
+                  {/* <InputLabel htmlFor="cc">CC</InputLabel> */}
+                  <Select
+                    className={classes.select}
+                    onChange={handleDriverSelectionChange.bind(this, idx)}
+                    value={entries[idx].outputId}>
+                    {renderDriverSelection(availableDrivers)}
+                  </Select>
+                </FormControl>
+              </Tooltip>
 
               <br />
               <Button variant='raised' onClick={handleRemoveClick.bind(this, idx)}>
@@ -78,6 +87,16 @@ const ChannelStripList = ({ classes, entries, availableDrivers, handleInputLabel
   )
 }
 
+const getSelectedDriverName = (drivers, outputId) => {
+  let name = ''
+  drivers.forEach(t => {
+    if (t.outputId === outputId) {
+      name = t.name
+    }
+  })
+  return name
+}
+
 const renderDriverSelection = (availableDrivers) => {
   return availableDrivers.map((item, idx) => {
     return (
@@ -88,12 +107,11 @@ const renderDriverSelection = (availableDrivers) => {
 
 const styles = theme => ({
   root: {
-    display: 'flex'
+    display: 'flex',
+    marginLeft: theme.spacing.unit * 4
   },
   sliderContainer: {
-    textAlign: 'center',
-    padding: theme.spacing.unit * 1,
-    width: 200
+    width: 100
   },
   button: {
     margin: theme.spacing.unit
@@ -112,12 +130,8 @@ const styles = theme => ({
     maxWidth: 140
   },
   select: {
-    margin: theme.spacing.unit,
-    width: 150,
+    width: 80,
     color: 'rgba(0, 0, 0, 0.54)',
-    fontSize: '1rem',
-    fontWeight: 400,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     lineHeight: '1.375em'
   },
   caption: {
