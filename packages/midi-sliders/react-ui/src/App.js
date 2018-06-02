@@ -13,7 +13,7 @@ class App extends Component {
       outputId: ''
     }],
     midiAccess: {},
-    availableDrivers: [{outputId: '', name: ''}]
+    availableDrivers: [{ outputId: '', name: '' }]
   }
   constructor(props) {
     super(props)
@@ -52,11 +52,11 @@ class App extends Component {
   }
 
   renderDriverSelection = () => {
-    return this.state.availableDrivers.map( (item, idx) => {
+    return this.state.availableDrivers.map((item, idx) => {
       return (
         <option key={`driver-${idx}`} value={item.outputId}>{item.name}</option>
       )
-    } )
+    })
   }
 
   renderSliders = () => {
@@ -67,14 +67,14 @@ class App extends Component {
         <div key={`slider-${idx}`}>
           <VolumeSlider value={entries[idx].val} onChange={val => this.handleSliderChange(val, idx)} />
           <p>{entries[idx].val}</p>
-          <p>CC:</p>
           <input id="number" type="number" name={`slider-name-${idx}`} value={entries[idx].midiCC} onChange={this.handleCcChange} />
-          <br />
-          <button onClick={this.handleRemoveClick.bind(this, idx)}>remove</button>
+
           <br />
           <select onChange={this.handleDriverSelectionChange.bind(this, idx)} value={this.state.sliderEntries[idx].outputId}>
-          {this.renderDriverSelection()}        
-        </select>
+            {this.renderDriverSelection()}
+          </select>
+          <br />
+          <button onClick={this.handleRemoveClick.bind(this, idx)}>remove</button>
         </div>
       )
     })
@@ -85,7 +85,7 @@ class App extends Component {
     let tmp = this.state.sliderEntries
     tmp[idx].outputId = e.target.value
 
-    this.setState({sliderEntries: tmp}, () => this.saveToLocalStorage())
+    this.setState({ sliderEntries: tmp }, () => this.saveToLocalStorage())
   }
 
   handleRemoveClick = (idx) => {
@@ -97,6 +97,7 @@ class App extends Component {
       sliderEntries
     }, this.saveToLocalStorage())
   }
+
   handleCcChange = (e) => {
     let sliderEntries = this.state.sliderEntries
     const tmp = e.target.name.split('-')
@@ -106,10 +107,10 @@ class App extends Component {
   }
 
   addSlider = () => {
-    const sliderEntries = this.state.sliderEntries || []
+    const sliderEntries = this.state.sliderEntries ||  []
     const entry = {
       val: 80,
-      midiCC: parseInt(sliderEntries.lenght > 0 ? sliderEntries[sliderEntries.length - 1].midiCC : 59) + 1, //count up last entry,
+      midiCC: parseInt(sliderEntries.length > 0 ? sliderEntries[sliderEntries.length - 1].midiCC : 59) + 1, //count up last entry,
       outputId: this.state.availableDrivers[0].outputId
     }
 
@@ -191,9 +192,9 @@ class App extends Component {
         "' manufacturer:'" + output.manufacturer + "' name:'" + output.name +
         "' version:'" + output.version + "'")
 
-      availableDrivers.push({outputId: output.id, name: output.name})
+      availableDrivers.push({ outputId: output.id, name: output.name })
     }
-    this.setState({availableDrivers})
+    this.setState({ availableDrivers })
   }
 
   detectChromeBrowser = () => {

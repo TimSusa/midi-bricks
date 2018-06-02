@@ -28,7 +28,7 @@
 }
 
 .sliders {
-  display: flex
+  display: flex;
 }
 
 .rangeslider-vertical {
@@ -38,4 +38,10 @@
 input {
   width: 70px;
   margin: 5px;
+}
+
+select {
+  width: 100px;
+  margin: 8px
+  
 }
