@@ -8,6 +8,7 @@ const LABEL_START_VAL = 'label 0'
 class App extends Component {
   state = {
     sliderEntries: [{
+      label: 'label',
       val: 50,
       midiCC: CC_MIDI_START_VAL,
       outputId: ''
@@ -57,8 +58,13 @@ class App extends Component {
     return entries.map((sliderEntry, idx) => {
       return (
         <div key={`slider-${idx}`}>
+          <input
+            type='text'
+            onChange={this.handleInputLabel.bind(this, idx)}
+            value={this.state.sliderEntries[idx].label} />
           <VolumeSlider value={entries[idx].val} onChange={val => this.handleSliderChange(val, idx)} />
           <p>{entries[idx].val}</p>
+
           <input id="number" type="number" name={`slider-name-${idx}`} value={entries[idx].midiCC} onChange={this.handleCcChange} />
 
           <br />
@@ -70,6 +76,12 @@ class App extends Component {
         </div>
       )
     })
+  }
+
+  handleInputLabel = (idx, e) => {
+    let tmp = this.state.sliderEntries
+    tmp[idx].label = e.target.value
+    this.setState({ sliderEntries: tmp }, () => this.saveToLocalStorage())
   }
 
   renderDriverSelection = () => {
@@ -106,8 +118,9 @@ class App extends Component {
   }
 
   addSlider = () => {
-    const sliderEntries = this.state.sliderEntries ||  []
+    const sliderEntries = this.state.sliderEntries || []
     const entry = {
+      label: 'label' + (sliderEntries.length + 1),
       val: 80,
       midiCC: parseInt(sliderEntries.length > 0 ? sliderEntries[sliderEntries.length - 1].midiCC : 59) + 1, //count up last entry,
       outputId: this.state.availableDrivers[0].outputId
