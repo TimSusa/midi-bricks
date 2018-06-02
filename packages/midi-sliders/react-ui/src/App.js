@@ -3,15 +3,16 @@ import VolumeSlider from './VolumeSlider'
 import './App.css'
 
 const CC_MIDI_START_VAL = 60
+const LABEL_START_VAL = 'label 0'
 
 class App extends Component {
   state = {
     sliderEntries: [{
       val: 50,
-      midiCC: CC_MIDI_START_VAL
+      midiCC: CC_MIDI_START_VAL,
+      outputId: ''
     }],
     midiAccess: {},
-    outputId: '',
     availableDrivers: [{outputId: '', name: ''}]
   }
   constructor(props) {
@@ -31,17 +32,13 @@ class App extends Component {
     if (!tmp) return
     const me = JSON.parse(tmp)
 
-    const outputId =  JSON.parse(window.localStorage.getItem('selected-driver'))
-    this.setState({ sliderEntries: me, outputId })
+    this.setState({ sliderEntries: me })
   }
 
   render() {
     return (
       <div className='App'>
         <h2>MIDI Sliders</h2>
-        <select onChange={this.handleDriverSelectionChange} value={this.state.outputId}>
-          {this.renderDriverSelection()}        
-        </select>
         <button onClick={this.addSlider}>Add Slider</button>
         <div className='sliders'>
           {this.renderSliders()}
@@ -69,13 +66,20 @@ class App extends Component {
           <input id="number" type="number" name={`slider-name-${idx}`} value={entries[idx].midiCC} onChange={this.handleCcChange} />
           <br />
           <button onClick={this.handleRemoveClick.bind(this, idx)}>remove</button>
+          <select onChange={this.handleDriverSelectionChange.bind(this, idx)} value={this.state.sliderEntries[idx].outputId}>
+          {this.renderDriverSelection()}        
+        </select>
         </div>
       )
     })
   }
 
-  handleDriverSelectionChange = (e) => {
-    this.setState({outputId: e.target.value}, () => this.saveToLocalStorage())
+  handleDriverSelectionChange = (idx, e) => {
+    console.log('handledriverselectionchange ', idx, e.target.value);
+    let tmp = this.state.sliderEntries
+    tmp[idx].outputId = e.target.value
+
+    this.setState({sliderEntries: tmp}, () => this.saveToLocalStorage())
   }
 
   handleRemoveClick = (idx) => {
@@ -113,8 +117,10 @@ class App extends Component {
     let sliderEntries = this.state.sliderEntries
     sliderEntries[idx].val = val
     const midiCC = sliderEntries[idx].midiCC
+    const outputId = this.state.sliderEntries[idx].outputId
+    console.log(outputId);
     var ccMessage = [0xb0, midiCC, parseInt(val)];
-    var output = this.state.midiAccess.outputs.get(this.state.outputId);
+    var output = this.state.midiAccess.outputs.get(outputId);
     output.send(ccMessage);  //omitting the timestamp means send immediately.
     this.setState({
       sliderEntries
@@ -202,7 +208,7 @@ class App extends Component {
 
     if (isIOSChrome) {
       console.log('is Google Chrome on IOS');
-      alert('is Google Chrome on IOS');
+      alert('sry, is Google Chrome on IOS');
     } else if (
       isChromium !== null &&
       typeof isChromium !== "undefined" &&
