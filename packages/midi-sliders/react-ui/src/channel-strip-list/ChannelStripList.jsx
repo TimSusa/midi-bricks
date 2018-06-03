@@ -183,11 +183,16 @@ class ChannelStripList extends React.Component {
 
   addSlider = () => {
     const sliderEntries = this.state.sliderEntries || []
+
+    const availDriver = this.props.availableDrivers[0].outputId
+    const lastSelectedDriver = (sliderEntries.length > 0) && sliderEntries[sliderEntries.length - 1].outputId
+    const newDriver = lastSelectedDriver || availDriver
+
     const entry = {
       label: 'label' + (sliderEntries.length + 1),
       val: 80,
       midiCC: parseInt(sliderEntries.length > 0 ? sliderEntries[sliderEntries.length - 1].midiCC : 59, 10) + 1, // count up last entry,
-      outputId: this.props.availableDrivers[0].outputId,
+      outputId: newDriver,
       midiChannel: 1
     }
 
