@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import withRoot from './withRoot'
 
+import MenuAppBar from './app-bar/AppBar'
 import ChannelStripList from './channel-strip-list/ChannelStripList'
 import './App.css'
 
@@ -27,18 +28,21 @@ class App extends Component {
   render () {
     const { classes } = this.props
     return (
-      <div className={classes.root}>
-        <Typography
-          className={classes.heading}
-          variant='display2'
-          gutterBottom>
+      <React.Fragment>
+        <MenuAppBar />
+        <div className={classes.root}>
+          {/* <Typography
+            className={classes.heading}
+            variant='display2'
+            gutterBottom>
           MIDI Sliders
-        </Typography>
-        <ChannelStripList
-          availableDrivers={this.state.availableDrivers}
-          midiAccess={this.state.midiAccess}
-        />
-      </div>
+          </Typography> */}
+          <ChannelStripList
+            availableDrivers={this.state.availableDrivers}
+            midiAccess={this.state.midiAccess}
+          />
+        </div>
+      </React.Fragment>
     )
   }
 
@@ -136,7 +140,9 @@ class App extends Component {
 
 const styles = theme => ({
   root: {
-    textAlign: 'center'
+    textAlign: 'center',
+    background: theme.palette.primary.main,
+    height: '100vh'
   },
   heading: {
     marginTop: theme.spacing.unit * 2

@@ -47,6 +47,7 @@ class ChannelStripList extends React.Component {
     return (
       <div>
         <Button
+          className={this.props.classes.button}
           variant='raised'
           onClick={this.addSlider}>
           <Typography
@@ -184,6 +185,7 @@ class ChannelStripList extends React.Component {
   addSlider = () => {
     const sliderEntries = this.state.sliderEntries || []
 
+    // Either use last selected driver or take the first available one
     const availDriver = this.props.availableDrivers[0].outputId
     const lastSelectedDriver = (sliderEntries.length > 0) && sliderEntries[sliderEntries.length - 1].outputId
     const newDriver = lastSelectedDriver || availDriver
@@ -224,6 +226,11 @@ const styles = theme => ({
   channelList: {
     display: 'flex',
     marginLeft: theme.spacing.unit * 4
+  },
+  button: {
+    margin: theme.spacing.unit,
+    background: theme.palette.secondary.light,
+    color: theme.palette.secondary.contrastText
   }
 })
 

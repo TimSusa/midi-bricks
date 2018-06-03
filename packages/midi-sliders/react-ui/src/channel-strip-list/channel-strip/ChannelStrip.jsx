@@ -12,6 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import VolumeSlider from './VolumeSlider'
 
 import { withStyles } from '@material-ui/core/styles'
+import { withTheme } from '@material-ui/core/styles'
 
 const ChannelStrip = (props) => {
   const { availableDrivers, sliderEntry, idx } = props.data
@@ -59,7 +60,7 @@ const ChannelStrip = (props) => {
         title='You can set a CC Value or Note Message here.'
       >
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor='cc'>CC / Note </InputLabel>
+          <InputLabel className={classes.label} htmlFor='cc'>CC / Note </InputLabel>
           <Input
             className={classes.input}
             id='number'
@@ -74,7 +75,7 @@ const ChannelStrip = (props) => {
         placement='right'
         title={getSelectedDriverName(availableDrivers, sliderEntry.outputId)}>
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor='cc'>Driver </InputLabel>
+          <InputLabel className={classes.label} htmlFor='cc'>Driver </InputLabel>
           <Select
             className={classes.select}
             onChange={props.handleDriverSelectionChange.bind(this, idx)}
@@ -89,7 +90,7 @@ const ChannelStrip = (props) => {
         title='You can set the MIDI Channel here.'
       >
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor='cc'>Channel </InputLabel>
+          <InputLabel className={classes.label} htmlFor='cc'>Channel </InputLabel>
           <Input
             className={classes.input}
             id='number'
@@ -104,7 +105,10 @@ const ChannelStrip = (props) => {
         placement='right'
         title='Remove MIDI Channel Strip'
       >
-        <Button variant='raised' onClick={props.handleRemoveClick.bind(this, idx)}>
+        <Button
+          className={classes.button}
+          variant='raised'
+          onClick={props.handleRemoveClick.bind(this, idx)}>
           <DeleteIcon className={classes.iconColor} />
         </Button>
       </Tooltip>
@@ -135,15 +139,16 @@ const styles = theme => ({
     width: 100
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
+    background: theme.palette.secondary.light
   },
   iconColor: {
-    color: 'rgba(0, 0, 0, 0.54)'
+    color: theme.palette.primary.contrastText
   },
   input: {
     width: 80,
     margin: theme.spacing.unit,
-    color: 'rgba(0, 0, 0, 0.54)',
+    color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
     fontSize: '1rem',
     fontWeight: 400,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
@@ -153,13 +158,16 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     maxWidth: 140
   },
+  label: {
+    color: theme.palette.primary.contrastText
+  },
   select: {
     width: 80,
-    color: 'rgba(0, 0, 0, 0.54)',
+    color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
     lineHeight: '1.375em'
   },
   caption: {
-    color: 'rgba(0, 0, 0, 0.54)',
+    color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
     fontSize: '1rem',
     fontWeight: 400,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
