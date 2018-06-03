@@ -16,6 +16,13 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "standard": "^11.0.1"
+    "eslint-plugin-html": "^4.0.3",
+    "standard": "11.0.1"
+  },
+  "standard": {
+    "plugins": [
+      "html"
+    ],
+    "parser": "babel-eslint"
   }
 }
