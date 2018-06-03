@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "latest",
+    "@material-ui/icons": "latest",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-rangeslider": "^2.2.0",

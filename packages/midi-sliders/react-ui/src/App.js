@@ -140,25 +140,6 @@ const styles = theme => ({
   },
   heading: {
     marginTop: theme.spacing.unit * 2
-  },
-  button: {
-    margin: theme.spacing.unit
-  },
-  input: {
-    width: 100,
-    margin: theme.spacing.unit,
-    color: 'rgba(0, 0, 0, 0.54)',
-    fontSize: '1rem',
-    fonWeight: 400,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em'
-  },
-  caption: {
-    color: 'rgba(0, 0, 0, 0.54)',
-    fontSize: '1rem',
-    fonWeight: 400,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em'
   }
 })
 

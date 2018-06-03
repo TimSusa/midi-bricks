@@ -1,12 +1,7 @@
 import React from 'react'
+import ChannelStrip from './channel-strip/ChannelStrip'
 import Button from '@material-ui/core/Button'
-import Input from '@material-ui/core/Input'
-import MenuItem from '@material-ui/core/MenuItem'
 import Typography from '@material-ui/core/Typography'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
-import Tooltip from '@material-ui/core/Tooltip'
-import VolumeSlider from '../VolumeSlider'
 import { withStyles } from '@material-ui/core/styles'
 
 const CC_MIDI_START_VAL = 60
@@ -70,89 +65,32 @@ class ChannelStripList extends React.Component {
   renderChannelStrips = () => {
     const entries = this.state.sliderEntries
     const {
-      classes,
       availableDrivers
     } = this.props
     return entries && entries.map((sliderEntry, idx) => {
+      const data = {availableDrivers, sliderEntry, idx}
       return (
-        <div key={`slider-${idx}`} className={classes.sliderContainer}>
-          <Input
-            className={classes.input}
-            type='text'
-            onChange={this.handleInputLabel.bind(this, idx)}
-            value={sliderEntry.label} />
-          <VolumeSlider
-            value={sliderEntry.val}
-            onChange={val => this.handleSliderChange(val, idx)} />
-          <Typography className={classes.caption}>{sliderEntry.val}</Typography>
-          <Button
-            className={classes.button}
-            variant='raised'
-            onClick={this.handleNoteTrigger.bind(this, idx)}>
-            <Typography
-              variant='caption'>
-              trigger<br />note
-            </Typography>
-          </Button>
-          <Button
-            className={classes.button}
-            variant='raised'
-            onClick={this.handleNoteToggle.bind(this, idx)}>
-            <Typography
-              variant='caption'>
-              toggle<br /> Note {sliderEntry.isNoteOn ? 'Off ' : 'On'}
-            </Typography>
+        <ChannelStrip
+          key={`slider-${idx}`}
+          data={data}
+          {...this.getMethodProps()}
+        />
 
-          </Button>
-          <Tooltip
-            placement='top'
-            title='You can set a CC Value or Note Message here.'
-          >
-            <Input
-              className={classes.input}
-              id='number'
-              type='number'
-              name={`input-cc-name-${idx}`}
-              value={sliderEntry.midiCC}
-              onChange={this.handleCcChange} />
-          </Tooltip>
-          <br />
-          <Tooltip
-            placement='top'
-            title={getSelectedDriverName(availableDrivers, sliderEntry.outputId)}>
-            <FormControl className={classes.formControl}>
-              {/* <InputLabel htmlFor="cc">CC</InputLabel> */}
-              <Select
-                className={classes.select}
-                onChange={this.handleDriverSelectionChange.bind(this, idx)}
-                value={sliderEntry.outputId}>
-                {renderDriverSelection(availableDrivers)}
-              </Select>
-            </FormControl>
-          </Tooltip>
-          <Tooltip
-            placement='top'
-            title='You can set the MIDI Channel here.'
-          >
-            <Input
-              className={classes.input}
-              id='number'
-              type='number'
-              name={`input-channel-name-${idx}`}
-              value={sliderEntry.midiChannel}
-              onChange={this.handleMidiChannelChange.bind(this, idx)} />
-          </Tooltip>
-          <br />
-          <Button variant='raised' onClick={this.handleRemoveClick.bind(this, idx)}>
-            <Typography
-              variant='caption'>
-              remove
-            </Typography>
-          </Button>
-        </div>
       )
     })
   }
+
+  getMethodProps = () => ({
+    handleNoteToggle: this.handleNoteToggle,
+    handleNoteTrigger: this.handleNoteTrigger,
+    handleInputLabel: this.handleInputLabel,
+    handleDriverSelectionChange: this.handleDriverSelectionChange,
+    handleRemoveClick: this.handleRemoveClick,
+    handleCcChange: this.handleCcChange,
+    handleMidiChannelChange: this.handleMidiChannelChange,
+    handleSliderChange: this.handleSliderChange
+  })
+
   handleNoteToggle = (idx, e) => {
     let { sliderEntries } = this.state
     sliderEntries[idx].isNoteOn = !sliderEntries[idx].isNoteOn
@@ -277,59 +215,10 @@ class ChannelStripList extends React.Component {
   }
 }
 
-const getSelectedDriverName = (drivers, outputId) => {
-  let name = ''
-  drivers.forEach(t => {
-    if (t.outputId === outputId) {
-      name = t.name
-    }
-  })
-  return name
-}
-
-const renderDriverSelection = (availableDrivers) => {
-  return availableDrivers.map((item, idx) => {
-    return (
-      <MenuItem key={`driver-${idx}`} value={item.outputId}>{item.name}</MenuItem>
-    )
-  })
-}
-
 const styles = theme => ({
   channelList: {
     display: 'flex',
     marginLeft: theme.spacing.unit * 4
-  },
-  sliderContainer: {
-    width: 100
-  },
-  button: {
-    margin: theme.spacing.unit
-  },
-  input: {
-    width: 80,
-    margin: theme.spacing.unit,
-    color: 'rgba(0, 0, 0, 0.54)',
-    fontSize: '1rem',
-    fontWeight: 400,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em'
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    maxWidth: 140
-  },
-  select: {
-    width: 80,
-    color: 'rgba(0, 0, 0, 0.54)',
-    lineHeight: '1.375em'
-  },
-  caption: {
-    color: 'rgba(0, 0, 0, 0.54)',
-    fontSize: '1rem',
-    fontWeight: 400,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em'
   }
 })
 
