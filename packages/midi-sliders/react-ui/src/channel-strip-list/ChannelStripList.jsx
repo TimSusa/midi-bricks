@@ -14,7 +14,8 @@ class ChannelStripList extends React.Component {
       midiCC: CC_MIDI_START_VAL,
       outputId: '',
       isNoteOn: false,
-      midiChannel: 1
+      midiChannel: 1,
+      isExpanded: true
     }]
   }
 
@@ -89,7 +90,8 @@ class ChannelStripList extends React.Component {
     handleRemoveClick: this.handleRemoveClick,
     handleCcChange: this.handleCcChange,
     handleMidiChannelChange: this.handleMidiChannelChange,
-    handleSliderChange: this.handleSliderChange
+    handleSliderChange: this.handleSliderChange,
+    handleExpanded: this.handleExpanded
   })
 
   handleNoteToggle = (idx, e) => {
@@ -150,6 +152,12 @@ class ChannelStripList extends React.Component {
     this.setState({ sliderEntries: tmp })
   }
 
+  handleExpanded = (idx, e) => {
+    let entries = this.state.sliderEntries
+    entries[idx].isExpanded = !entries[idx].isExpanded
+    this.setState({sliderEntries: entries})
+  }
+
   handleDriverSelectionChange = (idx, e) => {
     let tmp = this.state.sliderEntries
     tmp[idx].outputId = e.target.value
@@ -195,7 +203,8 @@ class ChannelStripList extends React.Component {
       val: 80,
       midiCC: parseInt(sliderEntries.length > 0 ? sliderEntries[sliderEntries.length - 1].midiCC : 59, 10) + 1, // count up last entry,
       outputId: newDriver,
-      midiChannel: 1
+      midiChannel: 1,
+      isExpanded: true
     }
 
     const newEntries = [...sliderEntries, entry]
@@ -225,7 +234,8 @@ class ChannelStripList extends React.Component {
 const styles = theme => ({
   channelList: {
     display: 'flex',
-    marginLeft: theme.spacing.unit * 4
+    marginLeft: theme.spacing.unit * 4,
+    background: theme.palette.primary.main
   },
   button: {
     margin: theme.spacing.unit,

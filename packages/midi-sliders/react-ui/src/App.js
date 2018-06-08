@@ -31,12 +31,6 @@ class App extends Component {
       <React.Fragment>
         <MenuAppBar />
         <div className={classes.root}>
-          {/* <Typography
-            className={classes.heading}
-            variant='display2'
-            gutterBottom>
-          MIDI Sliders
-          </Typography> */}
           <ChannelStripList
             availableDrivers={this.state.availableDrivers}
             midiAccess={this.state.midiAccess}
@@ -142,7 +136,8 @@ const styles = theme => ({
   root: {
     textAlign: 'center',
     background: theme.palette.primary.main,
-    height: '100vh'
+    height: 'calc(100vh + 200px)',
+    width: '100%'
   },
   heading: {
     marginTop: theme.spacing.unit * 2

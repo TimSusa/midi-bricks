@@ -1,7 +1,7 @@
 .rangeslider-vertical {
-  height: calc(100vh - 550px)
+  height: calc(100vh - 400px)
 }
 
-.rangeslider-vertical .rangeslider__fill {
+/* .rangeslider-vertical .rangeslider__fill {
   background-color: #9da6a9;
-}
+} */

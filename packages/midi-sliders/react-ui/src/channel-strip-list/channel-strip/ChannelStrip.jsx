@@ -9,10 +9,11 @@ import Select from '@material-ui/core/Select'
 import Tooltip from '@material-ui/core/Tooltip'
 import MusicIcon from '@material-ui/icons/MusicNote'
 import DeleteIcon from '@material-ui/icons/Delete'
+import ExpandLessIcon from '@material-ui/icons/ExpandLess'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import VolumeSlider from './VolumeSlider'
 
 import { withStyles } from '@material-ui/core/styles'
-import { withTheme } from '@material-ui/core/styles'
 
 const ChannelStrip = (props) => {
   const { availableDrivers, sliderEntry, idx } = props.data
@@ -28,6 +29,24 @@ const ChannelStrip = (props) => {
         value={sliderEntry.val}
         onChange={val => props.handleSliderChange(val, idx)} />
       <Typography className={classes.caption}>{sliderEntry.val}</Typography>
+
+      <div onClick={props.handleExpanded.bind(this, idx)}>
+        {
+          !sliderEntry.isExpanded ? (<ExpandLessIcon className={classes.iconColor} />) : (<ExpandMoreIcon className={classes.iconColor} />)
+        }
+      </div>
+      {
+        sliderEntry.isExpanded && renderExpandedStuff(props)
+      }
+    </div>
+  )
+}
+
+const renderExpandedStuff = (props) => {
+  const { sliderEntry, idx, availableDrivers } = props.data
+  const { classes } = props
+  return (
+    <React.Fragment>
       <Tooltip
         placement='right'
         title='Trigger sending MIDI Note'
@@ -112,7 +131,7 @@ const ChannelStrip = (props) => {
           <DeleteIcon className={classes.iconColor} />
         </Button>
       </Tooltip>
-    </div>
+    </React.Fragment>
   )
 }
 
