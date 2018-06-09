@@ -15,7 +15,7 @@ class ChannelStripList extends React.Component {
       outputId: '',
       isNoteOn: false,
       midiChannel: 1,
-      isExpanded: true
+      isExpanded: false
     }]
   }
 

@@ -24,13 +24,14 @@ const ChannelStrip = (props) => {
       {
         sliderEntry.isExpanded ? (
           <Input
-            classes={{input: classes.inputInput}}
+            classes={{ input: classes.inputInput }}
             className={classes.input}
             type='text'
             onChange={props.handleInputLabel.bind(this, idx)}
-            value={sliderEntry.label} />
+            value={sliderEntry.label}
+          />
         ) : (
-          <Typography className={classes.input} >
+          <Typography className={classes.labelTop} >
             {sliderEntry.label}
           </Typography>
         )
@@ -44,6 +45,7 @@ const ChannelStrip = (props) => {
           trackAfter: classes.trackAfter,
           thumb: classes.thumb
         }}
+        style={{ height: !sliderEntry.isExpanded ? 'calc(100vh - 64px - 36px - 120px)' : 'calc(100vh - 64px - 36px - 500px)', transition: 'height 1s ease' }}
         vertical
         reverse
         value={sliderEntry.val}
@@ -54,14 +56,18 @@ const ChannelStrip = (props) => {
       />
       <Typography className={classes.caption}>{sliderEntry.val}</Typography>
 
-      <div onClick={props.handleExpanded.bind(this, idx)}>
-        {
-          !sliderEntry.isExpanded ? (<ExpandLessIcon className={classes.iconColor} />) : (<ExpandMoreIcon className={classes.iconColor} />)
-        }
-      </div>
       {
         sliderEntry.isExpanded && renderExpandedStuff(props)
       }
+      <div onClick={props.handleExpanded.bind(this, idx)}>
+        {
+          !sliderEntry.isExpanded ? (
+            <ExpandLessIcon className={classes.iconColor} />
+          ) : (
+            <ExpandMoreIcon className={classes.iconColor} />
+          )
+        }
+      </div>
     </div>
   )
 }
@@ -180,8 +186,7 @@ const renderDriverSelection = (availableDrivers) => {
 const styles = theme => ({
 
   sliderContainer: {
-    width: '100%',
-    height: 'calc(100vh - 64px - 36px - 120px)'
+    width: 100
 
   },
   vertical: {
@@ -193,9 +198,6 @@ const styles = theme => ({
   },
   trackAfter: {
     background: theme.palette.primary.light
-    // '&$focused, &$activated, &$jumped': {
-    //   backgroundColor: colors.primary,
-    // },
   },
   thumb: {
     width: 30,
@@ -204,10 +206,12 @@ const styles = theme => ({
   },
   sliderRoot: {
     width: 30,
+    cursor: 'default',
+
     '&$vertical': {
       margin: 0,
-      marginLeft: 38
-
+      marginLeft: 'auto',
+      marginRight: 'auto'
     }
   },
   button: {
@@ -215,11 +219,13 @@ const styles = theme => ({
     background: theme.palette.secondary.light
   },
   iconColor: {
-    color: theme.palette.primary.contrastText
+    color: theme.palette.primary.contrastText,
+    cursor: 'pointer'
   },
   labelReadOnly: {
-    padding: '6px 0 7px'
-
+    padding: '6px 0 7px',
+    marginLeft: 'auto',
+    marginRight: 'auto'
   },
   input: {
     width: 80,
@@ -237,17 +243,28 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     maxWidth: 140
   },
+  labelTop: {
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    color: theme.palette.primary.contrastText,
+    margin: theme.spacing.unit,
+    fontSize: '1rem',
+    fontWeight: 400,
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    lineHeight: '1.375em'
+  },
   label: {
     color: theme.palette.primary.contrastText
   },
   select: {
     width: 80,
-    color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
+    color: theme.palette.primary.contrastText,
     lineHeight: '1.375em'
   },
   caption: {
     marginTop: theme.spacing.unit,
-    color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
+    color: theme.palette.primary.contrastText,
     fontSize: '1rem',
     fontWeight: 400,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
