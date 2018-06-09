@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import withRoot from './withRoot'
 
@@ -21,7 +20,7 @@ class App extends Component {
       navigator.requestMIDIAccess({ sysex: true })
         .then(this.onMIDISuccess, this.onMIDIFailure)
     } else {
-      console.log('WebMIDI is not supported in this browser.')
+      window.alert('WebMIDI is not supported in this browser.')
     }
   }
 
@@ -116,7 +115,7 @@ class App extends Component {
 
     if (isIOSChrome) {
       console.log('is Google Chrome on IOS')
-      alert('sry, is Google Chrome on IOS')
+      window.alert('sry, is Google Chrome on IOS')
     } else if (
       isChromium !== null &&
       typeof isChromium !== 'undefined' &&
@@ -127,7 +126,7 @@ class App extends Component {
       console.log('is Google Chrome :-)')
     } else {
       console.log('not Google Chrome')
-      alert('Sry. This App will only work with Google Chrome Browser.')
+      window.alert('Sry. This App will only work with Google Chrome Browser.')
     }
   }
 }

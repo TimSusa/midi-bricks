@@ -187,13 +187,14 @@ const styles = theme => ({
 
   sliderContainer: {
     width: 100
-
   },
   vertical: {
   },
   track: {
     '&$vertical': {
-      width: 4
+      width: 5,
+      border: 'solid 1px rgba(0,0,0,0.1)',
+      borderRadius: 2
     }
   },
   trackAfter: {
@@ -202,7 +203,8 @@ const styles = theme => ({
   thumb: {
     width: 30,
     height: 8,
-    borderRadius: 0
+    borderRadius: 2,
+    border: 'solid 1px rgba(0,0,0,0.2)'
   },
   sliderRoot: {
     width: 30,

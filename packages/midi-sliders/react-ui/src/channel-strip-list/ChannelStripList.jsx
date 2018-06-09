@@ -1,5 +1,6 @@
 import React from 'react'
 import ChannelStrip from './channel-strip/ChannelStrip'
+import FileReaderInput from './FileReader'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
@@ -20,14 +21,15 @@ class ChannelStripList extends React.Component {
   }
 
   componentDidMount () {
-    const tmp = window.localStorage.getItem('slider-entries')
-    if (!tmp) {
+    let sliderEntries = window.localStorage.getItem('slider-entries')
+    if (!sliderEntries) {
       console.warn('Could not load from local storage. Settings not found.')
       return
     }
-    const me = JSON.parse(tmp)
-    this.setState({ sliderEntries: me })
+    sliderEntries = JSON.parse(sliderEntries)
+    this.setState({ sliderEntries })
 
+    // Prepare persistance listener
     window.addEventListener(
       'beforeunload',
       this.saveStateToLocalStorage.bind(this)
@@ -35,29 +37,66 @@ class ChannelStripList extends React.Component {
   }
 
   componentWillUnmount () {
+    // Remove added persistance listener
     window.removeEventListener(
       'beforeunload',
       this.saveStateToLocalStorage.bind(this)
     )
 
-    // saves if component has a chance to unmount
+    // Saves if component has a chance to unmount
     this.saveStateToLocalStorage()
   }
 
   render () {
     return (
       <div>
-        <Button
-          className={this.props.classes.button}
-          variant='raised'
-          onClick={this.addSlider}>
-          <Typography
-            variant='caption'>
+        <div>
+          <Button
+            className={this.props.classes.button}
+            variant='raised'
+            onClick={this.addSlider}>
+            <Typography
+              variant='caption'>
             add slider
-          </Typography>
-        </Button>
+            </Typography>
+          </Button>
+          <FileReaderInput
+            style={{display: 'inline-block'}}
+            as='binary'
+            onChange={this.loadFile}>
+            <Button
+              className={this.props.classes.button}
+              variant='raised'
+            >
+              <Typography
+                variant='caption'
+              >
+                load
+              </Typography>
+            </Button>
+          </FileReaderInput>
+          <Button
+            className={this.props.classes.button}
+            variant='raised'
+            onClick={this.saveAsFile}>
+            <Typography
+              variant='caption'>
+            save
+            </Typography>
+          </Button>
+          <Button
+            className={this.props.classes.button}
+            variant='raised'
+            onClick={this.resetSliders}
+          >
+            <Typography
+              variant='caption'>
+              reset
+            </Typography>
+          </Button>
+        </div>
         <div className={this.props.classes.channelList}>
-          { this.renderChannelStrips() }
+          {this.renderChannelStrips()}
         </div>
       </div>
 
@@ -70,7 +109,7 @@ class ChannelStripList extends React.Component {
       availableDrivers
     } = this.props
     return entries && entries.map((sliderEntry, idx) => {
-      const data = {availableDrivers, sliderEntry, idx}
+      const data = { availableDrivers, sliderEntry, idx }
       return (
         <ChannelStrip
           key={`slider-${idx}`}
@@ -155,7 +194,7 @@ class ChannelStripList extends React.Component {
   handleExpanded = (idx, e) => {
     let entries = this.state.sliderEntries
     entries[idx].isExpanded = !entries[idx].isExpanded
-    this.setState({sliderEntries: entries})
+    this.setState({ sliderEntries: entries })
   }
 
   handleDriverSelectionChange = (idx, e) => {
@@ -228,6 +267,33 @@ class ChannelStripList extends React.Component {
 
   saveStateToLocalStorage = () => {
     window.localStorage.setItem('slider-entries', JSON.stringify(this.state.sliderEntries))
+  }
+
+  saveAsFile = () => {
+    const content = JSON.stringify(this.state.sliderEntries)
+    const fileName = 'json.txt'
+    const contentType = 'text/plain'
+
+    var a = document.createElement('a')
+    var file = new window.Blob([content], { type: contentType })
+    a.href = URL.createObjectURL(file)
+    a.download = fileName
+    a.click()
+  }
+
+  loadFile = (evt, results) => {
+    const files = results[0]
+    const content = files[0].target.result
+    if (!files.length) {
+      window.alert('No file select')
+      return
+    }
+    const parsedJson = JSON.parse(content)
+    this.setState({sliderEntries: parsedJson})
+  }
+
+  resetSliders = () => {
+    this.setState({sliderEntries: []})
   }
 }
 
