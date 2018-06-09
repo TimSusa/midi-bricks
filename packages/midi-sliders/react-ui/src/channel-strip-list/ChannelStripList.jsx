@@ -234,8 +234,8 @@ class ChannelStripList extends React.Component {
 const styles = theme => ({
   channelList: {
     display: 'flex',
-    marginLeft: theme.spacing.unit * 4,
-    background: theme.palette.primary.main
+    marginLeft: theme.spacing.unit * 4
+    // background: theme.palette.primary.main
   },
   button: {
     margin: theme.spacing.unit,

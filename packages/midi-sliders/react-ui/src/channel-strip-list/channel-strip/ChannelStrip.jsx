@@ -11,7 +11,8 @@ import MusicIcon from '@material-ui/icons/MusicNote'
 import DeleteIcon from '@material-ui/icons/Delete'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import VolumeSlider from './VolumeSlider'
+
+import Slider from '@material-ui/lab/Slider'
 
 import { withStyles } from '@material-ui/core/styles'
 
@@ -25,9 +26,15 @@ const ChannelStrip = (props) => {
         type='text'
         onChange={props.handleInputLabel.bind(this, idx)}
         value={sliderEntry.label} />
-      <VolumeSlider
+      <Slider
+        vertical
+        reverse
         value={sliderEntry.val}
-        onChange={val => props.handleSliderChange(val, idx)} />
+        onChange={(e, v) => props.handleSliderChange(v, idx)}
+        max={127}
+        min={0}
+        step={1}
+      />
       <Typography className={classes.caption}>{sliderEntry.val}</Typography>
 
       <div onClick={props.handleExpanded.bind(this, idx)}>
@@ -155,7 +162,8 @@ const renderDriverSelection = (availableDrivers) => {
 
 const styles = theme => ({
   sliderContainer: {
-    width: 100
+    width: 100,
+    height: 500
   },
   button: {
     margin: theme.spacing.unit,

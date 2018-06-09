@@ -96,7 +96,7 @@ const styles = theme => ({
     marginRight: 20
   },
   appBar: {
-    background: theme.palette.primary.dark
+    background: theme.palette.secondary.dark
 
   }
 })
