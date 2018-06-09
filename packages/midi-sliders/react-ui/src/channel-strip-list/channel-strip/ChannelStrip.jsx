@@ -21,15 +21,29 @@ const ChannelStrip = (props) => {
   const { classes } = props
   return (
     <div className={classes.sliderContainer}>
-      <Input
-        className={classes.input}
-        type='text'
-        onChange={props.handleInputLabel.bind(this, idx)}
-        value={sliderEntry.label} />
+      {
+        sliderEntry.isExpanded ? (
+          <Input
+            classes={{input: classes.inputInput}}
+            className={classes.input}
+            type='text'
+            onChange={props.handleInputLabel.bind(this, idx)}
+            value={sliderEntry.label} />
+        ) : (
+          <Typography className={classes.input} >
+            {sliderEntry.label}
+          </Typography>
+        )
+      }
+
       <Slider
-        classes={
-          {root: classes.sliderRoot, vertical: classes.vertical}
-        }
+        classes={{
+          root: classes.sliderRoot,
+          vertical: classes.vertical,
+          track: classes.track,
+          trackAfter: classes.trackAfter,
+          thumb: classes.thumb
+        }}
         vertical
         reverse
         value={sliderEntry.val}
@@ -166,15 +180,34 @@ const renderDriverSelection = (availableDrivers) => {
 const styles = theme => ({
 
   sliderContainer: {
-    width: 100,
-    height: 500
+    width: '100%',
+    height: 'calc(100vh - 64px - 36px - 120px)'
+
   },
   vertical: {
   },
-  sliderRoot: {
-    margin: 0,
+  track: {
     '&$vertical': {
-      margin: 0
+      width: 4
+    }
+  },
+  trackAfter: {
+    background: theme.palette.primary.light
+    // '&$focused, &$activated, &$jumped': {
+    //   backgroundColor: colors.primary,
+    // },
+  },
+  thumb: {
+    width: 30,
+    height: 8,
+    borderRadius: 0
+  },
+  sliderRoot: {
+    width: 30,
+    '&$vertical': {
+      margin: 0,
+      marginLeft: 38
+
     }
   },
   button: {
@@ -184,6 +217,10 @@ const styles = theme => ({
   iconColor: {
     color: theme.palette.primary.contrastText
   },
+  labelReadOnly: {
+    padding: '6px 0 7px'
+
+  },
   input: {
     width: 80,
     margin: theme.spacing.unit,
@@ -192,6 +229,9 @@ const styles = theme => ({
     fontWeight: 400,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     lineHeight: '1.375em'
+  },
+  inputInput: {
+    padding: 0
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -206,6 +246,7 @@ const styles = theme => ({
     lineHeight: '1.375em'
   },
   caption: {
+    marginTop: theme.spacing.unit,
     color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
     fontSize: '1rem',
     fontWeight: 400,
