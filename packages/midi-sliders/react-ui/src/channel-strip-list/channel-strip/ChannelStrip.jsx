@@ -17,7 +17,7 @@ import Slider from '@material-ui/lab/Slider'
 import { withStyles } from '@material-ui/core/styles'
 
 const ChannelStrip = (props) => {
-  const { availableDrivers, sliderEntry, idx } = props.data
+  const { sliderEntry, idx } = props.data
   const { classes } = props
   return (
     <div className={classes.sliderContainer}>
@@ -27,6 +27,9 @@ const ChannelStrip = (props) => {
         onChange={props.handleInputLabel.bind(this, idx)}
         value={sliderEntry.label} />
       <Slider
+        classes={
+          {root: classes.sliderRoot, vertical: classes.vertical}
+        }
         vertical
         reverse
         value={sliderEntry.val}
@@ -161,9 +164,18 @@ const renderDriverSelection = (availableDrivers) => {
 }
 
 const styles = theme => ({
+
   sliderContainer: {
     width: 100,
     height: 500
+  },
+  vertical: {
+  },
+  sliderRoot: {
+    margin: 0,
+    '&$vertical': {
+      margin: 0
+    }
   },
   button: {
     margin: theme.spacing.unit,
