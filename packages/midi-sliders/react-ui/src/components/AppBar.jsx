@@ -11,13 +11,9 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import AddIcon from '@material-ui/icons/Add'
 import AccountCircle from '@material-ui/icons/AccountCircle'
-// import Switch from '@material-ui/core/Switch'
-// import FormControlLabel from '@material-ui/core/FormControlLabel'
-// import FormGroup from '@material-ui/core/FormGroup'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
-import FileReaderInput from './FileReader'
-// import Button from '@material-ui/core/Button'
+import Tooltip from '@material-ui/core/Tooltip'
 
 class MenuAppBar extends React.Component {
   state = {
@@ -32,7 +28,7 @@ class MenuAppBar extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar className={classes.appBar} position='static'>
+        <AppBar position='static'>
           <Toolbar>
             <IconButton
               onClick={this.props.handleDrawerToggle}
@@ -46,14 +42,19 @@ class MenuAppBar extends React.Component {
               MIDI Sliders
             </Typography>
             <div>
-              <IconButton
-                aria-owns={open ? 'addSlider-appbar' : null}
-                aria-haspopup='true'
-                onClick={() => this.props.actions.addSlider()}
-                color='inherit'
+              <Tooltip
+                placement='right'
+                title='Add Slider'
               >
-                <AddIcon />
-              </IconButton>
+                <IconButton
+                  aria-owns={open ? 'addSlider-appbar' : null}
+                  aria-haspopup='true'
+                  onClick={() => this.props.actions.addSlider()}
+                  color='inherit'
+                >
+                  <AddIcon />
+                </IconButton>
+              </Tooltip>
               <IconButton
                 aria-owns={open ? 'menu-appbar' : null}
                 aria-haspopup='true'
@@ -103,11 +104,6 @@ class MenuAppBar extends React.Component {
     this.setState({ anchorEl: null })
   }
 
-  handleReset = () => {
-    this.props.actions.deleteAllSliders()
-    this.handleClose()
-  }
-
   handleExpand = () => {
     this.props.actions.expandSliders()
     this.handleClose()
@@ -115,11 +111,6 @@ class MenuAppBar extends React.Component {
 
   handleCollapse = () => {
     this.props.actions.collapseSliders()
-    this.handleClose()
-  }
-
-  onFileChange = (e, results) => {
-    this.props.actions.loadFile(results)
     this.handleClose()
   }
 }
@@ -138,9 +129,6 @@ const styles = theme => ({
   menuButton: {
     marginLeft: -12,
     marginRight: 20
-  },
-  appBar: {
-    background: theme.palette.secondary.dark
   }
 })
 

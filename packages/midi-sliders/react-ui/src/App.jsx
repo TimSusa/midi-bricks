@@ -22,9 +22,7 @@ import { createBrowserHistory } from 'history'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Route, Router } from 'react-router'
-import HomePage from './pages/HomePage'
-import TodoPage from './pages/TodoPage'
-import RackPage from './pages/RackPage'
+
 import MidiSlidersPage from './pages/MidiSlidersPage'
 import { bindActionCreators } from 'redux'
 import * as MidiSlidersAction from './actions/midi-sliders.js'
@@ -62,9 +60,6 @@ class App extends React.Component {
   routes = (
     <div className={this.props.classes.content}>
       <Route exact path='/' component={MidiSlidersPage} />
-      <Route exact path='/home' component={HomePage} />
-      <Route exact path='/todo' component={TodoPage} />
-      <Route exact path='/rack' component={RackPage} />
       <Route exact path='/midi-sliders' component={MidiSlidersPage} />
     </div>
   );

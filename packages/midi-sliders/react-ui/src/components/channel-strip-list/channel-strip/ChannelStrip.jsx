@@ -16,6 +16,10 @@ import Slider from '@material-ui/lab/Slider'
 
 import { withStyles } from '@material-ui/core/styles'
 
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as MidiSliderActions from '../../../actions/midi-sliders.js'
+
 const ChannelStrip = (props) => {
   const { sliderEntry, idx } = props.data
   const { classes } = props
@@ -27,7 +31,10 @@ const ChannelStrip = (props) => {
             classes={{ input: classes.inputInput }}
             className={classes.input}
             type='text'
-            onChange={props.handleInputLabel.bind(this, idx)}
+            onChange={e => props.actions.changeSliderLabel({
+              idx,
+              val: e.target.value
+            })}
             value={sliderEntry.label}
           />
         ) : (
@@ -49,7 +56,7 @@ const ChannelStrip = (props) => {
         vertical
         reverse
         value={sliderEntry.val}
-        onChange={(e, v) => props.handleSliderChange(v, idx)}
+        onChange={(e, val) => props.actions.handleSliderChange({idx, val})}
         max={127}
         min={0}
         step={1}
@@ -59,7 +66,7 @@ const ChannelStrip = (props) => {
       {
         sliderEntry.isExpanded && renderExpandedStuff(props)
       }
-      <div onClick={props.handleExpanded.bind(this, idx)}>
+      <div onClick={props.actions.expandSlider.bind(this, idx)}>
         {
           !sliderEntry.isExpanded ? (
             <ExpandLessIcon className={classes.iconColor} />
@@ -77,6 +84,7 @@ const renderExpandedStuff = (props) => {
   const { classes } = props
   return (
     <React.Fragment>
+
       <Tooltip
         placement='right'
         title='Trigger sending MIDI Note'
@@ -84,10 +92,11 @@ const renderExpandedStuff = (props) => {
         <Button
           className={classes.button}
           variant='raised'
-          onClick={props.handleNoteTrigger.bind(this, idx)}>
+          onClick={props.actions.triggerNote.bind(this, idx)}>
           <MusicIcon className={classes.iconColor} />
         </Button>
       </Tooltip>
+
       <Tooltip
         placement='right'
         title='Toggle sending Note On/Off'
@@ -95,7 +104,7 @@ const renderExpandedStuff = (props) => {
         <Button
           className={classes.button}
           variant='raised'
-          onClick={props.handleNoteToggle.bind(this, idx)}>
+          onClick={props.actions.toggleNote.bind(this, idx)}>
           <MusicIcon className={classes.iconColor} />
           <Typography
             variant='caption'>
@@ -116,7 +125,8 @@ const renderExpandedStuff = (props) => {
             type='number'
             name={`input-cc-name-${idx}`}
             value={sliderEntry.midiCC}
-            onChange={props.handleCcChange.bind(this, idx)} />
+            onChange={e => props.actions.selectCC({idx, val: e.target.value})} />
+
         </FormControl>
       </Tooltip>
       <br />
@@ -127,7 +137,10 @@ const renderExpandedStuff = (props) => {
           <InputLabel className={classes.label} htmlFor='cc'>Driver </InputLabel>
           <Select
             className={classes.select}
-            onChange={props.handleDriverSelectionChange.bind(this, idx)}
+            onChange={e => props.actions.selectSliderMidiDriver({
+              idx,
+              val: e.target.value
+            })}
             value={sliderEntry.outputId}>
             {renderDriverSelection(availableDrivers)}
           </Select>
@@ -146,7 +159,7 @@ const renderExpandedStuff = (props) => {
             type='number'
             name={`input-channel-name-${idx}`}
             value={sliderEntry.midiChannel}
-            onChange={props.handleMidiChannelChange.bind(this, idx)} />
+            onChange={e => props.actions.selectMidiChannel({idx, val: e.target.value})} />
         </FormControl>
       </Tooltip>
       <br />
@@ -157,7 +170,7 @@ const renderExpandedStuff = (props) => {
         <Button
           className={classes.button}
           variant='raised'
-          onClick={props.handleRemoveClick.bind(this, idx)}>
+          onClick={props.actions.deleteSlider.bind(this, idx)}>
           <DeleteIcon className={classes.iconColor} />
         </Button>
       </Tooltip>
@@ -274,4 +287,10 @@ const styles = theme => ({
   }
 })
 
-export default withStyles(styles)(ChannelStrip)
+function mapDispatchToProps (dispatch) {
+  return {
+    actions: bindActionCreators(MidiSliderActions, dispatch)
+  }
+}
+
+export default (withStyles(styles)(connect(null, mapDispatchToProps)(ChannelStrip)))
