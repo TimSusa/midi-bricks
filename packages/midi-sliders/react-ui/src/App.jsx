@@ -10,7 +10,7 @@ import {
   ListItemIcon,
   ListItemText,
   // Toolbar,
-  Typography,
+  // Typography,
   withStyles
 } from '@material-ui/core'
 import TodoIcon from '@material-ui/icons/FormatListNumbered'
@@ -28,7 +28,6 @@ import { bindActionCreators } from 'redux'
 import * as MidiSlidersAction from './actions/midi-sliders.js'
 
 import withRoot from './withRoot'
-import { store } from './ReduxRoot'
 import AppBar from './components/AppBar'
 import FileReaderInput from './components/FileReader'
 
@@ -36,25 +35,7 @@ const history = createBrowserHistory()
 
 class App extends React.Component {
   state = {
-    isMobileOpen: false,
-    isStarted: false
-  };
-
-  componentDidMount () {
-    window.addEventListener(
-      'beforeunload',
-      this.saveStateToLocalStorage.bind(this)
-    )
-  }
-
-  componentWillUnmount () {
-    window.removeEventListener(
-      'beforeunload',
-      this.saveStateToLocalStorage.bind(this)
-    )
-
-    // saves if component has a chance to unmount
-    this.saveStateToLocalStorage()
+    isMobileOpen: false
   }
 
   routes = (
@@ -190,14 +171,6 @@ class App extends React.Component {
 
   handleDrawerToggle = () => {
     this.setState({ isMobileOpen: !this.state.isMobileOpen })
-  }
-
-  saveStateToLocalStorage = () => {
-    const state = store.getState()
-    window.localStorage.setItem(
-      'state',
-      JSON.stringify(state)
-    )
   }
 }
 

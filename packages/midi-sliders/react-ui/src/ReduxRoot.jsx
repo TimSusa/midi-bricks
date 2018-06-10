@@ -9,6 +9,10 @@ import { createLogger } from 'redux-logger'
 import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import rootReducer from './reducers'
+import { PersistGate } from 'redux-persist/integration/react'
+
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web and AsyncStorage for react-native
 
 const logger = (createLogger)()
 
@@ -20,24 +24,26 @@ if (process.env.NODE_ENV === 'development') {
   middleware = applyMiddleware(thunk)
 }
 
-const defaultState = JSON.parse(
-  window.localStorage.getItem('state')
-)
+const persistConfig = {
+  key: 'root',
+  storage
+}
 
-export const store = createStore(rootReducer, {...defaultState}, middleware)
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+export const store = createStore(persistedReducer, {}, middleware)
+
+let persistor = persistStore(store)
 
 class ReduxRoot extends React.Component {
-    state = {
-      mobileOpen: true
-    };
-
-    render () {
-      return (
-        <Provider store={store}>
+  render () {
+    return (
+      <Provider store={store}>
+        <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
           <App />
-        </Provider>
-      )
-    }
+        </PersistGate>
+      </Provider>
+    )
+  }
 }
 
 export default ReduxRoot

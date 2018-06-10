@@ -3,7 +3,6 @@ import {ActionTypeMidiAccess} from '../actions/midi-access'
 
 export const midi = createReducer([], {
   [ActionTypeMidiAccess.INIT_MIDI_ACCESS] (state, action) {
-    console.log('midiaccess reducer ', action.payload.midiAccess)
     return {
       midiAccess: action.payload.midiAccess,
       midiDrivers: getAvailableDrivers(action.payload.midiAccess)
@@ -12,7 +11,6 @@ export const midi = createReducer([], {
 })
 
 const getAvailableDrivers = (midiAccess) => {
-  // const midiAccess = this.props.midiAccess// this.state.midiAccess
   for (var entry of midiAccess.inputs) {
     var input = entry[1]
     console.log("Input port [type:'" + input.type + "'] id:'" + input.id +
