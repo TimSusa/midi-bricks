@@ -70,8 +70,7 @@ export const sliderList = createReducer([], {
     return [...list]
   },
   [ActionTypeSlider.EXPAND_SLIDERS] (state, action) {
-    const storeCopy = store.getState()
-    let list = storeCopy.sliderList
+    let list = state
     const me = list.map(item => {
       return {
         ...item,
@@ -81,8 +80,7 @@ export const sliderList = createReducer([], {
     return [...me]
   },
   [ActionTypeSlider.COLLAPSE_SLIDERS] (state, action) {
-    const storeCopy = store.getState()
-    let list = storeCopy.sliderList
+    let list = state
     const me = list.map(item => {
       return {
         ...item,
@@ -102,16 +100,16 @@ export const sliderList = createReducer([], {
   [ActionTypeSlider.SELECT_CC] (state, action) {
     const idx = action.payload.idx
     const val = action.payload.val
-    const storeCopy = store.getState()
-    let list = storeCopy.sliderList
+
+    let list = state
     list[idx].midiCC = val
     return [...list]
   },
   [ActionTypeSlider.SELECT_MIDI_CHANNEL] (state, action) {
     const idx = action.payload.idx
     const val = action.payload.val
-    const storeCopy = store.getState()
-    let list = storeCopy.sliderList
+
+    let list = state
     list[idx].midiChannel = val
     return [...list]
   },
@@ -119,7 +117,7 @@ export const sliderList = createReducer([], {
     const idx = action.payload.idx
     const val = action.payload.val
     const storeCopy = store.getState()
-    let list = storeCopy.sliderList
+    let list = state
     list[idx].val = val
 
     const midiCC = list[idx].midiCC

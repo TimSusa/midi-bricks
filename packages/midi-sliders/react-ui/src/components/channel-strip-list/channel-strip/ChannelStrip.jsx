@@ -102,7 +102,7 @@ const renderExpandedStuff = (props) => {
         title='Toggle sending Note On/Off'
       >
         <Button
-          className={classes.button}
+          classes={{root: classes.button}}
           variant='raised'
           onClick={props.actions.toggleNote.bind(this, idx)}>
           <MusicIcon className={classes.iconColor} />
