@@ -45,7 +45,7 @@ const ChannelStrip = (props) => {
           trackAfter: classes.trackAfter,
           thumb: classes.thumb
         }}
-        style={{ height: !sliderEntry.isExpanded ? 'calc(100vh - 64px - 36px - 120px)' : 'calc(100vh - 64px - 36px - 500px)', transition: 'height 1s ease' }}
+        style={{ height: !sliderEntry.isExpanded ? 'calc(100vh - 54px - 120px)' : 'calc(100vh - 54px - 500px)', transition: 'height 1s ease' }}
         vertical
         reverse
         value={sliderEntry.val}
@@ -116,7 +116,7 @@ const renderExpandedStuff = (props) => {
             type='number'
             name={`input-cc-name-${idx}`}
             value={sliderEntry.midiCC}
-            onChange={props.handleCcChange} />
+            onChange={props.handleCcChange.bind(this, idx)} />
         </FormControl>
       </Tooltip>
       <br />

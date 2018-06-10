@@ -82,7 +82,7 @@ export default class FileInput extends React.Component {
   }
 
   triggerInput = () => {
-    const input = ((ReactDOM.findDOMNode(this._reactFileReaderInput): any): HTMLInputElement)
+    const input = ((ReactDOM.findDOMNode(this._reactFileReaderInput)))
     if (input) {
       input.click()
     }
