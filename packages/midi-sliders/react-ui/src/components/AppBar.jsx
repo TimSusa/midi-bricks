@@ -78,10 +78,10 @@ class MenuAppBar extends React.Component {
                 onClose={this.handleClose}
               >
                 <MenuItem onClick={this.handleCollapse}>
-                  Collapse Sliders
+                  Hide
                 </MenuItem>
                 <MenuItem onClick={this.handleExpand}>
-                  Expand Sliders
+                  Show
                 </MenuItem>
 
               </Menu>
