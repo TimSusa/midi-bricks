@@ -1,5 +1,6 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
 import ChannelStrip from './channel-strip/ChannelStrip'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
@@ -9,7 +10,7 @@ class ChannelStripList extends React.Component {
     if (this.props.sliderList.length > 0) {
       return (
         <div>
-          <div className={this.props.classes.channelList}>
+          <div id='channelList' className={this.props.classes.channelList}>
             {this.renderChannelStrips()}
           </div>
         </div>

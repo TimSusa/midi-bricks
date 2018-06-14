@@ -8,6 +8,7 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
+import Button from '@material-ui/core/Button'
 import MenuIcon from '@material-ui/icons/Menu'
 import AddIcon from '@material-ui/icons/Add'
 import AccountCircle from '@material-ui/icons/AccountCircle'
@@ -41,6 +42,29 @@ class MenuAppBar extends React.Component {
             <Typography variant='title' color='inherit' className={classes.flex}>
               MIDI Sliders
             </Typography>
+            {(this.props.sliderList.length * 100 - document.documentElement.clientWidth) > 0
+              ? (
+                <React.Fragment>
+                  <Button
+                    color='inherit'
+                    raised='true'
+                    onClick={() => { document.getElementById('channelList').scrollLeft -= (document.documentElement.clientWidth / 100 * 100) }}>
+                    LEFT
+                  </Button>
+                  <Button
+                    color='inherit'
+                    raised='true'
+                    onClick={() => { document.getElementById('channelList').scrollLeft += (document.documentElement.clientWidth / 100 * 100) }}>
+                    RIGHT
+                  </Button>
+                </React.Fragment>
+
+              )
+              : (
+                <div />
+              )
+            }
+
             <div>
               <Tooltip
                 placement='right'
@@ -55,6 +79,7 @@ class MenuAppBar extends React.Component {
                   <AddIcon />
                 </IconButton>
               </Tooltip>
+
               <IconButton
                 aria-owns={open ? 'menu-appbar' : null}
                 aria-haspopup='true'
