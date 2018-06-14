@@ -50,6 +50,7 @@ const ChannelStrip = (props) => {
           vertical: classes.vertical,
           activated: classes.activated,
           track: classes.track,
+          trackBefore: classes.trackBefore,
           trackAfter: classes.trackAfter,
           thumb: classes.thumb
         }}
@@ -207,23 +208,31 @@ const styles = theme => ({
   activated: {},
   track: {
     '&$vertical': {
-      width: 30,
+      width: 80,
       border: 'solid 1px rgba(0,0,0,0.1)',
       borderRadius: 2
     }
   },
+  trackBefore: {
+    '&$activated': {
+    }
+  },
   trackAfter: {
-    background: theme.palette.primary.light
+    background: theme.palette.primary.light,
+    '&$activated': {
+      background: theme.palette.primary.light
+    }
   },
   thumb: {
-    width: '80px',
-    height: '30px',
+    width: 80,
+    height: 30,
     borderRadius: 2,
     border: 'solid 1px rgba(0,0,0,0.2)',
 
     '&$activated': {
-      width: 100,
-      height: 40
+      width: 80,
+      height: 30,
+      background: theme.palette.primary.dark
     }
   },
   sliderRoot: {
