@@ -49,6 +49,7 @@ const ChannelStrip = (props) => {
           root: classes.sliderRoot,
           vertical: classes.vertical,
           activated: classes.activated,
+          jumped: classes.jumped,
           track: classes.track,
           trackBefore: classes.trackBefore,
           trackAfter: classes.trackAfter,
@@ -206,6 +207,9 @@ const styles = theme => ({
   vertical: {
   },
   activated: {},
+  jumped: {
+    transition: 'none'
+  },
   track: {
     '&$vertical': {
       width: 80,
@@ -214,12 +218,16 @@ const styles = theme => ({
     }
   },
   trackBefore: {
+    background: theme.palette.secondary.dark,
     '&$activated': {
     }
   },
   trackAfter: {
     background: theme.palette.primary.light,
     '&$activated': {
+      background: theme.palette.primary.light
+    },
+    '&$jumped': {
       background: theme.palette.primary.light
     }
   },
@@ -230,9 +238,14 @@ const styles = theme => ({
     border: 'solid 1px rgba(0,0,0,0.2)',
 
     '&$activated': {
-      width: 80,
+      boxShadow: '0 0 3px 3px grey',
+      width: 74,
       height: 30,
       background: theme.palette.primary.dark
+    },
+    '&$jumped': {
+      width: 80,
+      height: 30
     }
   },
   sliderRoot: {
