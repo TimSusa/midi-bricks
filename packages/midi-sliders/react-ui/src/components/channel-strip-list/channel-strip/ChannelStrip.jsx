@@ -249,7 +249,7 @@ const styles = theme => ({
     }
   },
   sliderRoot: {
-    width: 80,
+    width: 100,
     cursor: 'default',
 
     '&$vertical': {

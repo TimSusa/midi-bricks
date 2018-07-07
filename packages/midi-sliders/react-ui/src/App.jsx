@@ -1,23 +1,9 @@
 import {
-  // Button,
   Badge,
-  Divider,
   Drawer,
-  // Hidden,
-  // IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  // Toolbar,
-  // Typography,
   withStyles
 } from '@material-ui/core'
 import TodoIcon from '@material-ui/icons/FormatListNumbered'
-import LoadIcon from '@material-ui/icons/InsertDriveFile'
-import SaveIcon from '@material-ui/icons/Save'
-import DeleteIcon from '@material-ui/icons/Delete'
-// import MenuIcon from '@material-ui/icons/Menu'
 import { createBrowserHistory } from 'history'
 import * as React from 'react'
 import { connect } from 'react-redux'
@@ -29,7 +15,7 @@ import * as MidiSlidersAction from './actions/midi-sliders.js'
 
 import withRoot from './withRoot'
 import AppBar from './components/AppBar'
-import FileReaderInput from './components/FileReader'
+import DrawerList from './components/DrawerList'
 
 const history = createBrowserHistory()
 
@@ -46,54 +32,6 @@ class App extends React.Component {
   );
 
   render () {
-    let drawer = (
-      <div>
-        <div className={this.props.classes.drawerHeader} />
-        <Divider />
-        <List>
-          <FileReaderInput
-            as='binary'
-            onChange={this.onFileChange}>
-            <ListItem button>
-              <ListItemIcon >
-                <LoadIcon />
-              </ListItemIcon>
-              <ListItemText primary='Load Preset' />
-            </ListItem>
-          </FileReaderInput>
-        </List>
-        <Divider />
-        <List>
-          <ListItem button onClick={this.handleSaveFile}>
-            <ListItemIcon>
-              <SaveIcon />
-            </ListItemIcon>
-            <ListItemText primary='Save Preset' />
-          </ListItem>
-        </List>
-        <Divider />
-        <List>
-          <ListItem button onClick={this.handleResetSliders}>
-            <ListItemIcon>
-              <DeleteIcon />
-            </ListItemIcon>
-            <ListItemText primary='Delete Sliders' />
-          </ListItem>
-        </List>
-        {/*
-        <List>
-          <ListItem button onClick={() => history.push('/about')}>
-            <ListItemIcon>
-              {this.renderRackIcon()}
-            </ListItemIcon>
-            <ListItemText primary='Rack' />
-          </ListItem>
-        </List>
-        */}
-        <div style={{ height: 10000 }} />
-      </div>
-    )
-
     return (
       <Router history={history}>
         <div className={this.props.classes.root}>
@@ -113,7 +51,12 @@ class App extends React.Component {
                 keepMounted: true // Better open performance on mobile.
               }}
             >
-              {drawer}
+              <DrawerList
+                onFileChange={this.onFileChange}
+                handleSaveFile={this.handleSaveFile}
+                handleResetSliders={this.handleResetSliders}
+                classes={this.props.classes}
+              />
             </Drawer>
             {this.routes}
           </div>
@@ -139,22 +82,6 @@ class App extends React.Component {
 
   renderTodoIcon () {
     let uncompletedTodos = this.props.rackItemList.filter(t => t.muted === false)
-
-    if (uncompletedTodos.length > 0) {
-      return (
-        <Badge color='secondary' badgeContent={uncompletedTodos.length}>
-          <TodoIcon />
-        </Badge>
-      )
-    } else {
-      return (
-        <TodoIcon />
-      )
-    }
-  }
-
-  renderRackIcon () {
-    let uncompletedTodos = this.props.todoList.filter(t => t.completed === false)
 
     if (uncompletedTodos.length > 0) {
       return (
