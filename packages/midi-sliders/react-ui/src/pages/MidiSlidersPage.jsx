@@ -24,29 +24,29 @@ class MidiSlidersPage extends React.Component {
   }
 
   render () {
-    // if (this.state.hasMidi) {
-    return (
-      <div className={this.props.classes.root}>
-        <ChannelStripList />
-      </div>
-    )
-    // } else {
-    //   return (
-    //     <Typography variant='display1' className={this.props.classes.noMidiTypography}>
-    //       Cannot find any available MIDI-Drivers to connect for.
-    //       <br />
-    //       We suggest to create at first a virtual midi driver or
-    //       <br />
-    //       plug in your favourite MIDI Device.
-    //       <br />
-    //       <br />
-    //       After that, please reload the browser page to see the application in action like this:
-    //       <br />
-    //       <br />
-    //       <img width='50%' src='midi-sliders-screenshot.png' />
-    //     </Typography>
-    //   )
-    // }
+    if (this.state.hasMidi) {
+      return (
+        <div className={this.props.classes.root}>
+          <ChannelStripList />
+        </div>
+      )
+    } else {
+      return (
+        <Typography variant='display1' className={this.props.classes.noMidiTypography}>
+          Cannot find any available MIDI-Drivers to connect for.
+          <br />
+          We suggest to create at first a virtual midi driver or
+          <br />
+          plug in your favourite MIDI Device.
+          <br />
+          <br />
+          After that, please reload the browser page to see the application in action like this:
+          <br />
+          <br />
+          <img width='50%' src='midi-sliders-screenshot.png' />
+        </Typography>
+      )
+    }
   }
 
   onMIDISuccess = (midiAccess) => {

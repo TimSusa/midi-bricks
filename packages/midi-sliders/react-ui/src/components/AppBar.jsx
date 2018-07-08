@@ -42,19 +42,19 @@ class MenuAppBar extends React.Component {
             <Typography variant='title' color='inherit' className={classes.flex}>
               MIDI Sliders
             </Typography>
-            {(this.props.sliderList.length * 100 - document.documentElement.clientWidth) > 0
+            {(this.props.sliderList.length * 160 - document.documentElement.clientWidth) > 0
               ? (
                 <React.Fragment>
                   <Button
                     color='inherit'
                     raised='true'
-                    onClick={() => { document.getElementById('channelList').scrollLeft -= (document.documentElement.clientWidth / 100 * 100) }}>
+                    onClick={() => { document.getElementById('channelList').scrollLeft -= (document.documentElement.clientWidth / 140 * 140) }}>
                     LEFT
                   </Button>
                   <Button
                     color='inherit'
                     raised='true'
-                    onClick={() => { document.getElementById('channelList').scrollLeft += (document.documentElement.clientWidth / 100 * 100) }}>
+                    onClick={() => { document.getElementById('channelList').scrollLeft += (document.documentElement.clientWidth / 140 * 140) }}>
                     RIGHT
                   </Button>
                 </React.Fragment>

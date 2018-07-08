@@ -55,7 +55,7 @@ const ChannelStrip = (props) => {
           trackAfter: classes.trackAfter,
           thumb: classes.thumb
         }}
-        style={{ height: !sliderEntry.isExpanded ? 'calc(100vh - 54px - 120px)' : 'calc(100vh - 54px - 500px)', transition: 'height 1s ease' }}
+        style={{ height: !sliderEntry.isExpanded ? 'calc(100vh - 88px - 120px)' : 'calc(100vh - 88px - 500px)', transition: 'height 1s ease' }}
         vertical
         reverse
         value={sliderEntry.val}
@@ -202,7 +202,8 @@ const renderDriverSelection = (availableDrivers) => {
 const styles = theme => ({
 
   sliderContainer: {
-    width: 100
+    width: 180,
+    margin: '0 16px 0 16px'
   },
   vertical: {
   },
@@ -212,7 +213,7 @@ const styles = theme => ({
   },
   track: {
     '&$vertical': {
-      width: 80,
+      width: 120,
       border: 'solid 1px rgba(0,0,0,0.1)',
       borderRadius: 2
     }
@@ -232,24 +233,24 @@ const styles = theme => ({
     }
   },
   thumb: {
-    width: 80,
-    height: 30,
+    width: 120,
+    height: 40,
     borderRadius: 2,
     border: 'solid 1px rgba(0,0,0,0.2)',
 
     '&$activated': {
       boxShadow: '0 0 3px 3px grey',
-      width: 74,
-      height: 30,
+      width: 114,
+      height: 40,
       background: theme.palette.primary.dark
     },
     '&$jumped': {
-      width: 80,
-      height: 30
+      width: 120,
+      height: 40
     }
   },
   sliderRoot: {
-    width: 100,
+    width: 120,
     cursor: 'default',
 
     '&$vertical': {
