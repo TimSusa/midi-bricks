@@ -117,16 +117,17 @@ export const sliderList = createReducer([], {
     const idx = action.payload.idx
     const val = action.payload.val
     const storeCopy = store.getState()
-    let list = state
+    let list = Object.assign({}, state)
     list[idx].val = val
 
     const midiCC = list[idx].midiCC
     const outputId = list[idx].outputId
     var ccMessage = [0xaf + parseInt(list[idx].midiChannel, 10), midiCC, parseInt(val, 10)]
     var output = storeCopy.midi.midiAccess.outputs.get(outputId)
-    output.send(ccMessage) // omitting the timestamp means send immediately.
+    // omitting the timestamp means send immediately.
+    output.send(ccMessage, (window.performance.now() + 10.0))
 
-    return [...list]
+    return [...Object.values(list)]
   },
   [ActionTypeSlider.SAVE_FILE] (state, action) {
     const storeCopy = store.getState()
