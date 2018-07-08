@@ -17,6 +17,8 @@ import withRoot from './withRoot'
 import AppBar from './components/AppBar'
 import DrawerList from './components/DrawerList'
 
+import TestPage from './pages/TestPage.jsx'
+
 const history = createBrowserHistory()
 
 class App extends React.Component {
@@ -28,6 +30,7 @@ class App extends React.Component {
     <div className={this.props.classes.content}>
       <Route exact path='/' component={MidiSlidersPage} />
       <Route exact path='/midi-sliders' component={MidiSlidersPage} />
+      <Route exact path='/test-page' component={TestPage} />
     </div>
   );
 
@@ -56,6 +59,7 @@ class App extends React.Component {
                 handleSaveFile={this.handleSaveFile}
                 handleResetSliders={this.handleResetSliders}
                 classes={this.props.classes}
+                history={history}
               />
             </Drawer>
             {this.routes}
@@ -78,22 +82,6 @@ class App extends React.Component {
   handleResetSliders = () => {
     this.props.actions.deleteAllSliders()
     this.setState(state => ({isMobileOpen: !this.state.isMobileOpen}))
-  }
-
-  renderTodoIcon () {
-    let uncompletedTodos = this.props.rackItemList.filter(t => t.muted === false)
-
-    if (uncompletedTodos.length > 0) {
-      return (
-        <Badge color='secondary' badgeContent={uncompletedTodos.length}>
-          <TodoIcon />
-        </Badge>
-      )
-    } else {
-      return (
-        <TodoIcon />
-      )
-    }
   }
 
   handleDrawerToggle = () => {

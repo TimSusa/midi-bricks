@@ -1,6 +1,5 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
 import ChannelStrip from './channel-strip/ChannelStrip'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'

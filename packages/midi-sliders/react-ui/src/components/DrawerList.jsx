@@ -45,16 +45,13 @@ const DrawerList = props => (
         <ListItemText primary='Delete Sliders' />
       </ListItem>
     </List>
-    {/*
+
     <List>
-      <ListItem button onClick={() => history.push('/about')}>
-        <ListItemIcon>
-          {this.renderRackIcon()}
-        </ListItemIcon>
-        <ListItemText primary='Rack' />
+      <ListItem button onClick={() => props.history.push('/test-page')}>
+        <ListItemText primary='Test Page' />
       </ListItem>
     </List>
-    */}
+
     {/* <div style={{ height: 10000 }} /> */}
   </div>
 )
