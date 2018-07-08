@@ -59,7 +59,7 @@ const ChannelStrip = (props) => {
         vertical
         reverse
         value={sliderEntry.val}
-        onChange={(e, val) => props.actions.handleSliderChange({idx, val})}
+        onChange={(e, val) => props.actions.handleSliderChange({ idx, val })}
         max={127}
         min={0}
         step={1}
@@ -67,7 +67,7 @@ const ChannelStrip = (props) => {
       <Typography className={classes.caption}>{sliderEntry.val}</Typography>
 
       {
-        sliderEntry.isExpanded && renderExpandedStuff(props)
+        sliderEntry.isExpanded && <Expanded {...props} />
       }
       <div onClick={props.actions.expandSlider.bind(this, idx)}>
         {
@@ -81,104 +81,121 @@ const ChannelStrip = (props) => {
     </div>
   )
 }
+class Expanded extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = { value: props.data.value }
+  }
+  shouldComponentUpdate (nextProps, nextState) {
+    if (nextProps.data.value === nextState.value) {
+      return false
+    }
+    return true
+  }
 
-const renderExpandedStuff = (props) => {
-  const { sliderEntry, idx, availableDrivers } = props.data
-  const { classes } = props
-  return (
-    <React.Fragment>
+  render () {
+    const { sliderEntry, idx, availableDrivers } = this.props.data
+    const { classes } = this.props
+    return (
+      <React.Fragment>
 
-      <Tooltip
-        placement='right'
-        title='Trigger sending MIDI Note'
-      >
-        <Button
-          className={classes.button}
-          variant='raised'
-          onClick={props.actions.triggerNote.bind(this, idx)}>
-          <MusicIcon className={classes.iconColor} />
-        </Button>
-      </Tooltip>
+        <Tooltip
+          placement='right'
+          title='Trigger sending MIDI Note'
+        >
+          <Button
+            className={classes.button}
+            variant='raised'
+            onClick={this.props.actions.triggerNote.bind(this, idx)}>
+            <MusicIcon className={classes.iconColor} />
+          </Button>
+        </Tooltip>
 
-      <Tooltip
-        placement='right'
-        title='Toggle sending Note On/Off'
-      >
-        <Button
-          classes={{root: classes.button}}
-          variant='raised'
-          onClick={props.actions.toggleNote.bind(this, idx)}>
-          <MusicIcon className={classes.iconColor} />
-          <Typography
-            variant='caption'>
-            {sliderEntry.isNoteOn ? 'Off ' : 'On'}
-          </Typography>
+        <Tooltip
+          placement='right'
+          title='Toggle sending Note On/Off'
+        >
+          <Button
+            classes={{ root: classes.button }}
+            variant='raised'
+            onClick={this.props.actions.toggleNote.bind(this, idx)}>
+            <MusicIcon className={classes.iconColor} />
+            <Typography
+              variant='caption'>
+              {sliderEntry.isNoteOn ? 'Off ' : 'On'}
+            </Typography>
 
-        </Button>
-      </Tooltip>
-      <Tooltip
-        placement='right'
-        title='You can set a CC Value or Note Message here.'
-      >
-        <FormControl className={classes.formControl}>
-          <InputLabel className={classes.label} htmlFor='cc'>CC / Note </InputLabel>
-          <Input
-            className={classes.input}
-            id='number'
-            type='number'
-            name={`input-cc-name-${idx}`}
-            value={sliderEntry.midiCC}
-            onChange={e => props.actions.selectCC({idx, val: e.target.value})} />
+          </Button>
+        </Tooltip>
+        <Tooltip
+          placement='right'
+          title='You can set a CC Value or Note Message here.'
+        >
+          <FormControl className={classes.formControl}>
+            <InputLabel className={classes.label} htmlFor='cc'>CC / Note </InputLabel>
+            <Input
+              className={classes.input}
+              id='number'
+              type='number'
+              name={`input-cc-name-${idx}`}
+              value={sliderEntry.midiCC}
+              onChange={e => {
+                this.props.actions.selectCC({ idx, val: e.target.value })
+                console.log(e.target.value)
+                e.preventDefault()
+                this.setState({ value: e.target.value })
+              }} />
 
-        </FormControl>
-      </Tooltip>
-      <br />
-      <Tooltip
-        placement='right'
-        title={getSelectedDriverName(availableDrivers, sliderEntry.outputId)}>
-        <FormControl className={classes.formControl}>
-          <InputLabel className={classes.label} htmlFor='cc'>Driver </InputLabel>
-          <Select
-            className={classes.select}
-            onChange={e => props.actions.selectSliderMidiDriver({
-              idx,
-              val: e.target.value
-            })}
-            value={sliderEntry.outputId}>
-            {renderDriverSelection(availableDrivers)}
-          </Select>
-        </FormControl>
-      </Tooltip>
+          </FormControl>
+        </Tooltip>
+        <br />
+        <Tooltip
+          placement='right'
+          title={getSelectedDriverName(availableDrivers, sliderEntry.outputId)}>
+          <FormControl className={classes.formControl}>
+            <InputLabel className={classes.label} htmlFor='cc'>Driver </InputLabel>
+            <Select
+              className={classes.select}
+              onChange={e => this.props.actions.selectSliderMidiDriver({
+                idx,
+                val: e.target.value
+              })}
+              value={sliderEntry.outputId}>
+              {renderDriverSelection(availableDrivers)}
+            </Select>
+          </FormControl>
+        </Tooltip>
 
-      <Tooltip
-        placement='right'
-        title='You can set the MIDI Channel here.'
-      >
-        <FormControl className={classes.formControl}>
-          <InputLabel className={classes.label} htmlFor='cc'>Channel </InputLabel>
-          <Input
-            className={classes.input}
-            id='number'
-            type='number'
-            name={`input-channel-name-${idx}`}
-            value={sliderEntry.midiChannel}
-            onChange={e => props.actions.selectMidiChannel({idx, val: e.target.value})} />
-        </FormControl>
-      </Tooltip>
-      <br />
-      <Tooltip
-        placement='right'
-        title='Remove MIDI Channel Strip'
-      >
-        <Button
-          className={classes.button}
-          variant='raised'
-          onClick={props.actions.deleteSlider.bind(this, idx)}>
-          <DeleteIcon className={classes.iconColor} />
-        </Button>
-      </Tooltip>
-    </React.Fragment>
-  )
+        <Tooltip
+          placement='right'
+          title='You can set the MIDI Channel here.'
+        >
+          <FormControl className={classes.formControl}>
+            <InputLabel className={classes.label} htmlFor='cc'>Channel </InputLabel>
+            <Input
+              className={classes.input}
+              id='number'
+              type='number'
+              name={`input-channel-name-${idx}`}
+              value={sliderEntry.midiChannel}
+              onChange={e => this.props.actions.selectMidiChannel({ idx, val: e.target.value })} />
+          </FormControl>
+        </Tooltip>
+        <br />
+        <Tooltip
+          placement='right'
+          title='Remove MIDI Channel Strip'
+        >
+          <Button
+            className={classes.button}
+            variant='raised'
+            onClick={this.props.actions.deleteSlider.bind(this, idx)}>
+            <DeleteIcon className={classes.iconColor} />
+          </Button>
+        </Tooltip>
+      </React.Fragment>
+    )
+  }
 }
 
 const getSelectedDriverName = (drivers, outputId) => {
