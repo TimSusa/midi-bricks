@@ -17,7 +17,8 @@
     "react-router": "^4.2.0",
     "redux": "^3.7.2",
     "redux-persist": "^5.5.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "web-midi-api": "^2.0.1"
   },
   "devDependencies": {
     "react-dev-utils": "^5.0.1",

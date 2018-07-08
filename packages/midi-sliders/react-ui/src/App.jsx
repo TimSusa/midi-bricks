@@ -18,6 +18,7 @@ import AppBar from './components/AppBar'
 import DrawerList from './components/DrawerList'
 
 import TestPage from './pages/TestPage.jsx'
+import 'web-midi-api'
 
 const history = createBrowserHistory()
 
