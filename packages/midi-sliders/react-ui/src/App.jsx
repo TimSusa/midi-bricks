@@ -1,9 +1,7 @@
 import {
-  Badge,
   Drawer,
   withStyles
 } from '@material-ui/core'
-import TodoIcon from '@material-ui/icons/FormatListNumbered'
 import { createBrowserHistory } from 'history'
 import * as React from 'react'
 import { connect } from 'react-redux'
@@ -18,7 +16,6 @@ import AppBar from './components/AppBar'
 import DrawerList from './components/DrawerList'
 
 import TestPage from './pages/TestPage.jsx'
-import 'web-midi-api'
 
 const history = createBrowserHistory()
 
