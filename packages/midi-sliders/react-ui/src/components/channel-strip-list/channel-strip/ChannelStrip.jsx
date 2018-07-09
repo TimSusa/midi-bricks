@@ -20,7 +20,7 @@ class ChannelStrip extends React.Component {
     const { sliderEntry, idx } = this.props.data
     const { classes } = this.props
     return (
-      <VisibilitySensor>
+      <VisibilitySensor partialVisibility>
         {({ isVisible }) =>
           <div className={classes.sliderContainer}>
 
@@ -51,7 +51,7 @@ class ChannelStrip extends React.Component {
                 trackAfter: classes.trackAfter,
                 thumb: classes.thumb
               }}
-              style={{ height: !sliderEntry.isExpanded ? 'calc(100vh - 104px - 120px)' : 'calc(100vh - 104px - 500px)' }}
+              style={{ height: !sliderEntry.isExpanded ? 'calc(100vh - 88px - 120px)' : 'calc(100vh - 88px - 500px)' }}
               vertical
               reverse
               value={sliderEntry.val}
@@ -171,7 +171,7 @@ const styles = theme => ({
     marginRight: 'auto'
   },
   input: {
-    width: 80,
+    width: 100,
     margin: theme.spacing.unit,
     color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
     fontSize: '1rem',
@@ -184,14 +184,13 @@ const styles = theme => ({
   },
   formControl: {
     margin: theme.spacing.unit,
-    maxWidth: 140
+    maxWidth: 100
   },
   labelTop: {
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     color: theme.palette.primary.contrastText,
-    margin: theme.spacing.unit,
     fontSize: '1rem',
     fontWeight: 400,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',

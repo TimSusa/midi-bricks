@@ -23,7 +23,7 @@ class MenuAppBar extends React.Component {
   }
 
   render () {
-    const { classes } = this.props
+    const { classes, sliderList } = this.props
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
 
@@ -64,21 +64,26 @@ class MenuAppBar extends React.Component {
                 <div />
               )
             }
+            {
+              this.props.sliderList.length < 50 ? (
+                <Tooltip
 
-            <div>
-              <Tooltip
-
-                title='Add Slider'
-              >
-                <IconButton
-                  aria-owns={open ? 'addSlider-appbar' : null}
-                  aria-haspopup='true'
-                  onClick={() => this.props.actions.addSlider()}
-                  color='inherit'
+                  title='Add Slider'
                 >
-                  <AddIcon />
-                </IconButton>
-              </Tooltip>
+                  <IconButton
+                    aria-owns={open ? 'addSlider-appbar' : null}
+                    aria-haspopup='true'
+                    onClick={this.props.actions.addSlider}
+                    color='inherit'
+                  >
+                    <AddIcon />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <div />
+              )
+            }
+            <div>
 
               <IconButton
                 aria-owns={open ? 'menu-appbar' : null}
