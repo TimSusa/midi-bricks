@@ -11,64 +11,79 @@ import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../actions/midi-sliders.js'
+import CircularProgress from '@material-ui/core/CircularProgress'
+
+import VisibilitySensor from 'react-visibility-sensor'
 
 class ChannelStrip extends React.Component {
   render () {
     const { sliderEntry, idx } = this.props.data
     const { classes } = this.props
     return (
-      <div className={classes.sliderContainer}>
-        {
-          sliderEntry.isExpanded ? (
-            <Input
-              classes={{ input: classes.inputInput }}
-              className={classes.input}
-              type='text'
-              onChange={this.handleLabelChange.bind(this, idx)}
-              value={sliderEntry.label}
+      <VisibilitySensor>
+        {({ isVisible }) =>
+          <div className={classes.sliderContainer}>
+
+            {
+              sliderEntry.isExpanded ? (
+                <Input
+                  classes={{ input: classes.inputInput }}
+                  className={classes.input}
+                  type='text'
+                  onChange={this.handleLabelChange.bind(this, idx)}
+                  value={sliderEntry.label}
+                />
+              ) : (
+                <Typography className={classes.labelTop} >
+                  {sliderEntry.label}
+                </Typography>
+              )
+            }
+
+            <Slider
+              classes={{
+                root: classes.sliderRoot,
+                vertical: classes.vertical,
+                activated: classes.activated,
+                jumped: classes.jumped,
+                track: classes.track,
+                trackBefore: classes.trackBefore,
+                trackAfter: classes.trackAfter,
+                thumb: classes.thumb
+              }}
+              style={{ height: !sliderEntry.isExpanded ? 'calc(100vh - 104px - 120px)' : 'calc(100vh - 104px - 500px)' }}
+              vertical
+              reverse
+              value={sliderEntry.val}
+              onChange={this.handleSliderChange.bind(this, idx)}
+              max={127}
+              min={0}
+              step={1}
             />
-          ) : (
-            <Typography className={classes.labelTop} >
-              {sliderEntry.label}
-            </Typography>
-          )
-        }
+            <Typography className={classes.caption}>{sliderEntry.val}</Typography>
 
-        <Slider
-          classes={{
-            root: classes.sliderRoot,
-            vertical: classes.vertical,
-            activated: classes.activated,
-            jumped: classes.jumped,
-            track: classes.track,
-            trackBefore: classes.trackBefore,
-            trackAfter: classes.trackAfter,
-            thumb: classes.thumb
-          }}
-          style={{ height: !sliderEntry.isExpanded ? 'calc(100vh - 88px - 120px)' : 'calc(100vh - 88px - 500px)', transition: 'height 1s ease' }}
-          vertical
-          reverse
-          value={sliderEntry.val}
-          onChange={this.handleSliderChange.bind(this, idx)}
-          max={127}
-          min={0}
-          step={1}
-        />
-        <Typography className={classes.caption}>{sliderEntry.val}</Typography>
+            {
+              sliderEntry.isExpanded && isVisible && <ExpandedStrip {...this.props} />
 
-        {
-          sliderEntry.isExpanded && <ExpandedStrip {...this.props} />
+            }
+            {
+              !isVisible && <CircularProgress />
+            }
+            {
+              isVisible && <div onClick={this.props.actions.expandSlider.bind(this, idx)}>
+                {
+                  !sliderEntry.isExpanded ? (
+                    <ExpandLessIcon className={classes.iconColor} />
+                  ) : (
+                    <ExpandMoreIcon className={classes.iconColor} />
+                  )
+                }
+              </div>
+            }
+          </div>
         }
-        <div onClick={this.props.actions.expandSlider.bind(this, idx)}>
-          {
-            !sliderEntry.isExpanded ? (
-              <ExpandLessIcon className={classes.iconColor} />
-            ) : (
-              <ExpandMoreIcon className={classes.iconColor} />
-            )
-          }
-        </div>
-      </div>
+      </VisibilitySensor>
+
     )
   }
   handleLabelChange = (idx, e, val) => {

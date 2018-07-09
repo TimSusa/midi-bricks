@@ -125,8 +125,9 @@ export const sliderList = createReducer([], {
     var ccMessage = [0xaf + parseInt(list[idx].midiChannel, 10), midiCC, parseInt(val, 10)]
     var output = storeCopy.midi.midiAccess.outputs.get(outputId)
     // omitting the timestamp means send immediately.
-    const cb = () => output.send(ccMessage, (window.performance.now() + 10.0))
-    Promise.resolve().then(cb)
+    // const cb = () =>
+    output.send(ccMessage, (window.performance.now() + 10.0))
+    // Promise.resolve().then(cb)
 
     return [...Object.values(list)]
   },

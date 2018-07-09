@@ -67,7 +67,7 @@ class MenuAppBar extends React.Component {
 
             <div>
               <Tooltip
-                placement='right'
+
                 title='Add Slider'
               >
                 <IconButton
