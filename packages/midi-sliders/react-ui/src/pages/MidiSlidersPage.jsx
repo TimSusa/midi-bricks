@@ -43,7 +43,7 @@ class MidiSlidersPage extends React.Component {
           After that, please reload the browser page to see the application in action like this:
           <br />
           <br />
-          <img width='50%' src='midi-sliders-screenshot.png' />
+          <img width='50%' alt='midi-sliders-screenshot' src='midi-sliders-screenshot.png' />
         </Typography>
       )
     }

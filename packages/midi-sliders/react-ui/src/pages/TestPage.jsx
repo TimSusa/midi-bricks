@@ -1,4 +1,4 @@
-import { withStyles, Typography } from '@material-ui/core'
+import { withStyles } from '@material-ui/core'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
