@@ -42,7 +42,7 @@ class MenuAppBar extends React.Component {
             <Typography variant='title' color='inherit' className={classes.flex}>
               MIDI Sliders
             </Typography>
-            {(this.props.sliderList.length * 160 - document.documentElement.clientWidth) > 0
+            {(sliderList.length * 160 - document.documentElement.clientWidth) > 0
               ? (
                 <React.Fragment>
                   <Button
@@ -65,7 +65,7 @@ class MenuAppBar extends React.Component {
               )
             }
             {
-              this.props.sliderList.length < 50 ? (
+              sliderList.length < 50 ? (
                 <Tooltip
 
                   title='Add Slider'
