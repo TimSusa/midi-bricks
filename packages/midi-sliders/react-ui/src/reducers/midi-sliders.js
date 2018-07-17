@@ -37,8 +37,8 @@ export const sliderList = createReducer([], {
 
     const entry = {
       label: 'label' + (state.length + 1),
-      val: 80,
-      midiCC: parseInt(state.length > 0 ? state[state.length - 1].midiCC : 59, 10) + 1, // count up last entry,
+      val: 8,
+      midiCC: parseInt(state.length > 0 ? state[state.length - 1].midiCC : 59, 10), // count up last entry,
       outputId: newDriver,
       midiChannel: 1,
       isExpanded: true,

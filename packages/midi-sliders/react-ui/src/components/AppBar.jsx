@@ -65,8 +65,8 @@ class MenuAppBar extends React.Component {
               )
             }
             {
-              sliderList.length < 50 ? (
-                <Tooltip placement='right' 
+              sliderList.length < 80 ? (
+                <Tooltip placement='right'
 
                   title='Add Slider'
                 >
