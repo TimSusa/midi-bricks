@@ -2,7 +2,7 @@ import { withStyles, Typography } from '@material-ui/core'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiAccessAction from '../actions/midi-access.js'
+import * as MidiSliderActions from '../actions/midi-sliders.js'
 import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
 
 class MidiSlidersPage extends React.Component {
@@ -105,7 +105,7 @@ const styles = theme => ({
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(MidiAccessAction, dispatch)
+    actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
 

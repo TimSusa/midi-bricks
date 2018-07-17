@@ -1,8 +1,5 @@
 import { withStyles } from '@material-ui/core'
 import * as React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import * as MidiAccessAction from '../actions/midi-access.js'
 import Slider from '@material-ui/lab/Slider'
 
 class TestPage extends React.Component {
@@ -31,7 +28,7 @@ class TestPage extends React.Component {
           style={{ height: 'calc(100vh - 88px - 120px)' }}
           vertical
           reverse
-          value={this.state.val1}
+          value={this.state.val1 || 0}
           onChange={this.handleChange}
           max={127}
           min={0}
@@ -51,7 +48,7 @@ class TestPage extends React.Component {
           style={{ height: 'calc(100vh - 88px - 120px)' }}
           vertical
           reverse
-          value={this.state.val2}
+          value={this.state.val2 || 0}
           onChange={this.handleChange2}
           max={127}
           min={0}
@@ -192,10 +189,4 @@ const styles = theme => ({
   }
 })
 
-function mapDispatchToProps (dispatch) {
-  return {
-    actions: bindActionCreators(MidiAccessAction, dispatch)
-  }
-}
-
-export default (withStyles(styles)(connect(null, mapDispatchToProps)(TestPage)))
+export default (withStyles(styles)(TestPage))

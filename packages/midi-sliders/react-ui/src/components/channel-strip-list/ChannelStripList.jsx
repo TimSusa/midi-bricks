@@ -31,7 +31,7 @@ class ChannelStripList extends React.Component {
   renderChannelStrips = () => {
     const entries = this.props.sliderList
     return entries && entries.map((sliderEntry, idx) => {
-      const data = { availableDrivers: this.props.midiDrivers, sliderEntry, idx }
+      const data = { sliderEntry, idx }
       return (
         <ChannelStrip
           key={`slider-${idx}`}
@@ -53,8 +53,7 @@ const styles = theme => ({
 
 function mapStateToProps (state) {
   return {
-    sliderList: state.sliderList,
-    midiDrivers: state.midi.midiDrivers
+    sliderList: state.sliderList
   }
 }
 

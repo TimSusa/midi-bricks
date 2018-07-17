@@ -1,5 +1,6 @@
 
 export const ActionTypeSlider = {
+  INIT_MIDI_ACCESS: 'INIT_MIDI_ACCESS',
   SELECT_SLIDER_MIDI_DRIVER: 'SELECT_SLIDER_MIDI_DRIVER',
   ADD_SLIDER: 'ADD_SLIDER',
   DELETE_SLIDER: 'DELETE_SLIDER',
@@ -15,6 +16,13 @@ export const ActionTypeSlider = {
   HANDLE_SLIDER_CHANGE: 'HANDLE_SLIDER_CHANGE',
   SAVE_FILE: 'SAVE_FILE',
   LOAD_FILE: 'LOAD_FILE'
+}
+
+export function initMidiAccess (midiAccess) {
+  return {
+    type: ActionTypeSlider.INIT_MIDI_ACCESS,
+    payload: midiAccess
+  }
 }
 
 export function selectSliderMidiDriver (payload) {

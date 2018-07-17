@@ -26,7 +26,7 @@ class ExpandedStrip extends React.Component {
   // }
 
   render () {
-    const { sliderEntry, idx, availableDrivers } = this.props.data
+    const { sliderEntry, idx } = this.props.data
     const { classes } = this.props
     return (
       <React.Fragment>
@@ -81,7 +81,7 @@ class ExpandedStrip extends React.Component {
         <br />
         <Tooltip
 
-          title={this.getSelectedDriverName(availableDrivers, sliderEntry.outputId)}>
+          title={this.getSelectedDriverName(sliderEntry)}>
           <FormControl className={classes.formControl}>
             <InputLabel className={classes.label} htmlFor='cc'>Driver </InputLabel>
             <Select
@@ -91,7 +91,7 @@ class ExpandedStrip extends React.Component {
                 val: e.target.value
               })}
               value={sliderEntry.outputId}>
-              {this.renderDriverSelection(availableDrivers)}
+              {this.renderDriverSelection(sliderEntry.midi.midiDrivers)}
             </Select>
           </FormControl>
         </Tooltip>
@@ -126,7 +126,9 @@ class ExpandedStrip extends React.Component {
       </React.Fragment>
     )
   }
-  getSelectedDriverName = (drivers, outputId) => {
+  getSelectedDriverName = (sliderEntry) => {
+    const { outputId, midi } = sliderEntry
+    const drivers = midi.midiDrivers
     let name = ''
     drivers.forEach(t => {
       if (t.outputId === outputId) {
