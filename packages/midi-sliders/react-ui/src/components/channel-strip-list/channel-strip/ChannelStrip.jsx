@@ -51,7 +51,7 @@ class ChannelStrip extends React.Component {
                 trackAfter: classes.trackAfter,
                 thumb: classes.thumb
               }}
-              style={{ height: !sliderEntry.isExpanded ? 'calc(100vh - 88px - 120px)' : 'calc(100vh - 88px - 500px)' }}
+              style={{ height: !sliderEntry.isExpanded ? 'calc(100vh - 88px - 80px)' : 'calc(100vh - 88px - 500px)' }}
               vertical
               reverse
               value={sliderEntry.val}
@@ -100,7 +100,7 @@ class ChannelStrip extends React.Component {
 const styles = theme => ({
 
   sliderContainer: {
-    width: 180,
+    width: 100,
     margin: '0 16px 0 16px'
   },
   vertical: {
@@ -111,7 +111,7 @@ const styles = theme => ({
   },
   track: {
     '&$vertical': {
-      width: 120,
+      width: 80,
       border: 'solid 1px rgba(0,0,0,0.1)',
       borderRadius: 2
     }
@@ -131,24 +131,24 @@ const styles = theme => ({
     }
   },
   thumb: {
-    width: 120,
+    width: 80,
     height: 40,
     borderRadius: 2,
     border: 'solid 1px rgba(0,0,0,0.2)',
 
     '&$activated': {
       boxShadow: '0 0 3px 3px grey',
-      width: 114,
+      width: 84,
       height: 40,
       background: theme.palette.primary.dark
     },
     '&$jumped': {
-      width: 120,
+      width: 80,
       height: 40
     }
   },
   sliderRoot: {
-    width: 120,
+    width: 80,
     cursor: 'default',
 
     '&$vertical': {
@@ -171,7 +171,7 @@ const styles = theme => ({
     marginRight: 'auto'
   },
   input: {
-    width: 100,
+    width: 80,
     margin: theme.spacing.unit,
     color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
     fontSize: '1rem',
