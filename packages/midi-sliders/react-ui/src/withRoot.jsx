@@ -4,6 +4,13 @@ import * as React from 'react'
 // A theme with custom primary and secondary color.
 // It's optional.
 const theme = createMuiTheme({
+  // overrides: {
+  //   MuiTooltip: {
+  //     tooltip: {
+  //       height: 0
+  //     }
+  //   }
+  // },
   palette: {
     secondary: {
       light: '#ffffff',

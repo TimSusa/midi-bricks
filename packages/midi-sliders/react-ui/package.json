@@ -15,7 +15,6 @@
     "react-dom": "^16.4.0",
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
-    "react-visibility-sensor": "^3.11.0",
     "redux": "^3.7.2",
     "redux-persist": "^5.5.0",
     "redux-thunk": "^2.2.0",
