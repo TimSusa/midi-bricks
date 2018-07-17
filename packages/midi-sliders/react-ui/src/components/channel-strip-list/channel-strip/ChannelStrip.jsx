@@ -17,7 +17,7 @@ import VisibilitySensor from 'react-visibility-sensor'
 
 class ChannelStrip extends React.Component {
   render () {
-    const { sliderEntry, idx } = this.props.data
+    const { sliderEntry, idx } = this.props
     const { classes } = this.props
     return (
       <VisibilitySensor partialVisibility>

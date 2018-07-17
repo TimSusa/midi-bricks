@@ -35,7 +35,7 @@ class ChannelStripList extends React.Component {
       return (
         <ChannelStrip
           key={`slider-${idx}`}
-          data={data}
+          {...data}
         />
       )
     })

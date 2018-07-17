@@ -26,12 +26,12 @@ class ExpandedStrip extends React.Component {
   // }
 
   render () {
-    const { sliderEntry, idx } = this.props.data
+    const { sliderEntry, idx } = this.props
     const { classes } = this.props
     return (
       <React.Fragment>
 
-        <Tooltip
+        <Tooltip placement='right'
 
           title='Trigger sending MIDI Note'
         >
@@ -43,7 +43,7 @@ class ExpandedStrip extends React.Component {
           </Button>
         </Tooltip>
 
-        <Tooltip
+        <Tooltip placement='right'
 
           title='Toggle sending Note On/Off'
         >
@@ -59,7 +59,7 @@ class ExpandedStrip extends React.Component {
 
           </Button>
         </Tooltip>
-        <Tooltip
+        <Tooltip placement='right'
 
           title='You can set a CC Value or Note Message here.'
         >
@@ -79,7 +79,7 @@ class ExpandedStrip extends React.Component {
           </FormControl>
         </Tooltip>
         <br />
-        <Tooltip
+        <Tooltip placement='right'
 
           title={this.getSelectedDriverName(sliderEntry)}>
           <FormControl className={classes.formControl}>
@@ -96,7 +96,7 @@ class ExpandedStrip extends React.Component {
           </FormControl>
         </Tooltip>
 
-        <Tooltip
+        <Tooltip placement='right'
 
           title='You can set the MIDI Channel here.'
         >
@@ -112,7 +112,7 @@ class ExpandedStrip extends React.Component {
           </FormControl>
         </Tooltip>
         <br />
-        <Tooltip
+        <Tooltip placement='right'
 
           title='Remove MIDI Channel Strip'
         >
