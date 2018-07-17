@@ -7,6 +7,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Slider from '@material-ui/lab/Slider'
 import ExpandedStrip from './ExpandedStrip'
 import { withStyles } from '@material-ui/core/styles'
+import classNames from 'classnames'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -42,7 +43,10 @@ class ChannelStrip extends React.Component {
 
             <Slider
               classes={{
-                root: classes.sliderRoot,
+                root: classNames({
+                  [classes.sliderRootExpanded]: sliderEntry.isExpanded,
+                  [classes.sliderRoot]: !sliderEntry.isExpanded
+                }),
                 vertical: classes.vertical,
                 activated: classes.activated,
                 jumped: classes.jumped,
@@ -51,7 +55,6 @@ class ChannelStrip extends React.Component {
                 trackAfter: classes.trackAfter,
                 thumb: classes.thumb
               }}
-              style={{ height: !sliderEntry.isExpanded ? 'calc(100vh - 88px - 80px)' : 'calc(100vh - 88px - 500px)' }}
               vertical
               reverse
               value={sliderEntry.val}
@@ -101,6 +104,7 @@ const styles = theme => ({
 
   sliderContainer: {
     width: 100,
+    height: 'calc(100vh - 112px)',
     margin: '0 16px 0 16px'
   },
   vertical: {
@@ -152,6 +156,18 @@ const styles = theme => ({
     cursor: 'default',
 
     '&$vertical': {
+      height: 'calc(100vh - 200px)',
+      margin: 0,
+      marginLeft: 'auto',
+      marginRight: 'auto'
+    }
+  },
+  sliderRootExpanded: {
+    width: 80,
+    cursor: 'default',
+
+    '&$vertical': {
+      height: 'calc(100vh - 596px)',
       margin: 0,
       marginLeft: 'auto',
       marginRight: 'auto'

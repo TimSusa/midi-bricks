@@ -11,20 +11,6 @@ import MusicIcon from '@material-ui/icons/MusicNote'
 import DeleteIcon from '@material-ui/icons/Delete'
 
 class ExpandedStrip extends React.Component {
-  // constructor (props) {
-  //   super(props)
-  //   this.state = { value: props.data.value }
-  // }
-
-  // // I really dont know why this helps to massiveley improve performance?
-  // // Be aware that this could produce bugs
-  // shouldComponentUpdate (nextProps, nextState) {
-  //   if (nextProps.data.value === nextState.value) {
-  //     return false
-  //   }
-  //   return true
-  // }
-
   render () {
     const { sliderEntry, idx } = this.props
     const { classes } = this.props
