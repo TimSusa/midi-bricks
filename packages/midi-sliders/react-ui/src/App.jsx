@@ -12,7 +12,7 @@ import { bindActionCreators } from 'redux'
 import * as MidiSlidersAction from './actions/midi-sliders.js'
 
 import withRoot from './withRoot'
-import AppBar from './components/AppBar'
+import MenuAppBar from './components/app-bar/MenuAppBar'
 import DrawerList from './components/DrawerList'
 
 import TestPage from './pages/TestPage.jsx'
@@ -37,7 +37,7 @@ class App extends React.Component {
       <Router history={history}>
         <div className={this.props.classes.root}>
           <div className={this.props.classes.appBar}>
-            <AppBar
+            <MenuAppBar
               handleDrawerToggle={this.handleDrawerToggle}
             />
             <Drawer
