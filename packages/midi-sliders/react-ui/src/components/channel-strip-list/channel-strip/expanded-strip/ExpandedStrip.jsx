@@ -12,7 +12,9 @@ import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../actions/midi-sliders.js'
-import InputNoteOrCc from './InputNoteOrCc.jsx'
+import InputNoteOrCc from './InputNoteOrCc'
+import { STRIP_TYPE } from '../../../../reducers/midi-sliders'
+import {Chord} from 'tonal'
 
 class ExpandedStrip extends React.Component {
   render () {
@@ -20,7 +22,9 @@ class ExpandedStrip extends React.Component {
     return (
       <React.Fragment>
         <InputNoteOrCc sliderEntry={sliderEntry} idx={idx} />
+
         <br />
+
         <Tooltip
           placement='right'
           title={this.getSelectedDriverName(sliderEntry)}
@@ -54,7 +58,33 @@ class ExpandedStrip extends React.Component {
               onChange={e => this.props.actions.selectMidiChannel({ idx, val: e.target.value })} />
           </FormControl>
         </Tooltip>
+
         <br />
+
+        {
+          sliderEntry.type === STRIP_TYPE.BUTTON &&
+          <Tooltip
+            placement='right'
+            title='Select a Chord'
+          >
+            <FormControl className={classes.formControl}>
+              <InputLabel className={classes.label} htmlFor='chord'>Chord </InputLabel>
+              <Select
+                className={classes.select}
+                onChange={e => this.props.actions.setChord({
+                  idx,
+                  val: e.target.value
+                })}
+                value={sliderEntry.chord}
+              >
+                {this.renderChordSelection()}
+              </Select>
+            </FormControl>
+          </Tooltip>
+
+        }
+        <br />
+
         <Tooltip
           placement='right'
           title='Remove MIDI Channel Strip'
@@ -89,6 +119,21 @@ class ExpandedStrip extends React.Component {
           value={item.outputId}
         >
           {item.name}
+        </MenuItem>
+      )
+    })
+  }
+
+  renderChordSelection = () => {
+    let chordNames = Chord.names()
+    chordNames.unshift('none')
+    return chordNames.map((item, idx) => {
+      return (
+        <MenuItem
+          key={`chords-${idx}`}
+          value={item}
+        >
+          {item}
         </MenuItem>
       )
     })

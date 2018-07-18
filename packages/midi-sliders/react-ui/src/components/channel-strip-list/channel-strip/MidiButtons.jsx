@@ -66,7 +66,7 @@ const styles = theme => ({
     height: 'calc(100vh - 196px)'
   },
   rootExpanded: {
-    height: 'calc(100vh - 480px)'
+    height: 'calc(100vh - 546px)'
   },
   group: {
   },
@@ -77,8 +77,8 @@ const styles = theme => ({
   button: {
     marginBottom: 4 * theme.spacing.unit,
     background: theme.palette.secondary.light,
-    height: 'calc(100vh - 750px)',
-    minHeight: 80
+    height: 'calc(100vh - 780px)',
+    minHeight: 70
   }
 })
 

@@ -1,5 +1,6 @@
 import createReducer from './createReducer'
 import { ActionTypeSlider } from '../actions/midi-sliders'
+import {Chord, midi, Note} from 'tonal'
 
 export const STRIP_TYPE = {
   SLIDER: 'SLIDER',
@@ -20,14 +21,15 @@ export const sliderList = createReducer([], {
     })
     if (arrToSend.length < 1) {
       const entry = {
+        type: STRIP_TYPE.SLIDER,
         label: 'label0',
         val: 80,
         midiCC: parseInt(60, 10) + 1, // count up last entry,
         outputId: midi.midiDrivers[0].outputId,
         midiChannel: 1,
         isExpanded: true,
-        midi
-
+        midi,
+        chord: 'none'
       }
       arrToSend = [entry]
     }
@@ -50,17 +52,45 @@ export const sliderList = createReducer([], {
   },
   [ActionTypeSlider.TOGGLE_NOTE] (state, action) {
     const idx = action.payload
-    const {
-      output,
-      noteOn,
-      noteOff
-    } = getMidiOutputNoteOnOf(state[idx], idx)
 
-    const tmp = state[idx]
-    if (!tmp.isNoteOn) {
-      output.send(noteOn)
+    // With Chords
+    if (state[idx].chord !== 'none') {
+      const note = Note.fromMidi(state[idx].midiCC)
+      const chord = state[idx].chord
+
+      // console.log('exists ?! ', Chord.exists(note + chord))
+      const notes = Chord.notes(note, chord)
+      notes.map((item) => {
+        const midiNoteVal = midi(item)
+        const {
+          output,
+          noteOn,
+          noteOff
+        } = getMidiOutputNoteOnOf({
+          ...state[idx],
+          midiCC: midiNoteVal
+        })
+        const tmp = state[idx]
+        if (!tmp.isNoteOn) {
+          output.send(noteOn)
+        } else {
+          output.send(noteOff)
+        }
+      })
     } else {
-      output.send(noteOff)
+      // No Chords
+      const {
+        output,
+        noteOn,
+        noteOff
+      } = getMidiOutputNoteOnOf(state[idx])
+
+      const tmp = state[idx]
+      if (!tmp.isNoteOn) {
+        output.send(noteOn)
+      } else {
+        output.send(noteOff)
+      }
     }
 
     const newState = state.map((item, i) => {
@@ -78,6 +108,10 @@ export const sliderList = createReducer([], {
   },
   [ActionTypeSlider.CHANGE_SLIDER_LABEL] (state, action) {
     const newState = transformState(state, action, 'label')
+    return newState
+  },
+  [ActionTypeSlider.SET_CHORD] (state, action) {
+    const newState = transformState(state, action, 'chord')
     return newState
   },
   [ActionTypeSlider.EXPAND_SLIDER] (state, action) {
@@ -245,7 +279,8 @@ const transformAddState = (state, action, type) => {
     midiChannel: 1,
     isExpanded: true,
     isNoteOn: false,
-    midi
+    midi,
+    chord: 'none'
   }
   return [...state, entry]
 }

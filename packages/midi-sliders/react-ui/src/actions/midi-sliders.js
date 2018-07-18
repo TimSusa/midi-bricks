@@ -7,6 +7,7 @@ export const ActionTypeSlider = {
   DELETE_SLIDER: 'DELETE_SLIDER',
   DELETE_ALL_SLIDERS: 'DELETE_ALL_SLIDERS',
   TOGGLE_NOTE: 'TOGGLE_NOTE',
+  SET_CHORD: 'SET_CHORD',
   CHANGE_SLIDER_LABEL: 'CHANGE_SLIDER_LABEL',
   EXPAND_SLIDER: 'EXPAND_SLIDER',
   EXPAND_SLIDERS: 'EXPAND_SLIDERS',
@@ -63,6 +64,13 @@ export function toggleNote (idx) {
   return {
     type: ActionTypeSlider.TOGGLE_NOTE,
     payload: idx
+  }
+}
+
+export function setChord (payload) {
+  return {
+    type: ActionTypeSlider.SET_CHORD,
+    payload
   }
 }
 
