@@ -7,7 +7,6 @@ export const ActionTypeSlider = {
   DELETE_SLIDER: 'DELETE_SLIDER',
   DELETE_ALL_SLIDERS: 'DELETE_ALL_SLIDERS',
   TOGGLE_NOTE: 'TOGGLE_NOTE',
-  TRIGGER_NOTE: 'TRIGGER_NOTE',
   CHANGE_SLIDER_LABEL: 'CHANGE_SLIDER_LABEL',
   EXPAND_SLIDER: 'EXPAND_SLIDER',
   EXPAND_SLIDERS: 'EXPAND_SLIDERS',
@@ -63,13 +62,6 @@ export function deleteAllSliders () {
 export function toggleNote (idx) {
   return {
     type: ActionTypeSlider.TOGGLE_NOTE,
-    payload: idx
-  }
-}
-
-export function triggerNote (idx) {
-  return {
-    type: ActionTypeSlider.TRIGGER_NOTE,
     payload: idx
   }
 }

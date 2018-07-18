@@ -12,7 +12,7 @@ import { bindActionCreators } from 'redux'
 import * as MidiSlidersAction from './actions/midi-sliders.js'
 
 import withRoot from './withRoot'
-import MenuAppBar from './components/app-bar/MenuAppBar'
+import MenuAppBar from './components/menu-app-bar/MenuAppBar'
 import DrawerList from './components/DrawerList'
 
 import TestPage from './pages/TestPage.jsx'

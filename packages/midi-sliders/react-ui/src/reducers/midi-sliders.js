@@ -76,24 +76,6 @@ export const sliderList = createReducer([], {
     })
     return newState
   },
-  [ActionTypeSlider.TRIGGER_NOTE] (state, action) {
-    const idx = action.payload
-    const {
-      output,
-      noteOn,
-      noteOff
-    } = getMidiOutputNoteOnOf(state[idx], idx)
-
-    output.send(noteOn)
-    setTimeout(
-      function () {
-        output.send(noteOff)
-      },
-      100
-    )
-
-    return state
-  },
   [ActionTypeSlider.CHANGE_SLIDER_LABEL] (state, action) {
     const newState = transformState(state, action, 'label')
     return newState

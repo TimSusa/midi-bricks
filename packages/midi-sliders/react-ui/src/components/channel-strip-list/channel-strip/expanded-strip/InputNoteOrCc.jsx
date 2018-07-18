@@ -51,7 +51,7 @@ class InputNoteOrCc extends React.Component {
 
           <Tooltip
             placement='right'
-            title='You can set a Note Message here.'
+            title='You can set a MIDI Note here. Please hit Enter after input.'
           >
             <FormControl className={classes.formControl}>
               <InputLabel className={classes.label} htmlFor='cc'>Note</InputLabel>

@@ -26,7 +26,9 @@ class MidiButtons extends React.Component {
             <Button
               className={classes.button}
               variant='raised'
-              onClick={this.props.actions.triggerNote.bind(this, idx)}>
+              onMouseDown={this.props.actions.toggleNote.bind(this, idx)}
+              onMouseUp={this.props.actions.toggleNote.bind(this, idx)}
+            >
               <MusicIcon className={classes.iconColor} />
             </Button>
           </Tooltip>
