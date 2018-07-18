@@ -44,11 +44,13 @@ class AddMenu extends React.Component {
             onClose={this.handleClose}
           >
             <MenuItem
-              onClick={this.handleAddSlider}>
+              onClick={this.handleAddSlider}
+            >
               Add Slider
             </MenuItem>
             <MenuItem
-              onClick={this.handleAddButton}>
+              onClick={this.handleAddButton}
+            >
               Add Button
             </MenuItem>
 

@@ -105,7 +105,6 @@ class ChannelStrip extends React.Component {
 }
 
 const styles = theme => ({
-
   sliderContainer: {
     width: 100,
     height: 'calc(100vh - 112px)',

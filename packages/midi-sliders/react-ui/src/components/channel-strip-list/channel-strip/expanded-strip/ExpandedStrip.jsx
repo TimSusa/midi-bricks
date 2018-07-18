@@ -20,7 +20,6 @@ class ExpandedStrip extends React.Component {
     return (
       <React.Fragment>
         <InputNoteOrCc sliderEntry={sliderEntry} idx={idx} />
-
         <br />
         <Tooltip
           placement='right'
@@ -40,8 +39,8 @@ class ExpandedStrip extends React.Component {
           </FormControl>
         </Tooltip>
 
-        <Tooltip placement='right'
-
+        <Tooltip
+          placement='right'
           title='You can set the MIDI Channel here.'
         >
           <FormControl className={classes.formControl}>
@@ -56,8 +55,8 @@ class ExpandedStrip extends React.Component {
           </FormControl>
         </Tooltip>
         <br />
-        <Tooltip placement='right'
-
+        <Tooltip
+          placement='right'
           title='Remove MIDI Channel Strip'
         >
           <Button
@@ -85,7 +84,12 @@ class ExpandedStrip extends React.Component {
   renderDriverSelection = (availableDrivers) => {
     return availableDrivers.map((item, idx) => {
       return (
-        <MenuItem key={`driver-${idx}`} value={item.outputId}>{item.name}</MenuItem>
+        <MenuItem
+          key={`driver-${idx}`}
+          value={item.outputId}
+        >
+          {item.name}
+        </MenuItem>
       )
     })
   }

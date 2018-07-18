@@ -25,7 +25,6 @@ class InputNoteOrCc extends React.Component {
     if (sliderEntry.type === STRIP_TYPE.SLIDER) {
       return (
         <React.Fragment>
-
           <Tooltip
             placement='right'
             title='You can set a CC Message here.'
@@ -42,13 +41,11 @@ class InputNoteOrCc extends React.Component {
 
             </FormControl>
           </Tooltip>
-
         </React.Fragment>
       )
     } else {
       return (
         <React.Fragment>
-
           <Tooltip
             placement='right'
             title='You can set a MIDI Note here. Please hit Enter after input.'
@@ -61,11 +58,10 @@ class InputNoteOrCc extends React.Component {
                 name={`input-cc-note-name-${idx}`}
                 value={this.state.noteVal}
                 onChange={this.handleNoteChange.bind(this, idx)}
-                onKeyPress={this.sendNoteChange.bind(this, idx)} />
-
+                onKeyPress={this.sendNoteChange.bind(this, idx)}
+              />
             </FormControl>
           </Tooltip>
-
         </React.Fragment>
       )
     }

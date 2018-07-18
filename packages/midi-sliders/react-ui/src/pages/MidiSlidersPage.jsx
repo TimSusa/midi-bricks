@@ -91,7 +91,6 @@ class MidiSlidersPage extends React.Component {
 const styles = theme => ({
   root: {
     textAlign: 'center',
-    // background: theme.palette.primary.main,
     width: '100%'
   },
   heading: {

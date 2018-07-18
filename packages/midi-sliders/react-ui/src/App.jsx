@@ -107,29 +107,16 @@ const styles = theme => ({
     margin: 0
   },
   navIconHide: {
-    // [theme.breakpoints.up('md')]: {
-    //   display: 'none'
-    // }
   },
   drawerHeader: theme.mixins.toolbar,
   drawerPaper: {
     width: 250,
     backgroundColor: theme.palette.background.default
-    // [theme.breakpoints.up('md')]: {
-    //   width: drawerWidth,
-    //   position: 'relative',
-    //   height: '100%'
-    // }
   },
   content: {
     backgroundColor: theme.palette.background.default,
     width: '100%',
-    // height: 'calc(100% - 56px)',
     marginTop: theme.spacing.unit
-    // [theme.breakpoints.up('sm')]: {
-    //   height: 'calc(100% - 64px)',
-    //   marginTop: 64
-    // }
   }
 })
 

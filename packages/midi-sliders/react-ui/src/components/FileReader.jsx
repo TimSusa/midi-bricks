@@ -2,7 +2,7 @@ import * as React from 'react'
 import ReactDOM from 'react-dom'
 
 export default class FileInput extends React.Component {
-  _reactFileReaderInput: any;
+  _reactFileReaderInput
 
   constructor (props) {
     super(props)

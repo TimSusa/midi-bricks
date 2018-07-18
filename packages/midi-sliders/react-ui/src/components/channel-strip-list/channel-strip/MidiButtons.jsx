@@ -28,6 +28,8 @@ class MidiButtons extends React.Component {
               variant='raised'
               onMouseDown={this.props.actions.toggleNote.bind(this, idx)}
               onMouseUp={this.props.actions.toggleNote.bind(this, idx)}
+              onTouchStart={this.props.actions.toggleNote.bind(this, idx)}
+              onTouchEnd={this.props.actions.toggleNote.bind(this, idx)}
             >
               <MusicIcon className={classes.iconColor} />
             </Button>
@@ -46,7 +48,6 @@ class MidiButtons extends React.Component {
                 variant='caption'>
                 {sliderEntry.isNoteOn ? 'Off ' : 'On'}
               </Typography>
-
             </Button>
           </Tooltip>
         </div>
@@ -69,6 +70,10 @@ const styles = theme => ({
   },
   group: {
   },
+  iconColor: {
+    color: theme.palette.primary.contrastText,
+    cursor: 'pointer'
+  },
   button: {
     marginBottom: 4 * theme.spacing.unit,
     background: theme.palette.secondary.light,
@@ -76,6 +81,7 @@ const styles = theme => ({
     minHeight: 80
   }
 })
+
 function mapDispatchToProps (dispatch) {
   return {
     actions: bindActionCreators(MidiSliderActions, dispatch)

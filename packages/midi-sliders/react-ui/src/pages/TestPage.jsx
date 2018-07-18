@@ -57,13 +57,11 @@ class TestPage extends React.Component {
       </div>)
   }
   handleChange = (e, val) => {
-    // const val = e.event.target.value
     this.setState({ val1: val })
     console.log(val)
   }
 
   handleChange2 = (e, val) => {
-    // const val = e.event.target.value
     this.setState({ val2: val })
     console.log(val)
   }
