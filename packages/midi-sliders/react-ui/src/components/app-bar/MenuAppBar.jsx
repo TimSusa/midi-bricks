@@ -9,10 +9,10 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import AddIcon from '@material-ui/icons/Add'
 import Tooltip from '@material-ui/core/Tooltip'
 import ScrollButtonGroup from './ScrollButtonGroup'
 import ViewMenu from './ViewMenu'
+import AddMenu from './AddMenu'
 
 class MenuAppBar extends React.Component {
   render () {
@@ -40,25 +40,7 @@ class MenuAppBar extends React.Component {
             </Typography>
 
             <ScrollButtonGroup sliderListLength={sliderList.length} />
-
-            {
-              sliderList.length < 80 ? (
-                <Tooltip
-                  placement='right'
-                  title='Add Slider'
-                >
-                  <IconButton
-                    aria-haspopup='true'
-                    onClick={this.props.actions.addSlider}
-                    color='inherit'
-                  >
-                    <AddIcon />
-                  </IconButton>
-                </Tooltip>
-              ) : (
-                <div />
-              )
-            }
+            <AddMenu sliderListLength={sliderList.length} />
 
             <ViewMenu />
 

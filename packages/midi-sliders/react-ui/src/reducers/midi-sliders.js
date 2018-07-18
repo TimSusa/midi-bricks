@@ -1,6 +1,11 @@
 import createReducer from './createReducer'
 import { ActionTypeSlider } from '../actions/midi-sliders'
 
+export const STRIP_TYPE = {
+  SLIDER: 'SLIDER',
+  BUTTON: 'BUTTON'
+}
+
 export const sliderList = createReducer([], {
   [ActionTypeSlider.INIT_MIDI_ACCESS] (state, action) {
     const midi = {
@@ -29,23 +34,12 @@ export const sliderList = createReducer([], {
     return arrToSend
   },
   [ActionTypeSlider.ADD_SLIDER] (state, action) {
-    // Either use last selected driver or take the first available one
-    const midi = state[0].midi
-    const availDriver = midi.midiDrivers[0].outputId
-    const lastSelectedDriver = (state.length > 0) && state[state.length - 1].outputId
-    const newDriver = lastSelectedDriver || availDriver
-
-    const entry = {
-      label: 'label' + (state.length + 1),
-      val: 8,
-      midiCC: parseInt(state.length > 0 ? state[state.length - 1].midiCC : 59, 10), // count up last entry,
-      outputId: newDriver,
-      midiChannel: 1,
-      isExpanded: true,
-      isNoteOn: false,
-      midi
-    }
-    return [...state, entry]
+    const newState = transformAddState(state, action, STRIP_TYPE.SLIDER)
+    return newState
+  },
+  [ActionTypeSlider.ADD_BUTTON] (state, action) {
+    const newState = transformAddState(state, action, STRIP_TYPE.BUTTON)
+    return newState
   },
   [ActionTypeSlider.DELETE_SLIDER] (state, action) {
     const newState = state.filter((t, idx) => idx !== action.payload)
@@ -251,4 +245,25 @@ const transformState = (state, action, field) => {
     }
   })
   return newState
+}
+
+const transformAddState = (state, action, type) => {
+  // Either use last selected driver or take the first available one
+  const midi = state[0].midi
+  const availDriver = midi.midiDrivers[0].outputId
+  const lastSelectedDriver = (state.length > 0) && state[state.length - 1].outputId
+  const newDriver = lastSelectedDriver || availDriver
+
+  const entry = {
+    type,
+    label: 'label' + (state.length + 1),
+    val: 8,
+    midiCC: parseInt(state.length > 0 ? state[state.length - 1].midiCC : 59, 10), // count up last entry,
+    outputId: newDriver,
+    midiChannel: 1,
+    isExpanded: true,
+    isNoteOn: false,
+    midi
+  }
+  return [...state, entry]
 }

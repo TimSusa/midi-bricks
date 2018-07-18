@@ -3,11 +3,9 @@ import Button from '@material-ui/core/Button'
 import Input from '@material-ui/core/Input'
 import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
-import Typography from '@material-ui/core/Typography'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import Tooltip from '@material-ui/core/Tooltip'
-import MusicIcon from '@material-ui/icons/MusicNote'
 import DeleteIcon from '@material-ui/icons/Delete'
 
 class ExpandedStrip extends React.Component {
@@ -16,35 +14,6 @@ class ExpandedStrip extends React.Component {
     const { classes } = this.props
     return (
       <React.Fragment>
-
-        <Tooltip placement='right'
-
-          title='Trigger sending MIDI Note'
-        >
-          <Button
-            className={classes.button}
-            variant='raised'
-            onClick={this.props.actions.triggerNote.bind(this, idx)}>
-            <MusicIcon className={classes.iconColor} />
-          </Button>
-        </Tooltip>
-
-        <Tooltip placement='right'
-
-          title='Toggle sending Note On/Off'
-        >
-          <Button
-            classes={{ root: classes.button }}
-            variant='raised'
-            onClick={this.props.actions.toggleNote.bind(this, idx)}>
-            <MusicIcon className={classes.iconColor} />
-            <Typography
-              variant='caption'>
-              {sliderEntry.isNoteOn ? 'Off ' : 'On'}
-            </Typography>
-
-          </Button>
-        </Tooltip>
         <Tooltip placement='right'
 
           title='You can set a CC Value or Note Message here.'

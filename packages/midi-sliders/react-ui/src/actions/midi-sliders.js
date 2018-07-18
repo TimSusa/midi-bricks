@@ -3,6 +3,7 @@ export const ActionTypeSlider = {
   INIT_MIDI_ACCESS: 'INIT_MIDI_ACCESS',
   SELECT_SLIDER_MIDI_DRIVER: 'SELECT_SLIDER_MIDI_DRIVER',
   ADD_SLIDER: 'ADD_SLIDER',
+  ADD_BUTTON: 'ADD_BUTTON',
   DELETE_SLIDER: 'DELETE_SLIDER',
   DELETE_ALL_SLIDERS: 'DELETE_ALL_SLIDERS',
   TOGGLE_NOTE: 'TOGGLE_NOTE',
@@ -35,6 +36,13 @@ export function selectSliderMidiDriver (payload) {
 export function addSlider (item) {
   return {
     type: ActionTypeSlider.ADD_SLIDER,
+    payload: item
+  }
+}
+
+export function addButton (item) {
+  return {
+    type: ActionTypeSlider.ADD_BUTTON,
     payload: item
   }
 }
