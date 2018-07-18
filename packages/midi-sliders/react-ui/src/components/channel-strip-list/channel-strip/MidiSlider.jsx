@@ -97,7 +97,7 @@ const styles = theme => ({
     cursor: 'default',
 
     '&$vertical': {
-      height: 'calc(100vh - 226px)',
+      height: 'calc(100vh - 258px)',
       margin: 0,
       marginLeft: 'auto',
       marginRight: 'auto'
@@ -108,7 +108,7 @@ const styles = theme => ({
     cursor: 'default',
 
     '&$vertical': {
-      height: 'calc(100vh - 508px)',
+      height: 'calc(100vh - 540px)',
       margin: 0,
       marginLeft: 'auto',
       marginRight: 'auto'

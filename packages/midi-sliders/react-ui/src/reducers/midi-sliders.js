@@ -52,25 +52,26 @@ export const sliderList = createReducer([], {
   },
   [ActionTypeSlider.TOGGLE_NOTE] (state, action) {
     const idx = action.payload
+    const tmp = state[idx]
 
     // With Chords
-    if (state[idx].chord !== 'none') {
-      const note = Note.fromMidi(state[idx].midiCC)
-      const chord = state[idx].chord
+    if (tmp.chord !== 'none') {
+      const {chord, midiCC} = tmp
+      const note = Note.fromMidi(midiCC)
 
       // console.log('exists ?! ', Chord.exists(note + chord))
       const notes = Chord.notes(note, chord)
-      notes.map((item) => {
-        const midiNoteVal = midi(item)
+      notes.forEach((item) => {
+        const midiCC = midi(item)
         const {
           output,
           noteOn,
           noteOff
         } = getMidiOutputNoteOnOf({
-          ...state[idx],
-          midiCC: midiNoteVal
+          ...tmp,
+          midiCC
         })
-        const tmp = state[idx]
+
         if (!tmp.isNoteOn) {
           output.send(noteOn)
         } else {
@@ -83,9 +84,8 @@ export const sliderList = createReducer([], {
         output,
         noteOn,
         noteOff
-      } = getMidiOutputNoteOnOf(state[idx])
+      } = getMidiOutputNoteOnOf(tmp)
 
-      const tmp = state[idx]
       if (!tmp.isNoteOn) {
         output.send(noteOn)
       } else {

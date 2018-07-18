@@ -136,9 +136,9 @@ const styles = theme => ({
     lineHeight: '1.375em'
   },
   inputInput: {
-    padding: 0
   },
   labelTop: {
+    padding: theme.spacing.unit * 2,
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',

@@ -63,10 +63,10 @@ const styles = theme => ({
     justifyContent: 'center'
   },
   rootCollapsed: {
-    height: 'calc(100vh - 196px)'
+    height: 'calc(100vh - 228px)'
   },
   rootExpanded: {
-    height: 'calc(100vh - 546px)'
+    height: 'calc(100vh - 562px)'
   },
   group: {
   },
@@ -77,7 +77,7 @@ const styles = theme => ({
   button: {
     marginBottom: 4 * theme.spacing.unit,
     background: theme.palette.secondary.light,
-    height: 'calc(100vh - 780px)',
+    height: 'calc(100vh - 790px)',
     minHeight: 70
   }
 })
