@@ -7,36 +7,25 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import Tooltip from '@material-ui/core/Tooltip'
 import DeleteIcon from '@material-ui/icons/Delete'
+import { withStyles } from '@material-ui/core/styles'
+
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as MidiSliderActions from '../../../../actions/midi-sliders.js'
+import InputNoteOrCc from './InputNoteOrCc.jsx'
 
 class ExpandedStrip extends React.Component {
   render () {
-    const { sliderEntry, idx } = this.props
-    const { classes } = this.props
+    const { sliderEntry, idx, classes } = this.props
     return (
       <React.Fragment>
-        <Tooltip placement='right'
+        <InputNoteOrCc sliderEntry={sliderEntry} idx={idx} />
 
-          title='You can set a CC Value or Note Message here.'
-        >
-          <FormControl className={classes.formControl}>
-            <InputLabel className={classes.label} htmlFor='cc'>CC / Note </InputLabel>
-            <Input
-              className={classes.input}
-              id='number'
-              type='number'
-              name={`input-cc-name-${idx}`}
-              value={sliderEntry.midiCC}
-              onChange={e => {
-                this.props.actions.selectCC({ idx, val: e.target.value })
-                e.preventDefault()
-              }} />
-
-          </FormControl>
-        </Tooltip>
         <br />
-        <Tooltip placement='right'
-
-          title={this.getSelectedDriverName(sliderEntry)}>
+        <Tooltip
+          placement='right'
+          title={this.getSelectedDriverName(sliderEntry)}
+        >
           <FormControl className={classes.formControl}>
             <InputLabel className={classes.label} htmlFor='cc'>Driver </InputLabel>
             <Select
@@ -102,4 +91,42 @@ class ExpandedStrip extends React.Component {
   }
 }
 
-export default ExpandedStrip
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+    background: theme.palette.secondary.light
+  },
+  iconColor: {
+    color: theme.palette.primary.contrastText,
+    cursor: 'pointer'
+  },
+  input: {
+    width: 80,
+    margin: theme.spacing.unit,
+    color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
+    fontSize: '1rem',
+    fontWeight: 400,
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    lineHeight: '1.375em'
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    maxWidth: 100
+  },
+  label: {
+    color: theme.palette.primary.contrastText
+  },
+  select: {
+    width: 80,
+    color: theme.palette.primary.contrastText,
+    lineHeight: '1.375em'
+  }
+})
+
+function mapDispatchToProps (dispatch) {
+  return {
+    actions: bindActionCreators(MidiSliderActions, dispatch)
+  }
+}
+
+export default (withStyles(styles)(connect(null, mapDispatchToProps)(ExpandedStrip)))

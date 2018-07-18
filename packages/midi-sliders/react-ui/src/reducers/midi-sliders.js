@@ -22,7 +22,7 @@ export const sliderList = createReducer([], {
       const entry = {
         label: 'label0',
         val: 80,
-        midiCC: parseInt(59, 10) + 1, // count up last entry,
+        midiCC: parseInt(60, 10) + 1, // count up last entry,
         outputId: midi.midiDrivers[0].outputId,
         midiChannel: 1,
         isExpanded: true,
@@ -201,8 +201,8 @@ const getMidiOutputNoteOnOf = (sliderEntry) => {
   const outputId = sliderEntry.outputId
   const midiChannel = parseInt(sliderEntry.midiChannel, 10)
   const valInt = parseInt(val, 10)
-  const noteOn = [0x8f + midiChannel, midiCC, valInt]
-  const noteOff = [0x7f + midiChannel, midiCC, valInt]
+  const noteOn = [0x8f + midiChannel, midiCC + 0x0c, valInt]
+  const noteOff = [0x7f + midiChannel, midiCC + 0x0c, valInt]
   const output = sliderEntry.midi.midiAccess.outputs.get(outputId)
 
   return {

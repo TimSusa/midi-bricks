@@ -9,7 +9,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import MidiSlider from './MidiSlider'
 import MidiButton from './MidiButtons'
 import { STRIP_TYPE } from '../../../reducers/midi-sliders'
-import ExpandedStrip from './ExpandedStrip'
+import ExpandedStrip from './expanded-strip/ExpandedStrip'
 import { withStyles } from '@material-ui/core/styles'
 
 import { connect } from 'react-redux'
@@ -51,7 +51,7 @@ class ChannelStrip extends React.Component {
               (sliderEntry.type === STRIP_TYPE.BUTTON) && <MidiButton sliderEntry={sliderEntry} idx={idx} />
             }
             {
-              sliderEntry.isExpanded && isVisible && <ExpandedStrip {...this.props} />
+              sliderEntry.isExpanded && isVisible && <ExpandedStrip sliderEntry={sliderEntry} idx={idx} />
             }
             {
               !isVisible && <CircularProgress />
@@ -139,10 +139,6 @@ const styles = theme => ({
   inputInput: {
     padding: 0
   },
-  formControl: {
-    margin: theme.spacing.unit,
-    maxWidth: 100
-  },
   labelTop: {
     overflow: 'hidden',
     whiteSpace: 'nowrap',
@@ -155,12 +151,8 @@ const styles = theme => ({
   },
   label: {
     color: theme.palette.primary.contrastText
-  },
-  select: {
-    width: 80,
-    color: theme.palette.primary.contrastText,
-    lineHeight: '1.375em'
   }
+
 })
 
 function mapDispatchToProps (dispatch) {
