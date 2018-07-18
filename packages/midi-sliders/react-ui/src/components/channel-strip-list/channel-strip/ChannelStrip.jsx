@@ -1,5 +1,7 @@
 import React from 'react'
 import Input from '@material-ui/core/Input'
+import Button from '@material-ui/core/Button'
+import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
@@ -73,12 +75,32 @@ class ChannelStrip extends React.Component {
               !isVisible && <CircularProgress />
             }
             {
-              isVisible && <div onClick={this.props.actions.expandSlider.bind(this, idx)}>
+              isVisible && <div >
                 {
                   !sliderEntry.isExpanded ? (
-                    <ExpandLessIcon className={classes.iconColor} />
+
+                    <Tooltip placement='right'
+
+                      title='Show'
+                    >
+                      <Button
+                        className={classes.buttonExpand}
+                        onClick={this.props.actions.expandSlider.bind(this, idx)}>
+                        <ExpandLessIcon className={classes.iconColor} />
+                      </Button>
+                    </Tooltip>
                   ) : (
-                    <ExpandMoreIcon className={classes.iconColor} />
+                    <Tooltip placement='right'
+
+                      title='Hide'
+                    >
+                      <Button
+                        className={classes.buttonExpand}
+                        onClick={this.props.actions.expandSlider.bind(this, idx)}>
+                        <ExpandMoreIcon className={classes.iconColor} />
+                      </Button>
+                    </Tooltip>
+
                   )
                 }
               </div>
@@ -156,7 +178,7 @@ const styles = theme => ({
     cursor: 'default',
 
     '&$vertical': {
-      height: 'calc(100vh - 200px)',
+      height: 'calc(100vh - 226px)',
       margin: 0,
       marginLeft: 'auto',
       marginRight: 'auto'
@@ -167,7 +189,7 @@ const styles = theme => ({
     cursor: 'default',
 
     '&$vertical': {
-      height: 'calc(100vh - 596px)',
+      height: 'calc(100vh - 620px)',
       margin: 0,
       marginLeft: 'auto',
       marginRight: 'auto'
@@ -176,6 +198,9 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
     background: theme.palette.secondary.light
+  },
+  buttonExpand: {
+    margin: theme.spacing.unit
   },
   iconColor: {
     color: theme.palette.primary.contrastText,
