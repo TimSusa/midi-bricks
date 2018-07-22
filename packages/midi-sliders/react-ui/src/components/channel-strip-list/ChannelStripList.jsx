@@ -5,21 +5,47 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as ViewSettingsActions from '../../actions/view-settings'
 import { withStyles } from '@material-ui/core/styles'
-import { SortablePane, Pane } from 'react-sortable-pane'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 class ChannelStripList extends React.Component {
+  state = {
+    sliderList: []
+  }
+  constructor (props) {
+    super(props)
+    this.state = {
+      sliderList: props.sliderList
+    }
+  }
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.sliderList !== this.props.sliderList) {
+      this.setState({
+        sliderList: nextProps.sliderList
+      })
+    }
+  }
   render () {
     if (this.props.sliderList.length > 0) {
       if (this.props.viewSettings.isLayoutMode) {
         return (
-          <SortablePane
-            id='channelList-layoutMode' className={this.props.classes.channelList}
-            direction='horizontal'
-            onOrderChange={this.props.actions.updateListOrder}
-          // defaultOrder={['0', '1', '2']}
+          <DragDropContext
+            onDragEnd={this.onDragEnd}
+            id='channelList-layoutMode'
+            className={this.props.classes.channelList}
           >
-            {this.renderChannelStrips()}
-          </SortablePane>
+            <Droppable droppableId='droppable' direction='horizontal'>
+              {(provided, snapshot) => (
+                <div
+                  ref={provided.innerRef}
+                  style={this.getListStyle(snapshot.isDraggingOver)}
+                  {...provided.droppableProps}
+                >
+
+                  {this.renderChannelStrips()}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
 
         )
       } else {
@@ -45,23 +71,55 @@ class ChannelStripList extends React.Component {
     }
   }
 
+  onDragEnd = (result) => {
+    // dropped outside the list
+    if (!result.destination) {
+
+    }
+
+    const sliderList = this.reorder(
+      this.state.sliderList,
+      result.source.index,
+      result.destination.index
+    )
+    this.setState({
+      sliderList
+    })
+    this.props.actions.updateListOrder(sliderList)
+  }
+
   renderChannelStrips = () => {
-    const entries = this.props.sliderList
+    const entries = this.state.sliderList
     return entries && entries.map((sliderEntry, idx) => {
       const data = { sliderEntry, idx }
 
       if (this.props.viewSettings.isLayoutMode) {
         return (
-          <Pane
+          <Draggable
             key={`slider-${idx}`}
-            resizable={{x: false, y: false}}
-          >
-            <div style={{pointerEvents: 'none', backgroundColor: 'rgba(0,255,0,0.3)'}}>
-              <ChannelStrip
-                {...data}
-              />
-            </div>
-          </Pane>
+            draggableId={`slider-${idx}`}
+            index={idx}>
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                style={this.getItemStyle(
+                  snapshot.isDragging,
+                  provided.draggableProps.style
+                )}
+              >
+
+                <div
+                  style={{ pointerEvents: 'none', backgroundColor: 'rgba(0,255,0,0.3)' }}
+                >
+                  <ChannelStrip
+                    {...data}
+                  />
+                </div>
+              </div>
+            )}
+          </Draggable>
         )
       } else {
         return (
@@ -73,6 +131,35 @@ class ChannelStripList extends React.Component {
       }
     })
   }
+
+  getListStyle = isDraggingOver => ({
+    background: isDraggingOver ? 'lightblue' : 'lightgrey',
+    display: 'flex',
+    padding: 8,
+    overflow: 'auto'
+  })
+
+  // a little function to help us with reordering the result
+  reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list)
+    const [removed] = result.splice(startIndex, 1)
+    result.splice(endIndex, 0, removed)
+
+    return result
+  }
+
+  getItemStyle = (isDragging, draggableStyle) => ({
+    // some basic styles to make the items look a bit nicer
+    userSelect: 'none',
+    padding: 8 * 2,
+    margin: `0 ${8}px 0 0`,
+
+    // change background colour if dragging
+    background: isDragging ? 'lightgreen' : 'grey',
+
+    // styles we need to apply on draggables
+    ...draggableStyle
+  })
 }
 
 const styles = theme => ({
