@@ -1,3 +1,3 @@
-import * as MidiSliderActions from './midi-sliders'
+import * as MidiSliderActions from './slider-list'
 
 export const ActionCreators = Object.assign({}, MidiSliderActions)

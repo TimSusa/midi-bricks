@@ -11,9 +11,9 @@ import { withStyles } from '@material-ui/core/styles'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../../../../actions/midi-sliders.js'
+import * as MidiSliderActions from '../../../../actions/slider-list.js'
 import InputNoteOrCc from './InputNoteOrCc'
-import { STRIP_TYPE } from '../../../../reducers/midi-sliders'
+import { STRIP_TYPE } from '../../../../reducers/slider-list'
 import {Chord} from 'tonal'
 
 class ExpandedStrip extends React.Component {

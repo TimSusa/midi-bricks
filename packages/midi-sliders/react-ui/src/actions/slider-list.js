@@ -1,5 +1,5 @@
 
-export const ActionTypeSlider = {
+export const ActionTypeSliderList = {
   INIT_MIDI_ACCESS: 'INIT_MIDI_ACCESS',
   SELECT_SLIDER_MIDI_DRIVER: 'SELECT_SLIDER_MIDI_DRIVER',
   ADD_SLIDER: 'ADD_SLIDER',
@@ -16,120 +16,128 @@ export const ActionTypeSlider = {
   SELECT_MIDI_CHANNEL: 'SELECT_MIDI_CHANNEL',
   HANDLE_SLIDER_CHANGE: 'HANDLE_SLIDER_CHANGE',
   SAVE_FILE: 'SAVE_FILE',
-  LOAD_FILE: 'LOAD_FILE'
+  LOAD_FILE: 'LOAD_FILE',
+  CHANGE_LIST_ORDER: 'CHANGE_LIST_ORDER'
 }
 
 export function initMidiAccess (midiAccess) {
   return {
-    type: ActionTypeSlider.INIT_MIDI_ACCESS,
+    type: ActionTypeSliderList.INIT_MIDI_ACCESS,
     payload: midiAccess
   }
 }
 
 export function selectSliderMidiDriver (payload) {
   return {
-    type: ActionTypeSlider.SELECT_SLIDER_MIDI_DRIVER,
+    type: ActionTypeSliderList.SELECT_SLIDER_MIDI_DRIVER,
     payload
   }
 }
 
 export function addSlider (item) {
   return {
-    type: ActionTypeSlider.ADD_SLIDER,
+    type: ActionTypeSliderList.ADD_SLIDER,
     payload: item
   }
 }
 
 export function addButton (item) {
   return {
-    type: ActionTypeSlider.ADD_BUTTON,
+    type: ActionTypeSliderList.ADD_BUTTON,
     payload: item
   }
 }
 
 export function deleteSlider (idx) {
   return {
-    type: ActionTypeSlider.DELETE_SLIDER,
+    type: ActionTypeSliderList.DELETE_SLIDER,
     payload: idx
   }
 }
 
 export function deleteAllSliders () {
   return {
-    type: ActionTypeSlider.DELETE_ALL_SLIDERS
+    type: ActionTypeSliderList.DELETE_ALL_SLIDERS
   }
 }
 
 export function toggleNote (idx) {
   return {
-    type: ActionTypeSlider.TOGGLE_NOTE,
+    type: ActionTypeSliderList.TOGGLE_NOTE,
     payload: idx
   }
 }
 
 export function setChord (payload) {
   return {
-    type: ActionTypeSlider.SET_CHORD,
+    type: ActionTypeSliderList.SET_CHORD,
     payload
   }
 }
 
 export function changeSliderLabel (payload) {
   return {
-    type: ActionTypeSlider.CHANGE_SLIDER_LABEL,
+    type: ActionTypeSliderList.CHANGE_SLIDER_LABEL,
     payload
   }
 }
 
 export function expandSlider (idx) {
   return {
-    type: ActionTypeSlider.EXPAND_SLIDER,
+    type: ActionTypeSliderList.EXPAND_SLIDER,
     payload: idx
   }
 }
 
 export function expandSliders () {
   return {
-    type: ActionTypeSlider.EXPAND_SLIDERS
+    type: ActionTypeSliderList.EXPAND_SLIDERS
   }
 }
 
 export function collapseSliders () {
   return {
-    type: ActionTypeSlider.COLLAPSE_SLIDERS
+    type: ActionTypeSliderList.COLLAPSE_SLIDERS
   }
 }
 
 export function selectCC (payload) {
   return {
-    type: ActionTypeSlider.SELECT_CC,
+    type: ActionTypeSliderList.SELECT_CC,
     payload
   }
 }
 
 export function selectMidiChannel (payload) {
   return {
-    type: ActionTypeSlider.SELECT_MIDI_CHANNEL,
+    type: ActionTypeSliderList.SELECT_MIDI_CHANNEL,
     payload
   }
 }
 
 export function handleSliderChange (payload) {
   return {
-    type: ActionTypeSlider.HANDLE_SLIDER_CHANGE,
+    type: ActionTypeSliderList.HANDLE_SLIDER_CHANGE,
     payload
   }
 }
 
 export function saveFile () {
   return {
-    type: ActionTypeSlider.SAVE_FILE
+    type: ActionTypeSliderList.SAVE_FILE
   }
 }
 
 export function loadFile (results) {
   return {
-    type: ActionTypeSlider.LOAD_FILE,
+    type: ActionTypeSliderList.LOAD_FILE,
     payload: results
+  }
+}
+
+export function changeListOrder (payload) {
+  return {
+    type: ActionTypeSliderList.CHANGE_LIST_ORDER,
+    payload
   }
 }

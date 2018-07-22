@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSlidersAction from '../../actions/midi-sliders.js'
+import * as MidiSlidersAction from '../../actions/slider-list.js'
+import * as ViewSettingsAction from '../../actions/view-settings'
 import IconButton from '@material-ui/core/IconButton'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -17,7 +18,6 @@ class ViewMenu extends React.Component {
   render () {
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
-
     return (
       <div>
         <IconButton
@@ -50,7 +50,10 @@ class ViewMenu extends React.Component {
             onClick={this.handleExpand}>
               Show
           </MenuItem>
-
+          <MenuItem
+            onClick={this.toggleLayoutMode}>
+            {this.props.viewSettings.isLayoutMode ? ('Layout Mode Exit') : ('Layout Mode Enter')}
+          </MenuItem>
         </Menu>
       </div>
     )
@@ -77,16 +80,28 @@ class ViewMenu extends React.Component {
     this.props.actions.collapseSliders()
     this.handleClose()
   }
+
+  toggleLayoutMode = () => {
+    this.props.viewSettings.listOrder && this.props.actions.changeListOrder(this.props.viewSettings.listOrder)
+    this.props.actions.toggleLayoutMode()
+    this.handleClose()
+  }
 }
 
 ViewMenu.propTypes = {
   actions: PropTypes.object.isRequired
 }
 
-function mapDispatchToProps (dispatch) {
+function mapStateToProps (state) {
   return {
-    actions: bindActionCreators(MidiSlidersAction, dispatch)
+    viewSettings: state.viewSettings
   }
 }
 
-export default (connect(null, mapDispatchToProps)(ViewMenu))
+function mapDispatchToProps (dispatch) {
+  return {
+    actions: bindActionCreators({...MidiSlidersAction, ...ViewSettingsAction}, dispatch)
+  }
+}
+
+export default (connect(mapStateToProps, mapDispatchToProps)(ViewMenu))

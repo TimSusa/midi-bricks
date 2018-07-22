@@ -1,5 +1,5 @@
 import createReducer from './createReducer'
-import { ActionTypeSlider } from '../actions/midi-sliders'
+import { ActionTypeSliderList } from '../actions/slider-list'
 import {Chord, midi, Note} from 'tonal'
 
 export const STRIP_TYPE = {
@@ -8,7 +8,7 @@ export const STRIP_TYPE = {
 }
 
 export const sliderList = createReducer([], {
-  [ActionTypeSlider.INIT_MIDI_ACCESS] (state, action) {
+  [ActionTypeSliderList.INIT_MIDI_ACCESS] (state, action) {
     const midi = {
       midiAccess: action.payload.midiAccess,
       midiDrivers: getAvailableDrivers(action.payload.midiAccess)
@@ -35,22 +35,22 @@ export const sliderList = createReducer([], {
     }
     return arrToSend
   },
-  [ActionTypeSlider.ADD_SLIDER] (state, action) {
+  [ActionTypeSliderList.ADD_SLIDER] (state, action) {
     const newState = transformAddState(state, action, STRIP_TYPE.SLIDER)
     return newState
   },
-  [ActionTypeSlider.ADD_BUTTON] (state, action) {
+  [ActionTypeSliderList.ADD_BUTTON] (state, action) {
     const newState = transformAddState(state, action, STRIP_TYPE.BUTTON)
     return newState
   },
-  [ActionTypeSlider.DELETE_SLIDER] (state, action) {
+  [ActionTypeSliderList.DELETE_SLIDER] (state, action) {
     const newState = state.filter((t, idx) => idx !== action.payload)
     return [...newState]
   },
-  [ActionTypeSlider.DELETE_ALL_SLIDERS] (state, action) {
+  [ActionTypeSliderList.DELETE_ALL_SLIDERS] (state, action) {
     return [state[0]]
   },
-  [ActionTypeSlider.TOGGLE_NOTE] (state, action) {
+  [ActionTypeSliderList.TOGGLE_NOTE] (state, action) {
     const idx = action.payload
     const tmp = state[idx]
 
@@ -106,15 +106,15 @@ export const sliderList = createReducer([], {
     })
     return newState
   },
-  [ActionTypeSlider.CHANGE_SLIDER_LABEL] (state, action) {
+  [ActionTypeSliderList.CHANGE_SLIDER_LABEL] (state, action) {
     const newState = transformState(state, action, 'label')
     return newState
   },
-  [ActionTypeSlider.SET_CHORD] (state, action) {
+  [ActionTypeSliderList.SET_CHORD] (state, action) {
     const newState = transformState(state, action, 'chord')
     return newState
   },
-  [ActionTypeSlider.EXPAND_SLIDER] (state, action) {
+  [ActionTypeSliderList.EXPAND_SLIDER] (state, action) {
     const idx = action.payload
     const newState = state.map((item, i) => {
       if (idx === i) {
@@ -129,7 +129,7 @@ export const sliderList = createReducer([], {
     })
     return newState
   },
-  [ActionTypeSlider.EXPAND_SLIDERS] (state, action) {
+  [ActionTypeSliderList.EXPAND_SLIDERS] (state, action) {
     const newState = state.map(item => {
       return {
         ...item,
@@ -138,7 +138,7 @@ export const sliderList = createReducer([], {
     })
     return newState
   },
-  [ActionTypeSlider.COLLAPSE_SLIDERS] (state, action) {
+  [ActionTypeSliderList.COLLAPSE_SLIDERS] (state, action) {
     const newState = state.map(item => {
       return {
         ...item,
@@ -147,19 +147,19 @@ export const sliderList = createReducer([], {
     })
     return newState
   },
-  [ActionTypeSlider.SELECT_SLIDER_MIDI_DRIVER] (state, action) {
+  [ActionTypeSliderList.SELECT_SLIDER_MIDI_DRIVER] (state, action) {
     const newState = transformState(state, action, 'outputId')
     return newState
   },
-  [ActionTypeSlider.SELECT_CC] (state, action) {
+  [ActionTypeSliderList.SELECT_CC] (state, action) {
     const newState = transformState(state, action, 'midiCC')
     return newState
   },
-  [ActionTypeSlider.SELECT_MIDI_CHANNEL] (state, action) {
+  [ActionTypeSliderList.SELECT_MIDI_CHANNEL] (state, action) {
     const newState = transformState(state, action, 'midiChannel')
     return newState
   },
-  [ActionTypeSlider.HANDLE_SLIDER_CHANGE] (state, action) {
+  [ActionTypeSliderList.HANDLE_SLIDER_CHANGE] (state, action) {
     const { idx, val } = action.payload
     const tmp = state[idx]
     const midiCC = tmp.midiCC
@@ -172,7 +172,7 @@ export const sliderList = createReducer([], {
     const newState = transformState(state, action, 'val')
     return newState
   },
-  [ActionTypeSlider.SAVE_FILE] (state, action) {
+  [ActionTypeSliderList.SAVE_FILE] (state, action) {
     let newState = state
 
     const content = JSON.stringify(newState)
@@ -187,7 +187,7 @@ export const sliderList = createReducer([], {
 
     return [...newState]
   },
-  [ActionTypeSlider.LOAD_FILE] (state, action) {
+  [ActionTypeSliderList.LOAD_FILE] (state, action) {
     const files = action.payload[0]
 
     if (!files.length) {
@@ -206,6 +206,13 @@ export const sliderList = createReducer([], {
         }
       }
       return Object.assign({}, tmp)
+    })
+    return newState
+  },
+  [ActionTypeSliderList.CHANGE_LIST_ORDER] (state, action) {
+    const newOrderIdxs = action.payload
+    const newState = newOrderIdxs.map((newIdx) => {
+      return Object.assign({}, state[newIdx])
     })
     return newState
   }

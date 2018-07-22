@@ -1,8 +1,10 @@
 
 import { combineReducers } from 'redux'
 
-import * as midiSliderReducer from './midi-sliders'
+import * as sliderListReducer from './slider-list'
+import * as viewSettingsReducer from './view-settings'
 
 export default combineReducers({
-  ...midiSliderReducer
+  ...sliderListReducer,
+  ...viewSettingsReducer
 })

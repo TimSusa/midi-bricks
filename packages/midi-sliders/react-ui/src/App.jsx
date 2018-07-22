@@ -9,7 +9,7 @@ import { Route, Router } from 'react-router'
 
 import MidiSlidersPage from './pages/MidiSlidersPage'
 import { bindActionCreators } from 'redux'
-import * as MidiSlidersAction from './actions/midi-sliders.js'
+import * as MidiSlidersAction from './actions/slider-list.js'
 
 import withRoot from './withRoot'
 import MenuAppBar from './components/menu-app-bar/MenuAppBar'
@@ -27,7 +27,7 @@ class App extends React.Component {
   routes = (
     <div className={this.props.classes.content}>
       <Route exact path='/' component={MidiSlidersPage} />
-      <Route exact path='/midi-sliders' component={MidiSlidersPage} />
+      <Route exact path='/slider-list' component={MidiSlidersPage} />
       <Route exact path='/test-page' component={TestPage} />
     </div>
   );

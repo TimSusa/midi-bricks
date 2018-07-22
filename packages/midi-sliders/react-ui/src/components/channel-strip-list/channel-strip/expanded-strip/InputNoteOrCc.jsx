@@ -7,8 +7,8 @@ import { withStyles } from '@material-ui/core/styles'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../../../../actions/midi-sliders.js'
-import { STRIP_TYPE } from '../../../../reducers/midi-sliders'
+import * as MidiSliderActions from '../../../../actions/slider-list.js'
+import { STRIP_TYPE } from '../../../../reducers/slider-list'
 import { midi, Note } from 'tonal'
 
 class InputNoteOrCc extends React.Component {

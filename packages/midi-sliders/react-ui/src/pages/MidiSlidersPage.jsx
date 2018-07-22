@@ -2,7 +2,7 @@ import { withStyles, Typography } from '@material-ui/core'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../actions/midi-sliders.js'
+import * as MidiSliderActions from '../actions/slider-list.js'
 import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
 
 class MidiSlidersPage extends React.Component {
@@ -91,7 +91,9 @@ class MidiSlidersPage extends React.Component {
 const styles = theme => ({
   root: {
     textAlign: 'center',
-    width: '100%'
+    width: '100%',
+    height: 'calc(100vh - 72px)'
+
   },
   heading: {
     marginTop: theme.spacing.unit * 2

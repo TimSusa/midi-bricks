@@ -8,13 +8,13 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 import MidiSlider from './MidiSlider'
 import MidiButton from './MidiButtons'
-import { STRIP_TYPE } from '../../../reducers/midi-sliders'
+import { STRIP_TYPE } from '../../../reducers/slider-list'
 import ExpandedStrip from './expanded-strip/ExpandedStrip'
 import { withStyles } from '@material-ui/core/styles'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../../../actions/midi-sliders.js'
+import * as MidiSliderActions from '../../../actions/slider-list.js'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 import VisibilitySensor from 'react-visibility-sensor'
