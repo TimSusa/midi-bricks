@@ -61,8 +61,8 @@ class ChannelStrip extends React.Component {
                 {
                   !sliderEntry.isExpanded ? (
 
-                    <Tooltip placement='right'
-
+                    <Tooltip
+                      placement='right'
                       title='Show'
                     >
                       <Button

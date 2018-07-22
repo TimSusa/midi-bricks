@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import * as MidiSlidersAction from '../../actions/slider-list.js'
 import * as ViewSettingsAction from '../../actions/view-settings'
 import IconButton from '@material-ui/core/IconButton'
-import AccountCircle from '@material-ui/icons/ViewWeek'
+import ViewSettingsIcon from '@material-ui/icons/ViewWeek'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import ToolTip from '@material-ui/core/Tooltip'
@@ -21,14 +21,19 @@ class ViewMenu extends React.Component {
     const open = Boolean(anchorEl)
     return (
       <div>
-        <IconButton
-          aria-owns={open ? 'menu-appbar' : null}
-          aria-haspopup='true'
-          onClick={this.handleMenu}
-          color='inherit'
+        <ToolTip
+          placement='left'
+          title='View Settings'
         >
-          <AccountCircle />
-        </IconButton>
+          <IconButton
+            aria-owns={open ? 'menu-appbar' : null}
+            aria-haspopup='true'
+            onClick={this.handleMenu}
+            color='inherit'
+          >
+            <ViewSettingsIcon />
+          </IconButton>
+        </ToolTip>
         <Menu
           id='menu-appbar'
           anchorEl={anchorEl}

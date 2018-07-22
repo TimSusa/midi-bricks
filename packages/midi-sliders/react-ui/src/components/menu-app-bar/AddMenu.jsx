@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import AddIcon from '@material-ui/icons/Add'
+import Tooltip from '@material-ui/core/Tooltip'
 
 class AddMenu extends React.Component {
   state = {
@@ -21,14 +22,19 @@ class AddMenu extends React.Component {
     if (sliderListLength < 80) {
       return (
         <div>
-          <IconButton
-            aria-owns={open ? 'menu-appbar-add' : null}
-            aria-haspopup='true'
-            onClick={this.handleMenu}
-            color='inherit'
+          <Tooltip
+            placement='left'
+            title='Add Slider or Button'
           >
-            <AddIcon />
-          </IconButton>
+            <IconButton
+              aria-owns={open ? 'menu-appbar-add' : null}
+              aria-haspopup='true'
+              onClick={this.handleMenu}
+              color='inherit'
+            >
+              <AddIcon />
+            </IconButton>
+          </Tooltip>
           <Menu
             id='menu-appbar-add'
             anchorEl={anchorEl}
