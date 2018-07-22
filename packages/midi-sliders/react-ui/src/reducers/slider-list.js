@@ -210,7 +210,6 @@ export const sliderList = createReducer([], {
     return newState
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER] (state, action) {
-    const newState = action.payload.map((item) => { return item })
     return action.payload
   }
 })

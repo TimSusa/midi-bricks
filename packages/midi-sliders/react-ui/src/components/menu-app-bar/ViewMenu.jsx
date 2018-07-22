@@ -5,9 +5,10 @@ import { bindActionCreators } from 'redux'
 import * as MidiSlidersAction from '../../actions/slider-list.js'
 import * as ViewSettingsAction from '../../actions/view-settings'
 import IconButton from '@material-ui/core/IconButton'
-import AccountCircle from '@material-ui/icons/AccountCircle'
+import AccountCircle from '@material-ui/icons/ViewWeek'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
+import ToolTip from '@material-ui/core/Tooltip'
 
 class ViewMenu extends React.Component {
   state = {
