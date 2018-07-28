@@ -1,5 +1,4 @@
 import React from 'react'
-import Input from '@material-ui/core/Input'
 import Button from '@material-ui/core/Button'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
@@ -9,17 +8,20 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import MidiSlider from './MidiSlider'
 import MidiButton from './MidiButtons'
 import { STRIP_TYPE } from '../../../reducers/slider-list'
-import ExpandedStrip from './expanded-strip/ExpandedStrip'
+
+import MidiSettingsDialog from './MidiSettingsDialog'
 import { withStyles } from '@material-ui/core/styles'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../actions/slider-list.js'
-import CircularProgress from '@material-ui/core/CircularProgress'
 
 import VisibilitySensor from 'react-visibility-sensor'
 
 class ChannelStrip extends React.Component {
+  state = {
+    isDialogOpen: false
+  }
   render () {
     const { sliderEntry, idx } = this.props
     const { classes } = this.props
@@ -28,21 +30,9 @@ class ChannelStrip extends React.Component {
         {({ isVisible }) =>
           <div className={classes.sliderContainer}>
 
-            {
-              sliderEntry.isExpanded ? (
-                <Input
-                  classes={{ input: classes.inputInput }}
-                  className={classes.input}
-                  type='text'
-                  onChange={this.handleLabelChange.bind(this, idx)}
-                  value={sliderEntry.label}
-                />
-              ) : (
-                <Typography className={classes.labelTop} >
-                  {sliderEntry.label}
-                </Typography>
-              )
-            }
+            <Typography className={classes.labelTop} >
+              {sliderEntry.label}
+            </Typography>
 
             {
               (sliderEntry.type === STRIP_TYPE.SLIDER) && <MidiSlider sliderEntry={sliderEntry} idx={idx} />
@@ -50,42 +40,33 @@ class ChannelStrip extends React.Component {
             {
               (sliderEntry.type === STRIP_TYPE.BUTTON) && <MidiButton sliderEntry={sliderEntry} idx={idx} />
             }
-            {
-              sliderEntry.isExpanded && isVisible && <ExpandedStrip sliderEntry={sliderEntry} idx={idx} />
-            }
-            {
-              !isVisible && <CircularProgress />
-            }
-            {
-              isVisible && <div >
+            <Tooltip
+              placement='right'
+              title='Show'
+            >
+              <Button
+                className={classes.buttonExpand}
+                onClick={() => this.setState({isDialogOpen: !this.state.isDialogOpen})}>
                 {
-                  !sliderEntry.isExpanded ? (
-
-                    <Tooltip
-                      placement='right'
-                      title='Show'
-                    >
-                      <Button
-                        className={classes.buttonExpand}
-                        onClick={this.props.actions.expandSlider.bind(this, idx)}>
-                        <ExpandLessIcon className={classes.iconColor} />
-                      </Button>
-                    </Tooltip>
+                  this.state.isDialogOpen ? (
+                    <ExpandMoreIcon />
                   ) : (
-                    <Tooltip placement='right'
-
-                      title='Hide'
-                    >
-                      <Button
-                        className={classes.buttonExpand}
-                        onClick={this.props.actions.expandSlider.bind(this, idx)}>
-                        <ExpandMoreIcon className={classes.iconColor} />
-                      </Button>
-                    </Tooltip>
-
+                    <ExpandLessIcon />
                   )
                 }
-              </div>
+              </Button>
+            </Tooltip>
+            {
+              this.state.isDialogOpen ? (
+                <MidiSettingsDialog
+                  open={this.state.isDialogOpen}
+                  onClose={this.onDialogClose}
+                  sliderEntry={sliderEntry}
+                  idx={idx}
+                />
+              ) : (
+                <div />
+              )
             }
           </div>
         }
@@ -93,6 +74,13 @@ class ChannelStrip extends React.Component {
 
     )
   }
+
+  onDialogClose = (val) => {
+    this.setState({
+      isDialogOpen: !this.state.isDialogOpen
+    })
+  }
+
   handleLabelChange = (idx, e, val) => {
     this.props.actions.changeSliderLabel({
       idx,

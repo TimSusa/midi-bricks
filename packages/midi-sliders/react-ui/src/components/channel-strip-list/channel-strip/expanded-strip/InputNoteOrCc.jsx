@@ -2,8 +2,9 @@ import React from 'react'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
-import Tooltip from '@material-ui/core/Tooltip'
 import { withStyles } from '@material-ui/core/styles'
+
+import MidiNoteInput from './MidiNoteInput'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -15,6 +16,12 @@ class InputNoteOrCc extends React.Component {
   state = {
     noteVal: 'C4'
   }
+  constructor (props) {
+    super(props)
+    this.state = {
+      noteVal: Note.fromMidi(props.sliderEntry.midiCC)
+    }
+  }
   componentWillReceiveProps ({sliderEntry}) {
     this.setState({
       noteVal: Note.fromMidi(sliderEntry.midiCC)
@@ -25,43 +32,28 @@ class InputNoteOrCc extends React.Component {
     if (sliderEntry.type === STRIP_TYPE.SLIDER) {
       return (
         <React.Fragment>
-          <Tooltip
-            placement='right'
-            title='You can set a CC Message here.'
-          >
-            <FormControl className={classes.formControl}>
-              <InputLabel className={classes.label} htmlFor='cc'>CC</InputLabel>
-              <Input
-                className={classes.input}
-                id='number'
-                type='number'
-                name={`input-cc-name-${idx}`}
-                value={sliderEntry.midiCC}
-                onChange={this.handleCCChange.bind(this, idx)} />
+          <FormControl className={classes.formControl}>
+            <InputLabel className={classes.label} htmlFor='cc'>CC</InputLabel>
 
-            </FormControl>
-          </Tooltip>
+            <Input
+              className={classes.input}
+              id='number'
+              type='number'
+              name={`input-cc-name-${idx}`}
+              value={sliderEntry.midiCC}
+              onChange={this.handleCCChange.bind(this, idx)} />
+
+          </FormControl>
+
         </React.Fragment>
       )
     } else {
       return (
         <React.Fragment>
-          <Tooltip
-            placement='right'
-            title='You can set a MIDI Note here. Please hit Enter after input.'
-          >
-            <FormControl className={classes.formControl}>
-              <InputLabel className={classes.label} htmlFor='cc'>Note</InputLabel>
-              <Input
-                className={classes.input}
-                id='cc-note'
-                name={`input-cc-note-name-${idx}`}
-                value={this.state.noteVal}
-                onChange={this.handleNoteChange.bind(this, idx)}
-                onKeyPress={this.sendNoteChange.bind(this, idx)}
-              />
-            </FormControl>
-          </Tooltip>
+          <FormControl className={classes.formControl}>
+            <InputLabel className={classes.label} htmlFor='note'>Note</InputLabel>
+            <MidiNoteInput sliderEntry={sliderEntry} idx={idx} />
+          </FormControl>
         </React.Fragment>
       )
     }
@@ -84,15 +76,14 @@ class InputNoteOrCc extends React.Component {
 
 const styles = theme => ({
   formControl: {
-    margin: theme.spacing.unit,
-    maxWidth: 100
+    margin: theme.spacing.unit
   },
   label: {
-    color: theme.palette.primary.contrastText
+    color: theme.palette.primary.contrastText,
+    marginBottom: theme.spacing.unit * 2
   },
   input: {
-    width: 80,
-    margin: theme.spacing.unit,
+    // margin: theme.spacing.unit,
     color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
     fontSize: '1rem',
     fontWeight: 400,

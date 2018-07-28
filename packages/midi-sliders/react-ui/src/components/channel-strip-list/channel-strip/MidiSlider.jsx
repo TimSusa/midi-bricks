@@ -18,8 +18,7 @@ class MidiSlider extends React.Component {
         <Slider
           classes={{
             root: classNames({
-              [classes.sliderRootExpanded]: sliderEntry.isExpanded,
-              [classes.sliderRoot]: !sliderEntry.isExpanded
+              [classes.sliderRoot]: true
             }),
             vertical: classes.vertical,
             activated: classes.activated,
@@ -98,17 +97,6 @@ const styles = theme => ({
 
     '&$vertical': {
       height: 'calc(100vh - 258px)',
-      margin: 0,
-      marginLeft: 'auto',
-      marginRight: 'auto'
-    }
-  },
-  sliderRootExpanded: {
-    width: 80,
-    cursor: 'default',
-
-    '&$vertical': {
-      height: 'calc(100vh - 540px)',
       margin: 0,
       marginLeft: 'auto',
       marginRight: 'auto'

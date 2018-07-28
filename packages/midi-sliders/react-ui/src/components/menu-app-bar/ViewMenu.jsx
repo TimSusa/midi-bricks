@@ -49,14 +49,6 @@ class ViewMenu extends React.Component {
           onClose={this.handleClose}
         >
           <MenuItem
-            onClick={this.handleCollapse}>
-              Hide
-          </MenuItem>
-          <MenuItem
-            onClick={this.handleExpand}>
-              Show
-          </MenuItem>
-          <MenuItem
             onClick={this.toggleLayoutMode}>
             {this.props.viewSettings.isLayoutMode ? ('Layout Mode Exit') : ('Layout Mode Enter')}
           </MenuItem>
@@ -75,16 +67,6 @@ class ViewMenu extends React.Component {
 
   handleClose = () => {
     this.setState({ anchorEl: null })
-  }
-
-  handleExpand = () => {
-    this.props.actions.expandSliders()
-    this.handleClose()
-  }
-
-  handleCollapse = () => {
-    this.props.actions.collapseSliders()
-    this.handleClose()
   }
 
   toggleLayoutMode = () => {

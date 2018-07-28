@@ -1,7 +1,6 @@
 import React from 'react'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import Tooltip from '@material-ui/core/Tooltip'
 import MusicIcon from '@material-ui/icons/MusicNote'
 import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
@@ -14,42 +13,29 @@ class MidiButtons extends React.Component {
     const { sliderEntry, idx, classes } = this.props
     return (
       <div className={classNames({
-        [classes.root]: true,
-        [classes.rootExpanded]: sliderEntry.isExpanded,
-        [classes.rootCollapsed]: !sliderEntry.isExpanded
+        [classes.root]: true
       })}>
         <div className={classes.group}>
-          <Tooltip
-            placement='right'
-            title='Trigger sending MIDI Note'
+          <Button
+            className={classes.button}
+            variant='raised'
+            onMouseDown={this.props.actions.toggleNote.bind(this, idx)}
+            onMouseUp={this.props.actions.toggleNote.bind(this, idx)}
+            onTouchStart={this.props.actions.toggleNote.bind(this, idx)}
+            onTouchEnd={this.props.actions.toggleNote.bind(this, idx)}
           >
-            <Button
-              className={classes.button}
-              variant='raised'
-              onMouseDown={this.props.actions.toggleNote.bind(this, idx)}
-              onMouseUp={this.props.actions.toggleNote.bind(this, idx)}
-              onTouchStart={this.props.actions.toggleNote.bind(this, idx)}
-              onTouchEnd={this.props.actions.toggleNote.bind(this, idx)}
-            >
-              <MusicIcon className={classes.iconColor} />
-            </Button>
-          </Tooltip>
-
-          <Tooltip
-            placement='right'
-            title='Toggle sending Note On/Off'
-          >
-            <Button
-              classes={{ root: classes.button }}
-              variant='raised'
-              onClick={this.props.actions.toggleNote.bind(this, idx)}>
-              <MusicIcon className={classes.iconColor} />
-              <Typography
-                variant='caption'>
-                {sliderEntry.isNoteOn ? 'Off ' : 'On'}
-              </Typography>
-            </Button>
-          </Tooltip>
+            <MusicIcon className={classes.iconColor} />
+          </Button>
+          <Button
+            classes={{ root: classes.button }}
+            variant='raised'
+            onClick={this.props.actions.toggleNote.bind(this, idx)}>
+            <MusicIcon className={classes.iconColor} />
+            <Typography
+              variant='caption'>
+              {sliderEntry.isNoteOn ? 'Off ' : 'On'}
+            </Typography>
+          </Button>
         </div>
       </div>
     )
@@ -60,13 +46,8 @@ const styles = theme => ({
   root: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
-  },
-  rootCollapsed: {
-    height: 'calc(100vh - 228px)'
-  },
-  rootExpanded: {
-    height: 'calc(100vh - 562px)'
+    justifyContent: 'center',
+    height: 'calc(100vh - 230px)'
   },
   group: {
   },
@@ -77,8 +58,7 @@ const styles = theme => ({
   button: {
     marginBottom: 4 * theme.spacing.unit,
     background: theme.palette.secondary.light,
-    height: 'calc(100vh - 790px)',
-    minHeight: 48,
+    minHeight: 88,
     maxHeight: 150
   }
 })

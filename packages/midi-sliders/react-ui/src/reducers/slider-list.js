@@ -24,10 +24,9 @@ export const sliderList = createReducer([], {
         type: STRIP_TYPE.SLIDER,
         label: 'label0',
         val: 80,
-        midiCC: parseInt(60, 10) + 1, // count up last entry,
+        midiCC: [parseInt(60, 10) + 1], // count up last entry,
         outputId: midi.midiDrivers[0].outputId,
         midiChannel: 1,
-        isExpanded: true,
         midi,
         chord: 'none'
       }
@@ -54,15 +53,11 @@ export const sliderList = createReducer([], {
     const idx = action.payload
     const tmp = state[idx]
 
-    // With Chords
-    if (tmp.chord !== 'none') {
-      const {chord, midiCC} = tmp
-      const note = Note.fromMidi(midiCC)
-
-      // console.log('exists ?! ', Chord.exists(note + chord))
-      const notes = Chord.notes(note, chord)
-      notes.forEach((item) => {
+    if (Array.isArray(tmp.midiCC) === true) {
+      tmp.midiCC.forEach((item) => {
         const midiCC = midi(item)
+        console.log('array toggle note ', midiCC)
+
         const {
           output,
           noteOn,
@@ -78,20 +73,46 @@ export const sliderList = createReducer([], {
           output.send(noteOff)
         }
       })
-    } else {
-      // No Chords
-      const {
-        output,
-        noteOn,
-        noteOff
-      } = getMidiOutputNoteOnOf(tmp)
-
-      if (!tmp.isNoteOn) {
-        output.send(noteOn)
-      } else {
-        output.send(noteOff)
-      }
     }
+
+    // // With Chords
+    // if (tmp.chord !== 'none') {
+    //   const {chord, midiCC} = tmp
+    //   const note = Note.fromMidi(midiCC)
+
+    //   // console.log('exists ?! ', Chord.exists(note + chord))
+    //   const notes = Chord.notes(note, chord)
+    //   notes.forEach((item) => {
+    //     const midiCC = midi(item)
+    //     const {
+    //       output,
+    //       noteOn,
+    //       noteOff
+    //     } = getMidiOutputNoteOnOf({
+    //       ...tmp,
+    //       midiCC
+    //     })
+
+    //     if (!tmp.isNoteOn) {
+    //       output.send(noteOn)
+    //     } else {
+    //       output.send(noteOff)
+    //     }
+    //   })
+    // } else {
+    //   // No Chords
+    //   const {
+    //     output,
+    //     noteOn,
+    //     noteOff
+    //   } = getMidiOutputNoteOnOf(tmp)
+
+    //   if (!tmp.isNoteOn) {
+    //     output.send(noteOn)
+    //   } else {
+    //     output.send(noteOff)
+    //   }
+    // }
 
     const newState = state.map((item, i) => {
       if (idx === i) {
@@ -112,39 +133,6 @@ export const sliderList = createReducer([], {
   },
   [ActionTypeSliderList.SET_CHORD] (state, action) {
     const newState = transformState(state, action, 'chord')
-    return newState
-  },
-  [ActionTypeSliderList.EXPAND_SLIDER] (state, action) {
-    const idx = action.payload
-    const newState = state.map((item, i) => {
-      if (idx === i) {
-        const tmp = {
-          ...item,
-          isExpanded: !item.isExpanded
-        }
-        return Object.assign({}, tmp)
-      } else {
-        return item
-      }
-    })
-    return newState
-  },
-  [ActionTypeSliderList.EXPAND_SLIDERS] (state, action) {
-    const newState = state.map(item => {
-      return {
-        ...item,
-        isExpanded: true
-      }
-    })
-    return newState
-  },
-  [ActionTypeSliderList.COLLAPSE_SLIDERS] (state, action) {
-    const newState = state.map(item => {
-      return {
-        ...item,
-        isExpanded: false
-      }
-    })
     return newState
   },
   [ActionTypeSliderList.SELECT_SLIDER_MIDI_DRIVER] (state, action) {
@@ -273,14 +261,21 @@ const transformAddState = (state, action, type) => {
   const lastSelectedDriver = (state.length > 0) && state[state.length - 1].outputId
   const newDriver = lastSelectedDriver || availDriver
 
+  // either note or cc
+  let midiCC = null
+  if (type === STRIP_TYPE.BUTTON) {
+    midiCC = [Note.fromMidi(60)]
+  } else {
+    midiCC = [parseInt(state.length > 0 ? state[state.length - 1].midiCC : 59, 10)] // count up last entry,
+  }
+
   const entry = {
     type,
     label: 'label' + (state.length + 1),
     val: 8,
-    midiCC: parseInt(state.length > 0 ? state[state.length - 1].midiCC : 59, 10), // count up last entry,
+    midiCC,
     outputId: newDriver,
     midiChannel: 1,
-    isExpanded: true,
     isNoteOn: false,
     midi,
     chord: 'none'

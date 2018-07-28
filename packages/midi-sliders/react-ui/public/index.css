@@ -4,7 +4,7 @@ height: 100% !important;
 
 
 ::-webkit-scrollbar{
-    width: 0px; 
+    width: 40px; 
     height: 40px;
     padding-top: 40px;
 }

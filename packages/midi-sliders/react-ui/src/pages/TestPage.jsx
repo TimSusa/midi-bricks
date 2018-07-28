@@ -28,7 +28,7 @@ class TestPage extends React.Component {
           style={{ height: 'calc(100vh - 88px - 120px)' }}
           vertical
           reverse
-          value={this.state.val1 || 0}
+          value={this.state.val1 || 0}
           onChange={this.handleChange}
           onTouchStart={this.touchToMouseEvent}
           onTouchEnd={this.touchToMouseEvent}
@@ -64,31 +64,29 @@ class TestPage extends React.Component {
   }
   handleChange = (e, val) => {
     this.setState({ val1: val })
-    console.log(val)
+    console.log('val1: ', val)
   }
 
   handleChange2 = (e, val) => {
     this.setState({ val2: val })
-    console.log(val)
+    console.log('val2: ', val)
   }
 
+  // Convert touch to mouse events
   touchToMouseEvent = (e) => {
-    [...e.changedTouches].forEach((touch) => {
-      let mouseEv
-      console.log('create mouseevent ', touch)
-
-      switch (e.type) {
-        case 'touchstart': mouseEv = 'mousedown'; break
-        case 'touchend': mouseEv = 'mouseup'; break
-        case 'touchmove': mouseEv = 'mousemove'; break
-        default: return
-      }
-
-      let mouseEvent = document.createEvent('MouseEvent')
-      mouseEvent.initMouseEvent(mouseEv, true, true, window, 1, touch.screenX, touch.screenY, touch.clientX, touch.clientY, false, false, false, false, 0, null)
-
-      touch.target.dispatchEvent(mouseEvent)
-      e.preventDefault()
+    [...e.touches].forEach((touch) => {
+      const evt = new window.MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+        clientX: touch.clientX,
+        clientY: touch.clientY,
+        screenX: touch.screenX,
+        screenY: touch.screenY,
+        relatedTarget: touch.target
+      })
+      // This gives a huge performance hit
+      window.requestAnimationFrame(() => touch.target.dispatchEvent(evt))
     })
   }
 }

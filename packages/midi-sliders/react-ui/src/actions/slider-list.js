@@ -9,9 +9,6 @@ export const ActionTypeSliderList = {
   TOGGLE_NOTE: 'TOGGLE_NOTE',
   SET_CHORD: 'SET_CHORD',
   CHANGE_SLIDER_LABEL: 'CHANGE_SLIDER_LABEL',
-  EXPAND_SLIDER: 'EXPAND_SLIDER',
-  EXPAND_SLIDERS: 'EXPAND_SLIDERS',
-  COLLAPSE_SLIDERS: 'COLLAPSE_SLIDERS',
   SELECT_CC: 'SELECT_CC',
   SELECT_MIDI_CHANNEL: 'SELECT_MIDI_CHANNEL',
   HANDLE_SLIDER_CHANGE: 'HANDLE_SLIDER_CHANGE',
@@ -79,25 +76,6 @@ export function changeSliderLabel (payload) {
   return {
     type: ActionTypeSliderList.CHANGE_SLIDER_LABEL,
     payload
-  }
-}
-
-export function expandSlider (idx) {
-  return {
-    type: ActionTypeSliderList.EXPAND_SLIDER,
-    payload: idx
-  }
-}
-
-export function expandSliders () {
-  return {
-    type: ActionTypeSliderList.EXPAND_SLIDERS
-  }
-}
-
-export function collapseSliders () {
-  return {
-    type: ActionTypeSliderList.COLLAPSE_SLIDERS
   }
 }
 
