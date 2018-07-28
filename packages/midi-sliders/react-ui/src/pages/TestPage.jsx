@@ -30,6 +30,9 @@ class TestPage extends React.Component {
           reverse
           value={this.state.val1 || 0}
           onChange={this.handleChange}
+          onTouchStart={this.touchToMouseEvent}
+          onTouchEnd={this.touchToMouseEvent}
+          onTouchMove={this.touchToMouseEvent}
           max={127}
           min={0}
           step={1}
@@ -50,6 +53,9 @@ class TestPage extends React.Component {
           reverse
           value={this.state.val2 || 0}
           onChange={this.handleChange2}
+          onTouchStart={this.touchToMouseEvent}
+          onTouchEnd={this.touchToMouseEvent}
+          onTouchMove={this.touchToMouseEvent}
           max={127}
           min={0}
           step={1}
@@ -64,6 +70,26 @@ class TestPage extends React.Component {
   handleChange2 = (e, val) => {
     this.setState({ val2: val })
     console.log(val)
+  }
+
+  touchToMouseEvent = (e) => {
+    [...e.changedTouches].forEach((touch) => {
+      let mouseEv
+      console.log('create mouseevent ', touch)
+
+      switch (e.type) {
+        case 'touchstart': mouseEv = 'mousedown'; break
+        case 'touchend': mouseEv = 'mouseup'; break
+        case 'touchmove': mouseEv = 'mousemove'; break
+        default: return
+      }
+
+      let mouseEvent = document.createEvent('MouseEvent')
+      mouseEvent.initMouseEvent(mouseEv, true, true, window, 1, touch.screenX, touch.screenY, touch.clientX, touch.clientY, false, false, false, false, 0, null)
+
+      touch.target.dispatchEvent(mouseEvent)
+      e.preventDefault()
+    })
   }
 }
 const styles = theme => ({

@@ -78,7 +78,8 @@ const styles = theme => ({
     marginBottom: 4 * theme.spacing.unit,
     background: theme.palette.secondary.light,
     height: 'calc(100vh - 790px)',
-    minHeight: 70
+    minHeight: 48,
+    maxHeight: 150
   }
 })
 
