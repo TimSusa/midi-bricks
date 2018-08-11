@@ -12,8 +12,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../actions/slider-list.js'
 import InputNoteOrCc from './InputNoteOrCc'
-import { STRIP_TYPE } from '../../../../reducers/slider-list'
-import { Chord } from 'tonal'
 
 class ExpandedStrips extends React.Component {
   render () {
@@ -62,25 +60,6 @@ class ExpandedStrips extends React.Component {
 
         <br />
 
-        {
-          sliderEntry.type === STRIP_TYPE.BUTTON &&
-          <FormControl className={classes.formControl}>
-            <InputLabel className={classes.label} htmlFor='chord'>Chord </InputLabel>
-            <Select
-              className={classes.select}
-              onChange={e => this.props.actions.setChord({
-                idx,
-                val: e.target.value
-              })}
-              value={sliderEntry.chord}
-            >
-              {this.renderChordSelection()}
-            </Select>
-          </FormControl>
-
-        }
-        <br />
-
         <Button
           className={classes.button}
           variant='raised'
@@ -106,21 +85,6 @@ class ExpandedStrips extends React.Component {
           value={item.outputId}
         >
           {item.name}
-        </MenuItem>
-      )
-    })
-  }
-
-  renderChordSelection = () => {
-    let chordNames = Chord.names()
-    chordNames.unshift('none')
-    return chordNames.map((item, idx) => {
-      return (
-        <MenuItem
-          key={`chords-${idx}`}
-          value={item}
-        >
-          {item}
         </MenuItem>
       )
     })

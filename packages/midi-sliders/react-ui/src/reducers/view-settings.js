@@ -10,7 +10,6 @@ export const viewSettings = createReducer({}, {
   },
 
   [ActionTypeViewSettings.INTEND_UPDATE_LIST_ORDER] (state, action) {
-    // const idxArray = action.payload.map((idxString) => parseInt(idxString.substr(7, idxString.length), 10))
     const newState = Object.assign({}, state, {listOrder: action.payload})
     return newState
   }

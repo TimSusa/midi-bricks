@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../actions/slider-list.js'
 
-import {Note} from 'tonal'
+import { Note } from 'tonal'
 
 class DownshiftMultiple extends React.Component {
   state = {
@@ -90,8 +90,7 @@ class DownshiftMultiple extends React.Component {
 
     if (selectedItem.indexOf(item) === -1) {
       selectedItem = [...selectedItem, item]
-      console.log('change ', item, ' idx: ', idx)
-      this.props.actions.selectCC({idx, val: selectedItem})
+      this.props.actions.selectCC({ idx, val: selectedItem })
     }
 
     this.setState({
@@ -104,7 +103,7 @@ class DownshiftMultiple extends React.Component {
     this.setState(state => {
       const selectedItem = [...state.selectedItem]
       selectedItem.splice(selectedItem.indexOf(item), 1)
-      this.props.actions.selectCC({idx, val: selectedItem})
+      this.props.actions.selectCC({ idx, val: selectedItem })
       return { selectedItem }
     })
   };
@@ -143,8 +142,8 @@ const styles = theme => ({
   }
 })
 
-const suggestions = Array.apply(null, {length: 128}).map(Number.call, Number).map((item) => {
-  return {label: Note.fromMidi(item)}
+const suggestions = Array.apply(null, { length: 128 }).map(Number.call, Number).map((item) => {
+  return { label: Note.fromMidi(item) }
 })
 
 function renderInput (inputProps) {
@@ -191,7 +190,6 @@ renderSuggestion.propTypes = {
 }
 
 function getSuggestions (inputValue) {
-  console.log('getSugges ', inputValue)
   return suggestions.filter(suggestion => {
     const keep =
       (suggestion.label.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1)

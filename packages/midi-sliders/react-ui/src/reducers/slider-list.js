@@ -1,6 +1,6 @@
 import createReducer from './createReducer'
 import { ActionTypeSliderList } from '../actions/slider-list'
-import {Chord, midi, Note} from 'tonal'
+import { midi, Note } from 'tonal'
 
 export const STRIP_TYPE = {
   SLIDER: 'SLIDER',
@@ -22,9 +22,9 @@ export const sliderList = createReducer([], {
     if (arrToSend.length < 1) {
       const entry = {
         type: STRIP_TYPE.SLIDER,
-        label: 'label0',
+        label: 'label 1',
         val: 80,
-        midiCC: [parseInt(60, 10) + 1], // count up last entry,
+        midiCC: 60, // count up last entry,
         outputId: midi.midiDrivers[0].outputId,
         midiChannel: 1,
         midi,
@@ -56,13 +56,11 @@ export const sliderList = createReducer([], {
     if (Array.isArray(tmp.midiCC) === true) {
       tmp.midiCC.forEach((item) => {
         const midiCC = midi(item)
-        console.log('array toggle note ', midiCC)
-
         const {
           output,
           noteOn,
           noteOff
-        } = getMidiOutputNoteOnOf({
+        } = getMidiOutputNoteOnOff({
           ...tmp,
           midiCC
         })
@@ -74,45 +72,6 @@ export const sliderList = createReducer([], {
         }
       })
     }
-
-    // // With Chords
-    // if (tmp.chord !== 'none') {
-    //   const {chord, midiCC} = tmp
-    //   const note = Note.fromMidi(midiCC)
-
-    //   // console.log('exists ?! ', Chord.exists(note + chord))
-    //   const notes = Chord.notes(note, chord)
-    //   notes.forEach((item) => {
-    //     const midiCC = midi(item)
-    //     const {
-    //       output,
-    //       noteOn,
-    //       noteOff
-    //     } = getMidiOutputNoteOnOf({
-    //       ...tmp,
-    //       midiCC
-    //     })
-
-    //     if (!tmp.isNoteOn) {
-    //       output.send(noteOn)
-    //     } else {
-    //       output.send(noteOff)
-    //     }
-    //   })
-    // } else {
-    //   // No Chords
-    //   const {
-    //     output,
-    //     noteOn,
-    //     noteOff
-    //   } = getMidiOutputNoteOnOf(tmp)
-
-    //   if (!tmp.isNoteOn) {
-    //     output.send(noteOn)
-    //   } else {
-    //     output.send(noteOff)
-    //   }
-    // }
 
     const newState = state.map((item, i) => {
       if (idx === i) {
@@ -129,10 +88,6 @@ export const sliderList = createReducer([], {
   },
   [ActionTypeSliderList.CHANGE_SLIDER_LABEL] (state, action) {
     const newState = transformState(state, action, 'label')
-    return newState
-  },
-  [ActionTypeSliderList.SET_CHORD] (state, action) {
-    const newState = transformState(state, action, 'chord')
     return newState
   },
   [ActionTypeSliderList.SELECT_SLIDER_MIDI_DRIVER] (state, action) {
@@ -202,7 +157,7 @@ export const sliderList = createReducer([], {
   }
 })
 
-const getMidiOutputNoteOnOf = (sliderEntry) => {
+const getMidiOutputNoteOnOff = (sliderEntry) => {
   const val = sliderEntry.val
   const midiCC = sliderEntry.midiCC
   const outputId = sliderEntry.outputId
@@ -261,24 +216,26 @@ const transformAddState = (state, action, type) => {
   const lastSelectedDriver = (state.length > 0) && state[state.length - 1].outputId
   const newDriver = lastSelectedDriver || availDriver
 
+  const addStateLength = () => (state.length + 1)
+  const addMidiCCVal = () => 59 + addStateLength()
+
   // either note or cc
   let midiCC = null
   if (type === STRIP_TYPE.BUTTON) {
-    midiCC = [Note.fromMidi(60)]
+    midiCC = [Note.fromMidi(addMidiCCVal())]
   } else {
-    midiCC = [parseInt(state.length > 0 ? state[state.length - 1].midiCC : 59, 10)] // count up last entry,
+    midiCC = addMidiCCVal()
   }
 
   const entry = {
     type,
-    label: 'label' + (state.length + 1),
-    val: 8,
+    label: 'label ' + addStateLength(),
+    val: 50,
     midiCC,
     outputId: newDriver,
     midiChannel: 1,
     isNoteOn: false,
-    midi,
-    chord: 'none'
+    midi
   }
   return [...state, entry]
 }
