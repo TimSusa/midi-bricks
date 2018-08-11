@@ -1,6 +1,5 @@
 import React from 'react'
 import Button from '@material-ui/core/Button'
-import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
@@ -40,22 +39,17 @@ class ChannelStrip extends React.Component {
             {
               (sliderEntry.type === STRIP_TYPE.BUTTON) && <MidiButton sliderEntry={sliderEntry} idx={idx} />
             }
-            <Tooltip
-              placement='right'
-              title='Show'
-            >
-              <Button
-                className={classes.buttonExpand}
-                onClick={() => this.setState({isDialogOpen: !this.state.isDialogOpen})}>
-                {
-                  this.state.isDialogOpen ? (
-                    <ExpandMoreIcon />
-                  ) : (
-                    <ExpandLessIcon />
-                  )
-                }
-              </Button>
-            </Tooltip>
+            <Button
+              className={classes.buttonExpand}
+              onClick={() => this.setState({isDialogOpen: !this.state.isDialogOpen})}>
+              {
+                this.state.isDialogOpen ? (
+                  <ExpandMoreIcon />
+                ) : (
+                  <ExpandLessIcon />
+                )
+              }
+            </Button>
             {
               this.state.isDialogOpen ? (
                 <MidiSettingsDialog

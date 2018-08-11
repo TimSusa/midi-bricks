@@ -32,6 +32,9 @@ class MidiSlider extends React.Component {
           reverse
           value={sliderEntry.val}
           onChange={this.handleSliderChange.bind(this, idx)}
+          onTouchStart={this.touchToMouseEvent}
+          onTouchEnd={this.touchToMouseEvent}
+          onTouchMove={this.touchToMouseEvent}
           max={127}
           min={0}
           step={1}
@@ -43,6 +46,27 @@ class MidiSlider extends React.Component {
   }
   handleSliderChange = (idx, e, val) => {
     this.props.actions.handleSliderChange({ idx, val })
+  }
+
+  // In order to have multi-touch available,
+  // convert touch to mouse events
+  touchToMouseEvent = (e) => {
+    [...e.touches].forEach((touch) => {
+      const evt = new window.MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+        clientX: touch.clientX,
+        clientY: touch.clientY,
+        screenX: touch.screenX,
+        screenY: touch.screenY,
+        relatedTarget: touch.target
+      })
+      window.requestAnimationFrame(() => {
+        touch.target.dispatchEvent(evt)
+        evt.preventDefault()
+      })
+    })
   }
 }
 

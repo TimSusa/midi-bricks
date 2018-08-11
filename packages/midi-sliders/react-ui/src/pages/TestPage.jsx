@@ -86,7 +86,10 @@ class TestPage extends React.Component {
         relatedTarget: touch.target
       })
       // This gives a huge performance hit
-      window.requestAnimationFrame(() => touch.target.dispatchEvent(evt))
+      window.requestAnimationFrame(() => {
+        touch.target.dispatchEvent(evt)
+        evt.preventDefault()
+      })
     })
   }
 }
