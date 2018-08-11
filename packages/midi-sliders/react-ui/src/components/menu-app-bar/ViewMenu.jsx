@@ -70,8 +70,9 @@ class ViewMenu extends React.Component {
   }
 
   toggleLayoutMode = () => {
-    this.props.viewSettings.listOrder && this.props.actions.changeListOrder(this.props.viewSettings.listOrder)
-    this.props.actions.toggleLayoutMode()
+    const { viewSettings: { listOrder }, actions } = this.props
+    listOrder && actions.changeListOrder(listOrder)
+    actions.toggleLayoutMode()
     this.handleClose()
   }
 }
@@ -80,15 +81,15 @@ ViewMenu.propTypes = {
   actions: PropTypes.object.isRequired
 }
 
-function mapStateToProps (state) {
+function mapStateToProps ({viewSettings}) {
   return {
-    viewSettings: state.viewSettings
+    viewSettings
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators({...MidiSlidersAction, ...ViewSettingsAction}, dispatch)
+    actions: bindActionCreators({ ...MidiSlidersAction, ...ViewSettingsAction }, dispatch)
   }
 }
 

@@ -76,7 +76,7 @@ export default class FileInput extends React.Component {
       }
     })))
       .then(zippedResults => {
-      // Run the callback after all files have been read.
+        // Run the callback after all files have been read.
         this.props.onChange(e, zippedResults)
       })
   }

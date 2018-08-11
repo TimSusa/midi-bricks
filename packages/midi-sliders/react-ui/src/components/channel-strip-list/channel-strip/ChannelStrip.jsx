@@ -37,7 +37,7 @@ class ChannelStrip extends React.Component {
               (sliderEntry.type === STRIP_TYPE.SLIDER) && <MidiSlider sliderEntry={sliderEntry} idx={idx} />
             }
             {
-              (sliderEntry.type === STRIP_TYPE.BUTTON) && <MidiButton sliderEntry={sliderEntry} idx={idx} />
+              <MidiButton sliderEntry={sliderEntry} idx={idx} />
             }
             <Button
               className={classes.buttonExpand}

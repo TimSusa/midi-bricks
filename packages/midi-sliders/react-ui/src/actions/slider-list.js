@@ -4,6 +4,7 @@ export const ActionTypeSliderList = {
   SELECT_SLIDER_MIDI_DRIVER: 'SELECT_SLIDER_MIDI_DRIVER',
   ADD_SLIDER: 'ADD_SLIDER',
   ADD_BUTTON: 'ADD_BUTTON',
+  CHANGE_BUTTON_TYPE: 'CHANGE_BUTTON_TYPE',
   DELETE_SLIDER: 'DELETE_SLIDER',
   DELETE_ALL_SLIDERS: 'DELETE_ALL_SLIDERS',
   TOGGLE_NOTE: 'TOGGLE_NOTE',
@@ -41,6 +42,13 @@ export function addButton (item) {
   return {
     type: ActionTypeSliderList.ADD_BUTTON,
     payload: item
+  }
+}
+
+export function changeButtonType (payload) {
+  return {
+    type: ActionTypeSliderList.CHANGE_BUTTON_TYPE,
+    payload
   }
 }
 

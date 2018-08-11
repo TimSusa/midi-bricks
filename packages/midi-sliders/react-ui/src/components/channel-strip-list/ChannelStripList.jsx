@@ -11,36 +11,36 @@ class ChannelStripList extends React.Component {
   state = {
     sliderList: []
   }
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       sliderList: props.sliderList
     }
   }
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.sliderList !== this.props.sliderList) {
+  componentWillReceiveProps({ sliderList }) {
+    if (sliderList !== this.props.sliderList) {
       this.setState({
-        sliderList: nextProps.sliderList
+        sliderList
       })
     }
   }
-  render () {
-    if (this.props.sliderList.length > 0) {
-      if (this.props.viewSettings.isLayoutMode) {
+  render() {
+    const { classes, sliderList, viewSettings } = this.props
+    if (sliderList.length > 0) {
+      if (viewSettings.isLayoutMode) {
         return (
           <DragDropContext
             onDragEnd={this.onDragEnd}
             id='channelList-layoutMode'
-            className={this.props.classes.channelList}
+            className={classes.channelList}
           >
             <Droppable droppableId='droppable' direction='horizontal'>
-              {(provided, snapshot) => (
+              {({ innerRef, droppableProps }, snapshot) => (
                 <div
-                  ref={provided.innerRef}
+                  ref={innerRef}
                   style={this.getListStyle(snapshot.isDraggingOver)}
-                  {...provided.droppableProps}
+                  {...droppableProps}
                 >
-
                   {this.renderChannelStrips()}
                 </div>
               )}
@@ -51,7 +51,7 @@ class ChannelStripList extends React.Component {
       } else {
         return (
           <div>
-            <div id='channelList' className={this.props.classes.channelList}>
+            <div id='channelList' className={classes.channelList}>
               {this.renderChannelStrips()}
             </div>
           </div>
@@ -59,7 +59,7 @@ class ChannelStripList extends React.Component {
       }
     } else {
       return (
-        <Typography variant='display1' className={this.props.classes.noMidiTypography}>
+        <Typography variant='display1' className={classes.noMidiTypography}>
           <br />
           <br />
           Please add a slider!
@@ -99,14 +99,14 @@ class ChannelStripList extends React.Component {
             key={`slider-${idx}`}
             draggableId={`slider-${idx}`}
             index={idx}>
-            {(provided, snapshot) => (
+            {({ innerRef, draggableProps, dragHandleProps }, snapshot) => (
               <div
-                ref={provided.innerRef}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
+                ref={innerRef}
+                {...draggableProps}
+                {...dragHandleProps}
                 style={this.getItemStyle(
                   snapshot.isDragging,
-                  provided.draggableProps.style
+                  draggableProps.style
                 )}
               >
 
@@ -169,14 +169,14 @@ const styles = theme => ({
   }
 })
 
-function mapStateToProps (state) {
+function mapStateToProps({ sliderList, viewSettings }) {
   return {
-    sliderList: state.sliderList,
-    viewSettings: state.viewSettings
+    sliderList,
+    viewSettings
   }
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(ViewSettingsActions, dispatch)
   }

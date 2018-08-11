@@ -4,7 +4,8 @@ import { midi, Note } from 'tonal'
 
 export const STRIP_TYPE = {
   SLIDER: 'SLIDER',
-  BUTTON: 'BUTTON'
+  BUTTON: 'BUTTON',
+  BUTTON_TOGGLE: 'BUTTON_TOGGLE'
 }
 
 export const sliderList = createReducer([], {
@@ -40,6 +41,11 @@ export const sliderList = createReducer([], {
   },
   [ActionTypeSliderList.ADD_BUTTON] (state, action) {
     const newState = transformAddState(state, action, STRIP_TYPE.BUTTON)
+    return newState
+  },
+  [ActionTypeSliderList.CHANGE_BUTTON_TYPE] (state, action) {
+    console.log('CHANGE_BUTTON_TYPE ', action.payload)
+    const newState = transformState(state, action, 'type')
     return newState
   },
   [ActionTypeSliderList.DELETE_SLIDER] (state, action) {

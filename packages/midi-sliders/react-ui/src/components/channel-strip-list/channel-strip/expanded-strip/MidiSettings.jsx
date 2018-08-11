@@ -12,6 +12,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../actions/slider-list.js'
 import InputNoteOrCc from './InputNoteOrCc'
+import { STRIP_TYPE } from '../../../../reducers/slider-list'
 
 class ExpandedStrips extends React.Component {
   render () {
@@ -60,6 +61,22 @@ class ExpandedStrips extends React.Component {
 
         <br />
 
+        {
+          (sliderEntry.type !== 'SLIDER') && (
+            <FormControl className={classes.formControl}>
+              <InputLabel className={classes.label} htmlFor='button-type'>Button Type </InputLabel>
+              <Select
+                className={classes.select}
+                onChange={this.handleButtonTypeChange.bind(this, idx)}
+                value={sliderEntry.type}>
+                {this.renderButtonTypeSelection()}
+              </Select>
+            </FormControl>
+          )
+        }
+
+        <br />
+
         <Button
           className={classes.button}
           variant='raised'
@@ -77,6 +94,14 @@ class ExpandedStrips extends React.Component {
     })
   }
 
+  handleButtonTypeChange = (idx, e) => {
+    console.log('handleButtonTypeChange ', { idx, e })
+    this.props.actions.changeButtonType({
+      idx,
+      val: e.target.value
+    })
+  }
+
   renderDriverSelection = (availableDrivers) => {
     return availableDrivers.map((item, idx) => {
       return (
@@ -88,6 +113,22 @@ class ExpandedStrips extends React.Component {
         </MenuItem>
       )
     })
+  }
+
+  renderButtonTypeSelection = () => {
+    return (
+      Object.keys(STRIP_TYPE).map((item, btnIdx) => {
+        if (btnIdx === 0) return
+        return (
+          <MenuItem
+            key={`button-type-${btnIdx}`}
+            value={item}
+          >
+            {item}
+          </MenuItem>
+        )
+      })
+    )
   }
 }
 

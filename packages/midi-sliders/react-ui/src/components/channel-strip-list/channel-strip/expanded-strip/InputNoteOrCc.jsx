@@ -10,23 +10,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../actions/slider-list.js'
 import { STRIP_TYPE } from '../../../../reducers/slider-list'
-import { midi, Note } from 'tonal'
 
 class InputNoteOrCc extends React.Component {
-  state = {
-    noteVal: 'C4'
-  }
-  constructor (props) {
-    super(props)
-    this.state = {
-      noteVal: Note.fromMidi(props.sliderEntry.midiCC)
-    }
-  }
-  componentWillReceiveProps ({sliderEntry}) {
-    this.setState({
-      noteVal: Note.fromMidi(sliderEntry.midiCC)
-    })
-  }
   render () {
     const { sliderEntry, idx, classes } = this.props
     if (sliderEntry.type === STRIP_TYPE.SLIDER) {
@@ -51,7 +36,7 @@ class InputNoteOrCc extends React.Component {
       return (
         <React.Fragment>
           <FormControl className={classes.formControl}>
-            <InputLabel className={classes.label} htmlFor='note'>Note</InputLabel>
+            <InputLabel className={classes.label} htmlFor='note'>Notes</InputLabel>
             <MidiNoteInput sliderEntry={sliderEntry} idx={idx} />
           </FormControl>
         </React.Fragment>
@@ -61,16 +46,6 @@ class InputNoteOrCc extends React.Component {
   handleCCChange = (idx, e) => {
     this.props.actions.selectCC({ idx, val: e.target.value })
     e.preventDefault()
-  }
-  handleNoteChange = (idx, e) => {
-    this.setState({noteVal: e.target.value})
-    e.preventDefault()
-  }
-  sendNoteChange = (idx, e) => {
-    if (e.key === 'Enter') {
-      this.props.actions.selectCC({ idx, val: midi(this.state.noteVal) })
-      e.preventDefault()
-    }
   }
 }
 

@@ -7,38 +7,51 @@ import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../actions/slider-list.js'
+import { STRIP_TYPE } from '../../../reducers/slider-list'
 
 class MidiButtons extends React.Component {
   render () {
     const { sliderEntry, idx, classes } = this.props
-    return (
-      <div className={classNames({
-        [classes.root]: true
-      })}>
-        <div className={classes.group}>
-          <Button
-            className={classes.button}
-            variant='raised'
-            onMouseDown={this.props.actions.toggleNote.bind(this, idx)}
-            onMouseUp={this.props.actions.toggleNote.bind(this, idx)}
-            onTouchStart={this.props.actions.toggleNote.bind(this, idx)}
-            onTouchEnd={this.props.actions.toggleNote.bind(this, idx)}
-          >
-            <MusicIcon className={classes.iconColor} />
-          </Button>
-          <Button
-            classes={{ root: classes.button }}
-            variant='raised'
-            onClick={this.props.actions.toggleNote.bind(this, idx)}>
-            <MusicIcon className={classes.iconColor} />
-            <Typography
-              variant='caption'>
-              {sliderEntry.isNoteOn ? 'Off ' : 'On'}
-            </Typography>
-          </Button>
+    if (sliderEntry.type === STRIP_TYPE.BUTTON) {
+      return (
+        <div className={classNames({
+          [classes.root]: true
+        })}>
+          <div className={classes.group}>
+            <Button
+              className={classes.button}
+              variant='raised'
+              onMouseDown={this.props.actions.toggleNote.bind(this, idx)}
+              onMouseUp={this.props.actions.toggleNote.bind(this, idx)}
+              onTouchStart={this.props.actions.toggleNote.bind(this, idx)}
+              onTouchEnd={this.props.actions.toggleNote.bind(this, idx)}
+            >
+              <MusicIcon className={classes.iconColor} />
+            </Button>
+          </div>
         </div>
-      </div>
-    )
+      )
+    } else if (sliderEntry.type === STRIP_TYPE.BUTTON_TOGGLE) {
+      return (
+        <div className={classNames({
+          [classes.root]: true
+        })}>
+          <div className={classes.group}>
+            <Button
+              classes={{ root: classes.button }}
+              variant='raised'
+              onClick={this.props.actions.toggleNote.bind(this, idx)}>
+              <MusicIcon className={classes.iconColor} />
+              <Typography
+                variant='caption'>
+                {sliderEntry.isNoteOn ? 'Off ' : 'On'}
+              </Typography>
+            </Button>
+          </div>
+        </div>)
+    } else {
+      return (<div />)
+    }
   }
 }
 

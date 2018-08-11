@@ -13,7 +13,7 @@ import * as MidiSliderActions from '../../../../actions/slider-list.js'
 
 import { Note } from 'tonal'
 
-class DownshiftMultiple extends React.Component {
+class MidiNoteInput extends React.Component {
   state = {
     inputValue: '',
     selectedItem: this.props.sliderEntry.midiCC || [Note.fromMidi(65)]
@@ -109,7 +109,7 @@ class DownshiftMultiple extends React.Component {
   };
 }
 
-DownshiftMultiple.propTypes = {
+MidiNoteInput.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
@@ -126,9 +126,10 @@ const styles = theme => ({
     position: 'absolute',
     zIndex: 1,
     marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit,
     left: 0,
     right: 0,
-    height: 250,
+    maxHeight: 220,
     overflowY: 'scroll'
   },
   chip: {
@@ -203,4 +204,4 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default (withStyles(styles)(connect(null, mapDispatchToProps)(DownshiftMultiple)))
+export default (withStyles(styles)(connect(null, mapDispatchToProps)(MidiNoteInput)))

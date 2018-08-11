@@ -68,9 +68,9 @@ const styles = theme => ({
   }
 })
 
-function mapStateToProps (state) {
+function mapStateToProps ({sliderList}) {
   return {
-    sliderList: state.sliderList
+    sliderList
   }
 }
 
