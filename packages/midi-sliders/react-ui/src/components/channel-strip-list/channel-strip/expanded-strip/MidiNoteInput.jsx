@@ -90,7 +90,7 @@ class MidiNoteInput extends React.Component {
 
     if (selectedItem.indexOf(item) === -1) {
       selectedItem = [...selectedItem, item]
-      this.props.actions.selectCC({ idx, val: selectedItem })
+      this.props.actions.selectCc({ idx, val: selectedItem })
     }
 
     this.setState({
@@ -103,7 +103,7 @@ class MidiNoteInput extends React.Component {
     this.setState(state => {
       const selectedItem = [...state.selectedItem]
       selectedItem.splice(selectedItem.indexOf(item), 1)
-      this.props.actions.selectCC({ idx, val: selectedItem })
+      this.props.actions.selectCc({ idx, val: selectedItem })
       return { selectedItem }
     })
   };

@@ -9,7 +9,7 @@ export const viewSettings = createReducer({}, {
     })
   },
 
-  [ActionTypeViewSettings.INTEND_UPDATE_LIST_ORDER] (state, action) {
+  [ActionTypeViewSettings.UPDATE_LIST_ORDER] (state, action) {
     const newState = Object.assign({}, state, {listOrder: action.payload})
     return newState
   }

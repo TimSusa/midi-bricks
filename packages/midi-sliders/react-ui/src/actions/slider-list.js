@@ -1,5 +1,6 @@
+const createActions = require('./create-actions.js').createActions
 
-export const ActionTypeSliderList = {
+const ActionTypeSliderList = {
   INIT_MIDI_ACCESS: 'INIT_MIDI_ACCESS',
   SELECT_SLIDER_MIDI_DRIVER: 'SELECT_SLIDER_MIDI_DRIVER',
   ADD_SLIDER: 'ADD_SLIDER',
@@ -17,105 +18,7 @@ export const ActionTypeSliderList = {
   CHANGE_LIST_ORDER: 'CHANGE_LIST_ORDER'
 }
 
-export function initMidiAccess (midiAccess) {
-  return {
-    type: ActionTypeSliderList.INIT_MIDI_ACCESS,
-    payload: midiAccess
-  }
-}
-
-export function selectSliderMidiDriver (payload) {
-  return {
-    type: ActionTypeSliderList.SELECT_SLIDER_MIDI_DRIVER,
-    payload
-  }
-}
-
-export function addSlider (item) {
-  return {
-    type: ActionTypeSliderList.ADD_SLIDER,
-    payload: item
-  }
-}
-
-export function addButton (item) {
-  return {
-    type: ActionTypeSliderList.ADD_BUTTON,
-    payload: item
-  }
-}
-
-export function changeButtonType (payload) {
-  return {
-    type: ActionTypeSliderList.CHANGE_BUTTON_TYPE,
-    payload
-  }
-}
-
-export function deleteSlider (idx) {
-  return {
-    type: ActionTypeSliderList.DELETE_SLIDER,
-    payload: idx
-  }
-}
-
-export function deleteAllSliders () {
-  return {
-    type: ActionTypeSliderList.DELETE_ALL_SLIDERS
-  }
-}
-
-export function toggleNote (idx) {
-  return {
-    type: ActionTypeSliderList.TOGGLE_NOTE,
-    payload: idx
-  }
-}
-
-export function changeSliderLabel (payload) {
-  return {
-    type: ActionTypeSliderList.CHANGE_SLIDER_LABEL,
-    payload
-  }
-}
-
-export function selectCC (payload) {
-  return {
-    type: ActionTypeSliderList.SELECT_CC,
-    payload
-  }
-}
-
-export function selectMidiChannel (payload) {
-  return {
-    type: ActionTypeSliderList.SELECT_MIDI_CHANNEL,
-    payload
-  }
-}
-
-export function handleSliderChange (payload) {
-  return {
-    type: ActionTypeSliderList.HANDLE_SLIDER_CHANGE,
-    payload
-  }
-}
-
-export function saveFile () {
-  return {
-    type: ActionTypeSliderList.SAVE_FILE
-  }
-}
-
-export function loadFile (results) {
-  return {
-    type: ActionTypeSliderList.LOAD_FILE,
-    payload: results
-  }
-}
-
-export function changeListOrder (payload) {
-  return {
-    type: ActionTypeSliderList.CHANGE_LIST_ORDER,
-    payload
-  }
+module.exports = {
+  ...createActions(ActionTypeSliderList),
+  ActionTypeSliderList
 }

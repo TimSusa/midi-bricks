@@ -44,7 +44,7 @@ class InputNoteOrCc extends React.Component {
     }
   }
   handleCCChange = (idx, e) => {
-    this.props.actions.selectCC({ idx, val: e.target.value })
+    this.props.actions.selectCc({ idx, val: e.target.value })
     e.preventDefault()
   }
 }

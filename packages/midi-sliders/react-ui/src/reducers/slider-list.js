@@ -200,7 +200,7 @@ const getAvailableDrivers = (midiAccess) => {
 }
 
 const transformState = (state, action, field) => {
-  const { idx, val } = action.payload
+  const { idx, val } = action.payload || action
   const newState = state.map((item, i) => {
     if (idx === i) {
       const tmp = {
