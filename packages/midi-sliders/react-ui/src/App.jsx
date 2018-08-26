@@ -78,7 +78,7 @@ class App extends React.Component {
   }
 
   handleResetSliders = () => {
-    this.props.actions.deleteAllSliders()
+    this.props.actions.deleteAll()
     this.setState(state => ({isMobileOpen: !this.state.isMobileOpen}))
   }
 

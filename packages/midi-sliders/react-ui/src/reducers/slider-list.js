@@ -48,11 +48,11 @@ export const sliderList = createReducer([], {
     const newState = transformState(state, action, 'type')
     return newState
   },
-  [ActionTypeSliderList.DELETE_SLIDER] (state, action) {
+  [ActionTypeSliderList.DELETE] (state, action) {
     const newState = state.filter((t, idx) => idx !== action.payload)
     return [...newState]
   },
-  [ActionTypeSliderList.DELETE_ALL_SLIDERS] (state, action) {
+  [ActionTypeSliderList.DELETE_ALL] (state, action) {
     return [state[0]]
   },
   [ActionTypeSliderList.TOGGLE_NOTE] (state, action) {
@@ -92,7 +92,7 @@ export const sliderList = createReducer([], {
     })
     return newState
   },
-  [ActionTypeSliderList.CHANGE_SLIDER_LABEL] (state, action) {
+  [ActionTypeSliderList.CHANGE_LABEL] (state, action) {
     const newState = transformState(state, action, 'label')
     return newState
   },

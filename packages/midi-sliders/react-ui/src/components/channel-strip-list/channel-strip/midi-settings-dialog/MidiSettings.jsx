@@ -7,14 +7,13 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { withStyles } from '@material-ui/core/styles'
-
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../actions/slider-list.js'
-import InputNoteOrCc from './InputNoteOrCc'
 import { STRIP_TYPE } from '../../../../reducers/slider-list'
+import InputNoteOrCc from './InputNoteOrCc'
 
-class ExpandedStrips extends React.Component {
+class MidiSettings extends React.Component {
   render () {
     const { sliderEntry, idx, classes } = this.props
     return (
@@ -80,7 +79,7 @@ class ExpandedStrips extends React.Component {
         <Button
           className={classes.button}
           variant='raised'
-          onClick={this.props.actions.deleteSlider.bind(this, idx)}>
+          onClick={this.props.actions.delete.bind(this, idx)}>
           <DeleteIcon className={classes.iconColor} />
         </Button>
       </div>
@@ -88,7 +87,7 @@ class ExpandedStrips extends React.Component {
   }
 
   handleLabelChange = (idx, e, val) => {
-    this.props.actions.changeSliderLabel({
+    this.props.actions.changeLabel({
       idx,
       val: e.target.value
     })
@@ -174,4 +173,4 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default (withStyles(styles)(connect(null, mapDispatchToProps)(ExpandedStrips)))
+export default (withStyles(styles)(connect(null, mapDispatchToProps)(MidiSettings)))

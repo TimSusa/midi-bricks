@@ -3,13 +3,11 @@ import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import { withStyles } from '@material-ui/core/styles'
-
-import MidiNoteInput from './MidiNoteInput'
-
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../actions/slider-list.js'
 import { STRIP_TYPE } from '../../../../reducers/slider-list'
+import MidiNoteInput from './MidiNoteInput'
 
 class InputNoteOrCc extends React.Component {
   render () {
@@ -19,7 +17,6 @@ class InputNoteOrCc extends React.Component {
         <React.Fragment>
           <FormControl className={classes.formControl}>
             <InputLabel className={classes.label} htmlFor='cc'>CC</InputLabel>
-
             <Input
               className={classes.input}
               id='number'
@@ -27,9 +24,7 @@ class InputNoteOrCc extends React.Component {
               name={`input-cc-name-${idx}`}
               value={sliderEntry.midiCC}
               onChange={this.handleCCChange.bind(this, idx)} />
-
           </FormControl>
-
         </React.Fragment>
       )
     } else {

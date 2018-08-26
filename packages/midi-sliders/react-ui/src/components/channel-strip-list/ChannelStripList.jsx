@@ -1,30 +1,30 @@
 import React from 'react'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import Typography from '@material-ui/core/Typography'
 import ChannelStrip from './channel-strip/ChannelStrip'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as ViewSettingsActions from '../../actions/view-settings'
 import { withStyles } from '@material-ui/core/styles'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 class ChannelStripList extends React.Component {
   state = {
     sliderList: []
   }
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       sliderList: props.sliderList
     }
   }
-  componentWillReceiveProps({ sliderList }) {
+  componentWillReceiveProps ({ sliderList }) {
     if (sliderList !== this.props.sliderList) {
       this.setState({
         sliderList
       })
     }
   }
-  render() {
+  render () {
     const { classes, sliderList, viewSettings } = this.props
     if (sliderList.length > 0) {
       if (viewSettings.isLayoutMode) {
@@ -169,14 +169,14 @@ const styles = theme => ({
   }
 })
 
-function mapStateToProps({ sliderList, viewSettings }) {
+function mapStateToProps ({ sliderList, viewSettings }) {
   return {
     sliderList,
     viewSettings
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
   return {
     actions: bindActionCreators(ViewSettingsActions, dispatch)
   }

@@ -7,9 +7,9 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import Dialog from '@material-ui/core/Dialog'
 
-import MidiSettings from './expanded-strip/MidiSettings'
+import MidiSettings from './MidiSettings'
 
-class ConfirmationDialogRaw extends React.Component {
+class MidiSettingsDialog extends React.Component {
   render () {
     const { sliderEntry, idx, ...other } = this.props
     return (
@@ -46,9 +46,9 @@ class ConfirmationDialogRaw extends React.Component {
     }
 }
 
-ConfirmationDialogRaw.propTypes = {
+MidiSettingsDialog.propTypes = {
   onClose: PropTypes.func,
   value: PropTypes.string
 }
 
-export default ConfirmationDialogRaw
+export default MidiSettingsDialog

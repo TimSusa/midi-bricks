@@ -1,10 +1,8 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-
 import Slider from '@material-ui/lab/Slider'
 import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
-
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../actions/slider-list.js'

@@ -1,21 +1,17 @@
 import React from 'react'
+import VisibilitySensor from 'react-visibility-sensor'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-
+import { withStyles } from '@material-ui/core/styles'
 import MidiSlider from './MidiSlider'
 import MidiButton from './MidiButtons'
 import { STRIP_TYPE } from '../../../reducers/slider-list'
-
-import MidiSettingsDialog from './MidiSettingsDialog'
-import { withStyles } from '@material-ui/core/styles'
-
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../actions/slider-list.js'
-
-import VisibilitySensor from 'react-visibility-sensor'
+import MidiSettingsDialog from './midi-settings-dialog/MidiSettingsDialog'
 
 class ChannelStrip extends React.Component {
   state = {
@@ -76,7 +72,7 @@ class ChannelStrip extends React.Component {
   }
 
   handleLabelChange = (idx, e, val) => {
-    this.props.actions.changeSliderLabel({
+    this.props.actions.changeLabel({
       idx,
       val: e.target.value
     })

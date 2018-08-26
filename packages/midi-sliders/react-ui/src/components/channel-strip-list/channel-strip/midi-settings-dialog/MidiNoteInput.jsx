@@ -10,7 +10,6 @@ import Chip from '@material-ui/core/Chip'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../actions/slider-list.js'
-
 import { Note } from 'tonal'
 
 class MidiNoteInput extends React.Component {
