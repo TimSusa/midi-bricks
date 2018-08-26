@@ -43,6 +43,14 @@ export const sliderList = createReducer([], {
     const newState = transformAddState(state, action, STRIP_TYPE.BUTTON)
     return newState
   },
+  [ActionTypeSliderList.CLONE] (state, action) {
+    const idx = action.payload
+    const newArr = Object.values(Object.assign({}, state))
+    let newEntry = Object.assign({}, state[idx])
+    newEntry.label = 'CPY: ' + state[idx].label
+    newArr.splice(idx + 1, 0, newEntry)
+    return newArr
+  },
   [ActionTypeSliderList.CHANGE_BUTTON_TYPE] (state, action) {
     console.log('CHANGE_BUTTON_TYPE ', action.payload)
     const newState = transformState(state, action, 'type')

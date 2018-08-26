@@ -75,7 +75,12 @@ class MidiSettings extends React.Component {
         }
 
         <br />
-
+        <Button
+          className={classes.button}
+          variant='raised'
+          onClick={this.props.actions.clone.bind(this, idx)}>
+          Clone
+        </Button>
         <Button
           className={classes.button}
           variant='raised'
