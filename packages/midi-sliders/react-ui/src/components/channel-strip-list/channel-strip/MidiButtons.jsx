@@ -25,8 +25,8 @@ class MidiButtons extends React.Component {
               variant='raised'
               onMouseDown={this.props.actions.toggleNote.bind(this, idx)}
               onMouseUp={this.props.actions.toggleNote.bind(this, idx)}
-              onTouchStart={this.props.actions.toggleNote.bind(this, idx)}
-              onTouchEnd={this.props.actions.toggleNote.bind(this, idx)}
+              onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
+              onTouchEnd={this.handleTouchButtonTrigger.bind(this, idx)}
             >
               <MusicIcon className={classes.iconColor} />
             </Button>
@@ -44,7 +44,7 @@ class MidiButtons extends React.Component {
               classes={{ root: classes.button }}
               variant='raised'
               onMouseDown={this.props.actions.toggleNote.bind(this, idx)}
-              onTouchStart={this.props.actions.toggleNote.bind(this, idx)}
+              onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
             >
               <MusicIcon className={classes.iconColor} />
               <Typography
@@ -65,6 +65,14 @@ class MidiButtons extends React.Component {
     e.preventDefault()
     e.stopPropagation()
     return false
+  }
+
+  // Prevent double events, after touch,
+  // from being triggered
+  handleTouchButtonTrigger = (idx, e) => {
+    this.props.actions.toggleNote(idx)
+    e.preventDefault()
+    e.stopPropagation()
   }
 }
 
