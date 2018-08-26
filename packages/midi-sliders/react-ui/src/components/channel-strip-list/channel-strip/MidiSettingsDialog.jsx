@@ -14,6 +14,7 @@ class ConfirmationDialogRaw extends React.Component {
     const { sliderEntry, idx, ...other } = this.props
     return (
       <Dialog
+        onKeyDown={this.handleKeydown}
         disableBackdropClick
         disableEscapeKeyDown
         aria-labelledby='confirmation-dialog-title'
@@ -34,6 +35,14 @@ class ConfirmationDialogRaw extends React.Component {
 
     handleClose = () => {
       this.props.onClose()
+    }
+
+    handleKeydown = (e) => {
+      // Enter will close dialog
+      if (e.keyCode === 13) {
+        this.props.onClose()
+        e.preventDefault()
+      }
     }
 }
 

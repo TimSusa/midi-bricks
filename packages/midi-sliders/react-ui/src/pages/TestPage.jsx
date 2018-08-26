@@ -97,11 +97,13 @@ class TestPage extends React.Component {
 
   handleChangeButton1= (e, val) => {
     this.setState({ val3: !this.state.val3 })
+    e.preventDefault()
     console.log('val3: ', this.state.val3)
   }
 
   handleChangeButton2 = (e, val) => {
     this.setState({ val4: !this.state.val4 })
+    e.preventDefault()
     console.log('val4: ', this.state.val4)
   }
 
