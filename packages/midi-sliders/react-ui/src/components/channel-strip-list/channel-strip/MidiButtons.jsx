@@ -44,6 +44,7 @@ class MidiButtons extends React.Component {
               classes={{ root: classes.button }}
               variant='raised'
               onMouseDown={this.props.actions.toggleNote.bind(this, idx)}
+              onTouchStart={this.props.actions.toggleNote.bind(this, idx)}
             >
               <MusicIcon className={classes.iconColor} />
               <Typography
@@ -58,6 +59,8 @@ class MidiButtons extends React.Component {
     }
   }
 
+  // For touch-devices, we do not want
+  // context menu being shown on touch events
   preventCtxMenu = (e) => {
     e.preventDefault()
     e.stopPropagation()
