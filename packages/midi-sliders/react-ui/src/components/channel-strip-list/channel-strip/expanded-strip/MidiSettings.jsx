@@ -95,7 +95,6 @@ class ExpandedStrips extends React.Component {
   }
 
   handleButtonTypeChange = (idx, e) => {
-    console.log('handleButtonTypeChange ', { idx, e })
     this.props.actions.changeButtonType({
       idx,
       val: e.target.value
@@ -118,15 +117,20 @@ class ExpandedStrips extends React.Component {
   renderButtonTypeSelection = () => {
     return (
       Object.keys(STRIP_TYPE).map((item, btnIdx) => {
-        if (btnIdx === 0) return
-        return (
-          <MenuItem
-            key={`button-type-${btnIdx}`}
-            value={item}
-          >
-            {item}
-          </MenuItem>
-        )
+        if (btnIdx === 0) {
+          return (
+            <div key={`button-type-${btnIdx}`} />
+          )
+        } else {
+          return (
+            <MenuItem
+              key={`button-type-${btnIdx}`}
+              value={item}
+            >
+              {item}
+            </MenuItem>
+          )
+        }
       })
     )
   }
