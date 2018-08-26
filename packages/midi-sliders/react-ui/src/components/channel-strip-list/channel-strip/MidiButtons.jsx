@@ -16,9 +16,11 @@ class MidiButtons extends React.Component {
       return (
         <div className={classNames({
           [classes.root]: true
-        })}>
+        })}
+        >
           <div className={classes.group}>
             <Button
+              onContextMenu={this.preventCtxMenu}
               className={classes.button}
               variant='raised'
               onMouseDown={this.props.actions.toggleNote.bind(this, idx)}
@@ -38,9 +40,11 @@ class MidiButtons extends React.Component {
         })}>
           <div className={classes.group}>
             <Button
+              onContextMenu={this.preventCtxMenu}
               classes={{ root: classes.button }}
               variant='raised'
-              onClick={this.props.actions.toggleNote.bind(this, idx)}>
+              onMouseDown={this.props.actions.toggleNote.bind(this, idx)}
+            >
               <MusicIcon className={classes.iconColor} />
               <Typography
                 variant='caption'>
@@ -52,6 +56,12 @@ class MidiButtons extends React.Component {
     } else {
       return (<div />)
     }
+  }
+
+  preventCtxMenu = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    return false
   }
 }
 

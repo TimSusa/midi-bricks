@@ -2,13 +2,23 @@ import { CssBaseline, MuiThemeProvider, createMuiTheme } from '@material-ui/core
 import * as React from 'react'
 
 const theme = createMuiTheme({
-  // overrides: {
-  //   MuiTooltip: {
-  //     tooltip: {
-  //       height: 0
-  //     }
-  //   }
-  // },
+  overrides: {
+    // MuiTooltip: {
+    //   tooltip: {
+    //     height: 0
+    //   }
+    // }
+    MuiButton: {
+      contained: {
+        '&:hover': {
+          backgroundColor: '#ffffff',
+          '@media (hover: none)': {
+            backgroundColor: '#ffffff'
+          }
+        }
+      }
+    }
+  },
   palette: {
     secondary: {
       light: '#ffffff',

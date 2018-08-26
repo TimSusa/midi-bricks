@@ -1,19 +1,42 @@
 import { withStyles } from '@material-ui/core'
 import * as React from 'react'
 import Slider from '@material-ui/lab/Slider'
+import Button from '@material-ui/core/Button'
 
 class TestPage extends React.Component {
   state = {
     open: false,
     hasMidi: true,
     val1: 50,
-    val2: 50
+    val2: 50,
+    val3: true,
+    val4: true
   };
   render () {
     const { classes } = this.props
 
     return (
       <div style={{ display: 'flex' }}>
+        <Button
+          className={classes.button}
+          variant='raised'
+          onMouseDown={this.handleChangeButton1}
+          onMouseUp={this.handleChangeButton1}
+          onTouchStart={this.handleChangeButton1}
+          onTouchEnd={this.handleChangeButton1}
+        >
+          1
+        </Button>
+        <Button
+          className={classes.button}
+          variant='raised'
+          onMouseDown={this.handleChangeButton2}
+          onMouseUp={this.handleChangeButton2}
+          onTouchStart={this.handleChangeButton2}
+          onTouchEnd={this.handleChangeButton2}
+        >
+          2
+        </Button>
         <Slider
           classes={{
             root: classes.sliderRoot,
@@ -72,9 +95,20 @@ class TestPage extends React.Component {
     console.log('val2: ', val)
   }
 
+  handleChangeButton1= (e, val) => {
+    this.setState({ val3: !this.state.val3 })
+    console.log('val3: ', this.state.val3)
+  }
+
+  handleChangeButton2 = (e, val) => {
+    this.setState({ val4: !this.state.val4 })
+    console.log('val4: ', this.state.val4)
+  }
+
   // Convert touch to mouse events
   touchToMouseEvent = (e) => {
     [...e.touches].forEach((touch) => {
+      console.log(touch)
       const evt = new window.MouseEvent('click', {
         view: window,
         bubbles: true,
