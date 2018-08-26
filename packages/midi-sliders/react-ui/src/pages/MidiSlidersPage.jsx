@@ -54,7 +54,7 @@ class MidiSlidersPage extends React.Component {
       this.props.actions.initMidiAccess({midiAccess})
     } else {
       this.setState({hasMidi: false})
-      console.warn('There are not midi-drivers available. Tip: Please create a virtual midi driver at first and then restart the application.')
+      console.warn('There are no midi-drivers available. Tip: Please create a virtual midi driver at first and then restart the application.')
     }
   }
 

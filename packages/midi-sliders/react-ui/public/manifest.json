@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "MIDI Sliders",
+  "name": "Simple configurable Sliders and Buttons which send MIDI Data",
   "icons": [
     {
       "src": "favicon.ico",
