@@ -23,7 +23,11 @@ class MidiNoteInput extends React.Component {
     const { inputValue, selectedItem } = this.state
 
     return (
-      <Downshift inputValue={inputValue} onChange={this.handleChange.bind(this, idx)} selectedItem={selectedItem}>
+      <Downshift
+        inputValue={inputValue}
+        onChange={this.handleChange.bind(this, idx)}
+        selectedItem={selectedItem}
+      >
         {({
           getInputProps,
           getItemProps,

@@ -1,12 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-// import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import Dialog from '@material-ui/core/Dialog'
-
 import MidiSettings from './MidiSettings'
 
 class MidiSettingsDialog extends React.Component {
@@ -16,7 +14,6 @@ class MidiSettingsDialog extends React.Component {
       <Dialog
         onKeyDown={this.handleKeydown}
         disableBackdropClick
-        disableEscapeKeyDown
         aria-labelledby='confirmation-dialog-title'
         {...other}
       >
@@ -38,7 +35,7 @@ class MidiSettingsDialog extends React.Component {
     }
 
     handleKeydown = (e) => {
-      // Enter will close dialog
+      // Enter key will close dialog
       if (e.keyCode === 13) {
         this.props.onClose()
         e.preventDefault()

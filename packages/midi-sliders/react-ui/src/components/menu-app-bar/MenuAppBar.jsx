@@ -20,7 +20,6 @@ class MenuAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar position='static'>
           <Toolbar>
-
             <IconButton
               onClick={this.props.handleDrawerToggle}
               className={classes.menuButton}
@@ -29,7 +28,6 @@ class MenuAppBar extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-
             <Typography
               variant='title'
               color='inherit'
@@ -37,12 +35,9 @@ class MenuAppBar extends React.Component {
             >
               MIDI Sliders
             </Typography>
-
             <ScrollButtonGroup sliderListLength={sliderList.length} />
             <AddMenu sliderListLength={sliderList.length} />
-
             <ViewMenu />
-
           </Toolbar>
         </AppBar>
       </div>

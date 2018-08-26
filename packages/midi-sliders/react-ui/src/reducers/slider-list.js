@@ -130,29 +130,23 @@ export const sliderList = createReducer([], {
     return newState
   },
   [ActionTypeSliderList.SAVE_FILE] (state, action) {
-    let newState = state
-
-    const content = JSON.stringify(newState)
+    const content = JSON.stringify(state)
     const fileName = 'json.txt'
     const contentType = 'text/plain'
-
-    var a = document.createElement('a')
-    var file = new window.Blob([content], { type: contentType })
+    let a = document.createElement('a')
+    const file = new window.Blob([content], { type: contentType })
     a.href = URL.createObjectURL(file)
     a.download = fileName
     a.click()
-
-    return [...newState]
+    return [...state]
   },
   [ActionTypeSliderList.LOAD_FILE] (state, action) {
     const files = action.payload[0]
-
     if (!files.length) {
       window.alert('No file selected')
     }
     const content = files[0].target.result
     const parsedJson = JSON.parse(content)
-
     // Restore midi-access
     const newState = parsedJson.map((item) => {
       const tmp = {

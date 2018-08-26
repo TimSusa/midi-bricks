@@ -5,13 +5,14 @@ import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
-import DeleteIcon from '@material-ui/icons/Delete'
+import CopyIcon from '@material-ui/icons/NoteAdd'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../actions/slider-list.js'
 import { STRIP_TYPE } from '../../../../reducers/slider-list'
 import InputNoteOrCc from './InputNoteOrCc'
+import StripDeleteModal from './StripDeleteModal'
 
 class MidiSettings extends React.Component {
   render () {
@@ -29,11 +30,8 @@ class MidiSettings extends React.Component {
             onChange={this.handleLabelChange.bind(this, idx)}
           />
         </FormControl>
-
         <InputNoteOrCc sliderEntry={sliderEntry} idx={idx} />
-
         <br />
-
         <FormControl className={classes.formControl}>
           <InputLabel className={classes.label} htmlFor='cc'>Driver </InputLabel>
           <Select
@@ -46,7 +44,6 @@ class MidiSettings extends React.Component {
             {this.renderDriverSelection(sliderEntry.midi.midiDrivers)}
           </Select>
         </FormControl>
-
         <FormControl className={classes.formControl}>
           <InputLabel className={classes.label} htmlFor='cc'>Channel </InputLabel>
           <Input
@@ -57,9 +54,7 @@ class MidiSettings extends React.Component {
             value={sliderEntry.midiChannel}
             onChange={e => this.props.actions.selectMidiChannel({ idx, val: e.target.value })} />
         </FormControl>
-
         <br />
-
         {
           (sliderEntry.type !== 'SLIDER') && (
             <FormControl className={classes.formControl}>
@@ -73,20 +68,14 @@ class MidiSettings extends React.Component {
             </FormControl>
           )
         }
-
         <br />
         <Button
           className={classes.button}
           variant='raised'
           onClick={this.props.actions.clone.bind(this, idx)}>
-          Clone
+          <CopyIcon className={classes.iconColor} />
         </Button>
-        <Button
-          className={classes.button}
-          variant='raised'
-          onClick={this.props.actions.delete.bind(this, idx)}>
-          <DeleteIcon className={classes.iconColor} />
-        </Button>
+        <StripDeleteModal sliderEntry={sliderEntry} idx={idx} />
       </div>
     )
   }

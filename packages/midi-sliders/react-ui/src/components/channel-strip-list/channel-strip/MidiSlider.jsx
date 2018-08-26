@@ -38,10 +38,10 @@ class MidiSlider extends React.Component {
           step={1}
         />
         <Typography className={classes.caption}>{sliderEntry.val}</Typography>
-
       </React.Fragment>
     )
   }
+
   handleSliderChange = (idx, e, val) => {
     this.props.actions.handleSliderChange({ idx, val })
   }

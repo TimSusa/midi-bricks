@@ -11,12 +11,14 @@ class ChannelStripList extends React.Component {
   state = {
     sliderList: []
   }
+
   constructor (props) {
     super(props)
     this.state = {
       sliderList: props.sliderList
     }
   }
+
   componentWillReceiveProps ({ sliderList }) {
     if (sliderList !== this.props.sliderList) {
       this.setState({
@@ -24,6 +26,7 @@ class ChannelStripList extends React.Component {
       })
     }
   }
+
   render () {
     const { classes, sliderList, viewSettings } = this.props
     if (sliderList.length > 0) {
@@ -109,7 +112,6 @@ class ChannelStripList extends React.Component {
                   draggableProps.style
                 )}
               >
-
                 <div
                   style={{ pointerEvents: 'none', backgroundColor: 'rgba(0,255,0,0.3)' }}
                 >
