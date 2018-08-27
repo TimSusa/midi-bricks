@@ -23,7 +23,7 @@ class ChannelStrip extends React.Component {
     return (
       <VisibilitySensor partialVisibility>
         {({ isVisible }) =>
-          <div className={classes.sliderContainer}>
+          <div className={classes.root}>
 
             <Typography className={classes.labelTop} >
               {sliderEntry.label}
@@ -83,7 +83,7 @@ class ChannelStrip extends React.Component {
 }
 
 const styles = theme => ({
-  sliderContainer: {
+  root: {
     width: 100,
     height: 'calc(100vh - 112px)',
     margin: '0 16px 0 16px'

@@ -16,6 +16,7 @@ import MenuAppBar from './components/menu-app-bar/MenuAppBar'
 import DrawerList from './components/DrawerList'
 
 import TestPage from './pages/TestPage.jsx'
+import DraggableLayout from './pages/DraggableLayout'
 
 const history = createBrowserHistory()
 
@@ -29,6 +30,7 @@ class App extends React.Component {
       <Route exact path='/' component={MidiSlidersPage} />
       <Route exact path='/slider-list' component={MidiSlidersPage} />
       <Route exact path='/test-page' component={TestPage} />
+      <Route exact path='/draggable' component={DraggableLayout} />
     </div>
   );
 
