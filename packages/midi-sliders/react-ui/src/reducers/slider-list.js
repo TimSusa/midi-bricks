@@ -25,7 +25,7 @@ export const sliderList = createReducer([], {
         type: STRIP_TYPE.SLIDER,
         label: 'label 1',
         val: 80,
-        midiCC: 60, // count up last entry,
+        midiCC: [60], // count up last entry,
         outputId: midi.midiDrivers[0].outputId,
         midiChannel: 1,
         midi,
@@ -52,7 +52,6 @@ export const sliderList = createReducer([], {
     return newArr
   },
   [ActionTypeSliderList.CHANGE_BUTTON_TYPE] (state, action) {
-    console.log('CHANGE_BUTTON_TYPE ', action.payload)
     const newState = transformState(state, action, 'type')
     return newState
   },
@@ -113,18 +112,35 @@ export const sliderList = createReducer([], {
     return newState
   },
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL] (state, action) {
-    const newState = transformState(state, action, 'midiChannel')
+    const {val} = action.payload
+
+    // Limit to allowed number of midi channels
+    // and prevent crash
+    let newAction = null
+    if ((val <= 16) && (val >= 1)) {
+      newAction = action
+    } else if (val > 16) {
+      newAction = {payload: {val: 16}}
+    } else {
+      newAction = {payload: {val: 1}}
+    }
+    const newState = transformState(state, newAction, 'midiChannel')
     return newState
   },
   [ActionTypeSliderList.HANDLE_SLIDER_CHANGE] (state, action) {
     const { idx, val } = action.payload
     const tmp = state[idx]
-    const midiCC = tmp.midiCC
     const outputId = tmp.outputId
-    var ccMessage = [0xaf + parseInt(tmp.midiChannel, 10), midiCC, parseInt(val, 10)]
-    var output = tmp.midi.midiAccess.outputs.get(outputId)
-    // omitting the timestamp means send immediately.
-    output.send(ccMessage, (window.performance.now() + 10.0))
+    const output = tmp.midi.midiAccess.outputs.get(outputId)
+
+    if (Array.isArray(tmp.midiCC) === true) {
+      tmp.midiCC.forEach((item) => {
+        const midiCC = midi(item)
+        const ccMessage = [0xaf + parseInt(tmp.midiChannel, 10), midiCC, parseInt(val, 10)]
+        // omitting the timestamp means send immediately.
+        output.send(ccMessage, (window.performance.now() + 10.0))
+      })
+    }
 
     const newState = transformState(state, action, 'val')
     return newState
@@ -232,7 +248,7 @@ const transformAddState = (state, action, type) => {
   if (type === STRIP_TYPE.BUTTON) {
     midiCC = [Note.fromMidi(addMidiCCVal())]
   } else {
-    midiCC = addMidiCCVal()
+    midiCC = [addMidiCCVal()]
   }
 
   const entry = {

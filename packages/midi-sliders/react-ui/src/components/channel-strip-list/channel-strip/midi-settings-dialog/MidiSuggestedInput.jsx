@@ -10,16 +10,15 @@ import Chip from '@material-ui/core/Chip'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../actions/slider-list.js'
-import { Note } from 'tonal'
 
-class MidiNoteInput extends React.Component {
+class MidiSuggestedInput extends React.Component {
   state = {
     inputValue: '',
-    selectedItem: this.props.sliderEntry.midiCC || [Note.fromMidi(65)]
+    selectedItem: this.props.sliderEntry.midiCC || this.props.startVal
   };
 
   render () {
-    const { classes, idx } = this.props
+    const { classes, idx, suggestions } = this.props
     const { inputValue, selectedItem } = this.state
 
     return (
@@ -37,7 +36,7 @@ class MidiNoteInput extends React.Component {
           highlightedIndex
         }) => (
           <div className={classes.container}>
-            {renderInput({
+            {this.renderInput({
               fullWidth: false,
               classes,
               InputProps: getInputProps({
@@ -57,7 +56,7 @@ class MidiNoteInput extends React.Component {
             })}
             {isOpen ? (
               <Paper className={classes.paper} square>
-                {getSuggestions(inputValue).map((suggestion, index) =>
+                {this.getSuggestions(suggestions, inputValue).map((suggestion, index) =>
                   renderSuggestion({
                     suggestion,
                     index,
@@ -74,6 +73,23 @@ class MidiNoteInput extends React.Component {
     )
   }
 
+  renderInput = (inputProps) => {
+    const { InputProps, classes, ref, ...other } = inputProps
+
+    return (
+      <TextField
+        InputProps={{
+          inputRef: ref,
+          classes: {
+            root: classes.inputRoot
+          },
+          ...InputProps
+        }}
+        {...other}
+      />
+    )
+  }
+
   handleKeyDown = event => {
     const { inputValue, selectedItem } = this.state
 
@@ -82,11 +98,11 @@ class MidiNoteInput extends React.Component {
         selectedItem: selectedItem.slice(0, selectedItem.length - 1)
       })
     }
-  };
+  }
 
   handleInputChange = event => {
     this.setState({ inputValue: event.target.value })
-  };
+  }
 
   handleChange = (idx, item) => {
     let { selectedItem } = this.state
@@ -100,7 +116,7 @@ class MidiNoteInput extends React.Component {
       inputValue: '',
       selectedItem
     })
-  };
+  }
 
   handleDelete = (idx, item) => () => {
     this.setState(state => {
@@ -109,10 +125,19 @@ class MidiNoteInput extends React.Component {
       this.props.actions.selectCc({ idx, val: selectedItem })
       return { selectedItem }
     })
-  };
+  }
+
+  getSuggestions = (suggestions, inputValue) => {
+    return suggestions.filter(suggestion => {
+      const keep =
+        (suggestion.label.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1)
+
+      return keep
+    })
+  }
 }
 
-MidiNoteInput.propTypes = {
+MidiSuggestedInput.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
@@ -146,27 +171,6 @@ const styles = theme => ({
   }
 })
 
-const suggestions = Array.apply(null, { length: 128 }).map(Number.call, Number).map((item) => {
-  return { label: Note.fromMidi(item) }
-})
-
-function renderInput (inputProps) {
-  const { InputProps, classes, ref, ...other } = inputProps
-
-  return (
-    <TextField
-      InputProps={{
-        inputRef: ref,
-        classes: {
-          root: classes.inputRoot
-        },
-        ...InputProps
-      }}
-      {...other}
-    />
-  )
-}
-
 function renderSuggestion ({ suggestion, index, itemProps, highlightedIndex, selectedItem }) {
   const isHighlighted = highlightedIndex === index
   const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1
@@ -193,18 +197,10 @@ renderSuggestion.propTypes = {
   suggestion: PropTypes.shape({ label: PropTypes.string }).isRequired
 }
 
-function getSuggestions (inputValue) {
-  return suggestions.filter(suggestion => {
-    const keep =
-      (suggestion.label.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1)
-
-    return keep
-  })
-}
 function mapDispatchToProps (dispatch) {
   return {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
 
-export default (withStyles(styles)(connect(null, mapDispatchToProps)(MidiNoteInput)))
+export default (withStyles(styles)(connect(null, mapDispatchToProps)(MidiSuggestedInput)))

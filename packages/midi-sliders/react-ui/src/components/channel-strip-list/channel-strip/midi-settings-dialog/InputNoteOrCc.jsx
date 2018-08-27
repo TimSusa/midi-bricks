@@ -1,5 +1,4 @@
 import React from 'react'
-import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import { withStyles } from '@material-ui/core/styles'
@@ -7,7 +6,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../actions/slider-list.js'
 import { STRIP_TYPE } from '../../../../reducers/slider-list'
-import MidiNoteInput from './MidiNoteInput'
+import MidiSuggestedInput from './MidiSuggestedInput'
+import { Note } from 'tonal'
 
 class InputNoteOrCc extends React.Component {
   render () {
@@ -17,13 +17,12 @@ class InputNoteOrCc extends React.Component {
         <React.Fragment>
           <FormControl className={classes.formControl}>
             <InputLabel className={classes.label} htmlFor='cc'>CC</InputLabel>
-            <Input
-              className={classes.input}
-              id='number'
-              type='number'
-              name={`input-cc-name-${idx}`}
-              value={sliderEntry.midiCC}
-              onChange={this.handleCCChange.bind(this, idx)} />
+            <MidiSuggestedInput
+              suggestions={this.suggestionsMidiCc}
+              startVal={['65']}
+              sliderEntry={sliderEntry}
+              idx={idx}
+            />
           </FormControl>
         </React.Fragment>
       )
@@ -32,16 +31,25 @@ class InputNoteOrCc extends React.Component {
         <React.Fragment>
           <FormControl className={classes.formControl}>
             <InputLabel className={classes.label} htmlFor='note'>Notes</InputLabel>
-            <MidiNoteInput sliderEntry={sliderEntry} idx={idx} />
+            <MidiSuggestedInput
+              suggestions={this.suggestionsMidiNote}
+              startVal={[Note.fromMidi(65)]}
+              sliderEntry={sliderEntry}
+              idx={idx}
+            />
           </FormControl>
         </React.Fragment>
       )
     }
   }
-  handleCCChange = (idx, e) => {
-    this.props.actions.selectCc({ idx, val: e.target.value })
-    e.preventDefault()
-  }
+
+  suggestionsMidiNote = Array.apply(null, { length: 128 }).map(Number.call, Number).map((item) => {
+    return { label: Note.fromMidi(item) }
+  })
+
+  suggestionsMidiCc = Array.apply(null, { length: 128 }).map(Number.call, Number).map((item) => {
+    return { label: `${item}` }
+  })
 }
 
 const styles = theme => ({
