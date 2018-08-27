@@ -43,8 +43,8 @@ class MidiButtons extends React.Component {
               onContextMenu={this.preventCtxMenu}
               classes={{ root: classes.button }}
               variant='raised'
-              onMouseDown={this.props.actions.toggleNote.bind(this, idx)}
-              onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
+              onClick={this.handleTouchButtonTrigger.bind(this, idx)}
+              // onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
             >
               <MusicIcon className={classes.iconColor} />
               <Typography
