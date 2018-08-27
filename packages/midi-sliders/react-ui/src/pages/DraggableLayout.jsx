@@ -7,6 +7,7 @@ import _ from 'lodash'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../actions/slider-list.js'
+import * as ViewSettingsActions from '../actions/view-settings.js'
 
 require('react-grid-layout/css/styles.css')
 require('react-resizable/css/styles.css')
@@ -24,7 +25,7 @@ class AddRemoveLayout extends React.PureComponent {
 
   state = {
     laylout: null,
-    items: [],
+    sliderList: [],
     newCounter: 0
   }
 
@@ -37,37 +38,25 @@ class AddRemoveLayout extends React.PureComponent {
     } else {
       window.alert('WebMIDI is not supported in this browser.')
     }
-
+    console.log('fg', this.props.viewSettings)
     this.state = {
-      laylout: null,
+      laylout: this.props.viewSettings.listOrder,
 
-      items: this.props.sliderList.map(function (sliderEntry, idx, list) {
-        return {
-          sliderEntry,
-          idx: idx.toString(),
-          x: idx * 2,
-          y: 0,
-          w: 1,
-          h: 2
-        }
-      }),
+      sliderList: this.props.sliderList,
       newCounter: 0
     }
   }
 
-  componentWillReceiveProps ({ sliderList }) {
-    this.setState({
-      items: sliderList.map(function (sliderEntry, idx, list) {
-        return {
-          sliderEntry,
-          idx: idx.toString(),
-          x: idx * 2,
-          y: 0,
-          w: 1,
-          h: 2,
-          isDraggable: false
-        }
+  componentWillReceiveProps ({ sliderList, viewSettings }) {
+    console.log('viewSettings ', viewSettings)
+    if (this.props.viewSettings !== viewSettings) {
+      this.setState({
+        layout: viewSettings.listOrder
       })
+    }
+    this.setState({
+      layout: viewSettings.listOrder,
+      sliderList
     })
   }
 
@@ -75,27 +64,29 @@ class AddRemoveLayout extends React.PureComponent {
     return (
       <ResponsiveReactGridLayout
         isDraggable
+        layout={this.state.layout}
         compactType='horizontal'
         onLayoutChange={this.onLayoutChange}
         onBreakpointChange={this.onBreakpointChange}
+        onDragStart={this.handleDragStop}
+        onDragStop={this.handleDragStop}
         {...this.props}
       >
-        {_.map(this.state.items, el => this.renderElement(el))}
+        {this.state.sliderList.map((sliderEntry, idx) => this.renderElement(sliderEntry, idx))}
       </ResponsiveReactGridLayout>
     )
   }
 
-  renderElement = (el) => {
+  renderElement = (sliderEntry, idx) => {
     const removeStyle = {
       position: 'absolute',
       right: '2px',
       top: 0,
       cursor: 'pointer'
     }
-    const {idx} = el
     return (
-      <Card key={idx} data-grid={el} >
-        <ChannelStrip sliderEntry={el.sliderEntry} idx={el.idx} />
+      <Card key={idx} data-grid={sliderEntry}>
+        <ChannelStrip sliderEntry={sliderEntry} idx={idx} />
         <span
           className='remove'
           style={removeStyle}
@@ -107,7 +98,10 @@ class AddRemoveLayout extends React.PureComponent {
     )
   }
 
-  // We're using the cols coming back from this to calculate where to add new items.
+  handleDragStop = (layout, oldItem, newItem, placeholder, e, element) => {
+    this.props.actions.changeListOrder({listOrder: layout})
+  }
+  // We're using the cols coming back from this to calculate where to add new sliderList.
   onBreakpointChange = (breakpoint, cols) => {
     this.setState({
       breakpoint: breakpoint,
@@ -117,14 +111,12 @@ class AddRemoveLayout extends React.PureComponent {
 
   // here you would trigger to store the layout or persist
   onLayoutChange = (layout) => {
-    console.log('layout ', layout)
-    // this.props.onLayoutChange(layout)
+    this.props.actions.changeListOrder({listOrder: layout})
     this.setState({ layout })
   }
 
   onRemoveItem = (idx) => {
     this.props.actions.delete(parseInt(idx, 10))
-    // this.setState({ items: _.reject(this.state.items, { idx }) }, () => this.props.actions.delete(idx))
   }
 
   onMIDISuccess = (midiAccess) => {
@@ -143,12 +135,13 @@ class AddRemoveLayout extends React.PureComponent {
 
 function mapStateToProps ({ sliderList, viewSettings }) {
   return {
-    sliderList
+    sliderList,
+    viewSettings
   }
 }
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(MidiSliderActions, dispatch)
+    actions: bindActionCreators({...MidiSliderActions, ...ViewSettingsActions}, dispatch)
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AddRemoveLayout)

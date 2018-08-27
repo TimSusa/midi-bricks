@@ -29,7 +29,12 @@ export const sliderList = createReducer([], {
         outputId: midi.midiDrivers[0].outputId,
         midiChannel: 1,
         midi,
-        chord: 'none'
+        chord: 'none',
+        isDraggable: false,
+        x: 0,
+        y: 0,
+        w: 1,
+        h: 1
       }
       arrToSend = [entry]
     }
@@ -141,8 +146,7 @@ export const sliderList = createReducer([], {
         output.send(ccMessage, (window.performance.now() + 10.0))
       })
     }
-
-    const newState = transformState(state, action, 'val')
+    const newState = transformState(state, {payload: {idx: parseInt(idx, 10), val}}, 'val')
     return newState
   },
   [ActionTypeSliderList.SAVE_FILE] (state, action) {
@@ -177,7 +181,17 @@ export const sliderList = createReducer([], {
     return newState
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER] (state, action) {
-    return action.payload
+    console.log('CHANGE_LIST_ORDER', action.payload)
+    let newArray = []
+    if (!action.payload.listOrder) return state
+    const len = action.payload.listOrder.length
+    for (let i = 0; i < len; i++) {
+      newArray.push(Object.assign({}, {
+        ...state[i],
+        ...action.payload.listOrder[i]
+      }))
+    }
+    return newArray
   }
 })
 
@@ -259,7 +273,12 @@ const transformAddState = (state, action, type) => {
     outputId: newDriver,
     midiChannel: 1,
     isNoteOn: false,
-    midi
+    midi,
+    isDraggable: false,
+    x: 0,
+    y: 0,
+    w: 1,
+    h: 1
   }
   return [...state, entry]
 }
