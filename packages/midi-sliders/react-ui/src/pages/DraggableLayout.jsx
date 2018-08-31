@@ -61,9 +61,11 @@ class AddRemoveLayout extends React.PureComponent {
   }
 
   render () {
+    console.log(this.props.viewSettings.isLayoutMode)
+
     return (
       <ResponsiveReactGridLayout
-        isDraggable
+        isDraggable={this.props.viewSettings.isLayoutMode}
         layout={this.state.layout}
         compactType='horizontal'
         onLayoutChange={this.onLayoutChange}
