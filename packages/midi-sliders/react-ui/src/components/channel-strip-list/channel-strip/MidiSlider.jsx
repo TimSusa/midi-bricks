@@ -8,13 +8,17 @@ import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../actions/slider-list.js'
 
 class MidiSlider extends React.Component {
+  static defaultProps = {
+    height: 0
+  }
   render () {
     const { sliderEntry, idx, height } = this.props
     const { classes } = this.props
+    console.log('widht sllider ', idx, height)
     return (
       <React.Fragment>
         <Slider
-          style={{height: height - 150}}
+          style={{height: (height || 0) - 150}}
           classes={{
             root: classNames({
               [classes.sliderRoot]: true
@@ -71,7 +75,7 @@ class MidiSlider extends React.Component {
 
 const styles = theme => ({
   sliderRoot: {
-    width: '100%',
+    // width: '100%',
     cursor: 'default',
 
     '&$vertical': {

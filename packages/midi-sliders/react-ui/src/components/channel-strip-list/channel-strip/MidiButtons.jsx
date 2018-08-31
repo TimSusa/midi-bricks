@@ -11,15 +11,17 @@ import { STRIP_TYPE } from '../../../reducers/slider-list'
 
 class MidiButtons extends React.Component {
   render () {
-    const { sliderEntry, idx, classes } = this.props
+    const { sliderEntry, idx, classes, height, width } = this.props
     if (sliderEntry.type === STRIP_TYPE.BUTTON) {
       return (
-        <div className={classNames({
-          [classes.root]: true
-        })}
+        <div
+          className={classNames({
+            [classes.root]: true
+          })}
         >
-          <div className={classes.group}>
+          <div >
             <Button
+              style={{height: ((height || 0) - 100), width: ((width || 0) - 56)}}
               onContextMenu={this.preventCtxMenu}
               className={classes.button}
               variant='raised'
@@ -36,13 +38,13 @@ class MidiButtons extends React.Component {
     } else if (sliderEntry.type === STRIP_TYPE.BUTTON_TOGGLE) {
       return (
         <div
-          style={{height: this.props.height}}
-
           className={classNames({
             [classes.root]: true
+
           })}>
-          <div className={classes.group}>
+          <div >
             <Button
+              style={{height: ((height || 0) - 100), width: ((width || 0) - 56)}}
               onContextMenu={this.preventCtxMenu}
               classes={{ root: classes.button }}
               variant='raised'
@@ -83,8 +85,7 @@ const styles = theme => ({
   root: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
-    height: 'calc(100vh - 230px)'
+    justifyContent: 'center'
   },
   group: {
   },
@@ -93,10 +94,12 @@ const styles = theme => ({
     cursor: 'pointer'
   },
   button: {
-    marginBottom: 4 * theme.spacing.unit,
-    background: theme.palette.secondary.light,
-    minHeight: 88,
-    maxHeight: 150
+    // width: '100%',
+    // height: '100%',
+    // marginBottom: 4 * theme.spacing.unit,
+    background: theme.palette.secondary.light
+    // minHeight: 88
+    // maxHeight: 150
   }
 })
 

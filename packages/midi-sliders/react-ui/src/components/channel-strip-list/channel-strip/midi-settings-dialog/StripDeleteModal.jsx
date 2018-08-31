@@ -71,7 +71,7 @@ class StripDeleteModal extends React.Component {
   handleClose = (idx, e) => {
     this.props.actions.delete(idx)
     this.setState({ open: false })
-    this.props.onClose()
+    // this.props.onClose()
     e.preventDefault()
   }
 }

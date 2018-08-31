@@ -2,7 +2,7 @@ import React from 'react'
 import { WidthProvider, Responsive } from 'react-grid-layout'
 import Card from '@material-ui/core/Card'
 import ChannelStrip from '../components/channel-strip-list/channel-strip/ChannelStrip'
-
+import { SizeMe } from 'react-sizeme'
 import _ from 'lodash'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -13,20 +13,11 @@ require('react-grid-layout/css/styles.css')
 require('react-resizable/css/styles.css')
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
-/**
- * This layout demonstrates how to use a grid with a dynamic number of elements.
- */
-class AddRemoveLayout extends React.PureComponent {
+class DraggableLayout extends React.PureComponent {
   static defaultProps = {
     className: 'layout',
     cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
     rowHeight: 150
-  }
-
-  state = {
-    laylout: null,
-    sliderList: [],
-    newCounter: 0
   }
 
   constructor (props) {
@@ -38,35 +29,13 @@ class AddRemoveLayout extends React.PureComponent {
     } else {
       window.alert('WebMIDI is not supported in this browser.')
     }
-    console.log('fg', this.props.viewSettings)
-    this.state = {
-      laylout: this.props.viewSettings.listOrder,
-
-      sliderList: this.props.sliderList,
-      newCounter: 0
-    }
-  }
-
-  componentWillReceiveProps ({ sliderList, viewSettings }) {
-    console.log('viewSettings ', viewSettings)
-    if (this.props.viewSettings !== viewSettings) {
-      this.setState({
-        layout: viewSettings.listOrder
-      })
-    }
-    this.setState({
-      layout: viewSettings.listOrder,
-      sliderList
-    })
   }
 
   render () {
-    console.log(this.props.viewSettings.isLayoutMode)
-
     return (
       <ResponsiveReactGridLayout
         isDraggable={this.props.viewSettings.isLayoutMode}
-        layout={this.state.layout}
+        isResizable={this.props.viewSettings.isLayoutMode}
         compactType='horizontal'
         onLayoutChange={this.onLayoutChange}
         onBreakpointChange={this.onBreakpointChange}
@@ -74,7 +43,7 @@ class AddRemoveLayout extends React.PureComponent {
         onDragStop={this.handleDragStop}
         {...this.props}
       >
-        {this.state.sliderList.map((sliderEntry, idx) => this.renderElement(sliderEntry, idx))}
+        {_.map(this.props.sliderList, (sliderEntry, idx) => this.renderElement(sliderEntry, idx))}
       </ResponsiveReactGridLayout>
     )
   }
@@ -87,33 +56,44 @@ class AddRemoveLayout extends React.PureComponent {
       cursor: 'pointer'
     }
     return (
-      <Card key={idx} data-grid={sliderEntry}>
-        <ChannelStrip sliderEntry={sliderEntry} idx={idx} />
-        <span
-          className='remove'
-          style={removeStyle}
-          onClick={this.onRemoveItem.bind(this, idx)}
+      <div key={idx} data-grid={sliderEntry} >
+        <SizeMe
+          monitorHeight
         >
-          x
-        </span>
-      </Card>
+          {({ size }) =>
+            <Card style={{height: '100%'}}>
+              <ChannelStrip size={size} sliderEntry={sliderEntry} idx={idx} />
+              <span
+                className='remove'
+                style={removeStyle}
+                onClick={this.onRemoveItem.bind(this, idx)}
+              >
+                x
+              </span>
+            </Card>
+          }
+        </SizeMe>
+      </div>
+
     )
   }
 
-  handleDragStop = (layout, oldItem, newItem, placeholder, e, element) => {
-    this.props.actions.changeListOrder({listOrder: layout})
-  }
+  // handleDragStop = (layout, oldItem, newItem, placeholder, e, element) => {
+  //   console.log('handleDragStop')
+  //   this.props.actions.changeListOrder({listOrder: layout})
+  // }
   // We're using the cols coming back from this to calculate where to add new sliderList.
   onBreakpointChange = (breakpoint, cols) => {
     this.setState({
-      breakpoint: breakpoint,
-      cols: cols
+      breakpoint,
+      cols
     })
   }
 
   // here you would trigger to store the layout or persist
   onLayoutChange = (layout) => {
-    this.props.actions.changeListOrder({listOrder: layout})
+    console.log('onLayoutChange ', layout)
+    this.props.actions.changeListOrder({ listOrder: layout })
     this.setState({ layout })
   }
 
@@ -123,9 +103,9 @@ class AddRemoveLayout extends React.PureComponent {
 
   onMIDISuccess = (midiAccess) => {
     if (midiAccess.outputs.size > 0) {
-      this.props.actions.initMidiAccess({midiAccess})
+      this.props.actions.initMidiAccess({ midiAccess })
     } else {
-      this.setState({hasMidi: false})
+      this.setState({ hasMidi: false })
       console.warn('There are no midi-drivers available. Tip: Please create a virtual midi driver at first and then restart the application.')
     }
   }
@@ -143,7 +123,7 @@ function mapStateToProps ({ sliderList, viewSettings }) {
 }
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators({...MidiSliderActions, ...ViewSettingsActions}, dispatch)
+    actions: bindActionCreators({ ...MidiSliderActions, ...ViewSettingsActions }, dispatch)
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(AddRemoveLayout)
+export default connect(mapStateToProps, mapDispatchToProps)(DraggableLayout)

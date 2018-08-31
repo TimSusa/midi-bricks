@@ -30,7 +30,7 @@ export const sliderList = createReducer([], {
         midiChannel: 1,
         midi,
         chord: 'none',
-        isDraggable: false,
+        isDraggable: true,
         x: 0,
         y: 0,
         w: 1,
@@ -181,7 +181,6 @@ export const sliderList = createReducer([], {
     return newState
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER] (state, action) {
-    console.log('CHANGE_LIST_ORDER', action.payload)
     let newArray = []
     if (!action.payload.listOrder) return state
     const len = action.payload.listOrder.length
@@ -274,8 +273,8 @@ const transformAddState = (state, action, type) => {
     midiChannel: 1,
     isNoteOn: false,
     midi,
-    isDraggable: false,
-    x: 0,
+    isDraggable: true,
+    x: addStateLength(),
     y: 0,
     w: 1,
     h: 1
