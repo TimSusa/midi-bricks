@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { withStyles } from '@material-ui/core/styles'
+import Dimensions from 'react-dimensions'
 import MidiSlider from './MidiSlider'
 import MidiButton from './MidiButtons'
 import { STRIP_TYPE } from '../../../reducers/slider-list'
@@ -23,14 +24,21 @@ class ChannelStrip extends React.Component {
     return (
       <VisibilitySensor partialVisibility>
         {({ isVisible }) =>
-          <div className={classes.root}>
+          <div
+            style={{height: this.props.containerHeight}}
+            className={classes.root}
+          >
 
             <Typography className={classes.labelTop} >
               {sliderEntry.label}
             </Typography>
 
             {
-              (sliderEntry.type === STRIP_TYPE.SLIDER) && <MidiSlider sliderEntry={sliderEntry} idx={idx} />
+              (sliderEntry.type === STRIP_TYPE.SLIDER) &&
+              <MidiSlider
+                sliderEntry={sliderEntry}
+                idx={idx}
+                height={this.props.containerHeight} />
             }
             {
               <MidiButton sliderEntry={sliderEntry} idx={idx} />
@@ -84,8 +92,6 @@ class ChannelStrip extends React.Component {
 
 const styles = theme => ({
   root: {
-    width: 100,
-    height: 'calc(100vh - 112px)',
     margin: '0 16px 0 16px'
   },
   button: {
@@ -93,7 +99,8 @@ const styles = theme => ({
     background: theme.palette.secondary.light
   },
   buttonExpand: {
-    margin: theme.spacing.unit
+    margin: '8px 0',
+    width: '100%'
   },
   iconColor: {
     color: theme.palette.primary.contrastText,
@@ -116,6 +123,7 @@ const styles = theme => ({
   inputInput: {
   },
   labelTop: {
+    textAlign: 'center',
     padding: theme.spacing.unit * 2,
     overflow: 'hidden',
     whiteSpace: 'nowrap',
@@ -127,7 +135,8 @@ const styles = theme => ({
     lineHeight: '1.375em'
   },
   label: {
-    color: theme.palette.primary.contrastText
+    color: theme.palette.primary.contrastText,
+    textAlign: 'center'
   }
 
 })
@@ -137,5 +146,5 @@ function mapDispatchToProps (dispatch) {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
-
-export default (withStyles(styles)(connect(null, mapDispatchToProps)(ChannelStrip)))
+const options = {elementResize: true}
+export default Dimensions(options)((withStyles(styles)(connect(null, mapDispatchToProps)(ChannelStrip))))

@@ -9,11 +9,12 @@ import * as MidiSliderActions from '../../../actions/slider-list.js'
 
 class MidiSlider extends React.Component {
   render () {
-    const { sliderEntry, idx } = this.props
+    const { sliderEntry, idx, height } = this.props
     const { classes } = this.props
     return (
       <React.Fragment>
         <Slider
+          style={{height: height - 150}}
           classes={{
             root: classNames({
               [classes.sliderRoot]: true
@@ -69,6 +70,17 @@ class MidiSlider extends React.Component {
 }
 
 const styles = theme => ({
+  sliderRoot: {
+    width: '100%',
+    cursor: 'default',
+
+    '&$vertical': {
+      // height: 'calc(100vh - 258px)',
+      margin: 0,
+      marginLeft: 'auto',
+      marginRight: 'auto'
+    }
+  },
   vertical: {
   },
   activated: {},
@@ -114,18 +126,8 @@ const styles = theme => ({
       height: 40
     }
   },
-  sliderRoot: {
-    width: 80,
-    cursor: 'default',
-
-    '&$vertical': {
-      height: 'calc(100vh - 258px)',
-      margin: 0,
-      marginLeft: 'auto',
-      marginRight: 'auto'
-    }
-  },
   caption: {
+    textAlign: 'center',
     marginTop: theme.spacing.unit,
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',

@@ -35,9 +35,12 @@ class MidiButtons extends React.Component {
       )
     } else if (sliderEntry.type === STRIP_TYPE.BUTTON_TOGGLE) {
       return (
-        <div className={classNames({
-          [classes.root]: true
-        })}>
+        <div
+          style={{height: this.props.height}}
+
+          className={classNames({
+            [classes.root]: true
+          })}>
           <div className={classes.group}>
             <Button
               onContextMenu={this.preventCtxMenu}
