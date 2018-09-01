@@ -5,7 +5,8 @@ import { bindActionCreators } from 'redux'
 import * as MidiSlidersAction from '../../actions/slider-list.js'
 import * as ViewSettingsAction from '../../actions/view-settings'
 import IconButton from '@material-ui/core/IconButton'
-import ViewSettingsIcon from '@material-ui/icons/ViewWeek'
+import ViewSettingsIcon from '@material-ui/icons/ViewColumn'
+import ViewSettingsIconList from '@material-ui/icons/ViewList'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import ToolTip from '@material-ui/core/Tooltip'
@@ -31,7 +32,14 @@ class ViewMenu extends React.Component {
             onClick={this.handleMenu}
             color='inherit'
           >
-            <ViewSettingsIcon />
+            {
+              this.props.viewSettings.isCompactHorz ? (
+                <ViewSettingsIconList />
+              ) : (
+                <ViewSettingsIcon />
+              )
+            }
+
           </IconButton>
         </ToolTip>
         <Menu
@@ -52,6 +60,10 @@ class ViewMenu extends React.Component {
             onClick={this.toggleLayoutMode}>
             {this.props.viewSettings.isLayoutMode ? ('Layout Mode Exit') : ('Layout Mode Enter')}
           </MenuItem>
+          <MenuItem
+            onClick={this.toggleCompactMode}>
+            {!this.props.viewSettings.isCompactHorz ? ('Compact Horz') : ('Compact Vert')}
+          </MenuItem>
         </Menu>
       </div>
     )
@@ -71,6 +83,11 @@ class ViewMenu extends React.Component {
 
   toggleLayoutMode = () => {
     this.props.actions.toggleLayoutMode()
+    this.handleClose()
+  }
+
+  toggleCompactMode = () => {
+    this.props.actions.toggleCompactMode()
     this.handleClose()
   }
 }

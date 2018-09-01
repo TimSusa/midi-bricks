@@ -9,9 +9,10 @@ export const viewSettings = createReducer({}, {
     })
   },
 
-  [ActionTypeViewSettings.UPDATE_LIST_ORDER] (state, action) {
-    const newState = Object.assign({}, state, {listOrder: action.payload})
-    return newState
+  [ActionTypeViewSettings.TOGGLE_COMPACT_MODE] (state = {isLayoutMode: true}, action) {
+    const castedVal = !!state.isCompactHorz
+    return Object.assign({}, {
+      isCompactHorz: !castedVal
+    })
   }
-
 })

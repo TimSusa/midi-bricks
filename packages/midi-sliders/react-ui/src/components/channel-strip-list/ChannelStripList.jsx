@@ -1,6 +1,5 @@
 import React from 'react'
 import { WidthProvider, Responsive } from 'react-grid-layout'
-import _ from 'lodash'
 import Typography from '@material-ui/core/Typography'
 import ChannelStrip from './channel-strip/ChannelStrip'
 import { connect } from 'react-redux'
@@ -47,13 +46,13 @@ class ChannelStripList extends React.Component {
   }
 
   render () {
-    const { classes, sliderList, viewSettings: {isLayoutMode} } = this.props
+    const { classes, sliderList, viewSettings: {isLayoutMode, isCompactHorz} } = this.props
     if (sliderList.length > 0) {
       return (
         <ResponsiveReactGridLayout
           isDraggable={isLayoutMode}
           isResizable={isLayoutMode}
-          compactType='vertical'
+          compactType={isCompactHorz ? 'horizontal' : 'vertical'}
           // layout={this.state.layout}
           onLayoutChange={this.onLayoutChange}
           // onBreakpointChange={this.onBreakpointChange}
@@ -93,9 +92,9 @@ class ChannelStripList extends React.Component {
   }
 
   renderChannelStrips = () => {
-    const removeStyle = {
+    const settingsStyle = {
       position: 'absolute',
-      right: '2px',
+      right: 2,
       top: 0,
       cursor: 'pointer'
     }
@@ -108,22 +107,20 @@ class ChannelStripList extends React.Component {
           >
             {({ size }) =>
               <Card style={{ height: '100%' }}>
-                <ChannelStrip size={size} sliderEntry={sliderEntry} idx={idx} />
-                {
-                  this.props.viewSettings.isLayoutMode ? (
-                    <div />
-                  ) : (
-                    <span
-                      className='remove'
-                      style={removeStyle}
-                    >
-                      <MidiSettingsDialogButton
-                        sliderEntry={sliderEntry}
-                        idx={idx}
-                      />
-                    </span>
-                  )
-                }
+                <ChannelStrip
+                  size={size}
+                  sliderEntry={sliderEntry}
+                  idx={idx}
+                />
+                <span
+                  className='remove'
+                  style={settingsStyle}
+                >
+                  <MidiSettingsDialogButton
+                    sliderEntry={sliderEntry}
+                    idx={idx}
+                  />
+                </span>
               </Card>
             }
           </SizeMe>

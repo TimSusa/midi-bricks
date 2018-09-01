@@ -17,7 +17,7 @@ class StripDeleteModal extends React.Component {
   }
 
   render () {
-    const {idx, classes, sliderEntry} = this.props
+    const {classes, sliderEntry} = this.props
     return (
       <div>
         <Button
