@@ -21,7 +21,8 @@ class MidiButtons extends React.Component {
         >
           <div >
             <Button
-              style={{height: ((height || 0) - 90), width: ((width || 0) - 56)}}
+              disableTouchRipple
+              style={{height: ((height || 0) - 90), width: ((width || 0) - 56), background: sliderEntry.isNoteOn ? 'yellow' : 'white'}}
               onContextMenu={this.preventCtxMenu}
               className={classes.button}
               variant='raised'
@@ -44,7 +45,8 @@ class MidiButtons extends React.Component {
           })}>
           <div >
             <Button
-              style={{height: ((height || 0) - 90), width: ((width || 0) - 56)}}
+              disableTouchRipple
+              style={{height: ((height || 0) - 90), width: ((width || 0) - 56), background: sliderEntry.isNoteOn ? 'yellow' : 'white'}}
               onContextMenu={this.preventCtxMenu}
               classes={{ root: classes.button }}
               variant='raised'
