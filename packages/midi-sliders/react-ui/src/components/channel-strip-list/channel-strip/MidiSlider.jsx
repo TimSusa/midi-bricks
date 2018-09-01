@@ -14,7 +14,6 @@ class MidiSlider extends React.Component {
   render () {
     const { sliderEntry, idx, height } = this.props
     const { classes } = this.props
-    console.log('widht sllider ', idx, height)
     return (
       <React.Fragment>
         <Slider

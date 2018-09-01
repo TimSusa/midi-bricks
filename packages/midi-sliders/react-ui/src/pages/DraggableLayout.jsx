@@ -20,6 +20,11 @@ class DraggableLayout extends React.PureComponent {
     rowHeight: 150
   }
 
+  state = {
+    layout: null,
+    wasLastDeleted: false
+  }
+
   constructor (props) {
     super(props)
 
@@ -37,6 +42,7 @@ class DraggableLayout extends React.PureComponent {
         isDraggable={this.props.viewSettings.isLayoutMode}
         isResizable={this.props.viewSettings.isLayoutMode}
         compactType='horizontal'
+        layout={this.state.layout}
         onLayoutChange={this.onLayoutChange}
         onBreakpointChange={this.onBreakpointChange}
         onDragStart={this.handleDragStop}
@@ -69,6 +75,8 @@ class DraggableLayout extends React.PureComponent {
                 onClick={this.onRemoveItem.bind(this, idx)}
               >
                 x
+                {sliderEntry.i}
+                {idx}
               </span>
             </Card>
           }
@@ -92,13 +100,30 @@ class DraggableLayout extends React.PureComponent {
 
   // here you would trigger to store the layout or persist
   onLayoutChange = (layout) => {
+    if (this.state.wasLastDeleted) {
+      this.setState({wasLastDeleted: false})
+      return
+    }
     console.log('onLayoutChange ', layout)
     this.props.actions.changeListOrder({ listOrder: layout })
-    this.setState({ layout })
+    this.setState({layout})
   }
 
   onRemoveItem = (idx) => {
-    this.props.actions.delete(parseInt(idx, 10))
+    console.log('onremove ', idx, this.state.layout)
+
+    const listOrder = this.state.layout.filter((item, ix) => {
+      console.log(item, ix)
+      return (idx.toString() !== item.i)
+    })
+    console.log('afterremove ', listOrder)
+
+    this.props.actions.delete({idx: parseInt(idx, 10), listOrder})
+    // this.props.actions.changeListOrder({ listOrder })
+
+    this.setState({
+      wasLastDeleted: true
+    })
   }
 
   onMIDISuccess = (midiAccess) => {

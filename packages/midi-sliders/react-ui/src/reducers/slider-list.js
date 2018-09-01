@@ -61,8 +61,19 @@ export const sliderList = createReducer([], {
     return newState
   },
   [ActionTypeSliderList.DELETE] (state, action) {
-    const newState = state.filter((t, idx) => idx !== action.payload)
-    return [...newState]
+    console.log('mystate leng', state)
+    const newState = state.filter((t, idx) => action.payload.idx.toString() !== t.i)
+    console.log('mystate leng after', newState)
+    // const newArray = []
+    // const len = action.payload.listOrder.length
+    // for (let i = 0; i < len; i++) {
+    //   newArray.push(Object.assign({}, {
+    //     ...newState[i],
+    //     ...action.payload.listOrder[i.toString()]
+    //   }))
+    // }
+
+    return newState
   },
   [ActionTypeSliderList.DELETE_ALL] (state, action) {
     return [state[0]]
@@ -187,7 +198,7 @@ export const sliderList = createReducer([], {
     for (let i = 0; i < len; i++) {
       newArray.push(Object.assign({}, {
         ...state[i],
-        ...action.payload.listOrder[i]
+        ...action.payload.listOrder[i.toString()]
       }))
     }
     return newArray
