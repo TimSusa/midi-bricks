@@ -28,6 +28,7 @@ class MidiSettings extends React.Component {
             name={`input-label-name-${idx}`}
             value={sliderEntry.label}
             onChange={this.handleLabelChange.bind(this, idx)}
+            autoFocus
           />
         </FormControl>
         <InputNoteOrCc sliderEntry={sliderEntry} idx={idx} />

@@ -60,9 +60,16 @@ class ViewMenu extends React.Component {
             onClick={this.toggleLayoutMode}>
             {this.props.viewSettings.isLayoutMode ? ('Layout Mode Exit') : ('Layout Mode Enter')}
           </MenuItem>
+          {
+            !this.props.viewSettings.isLayoutMode && <MenuItem
+              onClick={this.toggleSettingsMode}>
+              {this.props.viewSettings.isSettingsMode ? ('Hide Settings') : ('Show Settings')}
+            </MenuItem>
+          }
+
           <MenuItem
             onClick={this.toggleCompactMode}>
-            {!this.props.viewSettings.isCompactHorz ? ('Compact Horz') : ('Compact Vert')}
+            {!this.props.viewSettings.isCompactHorz ? ('horizontally') : ('vertically')}
           </MenuItem>
         </Menu>
       </div>
@@ -88,6 +95,11 @@ class ViewMenu extends React.Component {
 
   toggleCompactMode = () => {
     this.props.actions.toggleCompactMode()
+    this.handleClose()
+  }
+
+  toggleSettingsMode = () => {
+    this.props.actions.toggleSettingsMode()
     this.handleClose()
   }
 }

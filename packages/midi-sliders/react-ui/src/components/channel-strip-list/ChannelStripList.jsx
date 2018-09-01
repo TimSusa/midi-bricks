@@ -19,8 +19,8 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive)
 class ChannelStripList extends React.Component {
   static defaultProps = {
     className: 'layout',
-    cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-    rowHeight: 150
+    // cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
+    rowHeight: 250
     // onLayoutChange: function () {}
   }
   state = {
@@ -95,7 +95,7 @@ class ChannelStripList extends React.Component {
     const settingsStyle = {
       position: 'absolute',
       right: 2,
-      top: 0,
+      top: 4,
       cursor: 'pointer'
     }
     const entries = this.state.sliderList
@@ -105,23 +105,46 @@ class ChannelStripList extends React.Component {
           <SizeMe
             monitorHeight
           >
-            {({ size }) =>
-              <Card style={{ height: '100%' }}>
-                <ChannelStrip
-                  size={size}
-                  sliderEntry={sliderEntry}
-                  idx={idx}
-                />
-                <span
-                  className='remove'
-                  style={settingsStyle}
-                >
-                  <MidiSettingsDialogButton
-                    sliderEntry={sliderEntry}
-                    idx={idx}
-                  />
-                </span>
-              </Card>
+            {({ size }) => {
+              if (this.props.viewSettings.isLayoutMode) {
+                return (
+                  <Card style={{ height: '100%', background: this.props.viewSettings.isLayoutMode ? 'azure' : 'white' }}>
+                    <ChannelStrip
+                      size={size}
+                      sliderEntry={sliderEntry}
+                      idx={idx}
+                    />
+
+                  </Card>
+                )
+              } else {
+                return (
+                  <div style={{ height: '100%' }}>
+                    <ChannelStrip
+                      size={size}
+                      sliderEntry={sliderEntry}
+                      idx={idx}
+                    />
+                    {
+                      this.props.viewSettings.isSettingsMode ? (
+                        <span
+                          className='settings'
+                          style={settingsStyle}
+                        >
+                          <MidiSettingsDialogButton
+                            sliderEntry={sliderEntry}
+                            idx={idx}
+                          />
+                        </span>
+
+                      ) : (
+                        <div />
+                      )
+                    }
+                  </div>
+                )
+              }
+            }
             }
           </SizeMe>
         </div>

@@ -9,7 +9,6 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import ScrollButtonGroup from './ScrollButtonGroup'
 import ViewMenu from './ViewMenu'
 import AddMenu from './AddMenu'
 
@@ -35,7 +34,7 @@ class MenuAppBar extends React.Component {
             >
               MIDI Sliders
             </Typography>
-            <ScrollButtonGroup sliderListLength={sliderList.length} />
+            {/* <ScrollButtonGroup sliderListLength={sliderList.length} /> */}
             <AddMenu sliderListLength={sliderList.length} />
             <ViewMenu />
           </Toolbar>

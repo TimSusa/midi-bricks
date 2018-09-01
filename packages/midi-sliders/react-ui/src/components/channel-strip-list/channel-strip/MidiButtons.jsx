@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import MusicIcon from '@material-ui/icons/MusicNote'
+import MusicIcon from '@material-ui/icons/Autorenew'
 import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
@@ -22,7 +22,7 @@ class MidiButtons extends React.Component {
           <div >
             <Button
               disableTouchRipple
-              style={{height: ((height || 0) - 90), width: ((width || 0) - 56), background: sliderEntry.isNoteOn ? 'yellow' : 'white'}}
+              style={{ height: ((height || 0) - 20), width: ((width || 0) - 56), background: sliderEntry.isNoteOn ? 'yellow' : 'white' }}
               onContextMenu={this.preventCtxMenu}
               className={classes.button}
               variant='raised'
@@ -31,7 +31,16 @@ class MidiButtons extends React.Component {
               onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
               onTouchEnd={this.handleTouchButtonTrigger.bind(this, idx)}
             >
-              <MusicIcon className={classes.iconColor} />
+              <span>
+                <MusicIcon className={classes.iconColor} />
+                <br />
+                <br />
+                <Typography
+                  variant='body1'
+                >
+                  {sliderEntry.label}
+                </Typography>
+              </span>
             </Button>
           </div>
         </div>
@@ -46,17 +55,17 @@ class MidiButtons extends React.Component {
           <div >
             <Button
               disableTouchRipple
-              style={{height: ((height || 0) - 90), width: ((width || 0) - 56), background: sliderEntry.isNoteOn ? 'yellow' : 'white'}}
+              style={{ height: ((height || 0) - 20), width: ((width || 0) - 56), background: sliderEntry.isNoteOn ? 'yellow' : 'white' }}
               onContextMenu={this.preventCtxMenu}
               classes={{ root: classes.button }}
               variant='raised'
               onClick={this.handleTouchButtonTrigger.bind(this, idx)}
-              // onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
+            // onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
             >
-              <MusicIcon className={classes.iconColor} />
               <Typography
-                variant='caption'>
-                {sliderEntry.isNoteOn ? 'Off ' : 'On'}
+                variant='body1'
+              >
+                {sliderEntry.label}
               </Typography>
             </Button>
           </div>
@@ -96,6 +105,7 @@ const styles = theme => ({
     cursor: 'pointer'
   },
   button: {
+    marginTop: 8,
     background: theme.palette.secondary.light
   }
 })

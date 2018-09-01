@@ -12,7 +12,8 @@ class MidiSettingsDialogButton extends React.Component {
     const { sliderEntry, idx } = this.props
     const { classes } = this.props
     return (
-      <React.Fragment>
+      <React.Fragment
+      >
         {
           !this.state.isDialogOpen ? (
             <ExpandMoreIcon
@@ -54,7 +55,11 @@ const styles = theme => ({
   root: {
   },
   iconColor: {
-    color: theme.palette.primary.contrastText
+    color: theme.palette.primary.contrastText,
+    width: 16
+  },
+  icon: {
+    width: 5
   }
 })
 

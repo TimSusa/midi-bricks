@@ -20,18 +20,22 @@ class ChannelStrip extends React.Component {
             className={classes.root}
           >
 
-            <Typography className={classes.labelTop} >
-              {sliderEntry.label}
-            </Typography>
-
             {
               (sliderEntry.type === STRIP_TYPE.SLIDER) &&
-              <MidiSlider
-                sliderEntry={sliderEntry}
-                idx={idx}
-                height={(this.props.size && this.props.size.height) || 0}
-                width={(this.props.size && this.props.size.width) || 0}
-              />
+              <React.Fragment>
+                <Typography
+                  className={classes.labelTop}
+                >
+                  {sliderEntry.label}
+                </Typography>
+                <MidiSlider
+                  sliderEntry={sliderEntry}
+                  idx={idx}
+                  height={(this.props.size && this.props.size.height) || 0}
+                  width={(this.props.size && this.props.size.width) || 0}
+                />
+              </React.Fragment>
+
             }
             {
               <MidiButton
