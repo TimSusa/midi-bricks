@@ -21,7 +21,7 @@ class MidiButtons extends React.Component {
         >
           <div >
             <Button
-              style={{height: ((height || 0) - 100), width: ((width || 0) - 56)}}
+              style={{height: ((height || 0) - 90), width: ((width || 0) - 56)}}
               onContextMenu={this.preventCtxMenu}
               className={classes.button}
               variant='raised'
@@ -44,7 +44,7 @@ class MidiButtons extends React.Component {
           })}>
           <div >
             <Button
-              style={{height: ((height || 0) - 100), width: ((width || 0) - 56)}}
+              style={{height: ((height || 0) - 90), width: ((width || 0) - 56)}}
               onContextMenu={this.preventCtxMenu}
               classes={{ root: classes.button }}
               variant='raised'
@@ -94,12 +94,7 @@ const styles = theme => ({
     cursor: 'pointer'
   },
   button: {
-    // width: '100%',
-    // height: '100%',
-    // marginBottom: 4 * theme.spacing.unit,
     background: theme.palette.secondary.light
-    // minHeight: 88
-    // maxHeight: 150
   }
 })
 

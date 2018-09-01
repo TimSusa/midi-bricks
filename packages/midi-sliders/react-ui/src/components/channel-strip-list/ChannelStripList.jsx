@@ -1,65 +1,69 @@
 import React from 'react'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { WidthProvider, Responsive } from 'react-grid-layout'
+import _ from 'lodash'
 import Typography from '@material-ui/core/Typography'
 import ChannelStrip from './channel-strip/ChannelStrip'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as ViewSettingsActions from '../../actions/view-settings'
+import * as MidiSliderActions from '../../actions/slider-list.js'
+import * as ViewSettingsActions from '../../actions/view-settings.js'
+
+import MidiSettingsDialogButton from './channel-strip/midi-settings-dialog/MidiSettingsDialogButton'
 import { withStyles } from '@material-ui/core/styles'
+import Card from '@material-ui/core/Card'
+import { SizeMe } from 'react-sizeme'
+
+require('react-grid-layout/css/styles.css')
+require('react-resizable/css/styles.css')
+const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
 class ChannelStripList extends React.Component {
+  static defaultProps = {
+    className: 'layout',
+    cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
+    rowHeight: 150
+    // onLayoutChange: function () {}
+  }
   state = {
-    sliderList: []
+    sliderList: [],
+    layout: []
   }
 
   constructor (props) {
     super(props)
     this.state = {
-      sliderList: props.sliderList
+      sliderList: this.props.sliderList,
+      layout: this.props.sliderList
     }
   }
 
   componentWillReceiveProps ({ sliderList }) {
     if (sliderList !== this.props.sliderList) {
       this.setState({
-        sliderList
+        sliderList,
+        layout: this.props.sliderList
       })
     }
   }
 
   render () {
-    const { classes, sliderList, viewSettings } = this.props
+    const { classes, sliderList, viewSettings: {isLayoutMode} } = this.props
     if (sliderList.length > 0) {
-      if (viewSettings.isLayoutMode) {
-        return (
-          <DragDropContext
-            onDragEnd={this.onDragEnd}
-            id='channelList-layoutMode'
-            className={classes.channelList}
-          >
-            <Droppable droppableId='droppable' direction='horizontal'>
-              {({ innerRef, droppableProps }, snapshot) => (
-                <div
-                  ref={innerRef}
-                  style={this.getListStyle(snapshot.isDraggingOver)}
-                  {...droppableProps}
-                >
-                  {this.renderChannelStrips()}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-
-        )
-      } else {
-        return (
-          <div>
-            <div id='channelList' className={classes.channelList}>
-              {this.renderChannelStrips()}
-            </div>
-          </div>
-        )
-      }
+      return (
+        <ResponsiveReactGridLayout
+          isDraggable={isLayoutMode}
+          isResizable={isLayoutMode}
+          compactType='vertical'
+          // layout={this.state.layout}
+          onLayoutChange={this.onLayoutChange}
+          // onBreakpointChange={this.onBreakpointChange}
+          // onDragStart={this.handleDragStop}
+          // onDragStop={this.handleDragStop}
+          // {...this.props}
+        >
+          {this.renderChannelStrips()}
+        </ResponsiveReactGridLayout>
+      )
     } else {
       return (
         <Typography variant='display1' className={classes.noMidiTypography}>
@@ -74,94 +78,65 @@ class ChannelStripList extends React.Component {
     }
   }
 
-  onDragEnd = (result) => {
-    // dropped outside the list
-    if (!result.destination) {
-
-    }
-
-    const sliderList = this.reorder(
-      this.state.sliderList,
-      result.source.index,
-      result.destination.index
-    )
+  onBreakpointChange = (breakpoint, cols) => {
     this.setState({
-      sliderList
+      breakpoint,
+      cols
     })
-    this.props.actions.updateListOrder(sliderList)
+  }
+
+  // here you would trigger to store the layout or persist
+  onLayoutChange = (layout) => {
+    console.log('onLayoutChange ', layout)
+    this.props.actions.changeListOrder({ listOrder: layout })
+    this.setState({ layout })
   }
 
   renderChannelStrips = () => {
+    const removeStyle = {
+      position: 'absolute',
+      right: '2px',
+      top: 0,
+      cursor: 'pointer'
+    }
     const entries = this.state.sliderList
     return entries && entries.map((sliderEntry, idx) => {
-      const data = { sliderEntry, idx }
-
-      if (this.props.viewSettings.isLayoutMode) {
-        return (
-          <Draggable
-            key={`slider-${idx}`}
-            draggableId={`slider-${idx}`}
-            index={idx}>
-            {({ innerRef, draggableProps, dragHandleProps }, snapshot) => (
-              <div
-                ref={innerRef}
-                {...draggableProps}
-                {...dragHandleProps}
-                style={this.getItemStyle(
-                  snapshot.isDragging,
-                  draggableProps.style
-                )}
-              >
-                <div
-                  style={{ pointerEvents: 'none', backgroundColor: 'rgba(0,255,0,0.3)' }}
-                >
-                  <ChannelStrip
-                    {...data}
-                  />
-                </div>
-              </div>
-            )}
-          </Draggable>
-        )
-      } else {
-        return (
-          <ChannelStrip
-            key={`slider-${idx}`}
-            {...data}
-          />
-        )
-      }
+      return (
+        <div key={sliderEntry.i} data-grid={sliderEntry}>
+          <SizeMe
+            monitorHeight
+          >
+            {({ size }) =>
+              <Card style={{ height: '100%' }}>
+                <ChannelStrip size={size} sliderEntry={sliderEntry} idx={idx} />
+                {
+                  this.props.viewSettings.isLayoutMode ? (
+                    <div />
+                  ) : (
+                    <span
+                      className='remove'
+                      style={removeStyle}
+                    >
+                      <MidiSettingsDialogButton
+                        sliderEntry={sliderEntry}
+                        idx={idx}
+                      />
+                    </span>
+                  )
+                }
+              </Card>
+            }
+          </SizeMe>
+        </div>
+      )
     })
   }
 
-  getListStyle = isDraggingOver => ({
-    background: isDraggingOver ? 'lightblue' : 'lightgrey',
-    display: 'flex',
-    padding: 8,
-    overflow: 'auto'
-  })
-
-  // a little function to help us with reordering the result
-  reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list)
-    const [removed] = result.splice(startIndex, 1)
-    result.splice(endIndex, 0, removed)
-
-    return result
-  }
-
-  getItemStyle = (isDragging, draggableStyle) => ({
-    // some basic styles to make the items look a bit nicer
-    userSelect: 'none',
-    padding: 8 * 2,
-    margin: `0 ${8}px 0 0`,
-
-    // change background colour if dragging
-    background: isDragging ? 'lightgreen' : 'grey',
-
-    // styles we need to apply on draggables
-    ...draggableStyle
-  })
+    handleDragStop = (layout, oldItem, newItem, placeholder, e, element) => {
+      console.log('handleDragStop')
+      this.props.actions.changeListOrder({listOrder: layout})
+      this.setState({ layout })
+    }
 }
 
 const styles = theme => ({
@@ -180,7 +155,7 @@ function mapStateToProps ({ sliderList, viewSettings }) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(ViewSettingsActions, dispatch)
+    actions: bindActionCreators({ ...MidiSliderActions, ...ViewSettingsActions }, dispatch)
   }
 }
 

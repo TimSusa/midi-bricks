@@ -81,7 +81,7 @@ class AddMenu extends React.Component {
   }
 
   handleAddButton = () => {
-    this.props.actions.addButton()
+    this.props.actions.addButton(this.props.sliderListLength)
     this.handleClose()
   }
 

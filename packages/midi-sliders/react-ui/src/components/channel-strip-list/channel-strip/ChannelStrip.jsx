@@ -8,7 +8,6 @@ import { STRIP_TYPE } from '../../../reducers/slider-list'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../actions/slider-list.js'
-import MidiSettingsDialogButton from './midi-settings-dialog/MidiSettingsDialogButton'
 
 class ChannelStrip extends React.Component {
   render () {
@@ -42,10 +41,6 @@ class ChannelStrip extends React.Component {
                 width={(this.props.size && this.props.size.width) || 0}
               />
             }
-            <MidiSettingsDialogButton
-              sliderEntry={sliderEntry}
-              idx={idx}
-            />
           </div>
         }
       </VisibilitySensor>

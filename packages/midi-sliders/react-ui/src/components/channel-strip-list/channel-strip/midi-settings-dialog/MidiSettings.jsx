@@ -75,7 +75,7 @@ class MidiSettings extends React.Component {
           onClick={this.props.actions.clone.bind(this, idx)}>
           <CopyIcon className={classes.iconColor} />
         </Button>
-        <StripDeleteModal sliderEntry={sliderEntry} idx={idx} />
+        <StripDeleteModal sliderEntry={sliderEntry} idx={idx} onClose={this.props.onClose} />
       </div>
     )
   }

@@ -31,6 +31,7 @@ export const sliderList = createReducer([], {
         midi,
         chord: 'none',
         isDraggable: true,
+        i: '0',
         x: 0,
         y: 0,
         w: 1,
@@ -52,8 +53,9 @@ export const sliderList = createReducer([], {
     const idx = action.payload
     const newArr = Object.values(Object.assign({}, state))
     let newEntry = Object.assign({}, state[idx])
-    newEntry.label = 'CPY: ' + state[idx].label
-    newArr.splice(idx + 1, 0, newEntry)
+    newEntry.label = 'CPY: ' + newEntry.label
+    newEntry.i = new Date().getUTCMilliseconds().toString()// (newArr.length + 1).toString()
+    newArr.splice(idx, 0, newEntry)
     return newArr
   },
   [ActionTypeSliderList.CHANGE_BUTTON_TYPE] (state, action) {
@@ -61,19 +63,11 @@ export const sliderList = createReducer([], {
     return newState
   },
   [ActionTypeSliderList.DELETE] (state, action) {
-    console.log('mystate leng', state)
-    const newState = state.filter((t, idx) => action.payload.idx.toString() !== t.i)
-    console.log('mystate leng after', newState)
-    // const newArray = []
-    // const len = action.payload.listOrder.length
-    // for (let i = 0; i < len; i++) {
-    //   newArray.push(Object.assign({}, {
-    //     ...newState[i],
-    //     ...action.payload.listOrder[i.toString()]
-    //   }))
-    // }
-
-    return newState
+    const newIdx = action.payload.idx.toString()
+    const newState = state.filter((t, idx) => {
+      return newIdx !== t.i
+    })
+    return [...newState]
   },
   [ActionTypeSliderList.DELETE_ALL] (state, action) {
     return [state[0]]
@@ -258,6 +252,7 @@ const transformState = (state, action, field) => {
 }
 
 const transformAddState = (state, action, type) => {
+  console.log(action)
   // Either use last selected driver or take the first available one
   const midi = state[0].midi
   const availDriver = midi.midiDrivers[0].outputId
@@ -285,6 +280,7 @@ const transformAddState = (state, action, type) => {
     isNoteOn: false,
     midi,
     isDraggable: true,
+    i: new Date().getUTCMilliseconds().toString(), // addStateLength().toString() + 'fuv',
     x: addStateLength(),
     y: 0,
     w: 1,

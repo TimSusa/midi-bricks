@@ -15,7 +15,6 @@
     "downshift": "^2.0.19",
     "lodash": "^4.17.10",
     "react": "^16.4.0",
-    "react-beautiful-dnd": "^8.0.5",
     "react-dom": "^16.4.0",
     "react-grid-layout": "^0.16.6",
     "react-redux": "^5.0.7",

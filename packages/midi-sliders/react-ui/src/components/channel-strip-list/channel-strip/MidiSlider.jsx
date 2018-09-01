@@ -17,7 +17,7 @@ class MidiSlider extends React.Component {
     return (
       <React.Fragment>
         <Slider
-          style={{height: (height || 0) - 150}}
+          style={{height: (height || 0) - 100}}
           classes={{
             root: classNames({
               [classes.sliderRoot]: true
@@ -74,11 +74,9 @@ class MidiSlider extends React.Component {
 
 const styles = theme => ({
   sliderRoot: {
-    // width: '100%',
     cursor: 'default',
 
     '&$vertical': {
-      // height: 'calc(100vh - 258px)',
       margin: 0,
       marginLeft: 'auto',
       marginRight: 'auto'

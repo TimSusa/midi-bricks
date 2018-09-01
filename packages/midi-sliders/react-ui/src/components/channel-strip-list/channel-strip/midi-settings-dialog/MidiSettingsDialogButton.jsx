@@ -14,17 +14,19 @@ class MidiSettingsDialogButton extends React.Component {
     const { classes } = this.props
     return (
       <React.Fragment>
-        <Button
-          className={classes.buttonExpand}
-          onClick={() => this.setState({isDialogOpen: !this.state.isDialogOpen})}>
-          {
-            this.state.isDialogOpen ? (
-              <ExpandMoreIcon />
-            ) : (
-              <ExpandLessIcon />
-            )
-          }
-        </Button>
+        {
+          !this.state.isDialogOpen ? (
+            <ExpandMoreIcon
+              className={classes.iconColor}
+              onClick={() => this.setState({isDialogOpen: !this.state.isDialogOpen})}
+            />
+          ) : (
+            <ExpandLessIcon
+              className={classes.iconColor}
+              onClick={() => this.setState({isDialogOpen: !this.state.isDialogOpen})}
+            />
+          )
+        }
         {
           this.state.isDialogOpen ? (
             <MidiSettingsDialog
@@ -52,12 +54,9 @@ class MidiSettingsDialogButton extends React.Component {
 const styles = theme => ({
   root: {
   },
-
-  buttonExpand: {
-    margin: '8px 0',
-    width: '100%'
+  iconColor: {
+    color: theme.palette.primary.contrastText
   }
-
 })
 
 export default withStyles(styles)(MidiSettingsDialogButton)

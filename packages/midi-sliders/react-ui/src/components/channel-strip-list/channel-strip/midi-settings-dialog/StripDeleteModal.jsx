@@ -49,7 +49,7 @@ class StripDeleteModal extends React.Component {
               No
             </Button>
             <Button
-              onClick={this.handleClose.bind(this, idx)}
+              onClick={this.handleClose.bind(this, sliderEntry)}
               color='primary' autoFocus>
               Yes, Delete!
             </Button>
@@ -68,10 +68,11 @@ class StripDeleteModal extends React.Component {
     e.preventDefault()
   }
 
-  handleClose = (idx, e) => {
-    this.props.actions.delete(idx)
+  handleClose = (sliderEntry, e) => {
     this.setState({ open: false })
-    // this.props.onClose()
+    this.props.actions.delete({idx: sliderEntry.i})
+
+    this.props.onClose()
     e.preventDefault()
   }
 }

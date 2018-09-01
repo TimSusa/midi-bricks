@@ -22,6 +22,7 @@ class DraggableLayout extends React.PureComponent {
 
   state = {
     layout: null,
+    sliderList: this.props.sliderList,
     wasLastDeleted: false
   }
 
@@ -47,9 +48,9 @@ class DraggableLayout extends React.PureComponent {
         onBreakpointChange={this.onBreakpointChange}
         onDragStart={this.handleDragStop}
         onDragStop={this.handleDragStop}
-        {...this.props}
+        // {...this.props}
       >
-        {_.map(this.props.sliderList, (sliderEntry, idx) => this.renderElement(sliderEntry, idx))}
+        {this.state.sliderList.map((sliderEntry, idx) => this.renderElement(sliderEntry, idx))}
       </ResponsiveReactGridLayout>
     )
   }
@@ -67,7 +68,7 @@ class DraggableLayout extends React.PureComponent {
           monitorHeight
         >
           {({ size }) =>
-            <Card style={{height: '100%'}}>
+            <Card style={{ height: '100%' }}>
               <ChannelStrip size={size} sliderEntry={sliderEntry} idx={idx} />
               <span
                 className='remove'
@@ -101,12 +102,12 @@ class DraggableLayout extends React.PureComponent {
   // here you would trigger to store the layout or persist
   onLayoutChange = (layout) => {
     if (this.state.wasLastDeleted) {
-      this.setState({wasLastDeleted: false})
+      this.setState({ wasLastDeleted: false })
       return
     }
     console.log('onLayoutChange ', layout)
     this.props.actions.changeListOrder({ listOrder: layout })
-    this.setState({layout})
+    this.setState({ layout })
   }
 
   onRemoveItem = (idx) => {
@@ -118,12 +119,9 @@ class DraggableLayout extends React.PureComponent {
     })
     console.log('afterremove ', listOrder)
 
-    this.props.actions.delete({idx: parseInt(idx, 10), listOrder})
+    this.props.actions.delete({ idx: parseInt(idx, 10), listOrder })
     // this.props.actions.changeListOrder({ listOrder })
-
-    this.setState({
-      wasLastDeleted: true
-    })
+    this.setState({ wasLastDeleted: true, sliderList: _.reject(this.state.sliderList, { i: idx.toString() }) })
   }
 
   onMIDISuccess = (midiAccess) => {
