@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button'
 import Input from '@material-ui/core/Input'
 import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
+import Tooltip from '@material-ui/core/Tooltip'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import CopyIcon from '@material-ui/icons/NoteAdd'
@@ -13,6 +14,7 @@ import * as MidiSliderActions from '../../../../actions/slider-list.js'
 import { STRIP_TYPE } from '../../../../reducers/slider-list'
 import InputNoteOrCc from './InputNoteOrCc'
 import StripDeleteModal from './StripDeleteModal'
+import ColorModal from './ColorModal'
 
 class MidiSettings extends React.Component {
   render () {
@@ -57,26 +59,52 @@ class MidiSettings extends React.Component {
         </FormControl>
         <br />
         {
-          (sliderEntry.type !== 'SLIDER') && (
-            <FormControl className={classes.formControl}>
-              <InputLabel className={classes.label} htmlFor='button-type'>Button Type </InputLabel>
-              <Select
-                className={classes.select}
-                onChange={this.handleButtonTypeChange.bind(this, idx)}
-                value={sliderEntry.type}>
-                {this.renderButtonTypeSelection()}
-              </Select>
-            </FormControl>
+          (sliderEntry.type !== 'SLIDER') ? (
+
+            <React.Fragment>
+              <FormControl className={classes.formControl}>
+                <InputLabel className={classes.label} htmlFor='button-type'>Button Type </InputLabel>
+                <Select
+                  className={classes.select}
+                  onChange={this.handleButtonTypeChange.bind(this, idx)}
+                  value={sliderEntry.type}>
+                  {this.renderButtonTypeSelection()}
+                </Select>
+                <ColorModal
+                  title='Button Activated'
+                  sliderEntry={sliderEntry}
+                  idx={idx}
+                  fieldName='colorActive'
+                  color={sliderEntry.colors.colorActive}
+                />
+                <ColorModal
+                  title='Font-Color Activated'
+                  sliderEntry={sliderEntry}
+                  idx={idx}
+                  fieldName='colorFontActive'
+                  color={sliderEntry.colors.colorFontActive}
+                />
+              </FormControl>
+
+            </React.Fragment>
+
+          ) : (
+            <div />
           )
         }
         <br />
-        <Button
-          className={classes.button}
-          variant='raised'
-          onClick={this.props.actions.clone.bind(this, idx)}>
-          <CopyIcon className={classes.iconColor} />
-        </Button>
+        <Tooltip
+          title='Clone'>
+          <Button
+            className={classes.button}
+            variant='raised'
+            onClick={this.props.actions.clone.bind(this, idx)}>
+            <CopyIcon className={classes.iconColor} />
+          </Button>
+        </Tooltip>
+
         <StripDeleteModal sliderEntry={sliderEntry} idx={idx} onClose={this.props.onClose} />
+
       </div>
     )
   }

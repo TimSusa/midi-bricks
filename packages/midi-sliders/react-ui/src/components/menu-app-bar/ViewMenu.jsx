@@ -69,7 +69,7 @@ class ViewMenu extends React.Component {
 
           <MenuItem
             onClick={this.toggleCompactMode}>
-            {!this.props.viewSettings.isCompactHorz ? ('horizontally') : ('vertically')}
+            {!this.props.viewSettings.isCompactHorz ? ('Compact Horizontally') : ('Compact Vertically')}
           </MenuItem>
         </Menu>
       </div>

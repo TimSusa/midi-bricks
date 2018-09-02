@@ -12,6 +12,25 @@ import { STRIP_TYPE } from '../../../reducers/slider-list'
 class MidiButtons extends React.Component {
   render () {
     const { sliderEntry, idx, classes, height, width } = this.props
+
+    // button activ background
+    const sColors = sliderEntry.colors
+    const sColAct = sColors && sColors.colorActive && sColors.colorActive.hex
+    const colorActivated = sColAct || 'yellow'
+    const buttonStyle = {
+      height: ((height || 0) - 32),
+      width: ((width || 0) - 56),
+      background: sliderEntry.isNoteOn ? colorActivated : 'white'
+    }
+
+    // button active font colors
+    const bColors = sliderEntry.colors
+    const bColAct = bColors && bColors.colorFontActive && bColors.colorFontActive.hex
+    const colorFontActive = bColAct || 'grey'
+
+    const fontColorStyleActive = {
+      color: !sliderEntry.isNoteOn ? '#616161' : colorFontActive
+    }
     if (sliderEntry.type === STRIP_TYPE.BUTTON) {
       return (
         <div
@@ -22,7 +41,7 @@ class MidiButtons extends React.Component {
           <div >
             <Button
               disableTouchRipple
-              style={{ height: ((height || 0) - 20), width: ((width || 0) - 56), background: sliderEntry.isNoteOn ? 'yellow' : 'white' }}
+              style={buttonStyle}
               onContextMenu={this.preventCtxMenu}
               className={classes.button}
               variant='raised'
@@ -32,11 +51,12 @@ class MidiButtons extends React.Component {
               onTouchEnd={this.handleTouchButtonTrigger.bind(this, idx)}
             >
               <span>
-                <MusicIcon className={classes.iconColor} />
+                <MusicIcon className={classes.iconColor} style={fontColorStyleActive} />
                 <br />
                 <br />
                 <Typography
                   variant='body1'
+                  style={fontColorStyleActive}
                 >
                   {sliderEntry.label}
                 </Typography>
@@ -55,7 +75,7 @@ class MidiButtons extends React.Component {
           <div >
             <Button
               disableTouchRipple
-              style={{ height: ((height || 0) - 20), width: ((width || 0) - 56), background: sliderEntry.isNoteOn ? 'yellow' : 'white' }}
+              style={buttonStyle}
               onContextMenu={this.preventCtxMenu}
               classes={{ root: classes.button }}
               variant='raised'
@@ -64,6 +84,7 @@ class MidiButtons extends React.Component {
             >
               <Typography
                 variant='body1'
+                style={fontColorStyleActive}
               >
                 {sliderEntry.label}
               </Typography>
@@ -105,7 +126,8 @@ const styles = theme => ({
     cursor: 'pointer'
   },
   button: {
-    marginTop: 8,
+    marginTop: 16,
+    marginBottom: 16,
     background: theme.palette.secondary.light
   }
 })

@@ -35,7 +35,10 @@ export const sliderList = createReducer([], {
         x: 0,
         y: 0,
         w: 1,
-        h: 1
+        h: 1,
+        colors: {
+          colorActive: 'yellow'
+        }
       }
       arrToSend = [entry]
     }
@@ -196,6 +199,33 @@ export const sliderList = createReducer([], {
       }))
     }
     return newArray
+  },
+
+  [ActionTypeSliderList.CHANGE_COLORS] (state, action) {
+    let fields = {}
+    Object.keys(action.payload).forEach((e, i) => {
+      if (e !== 'i') {
+        fields = {
+          ...fields,
+          [e]: action.payload[e]
+        }
+      }
+    })
+    let newArray = []
+    newArray = state.map((item, idx) => {
+      let tmp = item
+      if (action.payload.i === item.i) {
+        tmp = Object.assign({}, {
+          ...item,
+          colors: {
+            ...item.colors,
+            ...fields
+          }
+        })
+      }
+      return tmp
+    })
+    return newArray
   }
 })
 
@@ -284,7 +314,10 @@ const transformAddState = (state, action, type) => {
     x: addStateLength(),
     y: 0,
     w: 1,
-    h: 1
+    h: 1,
+    colors: {
+      colorActive: 'yellow'
+    }
   }
   return [...state, entry]
 }

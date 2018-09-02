@@ -50,6 +50,8 @@ class ChannelStripList extends React.Component {
     if (sliderList.length > 0) {
       return (
         <ResponsiveReactGridLayout
+          // rowHeight={30}
+          // width={1200}
           isDraggable={isLayoutMode}
           isResizable={isLayoutMode}
           compactType={isCompactHorz ? 'horizontal' : 'vertical'}
@@ -86,18 +88,12 @@ class ChannelStripList extends React.Component {
 
   // here you would trigger to store the layout or persist
   onLayoutChange = (layout) => {
-    console.log('onLayoutChange ', layout)
+    // console.log('onLayoutChange ', layout)
     this.props.actions.changeListOrder({ listOrder: layout })
     this.setState({ layout })
   }
 
   renderChannelStrips = () => {
-    const settingsStyle = {
-      position: 'absolute',
-      right: 2,
-      top: 4,
-      cursor: 'pointer'
-    }
     const entries = this.state.sliderList
     return entries && entries.map((sliderEntry, idx) => {
       return (
@@ -108,7 +104,7 @@ class ChannelStripList extends React.Component {
             {({ size }) => {
               if (this.props.viewSettings.isLayoutMode) {
                 return (
-                  <Card style={{ height: '100%', background: this.props.viewSettings.isLayoutMode ? 'azure' : 'white' }}>
+                  <Card style={{ height: '100%', background: this.props.viewSettings.isLayoutMode ? 'azure' : 'transparent' }}>
                     <ChannelStrip
                       size={size}
                       sliderEntry={sliderEntry}
@@ -118,8 +114,14 @@ class ChannelStripList extends React.Component {
                   </Card>
                 )
               } else {
+                const settingsStyle = {
+                  position: 'absolute',
+                  right: -0,
+                  top: -4,
+                  cursor: 'pointer'
+                }
                 return (
-                  <div style={{ height: '100%' }}>
+                  <div style={{ height: '100%', background: this.props.viewSettings.isSettingsMode ? 'beige' : 'transparent' }}>
                     <ChannelStrip
                       size={size}
                       sliderEntry={sliderEntry}

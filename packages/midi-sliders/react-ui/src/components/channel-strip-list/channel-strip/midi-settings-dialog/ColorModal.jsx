@@ -10,24 +10,33 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import DeleteIcon from '@material-ui/icons/Delete'
+import ColorizeIcon from '@material-ui/icons/Colorize'
+import Typography from '@material-ui/core/Typography'
+import { SketchPicker } from 'react-color'
 
-class StripDeleteModal extends React.Component {
+class ColorModal extends React.Component {
   state = {
-    open: false
+    open: false,
+    color: this.props.color || { hex: '#333' }
   }
 
   render () {
-    const {classes, sliderEntry} = this.props
+    const { classes, sliderEntry, title = '' } = this.props
     return (
       <div>
-        <Tooltip title='Remove' >
+
+        <Tooltip title={'Change Color: ' + title} >
           <Button
             className={classes.button}
             variant='raised'
             onClick={this.handleClickOpen}
           >
-            <DeleteIcon className={classes.iconColor} />
+            <ColorizeIcon className={classes.iconColor} />
+            <Typography
+              variant='caption'
+            >
+              {' Colorize: ' + title}
+            </Typography>
           </Button>
         </Tooltip>
 
@@ -39,28 +48,40 @@ class StripDeleteModal extends React.Component {
         >
           <DialogTitle
             id='alert-dialog-title'>
-            {'Delete ' + sliderEntry.label + '?'}
+            {'Button: ' + sliderEntry.label}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id='alert-dialog-description'>
-              Do you really want to delete the Channel Strip?
+              Please choose  your color.
             </DialogContentText>
+            <SketchPicker
+              color={this.state.color.hex}
+              onChange={this.handleColorChange.bind(this, sliderEntry.i)}
+            />
           </DialogContent>
           <DialogActions>
             <Button
               onClick={this.handleCloseCancel}
               color='primary'>
-              No
+              Cancel
             </Button>
             <Button
               onClick={this.handleClose.bind(this, sliderEntry)}
               color='primary' autoFocus>
-              Yes, Delete!
+              Change Color
             </Button>
           </DialogActions>
         </Dialog>
       </div>
     )
+  }
+
+  handleColorChange = (i, e) => {
+    this.setState({ color: e })
+    this.props.actions.changeColors({
+      i,
+      [this.props.fieldName]: e
+    })
   }
 
   handleClickOpen = () => {
@@ -74,9 +95,7 @@ class StripDeleteModal extends React.Component {
 
   handleClose = (sliderEntry, e) => {
     this.setState({ open: false })
-    this.props.actions.delete({idx: sliderEntry.i})
-
-    this.props.onClose()
+    this.props.onClose && this.props.onClose()
     e.preventDefault()
   }
 }
@@ -120,4 +139,4 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default (withStyles(styles)(connect(null, mapDispatchToProps)(StripDeleteModal)))
+export default (withStyles(styles)(connect(null, mapDispatchToProps)(ColorModal)))
