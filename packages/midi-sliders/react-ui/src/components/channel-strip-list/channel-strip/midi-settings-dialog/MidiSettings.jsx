@@ -60,39 +60,33 @@ class MidiSettings extends React.Component {
         <br />
         {
           (sliderEntry.type !== 'SLIDER') ? (
-
-            <React.Fragment>
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.label} htmlFor='button-type'>Button Type </InputLabel>
-                <Select
-                  className={classes.select}
-                  onChange={this.handleButtonTypeChange.bind(this, idx)}
-                  value={sliderEntry.type}>
-                  {this.renderButtonTypeSelection()}
-                </Select>
-                <ColorModal
-                  title='Button Activated'
-                  sliderEntry={sliderEntry}
-                  idx={idx}
-                  fieldName='colorActive'
-                  color={sliderEntry.colors.colorActive}
-                />
-                <ColorModal
-                  title='Font-Color Activated'
-                  sliderEntry={sliderEntry}
-                  idx={idx}
-                  fieldName='colorFontActive'
-                  color={sliderEntry.colors.colorFontActive}
-                />
-              </FormControl>
-
-            </React.Fragment>
-
+            <FormControl className={classes.formControl}>
+              <InputLabel className={classes.label} htmlFor='button-type'>Button Type </InputLabel>
+              <Select
+                className={classes.select}
+                onChange={this.handleButtonTypeChange.bind(this, idx)}
+                value={sliderEntry.type}>
+                {this.renderButtonTypeSelection()}
+              </Select>
+              <ColorModal
+                title='Button Activated'
+                sliderEntry={sliderEntry}
+                idx={idx}
+                fieldName='colorActive'
+                color={sliderEntry.colors.colorActive}
+              />
+              <ColorModal
+                title='Font-Color Activated'
+                sliderEntry={sliderEntry}
+                idx={idx}
+                fieldName='colorFontActive'
+                color={sliderEntry.colors.colorFontActive}
+              />
+            </FormControl>
           ) : (
             <div />
           )
         }
-        <br />
         <Tooltip
           title='Clone'>
           <Button
@@ -160,8 +154,8 @@ class MidiSettings extends React.Component {
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit,
-    background: theme.palette.secondary.light
+    margin: '16px 0 16px 0',
+    background: theme.palette.button.background
   },
   iconColor: {
     color: theme.palette.primary.contrastText,

@@ -71,6 +71,11 @@ class ViewMenu extends React.Component {
             onClick={this.toggleCompactMode}>
             {!this.props.viewSettings.isCompactHorz ? ('Compact Horizontally') : ('Compact Vertically')}
           </MenuItem>
+
+          <MenuItem
+            onClick={this.handleChangeTheme}>
+            {!this.props.viewSettings.isChangedTheme ? ('Dark Theme') : ('Light Theme')}
+          </MenuItem>
         </Menu>
       </div>
     )
@@ -78,6 +83,11 @@ class ViewMenu extends React.Component {
 
   handleChange = (event, checked) => {
     this.setState({ auth: checked })
+  }
+
+  handleChangeTheme = () => {
+    this.props.actions.changeTheme()
+    this.handleClose()
   }
 
   handleMenu = event => {
@@ -108,7 +118,7 @@ ViewMenu.propTypes = {
   actions: PropTypes.object.isRequired
 }
 
-function mapStateToProps ({viewSettings}) {
+function mapStateToProps ({ viewSettings }) {
   return {
     viewSettings
   }

@@ -17,7 +17,10 @@ class MenuAppBar extends React.Component {
     const { classes, sliderList } = this.props
     return (
       <div className={classes.root}>
-        <AppBar position='static'>
+        <AppBar
+          className={classes.appBar}
+          position='static'
+        >
           <Toolbar>
             <IconButton
               onClick={this.props.handleDrawerToggle}
@@ -51,6 +54,9 @@ MenuAppBar.propTypes = {
 const styles = theme => ({
   root: {
     flexGrow: 1
+  },
+  appBar: {
+    background: theme.palette.appBar.background
   },
   flex: {
     flex: 1

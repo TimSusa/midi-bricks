@@ -91,22 +91,25 @@ const styles = theme => ({
   track: {
     '&$vertical': {
       width: 80,
-      border: 'solid 1px rgba(0,0,0,0.1)',
+      border: 'solid 2px rgba(0,0,0,0.1)',
       borderRadius: 2
     }
   },
   trackBefore: {
-    background: theme.palette.secondary.dark,
+    background: theme.palette.slider.trackActive,
+    opacity: 1,
     '&$activated': {
+      opacity: 1,
+      background: theme.palette.slider.trackActive
     }
   },
   trackAfter: {
-    background: theme.palette.primary.light,
+    background: theme.palette.slider.trackNonactive,
     '&$activated': {
-      background: theme.palette.primary.light
+      background: theme.palette.slider.trackNonactive
     },
     '&$jumped': {
-      background: theme.palette.primary.light
+      background: theme.palette.slider.trackNonactive
     }
   },
   thumb: {
@@ -114,15 +117,16 @@ const styles = theme => ({
     height: 40,
     left: '50%',
     borderRadius: 2,
-    border: 'solid 1px rgba(0,0,0,0.2)',
+    background: theme.palette.slider.thump,
+    border: 'solid 1px ' + theme.palette.slider.thumpBorder,
 
     '&$activated': {
       boxShadow: '0 0 3px 3px grey',
       width: 84,
-      height: 40,
-      background: theme.palette.primary.dark
+      height: 40
     },
     '&$jumped': {
+      border: 'solid 2px rgba(0,0,0,1)',
       width: 80,
       height: 40
     }

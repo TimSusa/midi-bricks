@@ -1,5 +1,5 @@
 import * as React from 'react'
-import App from './App'
+import MuiWrappedApp from './MuiWrappedApp'
 import {
   createStore,
   applyMiddleware
@@ -39,7 +39,7 @@ class ReduxRoot extends React.Component {
     return (
       <Provider store={store}>
         <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
-          <App />
+          <MuiWrappedApp />
         </PersistGate>
       </Provider>
     )

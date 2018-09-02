@@ -47,11 +47,15 @@ class ColorModal extends React.Component {
           aria-describedby='alert-dialog-description'
         >
           <DialogTitle
+            color='secondary'
             id='alert-dialog-title'>
             {'Button: ' + sliderEntry.label}
           </DialogTitle>
           <DialogContent>
-            <DialogContentText id='alert-dialog-description'>
+            <DialogContentText
+              id='alert-dialog-description'
+              color='secondary'
+            >
               Please choose  your color.
             </DialogContentText>
             <SketchPicker
@@ -62,12 +66,15 @@ class ColorModal extends React.Component {
           <DialogActions>
             <Button
               onClick={this.handleCloseCancel}
-              color='primary'>
+              color='primary'
+            >
               Cancel
             </Button>
             <Button
               onClick={this.handleClose.bind(this, sliderEntry)}
-              color='primary' autoFocus>
+              color='primary'
+              autoFocus
+            >
               Change Color
             </Button>
           </DialogActions>
@@ -104,7 +111,7 @@ const styles = theme => ({
   button: {
     margin: '8px 0 8px 0',
     width: '100%',
-    background: theme.palette.secondary.light
+    background: theme.palette.button.background
   },
   iconColor: {
     color: theme.palette.primary.contrastText,

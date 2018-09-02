@@ -11,12 +11,10 @@ import MidiSlidersPage from './pages/MidiSlidersPage'
 import { bindActionCreators } from 'redux'
 import * as MidiSlidersAction from './actions/slider-list.js'
 
-import withRoot from './withRoot'
 import MenuAppBar from './components/menu-app-bar/MenuAppBar'
 import DrawerList from './components/DrawerList'
 
 import TestPage from './pages/TestPage.jsx'
-// import DraggableLayout from './pages/DraggableLayout'
 
 const history = createBrowserHistory()
 
@@ -30,7 +28,6 @@ class App extends React.Component {
       <Route exact path='/' component={MidiSlidersPage} />
       <Route exact path='/slider-list' component={MidiSlidersPage} />
       <Route exact path='/test-page' component={TestPage} />
-      {/* <Route exact path='/draggable' component={DraggableLayout} /> */}
     </div>
   );
 
@@ -127,4 +124,4 @@ function mapDispatchToProps (dispatch) {
     actions: bindActionCreators(MidiSlidersAction, dispatch)
   }
 }
-export default (withRoot(withStyles(styles)(connect(null, mapDispatchToProps)(App))))
+export default withStyles(styles)(connect(null, mapDispatchToProps)(App))

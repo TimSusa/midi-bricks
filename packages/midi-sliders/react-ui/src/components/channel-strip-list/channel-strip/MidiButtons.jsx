@@ -11,25 +11,27 @@ import { STRIP_TYPE } from '../../../reducers/slider-list'
 
 class MidiButtons extends React.Component {
   render () {
-    const { sliderEntry, idx, classes, height, width } = this.props
+    const { sliderEntry, idx, classes, height, width, viewSettings } = this.props
 
     // button activ background
+    const basicBackground = viewSettings.isChangedTheme ? '#18A49D' : 'white' // bad hack go away
     const sColors = sliderEntry.colors
     const sColAct = sColors && sColors.colorActive && sColors.colorActive.hex
     const colorActivated = sColAct || 'yellow'
     const buttonStyle = {
       height: ((height || 0) - 32),
       width: ((width || 0) - 56),
-      background: sliderEntry.isNoteOn ? colorActivated : 'white'
+      background: sliderEntry.isNoteOn ? colorActivated : basicBackground
     }
 
     // button active font colors
+    const basicFont = viewSettings.isChangedTheme ? 'black' : '#616161' // bad hack go away
     const bColors = sliderEntry.colors
     const bColAct = bColors && bColors.colorFontActive && bColors.colorFontActive.hex
     const colorFontActive = bColAct || 'grey'
 
     const fontColorStyleActive = {
-      color: !sliderEntry.isNoteOn ? '#616161' : colorFontActive
+      color: !sliderEntry.isNoteOn ? basicFont : colorFontActive
     }
     if (sliderEntry.type === STRIP_TYPE.BUTTON) {
       return (
@@ -51,8 +53,9 @@ class MidiButtons extends React.Component {
               onTouchEnd={this.handleTouchButtonTrigger.bind(this, idx)}
             >
               <span>
-                <MusicIcon className={classes.iconColor} style={fontColorStyleActive} />
-                <br />
+                <MusicIcon
+                  className={classes.iconColor}
+                  style={fontColorStyleActive} />
                 <br />
                 <Typography
                   variant='body1'
@@ -123,12 +126,14 @@ const styles = theme => ({
   },
   iconColor: {
     color: theme.palette.primary.contrastText,
-    cursor: 'pointer'
+    width: 18,
+    margin: 0,
+    padding: 0
   },
   button: {
     marginTop: 16,
     marginBottom: 16,
-    background: theme.palette.secondary.light
+    background: theme.palette.button.background
   }
 })
 
@@ -137,5 +142,10 @@ function mapDispatchToProps (dispatch) {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
+function mapStateToProps ({ viewSettings }) {
+  return {
+    viewSettings
+  }
+}
 
-export default (withStyles(styles)(connect(null, mapDispatchToProps)(MidiButtons)))
+export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MidiButtons)))

@@ -14,60 +14,66 @@ import { SizeMe } from 'react-sizeme'
 
 require('react-grid-layout/css/styles.css')
 require('react-resizable/css/styles.css')
+
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
 class ChannelStripList extends React.Component {
   static defaultProps = {
     className: 'layout',
-    // cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-    rowHeight: 250
+    cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }
+    // rowHeight: 80
     // onLayoutChange: function () {}
   }
-  state = {
-    sliderList: [],
-    layout: []
-  }
+  // state = {
+  //   sliderList: this.props.sliderList
+  //   // layout: []
+  // }
 
-  constructor (props) {
-    super(props)
-    this.state = {
-      sliderList: this.props.sliderList,
-      layout: this.props.sliderList
-    }
-  }
+  // constructor (props) {
+  //   super(props)
+  //   this.state = {
+  //     sliderList: this.props.sliderList
+  //     // layout: this.props.sliderList
+  //   }
+  // }
 
-  componentWillReceiveProps ({ sliderList }) {
-    if (sliderList !== this.props.sliderList) {
-      this.setState({
-        sliderList,
-        layout: this.props.sliderList
-      })
-    }
-  }
+  // componentWillReceiveProps ({ sliderList }) {
+  //   if (sliderList !== this.props.sliderList) {
+  //     this.setState({
+  //       sliderList
+  //       // layout: this.props.sliderList
+  //     })
+  //   }
+  // }
 
   render () {
-    const { classes, sliderList, viewSettings: {isLayoutMode, isCompactHorz} } = this.props
+    const { classes, sliderList, viewSettings: { isLayoutMode, isCompactHorz } } = this.props
     if (sliderList.length > 0) {
       return (
         <ResponsiveReactGridLayout
-          // rowHeight={30}
+          // rowHeight={80}
           // width={1200}
           isDraggable={isLayoutMode}
           isResizable={isLayoutMode}
           compactType={isCompactHorz ? 'horizontal' : 'vertical'}
           // layout={this.state.layout}
           onLayoutChange={this.onLayoutChange}
-          // onBreakpointChange={this.onBreakpointChange}
-          // onDragStart={this.handleDragStop}
-          // onDragStop={this.handleDragStop}
-          // {...this.props}
+          // breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
+          // cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
+        // onBreakpointChange={this.onBreakpointChange}
+        // onDragStart={this.handleDragStop}
+        // onDragStop={this.handleDragStop}
+        // {...this.props}
         >
           {this.renderChannelStrips()}
         </ResponsiveReactGridLayout>
       )
     } else {
       return (
-        <Typography variant='display1' className={classes.noMidiTypography}>
+        <Typography
+          variant='display1'
+          className={classes.noMidiTypography}
+        >
           <br />
           <br />
           Please add a slider!
@@ -79,38 +85,31 @@ class ChannelStripList extends React.Component {
     }
   }
 
-  onBreakpointChange = (breakpoint, cols) => {
-    this.setState({
-      breakpoint,
-      cols
-    })
-  }
-
-  // here you would trigger to store the layout or persist
-  onLayoutChange = (layout) => {
-    // console.log('onLayoutChange ', layout)
-    this.props.actions.changeListOrder({ listOrder: layout })
-    this.setState({ layout })
-  }
-
   renderChannelStrips = () => {
-    const entries = this.state.sliderList
+    const entries = this.props.sliderList
     return entries && entries.map((sliderEntry, idx) => {
       return (
-        <div key={sliderEntry.i} data-grid={sliderEntry}>
+        <div
+          key={sliderEntry.i}
+          data-grid={sliderEntry}
+        >
           <SizeMe
             monitorHeight
           >
             {({ size }) => {
               if (this.props.viewSettings.isLayoutMode) {
                 return (
-                  <Card style={{ height: '100%', background: this.props.viewSettings.isLayoutMode ? 'azure' : 'transparent' }}>
+                  <Card
+                    style={{
+                      height: '100%',
+                      background: this.props.viewSettings.isLayoutMode ? 'azure' : 'transparent'
+                    }}
+                  >
                     <ChannelStrip
                       size={size}
                       sliderEntry={sliderEntry}
                       idx={idx}
                     />
-
                   </Card>
                 )
               } else {
@@ -121,7 +120,12 @@ class ChannelStripList extends React.Component {
                   cursor: 'pointer'
                 }
                 return (
-                  <div style={{ height: '100%', background: this.props.viewSettings.isSettingsMode ? 'beige' : 'transparent' }}>
+                  <div
+                    style={{
+                      height: '100%',
+                      background: this.props.viewSettings.isSettingsMode ? 'beige' : 'transparent'
+                    }}
+                  >
                     <ChannelStrip
                       size={size}
                       sliderEntry={sliderEntry}
@@ -138,7 +142,6 @@ class ChannelStripList extends React.Component {
                             idx={idx}
                           />
                         </span>
-
                       ) : (
                         <div />
                       )
@@ -154,11 +157,24 @@ class ChannelStripList extends React.Component {
     })
   }
 
-    handleDragStop = (layout, oldItem, newItem, placeholder, e, element) => {
-      console.log('handleDragStop')
-      this.props.actions.changeListOrder({listOrder: layout})
-      this.setState({ layout })
+  // onBreakpointChange = (breakpoint, cols) => {
+  //   this.setState({
+  //     breakpoint,
+  //     cols
+  //   })
+  // }
+
+  onLayoutChange = (layout) => {
+    if (this.props.viewSettings.isLayoutMode) {
+      this.props.actions.changeListOrder({ listOrder: layout })
     }
+    // this.props.actions.changeListOrder({ listOrder: layout })
+  }
+
+  // handleDragStop = (layout, oldItem, newItem, placeholder, e, element) => {
+  //   this.props.actions.changeListOrder({ listOrder: layout })
+  //   this.setState({ layout })
+  // }
 }
 
 const styles = theme => ({

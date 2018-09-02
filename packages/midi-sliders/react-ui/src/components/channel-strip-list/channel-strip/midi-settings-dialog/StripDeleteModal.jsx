@@ -9,7 +9,6 @@ import Tooltip from '@material-ui/core/Tooltip'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
-import DialogTitle from '@material-ui/core/DialogTitle'
 import DeleteIcon from '@material-ui/icons/Delete'
 
 class StripDeleteModal extends React.Component {
@@ -21,13 +20,17 @@ class StripDeleteModal extends React.Component {
     const {classes, sliderEntry} = this.props
     return (
       <div>
-        <Tooltip title='Remove' >
+        <Tooltip
+          title='Remove'
+        >
           <Button
             className={classes.button}
             variant='raised'
             onClick={this.handleClickOpen}
           >
-            <DeleteIcon className={classes.iconColor} />
+            <DeleteIcon
+              className={classes.iconColor}
+            />
           </Button>
         </Tooltip>
 
@@ -36,25 +39,31 @@ class StripDeleteModal extends React.Component {
           onClose={this.handleClose}
           aria-labelledby='alert-dialog-title'
           aria-describedby='alert-dialog-description'
+
         >
-          <DialogTitle
-            id='alert-dialog-title'>
+          {/* <DialogTitle
+            id='alert-dialog-title'
+          >
             {'Delete ' + sliderEntry.label + '?'}
-          </DialogTitle>
+          </DialogTitle> */}
           <DialogContent>
-            <DialogContentText id='alert-dialog-description'>
+            <DialogContentText
+              color='secondary'
+              id='alert-dialog-description'
+            >
               Do you really want to delete the Channel Strip?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button
               onClick={this.handleCloseCancel}
-              color='primary'>
+              color='secondary'
+            >
               No
             </Button>
             <Button
               onClick={this.handleClose.bind(this, sliderEntry)}
-              color='primary' autoFocus>
+              color='secondary' autoFocus>
               Yes, Delete!
             </Button>
           </DialogActions>
@@ -85,7 +94,7 @@ const styles = theme => ({
   button: {
     margin: '8px 0 8px 0',
     width: '100%',
-    background: theme.palette.secondary.light
+    background: theme.palette.button.background
   },
   iconColor: {
     color: theme.palette.primary.contrastText,

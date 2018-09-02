@@ -22,7 +22,7 @@ class MidiSettingsDialog extends React.Component {
           <MidiSettings sliderEntry={sliderEntry} idx={idx} onClose={this.handleClose} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleClose} color='primary'>
+          <Button onClick={this.handleClose} color='secondary'>
             Close
           </Button>
         </DialogActions>
