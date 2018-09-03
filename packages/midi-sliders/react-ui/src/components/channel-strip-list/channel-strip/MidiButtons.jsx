@@ -53,10 +53,10 @@ class MidiButtons extends React.Component {
               onTouchEnd={this.handleTouchButtonTrigger.bind(this, idx)}
             >
               <span>
-                <MusicIcon
+                {/* <MusicIcon
                   className={classes.iconColor}
                   style={fontColorStyleActive} />
-                <br />
+                <br /> */}
                 <Typography
                   variant='body1'
                   style={fontColorStyleActive}
@@ -133,6 +133,7 @@ const styles = theme => ({
   button: {
     marginTop: 16,
     marginBottom: 16,
+    marginLeft: 8,
     background: theme.palette.button.background
   }
 })

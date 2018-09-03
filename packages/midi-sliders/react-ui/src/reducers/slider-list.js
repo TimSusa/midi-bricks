@@ -198,6 +198,8 @@ export const sliderList = createReducer([], {
         ...state[i],
         ...action.payload.listOrder[i.toString()]
         // static: false
+        // isDraggable: false,
+        // isResizable: false
       }))
     }
     return newArray

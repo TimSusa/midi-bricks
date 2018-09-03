@@ -1,5 +1,5 @@
 import React from 'react'
-import { WidthProvider, Responsive } from 'react-grid-layout'
+import RGL, { WidthProvider, Responsive } from 'react-grid-layout'
 import Typography from '@material-ui/core/Typography'
 import ChannelStrip from './channel-strip/ChannelStrip'
 import { connect } from 'react-redux'
@@ -15,7 +15,7 @@ import { SizeMe } from 'react-sizeme'
 require('react-grid-layout/css/styles.css')
 require('react-resizable/css/styles.css')
 
-const ResponsiveReactGridLayout = WidthProvider(Responsive)
+const ResponsiveReactGridLayout = WidthProvider(RGL)
 
 class ChannelStripList extends React.Component {
   static defaultProps = {
@@ -51,13 +51,16 @@ class ChannelStripList extends React.Component {
     if (sliderList.length > 0) {
       return (
         <ResponsiveReactGridLayout
-          // rowHeight={80}
+          rowHeight={80}
+          rowWidth={80}
           // width={1200}
+          // preventCollision
+          // autoSize={false}
           isDraggable={isLayoutMode}
           isResizable={isLayoutMode}
           compactType={isCompactHorz ? 'horizontal' : 'vertical'}
-          // layout={this.state.layout}
-          onLayoutChange={this.onLayoutChange}
+          layout={this.props.sliderList}
+          onLayoutChange={isLayoutMode ? this.onLayoutChange : () => {}}
           // breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
           // cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
         // onBreakpointChange={this.onBreakpointChange}
@@ -91,7 +94,7 @@ class ChannelStripList extends React.Component {
       return (
         <div
           key={sliderEntry.i}
-          data-grid={sliderEntry}
+          // data-grid={sliderEntry}
         >
           <SizeMe
             monitorHeight
