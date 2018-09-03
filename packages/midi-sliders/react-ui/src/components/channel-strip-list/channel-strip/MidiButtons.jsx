@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import MusicIcon from '@material-ui/icons/Autorenew'
+// import MusicIcon from '@material-ui/icons/Autorenew'
 import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
@@ -31,7 +31,9 @@ class MidiButtons extends React.Component {
     const colorFontActive = bColAct || 'grey'
 
     const fontColorStyleActive = {
-      color: !sliderEntry.isNoteOn ? basicFont : colorFontActive
+      color: !sliderEntry.isNoteOn ? basicFont : colorFontActive,
+      fontWeight: 500
+
     }
     if (sliderEntry.type === STRIP_TYPE.BUTTON) {
       return (
@@ -133,7 +135,6 @@ const styles = theme => ({
   button: {
     marginTop: 16,
     marginBottom: 16,
-    marginLeft: 8,
     background: theme.palette.button.background
   }
 })

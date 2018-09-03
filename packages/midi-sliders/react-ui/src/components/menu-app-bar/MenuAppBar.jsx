@@ -56,7 +56,8 @@ const styles = theme => ({
     flexGrow: 1
   },
   appBar: {
-    background: theme.palette.appBar.background
+    background: theme.palette.appBar.background,
+    fontWeight: 500
   },
   flex: {
     flex: 1

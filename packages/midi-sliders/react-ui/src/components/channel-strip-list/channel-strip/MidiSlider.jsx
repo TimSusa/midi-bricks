@@ -136,7 +136,7 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',
-    fontWeight: 400,
+    fontWeight: 500,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     lineHeight: '1.375em'
   }

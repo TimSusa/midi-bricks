@@ -1,5 +1,5 @@
 import React from 'react'
-import RGL, { WidthProvider, Responsive } from 'react-grid-layout'
+import RGL, { WidthProvider } from 'react-grid-layout'
 import Typography from '@material-ui/core/Typography'
 import ChannelStrip from './channel-strip/ChannelStrip'
 import { connect } from 'react-redux'
@@ -15,61 +15,23 @@ import { SizeMe } from 'react-sizeme'
 require('react-grid-layout/css/styles.css')
 require('react-resizable/css/styles.css')
 
-const ResponsiveReactGridLayout = WidthProvider(RGL)
+const GridLayout = WidthProvider(RGL)
 
 class ChannelStripList extends React.Component {
-  static defaultProps = {
-    className: 'layout',
-    cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }
-    // rowHeight: 80
-    // onLayoutChange: function () {}
-  }
-  // state = {
-  //   sliderList: this.props.sliderList
-  //   // layout: []
-  // }
-
-  // constructor (props) {
-  //   super(props)
-  //   this.state = {
-  //     sliderList: this.props.sliderList
-  //     // layout: this.props.sliderList
-  //   }
-  // }
-
-  // componentWillReceiveProps ({ sliderList }) {
-  //   if (sliderList !== this.props.sliderList) {
-  //     this.setState({
-  //       sliderList
-  //       // layout: this.props.sliderList
-  //     })
-  //   }
-  // }
-
   render () {
     const { classes, sliderList, viewSettings: { isLayoutMode, isCompactHorz } } = this.props
     if (sliderList.length > 0) {
       return (
-        <ResponsiveReactGridLayout
+        <GridLayout
           rowHeight={80}
-          rowWidth={80}
-          // width={1200}
-          // preventCollision
-          // autoSize={false}
           isDraggable={isLayoutMode}
           isResizable={isLayoutMode}
           compactType={isCompactHorz ? 'horizontal' : 'vertical'}
           layout={this.props.sliderList}
           onLayoutChange={isLayoutMode ? this.onLayoutChange : () => {}}
-          // breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
-          // cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
-        // onBreakpointChange={this.onBreakpointChange}
-        // onDragStart={this.handleDragStop}
-        // onDragStop={this.handleDragStop}
-        // {...this.props}
         >
           {this.renderChannelStrips()}
-        </ResponsiveReactGridLayout>
+        </GridLayout>
       )
     } else {
       return (
@@ -94,7 +56,6 @@ class ChannelStripList extends React.Component {
       return (
         <div
           key={sliderEntry.i}
-          // data-grid={sliderEntry}
         >
           <SizeMe
             monitorHeight
@@ -160,24 +121,11 @@ class ChannelStripList extends React.Component {
     })
   }
 
-  // onBreakpointChange = (breakpoint, cols) => {
-  //   this.setState({
-  //     breakpoint,
-  //     cols
-  //   })
-  // }
-
   onLayoutChange = (layout) => {
     if (this.props.viewSettings.isLayoutMode) {
       this.props.actions.changeListOrder({ listOrder: layout })
     }
-    // this.props.actions.changeListOrder({ listOrder: layout })
   }
-
-  // handleDragStop = (layout, oldItem, newItem, placeholder, e, element) => {
-  //   this.props.actions.changeListOrder({ listOrder: layout })
-  //   this.setState({ layout })
-  // }
 }
 
 const styles = theme => ({

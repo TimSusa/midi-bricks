@@ -67,7 +67,6 @@ const styles = theme => ({
     textOverflow: 'ellipsis',
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',
-    fontWeight: 400,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     lineHeight: '1.375em'
   },
