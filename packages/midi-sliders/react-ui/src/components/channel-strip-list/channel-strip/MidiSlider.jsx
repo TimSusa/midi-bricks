@@ -75,6 +75,7 @@ class MidiSlider extends React.Component {
 const styles = theme => ({
   sliderRoot: {
     cursor: 'default',
+    width: '100%',
 
     '&$vertical': {
       margin: 0,
@@ -90,7 +91,7 @@ const styles = theme => ({
   },
   track: {
     '&$vertical': {
-      width: 80,
+      width: 66,
       border: 'solid 2px rgba(0,0,0,0.1)',
       borderRadius: 2
     }
@@ -113,7 +114,7 @@ const styles = theme => ({
     }
   },
   thumb: {
-    width: 80,
+    width: 66,
     height: 40,
     left: '50%',
     borderRadius: 2,
@@ -122,12 +123,12 @@ const styles = theme => ({
 
     '&$activated': {
       boxShadow: '0 0 3px 3px grey',
-      width: 84,
+      width: 64,
       height: 40
     },
     '&$jumped': {
       border: 'solid 2px rgba(0,0,0,1)',
-      width: 80,
+      width: 66,
       height: 40
     }
   },

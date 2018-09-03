@@ -24,6 +24,7 @@ class ChannelStripList extends React.Component {
       return (
         <GridLayout
           rowHeight={80}
+          cols={18}
           isDraggable={isLayoutMode}
           isResizable={isLayoutMode}
           compactType={isCompactHorz ? 'horizontal' : 'vertical'}
