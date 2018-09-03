@@ -115,7 +115,7 @@ const styles = theme => ({
   },
   thumb: {
     width: 66,
-    height: 40,
+    height: 35,
     left: '50%',
     borderRadius: 2,
     background: theme.palette.slider.thump,
@@ -124,12 +124,12 @@ const styles = theme => ({
     '&$activated': {
       boxShadow: '0 0 3px 3px grey',
       width: 64,
-      height: 40
+      height: 35
     },
     '&$jumped': {
       border: 'solid 2px rgba(0,0,0,1)',
       width: 66,
-      height: 40
+      height: 35
     }
   },
   caption: {

@@ -23,7 +23,7 @@ class ChannelStripList extends React.Component {
     if (sliderList.length > 0) {
       return (
         <GridLayout
-          rowHeight={80}
+          rowHeight={40}
           cols={18}
           isDraggable={isLayoutMode}
           isResizable={isLayoutMode}

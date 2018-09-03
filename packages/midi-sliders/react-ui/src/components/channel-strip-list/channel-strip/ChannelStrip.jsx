@@ -61,7 +61,6 @@ const styles = theme => ({
   },
   labelTop: {
     textAlign: 'center',
-    padding: theme.spacing.unit * 2,
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',

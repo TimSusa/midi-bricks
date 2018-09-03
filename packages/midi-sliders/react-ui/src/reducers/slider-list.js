@@ -74,7 +74,7 @@ export const sliderList = createReducer([], {
     return [...newState]
   },
   [ActionTypeSliderList.DELETE_ALL] (state, action) {
-    return [state[0]]
+    return [state[state.length - 1]]
   },
   [ActionTypeSliderList.TOGGLE_NOTE] (state, action) {
     const idx = action.payload

@@ -13,27 +13,36 @@ class MidiButtons extends React.Component {
   render () {
     const { sliderEntry, idx, classes, height, width, viewSettings } = this.props
 
-    // button activ background
+    // button basic font colors
+    const basicFont = viewSettings.isChangedTheme ? 'black' : '#616161' // bad hack go away
+    const bbColors = sliderEntry.colors
+    const bbCol = bbColors && bbColors.colorFont && bbColors.colorFont.hex
+    const colorFont = bbCol || basicFont
+
+    // button background
     const basicBackground = viewSettings.isChangedTheme ? '#18A49D' : 'white' // bad hack go away
+    const sbColors = sliderEntry.colors
+    const sbCol = sbColors && sbColors.color && sbColors.color.hex
+    const color = sbCol || basicBackground
+
+    // button activ background
     const sColors = sliderEntry.colors
     const sColAct = sColors && sColors.colorActive && sColors.colorActive.hex
     const colorActivated = sColAct || 'yellow'
     const buttonStyle = {
       height: ((height || 0) - 32),
-      width: ((width || 0) - 56),
-      background: sliderEntry.isNoteOn ? colorActivated : basicBackground
+      width: ((width || 0) - 66),
+      background: sliderEntry.isNoteOn ? colorActivated : color
     }
 
     // button active font colors
-    const basicFont = viewSettings.isChangedTheme ? 'black' : '#616161' // bad hack go away
     const bColors = sliderEntry.colors
     const bColAct = bColors && bColors.colorFontActive && bColors.colorFontActive.hex
     const colorFontActive = bColAct || 'grey'
 
-    const fontColorStyleActive = {
-      color: !sliderEntry.isNoteOn ? basicFont : colorFontActive,
+    const fontColorStyle = {
+      color: !sliderEntry.isNoteOn ? colorFont : colorFontActive,
       fontWeight: 500
-
     }
     if (sliderEntry.type === STRIP_TYPE.BUTTON) {
       return (
@@ -42,32 +51,29 @@ class MidiButtons extends React.Component {
             [classes.root]: true
           })}
         >
-          <div >
-            <Button
-              disableTouchRipple
-              style={buttonStyle}
-              onContextMenu={this.preventCtxMenu}
-              className={classes.button}
-              variant='raised'
-              onMouseDown={this.props.actions.toggleNote.bind(this, idx)}
-              onMouseUp={this.props.actions.toggleNote.bind(this, idx)}
-              onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
-              onTouchEnd={this.handleTouchButtonTrigger.bind(this, idx)}
-            >
-              <span>
-                {/* <MusicIcon
+          <Button
+            disableTouchRipple
+            style={buttonStyle}
+            onContextMenu={this.preventCtxMenu}
+            className={classes.button}
+            variant='raised'
+            onMouseDown={this.props.actions.toggleNote.bind(this, idx)}
+            onMouseUp={this.props.actions.toggleNote.bind(this, idx)}
+            onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
+            onTouchEnd={this.handleTouchButtonTrigger.bind(this, idx)}
+          >
+            {/* <MusicIcon
                   className={classes.iconColor}
-                  style={fontColorStyleActive} />
+                  style={fontColorStyle} />
                 <br /> */}
-                <Typography
-                  variant='body1'
-                  style={fontColorStyleActive}
-                >
-                  {sliderEntry.label}
-                </Typography>
-              </span>
-            </Button>
-          </div>
+            <Typography
+              variant='body1'
+              style={fontColorStyle}
+              className={classes.label}
+            >
+              {sliderEntry.label}
+            </Typography>
+          </Button>
         </div>
       )
     } else if (sliderEntry.type === STRIP_TYPE.BUTTON_TOGGLE) {
@@ -77,24 +83,23 @@ class MidiButtons extends React.Component {
             [classes.root]: true
 
           })}>
-          <div >
-            <Button
-              disableTouchRipple
-              style={buttonStyle}
-              onContextMenu={this.preventCtxMenu}
-              classes={{ root: classes.button }}
-              variant='raised'
-              onClick={this.handleTouchButtonTrigger.bind(this, idx)}
+          <Button
+            disableTouchRipple
+            style={buttonStyle}
+            onContextMenu={this.preventCtxMenu}
+            classes={{ root: classes.button }}
+            variant='raised'
+            onClick={this.handleTouchButtonTrigger.bind(this, idx)}
             // onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
+          >
+            <Typography
+              variant='body1'
+              style={fontColorStyle}
+              className={classes.label}
             >
-              <Typography
-                variant='body1'
-                style={fontColorStyleActive}
-              >
-                {sliderEntry.label}
-              </Typography>
-            </Button>
-          </div>
+              {sliderEntry.label}
+            </Typography>
+          </Button>
         </div>)
     } else {
       return (<div />)
@@ -123,6 +128,10 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  label: {
+    margin: 0,
+    padding: 0
   },
   group: {
   },

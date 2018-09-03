@@ -69,6 +69,20 @@ class MidiSettings extends React.Component {
                 {this.renderButtonTypeSelection()}
               </Select>
               <ColorModal
+                title='Button Background'
+                sliderEntry={sliderEntry}
+                idx={idx}
+                fieldName='color'
+                color={sliderEntry.colors.color}
+              />
+              <ColorModal
+                title='Font-Color'
+                sliderEntry={sliderEntry}
+                idx={idx}
+                fieldName='colorFont'
+                color={sliderEntry.colors.colorFont}
+              />
+              <ColorModal
                 title='Button Activated'
                 sliderEntry={sliderEntry}
                 idx={idx}
