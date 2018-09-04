@@ -5,6 +5,18 @@ export const darkTheme = {
     //     height: 0
     //   }
     // }
+    // MuiTypography: {
+    //   root: {
+    //     textAlign: 'center',
+    //     // overflow: 'hidden',
+    //     // whiteSpace: 'nowrap',
+    //     // textOverflow: 'ellipsis',
+    //     fontWeight: 800,
+    //     fontSize: '1rem',
+    //     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
+    //     // lineHeight: '1.375em'
+    //   }
+    // },
     MuiButton: {
       contained: {
         '&:hover': {

@@ -53,10 +53,10 @@ class MidiSlider extends React.Component {
   // In order to have multi-touch available,
   // convert touch to mouse events
   touchToMouseEvent = (e) => {
-    [...e.touches].forEach((touch) => {
+    [...e.changedTouches].forEach((touch) => {
       const evt = new window.MouseEvent('click', {
         view: window,
-        bubbles: true,
+        bubbles: false,
         cancelable: true,
         clientX: touch.clientX,
         clientY: touch.clientY,
