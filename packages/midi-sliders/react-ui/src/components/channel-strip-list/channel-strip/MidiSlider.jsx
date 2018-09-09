@@ -12,11 +12,27 @@ class MidiSlider extends React.Component {
     height: 0
   }
   render () {
-    const { sliderEntry, idx, height } = this.props
+    const { sliderEntry, idx, height, width } = this.props
     const { classes } = this.props
     return (
       <React.Fragment>
-        <Slider
+        <div
+          className={classes.rangeSliderWrapper}
+          style={{ height: (height || 0) - 100, width }}
+        >
+          <input
+            onChange={this.handleSliderChange.bind(this, idx)}
+            type='range'
+            max={127}
+            min={0}
+            step={1}
+            value={sliderEntry.val}
+            // orient='vertical'
+            className={classes.input}
+          />
+        </div>
+
+        {/* <Slider
           style={{height: (height || 0) - 100}}
           classes={{
             root: classNames({
@@ -40,14 +56,14 @@ class MidiSlider extends React.Component {
           max={127}
           min={0}
           step={1}
-        />
+        /> */}
         <Typography className={classes.caption}>{sliderEntry.val}</Typography>
       </React.Fragment>
     )
   }
 
   handleSliderChange = (idx, e, val) => {
-    this.props.actions.handleSliderChange({ idx, val })
+    this.props.actions.handleSliderChange({ idx, val: e.target.value })
   }
 
   // In order to have multi-touch available,
@@ -73,6 +89,70 @@ class MidiSlider extends React.Component {
 }
 
 const styles = theme => ({
+
+  rangeSliderWrapper: {
+    // /appearance: 'slider-vertical'
+    appearance: 'none'
+    // transform: 'rotate(-90deg)',
+    // position: 'absolute',
+    // left: 0,
+    // top: 0
+  },
+
+  input: {
+    '&[type=range]': {
+      // '-webkit-appearance: none;
+
+      // background: 'transparent',
+      appearance: 'none',
+      transform: 'rotate(-90deg)',
+      overflow: 'hidden',
+      /* margin-top: 80px;
+
+      width: 220px; */
+      // height: 200,
+      // width: 200,
+      // marginTop: 20,
+      // marginBottom: 20,
+      height: '100%',
+      width: '100%',
+
+      '&[orient=vertical]': {
+        '-webkit-appearance': 'slider-vertical',
+        writingMode: 'bt-lr'
+        // appearance: 'slider-vertical',
+      },
+
+      '&::-webkit-slider-runnable-track': {
+        // '-webkit-appearance': 'slider-vertical',
+        appearance: 'none',
+        height: 70,
+        background: '#ddd',
+        border: 'none',
+        borderRadius: 3
+      },
+
+      '&::-webkit-slider-thumb': {
+        // transform: 'rotate(-90deg)',
+        appearance: 'none',
+        // '-webkit-appearance': 'slider-vertical',
+        border: 'none',
+        height: 70,
+        width: 30,
+        background: 'goldenrod'
+      },
+
+      '&:focus': {
+        outline: 'none'
+      },
+
+      '&:focus&$::-webkit-slider-runnable-track': {
+        background: '#ccc'
+      }
+    }
+
+  },
+
   sliderRoot: {
     cursor: 'default',
     width: '100%',
