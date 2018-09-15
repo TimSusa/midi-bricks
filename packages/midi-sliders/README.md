@@ -1,6 +1,6 @@
 
 # midi-sliders
-Simple sliders, which send MIDI Messages to the MIDI-Device you wish. The main feature is, that you are able to select a MIDI driver for each different slider. Furthermore, you can sort your sliders in the list via drag and drop.
+Simple sliders or buttons, which send MIDI Messages to the MIDI-Device you wish. The main feature is, that you are able to select a MIDI driver for each different unit. Furthermore, you can drag and drop, resize your elements as free as you like. Just build your own MIDI control layout.
 
 Demo: https://midi-sliders.herokuapp.com/
 
