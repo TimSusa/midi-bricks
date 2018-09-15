@@ -117,9 +117,9 @@ class MidiButtons extends React.Component {
   // Prevent double events, after touch,
   // from being triggered
   handleTouchButtonTrigger = (idx, e) => {
-    this.props.actions.toggleNote(idx)
     e.preventDefault()
     e.stopPropagation()
+    this.props.actions.toggleNote(idx)
   }
 }
 

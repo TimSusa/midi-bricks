@@ -63,12 +63,12 @@ class MidiSlidersPage extends React.Component {
   }
 
   detectChromeBrowser = () => {
-    var isChromium = window.chrome
-    var winNav = window.navigator
-    var vendorName = winNav.vendor
-    var isOpera = typeof window.opr !== 'undefined'
-    var isIEedge = winNav.userAgent.indexOf('Edge') > -1
-    var isIOSChrome = winNav.userAgent.match('CriOS')
+    const isChromium = window.chrome
+    const winNav = window.navigator
+    const vendorName = winNav.vendor
+    const isOpera = typeof window.opr !== 'undefined'
+    const isIEedge = winNav.userAgent.indexOf('Edge') > -1
+    const isIOSChrome = winNav.userAgent.match('CriOS')
 
     if (isIOSChrome) {
       console.log('is Google Chrome on IOS')
@@ -91,8 +91,8 @@ class MidiSlidersPage extends React.Component {
 const styles = theme => ({
   root: {
     textAlign: 'center',
-    width: '100%',
-    height: 'calc(100vh - 72px)'
+    width: '100%'
+    // height: 'calc(100vh - 72px)'
 
   },
   heading: {

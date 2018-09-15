@@ -14,7 +14,7 @@ class MidiSlider extends React.Component {
     const { classes } = this.props
     const tmpH = (height || 0) - 65
     return (
-      <div style={{ height, width }}>
+      <div style={{ height, width }} onContextMenu={this.preventCtxMenu}>
         <div
           className={classes.rangeSliderWrapper}
           style={{ height: tmpH }}
@@ -36,7 +36,16 @@ class MidiSlider extends React.Component {
   }
 
   handleSliderChange = (idx, e, val) => {
+    // e.preventDefault()
     this.props.actions.handleSliderChange({ idx, val: e.target.value })
+  }
+
+  // For touch-devices, we do not want
+  // context menu being shown on touch events
+  preventCtxMenu = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    return false
   }
 }
 
@@ -71,6 +80,11 @@ const styles = theme => ({
         border: 'none',
         borderRadius: 3,
         cursor: 'pointer'
+
+        // '&:active': {
+        //   background: '#eee',
+        //   boxShadow: '0 0 3px 3px rgb(24, 164, 157)'
+        // }
       },
 
       '&::-webkit-slider-thumb': {
@@ -78,15 +92,15 @@ const styles = theme => ({
         border: 'none',
         height: 70,
         width: 30,
-        background: 'goldenrod'
+        background: 'goldenrod',
+
+        '&:active': {
+          boxShadow: '0 0 3px 3px rgb(24, 164, 157)'
+        }
       },
 
       '&:focus': {
         outline: 'none'
-      },
-
-      '&:focus&$::-webkit-slider-runnable-track': {
-        background: '#fff'
       }
     }
 
