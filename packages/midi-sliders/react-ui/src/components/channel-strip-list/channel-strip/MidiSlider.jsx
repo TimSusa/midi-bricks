@@ -1,8 +1,6 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-import Slider from '@material-ui/lab/Slider'
 import { withStyles } from '@material-ui/core/styles'
-import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../actions/slider-list.js'
@@ -12,9 +10,9 @@ class MidiSlider extends React.Component {
     height: 0
   }
   render () {
-    const { sliderEntry, idx, height, width } = this.props
+    const { sliderEntry: { val }, idx, height, width } = this.props
     const { classes } = this.props
-    const tmpH = (height || 0) - 100
+    const tmpH = (height || 0) - 65
     return (
       <div style={{ height, width }}>
         <div
@@ -28,35 +26,11 @@ class MidiSlider extends React.Component {
             max={127}
             min={0}
             step={1}
-            value={sliderEntry.val}
-            // orient='vertical'
+            value={val}
             className={classes.input}
           />
         </div>
-
-        {/* <Slider
-          style={{height: (height || 0) - 100}}
-          classes={{
-            root: classNames({
-              [classes.sliderRoot]: true
-            }),
-            vertical: classes.vertical,
-            activated: classes.activated,
-            jumped: classes.jumped,
-            track: classes.track,
-            trackBefore: classes.trackBefore,
-            trackAfter: classes.trackAfter,
-            thumb: classes.thumb
-          }}
-          vertical
-          reverse
-          value={sliderEntry.val}
-          onChange={this.handleSliderChange.bind(this, idx)}
-          max={127}
-          min={0}
-          step={1}
-        /> */}
-        <Typography className={classes.caption}>{sliderEntry.val}</Typography>
+        <Typography className={classes.caption}>{val}</Typography>
       </div>
     )
   }
@@ -69,12 +43,7 @@ class MidiSlider extends React.Component {
 const styles = theme => ({
 
   rangeSliderWrapper: {
-    // /appearance: 'slider-vertical'
     appearance: 'none',
-    // transform: 'rotate(-90deg)',
-    // position: 'absolute',
-    // left: 0,
-    // top: 0
     height: 280
   },
 
@@ -93,11 +62,9 @@ const styles = theme => ({
       '&[orient=vertical]': {
         '-webkit-appearance': 'slider-vertical',
         writingMode: 'bt-lr'
-        // appearance: 'slider-vertical',
       },
 
       '&::-webkit-slider-runnable-track': {
-        // '-webkit-appearance': 'slider-vertical',
         appearance: 'none',
         height: 70,
         background: '#ddd',
@@ -106,9 +73,7 @@ const styles = theme => ({
       },
 
       '&::-webkit-slider-thumb': {
-        // transform: 'rotate(-90deg)',
         appearance: 'none',
-        // '-webkit-appearance': 'slider-vertical',
         border: 'none',
         height: 70,
         width: 30,
@@ -120,71 +85,12 @@ const styles = theme => ({
       },
 
       '&:focus&$::-webkit-slider-runnable-track': {
-        background: '#ccc'
+        background: '#fff'
       }
     }
 
   },
 
-  sliderRoot: {
-    cursor: 'default',
-    width: '100%',
-
-    '&$vertical': {
-      margin: 0,
-      marginLeft: 'auto',
-      marginRight: 'auto'
-    }
-  },
-  vertical: {
-  },
-  activated: {},
-  jumped: {
-    transition: 'none'
-  },
-  track: {
-    '&$vertical': {
-      width: 66,
-      border: 'solid 2px rgba(0,0,0,0.1)',
-      borderRadius: 2
-    }
-  },
-  trackBefore: {
-    background: theme.palette.slider.trackActive,
-    opacity: 1,
-    '&$activated': {
-      opacity: 1,
-      background: theme.palette.slider.trackActive
-    }
-  },
-  trackAfter: {
-    background: theme.palette.slider.trackNonactive,
-    '&$activated': {
-      background: theme.palette.slider.trackNonactive
-    },
-    '&$jumped': {
-      background: theme.palette.slider.trackNonactive
-    }
-  },
-  thumb: {
-    width: 66,
-    height: 35,
-    left: '50%',
-    borderRadius: 2,
-    background: theme.palette.slider.thump,
-    border: 'solid 1px ' + theme.palette.slider.thumpBorder,
-
-    '&$activated': {
-      boxShadow: '0 0 3px 3px grey',
-      width: 64,
-      height: 35
-    },
-    '&$jumped': {
-      border: 'solid 2px rgba(0,0,0,1)',
-      width: 66,
-      height: 35
-    }
-  },
   caption: {
     position: 'fixed',
     bottom: 0,

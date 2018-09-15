@@ -289,7 +289,6 @@ const transformState = (state, action, field) => {
 }
 
 const transformAddState = (state, action, type) => {
-  console.log(action)
   // Either use last selected driver or take the first available one
   const midi = state[0].midi
   const availDriver = midi.midiDrivers[0].outputId
