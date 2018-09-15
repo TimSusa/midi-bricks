@@ -52,8 +52,8 @@ class MidiSlider extends React.Component {
 const styles = theme => ({
 
   rangeSliderWrapper: {
-    appearance: 'none',
-    height: 280
+    appearance: 'none'
+    // height: 280
   },
 
   input: {
@@ -61,28 +61,26 @@ const styles = theme => ({
       appearance: 'none',
       transform: 'rotate(-90deg)',
       transformOrigin: '0 50%',
-      width: 280,
+      // width: 280,
 
       position: 'absolute',
       padding: 0,
       margin: 0,
       bottom: 0,
-
-      '&[orient=vertical]': {
-        '-webkit-appearance': 'slider-vertical',
-        writingMode: 'bt-lr'
-      },
+      borderRadius: 3,
 
       '&::-webkit-slider-runnable-track': {
         appearance: 'none',
-        height: 70,
-        background: '#ddd',
+        // height: 70,
+        // background: '#ddd',
+        background: theme.palette.slider.trackNonactive,
         border: 'none',
         borderRadius: 3,
         cursor: 'pointer',
 
         '&:active': {
-          background: '#eee'
+          // background: '#eee',
+          background: theme.palette.slider.trackActive
           // boxShadow: '0 0 3px 3px rgb(24, 164, 157)'
         }
       },
@@ -113,10 +111,10 @@ const styles = theme => ({
     textAlign: 'center',
     marginTop: theme.spacing.unit,
     color: theme.palette.primary.contrastText,
-    fontSize: '1rem',
-    fontWeight: 600,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em'
+    // fontSize: '1rem',
+    fontWeight: 600
+    // fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
+    // lineHeight: '1.375em'
   }
 })
 
