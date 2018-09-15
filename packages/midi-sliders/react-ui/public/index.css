@@ -2,11 +2,10 @@ html, body, #app, #root, #app>div {
 height: 100% !important;
 }
 
-input[type=range]{
+
+/* input[type=range]{
     -webkit-appearance: none;
-    /* -webkit-transform:rotate(270deg); */
-    /* margin-top: 80px;
-    width: 220px; */
+    -webkit-transform:rotate(270deg);
 }
 
 input[type=range]::-webkit-slider-runnable-track {
@@ -31,7 +30,7 @@ input[type=range]:focus {
 
 input[type=range]:focus::-webkit-slider-runnable-track {
     background: #ccc;
-}
+} */
 /* input[type=range],
 
 } */

@@ -14,13 +14,15 @@ class MidiSlider extends React.Component {
   render () {
     const { sliderEntry, idx, height, width } = this.props
     const { classes } = this.props
+    const tmpH = (height || 0) - 100
     return (
-      <React.Fragment>
+      <div style={{ height, width }}>
         <div
           className={classes.rangeSliderWrapper}
-          style={{ height: (height || 0) - 100, width }}
+          style={{ height: tmpH }}
         >
           <input
+            style={{ width: tmpH }}
             onChange={this.handleSliderChange.bind(this, idx)}
             type='range'
             max={127}
@@ -50,41 +52,17 @@ class MidiSlider extends React.Component {
           reverse
           value={sliderEntry.val}
           onChange={this.handleSliderChange.bind(this, idx)}
-          onTouchStart={this.touchToMouseEvent}
-          onTouchEnd={this.touchToMouseEvent}
-          onTouchMove={this.touchToMouseEvent}
           max={127}
           min={0}
           step={1}
         /> */}
         <Typography className={classes.caption}>{sliderEntry.val}</Typography>
-      </React.Fragment>
+      </div>
     )
   }
 
   handleSliderChange = (idx, e, val) => {
     this.props.actions.handleSliderChange({ idx, val: e.target.value })
-  }
-
-  // In order to have multi-touch available,
-  // convert touch to mouse events
-  touchToMouseEvent = (e) => {
-    [...e.changedTouches].forEach((touch) => {
-      const evt = new window.MouseEvent('click', {
-        view: window,
-        bubbles: false,
-        cancelable: true,
-        clientX: touch.clientX,
-        clientY: touch.clientY,
-        screenX: touch.screenX,
-        screenY: touch.screenY,
-        relatedTarget: touch.target
-      })
-      window.requestAnimationFrame(() => {
-        touch.target.dispatchEvent(evt)
-        evt.preventDefault()
-      })
-    })
   }
 }
 
@@ -92,30 +70,25 @@ const styles = theme => ({
 
   rangeSliderWrapper: {
     // /appearance: 'slider-vertical'
-    appearance: 'none'
+    appearance: 'none',
     // transform: 'rotate(-90deg)',
     // position: 'absolute',
     // left: 0,
     // top: 0
+    height: 280
   },
 
   input: {
     '&[type=range]': {
-      // '-webkit-appearance: none;
-
-      // background: 'transparent',
       appearance: 'none',
       transform: 'rotate(-90deg)',
-      overflow: 'hidden',
-      /* margin-top: 80px;
+      transformOrigin: '0 50%',
+      width: 280,
 
-      width: 220px; */
-      // height: 200,
-      // width: 200,
-      // marginTop: 20,
-      // marginBottom: 20,
-      height: '100%',
-      width: '100%',
+      position: 'absolute',
+      padding: 0,
+      margin: 0,
+      bottom: 0,
 
       '&[orient=vertical]': {
         '-webkit-appearance': 'slider-vertical',
@@ -213,6 +186,9 @@ const styles = theme => ({
     }
   },
   caption: {
+    position: 'fixed',
+    bottom: 0,
+    width: '100%',
     textAlign: 'center',
     marginTop: theme.spacing.unit,
     color: theme.palette.primary.contrastText,
