@@ -69,7 +69,8 @@ const styles = theme => ({
         height: 70,
         background: '#ddd',
         border: 'none',
-        borderRadius: 3
+        borderRadius: 3,
+        cursor: 'pointer'
       },
 
       '&::-webkit-slider-thumb': {
