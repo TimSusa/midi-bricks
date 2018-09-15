@@ -42,7 +42,7 @@ class MidiButtons extends React.Component {
 
     const fontColorStyle = {
       color: !sliderEntry.isNoteOn ? colorFont : colorFontActive,
-      fontWeight: 500
+      fontWeight: 600
     }
     if (sliderEntry.type === STRIP_TYPE.BUTTON) {
       return (
@@ -131,7 +131,8 @@ const styles = theme => ({
   },
   label: {
     margin: 0,
-    padding: 0
+    padding: 0,
+    fontWeight: 600
   },
   group: {
   },

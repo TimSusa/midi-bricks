@@ -79,12 +79,12 @@ const styles = theme => ({
         background: '#ddd',
         border: 'none',
         borderRadius: 3,
-        cursor: 'pointer'
+        cursor: 'pointer',
 
-        // '&:active': {
-        //   background: '#eee',
-        //   boxShadow: '0 0 3px 3px rgb(24, 164, 157)'
-        // }
+        '&:active': {
+          background: '#eee'
+          // boxShadow: '0 0 3px 3px rgb(24, 164, 157)'
+        }
       },
 
       '&::-webkit-slider-thumb': {
@@ -114,7 +114,7 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',
-    fontWeight: 500,
+    fontWeight: 600,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     lineHeight: '1.375em'
   }
