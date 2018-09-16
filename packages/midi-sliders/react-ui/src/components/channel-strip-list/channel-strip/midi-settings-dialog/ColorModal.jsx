@@ -87,7 +87,7 @@ class ColorModal extends React.Component {
     this.setState({ color: e })
     this.props.actions.changeColors({
       i,
-      [this.props.fieldName]: e
+      [this.props.fieldName]: e.hex
     })
   }
 

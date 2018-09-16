@@ -19,7 +19,6 @@ class ChannelStrip extends React.Component {
           <div
             className={classes.root}
           >
-
             {
               (sliderEntry.type === STRIP_TYPE.SLIDER) &&
               <React.Fragment>

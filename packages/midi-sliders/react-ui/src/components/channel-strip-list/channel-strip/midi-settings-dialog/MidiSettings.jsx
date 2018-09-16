@@ -15,14 +15,24 @@ import { STRIP_TYPE } from '../../../../reducers/slider-list'
 import InputNoteOrCc from './InputNoteOrCc'
 import StripDeleteModal from './StripDeleteModal'
 import ColorModal from './ColorModal'
+import MidiSuggestedInput from './MidiSuggestedInput'
 
 class MidiSettings extends React.Component {
   render () {
     const { sliderEntry, idx, classes } = this.props
     return (
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <FormControl className={classes.formControl}>
-          <InputLabel className={classes.label} htmlFor='label'>Label </InputLabel>
+      <div
+        style={{ display: 'flex', flexDirection: 'column' }}
+      >
+        <FormControl
+          className={classes.formControl}
+        >
+          <InputLabel
+            className={classes.label}
+            htmlFor='label'
+          >
+          Label
+          </InputLabel>
           <Input
             className={classes.input}
             id='label'
@@ -37,10 +47,19 @@ class MidiSettings extends React.Component {
         {
           (sliderEntry.type !== 'LABEL') ? (
             <React.Fragment>
-              <InputNoteOrCc sliderEntry={sliderEntry} idx={idx} />
+              <InputNoteOrCc
+                sliderEntry={sliderEntry}
+                idx={idx}
+              />
               <br />
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.label} htmlFor='cc'>Driver </InputLabel>
+              <FormControl
+                className={classes.formControl}
+              >
+                <InputLabel
+                  className={classes.label}
+                  htmlFor='cc'>
+                Driver
+                </InputLabel>
                 <Select
                   className={classes.select}
                   onChange={e => this.props.actions.selectSliderMidiDriver({
@@ -70,43 +89,60 @@ class MidiSettings extends React.Component {
         <br />
         {
           (sliderEntry.type !== 'SLIDER') ? (
-            <FormControl className={classes.formControl}>
-              <InputLabel className={classes.label} htmlFor='button-type'>Type </InputLabel>
-              <Select
-                className={classes.select}
-                onChange={this.handleButtonTypeChange.bind(this, idx)}
-                value={sliderEntry.type}>
-                {this.renderButtonTypeSelection()}
-              </Select>
-              <ColorModal
-                title='Background'
-                sliderEntry={sliderEntry}
-                idx={idx}
-                fieldName='color'
-                color={sliderEntry.colors.color}
-              />
-              <ColorModal
-                title='Font-Color'
-                sliderEntry={sliderEntry}
-                idx={idx}
-                fieldName='colorFont'
-                color={sliderEntry.colors.colorFont}
-              />
-              <ColorModal
-                title='Activated State'
-                sliderEntry={sliderEntry}
-                idx={idx}
-                fieldName='colorActive'
-                color={sliderEntry.colors.colorActive}
-              />
-              <ColorModal
-                title='Font-Color Activated'
-                sliderEntry={sliderEntry}
-                idx={idx}
-                fieldName='colorFontActive'
-                color={sliderEntry.colors.colorFontActive}
-              />
-            </FormControl>
+            <React.Fragment>
+              <FormControl className={classes.formControl}>
+                <InputLabel className={classes.label} htmlFor='button-type'>Type </InputLabel>
+                <Select
+                  className={classes.select}
+                  onChange={this.handleButtonTypeChange.bind(this, idx)}
+                  value={sliderEntry.type}>
+                  {this.renderButtonTypeSelection()}
+                </Select>
+                <ColorModal
+                  title='Background'
+                  sliderEntry={sliderEntry}
+                  idx={idx}
+                  fieldName='color'
+                  color={sliderEntry.colors.color}
+                />
+                <ColorModal
+                  title='Font-Color'
+                  sliderEntry={sliderEntry}
+                  idx={idx}
+                  fieldName='colorFont'
+                  color={sliderEntry.colors.colorFont}
+                />
+                <ColorModal
+                  title='Activated State'
+                  sliderEntry={sliderEntry}
+                  idx={idx}
+                  fieldName='colorActive'
+                  color={sliderEntry.colors.colorActive}
+                />
+                <ColorModal
+                  title='Font-Color Activated'
+                  sliderEntry={sliderEntry}
+                  idx={idx}
+                  fieldName='colorFontActive'
+                  color={sliderEntry.colors.colorFontActive}
+                />
+              </FormControl>
+              <FormControl>
+                <InputLabel
+                  className={classes.label}
+                  htmlFor='cc'
+                >
+                  Listen to CC
+                </InputLabel>
+                <MidiSuggestedInput
+                  suggestions={this.suggestionsMidiCc}
+                  startVal={sliderEntry.listenToCc || []}
+                  sliderEntry={sliderEntry}
+                  idx={idx}
+                  handleChange={this.props.actions.addMidiCcListener}
+                />
+              </FormControl>
+            </React.Fragment>
           ) : (
             <div />
           )
@@ -126,6 +162,10 @@ class MidiSettings extends React.Component {
       </div>
     )
   }
+
+  suggestionsMidiCc = Array.apply(null, { length: 128 }).map(Number.call, Number).map((item) => {
+    return { label: `${item}` }
+  })
 
   handleLabelChange = (idx, e, val) => {
     this.props.actions.changeLabel({

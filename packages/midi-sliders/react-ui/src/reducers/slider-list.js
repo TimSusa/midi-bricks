@@ -27,6 +27,7 @@ export const sliderList = createReducer([], {
         label: 'slider 1',
         val: 80,
         midiCC: [60], // count up last entry,
+        listenToCc: [],
         outputId: midi.midiDrivers[0].outputId,
         midiChannel: 1,
         midi,
@@ -39,7 +40,7 @@ export const sliderList = createReducer([], {
         h: 1,
         static: false,
         colors: {
-          colorActive: 'yellow'
+          colorActive: '#FFFF00'
         }
       }
       arrToSend = [entry]
@@ -131,8 +132,12 @@ export const sliderList = createReducer([], {
     const newState = transformState(state, action, 'midiCC')
     return newState
   },
+  [ActionTypeSliderList.ADD_MIDI_CC_LISTENER] (state, action) {
+    const newState = transformState(state, action, 'listenToCc')
+    return newState
+  },
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL] (state, action) {
-    const {val} = action.payload
+    const { val } = action.payload
 
     // Limit to allowed number of midi channels
     // and prevent crash
@@ -140,9 +145,9 @@ export const sliderList = createReducer([], {
     if ((val <= 16) && (val >= 1)) {
       newAction = action
     } else if (val > 16) {
-      newAction = {payload: {val: 16}}
+      newAction = { payload: { val: 16 } }
     } else {
-      newAction = {payload: {val: 1}}
+      newAction = { payload: { val: 1 } }
     }
     const newState = transformState(state, newAction, 'midiChannel')
     return newState
@@ -161,7 +166,7 @@ export const sliderList = createReducer([], {
         output.send(ccMessage, (window.performance.now() + 10.0))
       })
     }
-    const newState = transformState(state, {payload: {idx: parseInt(idx, 10), val}}, 'val')
+    const newState = transformState(state, { payload: { idx: parseInt(idx, 10), val } }, 'val')
     return newState
   },
   [ActionTypeSliderList.SAVE_FILE] (state, action) {
@@ -209,6 +214,25 @@ export const sliderList = createReducer([], {
       }))
     }
     return newArray
+  },
+
+  [ActionTypeSliderList.MIDI_MESSAGE_ARRIVED] (state, action) {
+    const newState = state.map(item => {
+      const { listenToCc } = item
+      if (listenToCc) {
+        const val = action.payload.midiMessage.data[1]
+        const hasVal = listenToCc.includes(val.toString())
+        if (hasVal) {
+          const { colors } = item
+          const { colorActive, color } = colors
+          const colAct = (colorActive && colorActive.hex) || colorActive
+          const col = (color && color.hex) || color
+          return { ...item, colors: { color: { hex: colAct }, colorActive: { hex: col } } }
+        }
+      }
+      return { ...item }
+    })
+    return newState
   },
 
   [ActionTypeSliderList.CHANGE_COLORS] (state, action) {
@@ -324,6 +348,7 @@ const transformAddState = (state, action, type) => {
     label: label + addStateLength(),
     val: 50,
     midiCC,
+    listenToCc: [],
     outputId: newDriver,
     midiChannel: 1,
     isNoteOn: false,
@@ -336,7 +361,7 @@ const transformAddState = (state, action, type) => {
     h: 1,
     static: false,
     colors: {
-      colorActive: 'yellow'
+      colorActive: '#FFFF00'
     }
   }
   return [...state, entry]

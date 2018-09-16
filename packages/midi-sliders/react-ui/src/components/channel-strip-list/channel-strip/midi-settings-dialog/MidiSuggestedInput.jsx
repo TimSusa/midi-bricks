@@ -15,7 +15,7 @@ import * as MidiSliderActions from '../../../../actions/slider-list.js'
 class MidiSuggestedInput extends React.Component {
   state = {
     inputValue: '',
-    selectedItem: this.props.sliderEntry.midiCC || this.props.startVal
+    selectedItem: this.props.startVal || []
   };
 
   render () {
@@ -110,7 +110,7 @@ class MidiSuggestedInput extends React.Component {
 
     if (selectedItem.indexOf(item) === -1) {
       selectedItem = [...selectedItem, item]
-      this.props.actions.selectCc({ idx, val: selectedItem })
+      this.props.handleChange && this.props.handleChange({ idx, val: selectedItem })
     }
 
     this.setState({
@@ -123,7 +123,7 @@ class MidiSuggestedInput extends React.Component {
     this.setState(state => {
       const selectedItem = [...state.selectedItem]
       selectedItem.splice(selectedItem.indexOf(item), 1)
-      this.props.actions.selectCc({ idx, val: selectedItem })
+      this.props.handleChange && this.props.handleChange({ idx, val: selectedItem })
       return { selectedItem }
     })
   }

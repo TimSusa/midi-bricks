@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../actions/slider-list.js'
 import { STRIP_TYPE } from '../../../../reducers/slider-list'
 import MidiSuggestedInput from './MidiSuggestedInput'
-import { Note } from 'tonal'
+import { Note, midi } from 'tonal'
 
 class InputNoteOrCc extends React.Component {
   render () {
@@ -19,12 +19,17 @@ class InputNoteOrCc extends React.Component {
       return (
         <React.Fragment>
           <FormControl className={classes.formControl}>
-            <InputLabel className={classes.label} htmlFor='cc'>CC</InputLabel>
+            <InputLabel
+              className={classes.label}
+              htmlFor='cc'
+            >CC
+            </InputLabel>
             <MidiSuggestedInput
               suggestions={this.suggestionsMidiCc}
-              startVal={['65']}
+              startVal={sliderEntry.midiCC}
               sliderEntry={sliderEntry}
               idx={idx}
+              handleChange={this.props.actions.selectCc}
             />
           </FormControl>
         </React.Fragment>
@@ -33,12 +38,18 @@ class InputNoteOrCc extends React.Component {
       return (
         <React.Fragment>
           <FormControl className={classes.formControl}>
-            <InputLabel className={classes.label} htmlFor='note'>Notes</InputLabel>
+            <InputLabel
+              className={classes.label}
+              htmlFor='note'
+            >
+            Notes
+            </InputLabel>
             <MidiSuggestedInput
               suggestions={this.suggestionsMidiNote}
-              startVal={[Note.fromMidi(65)]}
+              startVal={sliderEntry.midiCC.map((item) => Note.fromMidi(midi(item)))}
               sliderEntry={sliderEntry}
               idx={idx}
+              handleChange={this.props.actions.selectCc}
             />
           </FormControl>
         </React.Fragment>

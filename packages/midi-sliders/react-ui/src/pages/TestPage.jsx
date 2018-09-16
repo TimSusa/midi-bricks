@@ -138,7 +138,7 @@ const styles = theme => ({
     border: 'solid 1px rgba(0,0,0,0.2)',
 
     '&$activated': {
-      boxShadow: '0 0 3px 3px grey',
+      boxShadow: '0 0 3px 3px #BEBEBE',
       width: 104,
       height: 40,
       background: theme.palette.primary.dark

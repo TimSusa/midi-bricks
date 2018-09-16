@@ -27,7 +27,7 @@ class MidiButtons extends React.Component {
     // button activ background
     const sColors = sliderEntry.colors
     const sColAct = sColors && sColors.colorActive && sColors.colorActive.hex
-    const colorActivated = sColAct || 'yellow'
+    const colorActivated = sColAct || '#FFFF00'
     const buttonStyle = {
       height: ((height || 0) - 32),
       width: ((width || 0) - 32),
@@ -37,7 +37,7 @@ class MidiButtons extends React.Component {
     // button active font colors
     const bColors = sliderEntry.colors
     const bColAct = bColors && bColors.colorFontActive && bColors.colorFontActive.hex
-    const colorFontActive = bColAct || 'grey'
+    const colorFontActive = bColAct || '#BEBEBE'
 
     const fontColorStyle = {
       color: !sliderEntry.isNoteOn ? colorFont : colorFontActive,

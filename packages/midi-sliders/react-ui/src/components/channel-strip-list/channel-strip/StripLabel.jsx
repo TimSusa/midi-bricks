@@ -27,7 +27,7 @@ class StripLabel extends React.Component {
     // label activ background
     const sColors = sliderEntry.colors
     const sColAct = sColors && sColors.colorActive && sColors.colorActive.hex
-    const colorActivated = sColAct || 'yellow'
+    const colorActivated = sColAct || '#FFFF00'
     const labelStyle = {
       height: ((height || 0) - 16),
       width: ((width || 0) - 16),
@@ -37,7 +37,7 @@ class StripLabel extends React.Component {
     // label active font colors
     const bColors = sliderEntry.colors
     const bColAct = bColors && bColors.colorFontActive && bColors.colorFontActive.hex
-    const colorFontActive = bColAct || 'grey'
+    const colorFontActive = bColAct || '#BEBEBE'
 
     const fontColorStyle = {
       color: !sliderEntry.isNoteOn ? colorFont : colorFontActive,

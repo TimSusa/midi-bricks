@@ -51,10 +51,39 @@ class MidiSlidersPage extends React.Component {
 
   onMIDISuccess = (midiAccess) => {
     if (midiAccess.outputs.size > 0) {
-      this.props.actions.initMidiAccess({midiAccess})
+      this.props.actions.initMidiAccess({ midiAccess })
+      for (var input of midiAccess.inputs.values()) {
+        input.onmidimessage = this.getMIDIMessage
+      }
     } else {
-      this.setState({hasMidi: false})
+      this.setState({ hasMidi: false })
       console.warn('There are no midi-drivers available. Tip: Please create a virtual midi driver at first and then restart the application.')
+    }
+  }
+
+  getMIDIMessage = (midiMessage) => {
+    // Listen
+    var command = midiMessage.data[0]
+    var note = midiMessage.data[1]
+    // a velocity value might not be included with a noteOff command
+    var velocity = (midiMessage.data.length > 2) ? midiMessage.data[2] : 0
+
+    switch (command) {
+      case 144: // noteOn
+        if (velocity > 0) {
+          // console.log('note on ', note)
+          this.props.actions.midiMessageArrived({midiMessage, isNoteOn: true})
+        } else {
+          // console.log('note off ', note)
+          this.props.actions.midiMessageArrived({midiMessage, isNoteOn: false})
+        }
+        break
+      case 128: // noteOff
+        // console.log('note off ', note)
+        this.props.actions.midiMessageArrived({midiMessage, isNoteOn: false})
+        break
+        // we could easily expand this switch statement to cover other types of
+        // commands such as controllers or sysex
     }
   }
 
