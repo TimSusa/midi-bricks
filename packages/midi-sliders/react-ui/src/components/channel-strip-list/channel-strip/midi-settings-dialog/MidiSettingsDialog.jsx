@@ -19,10 +19,17 @@ class MidiSettingsDialog extends React.Component {
       >
         <DialogTitle id='confirmation-dialog-title'>Settings</DialogTitle>
         <DialogContent>
-          <MidiSettings sliderEntry={sliderEntry} idx={idx} onClose={this.handleClose} />
+          <MidiSettings
+            sliderEntry={sliderEntry}
+            idx={idx}
+            onClose={this.handleClose}
+          />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleClose} color='secondary'>
+          <Button
+            onClick={this.handleClose}
+            color='secondary'
+          >
             Close
           </Button>
         </DialogActions>

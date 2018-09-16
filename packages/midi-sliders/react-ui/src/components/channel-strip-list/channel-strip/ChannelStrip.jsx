@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import MidiSlider from './MidiSlider'
 import MidiButton from './MidiButtons'
+import StripLabel from './StripLabel'
 import { STRIP_TYPE } from '../../../reducers/slider-list'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -11,8 +12,7 @@ import * as MidiSliderActions from '../../../actions/slider-list.js'
 
 class ChannelStrip extends React.Component {
   render () {
-    const { sliderEntry, idx } = this.props
-    const { classes } = this.props
+    const { sliderEntry, idx, classes, size } = this.props
     return (
       <VisibilitySensor partialVisibility>
         {({ isVisible }) =>
@@ -31,8 +31,8 @@ class ChannelStrip extends React.Component {
                 <MidiSlider
                   sliderEntry={sliderEntry}
                   idx={idx}
-                  height={(this.props.size && this.props.size.height) || 0}
-                  width={(this.props.size && this.props.size.width) || 0}
+                  height={(size && size.height) || 0}
+                  width={(size && size.width) || 0}
                 />
               </React.Fragment>
 
@@ -41,9 +41,18 @@ class ChannelStrip extends React.Component {
               <MidiButton
                 sliderEntry={sliderEntry}
                 idx={idx}
-                height={(this.props.size && this.props.size.height) || 0}
-                width={(this.props.size && this.props.size.width) || 0}
+                height={(size && size.height) || 0}
+                width={(size && size.width) || 0}
               />
+            }
+            {
+              (sliderEntry.type === STRIP_TYPE.LABEL) &&
+                <StripLabel
+                  sliderEntry={sliderEntry}
+                  idx={idx}
+                  height={(size && size.height) || 0}
+                  width={(size && size.width) || 0}
+                />
             }
           </div>
         }
@@ -63,6 +72,7 @@ const styles = theme => ({
     textAlign: 'center',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
+    marginTop: 8,
     textOverflow: 'ellipsis',
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',

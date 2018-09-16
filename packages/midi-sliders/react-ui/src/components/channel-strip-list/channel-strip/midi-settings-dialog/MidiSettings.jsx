@@ -33,35 +33,45 @@ class MidiSettings extends React.Component {
             autoFocus
           />
         </FormControl>
-        <InputNoteOrCc sliderEntry={sliderEntry} idx={idx} />
-        <br />
-        <FormControl className={classes.formControl}>
-          <InputLabel className={classes.label} htmlFor='cc'>Driver </InputLabel>
-          <Select
-            className={classes.select}
-            onChange={e => this.props.actions.selectSliderMidiDriver({
-              idx,
-              val: e.target.value
-            })}
-            value={sliderEntry.outputId}>
-            {this.renderDriverSelection(sliderEntry.midi.midiDrivers)}
-          </Select>
-        </FormControl>
-        <FormControl className={classes.formControl}>
-          <InputLabel className={classes.label} htmlFor='cc'>Channel </InputLabel>
-          <Input
-            className={classes.input}
-            id='number'
-            type='number'
-            name={`input-channel-name-${idx}`}
-            value={sliderEntry.midiChannel}
-            onChange={e => this.props.actions.selectMidiChannel({ idx, val: e.target.value })} />
-        </FormControl>
+
+        {
+          (sliderEntry.type !== 'LABEL') ? (
+            <React.Fragment>
+              <InputNoteOrCc sliderEntry={sliderEntry} idx={idx} />
+              <br />
+              <FormControl className={classes.formControl}>
+                <InputLabel className={classes.label} htmlFor='cc'>Driver </InputLabel>
+                <Select
+                  className={classes.select}
+                  onChange={e => this.props.actions.selectSliderMidiDriver({
+                    idx,
+                    val: e.target.value
+                  })}
+                  value={sliderEntry.outputId}>
+                  {this.renderDriverSelection(sliderEntry.midi.midiDrivers)}
+                </Select>
+              </FormControl>
+              <FormControl className={classes.formControl}>
+                <InputLabel className={classes.label} htmlFor='cc'>Channel </InputLabel>
+                <Input
+                  className={classes.input}
+                  id='number'
+                  type='number'
+                  name={`input-channel-name-${idx}`}
+                  value={sliderEntry.midiChannel}
+                  onChange={e => this.props.actions.selectMidiChannel({ idx, val: e.target.value })} />
+              </FormControl>
+            </React.Fragment>
+          ) : (
+            <div />
+          )
+        }
+
         <br />
         {
           (sliderEntry.type !== 'SLIDER') ? (
             <FormControl className={classes.formControl}>
-              <InputLabel className={classes.label} htmlFor='button-type'>Button Type </InputLabel>
+              <InputLabel className={classes.label} htmlFor='button-type'>Type </InputLabel>
               <Select
                 className={classes.select}
                 onChange={this.handleButtonTypeChange.bind(this, idx)}
@@ -69,7 +79,7 @@ class MidiSettings extends React.Component {
                 {this.renderButtonTypeSelection()}
               </Select>
               <ColorModal
-                title='Button Background'
+                title='Background'
                 sliderEntry={sliderEntry}
                 idx={idx}
                 fieldName='color'
@@ -83,7 +93,7 @@ class MidiSettings extends React.Component {
                 color={sliderEntry.colors.colorFont}
               />
               <ColorModal
-                title='Button Activated'
+                title='Activated State'
                 sliderEntry={sliderEntry}
                 idx={idx}
                 fieldName='colorActive'

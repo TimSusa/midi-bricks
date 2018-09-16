@@ -5,7 +5,8 @@ import { midi, Note } from 'tonal'
 export const STRIP_TYPE = {
   SLIDER: 'SLIDER',
   BUTTON: 'BUTTON',
-  BUTTON_TOGGLE: 'BUTTON_TOGGLE'
+  BUTTON_TOGGLE: 'BUTTON_TOGGLE',
+  LABEL: 'LABEL'
 }
 
 export const sliderList = createReducer([], {
@@ -23,7 +24,7 @@ export const sliderList = createReducer([], {
     if (arrToSend.length < 1) {
       const entry = {
         type: STRIP_TYPE.SLIDER,
-        label: 'label 1',
+        label: 'slider 1',
         val: 80,
         midiCC: [60], // count up last entry,
         outputId: midi.midiDrivers[0].outputId,
@@ -51,6 +52,11 @@ export const sliderList = createReducer([], {
   },
   [ActionTypeSliderList.ADD_BUTTON] (state, action) {
     const newState = transformAddState(state, action, STRIP_TYPE.BUTTON)
+    return newState
+  },
+
+  [ActionTypeSliderList.ADD_LABEL] (state, action) {
+    const newState = transformAddState(state, action, STRIP_TYPE.LABEL)
     return newState
   },
   [ActionTypeSliderList.CLONE] (state, action) {
@@ -300,15 +306,22 @@ const transformAddState = (state, action, type) => {
 
   // either note or cc
   let midiCC = null
-  if (type === STRIP_TYPE.BUTTON) {
+  let label = ''
+  if ((type === STRIP_TYPE.BUTTON) || (type === STRIP_TYPE.BUTTON_TOGGLE)) {
+    label = 'button '
     midiCC = [Note.fromMidi(addMidiCCVal())]
-  } else {
+  }
+  if (type === STRIP_TYPE.SLIDER) {
+    label = 'slider '
     midiCC = [addMidiCCVal()]
+  }
+  if (type === STRIP_TYPE.LABEL) {
+    label = 'label '
   }
 
   const entry = {
     type,
-    label: 'label ' + addStateLength(),
+    label: label + addStateLength(),
     val: 50,
     midiCC,
     outputId: newDriver,
@@ -318,7 +331,7 @@ const transformAddState = (state, action, type) => {
     isDraggable: true,
     i: new Date().getUTCMilliseconds().toString(), // addStateLength().toString() + 'fuv',
     x: addStateLength(),
-    y: 0,
+    y: addStateLength(),
     w: 1,
     h: 1,
     static: false,

@@ -12,6 +12,9 @@ import { Note } from 'tonal'
 class InputNoteOrCc extends React.Component {
   render () {
     const { sliderEntry, idx, classes } = this.props
+    if (sliderEntry.type === STRIP_TYPE.LABEL) {
+      return (<div />)
+    }
     if (sliderEntry.type === STRIP_TYPE.SLIDER) {
       return (
         <React.Fragment>

@@ -19,7 +19,7 @@ class MenuAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar
           className={classes.appBar}
-          position='static'
+          position='fixed'
         >
           <Toolbar>
             <IconButton
@@ -42,6 +42,7 @@ class MenuAppBar extends React.Component {
             <ViewMenu />
           </Toolbar>
         </AppBar>
+        <div style={{height: 64}} />
       </div>
     )
   }

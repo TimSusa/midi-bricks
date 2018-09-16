@@ -1,7 +1,6 @@
 import React from 'react'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-// import MusicIcon from '@material-ui/icons/Autorenew'
 import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
@@ -31,7 +30,7 @@ class MidiButtons extends React.Component {
     const colorActivated = sColAct || 'yellow'
     const buttonStyle = {
       height: ((height || 0) - 32),
-      width: ((width || 0) - 66),
+      width: ((width || 0) - 32),
       background: sliderEntry.isNoteOn ? colorActivated : color
     }
 
@@ -62,10 +61,6 @@ class MidiButtons extends React.Component {
             onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
             onTouchEnd={this.handleTouchButtonTrigger.bind(this, idx)}
           >
-            {/* <MusicIcon
-                  className={classes.iconColor}
-                  style={fontColorStyle} />
-                <br /> */}
             <Typography
               variant='body1'
               style={fontColorStyle}
