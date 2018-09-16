@@ -72,12 +72,12 @@ const styles = theme => ({
     textAlign: 'center',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
-    marginTop: 8,
+    // marginTop: 8,
     textOverflow: 'ellipsis',
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',
     fontWeight: 600,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    // fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     lineHeight: '1.375em'
   },
   label: {
