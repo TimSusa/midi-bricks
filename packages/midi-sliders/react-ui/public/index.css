@@ -2,71 +2,6 @@ html, body, #app, #root, #app>div {
 height: 100% !important;
 }
 
-
-/* input[type=range]{
-    -webkit-appearance: none;
-    -webkit-transform:rotate(270deg);
-}
-
-input[type=range]::-webkit-slider-runnable-track {
-    
-    height: 70px;
-    background: #ddd;
-    border: none;
-    border-radius: 3px;
-}
-
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    border: none;
-    height: 70px;
-    width: 30px;
-    background: goldenrod;
-}
-
-input[type=range]:focus {
-    outline: none;
-}
-
-input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #ccc;
-} */
-/* input[type=range],
-
-} */
-
-/* input.vertical {
-	-webkit-appearance: slider-vertical;
-	writing-mode: bt-lr;
-}
-
-input[type=range]::-moz-range-track,
-input[type=range]::-ms-track {
-    -webkit-appearance: none;
-    background-color: #3f91e5;
-    width: 250px;
-    height:30px;
-    }
-
-
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    border: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    background: goldenrod;
-    margin-top: -4px;
-}
-
-::-webkit-slider-thumb::-moz-range-thumb,
-::-webkit-slider-thumb::-ms-thumb {
--webkit-appearance: none;
-background-color: #666;
-width: 30px;
-height: 20px;
-} */
-
 ::-webkit-scrollbar{
     width: 40px; 
     height: 40px;
@@ -93,41 +28,5 @@ height: 20px;
 ::-webkit-scrollbar-track-piece {
     height: 30px;
     width: 30px;
-}
-
-.slidecontainer {
-    width: 100%;
-}
-
-.slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 35px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-    /* transform: rotate(270deg); */
-}
-
-.slider:hover {
-    opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 35px;
-    height: 35px;
-    background: #4CAF50;
-    cursor: pointer;
-}
-
-.slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    background: #4CAF50;
-    cursor: pointer;
 }
 
