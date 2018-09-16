@@ -36,8 +36,8 @@ export const sliderList = createReducer([], {
         i: '0',
         x: 0,
         y: 0,
-        w: 1,
-        h: 1,
+        w: 2,
+        h: 2,
         static: false,
         colors: {
           colorActive: '#FFFF00'
@@ -357,8 +357,8 @@ const transformAddState = (state, action, type) => {
     i: new Date().getUTCMilliseconds().toString(), // addStateLength().toString() + 'fuv',
     x: addStateLength(),
     y: addStateLength(),
-    w: 1,
-    h: 1,
+    w: 2,
+    h: 2,
     static: false,
     colors: {
       colorActive: '#FFFF00'

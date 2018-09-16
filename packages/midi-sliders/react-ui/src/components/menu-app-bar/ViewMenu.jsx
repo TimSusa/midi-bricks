@@ -22,26 +22,26 @@ class ViewMenu extends React.Component {
     const open = Boolean(anchorEl)
     return (
       <div>
-        <ToolTip
+        {/* <ToolTip
           placement='left'
           title='View Settings'
+        > */}
+        <IconButton
+          aria-owns={open ? 'menu-appbar' : null}
+          aria-haspopup='true'
+          onClick={this.handleMenu}
+          color='inherit'
         >
-          <IconButton
-            aria-owns={open ? 'menu-appbar' : null}
-            aria-haspopup='true'
-            onClick={this.handleMenu}
-            color='inherit'
-          >
-            {
-              this.props.viewSettings.isCompactHorz ? (
-                <ViewSettingsIconList />
-              ) : (
-                <ViewSettingsIcon />
-              )
-            }
+          {
+            this.props.viewSettings.isCompactHorz ? (
+              <ViewSettingsIconList />
+            ) : (
+              <ViewSettingsIcon />
+            )
+          }
 
-          </IconButton>
-        </ToolTip>
+        </IconButton>
+        {/* </ToolTip> */}
         <Menu
           id='menu-appbar'
           anchorEl={anchorEl}

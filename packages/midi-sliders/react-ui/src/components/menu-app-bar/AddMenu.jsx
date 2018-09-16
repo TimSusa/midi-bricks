@@ -18,8 +18,8 @@ class AddMenu extends React.Component {
   render () {
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
-    const {sliderListLength} = this.props
-    if (sliderListLength < 80) {
+    const {sliderListLength, viewSettings: {isLayoutMode}} = this.props
+    if ((sliderListLength < 80) && isLayoutMode) {
       return (
         <div>
           <Tooltip
@@ -104,11 +104,15 @@ AddMenu.propTypes = {
   actions: PropTypes.object.isRequired,
   sliderListLength: PropTypes.number
 }
-
+function mapStateToProps ({ viewSettings }) {
+  return {
+    viewSettings
+  }
+}
 function mapDispatchToProps (dispatch) {
   return {
     actions: bindActionCreators(MidiSlidersAction, dispatch)
   }
 }
 
-export default (connect(null, mapDispatchToProps)(AddMenu))
+export default (connect(mapStateToProps, mapDispatchToProps)(AddMenu))

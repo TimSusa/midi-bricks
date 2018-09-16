@@ -76,7 +76,7 @@ const styles = theme => ({
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',
     fontWeight: 600,
-    // fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     lineHeight: '1.375em'
   },
   label: {
