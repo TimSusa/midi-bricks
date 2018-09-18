@@ -21,20 +21,12 @@ class ChannelStrip extends React.Component {
           >
             {
               (sliderEntry.type === STRIP_TYPE.SLIDER) &&
-              <React.Fragment>
-                <Typography
-                  className={classes.labelTop}
-                >
-                  {sliderEntry.label}
-                </Typography>
-                <MidiSlider
-                  sliderEntry={sliderEntry}
-                  idx={idx}
-                  height={(size && size.height) || 0}
-                  width={(size && size.width) || 0}
-                />
-              </React.Fragment>
-
+              <MidiSlider
+                sliderEntry={sliderEntry}
+                idx={idx}
+                height={(size && size.height) || 0}
+                width={(size && size.width) || 0}
+              />
             }
             {
               <MidiButton
@@ -46,12 +38,12 @@ class ChannelStrip extends React.Component {
             }
             {
               (sliderEntry.type === STRIP_TYPE.LABEL) &&
-                <StripLabel
-                  sliderEntry={sliderEntry}
-                  idx={idx}
-                  height={(size && size.height) || 0}
-                  width={(size && size.width) || 0}
-                />
+              <StripLabel
+                sliderEntry={sliderEntry}
+                idx={idx}
+                height={(size && size.height) || 0}
+                width={(size && size.width) || 0}
+              />
             }
           </div>
         }
@@ -67,18 +59,7 @@ const styles = theme => ({
     color: theme.palette.primary.contrastText,
     cursor: 'pointer'
   },
-  labelTop: {
-    textAlign: 'center',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    // marginTop: 8,
-    textOverflow: 'ellipsis',
-    color: theme.palette.primary.contrastText,
-    fontSize: '1rem',
-    fontWeight: 600,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em'
-  },
+
   label: {
     color: theme.palette.primary.contrastText,
     textAlign: 'center'

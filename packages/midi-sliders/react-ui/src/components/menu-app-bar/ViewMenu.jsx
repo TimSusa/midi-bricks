@@ -72,6 +72,12 @@ class ViewMenu extends React.Component {
             {!this.props.viewSettings.isCompactHorz ? ('Compact Horizontally') : ('Compact Vertically')}
           </MenuItem>
 
+          {
+            this.props.viewSettings.isLayoutMode && <MenuItem
+              onClick={this.handleChangeAutoArrangeMode}>
+              {!this.props.viewSettings.isAutoArrangeMode ? ('Auto Arrange Mode On') : ('Auto Arrange Mode Off')}
+            </MenuItem>
+          }
           <MenuItem
             onClick={this.handleChangeTheme}>
             {!this.props.viewSettings.isChangedTheme ? ('Dark Theme') : ('Light Theme')}
@@ -100,6 +106,11 @@ class ViewMenu extends React.Component {
 
   toggleLayoutMode = () => {
     this.props.actions.toggleLayoutMode()
+    this.handleClose()
+  }
+
+  handleChangeAutoArrangeMode = () => {
+    this.props.actions.toggleAutoArrangeMode()
     this.handleClose()
   }
 

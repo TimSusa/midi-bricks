@@ -10,12 +10,18 @@ class MidiSlider extends React.Component {
     height: 0
   }
   render () {
-    const { sliderEntry: { val }, idx, height, width } = this.props
+    const { sliderEntry: { val, label }, idx, height, width } = this.props
     const { classes } = this.props
     const tmpH = (height || 0) - 65
     return (
-      <div style={{ height, width }} onContextMenu={this.preventCtxMenu}>
+      <div style={{ height, width }} >
+        <Typography
+          className={classes.labelTop}
+        >
+          {label}
+        </Typography>
         <div
+          onContextMenu={this.preventCtxMenu}
           className={classes.rangeSliderWrapper}
           style={{ height: tmpH }}
         >
@@ -50,7 +56,18 @@ class MidiSlider extends React.Component {
 }
 
 const styles = theme => ({
-
+  labelTop: {
+    textAlign: 'center',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    // marginTop: 8,
+    textOverflow: 'ellipsis',
+    color: theme.palette.primary.contrastText,
+    fontSize: '1rem',
+    fontWeight: 600,
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    lineHeight: '1.375em'
+  },
   rangeSliderWrapper: {
     appearance: 'none'
     // height: 280

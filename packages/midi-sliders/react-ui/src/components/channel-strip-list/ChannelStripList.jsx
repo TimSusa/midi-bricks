@@ -19,12 +19,13 @@ const GridLayout = WidthProvider(RGL)
 
 class ChannelStripList extends React.Component {
   render () {
-    const { classes, sliderList, viewSettings: { isLayoutMode, isCompactHorz } } = this.props
+    const { classes, sliderList, viewSettings: { isLayoutMode, isCompactHorz, isAutoArrangeMode } } = this.props
     if (sliderList.length > 0) {
       return (
         <GridLayout
           rowHeight={40}
           cols={18}
+          preventCollision={!isAutoArrangeMode}
           isDraggable={isLayoutMode}
           isResizable={isLayoutMode}
           compactType={isCompactHorz ? 'horizontal' : 'vertical'}

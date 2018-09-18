@@ -22,6 +22,14 @@ export const viewSettings = createReducer({}, {
       isSettingsMode: !castedVal
     })
   },
+
+  [ActionTypeViewSettings.TOGGLE_AUTO_ARRANGE_MODE] (state = {isAutoArrangeMode: false}, action) {
+    const castedVal = !!state.isAutoArrangeMode
+    return Object.assign({}, state, {
+      isAutoArrangeMode: !castedVal
+    })
+  },
+
   [ActionTypeViewSettings.CHANGE_THEME] (state = {isChangedTheme: false}, action) {
     const castedVal = !!state.isChangedTheme
     return Object.assign({}, state, {
