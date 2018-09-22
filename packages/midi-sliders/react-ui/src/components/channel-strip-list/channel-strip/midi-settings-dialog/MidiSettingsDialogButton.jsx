@@ -12,7 +12,8 @@ class MidiSettingsDialogButton extends React.Component {
     const { sliderEntry, idx } = this.props
     const { classes } = this.props
     return (
-      <React.Fragment
+      <div
+        className={classes.root}
       >
         {
           !this.state.isDialogOpen ? (
@@ -39,7 +40,7 @@ class MidiSettingsDialogButton extends React.Component {
             <div />
           )
         }
-      </React.Fragment>
+      </div>
 
     )
   }
@@ -53,6 +54,8 @@ class MidiSettingsDialogButton extends React.Component {
 
 const styles = theme => ({
   root: {
+    // position: 'absolute',
+    // left: -8
   },
   iconColor: {
     color: theme.palette.primary.contrastText,

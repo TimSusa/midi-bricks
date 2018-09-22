@@ -96,6 +96,32 @@ class MidiButtons extends React.Component {
             </Typography>
           </Button>
         </div>)
+    } else if (sliderEntry.type === STRIP_TYPE.BUTTON_CC) {
+      return (
+        <div
+          className={classNames({
+            [classes.root]: true
+
+          })}>
+          <Button
+            disableTouchRipple
+            style={buttonStyle}
+            onContextMenu={this.preventCtxMenu}
+            classes={{ root: classes.button }}
+            variant='raised'
+            onMouseDown={this.handleTouchButtonTriggerCC.bind(this, idx)}
+            onTouchStart={this.handleTouchButtonTriggerCC.bind(this, idx)}
+            // onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
+          >
+            <Typography
+              variant='body1'
+              style={fontColorStyle}
+              className={classes.label}
+            >
+              {sliderEntry.label}
+            </Typography>
+          </Button>
+        </div>)
     } else {
       return (<div />)
     }
@@ -115,6 +141,12 @@ class MidiButtons extends React.Component {
     e.preventDefault()
     e.stopPropagation()
     this.props.actions.toggleNote(idx)
+  }
+
+  handleTouchButtonTriggerCC = (idx, e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    this.props.actions.handleSliderChange({idx, val: 127})
   }
 }
 

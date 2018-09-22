@@ -12,47 +12,47 @@ import { Note, midi } from 'tonal'
 class InputNoteOrCc extends React.Component {
   render () {
     const { sliderEntry, idx, classes } = this.props
+    const isCcInput =
+      (sliderEntry.type === STRIP_TYPE.SLIDER) ||
+      (sliderEntry.type === STRIP_TYPE.BUTTON_CC)
+
     if (sliderEntry.type === STRIP_TYPE.LABEL) {
       return (<div />)
     }
-    if (sliderEntry.type === STRIP_TYPE.SLIDER) {
+    if (isCcInput) {
       return (
-        <React.Fragment>
-          <FormControl className={classes.formControl}>
-            <InputLabel
-              className={classes.label}
-              htmlFor='cc'
-            >CC
-            </InputLabel>
-            <MidiSuggestedInput
-              suggestions={this.suggestionsMidiCc}
-              startVal={sliderEntry.midiCC}
-              sliderEntry={sliderEntry}
-              idx={idx}
-              handleChange={this.props.actions.selectCc}
-            />
-          </FormControl>
-        </React.Fragment>
+        <FormControl className={classes.formControl}>
+          <InputLabel
+            className={classes.label}
+            htmlFor='cc'
+          >CC
+          </InputLabel>
+          <MidiSuggestedInput
+            suggestions={this.suggestionsMidiCc}
+            startVal={sliderEntry.midiCC}
+            sliderEntry={sliderEntry}
+            idx={idx}
+            handleChange={this.props.actions.selectCc}
+          />
+        </FormControl>
       )
     } else {
       return (
-        <React.Fragment>
-          <FormControl className={classes.formControl}>
-            <InputLabel
-              className={classes.label}
-              htmlFor='note'
-            >
+        <FormControl className={classes.formControl}>
+          <InputLabel
+            className={classes.label}
+            htmlFor='note'
+          >
             Notes
-            </InputLabel>
-            <MidiSuggestedInput
-              suggestions={this.suggestionsMidiNote}
-              startVal={sliderEntry.midiCC.map((item) => Note.fromMidi(midi(item)))}
-              sliderEntry={sliderEntry}
-              idx={idx}
-              handleChange={this.props.actions.selectCc}
-            />
-          </FormControl>
-        </React.Fragment>
+          </InputLabel>
+          <MidiSuggestedInput
+            suggestions={this.suggestionsMidiNote}
+            startVal={sliderEntry.midiCC.map((item) => Note.fromMidi(midi(item)))}
+            sliderEntry={sliderEntry}
+            idx={idx}
+            handleChange={this.props.actions.selectCc}
+          />
+        </FormControl>
       )
     }
   }

@@ -13,6 +13,8 @@ class ChannelStrip extends React.Component {
     const { sliderEntry, idx, classes, size } = this.props
     const tmpH = (size && size.height) || 0
     const tmpW = (size && size.width) || 0
+    const isButton = (sliderEntry.type !== STRIP_TYPE.SLIDER) &&
+    (sliderEntry.type !== STRIP_TYPE.LABEL)
     return (
       <div
         className={classes.root}
@@ -27,6 +29,7 @@ class ChannelStrip extends React.Component {
           />
         }
         {
+          (isButton) &&
           <MidiButton
             sliderEntry={sliderEntry}
             idx={idx}

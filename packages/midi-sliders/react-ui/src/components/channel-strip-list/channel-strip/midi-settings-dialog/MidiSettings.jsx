@@ -45,7 +45,7 @@ class MidiSettings extends React.Component {
         </FormControl>
 
         {
-          (sliderEntry.type !== 'LABEL') ? (
+          (sliderEntry.type !== STRIP_TYPE.LABEL) ? (
             <React.Fragment>
               <InputNoteOrCc
                 sliderEntry={sliderEntry}
@@ -88,7 +88,7 @@ class MidiSettings extends React.Component {
 
         <br />
         {
-          (sliderEntry.type !== 'SLIDER') ? (
+          (sliderEntry.type !== STRIP_TYPE.SLIDER) ? (
             <React.Fragment>
               <FormControl className={classes.formControl}>
                 <InputLabel className={classes.label} htmlFor='button-type'>Type </InputLabel>

@@ -132,8 +132,8 @@ class ChannelStripList extends React.Component {
 
 const styles = theme => ({
   channelList: {
-    display: 'flex',
-    overflowX: 'scroll'
+    display: 'flex'
+    // overflowX: 'scroll'
   }
 })
 

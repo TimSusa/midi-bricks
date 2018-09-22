@@ -6,6 +6,8 @@ export const STRIP_TYPE = {
   SLIDER: 'SLIDER',
   BUTTON: 'BUTTON',
   BUTTON_TOGGLE: 'BUTTON_TOGGLE',
+  BUTTON_CC: 'BUTTON_CC',
+  // BUTTON_TOGGLE_CC: 'BUTTON_TOGGLE_CC',
   LABEL: 'LABEL'
 }
 
@@ -26,13 +28,11 @@ export const sliderList = createReducer([], {
         type: STRIP_TYPE.SLIDER,
         label: 'slider 1',
         val: 80,
-        midiCC: [60], // count up last entry,
+        midiCC: [60],
         listenToCc: [],
         outputId: midi.midiDrivers[0].outputId,
         midiChannel: 1,
         midi,
-        chord: 'none',
-        isDraggable: true,
         i: '0',
         x: 0,
         y: 0,
@@ -82,6 +82,7 @@ export const sliderList = createReducer([], {
   },
   [ActionTypeSliderList.DELETE_ALL] (state, action) {
     return [state[state.length - 1]]
+    // return []
   },
   [ActionTypeSliderList.TOGGLE_NOTE] (state, action) {
     const idx = action.payload

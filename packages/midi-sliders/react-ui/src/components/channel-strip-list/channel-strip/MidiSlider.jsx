@@ -60,7 +60,7 @@ const styles = theme => ({
     textAlign: 'center',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
-    // marginTop: 8,
+    margin: '0 8px',
     textOverflow: 'ellipsis',
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',
