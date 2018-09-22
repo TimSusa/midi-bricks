@@ -1,6 +1,4 @@
 import React from 'react'
-import VisibilitySensor from 'react-visibility-sensor'
-import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import MidiSlider from './MidiSlider'
 import MidiButton from './MidiButtons'
@@ -13,41 +11,39 @@ import * as MidiSliderActions from '../../../actions/slider-list.js'
 class ChannelStrip extends React.Component {
   render () {
     const { sliderEntry, idx, classes, size } = this.props
+    const tmpH = (size && size.height) || 0
+    const tmpW = (size && size.width) || 0
     return (
-      <VisibilitySensor partialVisibility>
-        {({ isVisible }) =>
-          <div
-            className={classes.root}
-          >
-            {
-              (sliderEntry.type === STRIP_TYPE.SLIDER) &&
-              <MidiSlider
-                sliderEntry={sliderEntry}
-                idx={idx}
-                height={(size && size.height) || 0}
-                width={(size && size.width) || 0}
-              />
-            }
-            {
-              <MidiButton
-                sliderEntry={sliderEntry}
-                idx={idx}
-                height={(size && size.height) || 0}
-                width={(size && size.width) || 0}
-              />
-            }
-            {
-              (sliderEntry.type === STRIP_TYPE.LABEL) &&
-              <StripLabel
-                sliderEntry={sliderEntry}
-                idx={idx}
-                height={(size && size.height) || 0}
-                width={(size && size.width) || 0}
-              />
-            }
-          </div>
+      <div
+        className={classes.root}
+      >
+        {
+          (sliderEntry.type === STRIP_TYPE.SLIDER) &&
+          <MidiSlider
+            sliderEntry={sliderEntry}
+            idx={idx}
+            height={tmpH}
+            width={tmpW}
+          />
         }
-      </VisibilitySensor>
+        {
+          <MidiButton
+            sliderEntry={sliderEntry}
+            idx={idx}
+            height={tmpH}
+            width={tmpW}
+          />
+        }
+        {
+          (sliderEntry.type === STRIP_TYPE.LABEL) &&
+          <StripLabel
+            sliderEntry={sliderEntry}
+            idx={idx}
+            height={tmpH}
+            width={tmpW}
+          />
+        }
+      </div>
     )
   }
 }

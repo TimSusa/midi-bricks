@@ -9,7 +9,6 @@ import ViewSettingsIcon from '@material-ui/icons/ViewColumn'
 import ViewSettingsIconList from '@material-ui/icons/ViewList'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
-import ToolTip from '@material-ui/core/Tooltip'
 
 class ViewMenu extends React.Component {
   state = {

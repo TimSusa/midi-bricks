@@ -63,10 +63,10 @@ class MidiSlidersPage extends React.Component {
 
   getMIDIMessage = (midiMessage) => {
     // Listen
-    var command = midiMessage.data[0]
-    var note = midiMessage.data[1]
+    const command = midiMessage.data[0]
+    // var note = midiMessage.data[1]
     // a velocity value might not be included with a noteOff command
-    var velocity = (midiMessage.data.length > 2) ? midiMessage.data[2] : 0
+    const velocity = (midiMessage.data.length > 2) ? midiMessage.data[2] : 0
 
     switch (command) {
       case 144: // noteOn
@@ -84,6 +84,8 @@ class MidiSlidersPage extends React.Component {
         break
         // we could easily expand this switch statement to cover other types of
         // commands such as controllers or sysex
+      default:
+        break
     }
   }
 
