@@ -11,10 +11,11 @@ import { Note, midi } from 'tonal'
 
 class InputNoteOrCc extends React.Component {
   render () {
-    const { sliderEntry, idx, classes } = this.props
+    const { sliderEntry, idx, classes, actions: { selectCc } } = this.props
     const isCcInput =
       (sliderEntry.type === STRIP_TYPE.SLIDER) ||
-      (sliderEntry.type === STRIP_TYPE.BUTTON_CC)
+      (sliderEntry.type === STRIP_TYPE.BUTTON_CC) ||
+      (sliderEntry.type === STRIP_TYPE.BUTTON_TOGGLE_CC)
 
     if (sliderEntry.type === STRIP_TYPE.LABEL) {
       return (<div />)
@@ -32,7 +33,7 @@ class InputNoteOrCc extends React.Component {
             startVal={sliderEntry.midiCC}
             sliderEntry={sliderEntry}
             idx={idx}
-            handleChange={this.props.actions.selectCc}
+            handleChange={selectCc}
           />
         </FormControl>
       )
@@ -50,7 +51,7 @@ class InputNoteOrCc extends React.Component {
             startVal={sliderEntry.midiCC.map((item) => Note.fromMidi(midi(item)))}
             sliderEntry={sliderEntry}
             idx={idx}
-            handleChange={this.props.actions.selectCc}
+            handleChange={selectCc}
           />
         </FormControl>
       )

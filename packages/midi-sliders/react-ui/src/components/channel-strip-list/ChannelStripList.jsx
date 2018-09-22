@@ -30,7 +30,7 @@ class ChannelStripList extends React.Component {
           isResizable={isLayoutMode}
           compactType={isCompactHorz ? 'horizontal' : 'vertical'}
           layout={this.props.sliderList}
-          onLayoutChange={isLayoutMode ? this.onLayoutChange : () => {}}
+          onLayoutChange={isLayoutMode ? this.onLayoutChange : () => { }}
         >
           {this.renderChannelStrips()}
         </GridLayout>

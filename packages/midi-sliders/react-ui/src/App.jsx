@@ -68,17 +68,17 @@ class App extends React.Component {
 
   onFileChange = (e, results) => {
     this.props.actions.loadFile(results)
-    this.setState(state => ({isMobileOpen: !this.state.isMobileOpen}))
+    this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen }))
   }
 
   handleSaveFile = () => {
     this.props.actions.saveFile()
-    this.setState(state => ({isMobileOpen: !this.state.isMobileOpen}))
+    this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen }))
   }
 
   handleResetSliders = () => {
     this.props.actions.deleteAll()
-    this.setState(state => ({isMobileOpen: !this.state.isMobileOpen}))
+    this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen }))
   }
 
   handleDrawerToggle = () => {

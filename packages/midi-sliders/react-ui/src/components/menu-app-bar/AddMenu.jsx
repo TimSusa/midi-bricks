@@ -18,7 +18,7 @@ class AddMenu extends React.Component {
   render () {
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
-    const {sliderListLength, viewSettings: {isLayoutMode}} = this.props
+    const { sliderListLength, viewSettings: { isLayoutMode } } = this.props
     if ((sliderListLength < 80) && isLayoutMode) {
       return (
         <div>

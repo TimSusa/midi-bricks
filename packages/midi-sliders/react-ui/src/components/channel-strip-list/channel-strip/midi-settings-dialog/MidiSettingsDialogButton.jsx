@@ -19,12 +19,12 @@ class MidiSettingsDialogButton extends React.Component {
           !this.state.isDialogOpen ? (
             <ExpandMoreIcon
               className={classes.iconColor}
-              onClick={() => this.setState({isDialogOpen: !this.state.isDialogOpen})}
+              onClick={() => this.setState({ isDialogOpen: !this.state.isDialogOpen })}
             />
           ) : (
             <ExpandLessIcon
               className={classes.iconColor}
-              onClick={() => this.setState({isDialogOpen: !this.state.isDialogOpen})}
+              onClick={() => this.setState({ isDialogOpen: !this.state.isDialogOpen })}
             />
           )
         }

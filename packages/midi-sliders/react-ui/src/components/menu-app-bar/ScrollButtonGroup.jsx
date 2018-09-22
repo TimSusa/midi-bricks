@@ -13,14 +13,14 @@ class ScrollButtonGroup extends React.Component {
             raised='true'
             onClick={() => { document.getElementById('channelList').scrollLeft -= (document.documentElement.clientWidth / 40 * 40) }}
           >
-          LEFT
+            LEFT
           </Button>
           <Button
             color='inherit'
             raised='true'
             onClick={() => { document.getElementById('channelList').scrollLeft += (document.documentElement.clientWidth / 40 * 40) }}
           >
-          RIGHT
+            RIGHT
           </Button>
         </React.Fragment>
       )
