@@ -5,10 +5,13 @@ import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../../../actions/slider-list.js'
-import { STRIP_TYPE } from '../../../reducers/slider-list'
+import * as MidiSliderActions from '../../../../actions/slider-list.js'
+import { STRIP_TYPE } from '../../../../reducers/slider-list.js'
 
 class MidiButtons extends React.Component {
+  state = {
+    isCcToggleOn: false
+  }
   render () {
     const { sliderEntry, idx, classes, height, width, viewSettings } = this.props
 
@@ -85,7 +88,7 @@ class MidiButtons extends React.Component {
             classes={{ root: classes.button }}
             variant='raised'
             onClick={this.handleTouchButtonTrigger.bind(this, idx)}
-            // onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
+          // onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
           >
             <Typography
               variant='body1'
@@ -109,9 +112,10 @@ class MidiButtons extends React.Component {
             onContextMenu={this.preventCtxMenu}
             classes={{ root: classes.button }}
             variant='raised'
-            onMouseDown={this.handleTouchButtonTriggerCC.bind(this, idx)}
-            onTouchStart={this.handleTouchButtonTriggerCC.bind(this, idx)}
-            // onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
+            onMouseDown={this.handleButtonCcTriggerOn.bind(this, idx)}
+            onMouseUp={this.handleButtonCcTriggerOff.bind(this, idx)}
+            onTouchStart={this.handleButtonCcTriggerOn.bind(this, idx)}
+            onTouchEnd={this.handleButtonCcTriggerOff.bind(this, idx)}
           >
             <Typography
               variant='body1'
@@ -143,10 +147,16 @@ class MidiButtons extends React.Component {
     this.props.actions.toggleNote(idx)
   }
 
-  handleTouchButtonTriggerCC = (idx, e) => {
+  handleButtonCcTriggerOn = (idx, e) => {
     e.preventDefault()
     e.stopPropagation()
-    this.props.actions.handleSliderChange({idx, val: 127})
+    this.props.actions.handleSliderChange({ idx, val: 127 })
+  }
+
+  handleButtonCcTriggerOff = (idx, e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    this.props.actions.handleSliderChange({ idx, val: 0 })
   }
 }
 

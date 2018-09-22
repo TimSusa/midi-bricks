@@ -8,7 +8,7 @@ import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import rootReducer from './reducers'
+import rootReducer from '../reducers'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import { persistStore, persistReducer } from 'redux-persist'
@@ -34,11 +34,14 @@ export const store = createStore(persistedReducer, {}, middleware)
 
 let persistor = persistStore(store)
 
-class ReduxRoot extends React.Component {
+class ReduxWrappedMuiApp extends React.Component {
   render () {
     return (
       <Provider store={store}>
-        <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
+        <PersistGate
+          loading={<div>Loading...</div>}
+          persistor={persistor}
+        >
           <MuiWrappedApp />
         </PersistGate>
       </Provider>
@@ -46,4 +49,4 @@ class ReduxRoot extends React.Component {
   }
 }
 
-export default ReduxRoot
+export default ReduxWrappedMuiApp

@@ -32,7 +32,10 @@ class MidiSlidersPage extends React.Component {
       )
     } else {
       return (
-        <Typography variant='display1' className={this.props.classes.noMidiTypography}>
+        <Typography
+          variant='display1'
+          className={this.props.classes.noMidiTypography}
+        >
           Cannot find any available MIDI-Drivers to connect for.
           <br />
           We suggest to create at first a virtual midi driver or
@@ -62,7 +65,6 @@ class MidiSlidersPage extends React.Component {
   }
 
   getMIDIMessage = (midiMessage) => {
-    // Listen
     const command = midiMessage.data[0]
     // var note = midiMessage.data[1]
     // a velocity value might not be included with a noteOff command
@@ -123,8 +125,6 @@ const styles = theme => ({
   root: {
     textAlign: 'center',
     width: '100%'
-    // height: 'calc(100vh - 72px)'
-
   },
   heading: {
     marginTop: theme.spacing.unit * 2

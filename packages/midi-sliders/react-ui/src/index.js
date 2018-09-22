@@ -1,13 +1,13 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import ReduxRoot from './ReduxRoot'
+import ReduxWrappedMuiApp from './providers/ReduxWrappedMuiApp'
 
 const rootEl = document.getElementById('root')
-ReactDOM.render(<ReduxRoot />, rootEl)
+ReactDOM.render(<ReduxWrappedMuiApp />, rootEl)
 
 if (module.hot) {
-  module.hot.accept('./ReduxRoot', () => {
-    const NextApp = require('./ReduxRoot').default
+  module.hot.accept('./providers/ReduxWrappedMuiApp', () => {
+    const NextApp = require('./providers/ReduxWrappedMuiApp').default
     ReactDOM.render(
       <NextApp />,
       rootEl

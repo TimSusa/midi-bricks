@@ -40,7 +40,7 @@ export const sliderList = createReducer([], {
         h: 2,
         static: false,
         colors: {
-          colorActive: '#FFFF00'
+          colorActive: {hex: '#FFFF00'}
         }
       }
       arrToSend = [entry]
@@ -108,17 +108,7 @@ export const sliderList = createReducer([], {
       })
     }
 
-    const newState = state.map((item, i) => {
-      if (idx === i) {
-        const tmp = {
-          ...item,
-          isNoteOn: !item.isNoteOn
-        }
-        return Object.assign({}, tmp)
-      } else {
-        return item
-      }
-    })
+    const newState = toggleNote(state, idx)
     return newState
   },
   [ActionTypeSliderList.CHANGE_LABEL] (state, action) {
@@ -155,7 +145,15 @@ export const sliderList = createReducer([], {
   },
   [ActionTypeSliderList.HANDLE_SLIDER_CHANGE] (state, action) {
     const { idx, val } = action.payload
-    const tmp = state[idx]
+    let newStateTmp = state
+
+    // Set noteOn/noteOff stemming from CC VAl
+    if ((val === 127) || (val === 0)) {
+      newStateTmp = toggleNote(newStateTmp, idx)
+    }
+
+    // Handle multi CC
+    const tmp = newStateTmp[idx]
     const outputId = tmp.outputId
     const output = tmp.midi.midiAccess.outputs.get(outputId)
 
@@ -167,7 +165,7 @@ export const sliderList = createReducer([], {
         output.send(ccMessage, (window.performance.now() + 10.0))
       })
     }
-    const newState = transformState(state, { payload: { idx: parseInt(idx, 10), val } }, 'val')
+    const newState = transformState(newStateTmp, { payload: { idx: parseInt(idx, 10), val } }, 'val')
     return newState
   },
   [ActionTypeSliderList.SAVE_FILE] (state, action) {
@@ -362,8 +360,22 @@ const transformAddState = (state, action, type) => {
     h: 2,
     static: false,
     colors: {
-      colorActive: '#FFFF00'
+      colorActive: {hex: '#FFFF00'}
     }
   }
   return [...state, entry]
+}
+
+const toggleNote = (state, idx) => {
+  return state.map((item, i) => {
+    if (idx === i) {
+      const tmp = {
+        ...item,
+        isNoteOn: !item.isNoteOn
+      }
+      return Object.assign({}, tmp)
+    } else {
+      return item
+    }
+  })
 }

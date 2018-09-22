@@ -10,12 +10,12 @@ import CopyIcon from '@material-ui/icons/NoteAdd'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../../../../actions/slider-list.js'
-import { STRIP_TYPE } from '../../../../reducers/slider-list'
-import InputNoteOrCc from './InputNoteOrCc'
-import StripDeleteModal from './StripDeleteModal'
-import ColorModal from './ColorModal'
-import MidiSuggestedInput from './MidiSuggestedInput'
+import * as MidiSliderActions from '../../../../../actions/slider-list.js'
+import { STRIP_TYPE } from '../../../../../reducers/slider-list.js'
+import InputNoteOrCc from './elements/InputNoteOrCc'
+import StripDeleteModal from './elements/StripDeleteModal'
+import ColorModal from './elements/ColorModal'
+import MidiSuggestedInput from './elements/MidiSuggestedInput'
 
 class MidiSettings extends React.Component {
   render () {

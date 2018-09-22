@@ -10,7 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Chip from '@material-ui/core/Chip'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../../../../actions/slider-list.js'
+import * as MidiSliderActions from '../../../../../../actions/slider-list.js'
 
 class MidiSuggestedInput extends React.Component {
   state = {

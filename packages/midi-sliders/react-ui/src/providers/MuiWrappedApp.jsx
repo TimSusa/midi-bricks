@@ -1,9 +1,9 @@
 import { CssBaseline, MuiThemeProvider, createMuiTheme } from '@material-ui/core'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { darkTheme } from './themes/dark-theme'
-import { lightTheme } from './themes/light-theme'
-import App from './App'
+import { darkTheme } from '../themes/dark-theme'
+import { lightTheme } from '../themes/light-theme'
+import App from '../App'
 
 class MuiWrappedApp extends React.Component {
   render () {

@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../../../actions/slider-list.js'
+import * as MidiSliderActions from '../../../../actions/slider-list.js'
 
 class MidiSlider extends React.Component {
   static defaultProps = {
@@ -42,7 +42,6 @@ class MidiSlider extends React.Component {
   }
 
   handleSliderChange = (idx, e, val) => {
-    // e.preventDefault()
     this.props.actions.handleSliderChange({ idx, val: e.target.value })
   }
 
@@ -70,7 +69,6 @@ const styles = theme => ({
   },
   rangeSliderWrapper: {
     appearance: 'none'
-    // height: 280
   },
 
   input: {
@@ -78,8 +76,6 @@ const styles = theme => ({
       appearance: 'none',
       transform: 'rotate(-90deg)',
       transformOrigin: '0 50%',
-      // width: 280,
-
       position: 'absolute',
       padding: 0,
       margin: 0,
@@ -88,15 +84,12 @@ const styles = theme => ({
 
       '&::-webkit-slider-runnable-track': {
         appearance: 'none',
-        // height: 70,
-        // background: '#ddd',
         background: theme.palette.slider.trackNonactive,
         border: 'none',
         borderRadius: 3,
         cursor: 'pointer',
 
         '&:active': {
-          // background: '#eee',
           background: theme.palette.slider.trackActive
           // boxShadow: '0 0 3px 3px rgb(24, 164, 157)'
         }

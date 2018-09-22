@@ -5,7 +5,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import Dialog from '@material-ui/core/Dialog'
-import MidiSettings from './MidiSettings'
+import MidiSettings from './midi-settings/MidiSettings'
 
 class MidiSettingsDialog extends React.Component {
   render () {

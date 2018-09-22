@@ -5,8 +5,8 @@ import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../../../actions/slider-list.js'
-import { STRIP_TYPE } from '../../../reducers/slider-list'
+import * as MidiSliderActions from '../../../../actions/slider-list.js'
+import { STRIP_TYPE } from '../../../../reducers/slider-list.js'
 
 class StripLabel extends React.Component {
   render () {
