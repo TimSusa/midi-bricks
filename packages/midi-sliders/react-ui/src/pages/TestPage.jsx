@@ -1,6 +1,8 @@
 import { withStyles } from '@material-ui/core'
 import * as React from 'react'
 import Slider from '@material-ui/lab/Slider'
+// import Slider from '../components/channel-strip-list/channel-strip/slider/Slider'
+import Button from '@material-ui/core/Button'
 
 class TestPage extends React.Component {
   state = {
@@ -12,67 +14,56 @@ class TestPage extends React.Component {
     val4: true
   }
   currentTouches = []
+
   render () {
     const { classes } = this.props
-
     return (
       <div style={{ display: 'flex' }}>
-        <Slider
-          id={'0'}
-          classes={{
-            root: classes.sliderRoot,
-            vertical: classes.vertical,
-            activated: classes.activated,
-            jumped: classes.jumped,
-            track: classes.track,
-            trackBefore: classes.trackBefore,
-            trackAfter: classes.trackAfter,
-            thumb: classes.thumb
-          }}
-          style={{ height: 'calc(100vh - 88px - 120px)' }}
-          vertical
-          reverse
-          value={this.state.val1 || 0}
-          onChange={this.handleChange}
-          max={127}
-          min={0}
-          step={1}
-        />
-        <Slider
-          id={'1'}
-          classes={{
-            root: classes.sliderRoot,
-            vertical: classes.vertical,
-            activated: classes.activated,
-            jumped: classes.jumped,
-            track: classes.track,
-            trackBefore: classes.trackBefore,
-            trackAfter: classes.trackAfter,
-            thumb: classes.thumb
-          }}
-          style={{ height: 'calc(100vh - 88px - 120px)' }}
-          vertical
-          reverse
-          value={this.state.val2 || 0}
-          onChange={this.handleChange2}
-          min={0}
-          step={1}
-        />
-        <input
-          onChange={this.handleChangeSim}
-          type='range'
-          min='0'
-          max='100'
-          value={this.state.val1sim}
-        />
-        <input
-          onChange={this.handleChange2Sim}
-          type='range'
-          min='0'
-          max='100'
-          value={this.state.val2sim}
-        />
+        <Button
+          className={classes.button}
+          disableTouchRipple
+          onContextMenu={this.preventCtxMenu}
+          classes={{ root: classes.button }}
+          variant='raised'
+          onMouseDown={!this.isTouchDevice() ? this.handleChangeButton1 : (e) => e.preventDefault()}
+          // onMouseUp={this.handleChangeButton1}
+          onTouchStart={this.handleChangeButton1}
+        // onTouchEnd={this.handleChangeButton1}
+        >
+          1
+        </Button>
+        <Button
+          className={classes.button}
+          variant='raised'
+          disableTouchRipple
+          onContextMenu={this.preventCtxMenu}
+          onMouseDown={!this.isTouchDevice() ? this.handleChangeButton2 : (e) => e.preventDefault()}
+          // onMouseUp={this.handleChangeButton2}
+          onTouchStart={this.handleChangeButton2}
+        // onTouchEnd={this.handleChangeButton2}
+        >
+          2
+        </Button>
       </div>)
+  }
+
+  isTouchDevice = () => {
+    const hasIt = 'ontouchstart' in window || // works on most browsers
+    navigator.maxTouchPoints // works on IE10/11 and Surface
+    return !!hasIt
+  }
+
+  handleTouchStart = (e) => {
+    // e.preventDefault()
+    this.touchStarted(e)
+  }
+  handleTouchMove = (e) => {
+    // e.preventDefault()
+    this.touchMoved(e)
+  }
+  hanldeTouchEnd = (e) => {
+    // e.preventDefault()
+    this.touchEnded(e)
   }
 
   handleChange = (e, val) => {
@@ -94,11 +85,23 @@ class TestPage extends React.Component {
     this.setState({ val2sim: e.target.value })
     console.log('val2sim: ', e.target.value)
   }
+
+  handleChangeButton1 = (e, val) => {
+    this.setState({ val3: !this.state.val3 })
+    // e.preventDefault()
+    console.log('val3: ', this.state.val3)
+  }
+
+  handleChangeButton2 = (e, val) => {
+    this.setState({ val4: !this.state.val4 })
+    // e.preventDefault()
+    console.log('val4: ', this.state.val4)
+  }
 }
 const styles = theme => ({
 
   sliderContainer: {
-    width: 100,
+    width: 120,
     margin: '0 16px 0 16px'
   },
   vertical: {
@@ -110,7 +113,7 @@ const styles = theme => ({
   },
   track: {
     '&$vertical': {
-      width: 100,
+      width: 120,
       border: 'solid 1px rgba(0,0,0,0.1)',
       borderRadius: 2,
       left: 0
@@ -131,25 +134,25 @@ const styles = theme => ({
     }
   },
   thumb: {
-    width: 100,
+    width: 120,
     height: 40,
     borderRadius: 2,
     left: 0,
     border: 'solid 1px rgba(0,0,0,0.2)',
 
     '&$activated': {
-      boxShadow: '0 0 3px 3px #BEBEBE',
-      width: 104,
+      boxShadow: '0 0 3px 3px grey',
+      width: 114,
       height: 40,
       background: theme.palette.primary.dark
     },
     '&$jumped': {
-      width: 100,
+      width: 120,
       height: 40
     }
   },
   sliderRoot: {
-    width: 100,
+    width: 120,
     cursor: 'default',
 
     '&$vertical': {

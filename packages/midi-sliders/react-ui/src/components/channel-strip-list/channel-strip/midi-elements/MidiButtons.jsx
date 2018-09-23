@@ -85,8 +85,8 @@ class MidiButtons extends React.Component {
               onContextMenu={this.preventCtxMenu}
               classes={{ root: classes.button }}
               variant='raised'
-              onClick={this.handleTouchButtonTrigger.bind(this, idx)}
-              // onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
+              onMouseDown={!this.isTouchDevice() ? this.handleTouchButtonTrigger.bind(this, idx) : (e) => e.preventDefault()}
+              onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
             >
               <Typography
                 variant='body1'
@@ -137,10 +137,8 @@ class MidiButtons extends React.Component {
               onContextMenu={this.preventCtxMenu}
               classes={{ root: classes.button }}
               variant='raised'
-              onClick={this.handleButtonCcToggle.bind(this, idx)}
-            // onMouseUp={this.handleButtonCcTriggerOff.bind(this, idx)}
-            // onTouchStart={this.handleButtonCcTriggerOn.bind(this, idx)}
-            // onTouchEnd={this.handleButtonCcTriggerOff.bind(this, idx)}
+              onMouseDown={!this.isTouchDevice() ? this.handleButtonCcToggle.bind(this, idx) : (e) => e.preventDefault()}
+              onTouchStart={this.handleButtonCcToggle.bind(this, idx)}
             >
               <Typography
                 variant='body1'
@@ -193,6 +191,11 @@ class MidiButtons extends React.Component {
       this.props.actions.handleSliderChange({ idx, val: 0 })
     }
     this.isCcToggleOn = !this.isCcToggleOn
+  }
+  isTouchDevice = () => {
+    const hasIt = 'ontouchstart' in window || // works on most browsers
+    navigator.maxTouchPoints // works on IE10/11 and Surface
+    return !!hasIt
   }
 }
 
