@@ -20,6 +20,7 @@
     "react-grid-layout": "^0.16.6",
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
+    "react-router-dom": "^4.3.1",
     "react-sizeme": "^2.5.2",
     "redux": "^3.7.2",
     "redux-persist": "^5.5.0",
