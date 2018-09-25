@@ -21,10 +21,6 @@ class ViewMenu extends React.Component {
     const open = Boolean(anchorEl)
     return (
       <div>
-        {/* <ToolTip
-          placement='left'
-          title='View Settings'
-        > */}
         <IconButton
           aria-owns={open ? 'menu-appbar' : null}
           aria-haspopup='true'
@@ -40,7 +36,6 @@ class ViewMenu extends React.Component {
           }
 
         </IconButton>
-        {/* </ToolTip> */}
         <Menu
           id='menu-appbar'
           anchorEl={anchorEl}

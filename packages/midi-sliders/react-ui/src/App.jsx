@@ -5,7 +5,6 @@ import {
 import { createBrowserHistory } from 'history'
 import * as React from 'react'
 import { connect } from 'react-redux'
-// import { Route, Router } from 'react-router'
 import { Route, HashRouter } from 'react-router-dom'
 
 import MidiSlidersPage from './pages/MidiSlidersPage'
@@ -13,7 +12,7 @@ import { bindActionCreators } from 'redux'
 import * as MidiSlidersAction from './actions/slider-list.js'
 
 import MenuAppBar from './components/menu-app-bar/MenuAppBar'
-import DrawerList from './components/DrawerList'
+import DrawerList from './components/drawer-list/DrawerList'
 
 import TestPage from './pages/TestPage.jsx'
 
@@ -34,7 +33,6 @@ class App extends React.Component {
 
   render () {
     return (
-      // <Router history={history}>
       <HashRouter>
         <div className={this.props.classes.root}>
           <div className={this.props.classes.appBar}>

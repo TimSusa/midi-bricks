@@ -37,7 +37,6 @@ class MenuAppBar extends React.Component {
             >
               MIDI Sliders
             </Typography>
-            {/* <ScrollButtonGroup sliderListLength={sliderList.length} /> */}
             <AddMenu sliderListLength={sliderList.length} />
             <ViewMenu />
           </Toolbar>

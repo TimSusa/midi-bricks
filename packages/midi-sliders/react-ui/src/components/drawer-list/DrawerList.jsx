@@ -9,14 +9,14 @@ import LoadIcon from '@material-ui/icons/InsertDriveFile'
 import SaveIcon from '@material-ui/icons/Save'
 import DeleteIcon from '@material-ui/icons/Delete'
 import * as React from 'react'
-import FileReaderInput from './FileReader'
+import FileReader from './FileReader'
 
 const DrawerList = props => (
   <div>
     <div className={props.classes.drawerHeader} />
     <Divider />
     <List>
-      <FileReaderInput
+      <FileReader
         as='binary'
         onChange={props.onFileChange}>
         <ListItem button>
@@ -25,7 +25,7 @@ const DrawerList = props => (
           </ListItemIcon>
           <ListItemText primary='Load Preset' />
         </ListItem>
-      </FileReaderInput>
+      </FileReader>
     </List>
     <Divider />
     <List>
