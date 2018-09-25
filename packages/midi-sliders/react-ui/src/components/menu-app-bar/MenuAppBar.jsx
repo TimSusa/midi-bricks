@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import * as MidiSlidersAction from '../../actions/slider-list.js'
 import { withStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -74,10 +72,4 @@ function mapStateToProps ({sliderList}) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    actions: bindActionCreators(MidiSlidersAction, dispatch)
-  }
-}
-
-export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MenuAppBar)))
+export default (withStyles(styles)(connect(mapStateToProps, null)(MenuAppBar)))

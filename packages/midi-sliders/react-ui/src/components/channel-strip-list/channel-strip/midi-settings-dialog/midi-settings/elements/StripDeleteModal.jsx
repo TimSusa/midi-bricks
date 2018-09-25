@@ -41,11 +41,6 @@ class StripDeleteModal extends React.Component {
           aria-describedby='alert-dialog-description'
 
         >
-          {/* <DialogTitle
-            id='alert-dialog-title'
-          >
-            {'Delete ' + sliderEntry.label + '?'}
-          </DialogTitle> */}
           <DialogContent>
             <DialogContentText
               color='secondary'

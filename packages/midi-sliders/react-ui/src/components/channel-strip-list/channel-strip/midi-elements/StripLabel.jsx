@@ -4,8 +4,6 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../../../../actions/slider-list.js'
 import { STRIP_TYPE } from '../../../../reducers/slider-list.js'
 
 class StripLabel extends React.Component {
@@ -104,15 +102,10 @@ const styles = theme => ({
   }
 })
 
-function mapDispatchToProps (dispatch) {
-  return {
-    actions: bindActionCreators(MidiSliderActions, dispatch)
-  }
-}
 function mapStateToProps ({ viewSettings }) {
   return {
     viewSettings
   }
 }
 
-export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(StripLabel)))
+export default (withStyles(styles)(connect(mapStateToProps, null)(StripLabel)))

@@ -8,9 +8,6 @@ import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
 import MenuItem from '@material-ui/core/MenuItem'
 import Chip from '@material-ui/core/Chip'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../../../../../../actions/slider-list.js'
 
 class MidiSuggestedInput extends React.Component {
   state = {
@@ -198,10 +195,4 @@ renderSuggestion.propTypes = {
   suggestion: PropTypes.shape({ label: PropTypes.string }).isRequired
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    actions: bindActionCreators(MidiSliderActions, dispatch)
-  }
-}
-
-export default (withStyles(styles)(connect(null, mapDispatchToProps)(MidiSuggestedInput)))
+export default (withStyles(styles)(MidiSuggestedInput))

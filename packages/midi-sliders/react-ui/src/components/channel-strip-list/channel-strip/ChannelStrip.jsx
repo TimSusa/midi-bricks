@@ -1,20 +1,20 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import MidiSlider from './midi-elements/MidiSlider'
-import MidiButton from './midi-elements/midi-buttons/MidiButtons'
+import MidiButtons from './midi-elements/midi-buttons/MidiButtons'
 import StripLabel from './midi-elements/StripLabel'
 import { STRIP_TYPE } from '../../../reducers/slider-list'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../../../actions/slider-list.js'
 
+// This component configures the kind of channel strip
 class ChannelStrip extends React.Component {
   render () {
     const { sliderEntry, idx, classes, size } = this.props
     const tmpH = (size && size.height) || 0
     const tmpW = (size && size.width) || 0
-    const isButton = (sliderEntry.type !== STRIP_TYPE.SLIDER) &&
+    const isButton =
+    (sliderEntry.type !== STRIP_TYPE.SLIDER) &&
     (sliderEntry.type !== STRIP_TYPE.LABEL)
+
     return (
       <div
         className={classes.root}
@@ -30,7 +30,7 @@ class ChannelStrip extends React.Component {
         }
         {
           (isButton) &&
-          <MidiButton
+          <MidiButtons
             sliderEntry={sliderEntry}
             idx={idx}
             height={tmpH}
@@ -66,10 +66,4 @@ const styles = theme => ({
 
 })
 
-function mapDispatchToProps (dispatch) {
-  return {
-    actions: bindActionCreators(MidiSliderActions, dispatch)
-  }
-}
-
-export default withStyles(styles)(((connect(null, mapDispatchToProps)(ChannelStrip))))
+export default withStyles(styles)(ChannelStrip)
