@@ -18,6 +18,12 @@ require('react-resizable/css/styles.css')
 const GridLayout = WidthProvider(RGL)
 
 class ChannelStripList extends React.Component {
+  componentWillMount () {
+    document.body.addEventListener('keypress', this.handleKeyPress)
+  }
+  componentWillUnmount () {
+    document.body.removeEventListener('keypress', this.handleKeyPress)
+  }
   render () {
     const { classes, sliderList, viewSettings: { isLayoutMode, isCompactHorz, isAutoArrangeMode } } = this.props
     if (sliderList.length > 0) {
@@ -126,6 +132,30 @@ class ChannelStripList extends React.Component {
   onLayoutChange = (layout) => {
     if (this.props.viewSettings.isLayoutMode) {
       this.props.actions.changeListOrder({ listOrder: layout })
+    }
+  }
+
+  handleKeyPress = (e) => {
+    if (e.key === 'l') {
+      this.props.actions.toggleLayoutMode()
+    }
+
+    if (e.key === 's') {
+      if (!this.props.viewSettings.isLayoutMode) {
+        this.props.actions.toggleSettingsMode()
+      }
+    }
+
+    if (e.key === 'p') {
+      if (this.props.viewSettings.isLayoutMode) {
+        this.props.actions.toggleAutoArrangeMode()
+      }
+    }
+    if (e.key === 'v') {
+      this.props.actions.toggleCompactMode()
+    }
+    if (e.key === 't') {
+      this.props.actions.changeTheme()
     }
   }
 }
