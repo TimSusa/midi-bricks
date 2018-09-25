@@ -30,6 +30,7 @@ export const sliderList = createReducer([], {
         val: 80,
         midiCC: [60],
         listenToCc: [],
+        isNoteOn: false,
         outputId: midi.midiDrivers[0].outputId,
         midiChannel: 1,
         midi,
@@ -40,6 +41,7 @@ export const sliderList = createReducer([], {
         h: 2,
         static: false,
         colors: {
+          color: {hex: 'white'},
           colorActive: {hex: '#FFFF00'}
         }
       }
@@ -52,7 +54,8 @@ export const sliderList = createReducer([], {
     return newState
   },
   [ActionTypeSliderList.ADD_BUTTON] (state, action) {
-    const newState = transformAddState(state, action, STRIP_TYPE.BUTTON)
+    const {type} = action.payload
+    const newState = transformAddState(state, action, type)
     return newState
   },
 
@@ -70,8 +73,21 @@ export const sliderList = createReducer([], {
     return newArr
   },
   [ActionTypeSliderList.CHANGE_BUTTON_TYPE] (state, action) {
-    const newState = transformState(state, action, 'type')
-    return newState
+    const {idx, val} = action.payload
+    const toggleState = state.map((item, i) => {
+      if (idx === i) {
+        const tmp = {
+          ...item,
+          isNoteOn: false,
+          type: val
+        }
+        return Object.assign({}, tmp)
+      } else {
+        return item
+      }
+    })
+    // const newState = transformState(toggleState, action, 'type')
+    return toggleState
   },
   [ActionTypeSliderList.DELETE] (state, action) {
     const newIdx = action.payload.idx.toString()
@@ -86,6 +102,7 @@ export const sliderList = createReducer([], {
   },
   [ActionTypeSliderList.TOGGLE_NOTE] (state, action) {
     const idx = action.payload
+
     const tmp = state[idx]
 
     if (Array.isArray(tmp.midiCC) === true) {
@@ -107,8 +124,8 @@ export const sliderList = createReducer([], {
         }
       })
     }
-
     const newState = toggleNote(state, idx)
+
     return newState
   },
   [ActionTypeSliderList.CHANGE_LABEL] (state, action) {
@@ -334,6 +351,10 @@ const transformAddState = (state, action, type) => {
     label = 'button '
     midiCC = [Note.fromMidi(addMidiCCVal())]
   }
+  if ((type === STRIP_TYPE.BUTTON_CC) || (type === STRIP_TYPE.BUTTON_TOGGLE_CC)) {
+    label = 'button '
+    midiCC = [addMidiCCVal()]
+  }
   if (type === STRIP_TYPE.SLIDER) {
     label = 'slider '
     midiCC = [addMidiCCVal()]
@@ -360,6 +381,7 @@ const transformAddState = (state, action, type) => {
     h: 2,
     static: false,
     colors: {
+      color: {hex: 'white'},
       colorActive: {hex: '#FFFF00'}
     }
   }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import MidiSlider from './midi-elements/MidiSlider'
-import MidiButton from './midi-elements/MidiButtons'
+import MidiButton from './midi-elements/midi-buttons/MidiButtons'
 import StripLabel from './midi-elements/StripLabel'
 import { STRIP_TYPE } from '../../../reducers/slider-list'
 import { connect } from 'react-redux'

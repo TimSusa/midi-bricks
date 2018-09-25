@@ -195,13 +195,24 @@ class MidiSettings extends React.Component {
   }
 
   renderButtonTypeSelection = () => {
-    return (
-      Object.keys(STRIP_TYPE).map((item, btnIdx) => {
-        if (btnIdx === 0) {
+    const {type} = this.props.sliderEntry
+    const isCC = type.endsWith('_CC')
+    if (isCC) {
+      return (
+        [STRIP_TYPE.BUTTON_CC, STRIP_TYPE.BUTTON_TOGGLE_CC].map((item, btnIdx) => {
           return (
-            <div key={`button-type-${btnIdx}`} />
+            <MenuItem
+              key={`button-type-cc-${btnIdx}`}
+              value={item}
+            >
+              {item}
+            </MenuItem>
           )
-        } else {
+        })
+      )
+    } else {
+      return (
+        [STRIP_TYPE.BUTTON, STRIP_TYPE.BUTTON_TOGGLE].map((item, btnIdx) => {
           return (
             <MenuItem
               key={`button-type-${btnIdx}`}
@@ -210,9 +221,9 @@ class MidiSettings extends React.Component {
               {item}
             </MenuItem>
           )
-        }
-      })
-    )
+        })
+      )
+    }
   }
 }
 

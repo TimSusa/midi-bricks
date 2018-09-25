@@ -5,8 +5,9 @@ import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../../../../actions/slider-list.js'
-import { STRIP_TYPE } from '../../../../reducers/slider-list.js'
+import * as MidiSliderActions from '../../../../../actions/slider-list.js'
+import { STRIP_TYPE } from '../../../../../reducers/slider-list.js'
+import MidiButtonToggle from './MidiButtonToggle.jsx'
 
 class MidiButtons extends React.Component {
     isCcToggleOn = true
@@ -44,6 +45,7 @@ class MidiButtons extends React.Component {
         color: !sliderEntry.isNoteOn ? colorFont : colorFontActive,
         fontWeight: 600
       }
+
       if (sliderEntry.type === STRIP_TYPE.BUTTON) {
         return (
           <div
@@ -53,6 +55,7 @@ class MidiButtons extends React.Component {
           >
             <Button
               disableTouchRipple
+              disableFocusRipple
               style={buttonStyle}
               onContextMenu={this.preventCtxMenu}
               className={classes.button}
@@ -74,29 +77,16 @@ class MidiButtons extends React.Component {
         )
       } else if (sliderEntry.type === STRIP_TYPE.BUTTON_TOGGLE) {
         return (
-          <div
-            className={classNames({
-              [classes.root]: true
+          <MidiButtonToggle
+            classes={classes}
+            sliderEntry={sliderEntry}
+            idx={idx}
+            onChange={this.props.actions.toggleNote}
+            fontColorStyle={fontColorStyle}
+            buttonStyle={buttonStyle}
+          />
 
-            })}>
-            <Button
-              disableTouchRipple
-              style={buttonStyle}
-              onContextMenu={this.preventCtxMenu}
-              classes={{ root: classes.button }}
-              variant='raised'
-              onMouseDown={!this.isTouchDevice() ? this.handleTouchButtonTrigger.bind(this, idx) : (e) => e.preventDefault()}
-              onTouchStart={this.handleTouchButtonTrigger.bind(this, idx)}
-            >
-              <Typography
-                variant='body1'
-                style={fontColorStyle}
-                className={classes.label}
-              >
-                {sliderEntry.label}
-              </Typography>
-            </Button>
-          </div>)
+        )
       } else if (sliderEntry.type === STRIP_TYPE.BUTTON_CC) {
         return (
           <div
@@ -106,6 +96,7 @@ class MidiButtons extends React.Component {
             })}>
             <Button
               disableTouchRipple
+              disableFocusRipple
               style={buttonStyle}
               onContextMenu={this.preventCtxMenu}
               classes={{ root: classes.button }}
@@ -126,29 +117,15 @@ class MidiButtons extends React.Component {
           </div>)
       } else if (sliderEntry.type === STRIP_TYPE.BUTTON_TOGGLE_CC) {
         return (
-          <div
-            className={classNames({
-              [classes.root]: true
-
-            })}>
-            <Button
-              disableTouchRipple
-              style={buttonStyle}
-              onContextMenu={this.preventCtxMenu}
-              classes={{ root: classes.button }}
-              variant='raised'
-              onMouseDown={!this.isTouchDevice() ? this.handleButtonCcToggle.bind(this, idx) : (e) => e.preventDefault()}
-              onTouchStart={this.handleButtonCcToggle.bind(this, idx)}
-            >
-              <Typography
-                variant='body1'
-                style={fontColorStyle}
-                className={classes.label}
-              >
-                {sliderEntry.label}
-              </Typography>
-            </Button>
-          </div>)
+          <MidiButtonToggle
+            classes={classes}
+            sliderEntry={sliderEntry}
+            idx={idx}
+            onChange={this.handleButtonCcToggle}
+            fontColorStyle={fontColorStyle}
+            buttonStyle={buttonStyle}
+          />
+        )
       } else {
         return (<div />)
       }
@@ -167,6 +144,7 @@ class MidiButtons extends React.Component {
   handleTouchButtonTrigger = (idx, e) => {
     e.preventDefault()
     e.stopPropagation()
+    console.log('handleouchbuttontirger ', idx, e)
     this.props.actions.toggleNote(idx)
   }
 
@@ -192,10 +170,11 @@ class MidiButtons extends React.Component {
     }
     this.isCcToggleOn = !this.isCcToggleOn
   }
+
   isTouchDevice = () => {
-    const hasIt = 'ontouchstart' in window || // works on most browsers
+    const hasToch = 'ontouchstart' in window || // works on most browsers
     navigator.maxTouchPoints // works on IE10/11 and Surface
-    return !!hasIt
+    return !!hasToch
   }
 }
 

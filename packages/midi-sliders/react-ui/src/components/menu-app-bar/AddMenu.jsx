@@ -8,6 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import AddIcon from '@material-ui/icons/Add'
 import Tooltip from '@material-ui/core/Tooltip'
+import { STRIP_TYPE } from '../../reducers/slider-list'
 
 class AddMenu extends React.Component {
   state = {
@@ -55,9 +56,14 @@ class AddMenu extends React.Component {
               Add Slider
             </MenuItem>
             <MenuItem
-              onClick={this.handleAddButton}
+              onClick={this.handleAddButton.bind(this, STRIP_TYPE.BUTTON)}
             >
               Add Button
+            </MenuItem>
+            <MenuItem
+              onClick={this.handleAddButton.bind(this, STRIP_TYPE.BUTTON_CC)}
+            >
+              Add Button CC
             </MenuItem>
             <MenuItem
               onClick={this.handleAddLabel}
@@ -84,8 +90,8 @@ class AddMenu extends React.Component {
     this.setState({ anchorEl: null })
   }
 
-  handleAddButton = () => {
-    this.props.actions.addButton(this.props.sliderListLength)
+  handleAddButton = (type) => {
+    this.props.actions.addButton({type})
     this.handleClose()
   }
 
