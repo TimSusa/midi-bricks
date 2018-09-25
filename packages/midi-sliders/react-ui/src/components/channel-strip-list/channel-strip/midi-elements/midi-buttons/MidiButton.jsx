@@ -4,9 +4,17 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 
-class MidiButtonToggle extends React.Component {
+class MidiButton extends React.Component {
   render () {
-    const { classes, buttonStyle, onChange, fontColorStyle, sliderEntry, idx } = this.props
+    const {
+      classes,
+      buttonStyle,
+      onChangeStart = () => {},
+      onChangeEnd = () => {},
+      fontColorStyle,
+      label,
+      idx
+    } = this.props
     return (
       <div
         className={classNames({
@@ -20,15 +28,17 @@ class MidiButtonToggle extends React.Component {
           onContextMenu={this.preventCtxMenu}
           classes={{ root: classes.button }}
           variant='raised'
-          onMouseDown={!this.isTouchDevice() ? onChange.bind(this, idx) : (e) => e.preventDefault()}
-          onTouchStart={onChange.bind(this, idx)}
+          onMouseDown={!this.isTouchDevice() ? onChangeStart.bind(this, idx) : (e) => e.preventDefault()}
+          onMouseUp={!this.isTouchDevice() ? onChangeEnd.bind(this, idx) : (e) => e.preventDefault()}
+          onTouchStart={onChangeStart.bind(this, idx)}
+          onTouchEnd={onChangeEnd.bind(this, idx)}
         >
           <Typography
             variant='body1'
             style={fontColorStyle}
             className={classes.label}
           >
-            {sliderEntry.label}
+            {label}
           </Typography>
         </Button>
       </div>)
@@ -62,6 +72,12 @@ const styles = theme => ({
   },
   group: {
   },
+  iconColor: {
+    color: theme.palette.primary.contrastText,
+    width: 18,
+    margin: 0,
+    padding: 0
+  },
   button: {
     marginTop: 16,
     marginBottom: 16,
@@ -69,4 +85,4 @@ const styles = theme => ({
   }
 })
 
-export default (withStyles(styles)(MidiButtonToggle))
+export default (withStyles(styles)(MidiButton))

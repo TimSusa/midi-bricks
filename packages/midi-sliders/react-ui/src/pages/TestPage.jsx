@@ -1,6 +1,5 @@
 import { withStyles } from '@material-ui/core'
 import * as React from 'react'
-import Slider from '@material-ui/lab/Slider'
 // import Slider from '../components/channel-strip-list/channel-strip/slider/Slider'
 import Button from '@material-ui/core/Button'
 
