@@ -13,7 +13,7 @@ class MidiSlidersPage extends React.Component {
 
   constructor (props) {
     super(props)
-    this.detectChromeBrowser()
+    // this.detectChromeBrowser()
 
     if (navigator.requestMIDIAccess) {
       navigator.requestMIDIAccess({ sysex: true })
