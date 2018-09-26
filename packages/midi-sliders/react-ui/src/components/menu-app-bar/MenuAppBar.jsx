@@ -33,7 +33,7 @@ class MenuAppBar extends React.Component {
               color='inherit'
               className={classes.flex}
             >
-              MIDI Sliders
+              MIDI Bricks
             </Typography>
             <AddMenu sliderListLength={sliderList.length} />
             <ViewMenu />
