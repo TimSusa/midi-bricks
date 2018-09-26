@@ -2,6 +2,7 @@
   "name": "midi-sliders",
   "version": "0.0.1",
   "private": true,
+  "author": "Tim Susa",
   "homepage": "https://midi-sliders.herokuapp.com/",
   "dependencies": {
     "@material-ui/core": "^3.0.3",

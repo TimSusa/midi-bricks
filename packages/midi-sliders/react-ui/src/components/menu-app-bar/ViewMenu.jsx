@@ -5,10 +5,13 @@ import { bindActionCreators } from 'redux'
 import * as MidiSlidersAction from '../../actions/slider-list.js'
 import * as ViewSettingsAction from '../../actions/view-settings'
 import IconButton from '@material-ui/core/IconButton'
-import ViewSettingsIcon from '@material-ui/icons/ViewColumn'
-import ViewSettingsIconList from '@material-ui/icons/ViewList'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import OnIcon from '@material-ui/icons/Done'
+import OffIcon from '@material-ui/icons/Close'
+import ViewSettingsIcon from '@material-ui/icons/Settings'
+import { Typography } from '@material-ui/core'
 
 class ViewMenu extends React.Component {
   state = {
@@ -27,14 +30,7 @@ class ViewMenu extends React.Component {
           onClick={this.handleMenu}
           color='inherit'
         >
-          {
-            this.props.viewSettings.isCompactHorz ? (
-              <ViewSettingsIconList />
-            ) : (
-              <ViewSettingsIcon />
-            )
-          }
-
+          <ViewSettingsIcon />
         </IconButton>
         <Menu
           id='menu-appbar'
@@ -52,29 +48,80 @@ class ViewMenu extends React.Component {
         >
           <MenuItem
             onClick={this.toggleLayoutMode}>
-            {this.props.viewSettings.isLayoutMode ? ('Layout Mode Exit') : ('Layout Mode Enter')}
+            <ListItemIcon>
+              {this.props.viewSettings.isLayoutMode ? (
+                <OnIcon />
+              ) : (
+                <OffIcon />
+              )}
+            </ListItemIcon>
+
+            <Typography variant='subheading'>
+              Layout Mode - l
+            </Typography>
           </MenuItem>
           {
-            !this.props.viewSettings.isLayoutMode && <MenuItem
-              onClick={this.toggleSettingsMode}>
-              {this.props.viewSettings.isSettingsMode ? ('Hide Settings') : ('Show Settings')}
+            !this.props.viewSettings.isLayoutMode &&
+            <MenuItem
+              onClick={this.toggleSettingsMode}
+            >
+              <ListItemIcon>
+                {this.props.viewSettings.isSettingsMode ? (
+                  <OnIcon />
+                ) : (
+                  <OffIcon />
+                )}
+              </ListItemIcon>
+              <Typography variant='subheading'>
+                Settings Mode - s
+              </Typography>
             </MenuItem>
           }
 
           <MenuItem
-            onClick={this.toggleCompactMode}>
-            {!this.props.viewSettings.isCompactHorz ? ('Compact Horizontally') : ('Compact Vertically')}
+            onClick={this.toggleCompactMode}
+          >
+            <ListItemIcon>
+              {!this.props.viewSettings.isCompactHorz ? (
+                <OnIcon />
+              ) : (
+                <OffIcon />
+              )}
+            </ListItemIcon>
+            <Typography variant='subheading'>
+                Compact Vertically - v
+            </Typography>
           </MenuItem>
 
           {
-            this.props.viewSettings.isLayoutMode && <MenuItem
-              onClick={this.handleChangeAutoArrangeMode}>
-              {!this.props.viewSettings.isAutoArrangeMode ? ('Auto Arrange Mode On') : ('Auto Arrange Mode Off')}
+            this.props.viewSettings.isLayoutMode &&
+            <MenuItem
+              onClick={this.handleChangeAutoArrangeMode}
+            >
+              <ListItemIcon>
+                {this.props.viewSettings.isAutoArrangeMode ? (
+                  <OnIcon />
+                ) : (
+                  <OffIcon />
+                )}
+              </ListItemIcon>
+              <Typography variant='subheading'>
+                Auto Arrange Mode - p
+              </Typography>
             </MenuItem>
           }
           <MenuItem
             onClick={this.handleChangeTheme}>
-            {!this.props.viewSettings.isChangedTheme ? ('Dark Theme') : ('Light Theme')}
+            <ListItemIcon>
+              {this.props.viewSettings.isChangedTheme ? (
+                <OnIcon />
+              ) : (
+                <OffIcon />
+              )}
+            </ListItemIcon>
+            <Typography variant='subheading'>
+                Switch Theme - t
+            </Typography>
           </MenuItem>
         </Menu>
       </div>
