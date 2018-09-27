@@ -27,7 +27,7 @@ npm start
 # Build for prd
 ```
 cd react-ui
-npm build
+npm run build
 ```
 
 # Restrictions
