@@ -17,6 +17,19 @@ Simple sliders or buttons, which send MIDI Messages to the MIDI-Device you wish.
 
 Demo: https://midi-sliders.herokuapp.com/
 
+# Run
+```
+cd react-ui
+npm i
+npm start
+```
+
+# Build for prd
+```
+cd react-ui
+npm build
+```
+
 # Restrictions
 This application only works with Chrome Browsers. If browser will ask you for permissions, to take over midi, give it to him! There is no security hole there, so do not care about that. If you make use of the electron-installer, this will be no issue for you. Additionaly, you have to have some midi-drivers preconfigured. 
 
