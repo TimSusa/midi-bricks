@@ -5,12 +5,10 @@ Simple sliders or buttons, which send MIDI Messages to the MIDI-Device you wish.
 # Feature Set:
 - You are free to drag/drop or resize every slider, button or label
 - You are free to select any midi driver for every slider or button
-- You can build your own layout
 - You can switch between layouts
-- You are free to save your own layout to a file
-- You are free to load your own selfmade layout from a file
+- You are free to save or load your own layout from file
 - You can change between two different skins: 'dark' or 'light'
-- Your are free to trigger more than just one note or cc value for every slider or button
+- Your are free to trigger more than just one midi-note or cc value for every slider or button
 - You can change background color or font color, even for activated state via color picker
 - You can listen for midi notes for every slider or button, which will change activated/not activated state color
 - You have keyboard shortcuts available for: 'change to layout mode', 'show settings', 'compact vertical', 'Disable auto-arrange-mode'
