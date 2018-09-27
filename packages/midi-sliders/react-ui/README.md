@@ -3,6 +3,7 @@
 Simple sliders or buttons, which send MIDI Messages to the MIDI-Device you wish. The main feature is, that you are able to select a MIDI driver for each different unit. Furthermore, you can drag and drop, resize your elements as free as you like. Just build your own MIDI controller touch layout.
 
 # Feature Set:
+- Your are free to touch more than one slider or button at the same time
 - You are free to drag/drop or resize every slider, button or label
 - You are free to select any midi driver for every slider or button
 - You can switch between layouts
