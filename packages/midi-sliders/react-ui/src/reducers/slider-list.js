@@ -66,9 +66,16 @@ export const sliderList = createReducer([], {
   [ActionTypeSliderList.CLONE] (state, action) {
     const idx = action.payload
     const newArr = Object.values(Object.assign({}, state))
-    let newEntry = Object.assign({}, state[idx])
-    newEntry.label = 'CPY: ' + newEntry.label
-    newEntry.i = new Date().getUTCMilliseconds().toString()// (newArr.length + 1).toString()
+    const tmpState = state[idx]
+    const calcCC = parseInt((tmpState.midiCC || tmpState.midiCC[0])) + 1
+    const caclCCThresh = calcCC > 127 ? 60 : calcCC
+    const newDate = new Date().getUTCMilliseconds().toString() // (newArr.length + 1).toString()
+    let newEntry = {
+      ...state[idx],
+      label: 'CPY: ' + tmpState.label,
+      i: newDate,
+      midiCC: ([caclCCThresh])
+    }
     newArr.splice(idx, 0, newEntry)
     return newArr
   },
