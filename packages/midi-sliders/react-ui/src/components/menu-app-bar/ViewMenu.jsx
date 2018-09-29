@@ -21,11 +21,11 @@ class ViewMenu extends React.Component {
 
   render () {
     const { anchorEl } = this.state
-    const open = Boolean(anchorEl)
+    const isOpen = Boolean(anchorEl)
     return (
       <div>
         <IconButton
-          aria-owns={open ? 'menu-appbar' : null}
+          aria-owns={isOpen ? 'menu-appbar' : null}
           aria-haspopup='true'
           onClick={this.handleMenu}
           color='inherit'
@@ -43,7 +43,7 @@ class ViewMenu extends React.Component {
             vertical: 'top',
             horizontal: 'right'
           }}
-          open={open}
+          open={isOpen}
           onClose={this.handleClose}
         >
           <MenuItem
