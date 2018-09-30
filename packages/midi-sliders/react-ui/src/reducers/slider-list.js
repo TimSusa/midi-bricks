@@ -1,6 +1,7 @@
 import createReducer from './createReducer'
 import { ActionTypeSliderList } from '../actions/slider-list'
 import { midi, Note } from 'tonal'
+import { uniqueId } from 'lodash'
 
 export const STRIP_TYPE = {
   SLIDER: 'SLIDER',
@@ -43,8 +44,8 @@ export const sliderList = createReducer([], {
         h: 2,
         static: false,
         colors: {
-          color: {hex: 'white'},
-          colorActive: {hex: '#FFFF00'}
+          color: { hex: 'white' },
+          colorActive: { hex: '#FFFF00' }
         }
       }
       arrToSend = [entry]
@@ -60,7 +61,7 @@ export const sliderList = createReducer([], {
     return newState
   },
   [ActionTypeSliderList.ADD_BUTTON] (state, action) {
-    const {type} = action.payload
+    const { type } = action.payload
     const newState = transformAddState(state, action, type)
     return newState
   },
@@ -74,12 +75,12 @@ export const sliderList = createReducer([], {
     return newState
   },
   [ActionTypeSliderList.CLONE] (state, action) {
-    const idx = action.payload || (state.length - 1)
+    let idx = action.payload || (state.length - 1)
     const newArr = Object.values(Object.assign({}, state))
     const tmpState = state[idx]
-    const calcCC = parseInt((tmpState.midiCC || tmpState.midiCC[0]), 10) + 1
+    const calcCC = parseInt(tmpState.midiCC && (tmpState.midiCC || tmpState.midiCC[0] || 60), 10) + 1
     const caclCCThresh = calcCC > 127 ? 60 : calcCC
-    const newDate = new Date().getUTCMilliseconds().toString() // (newArr.length + 1).toString()
+    const newDate = uniqueId((new Date()).getTime() + Math.random().toString(16)) // new Date().getUTCMilliseconds().toString() + (state.length - 1).toString()// (newArr.length + 1).toString()
     let newEntry = {
       ...state[idx],
       label: 'CPY: ' + tmpState.label,
@@ -90,7 +91,7 @@ export const sliderList = createReducer([], {
     return newArr
   },
   [ActionTypeSliderList.CHANGE_BUTTON_TYPE] (state, action) {
-    const {idx, val} = action.payload
+    const { idx, val } = action.payload
     const toggleState = state.map((item, i) => {
       if (idx === i) {
         const tmp = {
@@ -393,15 +394,15 @@ const transformAddState = (state, action, type) => {
     isNoteOn: false,
     midi,
     isDraggable: true,
-    i: new Date().getUTCMilliseconds().toString(), // addStateLength().toString() + 'fuv',
+    i: uniqueId((new Date()).getTime() + Math.random().toString(16)), // new Date().getUTCMilliseconds().toString(), // addStateLength().toString() + 'fuv',
     x: addStateLength(),
     y: addStateLength(),
     w: 2,
     h: 2,
     static: false,
     colors: {
-      color: {hex: 'white'},
-      colorActive: {hex: '#FFFF00'}
+      color: { hex: 'white' },
+      colorActive: { hex: '#FFFF00' }
     }
   }
   return [...state, entry]

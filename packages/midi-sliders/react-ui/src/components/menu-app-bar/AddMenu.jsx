@@ -19,8 +19,8 @@ class AddMenu extends React.Component {
   render () {
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
-    const { sliderListLength, viewSettings: { isLayoutMode } } = this.props
-    if ((sliderListLength < 80) && isLayoutMode) {
+    const { viewSettings: { isLayoutMode } } = this.props
+    if (isLayoutMode) {
       return (
         <div>
           <Tooltip
@@ -125,8 +125,7 @@ class AddMenu extends React.Component {
 }
 
 AddMenu.propTypes = {
-  actions: PropTypes.object.isRequired,
-  sliderListLength: PropTypes.number
+  actions: PropTypes.object.isRequired
 }
 function mapStateToProps ({ viewSettings }) {
   return {
