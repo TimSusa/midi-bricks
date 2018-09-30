@@ -91,13 +91,30 @@ class MidiSettings extends React.Component {
           (sliderEntry.type !== STRIP_TYPE.SLIDER) ? (
             <React.Fragment>
               <FormControl className={classes.formControl}>
-                <InputLabel className={classes.label} htmlFor='button-type'>Type </InputLabel>
-                <Select
-                  className={classes.select}
-                  onChange={this.handleButtonTypeChange.bind(this, idx)}
-                  value={sliderEntry.type}>
-                  {this.renderButtonTypeSelection()}
-                </Select>
+                {[
+                  STRIP_TYPE.BUTTON,
+                  STRIP_TYPE.BUTTON_CC,
+                  STRIP_TYPE.BUTTON_TOGGLE,
+                  STRIP_TYPE.BUTTON_TOGGLE_CC
+                ].includes(sliderEntry.type) &&
+                (
+                  <React.Fragment>
+                    <InputLabel
+                      className={classes.label}
+                      htmlFor='button-type'
+                    >
+                        Type
+                    </InputLabel>
+                    <Select
+                      className={classes.select}
+                      onChange={this.handleButtonTypeChange.bind(this, idx)}
+                      value={sliderEntry.type}
+                    >
+                      {this.renderButtonTypeSelection()}
+                    </Select>
+                  </React.Fragment>
+                )}
+
                 <ColorModal
                   title='Background'
                   sliderEntry={sliderEntry}

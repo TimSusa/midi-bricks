@@ -51,7 +51,7 @@ class Footer extends React.Component {
 
   handleClick = (entry, e) => {
     const elem = document.getElementById(`page-${entry.i}`)
-    elem.scrollIntoView()
+    elem.scrollIntoView({ block: 'start' })
   }
 }
 

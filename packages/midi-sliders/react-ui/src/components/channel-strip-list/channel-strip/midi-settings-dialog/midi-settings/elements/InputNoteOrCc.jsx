@@ -19,7 +19,7 @@ class InputNoteOrCc extends React.Component {
       STRIP_TYPE.BUTTON_TOGGLE_CC
     ].includes(sliderEntry.type)
 
-    if (sliderEntry.type === STRIP_TYPE.LABEL) {
+    if ([STRIP_TYPE.LABEL, STRIP_TYPE.PAGE].includes(sliderEntry.type)) {
       return (<div />)
     }
     if (isCcInput) {
