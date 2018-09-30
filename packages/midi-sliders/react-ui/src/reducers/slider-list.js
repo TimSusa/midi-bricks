@@ -74,7 +74,7 @@ export const sliderList = createReducer([], {
     return newState
   },
   [ActionTypeSliderList.CLONE] (state, action) {
-    const idx = action.payload
+    const idx = action.payload || (state.length - 1)
     const newArr = Object.values(Object.assign({}, state))
     const tmpState = state[idx]
     const calcCC = parseInt((tmpState.midiCC || tmpState.midiCC[0]), 10) + 1

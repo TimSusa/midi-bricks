@@ -25,7 +25,11 @@ class ChannelStripList extends React.Component {
     document.body.removeEventListener('keypress', this.handleKeyPress)
   }
   render () {
-    const { classes, sliderList, viewSettings: { isLayoutMode, isCompactHorz, isAutoArrangeMode } } = this.props
+    const {
+      classes,
+      sliderList,
+      viewSettings: { isLayoutMode, isCompactHorz, isAutoArrangeMode }
+    } = this.props
     if (sliderList.length > 0) {
       return (
         <GridLayout
@@ -150,6 +154,9 @@ class ChannelStripList extends React.Component {
       if (this.props.viewSettings.isLayoutMode) {
         this.props.actions.toggleAutoArrangeMode()
       }
+    }
+    if ((e.key === 'd') && e.ctrlKey) {
+      this.props.actions.clone()
     }
     if ((e.key === 'v') && e.ctrlKey) {
       this.props.actions.toggleCompactMode()
