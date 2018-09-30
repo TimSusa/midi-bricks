@@ -192,6 +192,8 @@ class MidiSettings extends React.Component {
   })
 
   handleLabelChange = (idx, e, val) => {
+    e.preventDefault()
+    e.stopPropagation()
     this.props.actions.changeLabel({
       idx,
       val: e.target.value

@@ -57,7 +57,7 @@ class ViewMenu extends React.Component {
             </ListItemIcon>
 
             <Typography variant='subheading'>
-              Layout Mode - l
+              Layout Mode - ctrl + l
             </Typography>
           </MenuItem>
           {
@@ -73,7 +73,7 @@ class ViewMenu extends React.Component {
                 )}
               </ListItemIcon>
               <Typography variant='subheading'>
-                Settings Mode - s
+                Settings Mode - ctrl + s
               </Typography>
             </MenuItem>
           }
@@ -89,7 +89,7 @@ class ViewMenu extends React.Component {
               )}
             </ListItemIcon>
             <Typography variant='subheading'>
-                Compact Vertically - v
+                Compact Vertically - ctrl + v
             </Typography>
           </MenuItem>
 
@@ -106,7 +106,7 @@ class ViewMenu extends React.Component {
                 )}
               </ListItemIcon>
               <Typography variant='subheading'>
-                Auto Arrange Mode - p
+                Auto Arrange Mode - ctrl + p
               </Typography>
             </MenuItem>
           }
@@ -120,7 +120,7 @@ class ViewMenu extends React.Component {
               )}
             </ListItemIcon>
             <Typography variant='subheading'>
-                Switch Theme - t
+                Switch Theme - ctrl + t
             </Typography>
           </MenuItem>
         </Menu>

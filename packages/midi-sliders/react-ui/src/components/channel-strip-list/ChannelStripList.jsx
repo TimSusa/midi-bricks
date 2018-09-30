@@ -136,25 +136,25 @@ class ChannelStripList extends React.Component {
   }
 
   handleKeyPress = (e) => {
-    if (e.key === 'l') {
+    if ((e.key === 'l') && e.ctrlKey) {
       this.props.actions.toggleLayoutMode()
     }
 
-    if (e.key === 's') {
+    if ((e.key === 's') && e.ctrlKey) {
       if (!this.props.viewSettings.isLayoutMode) {
         this.props.actions.toggleSettingsMode()
       }
     }
 
-    if (e.key === 'p') {
+    if ((e.key === 'p') && e.ctrlKey) {
       if (this.props.viewSettings.isLayoutMode) {
         this.props.actions.toggleAutoArrangeMode()
       }
     }
-    if (e.key === 'v') {
+    if ((e.key === 'v') && e.ctrlKey) {
       this.props.actions.toggleCompactMode()
     }
-    if (e.key === 't') {
+    if ((e.key === 't') && e.ctrlKey) {
       this.props.actions.changeTheme()
     }
   }
