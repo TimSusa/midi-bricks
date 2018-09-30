@@ -18,7 +18,6 @@ class Footer extends React.Component {
       <BottomNavigation
         value={value}
         onChange={this.handleChange}
-        showLabels
         className={classes.root}
       >
         {this.extractLabels(sliderList).map((item, idx) => {

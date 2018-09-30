@@ -4,6 +4,7 @@ import { midi, Note } from 'tonal'
 
 export const STRIP_TYPE = {
   SLIDER: 'SLIDER',
+  SLIDER_HORZ: 'SLIDER_HORZ',
   BUTTON: 'BUTTON',
   BUTTON_TOGGLE: 'BUTTON_TOGGLE',
   BUTTON_CC: 'BUTTON_CC',
@@ -52,6 +53,10 @@ export const sliderList = createReducer([], {
   },
   [ActionTypeSliderList.ADD_SLIDER] (state, action) {
     const newState = transformAddState(state, action, STRIP_TYPE.SLIDER)
+    return newState
+  },
+  [ActionTypeSliderList.ADD_SLIDER_HORZ] (state, action) {
+    const newState = transformAddState(state, action, STRIP_TYPE.SLIDER_HORZ)
     return newState
   },
   [ActionTypeSliderList.ADD_BUTTON] (state, action) {
@@ -359,15 +364,15 @@ const transformAddState = (state, action, type) => {
   // either note or cc
   let midiCC = null
   let label = ''
-  if ((type === STRIP_TYPE.BUTTON) || (type === STRIP_TYPE.BUTTON_TOGGLE)) {
+  if ([STRIP_TYPE.BUTTON, STRIP_TYPE.BUTTON_TOGGLE].includes(type)) {
     label = 'button '
     midiCC = [Note.fromMidi(addMidiCCVal())]
   }
-  if ((type === STRIP_TYPE.BUTTON_CC) || (type === STRIP_TYPE.BUTTON_TOGGLE_CC)) {
+  if ([STRIP_TYPE.BUTTON_CC, STRIP_TYPE.BUTTON_TOGGLE_CC].includes(type)) {
     label = 'button '
     midiCC = [addMidiCCVal()]
   }
-  if (type === STRIP_TYPE.SLIDER) {
+  if ([STRIP_TYPE.SLIDER, STRIP_TYPE.SLIDER_HORZ].includes(type)) {
     label = 'slider '
     midiCC = [addMidiCCVal()]
   }

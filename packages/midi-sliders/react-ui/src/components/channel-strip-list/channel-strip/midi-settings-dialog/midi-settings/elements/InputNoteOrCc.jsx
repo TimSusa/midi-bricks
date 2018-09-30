@@ -12,10 +12,12 @@ import { Note, midi } from 'tonal'
 class InputNoteOrCc extends React.Component {
   render () {
     const { sliderEntry, idx, classes, actions: { selectCc } } = this.props
-    const isCcInput =
-      (sliderEntry.type === STRIP_TYPE.SLIDER) ||
-      (sliderEntry.type === STRIP_TYPE.BUTTON_CC) ||
-      (sliderEntry.type === STRIP_TYPE.BUTTON_TOGGLE_CC)
+    const isCcInput = [
+      STRIP_TYPE.SLIDER,
+      STRIP_TYPE.SLIDER_HORZ,
+      STRIP_TYPE.BUTTON_CC,
+      STRIP_TYPE.BUTTON_TOGGLE_CC
+    ].includes(sliderEntry.type)
 
     if (sliderEntry.type === STRIP_TYPE.LABEL) {
       return (<div />)

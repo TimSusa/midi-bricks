@@ -53,7 +53,12 @@ class AddMenu extends React.Component {
             <MenuItem
               onClick={this.handleAddSlider}
             >
-              Add Slider
+              Add Vertical Slider
+            </MenuItem>
+            <MenuItem
+              onClick={this.handleAddSliderHorz}
+            >
+              Add Horizontal Slider
             </MenuItem>
             <MenuItem
               onClick={this.handleAddButton.bind(this, STRIP_TYPE.BUTTON)}
@@ -102,6 +107,10 @@ class AddMenu extends React.Component {
 
   handleAddSlider = () => {
     this.props.actions.addSlider()
+    this.handleClose()
+  }
+  handleAddSliderHorz = () => {
+    this.props.actions.addSliderHorz()
     this.handleClose()
   }
 
