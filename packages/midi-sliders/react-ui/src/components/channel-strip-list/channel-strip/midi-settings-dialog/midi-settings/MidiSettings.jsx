@@ -13,7 +13,7 @@ import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../../actions/slider-list.js'
 import { STRIP_TYPE } from '../../../../../reducers/slider-list.js'
 import InputNoteOrCc from './elements/InputNoteOrCc'
-import StripDeleteModal from './elements/StripDeleteModal'
+import DeleteModal from '../../../../DeleteModal'
 import ColorModal from './elements/ColorModal'
 import MidiSuggestedInput from './elements/MidiSuggestedInput'
 
@@ -157,7 +157,14 @@ class MidiSettings extends React.Component {
           </Button>
         </Tooltip>
 
-        <StripDeleteModal sliderEntry={sliderEntry} idx={idx} onClose={this.props.onClose} />
+        <DeleteModal
+          asButton
+          isOpen={false}
+          sliderEntry={sliderEntry}
+          idx={idx}
+          onAction={this.props.actions.delete}
+          onClose={this.props.onClose}
+        />
 
       </div>
     )

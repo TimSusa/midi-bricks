@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../../../../../../actions/slider-list.js'
+import * as MidiSliderActions from '../actions/slider-list.js'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
@@ -11,31 +11,33 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DeleteIcon from '@material-ui/icons/Delete'
 
-class StripDeleteModal extends React.Component {
+class DeleteModal extends React.Component {
   state = {
     open: false
   }
 
   render () {
-    const {classes, sliderEntry} = this.props
+    const {classes, sliderEntry, asButton, isOpen} = this.props
     return (
-      <div>
-        <Tooltip
-          title='Remove'
-        >
-          <Button
-            className={classes.button}
-            variant='raised'
-            onClick={this.handleClickOpen}
+      <React.Fragment>
+        {
+          asButton && <Tooltip
+            title='Remove'
           >
-            <DeleteIcon
-              className={classes.iconColor}
-            />
-          </Button>
-        </Tooltip>
+            <Button
+              className={classes.button}
+              variant='raised'
+              onClick={this.handleClickOpen}
+            >
+              <DeleteIcon
+                className={classes.iconColor}
+              />
+            </Button>
+          </Tooltip>
+        }
 
         <Dialog
-          open={this.state.open}
+          open={this.state.open || isOpen}
           onClose={this.handleClose}
           aria-labelledby='alert-dialog-title'
           aria-describedby='alert-dialog-description'
@@ -46,7 +48,7 @@ class StripDeleteModal extends React.Component {
               color='secondary'
               id='alert-dialog-description'
             >
-              Do you really want to delete the Channel Strip?
+              Do you really want to delete?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -63,7 +65,7 @@ class StripDeleteModal extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-      </div>
+      </React.Fragment>
     )
   }
 
@@ -78,7 +80,7 @@ class StripDeleteModal extends React.Component {
 
   handleClose = (sliderEntry, e) => {
     this.setState({ open: false })
-    this.props.actions.delete({idx: sliderEntry.i})
+    this.props.onAction({idx: sliderEntry.i})
 
     this.props.onClose()
     e.preventDefault()
@@ -124,4 +126,4 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default (withStyles(styles)(connect(null, mapDispatchToProps)(StripDeleteModal)))
+export default (withStyles(styles)(connect(null, mapDispatchToProps)(DeleteModal)))
