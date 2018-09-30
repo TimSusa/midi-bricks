@@ -7,6 +7,7 @@ Simple sliders or buttons, which send MIDI Messages to the MIDI-Device you wish.
 - You are free to drag/drop or resize every slider, button or label
 - You are free to select any midi driver for every slider or button
 - You can switch between layouts
+- You can jump between pages
 - You are free to save or load your own layout from file
 - You can change between two different skins: 'dark' or 'light'
 - Your are free to trigger more than just one midi-note or cc value for every slider or button
