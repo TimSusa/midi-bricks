@@ -31,7 +31,7 @@ class MidiSettings extends React.Component {
             className={classes.label}
             htmlFor='label'
           >
-          Label
+            Label
           </InputLabel>
           <Input
             className={classes.input}
@@ -58,7 +58,7 @@ class MidiSettings extends React.Component {
                 <InputLabel
                   className={classes.label}
                   htmlFor='cc'>
-                Driver
+                  Driver
                 </InputLabel>
                 <Select
                   className={classes.select}
@@ -202,7 +202,7 @@ class MidiSettings extends React.Component {
   }
 
   renderButtonTypeSelection = () => {
-    const {type} = this.props.sliderEntry
+    const { type } = this.props.sliderEntry
     const isCC = type.endsWith('_CC')
     if (isCC) {
       return (

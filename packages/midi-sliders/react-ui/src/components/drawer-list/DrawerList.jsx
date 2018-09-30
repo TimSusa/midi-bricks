@@ -44,7 +44,7 @@ class DrawerList extends React.Component {
         </List>
         <Divider />
         <List>
-          <ListItem button onClick={() => this.setState({isDeleteModalOpen: !this.state.isDeleteModalOpen})}>
+          <ListItem button onClick={() => this.setState({ isDeleteModalOpen: !this.state.isDeleteModalOpen })}>
             <ListItemIcon>
               <DeleteIcon />
             </ListItemIcon>

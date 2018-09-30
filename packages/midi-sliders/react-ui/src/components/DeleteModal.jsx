@@ -17,7 +17,7 @@ class DeleteModal extends React.Component {
   }
 
   render () {
-    const {classes, sliderEntry, asButton, isOpen} = this.props
+    const { classes, sliderEntry, asButton, isOpen } = this.props
     return (
       <React.Fragment>
         {
@@ -80,7 +80,7 @@ class DeleteModal extends React.Component {
 
   handleClose = (sliderEntry, e) => {
     this.setState({ open: false })
-    this.props.onAction({idx: sliderEntry.i})
+    this.props.onAction({ idx: sliderEntry.i })
 
     this.props.onClose()
     e.preventDefault()
