@@ -4,6 +4,7 @@ import MidiSlider from './midi-elements/MidiSlider'
 import MidiButtons from './midi-elements/midi-buttons/MidiButtons'
 import StripLabel from './midi-elements/StripLabel'
 import { STRIP_TYPE } from '../../../reducers/slider-list'
+import MidiPage from './midi-elements/MidiPage'
 
 // This component configures the kind of channel strip
 class ChannelStrip extends React.Component {
@@ -40,6 +41,15 @@ class ChannelStrip extends React.Component {
         {
           (sliderEntry.type === STRIP_TYPE.LABEL) &&
           <StripLabel
+            sliderEntry={sliderEntry}
+            idx={idx}
+            height={tmpH}
+            width={tmpW}
+          />
+        }
+        {
+          (sliderEntry.type === STRIP_TYPE.PAGE) &&
+          <MidiPage
             sliderEntry={sliderEntry}
             idx={idx}
             height={tmpH}

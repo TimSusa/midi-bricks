@@ -22,10 +22,18 @@ class MidiSlidersPage extends React.Component {
   }
 
   render () {
+    const {classes, viewSettings: {isLayoutMode}} = this.props
+
+    // Prevent scroll, when layoutmode on
+    const rootStyle = {
+      height: 'calc(100vh - 72px - 56px)',
+      overflowY: 'hidden'
+    }
     if (this.state.hasMidi) {
       return (
         <div
           className={this.props.classes.root}
+          style={isLayoutMode ? {} : rootStyle}
         >
           <ChannelStripList />
         </div>
@@ -34,7 +42,7 @@ class MidiSlidersPage extends React.Component {
       return (
         <Typography
           variant='display1'
-          className={this.props.classes.noMidiTypography}
+          className={classes.noMidiTypography}
         >
           Cannot find any available MIDI-Drivers to connect for.
           <br />
@@ -99,7 +107,8 @@ class MidiSlidersPage extends React.Component {
 const styles = theme => ({
   root: {
     textAlign: 'center',
-    width: '100%'
+    width: '100%',
+    overflowX: 'hidden'
   },
   heading: {
     marginTop: theme.spacing.unit * 2
@@ -115,5 +124,9 @@ function mapDispatchToProps (dispatch) {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
-
-export default (withStyles(styles)(connect(null, mapDispatchToProps)(MidiSlidersPage)))
+function mapStateToProps ({ viewSettings }) {
+  return {
+    viewSettings
+  }
+}
+export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MidiSlidersPage)))

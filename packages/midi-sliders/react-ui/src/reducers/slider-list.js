@@ -8,7 +8,8 @@ export const STRIP_TYPE = {
   BUTTON_TOGGLE: 'BUTTON_TOGGLE',
   BUTTON_CC: 'BUTTON_CC',
   BUTTON_TOGGLE_CC: 'BUTTON_TOGGLE_CC',
-  LABEL: 'LABEL'
+  LABEL: 'LABEL',
+  PAGE: 'PAGE'
 }
 
 export const sliderList = createReducer([], {
@@ -61,6 +62,10 @@ export const sliderList = createReducer([], {
 
   [ActionTypeSliderList.ADD_LABEL] (state, action) {
     const newState = transformAddState(state, action, STRIP_TYPE.LABEL)
+    return newState
+  },
+  [ActionTypeSliderList.ADD_PAGE] (state, action) {
+    const newState = transformAddState(state, action, STRIP_TYPE.PAGE)
     return newState
   },
   [ActionTypeSliderList.CLONE] (state, action) {
@@ -369,7 +374,9 @@ const transformAddState = (state, action, type) => {
   if (type === STRIP_TYPE.LABEL) {
     label = 'label '
   }
-
+  if (type === STRIP_TYPE.PAGE) {
+    label = 'page '
+  }
   const entry = {
     type,
     label: label + addStateLength(),

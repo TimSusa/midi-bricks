@@ -14,7 +14,8 @@ class MidiSlider extends React.Component {
     const { classes } = this.props
     const tmpH = (height || 0) - 65
     return (
-      <div style={{ height, width }} >
+      <div style={{ height, width }}
+      >
         <Typography
           className={classes.labelTop}
         >

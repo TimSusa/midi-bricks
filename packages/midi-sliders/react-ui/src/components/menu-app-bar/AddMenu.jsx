@@ -70,6 +70,11 @@ class AddMenu extends React.Component {
             >
               Add Label
             </MenuItem>
+            <MenuItem
+              onClick={this.handleAddPage}
+            >
+              Add Page
+            </MenuItem>
           </Menu>
         </div>
       )
@@ -102,6 +107,10 @@ class AddMenu extends React.Component {
 
   handleAddLabel = () => {
     this.props.actions.addLabel()
+    this.handleClose()
+  }
+  handleAddPage = () => {
+    this.props.actions.addPage()
     this.handleClose()
   }
 }

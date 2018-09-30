@@ -13,6 +13,7 @@ import * as MidiSlidersAction from './actions/slider-list.js'
 
 import MenuAppBar from './components/menu-app-bar/MenuAppBar'
 import DrawerList from './components/drawer-list/DrawerList'
+import Footer from './components/footer/Footer'
 
 import TestPage from './pages/TestPage.jsx'
 
@@ -60,6 +61,7 @@ class App extends React.Component {
               />
             </Drawer>
             {this.routes}
+            <Footer />
           </div>
         </div>
       </HashRouter>
