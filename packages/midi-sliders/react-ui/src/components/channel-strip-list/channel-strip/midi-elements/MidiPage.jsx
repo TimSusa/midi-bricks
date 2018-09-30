@@ -1,6 +1,5 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-// import MusicIcon from '@material-ui/icons/Autorenew'
 import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
@@ -8,7 +7,7 @@ import { STRIP_TYPE } from '../../../../reducers/slider-list.js'
 
 class MidiPage extends React.Component {
   render () {
-    const { sliderEntry, classes, height, width, viewSettings, idx } = this.props
+    const { sliderEntry, classes, height, width, viewSettings } = this.props
 
     // label basic font colors
     const basicFont = viewSettings.isChangedTheme ? 'black' : '#616161' // bad hack go away
