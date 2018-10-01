@@ -12,18 +12,18 @@ class MidiPage extends React.Component {
     // label basic font colors
     const basicFont = viewSettings.isChangedTheme ? 'black' : '#616161' // bad hack go away
     const bbColors = sliderEntry.colors
-    const bbCol = bbColors && bbColors.colorFont && bbColors.colorFont.hex
+    const bbCol = bbColors && bbColors.colorFont && bbColors.colorFont
     const colorFont = bbCol || basicFont
 
     // label background
     const basicBackground = viewSettings.isChangedTheme ? '#18A49D' : 'white' // bad hack go away
     const sbColors = sliderEntry.colors
-    const sbCol = sbColors && sbColors.color && sbColors.color.hex
+    const sbCol = sbColors && sbColors.color && sbColors.color
     const color = sbCol || basicBackground
 
     // label activ background
     const sColors = sliderEntry.colors
-    const sColAct = sColors && sColors.colorActive && sColors.colorActive.hex
+    const sColAct = sColors && sColors.colorActive && sColors.colorActive
     const colorActivated = sColAct || '#FFFF00'
     const labelStyle = {
       height: ((height || 0) - 16),
@@ -33,7 +33,7 @@ class MidiPage extends React.Component {
 
     // label active font colors
     const bColors = sliderEntry.colors
-    const bColAct = bColors && bColors.colorFontActive && bColors.colorFontActive.hex
+    const bColAct = bColors && bColors.colorFontActive && bColors.colorFontActive
     const colorFontActive = bColAct || '#BEBEBE'
 
     const fontColorStyle = {

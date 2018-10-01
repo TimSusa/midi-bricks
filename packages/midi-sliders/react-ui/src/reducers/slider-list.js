@@ -44,8 +44,8 @@ export const sliderList = createReducer([], {
         h: 2,
         static: false,
         colors: {
-          color: { hex: 'white' },
-          colorActive: { hex: '#FFFF00' }
+          color: 'rgba(240, 255, 0, 1)',
+          colorActive: 'rgba(240, 255, 0, 1)'
         }
       }
       arrToSend = [entry]
@@ -259,9 +259,7 @@ export const sliderList = createReducer([], {
         if (hasVal) {
           const { colors } = item
           const { colorActive, color } = colors
-          const colAct = (colorActive && colorActive.hex) || colorActive
-          const col = (color && color.hex) || color
-          return { ...item, colors: { color: { hex: colAct }, colorActive: { hex: col } } }
+          return { ...item, colors: { color: colorActive, colorActive: color } }
         }
       }
       return { ...item }
@@ -401,8 +399,8 @@ const transformAddState = (state, action, type) => {
     h: 2,
     static: false,
     colors: {
-      color: { hex: 'white' },
-      colorActive: { hex: '#FFFF00' }
+      color: 'rgba(240, 255, 0, 1)',
+      colorActive: 'rgba(240, 255, 0, 1)'
     }
   }
   return [...state, entry]

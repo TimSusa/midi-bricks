@@ -24,8 +24,7 @@ class MidiSlidersPage extends React.Component {
   render () {
     const {classes, viewSettings: {isLayoutMode, isSettingsMode}} = this.props
 
-    // Prevent scroll, when layoutmode on
-    const rootStyle = {
+    const preventScrollStyle = {
       height: 'calc(100vh - 72px - 56px)',
       overflowY: 'hidden'
     }
@@ -33,7 +32,7 @@ class MidiSlidersPage extends React.Component {
       return (
         <div
           className={this.props.classes.root}
-          style={(isLayoutMode || isSettingsMode) ? {} : rootStyle}
+          style={(isLayoutMode || isSettingsMode) ? {} : preventScrollStyle}
         >
           <ChannelStripList />
         </div>

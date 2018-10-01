@@ -14,10 +14,24 @@ import ColorizeIcon from '@material-ui/icons/Colorize'
 import Typography from '@material-ui/core/Typography'
 import { SketchPicker } from 'react-color'
 
+import { debounce } from 'lodash'
+
+const DEF_VAL = {
+  rgb: {
+    a: 0.76,
+    b: 51,
+    g: 51,
+    r: 51
+  }
+}
+
 class ColorModal extends React.Component {
-  state = {
-    open: false,
-    color: this.props.color || { hex: '#333' }
+  constructor (props) {
+    super(props)
+    this.state = {
+      open: false,
+      color: this.convertRgba(this.props.color) || DEF_VAL
+    }
   }
 
   render () {
@@ -59,7 +73,7 @@ class ColorModal extends React.Component {
               Please choose  your color.
             </DialogContentText>
             <SketchPicker
-              color={this.state.color.hex}
+              color={this.state.color.rgb}
               onChange={this.handleColorChange.bind(this, sliderEntry.i)}
             />
           </DialogContent>
@@ -83,13 +97,14 @@ class ColorModal extends React.Component {
     )
   }
 
-  handleColorChange = (i, e) => {
-    this.setState({ color: e })
+  handleColorChange = debounce((i, c) => {
+    this.setState({ color: c })
+    const rgba = `rgba(${c.rgb.r}, ${c.rgb.g}, ${c.rgb.b}, ${c.rgb.a})`
     this.props.actions.changeColors({
       i,
-      [this.props.fieldName]: e
+      [this.props.fieldName]: rgba
     })
-  }
+  }, 50)
 
   handleClickOpen = () => {
     this.setState({ open: true })
@@ -103,7 +118,28 @@ class ColorModal extends React.Component {
   handleClose = (sliderEntry, e) => {
     this.setState({ open: false })
     this.props.onClose && this.props.onClose()
-    e.preventDefault()
+  }
+
+  convertRgba = (rgba) => {
+    const convStrToArray =
+      rgba => rgba
+        .substr(5, (rgba.length - 6))
+        .split(', ')
+        .map(item => parseInt(item, 10))
+
+    const convert = rgba => {
+      const array = convStrToArray(rgba)
+      return {
+        rgb: {
+          a: array[3],
+          b: array[2],
+          g: array[1],
+          r: array[0]
+        }
+      }
+    }
+    let tmpVal = typeof rgba === 'string' ? convert(rgba) : DEF_VAL
+    return tmpVal
   }
 }
 
