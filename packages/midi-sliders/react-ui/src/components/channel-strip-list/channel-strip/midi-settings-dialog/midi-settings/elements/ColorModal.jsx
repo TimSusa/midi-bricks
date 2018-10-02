@@ -97,8 +97,13 @@ class ColorModal extends React.Component {
     )
   }
 
+  // In order to avoid performance spikes,
+  // debounce
   handleColorChange = debounce((i, c) => {
     this.setState({ color: c })
+
+    // Change output into a format,
+    // which directly can be used as css style for color
     const rgba = `rgba(${c.rgb.r}, ${c.rgb.g}, ${c.rgb.b}, ${c.rgb.a})`
     this.props.actions.changeColors({
       i,
@@ -120,6 +125,9 @@ class ColorModal extends React.Component {
     this.props.onClose && this.props.onClose()
   }
 
+  // Since the color picker is using an object as
+  // rgba input, we have to parste the rgba(1,1,1,1) string
+  // to that silly format
   convertRgba = (rgba) => {
     const convStrToArray =
       rgba => rgba

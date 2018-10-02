@@ -97,23 +97,23 @@ class MidiSettings extends React.Component {
                   STRIP_TYPE.BUTTON_TOGGLE,
                   STRIP_TYPE.BUTTON_TOGGLE_CC
                 ].includes(sliderEntry.type) &&
-                (
-                  <React.Fragment>
-                    <InputLabel
-                      className={classes.label}
-                      htmlFor='button-type'
-                    >
+                  (
+                    <React.Fragment>
+                      <InputLabel
+                        className={classes.label}
+                        htmlFor='button-type'
+                      >
                         Type
-                    </InputLabel>
-                    <Select
-                      className={classes.select}
-                      onChange={this.handleButtonTypeChange.bind(this, idx)}
-                      value={sliderEntry.type}
-                    >
-                      {this.renderButtonTypeSelection()}
-                    </Select>
-                  </React.Fragment>
-                )}
+                      </InputLabel>
+                      <Select
+                        className={classes.select}
+                        onChange={this.handleButtonTypeChange.bind(this, idx)}
+                        value={sliderEntry.type}
+                      >
+                        {this.renderButtonTypeSelection()}
+                      </Select>
+                    </React.Fragment>
+                  )}
 
                 <ColorModal
                   title='Background'
@@ -169,7 +169,8 @@ class MidiSettings extends React.Component {
           <Button
             className={classes.button}
             variant='raised'
-            onClick={this.props.actions.clone.bind(this, idx)}>
+            onClick={this.props.actions.clone.bind(this, idx)}
+          >
             <CopyIcon className={classes.iconColor} />
           </Button>
         </Tooltip>
@@ -187,9 +188,13 @@ class MidiSettings extends React.Component {
     )
   }
 
-  suggestionsMidiCc = Array.apply(null, { length: 128 }).map(Number.call, Number).map((item) => {
-    return { label: `${item}` }
-  })
+  suggestionsMidiCc =
+    Array
+      .apply(null, { length: 128 })
+      .map(Number.call, Number)
+      .map((item) => {
+        return { label: `${item}` }
+      })
 
   handleLabelChange = (idx, e, val) => {
     e.preventDefault()

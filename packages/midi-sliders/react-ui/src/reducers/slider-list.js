@@ -205,8 +205,8 @@ export const sliderList = createReducer([], {
   },
   [ActionTypeSliderList.SAVE_FILE] (state, action) {
     const content = JSON.stringify(state)
-    const fileName = 'json.txt'
-    const contentType = 'text/plain'
+    const fileName = 'midi-bricks-preset.js'
+    const contentType = 'application/json'
     let a = document.createElement('a')
     const file = new window.Blob([content], { type: contentType })
     a.href = URL.createObjectURL(file)
