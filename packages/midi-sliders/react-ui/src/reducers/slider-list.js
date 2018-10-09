@@ -75,7 +75,6 @@ export const sliderList = createReducer([], {
     return newState
   },
   [ActionTypeSliderList.CLONE] (state, action) {
-    // let idx = action.payload || (state.length - 1)
     const i = action.payload.i
     let tmpState = null
     let idx = state.length - 1
@@ -89,7 +88,7 @@ export const sliderList = createReducer([], {
     const newArr = Object.values(Object.assign({}, state))
     const calcCC = parseInt(tmpState.midiCC && (tmpState.midiCC || tmpState.midiCC[0] || 60), 10) + 1
     const caclCCThresh = calcCC > 127 ? 60 : calcCC
-    const newDate = uniqueId((new Date()).getTime() + Math.random().toString(16)) // new Date().getUTCMilliseconds().toString() + (state.length - 1).toString()// (newArr.length + 1).toString()
+    const newDate = getUniqueId()
     let newEntry = {
       ...tmpState,
       label: 'CPY: ' + tmpState.label,
@@ -98,6 +97,15 @@ export const sliderList = createReducer([], {
     }
 
     newArr.splice(idx, 0, newEntry)
+
+    // Check for duplicated ids, or Error
+    newArr.forEach((tmpItem, id) => {
+      newArr.forEach((item, idx) => {
+        if ((tmpItem.i === item.i) && (id !== idx)) {
+          throw new Error('Duplicated ID found in store. Look after better creation of unique ids, man!')
+        }
+      })
+    })
     return newArr
   },
   [ActionTypeSliderList.CHANGE_BUTTON_TYPE] (state, action) {
@@ -402,7 +410,7 @@ const transformAddState = (state, action, type) => {
     isNoteOn: false,
     midi,
     isDraggable: true,
-    i: uniqueId((new Date()).getTime() + Math.random().toString(16)), // new Date().getUTCMilliseconds().toString(), // addStateLength().toString() + 'fuv',
+    i: getUniqueId(), // new Date().getUTCMilliseconds().toString(), // addStateLength().toString() + 'fuv',
     x: addStateLength(),
     y: addStateLength(),
     w: 2,
@@ -429,3 +437,5 @@ const toggleNote = (state, idx) => {
     }
   })
 }
+
+const getUniqueId = () => uniqueId((new Date()).getTime() + Math.random().toString(16))
