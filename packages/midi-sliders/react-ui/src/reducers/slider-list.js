@@ -4,12 +4,12 @@ import { midi, Note } from 'tonal'
 import { uniqueId } from 'lodash'
 
 export const STRIP_TYPE = {
-  SLIDER: 'SLIDER',
-  SLIDER_HORZ: 'SLIDER_HORZ',
   BUTTON: 'BUTTON',
   BUTTON_TOGGLE: 'BUTTON_TOGGLE',
   BUTTON_CC: 'BUTTON_CC',
   BUTTON_TOGGLE_CC: 'BUTTON_TOGGLE_CC',
+  SLIDER: 'SLIDER',
+  SLIDER_HORZ: 'SLIDER_HORZ',
   LABEL: 'LABEL',
   PAGE: 'PAGE'
 }
@@ -86,7 +86,8 @@ export const sliderList = createReducer([], {
     return newState
   },
   [ActionTypeSliderList.CLONE] (state, action) {
-    const i = action.payload.i
+    // Action can come without payload
+    const i = (action.payload && action.payload.i) || ''
     let tmpState = null
     let idx = state.length - 1
     state.forEach((item, id) => {
@@ -100,14 +101,19 @@ export const sliderList = createReducer([], {
     })
 
     const newArr = Object.values(Object.assign({}, state))
-    const calcCC = parseInt(tmpState.midiCC && (tmpState.midiCC || tmpState.midiCC[0] || 60), 10) + 1
+    const calcCC = i && parseInt(tmpState.midiCC && (tmpState.midiCC || tmpState.midiCC[0] || 60), 10) + 1
     const caclCCThresh = calcCC > 127 ? 60 : calcCC
     const newDate = getUniqueId()
-    let newEntry = {
+    let newEntry = i ? {
       ...tmpState,
       label: 'CPY: ' + tmpState.label,
       i: newDate,
       midiCC: ([caclCCThresh])
+    } : {
+      ...state[idx],
+      label: 'CPY: ' + state[idx].label,
+      i: newDate,
+      midiCC: ([caclCCThresh || 60])
     }
 
     newArr.splice(idx, 0, newEntry)
@@ -274,9 +280,6 @@ export const sliderList = createReducer([], {
       newArray.push(Object.assign({}, {
         ...state[i],
         ...action.payload.listOrder[i.toString()]
-        // static: false
-        // isDraggable: false,
-        // isResizable: false
       }))
     }
     return newArray
@@ -392,9 +395,9 @@ const transformAddState = (state, action, type) => {
   const addStateLength = () => (state.length + 1)
   const addMidiCCVal = () => 59 + addStateLength()
 
-  // either note or cc
   let midiCC = null
   let label = ''
+
   if ([BUTTON, BUTTON_TOGGLE].includes(type)) {
     label = 'Button '
     midiCC = [Note.fromMidi(addMidiCCVal())]
