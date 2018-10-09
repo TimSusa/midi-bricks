@@ -169,7 +169,7 @@ class MidiSettings extends React.Component {
           <Button
             className={classes.button}
             variant='raised'
-            onClick={this.props.actions.clone.bind(this, idx)}
+            onClick={this.props.actions.clone.bind(this, sliderEntry)}
           >
             <CopyIcon className={classes.iconColor} />
           </Button>

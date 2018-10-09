@@ -75,18 +75,28 @@ export const sliderList = createReducer([], {
     return newState
   },
   [ActionTypeSliderList.CLONE] (state, action) {
-    let idx = action.payload || (state.length - 1)
+    // let idx = action.payload || (state.length - 1)
+    const i = action.payload.i
+    let tmpState = null
+    let idx = state.length - 1
+    state.forEach((item, id) => {
+      if (item.i === i) {
+        tmpState = item
+        idx = id
+      }
+    })
+
     const newArr = Object.values(Object.assign({}, state))
-    const tmpState = state[idx]
     const calcCC = parseInt(tmpState.midiCC && (tmpState.midiCC || tmpState.midiCC[0] || 60), 10) + 1
     const caclCCThresh = calcCC > 127 ? 60 : calcCC
     const newDate = uniqueId((new Date()).getTime() + Math.random().toString(16)) // new Date().getUTCMilliseconds().toString() + (state.length - 1).toString()// (newArr.length + 1).toString()
     let newEntry = {
-      ...state[idx],
+      ...tmpState,
       label: 'CPY: ' + tmpState.label,
       i: newDate,
       midiCC: ([caclCCThresh])
     }
+
     newArr.splice(idx, 0, newEntry)
     return newArr
   },
@@ -364,22 +374,22 @@ const transformAddState = (state, action, type) => {
   let midiCC = null
   let label = ''
   if ([STRIP_TYPE.BUTTON, STRIP_TYPE.BUTTON_TOGGLE].includes(type)) {
-    label = 'button '
+    label = 'Button '
     midiCC = [Note.fromMidi(addMidiCCVal())]
   }
   if ([STRIP_TYPE.BUTTON_CC, STRIP_TYPE.BUTTON_TOGGLE_CC].includes(type)) {
-    label = 'button '
+    label = 'CC Button '
     midiCC = [addMidiCCVal()]
   }
   if ([STRIP_TYPE.SLIDER, STRIP_TYPE.SLIDER_HORZ].includes(type)) {
-    label = 'slider '
+    label = 'Slider '
     midiCC = [addMidiCCVal()]
   }
   if (type === STRIP_TYPE.LABEL) {
-    label = 'label '
+    label = 'Label '
   }
   if (type === STRIP_TYPE.PAGE) {
-    label = 'page '
+    label = 'Page '
   }
   const entry = {
     type,
@@ -396,7 +406,7 @@ const transformAddState = (state, action, type) => {
     x: addStateLength(),
     y: addStateLength(),
     w: 2,
-    h: 2,
+    h: 3,
     static: false,
     colors: {
       color: 'rgba(240, 255, 0, 1)',
