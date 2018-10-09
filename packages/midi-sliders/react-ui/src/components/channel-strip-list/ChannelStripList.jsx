@@ -140,12 +140,12 @@ class ChannelStripList extends React.Component {
   }
 
   handleKeyPress = (e) => {
-    if ((e.code === 'KeyL') && e.altKey) {
+    if ((e.code === 'KeyL') && e.shiftKey) {
       e.preventDefault()
       this.props.actions.toggleLayoutMode()
     }
 
-    if ((e.code === 'KeyS') && e.altKey) {
+    if ((e.code === 'KeyS') && e.shiftKey) {
       if (!this.props.viewSettings.isLayoutMode) {
         e.preventDefault()
         this.props.actions.toggleSettingsMode()
@@ -153,21 +153,21 @@ class ChannelStripList extends React.Component {
       }
     }
 
-    if ((e.code === 'KeyP') && e.altKey) {
+    if ((e.code === 'KeyP') && e.shiftKey) {
       if (this.props.viewSettings.isLayoutMode) {
         e.preventDefault()
         this.props.actions.toggleAutoArrangeMode()
       }
     }
-    if ((e.code === 'KeyD') && e.altKey) {
+    if ((e.code === 'KeyD') && e.shiftKey) {
       e.preventDefault()
       this.props.actions.clone()
     }
-    if ((e.code === 'KeyV') && e.altKey) {
+    if ((e.code === 'KeyV') && e.shiftKey) {
       e.preventDefault()
       this.props.actions.toggleCompactMode()
     }
-    if ((e.code === 'KeyT') && e.altKey) {
+    if ((e.code === 'KeyT') && e.shiftKey) {
       e.preventDefault()
       this.props.actions.changeTheme()
     }
