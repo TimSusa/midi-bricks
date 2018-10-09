@@ -9,41 +9,37 @@ import MidiButton from './MidiButton'
 class MidiButtons extends React.Component {
   isCcToggleOn = true
   render () {
-    const { sliderEntry, sliderEntry: { label }, idx, height, width, viewSettings } = this.props
+    const { sliderEntry: { isNoteOn, label, colors, type }, idx, height, width, viewSettings } = this.props
 
     // button basic font colors
     const basicFont = viewSettings.isChangedTheme ? 'black' : '#616161' // bad hack go away
-    const bbColors = sliderEntry.colors
-    const bbCol = bbColors && bbColors.colorFont && bbColors.colorFont
+    const bbCol = colors && colors.colorFont && colors.colorFont
     const colorFont = bbCol || basicFont
 
     // button background
     const basicBackground = viewSettings.isChangedTheme ? '#18A49D' : 'white' // bad hack go away
-    const sbColors = sliderEntry.colors
-    const sbCol = sbColors && sbColors.color && sbColors.color
+    const sbCol = colors && colors.color && colors.color
     const color = sbCol || basicBackground
 
     // button activ background
-    const sColors = sliderEntry.colors
-    const sColAct = sColors && sColors.colorActive && sColors.colorActive
+    const sColAct = colors && colors.colorActive && colors.colorActive
     const colorActivated = sColAct || '#FFFF00'
     const buttonStyle = {
       height: ((height || 0) - 32),
       width: ((width || 0) - 32),
-      background: sliderEntry.isNoteOn ? colorActivated : color
+      background: isNoteOn ? colorActivated : color
     }
 
     // button active font colors
-    const bColors = sliderEntry.colors
-    const bColAct = bColors && bColors.colorFontActive && bColors.colorFontActive
+    const bColAct = colors && colors.colorFontActive && colors.colorFontActive
     const colorFontActive = bColAct || '#BEBEBE'
 
     const fontColorStyle = {
-      color: !sliderEntry.isNoteOn ? colorFont : colorFontActive,
+      color: !isNoteOn ? colorFont : colorFontActive,
       fontWeight: 600
     }
 
-    if (sliderEntry.type === STRIP_TYPE.BUTTON) {
+    if (type === STRIP_TYPE.BUTTON) {
       return (
         <MidiButton
           label={label}
@@ -54,7 +50,7 @@ class MidiButtons extends React.Component {
           buttonStyle={buttonStyle}
         />
       )
-    } else if (sliderEntry.type === STRIP_TYPE.BUTTON_TOGGLE) {
+    } else if (type === STRIP_TYPE.BUTTON_TOGGLE) {
       return (
         <MidiButton
           label={label}
@@ -65,7 +61,7 @@ class MidiButtons extends React.Component {
         />
 
       )
-    } else if (sliderEntry.type === STRIP_TYPE.BUTTON_CC) {
+    } else if (type === STRIP_TYPE.BUTTON_CC) {
       return (
         <MidiButton
           label={label}
@@ -76,7 +72,7 @@ class MidiButtons extends React.Component {
           buttonStyle={buttonStyle}
         />
       )
-    } else if (sliderEntry.type === STRIP_TYPE.BUTTON_TOGGLE_CC) {
+    } else if (type === STRIP_TYPE.BUTTON_TOGGLE_CC) {
       return (
         <MidiButton
           label={label}

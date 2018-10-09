@@ -8,40 +8,36 @@ import { STRIP_TYPE } from '../../../../reducers/slider-list.js'
 
 class StripLabel extends React.Component {
   render () {
-    const { sliderEntry, classes, height, width, viewSettings } = this.props
+    const { sliderEntry: { isNoteOn, colors, type, label }, classes, height, width, viewSettings } = this.props
 
     // label basic font colors
     const basicFont = viewSettings.isChangedTheme ? 'black' : '#616161' // bad hack go away
-    const bbColors = sliderEntry.colors
-    const bbCol = bbColors && bbColors.colorFont && bbColors.colorFont
+    const bbCol = colors && colors.colorFont && colors.colorFont
     const colorFont = bbCol || basicFont
 
     // label background
     const basicBackground = viewSettings.isChangedTheme ? '#18A49D' : 'white' // bad hack go away
-    const sbColors = sliderEntry.colors
-    const sbCol = sbColors && sbColors.color && sbColors.color
+    const sbCol = colors && colors.color && colors.color
     const color = sbCol || basicBackground
 
     // label activ background
-    const sColors = sliderEntry.colors
-    const sColAct = sColors && sColors.colorActive && sColors.colorActive
+    const sColAct = colors && colors.colorActive && colors.colorActive
     const colorActivated = sColAct || '#FFFF00'
     const labelStyle = {
       height: ((height || 0) - 16),
       width: ((width || 0) - 16),
-      background: sliderEntry.isNoteOn ? colorActivated : color
+      background: isNoteOn ? colorActivated : color
     }
 
     // label active font colors
-    const bColors = sliderEntry.colors
-    const bColAct = bColors && bColors.colorFontActive && bColors.colorFontActive
+    const bColAct = colors && colors.colorFontActive && colors.colorFontActive
     const colorFontActive = bColAct || '#BEBEBE'
 
     const fontColorStyle = {
-      color: !sliderEntry.isNoteOn ? colorFont : colorFontActive,
+      color: !isNoteOn ? colorFont : colorFontActive,
       fontWeight: 600
     }
-    if (sliderEntry.type === STRIP_TYPE.LABEL) {
+    if (type === STRIP_TYPE.LABEL) {
       return (
         <div
           className={classNames({
@@ -58,7 +54,7 @@ class StripLabel extends React.Component {
               style={fontColorStyle}
               className={classes.label}
             >
-              {sliderEntry.label}
+              {label}
             </Typography>
           </div>
         </div>
