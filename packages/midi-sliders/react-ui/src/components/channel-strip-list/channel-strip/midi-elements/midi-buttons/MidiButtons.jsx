@@ -2,14 +2,34 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../../actions/slider-list.js'
-import { STRIP_TYPE } from '../../../../../reducers/slider-list.js'
 import MidiButton from './MidiButton'
+
+import { STRIP_TYPE } from '../../../../../reducers/slider-list.js'
+
+const {
+  BUTTON,
+  BUTTON_CC,
+  BUTTON_TOGGLE,
+  BUTTON_TOGGLE_CC
+} = STRIP_TYPE
 
 // This component is supposed to configure the right button type for rendering
 class MidiButtons extends React.Component {
   isCcToggleOn = true
   render () {
-    const { sliderEntry: { isNoteOn, label, colors, type }, idx, height, width, viewSettings } = this.props
+    const {
+      sliderEntry:
+      {
+        isNoteOn,
+        label,
+        colors,
+        type
+      },
+      idx,
+      height,
+      width,
+      viewSettings
+    } = this.props
 
     // button basic font colors
     const basicFont = viewSettings.isChangedTheme ? 'black' : '#616161' // bad hack go away
@@ -39,7 +59,7 @@ class MidiButtons extends React.Component {
       fontWeight: 600
     }
 
-    if (type === STRIP_TYPE.BUTTON) {
+    if (type === BUTTON) {
       return (
         <MidiButton
           label={label}
@@ -50,7 +70,7 @@ class MidiButtons extends React.Component {
           buttonStyle={buttonStyle}
         />
       )
-    } else if (type === STRIP_TYPE.BUTTON_TOGGLE) {
+    } else if (type === BUTTON_TOGGLE) {
       return (
         <MidiButton
           label={label}
@@ -61,7 +81,7 @@ class MidiButtons extends React.Component {
         />
 
       )
-    } else if (type === STRIP_TYPE.BUTTON_CC) {
+    } else if (type === BUTTON_CC) {
       return (
         <MidiButton
           label={label}
@@ -72,7 +92,7 @@ class MidiButtons extends React.Component {
           buttonStyle={buttonStyle}
         />
       )
-    } else if (type === STRIP_TYPE.BUTTON_TOGGLE_CC) {
+    } else if (type === BUTTON_TOGGLE_CC) {
       return (
         <MidiButton
           label={label}

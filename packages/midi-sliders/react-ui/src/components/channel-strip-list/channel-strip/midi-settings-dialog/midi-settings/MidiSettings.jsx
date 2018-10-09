@@ -11,15 +11,39 @@ import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../../actions/slider-list.js'
-import { STRIP_TYPE } from '../../../../../reducers/slider-list.js'
 import InputNoteOrCc from './elements/InputNoteOrCc'
 import DeleteModal from '../../../../DeleteModal'
 import ColorModal from './elements/ColorModal'
 import MidiSuggestedInput from './elements/MidiSuggestedInput'
 
+import { STRIP_TYPE } from '../../../../../reducers/slider-list.js'
+
+const {
+  BUTTON,
+  BUTTON_CC,
+  BUTTON_TOGGLE,
+  BUTTON_TOGGLE_CC,
+  SLIDER,
+  SLIDER_HORZ,
+  LABEL
+} = STRIP_TYPE
+
 class MidiSettings extends React.Component {
   render () {
-    const { sliderEntry, idx, classes } = this.props
+    const {
+      sliderEntry,
+      sliderEntry: {
+        label,
+        type,
+        colors,
+        outputId,
+        midi,
+        midiChannel,
+        listenToCc
+      },
+      idx,
+      classes
+    } = this.props
     return (
       <div
         style={{ display: 'flex', flexDirection: 'column' }}
@@ -38,14 +62,14 @@ class MidiSettings extends React.Component {
             id='label'
             type='label'
             name={`input-label-name-${idx}`}
-            value={sliderEntry.label}
+            value={label}
             onChange={this.handleLabelChange.bind(this, idx)}
             autoFocus
           />
         </FormControl>
 
         {
-          (sliderEntry.type !== STRIP_TYPE.LABEL) ? (
+          (type !== LABEL) ? (
             <React.Fragment>
               <InputNoteOrCc
                 sliderEntry={sliderEntry}
@@ -66,8 +90,8 @@ class MidiSettings extends React.Component {
                     idx,
                     val: e.target.value
                   })}
-                  value={sliderEntry.outputId}>
-                  {this.renderDriverSelection(sliderEntry.midi.midiDrivers)}
+                  value={outputId}>
+                  {this.renderDriverSelection(midi.midiDrivers)}
                 </Select>
               </FormControl>
               <FormControl className={classes.formControl}>
@@ -77,7 +101,7 @@ class MidiSettings extends React.Component {
                   id='number'
                   type='number'
                   name={`input-channel-name-${idx}`}
-                  value={sliderEntry.midiChannel}
+                  value={midiChannel}
                   onChange={e => this.props.actions.selectMidiChannel({ idx, val: e.target.value })} />
               </FormControl>
             </React.Fragment>
@@ -88,15 +112,15 @@ class MidiSettings extends React.Component {
 
         <br />
         {
-          (sliderEntry.type !== STRIP_TYPE.SLIDER) ? (
+          (![SLIDER, SLIDER_HORZ].includes(type)) ? (
             <React.Fragment>
               <FormControl className={classes.formControl}>
                 {[
-                  STRIP_TYPE.BUTTON,
-                  STRIP_TYPE.BUTTON_CC,
-                  STRIP_TYPE.BUTTON_TOGGLE,
-                  STRIP_TYPE.BUTTON_TOGGLE_CC
-                ].includes(sliderEntry.type) &&
+                  BUTTON,
+                  BUTTON_CC,
+                  BUTTON_TOGGLE,
+                  BUTTON_TOGGLE_CC
+                ].includes(type) &&
                   (
                     <React.Fragment>
                       <InputLabel
@@ -108,7 +132,7 @@ class MidiSettings extends React.Component {
                       <Select
                         className={classes.select}
                         onChange={this.handleButtonTypeChange.bind(this, idx)}
-                        value={sliderEntry.type}
+                        value={type}
                       >
                         {this.renderButtonTypeSelection()}
                       </Select>
@@ -120,28 +144,28 @@ class MidiSettings extends React.Component {
                   sliderEntry={sliderEntry}
                   idx={idx}
                   fieldName='color'
-                  color={sliderEntry.colors.color}
+                  color={colors.color}
                 />
                 <ColorModal
                   title='Font-Color'
                   sliderEntry={sliderEntry}
                   idx={idx}
                   fieldName='colorFont'
-                  color={sliderEntry.colors.colorFont}
+                  color={colors.colorFont}
                 />
                 <ColorModal
                   title='Activated State'
                   sliderEntry={sliderEntry}
                   idx={idx}
                   fieldName='colorActive'
-                  color={sliderEntry.colors.colorActive}
+                  color={colors.colorActive}
                 />
                 <ColorModal
                   title='Font-Color Activated'
                   sliderEntry={sliderEntry}
                   idx={idx}
                   fieldName='colorFontActive'
-                  color={sliderEntry.colors.colorFontActive}
+                  color={colors.colorFontActive}
                 />
               </FormControl>
               <FormControl>
@@ -153,7 +177,7 @@ class MidiSettings extends React.Component {
                 </InputLabel>
                 <MidiSuggestedInput
                   suggestions={this.suggestionsMidiCc}
-                  startVal={sliderEntry.listenToCc || []}
+                  startVal={listenToCc || []}
                   sliderEntry={sliderEntry}
                   idx={idx}
                   handleChange={this.props.actions.addMidiCcListener}
@@ -230,7 +254,7 @@ class MidiSettings extends React.Component {
     const isCC = type.endsWith('_CC')
     if (isCC) {
       return (
-        [STRIP_TYPE.BUTTON_CC, STRIP_TYPE.BUTTON_TOGGLE_CC].map((item, btnIdx) => {
+        [BUTTON_CC, BUTTON_TOGGLE_CC].map((item, btnIdx) => {
           return (
             <MenuItem
               key={`button-type-cc-${btnIdx}`}
@@ -243,7 +267,7 @@ class MidiSettings extends React.Component {
       )
     } else {
       return (
-        [STRIP_TYPE.BUTTON, STRIP_TYPE.BUTTON_TOGGLE].map((item, btnIdx) => {
+        [BUTTON, BUTTON_TOGGLE].map((item, btnIdx) => {
           return (
             <MenuItem
               key={`button-type-${btnIdx}`}

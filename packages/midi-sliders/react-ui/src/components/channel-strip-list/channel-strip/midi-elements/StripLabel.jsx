@@ -8,7 +8,18 @@ import { STRIP_TYPE } from '../../../../reducers/slider-list.js'
 
 class StripLabel extends React.Component {
   render () {
-    const { sliderEntry: { isNoteOn, colors, type, label }, classes, height, width, viewSettings } = this.props
+    const {
+      sliderEntry: {
+        isNoteOn,
+        colors,
+        type,
+        label
+      },
+      classes,
+      height,
+      width,
+      viewSettings
+    } = this.props
 
     // label basic font colors
     const basicFont = viewSettings.isChangedTheme ? 'black' : '#616161' // bad hack go away

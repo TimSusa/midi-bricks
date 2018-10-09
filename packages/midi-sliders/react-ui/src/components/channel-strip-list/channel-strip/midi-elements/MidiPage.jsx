@@ -7,7 +7,19 @@ import { STRIP_TYPE } from '../../../../reducers/slider-list.js'
 
 class MidiPage extends React.Component {
   render () {
-    const { sliderEntry: { colors, isNoteOn, label, type, i }, classes, height, width, viewSettings } = this.props
+    const {
+      sliderEntry: {
+        colors,
+        isNoteOn,
+        label,
+        type,
+        i
+      },
+      classes,
+      height,
+      width,
+      viewSettings
+    } = this.props
 
     // label basic font colors
     const basicFont = viewSettings.isChangedTheme ? 'black' : '#616161' // bad hack go away

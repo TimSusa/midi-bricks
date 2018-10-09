@@ -14,6 +14,17 @@ export const STRIP_TYPE = {
   PAGE: 'PAGE'
 }
 
+const {
+  BUTTON,
+  BUTTON_CC,
+  BUTTON_TOGGLE,
+  BUTTON_TOGGLE_CC,
+  SLIDER,
+  SLIDER_HORZ,
+  LABEL,
+  PAGE
+} = STRIP_TYPE
+
 export const sliderList = createReducer([], {
   [ActionTypeSliderList.INIT_MIDI_ACCESS] (state, action) {
     const midi = {
@@ -28,7 +39,7 @@ export const sliderList = createReducer([], {
     })
     if (arrToSend.length < 1) {
       const entry = {
-        type: STRIP_TYPE.SLIDER,
+        type: SLIDER,
         label: 'slider 1',
         val: 80,
         midiCC: [60],
@@ -53,11 +64,11 @@ export const sliderList = createReducer([], {
     return arrToSend
   },
   [ActionTypeSliderList.ADD_SLIDER] (state, action) {
-    const newState = transformAddState(state, action, STRIP_TYPE.SLIDER)
+    const newState = transformAddState(state, action, SLIDER)
     return newState
   },
   [ActionTypeSliderList.ADD_SLIDER_HORZ] (state, action) {
-    const newState = transformAddState(state, action, STRIP_TYPE.SLIDER_HORZ)
+    const newState = transformAddState(state, action, SLIDER_HORZ)
     return newState
   },
   [ActionTypeSliderList.ADD_BUTTON] (state, action) {
@@ -67,11 +78,11 @@ export const sliderList = createReducer([], {
   },
 
   [ActionTypeSliderList.ADD_LABEL] (state, action) {
-    const newState = transformAddState(state, action, STRIP_TYPE.LABEL)
+    const newState = transformAddState(state, action, LABEL)
     return newState
   },
   [ActionTypeSliderList.ADD_PAGE] (state, action) {
-    const newState = transformAddState(state, action, STRIP_TYPE.PAGE)
+    const newState = transformAddState(state, action, PAGE)
     return newState
   },
   [ActionTypeSliderList.CLONE] (state, action) {
@@ -384,22 +395,22 @@ const transformAddState = (state, action, type) => {
   // either note or cc
   let midiCC = null
   let label = ''
-  if ([STRIP_TYPE.BUTTON, STRIP_TYPE.BUTTON_TOGGLE].includes(type)) {
+  if ([BUTTON, BUTTON_TOGGLE].includes(type)) {
     label = 'Button '
     midiCC = [Note.fromMidi(addMidiCCVal())]
   }
-  if ([STRIP_TYPE.BUTTON_CC, STRIP_TYPE.BUTTON_TOGGLE_CC].includes(type)) {
+  if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
     label = 'CC Button '
     midiCC = [addMidiCCVal()]
   }
-  if ([STRIP_TYPE.SLIDER, STRIP_TYPE.SLIDER_HORZ].includes(type)) {
+  if ([SLIDER, SLIDER_HORZ].includes(type)) {
     label = 'Slider '
     midiCC = [addMidiCCVal()]
   }
-  if (type === STRIP_TYPE.LABEL) {
+  if (type === LABEL) {
     label = 'Label '
   }
-  if (type === STRIP_TYPE.PAGE) {
+  if (type === PAGE) {
     label = 'Page '
   }
   const entry = {
