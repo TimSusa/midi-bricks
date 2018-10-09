@@ -80,7 +80,10 @@ export const sliderList = createReducer([], {
     let idx = state.length - 1
     state.forEach((item, id) => {
       if (item.i === i) {
-        tmpState = item
+        tmpState = {
+          ...item,
+          x: (state.length + 1)
+        }
         idx = id
       }
     })
@@ -410,7 +413,7 @@ const transformAddState = (state, action, type) => {
     isNoteOn: false,
     midi,
     isDraggable: true,
-    i: getUniqueId(), // new Date().getUTCMilliseconds().toString(), // addStateLength().toString() + 'fuv',
+    i: getUniqueId(),
     x: addStateLength(),
     y: addStateLength(),
     w: 2,

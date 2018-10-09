@@ -19,7 +19,7 @@ export const lightTheme = {
   palette: {
     secondary: {
       light: '#cfcfcf',
-      main: '#8bc34a',
+      main: '#707070', // '#8bc34a',
       dark: '#aeaeae',
       contrastText: '#616161'
     },

@@ -34,7 +34,7 @@ export const darkTheme = {
     },
     secondary: {
       light: '#ffffff',
-      main: '#e0e0e0',
+      main: '#00000f',
       dark: '#aeaeae',
       contrastText: '#ffffff'
     },

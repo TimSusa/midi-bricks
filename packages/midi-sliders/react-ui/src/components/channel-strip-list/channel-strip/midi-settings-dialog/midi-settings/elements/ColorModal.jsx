@@ -9,7 +9,6 @@ import Tooltip from '@material-ui/core/Tooltip'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
-import DialogTitle from '@material-ui/core/DialogTitle'
 import ColorizeIcon from '@material-ui/icons/Colorize'
 import Typography from '@material-ui/core/Typography'
 import { SketchPicker } from 'react-color'
@@ -60,17 +59,13 @@ class ColorModal extends React.Component {
           aria-labelledby='alert-dialog-title'
           aria-describedby='alert-dialog-description'
         >
-          <DialogTitle
-            color='secondary'
-            id='alert-dialog-title'>
-            {'Button: ' + sliderEntry.label}
-          </DialogTitle>
           <DialogContent>
             <DialogContentText
+              className={classes.iconColor}
               id='alert-dialog-description'
               color='secondary'
             >
-              Please choose  your color.
+              Please, choose your color.
             </DialogContentText>
             <SketchPicker
               color={this.state.color.rgb}
@@ -79,12 +74,14 @@ class ColorModal extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button
+              className={classes.iconColor}
               onClick={this.handleCloseCancel}
               color='primary'
             >
               Cancel
             </Button>
             <Button
+              className={classes.iconColor}
               onClick={this.handleClose.bind(this, sliderEntry)}
               color='primary'
               autoFocus
