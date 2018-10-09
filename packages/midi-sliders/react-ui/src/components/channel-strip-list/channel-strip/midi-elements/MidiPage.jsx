@@ -13,7 +13,8 @@ class MidiPage extends React.Component {
         isNoteOn,
         label,
         type,
-        i
+        i,
+        fontSize
       },
       classes,
       height,
@@ -44,10 +45,15 @@ class MidiPage extends React.Component {
     const bColAct = colors && colors.colorFontActive && colors.colorFontActive
     const colorFontActive = bColAct || '#BEBEBE'
 
+    // button font size
+    const tmpFontSize = (fontSize || 32) + 'px'
+
     const fontColorStyle = {
       color: !isNoteOn ? colorFont : colorFontActive,
-      fontWeight: 600
+      fontWeight: 600,
+      fontSize: tmpFontSize
     }
+
     if (type === STRIP_TYPE.PAGE) {
       return (
         <div

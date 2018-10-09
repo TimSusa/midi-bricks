@@ -17,6 +17,7 @@ import ColorModal from './elements/ColorModal'
 import MidiSuggestedInput from './elements/MidiSuggestedInput'
 
 import { STRIP_TYPE } from '../../../../../reducers/slider-list.js'
+import { Typography } from '@material-ui/core'
 
 const {
   BUTTON,
@@ -33,13 +34,15 @@ class MidiSettings extends React.Component {
     const {
       sliderEntry,
       sliderEntry: {
+        i,
         label,
         type,
         colors,
         outputId,
         midi,
         midiChannel,
-        listenToCc
+        listenToCc,
+        fontSize
       },
       idx,
       classes
@@ -167,6 +170,19 @@ class MidiSettings extends React.Component {
                   fieldName='colorFontActive'
                   color={colors.colorFontActive}
                 />
+                <Typography
+                  className={classes.label}
+                  htmlFor='fontsize'
+                >
+                  {'Font Size:  ' + fontSize + 'px'}
+                </Typography>
+                <input
+                  type='range'
+                  min={4}
+                  max={4 * 16}
+                  value={fontSize || 16}
+                  onChange={this.handleFontsizeChange.bind(this, i)}
+                />
               </FormControl>
               <FormControl>
                 <InputLabel
@@ -279,6 +295,13 @@ class MidiSettings extends React.Component {
         })
       )
     }
+  }
+
+  handleFontsizeChange = (i, e) => {
+    this.props.actions.changeFontSize({
+      i,
+      fontSize: e.target.value
+    })
   }
 }
 

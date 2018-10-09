@@ -12,7 +12,7 @@ class MuiWrappedApp extends React.Component {
     )
     return (
       <MuiThemeProvider theme={theme}>
-        <CssBaseline />
+        {/* <CssBaseline /> */}
         <App {...this.props} />
       </MuiThemeProvider>
     )

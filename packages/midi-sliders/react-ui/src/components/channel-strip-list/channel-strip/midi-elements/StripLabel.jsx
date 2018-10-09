@@ -12,6 +12,7 @@ class StripLabel extends React.Component {
       sliderEntry: {
         isNoteOn,
         colors,
+        fontSize,
         type,
         label
       },
@@ -44,10 +45,15 @@ class StripLabel extends React.Component {
     const bColAct = colors && colors.colorFontActive && colors.colorFontActive
     const colorFontActive = bColAct || '#BEBEBE'
 
+    // button font size
+    const tmpFontSize = (fontSize || 32) + 'px'
+
     const fontColorStyle = {
       color: !isNoteOn ? colorFont : colorFontActive,
-      fontWeight: 600
+      fontWeight: 600,
+      fontSize: tmpFontSize
     }
+
     if (type === STRIP_TYPE.LABEL) {
       return (
         <div
