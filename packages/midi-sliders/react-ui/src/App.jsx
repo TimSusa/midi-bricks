@@ -19,7 +19,7 @@ import TestPage from './pages/TestPage.jsx'
 
 const history = createBrowserHistory()
 
-class App extends React.Component {
+class App extends React.PureComponent {
   state = {
     isMobileOpen: false
   }
@@ -90,7 +90,7 @@ class App extends React.Component {
 
 const styles = theme => ({
   root: {
-    width: '100%',
+    width: 'calc(100% - 40px)',
     height: '100%',
     zIndex: 1
   },

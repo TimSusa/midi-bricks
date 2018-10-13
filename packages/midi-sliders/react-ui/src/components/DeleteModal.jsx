@@ -11,7 +11,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DeleteIcon from '@material-ui/icons/Delete'
 
-class DeleteModal extends React.Component {
+class DeleteModal extends React.PureComponent {
   state = {
     open: false
   }

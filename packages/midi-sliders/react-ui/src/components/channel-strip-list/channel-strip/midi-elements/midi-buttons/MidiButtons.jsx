@@ -14,7 +14,7 @@ const {
 } = STRIP_TYPE
 
 // This component is supposed to configure the right button type for rendering
-class MidiButtons extends React.Component {
+class MidiButtons extends React.PureComponent {
   isCcToggleOn = true
   render () {
     const {

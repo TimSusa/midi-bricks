@@ -12,7 +12,7 @@ import * as React from 'react'
 import FileReader from './FileReader'
 import DeleteModal from '../DeleteModal'
 
-class DrawerList extends React.Component {
+class DrawerList extends React.PureComponent {
   state = {
     isDeleteModalOpen: false
   }

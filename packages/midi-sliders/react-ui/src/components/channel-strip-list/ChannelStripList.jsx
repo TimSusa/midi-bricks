@@ -17,7 +17,7 @@ require('react-resizable/css/styles.css')
 
 const GridLayout = WidthProvider(RGL)
 
-class ChannelStripList extends React.Component {
+class ChannelStripList extends React.PureComponent {
   componentWillMount () {
     document.body.addEventListener('keypress', this.handleKeyPress)
   }
@@ -140,12 +140,15 @@ class ChannelStripList extends React.Component {
   }
 
   handleKeyPress = (e) => {
-    if ((e.code === 'KeyL') && e.shiftKey) {
+
+    // shift + l
+    if ((e.keyCode === 76) && e.shiftKey) {
       e.preventDefault()
       this.props.actions.toggleLayoutMode()
     }
 
-    if ((e.code === 'KeyS') && e.shiftKey) {
+    // shift + s
+    if ((e.keyCode === 83) && e.shiftKey) {
       if (!this.props.viewSettings.isLayoutMode) {
         e.preventDefault()
         this.props.actions.toggleSettingsMode()
@@ -153,21 +156,28 @@ class ChannelStripList extends React.Component {
       }
     }
 
-    if ((e.code === 'KeyP') && e.shiftKey) {
+    // shift + p
+    if ((e.keyCode === 80) && e.shiftKey) {
       if (this.props.viewSettings.isLayoutMode) {
         e.preventDefault()
         this.props.actions.toggleAutoArrangeMode()
       }
     }
-    if ((e.code === 'KeyD') && e.shiftKey) {
+
+    // shift + d
+    if ((e.keyCode === 68) && e.shiftKey) {
       e.preventDefault()
       this.props.actions.clone()
     }
-    if ((e.code === 'KeyV') && e.shiftKey) {
+
+    // shift + v
+    if ((e.keyCode === 86) && e.shiftKey) {
       e.preventDefault()
       this.props.actions.toggleCompactMode()
     }
-    if ((e.code === 'KeyT') && e.shiftKey) {
+
+    // shift + d
+    if ((e.keyCode === 84) && e.shiftKey) {
       e.preventDefault()
       this.props.actions.changeTheme()
     }

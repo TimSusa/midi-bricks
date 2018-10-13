@@ -6,7 +6,7 @@ import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { STRIP_TYPE } from '../../../../reducers/slider-list.js'
 
-class StripLabel extends React.Component {
+class StripLabel extends React.PureComponent {
   render () {
     const {
       sliderEntry: {

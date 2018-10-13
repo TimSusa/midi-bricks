@@ -29,7 +29,7 @@ const {
   LABEL
 } = STRIP_TYPE
 
-class MidiSettings extends React.Component {
+class MidiSettings extends React.PureComponent {
   render () {
     const {
       sliderEntry,
@@ -174,7 +174,7 @@ class MidiSettings extends React.Component {
                   className={classes.label}
                   htmlFor='fontsize'
                 >
-                  {'Font Size:  ' + fontSize + 'px'}
+                  {'Font Size:  ' + (fontSize || 16) + 'px'}
                 </Typography>
                 <input
                   type='range'

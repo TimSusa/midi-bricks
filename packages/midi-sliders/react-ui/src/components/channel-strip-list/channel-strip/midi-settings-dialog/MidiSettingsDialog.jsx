@@ -7,7 +7,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import Dialog from '@material-ui/core/Dialog'
 import MidiSettings from './midi-settings/MidiSettings'
 
-class MidiSettingsDialog extends React.Component {
+class MidiSettingsDialog extends React.PureComponent {
   render () {
     const { sliderEntry, idx, ...other } = this.props
     return (

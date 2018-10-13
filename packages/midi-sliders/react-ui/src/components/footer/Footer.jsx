@@ -5,7 +5,7 @@ import BottomNavigation from '@material-ui/core/BottomNavigation'
 import { connect } from 'react-redux'
 import { Button } from '@material-ui/core'
 
-class Footer extends React.Component {
+class Footer extends React.PureComponent {
   state = {
     value: 0
   }

@@ -9,7 +9,7 @@ import { STRIP_TYPE } from '../../../../../../reducers/slider-list.js'
 import MidiSuggestedInput from './MidiSuggestedInput'
 import { Note, midi } from 'tonal'
 
-class InputNoteOrCc extends React.Component {
+class InputNoteOrCc extends React.PureComponent {
   render () {
     const { sliderEntry, idx, classes, actions: { selectCc } } = this.props
     const isCcInput = [

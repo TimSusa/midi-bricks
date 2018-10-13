@@ -5,21 +5,21 @@ import { darkTheme } from '../themes/dark-theme'
 import { lightTheme } from '../themes/light-theme'
 import App from '../App'
 
-class MuiWrappedApp extends React.Component {
-  render () {
+class MuiWrappedApp extends React.PureComponent {
+  render() {
     const theme = createMuiTheme(
       this.props.isChangedTheme ? darkTheme : lightTheme
     )
     return (
       <MuiThemeProvider theme={theme}>
-        {/* <CssBaseline /> */}
+        <CssBaseline />
         <App {...this.props} />
       </MuiThemeProvider>
     )
   }
 }
 
-function mapStateToProps ({ viewSettings: { isChangedTheme } }) {
+function mapStateToProps({ viewSettings: { isChangedTheme } }) {
   return {
     isChangedTheme
   }

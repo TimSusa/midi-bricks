@@ -10,7 +10,7 @@ import AddIcon from '@material-ui/icons/Add'
 import Tooltip from '@material-ui/core/Tooltip'
 import { STRIP_TYPE } from '../../reducers/slider-list'
 
-class AddMenu extends React.Component {
+class AddMenu extends React.PureComponent {
   state = {
     auth: true,
     anchorEl: null

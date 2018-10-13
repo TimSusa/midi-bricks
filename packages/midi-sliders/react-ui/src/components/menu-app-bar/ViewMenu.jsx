@@ -13,7 +13,7 @@ import OffIcon from '@material-ui/icons/Close'
 import ViewSettingsIcon from '@material-ui/icons/Settings'
 import { Typography } from '@material-ui/core'
 
-class ViewMenu extends React.Component {
+class ViewMenu extends React.PureComponent {
   state = {
     auth: true,
     anchorEl: null

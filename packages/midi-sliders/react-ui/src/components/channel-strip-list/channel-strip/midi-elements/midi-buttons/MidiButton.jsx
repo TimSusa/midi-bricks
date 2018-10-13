@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 
-class MidiButton extends React.Component {
+class MidiButton extends React.PureComponent {
   render () {
     const {
       classes,

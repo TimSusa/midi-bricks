@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../actions/slider-list.js'
 
-class MidiSlider extends React.Component {
+class MidiSlider extends React.PureComponent {
   static defaultProps = {
     height: 0
   }

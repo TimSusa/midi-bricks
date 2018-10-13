@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { withStyles } from '@material-ui/core/styles'
 import MidiSettingsDialog from './MidiSettingsDialog'
 
-class MidiSettingsDialogButton extends React.Component {
+class MidiSettingsDialogButton extends React.PureComponent {
   state = {
     isDialogOpen: false
   }

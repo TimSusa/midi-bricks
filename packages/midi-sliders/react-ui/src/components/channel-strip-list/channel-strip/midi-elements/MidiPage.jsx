@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { STRIP_TYPE } from '../../../../reducers/slider-list.js'
 
-class MidiPage extends React.Component {
+class MidiPage extends React.PureComponent {
   render () {
     const {
       sliderEntry: {

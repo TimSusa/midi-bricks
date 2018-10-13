@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../actions/slider-list.js'
 import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
 
-class MidiSlidersPage extends React.Component {
+class MidiSlidersPage extends React.PureComponent {
   state = {
     open: false,
     hasMidi: true

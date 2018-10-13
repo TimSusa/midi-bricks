@@ -3,7 +3,7 @@ import * as React from 'react'
 // import Slider from '../components/channel-strip-list/channel-strip/slider/Slider'
 import Button from '@material-ui/core/Button'
 
-class TestPage extends React.Component {
+class TestPage extends React.PureComponent {
   state = {
     open: false,
     hasMidi: true,

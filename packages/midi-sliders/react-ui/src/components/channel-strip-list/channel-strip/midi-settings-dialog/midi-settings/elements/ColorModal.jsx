@@ -24,7 +24,7 @@ const DEF_VAL = {
   }
 }
 
-class ColorModal extends React.Component {
+class ColorModal extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = {

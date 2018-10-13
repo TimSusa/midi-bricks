@@ -10,7 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import ViewMenu from './ViewMenu'
 import AddMenu from './AddMenu'
 
-class MenuAppBar extends React.Component {
+class MenuAppBar extends React.PureComponent {
   render () {
     const { classes, sliderList } = this.props
     return (

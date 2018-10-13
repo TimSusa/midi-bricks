@@ -8,7 +8,7 @@ import MidiPage from './midi-elements/MidiPage'
 import MidiSliderHorz from './midi-elements/MidiSliderHorz'
 
 // This component configures the kind of channel strip
-class ChannelStrip extends React.Component {
+class ChannelStrip extends React.PureComponent {
   render () {
     const { sliderEntry, idx, classes, size } = this.props
     const tmpH = (size && size.height) || 0

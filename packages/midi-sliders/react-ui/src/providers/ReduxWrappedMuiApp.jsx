@@ -34,7 +34,7 @@ export const store = createStore(persistedReducer, {}, middleware)
 
 let persistor = persistStore(store)
 
-class ReduxWrappedMuiApp extends React.Component {
+class ReduxWrappedMuiApp extends React.PureComponent {
   render () {
     return (
       <Provider store={store}>
