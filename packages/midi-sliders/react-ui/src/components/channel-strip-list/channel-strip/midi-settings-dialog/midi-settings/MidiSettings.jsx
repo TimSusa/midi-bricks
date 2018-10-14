@@ -108,6 +108,7 @@ class MidiSettings extends React.PureComponent {
                   value={midiChannel}
                   onChange={e => this.props.actions.selectMidiChannel({ idx, val: e.target.value })} />
               </FormControl>
+
             </React.Fragment>
           ) : (
             <div />
@@ -171,33 +172,6 @@ class MidiSettings extends React.PureComponent {
                   fieldName='colorFontActive'
                   color={colors.colorFontActive}
                 />
-                <Typography
-                  className={classes.label}
-                  htmlFor='fontsize'
-                >
-                  {'Font Size:  ' + (fontSize || 16) + 'px'}
-                </Typography>
-                <input
-                  type='range'
-                  min={4}
-                  max={4 * 16}
-                  value={fontSize || 16}
-                  onChange={this.handleFontsizeChange.bind(this, i)}
-                />
-                <Typography
-                  className={classes.label}
-                  htmlFor='fontWeight'
-                >
-                  {'Font Weight:  ' + (fontWeight || 500) }
-                </Typography>
-                <input
-                  type='range'
-                  min={100}
-                  max={900}
-                  step={100}
-                  value={fontWeight || 500}
-                  onChange={this.handleFontweightChange.bind(this, i)}
-                />
               </FormControl>
               <FormControl>
                 <InputLabel
@@ -219,6 +193,36 @@ class MidiSettings extends React.PureComponent {
             <div />
           )
         }
+        <FormControl>
+          <Typography
+            className={classes.label}
+            htmlFor='fontsize'
+          >
+            {'Font Size:  ' + (fontSize || 16) + 'px'}
+          </Typography>
+          <input
+            type='range'
+            min={4}
+            max={4 * 16}
+            value={fontSize || 16}
+            onChange={this.handleFontsizeChange.bind(this, i)}
+          />
+          <Typography
+            className={classes.label}
+            htmlFor='fontWeight'
+          >
+            {'Font Weight:  ' + (fontWeight || 500) }
+          </Typography>
+          <input
+            type='range'
+            min={100}
+            max={900}
+            step={100}
+            value={fontWeight || 500}
+            onChange={this.handleFontweightChange.bind(this, i)}
+          />
+        </FormControl>
+
         <Tooltip
           title='Clone'>
           <Button

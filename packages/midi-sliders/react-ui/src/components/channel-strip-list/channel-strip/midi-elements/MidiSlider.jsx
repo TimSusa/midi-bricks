@@ -10,14 +10,26 @@ class MidiSlider extends React.PureComponent {
     height: 0
   }
   render () {
-    const { sliderEntry: { val, label }, idx, height, width } = this.props
+    const { sliderEntry: { val, label, fontSize, fontWeight }, idx, height, width } = this.props
     const { classes } = this.props
-    const tmpH = (height || 0) - 65
+    const tmpLabelHeight = (fontSize >= 20) && (fontSize < 65) ? (fontSize * 3.5) : (65)
+    const tmpH = (height || 0) - (label ? tmpLabelHeight : 35)
+    const tmpFontSize = (fontSize || 16) + 'px'
+    const tmpFontWeight = fontWeight || 500
+
     return (
-      <div style={{ height, width }}
+      <div style={{
+        height,
+        width
+      }}
       >
         <Typography
           className={classes.labelTop}
+          style={{
+            fontSize: tmpFontSize,
+            fontWeight: tmpFontWeight
+            // height: tmpLabelHeight
+          }}
         >
           {label}
         </Typography>
@@ -27,7 +39,7 @@ class MidiSlider extends React.PureComponent {
           style={{ height: tmpH }}
         >
           <input
-            style={{ width: tmpH }}
+            style={{ width: tmpH, bottom: (tmpLabelHeight / 6) }}
             onChange={this.handleSliderChange.bind(this, idx)}
             type='range'
             max={127}
@@ -37,7 +49,13 @@ class MidiSlider extends React.PureComponent {
             className={classes.input}
           />
         </div>
-        <Typography className={classes.caption}>{val}</Typography>
+        <Typography
+          className={classes.caption}
+          style={{
+            fontSize: tmpFontSize,
+            fontWeight: tmpFontWeight
+          }}
+        >{val}</Typography>
       </div>
     )
   }
@@ -58,15 +76,15 @@ class MidiSlider extends React.PureComponent {
 const styles = theme => ({
   labelTop: {
     textAlign: 'center',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    margin: '0 8px',
-    textOverflow: 'ellipsis',
+    // overflow: 'hidden',
+    // whiteSpace: 'nowrap',
+    // margin: '0 8px',
+    // textOverflow: 'ellipsis',
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',
     fontWeight: 600,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em'
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
+    // lineHeight: '1.375em'
   },
   rangeSliderWrapper: {
     appearance: 'none'
@@ -120,7 +138,7 @@ const styles = theme => ({
     bottom: 0,
     width: '100%',
     textAlign: 'center',
-    marginTop: theme.spacing.unit,
+    // marginTop: theme.spacing.unit,
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',
     fontWeight: 600,

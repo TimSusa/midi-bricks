@@ -101,6 +101,7 @@ const styles = theme => ({
   label: {
     margin: 0,
     padding: 0,
+    width: '100%',
     fontWeight: 600,
     position: 'absolute',
     top: '50%',
