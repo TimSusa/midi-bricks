@@ -78,13 +78,11 @@ const styles = theme => ({
     textAlign: 'center',
     // overflow: 'hidden',
     whiteSpace: 'nowrap',
-    // margin: '0 8px',
     // textOverflow: 'ellipsis',
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',
     fontWeight: 600,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
-    // lineHeight: '1.375em'
   },
   rangeSliderWrapper: {
     appearance: 'none'
@@ -138,7 +136,6 @@ const styles = theme => ({
     bottom: 0,
     width: '100%',
     textAlign: 'center',
-    // marginTop: theme.spacing.unit,
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',
     fontWeight: 600,

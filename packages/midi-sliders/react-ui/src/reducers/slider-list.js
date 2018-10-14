@@ -267,7 +267,7 @@ export const sliderList = createReducer([], {
         ...item,
         midi: {
           midiAccess: state[0].midi.midiAccess,
-          midiDrivers: item.midi.midiDrivers
+          midiDrivers: state[0].midi.midiDrivers
         }
       }
       return Object.assign({}, tmp)

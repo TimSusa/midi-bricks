@@ -26,22 +26,22 @@ class MidiSliderHorz extends React.PureComponent {
         >
           {label}
         </Typography>
-        <div
+        {/* <div
           onContextMenu={this.preventCtxMenu}
           className={classes.rangeSliderWrapper}
           style={{ height }}
-        >
-          <input
-            style={{ width }}
-            onChange={this.handleSliderChange.bind(this, idx)}
-            type='range'
-            max={127}
-            min={0}
-            step={1}
-            value={val}
-            className={classes.input}
-          />
-        </div>
+        > */}
+        <input
+          style={{ width }}
+          onChange={this.handleSliderChange.bind(this, idx)}
+          type='range'
+          max={127}
+          min={0}
+          step={1}
+          value={val}
+          className={classes.input}
+        />
+        {/* </div> */}
         <Typography
           className={classes.caption}
           style={{
@@ -80,15 +80,16 @@ const styles = theme => ({
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
     // lineHeight: '1.375em'
   },
-  rangeSliderWrapper: {
-    appearance: 'none'
-  },
+  // rangeSliderWrapper: {
+  //   appearance: 'none'
+  // },
 
   input: {
     '&[type=range]': {
       appearance: 'none',
       borderRadius: 3,
       margin: 0,
+      height: 70,
 
       '&::-webkit-slider-runnable-track': {
         appearance: 'none',
@@ -127,7 +128,7 @@ const styles = theme => ({
     bottom: 0,
     width: '100%',
     textAlign: 'center',
-    marginTop: theme.spacing.unit,
+    // marginTop: theme.spacing.unit,
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',
     fontWeight: 600,
