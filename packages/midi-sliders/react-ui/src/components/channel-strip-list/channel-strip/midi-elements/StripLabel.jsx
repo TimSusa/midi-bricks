@@ -13,6 +13,7 @@ class StripLabel extends React.PureComponent {
         isNoteOn,
         colors,
         fontSize,
+        fontWeight,
         type,
         label
       },
@@ -47,11 +48,12 @@ class StripLabel extends React.PureComponent {
 
     // button font size
     const tmpFontSize = (fontSize || 32) + 'px'
+    const tmpFontWeight = fontWeight || 500
 
     const fontColorStyle = {
       color: !isNoteOn ? colorFont : colorFontActive,
-      fontWeight: 600,
-      fontSize: tmpFontSize
+      fontSize: tmpFontSize,
+      fontWeight: tmpFontWeight
     }
 
     if (type === STRIP_TYPE.LABEL) {

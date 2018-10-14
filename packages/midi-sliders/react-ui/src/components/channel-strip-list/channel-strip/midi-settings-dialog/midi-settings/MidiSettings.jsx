@@ -42,7 +42,8 @@ class MidiSettings extends React.PureComponent {
         midi,
         midiChannel,
         listenToCc,
-        fontSize
+        fontSize,
+        fontWeight
       },
       idx,
       classes
@@ -183,6 +184,20 @@ class MidiSettings extends React.PureComponent {
                   value={fontSize || 16}
                   onChange={this.handleFontsizeChange.bind(this, i)}
                 />
+                <Typography
+                  className={classes.label}
+                  htmlFor='fontWeight'
+                >
+                  {'Font Weight:  ' + (fontWeight || 500) }
+                </Typography>
+                <input
+                  type='range'
+                  min={100}
+                  max={900}
+                  step={100}
+                  value={fontWeight || 500}
+                  onChange={this.handleFontweightChange.bind(this, i)}
+                />
               </FormControl>
               <FormControl>
                 <InputLabel
@@ -301,6 +316,13 @@ class MidiSettings extends React.PureComponent {
     this.props.actions.changeFontSize({
       i,
       fontSize: e.target.value
+    })
+  }
+
+  handleFontweightChange = (i, e) => {
+    this.props.actions.changeFontWeight({
+      i,
+      fontWeight: e.target.value
     })
   }
 }

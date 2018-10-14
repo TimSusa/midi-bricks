@@ -58,7 +58,8 @@ export const sliderList = createReducer([], {
           color: 'rgba(240, 255, 0, 1)',
           colorActive: 'rgba(240, 255, 0, 1)'
         },
-        fontSize: 16
+        fontSize: 16,
+        fontWeight: 500
       }
       arrToSend = [entry]
     }
@@ -347,8 +348,23 @@ export const sliderList = createReducer([], {
       return tmp
     })
     return newArray
-  }
+  },
 
+  [ActionTypeSliderList.CHANGE_FONT_WEIGHT] (state, action) {
+    const { i, fontWeight } = action.payload
+    let newArray = []
+    newArray = state.map((item, idx) => {
+      let tmp = item
+      if (i === item.i) {
+        tmp = Object.assign({}, {
+          ...item,
+          fontWeight
+        })
+      }
+      return tmp
+    })
+    return newArray
+  }
 })
 
 const getMidiOutputNoteOnOff = (sliderEntry) => {
@@ -455,7 +471,8 @@ const transformAddState = (state, action, type) => {
       color: 'rgba(240, 255, 0, 1)',
       colorActive: 'rgba(240, 255, 0, 1)'
     },
-    fontSize: 16
+    fontSize: 16,
+    fontWeight: 500
   }
   return [...state, entry]
 }

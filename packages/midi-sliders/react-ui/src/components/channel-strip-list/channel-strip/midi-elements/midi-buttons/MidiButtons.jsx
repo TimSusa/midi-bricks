@@ -24,7 +24,8 @@ class MidiButtons extends React.PureComponent {
         isNoteOn,
         label,
         colors,
-        fontSize
+        fontSize,
+        fontWeight
       },
       idx,
       height,
@@ -57,11 +58,12 @@ class MidiButtons extends React.PureComponent {
 
     // button font size
     const tmpFontSize = (fontSize || 16) + 'px'
+    const tmpFontWeight = fontWeight || 500
 
     const fontColorStyle = {
       color: !isNoteOn ? colorFont : colorFontActive,
-      fontWeight: 600,
-      fontSize: tmpFontSize
+      fontSize: tmpFontSize,
+      fontWeight: tmpFontWeight
     }
 
     if (type === BUTTON) {

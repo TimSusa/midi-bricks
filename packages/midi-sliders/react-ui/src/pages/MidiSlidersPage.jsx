@@ -22,7 +22,7 @@ class MidiSlidersPage extends React.PureComponent {
   }
 
   render () {
-    const {classes, viewSettings: {isLayoutMode, isLiveMode, isSettingsMode}} = this.props
+    const { classes, viewSettings: { isLayoutMode, isLiveMode, isSettingsMode } } = this.props
 
     const preventScrollStyle = isLiveMode ? {
       height: 'calc(100vh - 64px)',
@@ -85,18 +85,18 @@ class MidiSlidersPage extends React.PureComponent {
       case 144: // noteOn
         if (velocity > 0) {
           // console.log('note on ', note)
-          this.props.actions.midiMessageArrived({midiMessage, isNoteOn: true})
+          this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: true })
         } else {
           // console.log('note off ', note)
-          this.props.actions.midiMessageArrived({midiMessage, isNoteOn: false})
+          this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: false })
         }
         break
       case 128: // noteOff
         // console.log('note off ', note)
-        this.props.actions.midiMessageArrived({midiMessage, isNoteOn: false})
+        this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: false })
         break
-        // we could easily expand this switch statement to cover other types of
-        // commands such as controllers or sysex
+      // we could easily expand this switch statement to cover other types of
+      // commands such as controllers or sysex
       default:
         break
     }
