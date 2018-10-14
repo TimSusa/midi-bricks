@@ -140,6 +140,11 @@ class ChannelStripList extends React.PureComponent {
   }
 
   handleKeyPress = (e) => {
+    // shift + p
+    if ((e.keyCode === 80) && e.shiftKey) {
+      e.preventDefault()
+      this.props.actions.toggleLiveMode()
+    }
 
     // shift + l
     if ((e.keyCode === 76) && e.shiftKey) {
@@ -156,8 +161,8 @@ class ChannelStripList extends React.PureComponent {
       }
     }
 
-    // shift + p
-    if ((e.keyCode === 80) && e.shiftKey) {
+    // shift + a
+    if ((e.keyCode === 65) && e.shiftKey) {
       if (this.props.viewSettings.isLayoutMode) {
         e.preventDefault()
         this.props.actions.toggleAutoArrangeMode()

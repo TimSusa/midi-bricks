@@ -12,7 +12,12 @@ import AddMenu from './AddMenu'
 
 class MenuAppBar extends React.PureComponent {
   render () {
-    const { classes, sliderList } = this.props
+    const { classes, sliderList, viewSettings: { isLiveMode } } = this.props
+    if (isLiveMode) {
+      return (
+        <div />
+      )
+    }
     return (
       <div className={classes.root}>
         <AppBar
@@ -39,7 +44,7 @@ class MenuAppBar extends React.PureComponent {
             <ViewMenu />
           </Toolbar>
         </AppBar>
-        <div style={{height: 64}} />
+        <div style={{ height: 64 }} />
       </div>
     )
   }
@@ -66,9 +71,10 @@ const styles = theme => ({
   }
 })
 
-function mapStateToProps ({sliderList}) {
+function mapStateToProps ({ sliderList, viewSettings }) {
   return {
-    sliderList
+    sliderList,
+    viewSettings
   }
 }
 

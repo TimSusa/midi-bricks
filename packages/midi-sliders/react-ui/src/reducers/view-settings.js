@@ -2,6 +2,13 @@ import createReducer from './createReducer'
 import { ActionTypeViewSettings } from '../actions/view-settings'
 
 export const viewSettings = createReducer({}, {
+  [ActionTypeViewSettings.TOGGLE_LIVE_MODE] (state = {isLiveMode: false}, action) {
+    const castedVal = !!state.isLiveMode
+    return Object.assign({}, state, {
+      isLiveMode: !castedVal, isLayoutMode: false, isSettingsMode: false
+    })
+  },
+
   [ActionTypeViewSettings.TOGGLE_LAYOUT_MODE] (state = {isLayoutMode: false}, action) {
     const castedVal = !!state.isLayoutMode
     return Object.assign({}, state, {

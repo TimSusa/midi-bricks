@@ -46,6 +46,22 @@ class ViewMenu extends React.PureComponent {
           open={isOpen}
           onClose={this.handleClose}
         >
+
+          <MenuItem
+            onClick={this.toggleLiveMode}>
+            <ListItemIcon>
+              {this.props.viewSettings.isLiveMode ? (
+                <OnIcon />
+              ) : (
+                <OffIcon />
+              )}
+            </ListItemIcon>
+
+            <Typography variant='subheading'>
+              Live Mode - shift + p
+            </Typography>
+          </MenuItem>
+
           <MenuItem
             onClick={this.toggleLayoutMode}>
             <ListItemIcon>
@@ -57,7 +73,7 @@ class ViewMenu extends React.PureComponent {
             </ListItemIcon>
 
             <Typography variant='subheading'>
-              Layout Mode - ctrl + l
+              Layout Mode - shift + l
             </Typography>
           </MenuItem>
           {
@@ -73,7 +89,7 @@ class ViewMenu extends React.PureComponent {
                 )}
               </ListItemIcon>
               <Typography variant='subheading'>
-                Settings Mode - ctrl + s
+                Settings Mode - shift + s
               </Typography>
             </MenuItem>
           }
@@ -89,7 +105,7 @@ class ViewMenu extends React.PureComponent {
               )}
             </ListItemIcon>
             <Typography variant='subheading'>
-                Compact Vertically - ctrl + v
+              Compact Vertically - shift + v
             </Typography>
           </MenuItem>
 
@@ -106,7 +122,7 @@ class ViewMenu extends React.PureComponent {
                 )}
               </ListItemIcon>
               <Typography variant='subheading'>
-                Auto Arrange Mode - ctrl + p
+                Auto Arrange Mode - shift + a
               </Typography>
             </MenuItem>
           }
@@ -120,7 +136,7 @@ class ViewMenu extends React.PureComponent {
               )}
             </ListItemIcon>
             <Typography variant='subheading'>
-                Switch Theme - ctrl + t
+              Switch Theme - shift + t
             </Typography>
           </MenuItem>
         </Menu>
@@ -143,6 +159,11 @@ class ViewMenu extends React.PureComponent {
 
   handleClose = () => {
     this.setState({ anchorEl: null })
+  }
+
+  toggleLiveMode = () => {
+    this.props.actions.toggleLiveMode()
+    this.handleClose()
   }
 
   toggleLayoutMode = () => {

@@ -22,12 +22,16 @@ class MidiSlidersPage extends React.PureComponent {
   }
 
   render () {
-    const {classes, viewSettings: {isLayoutMode, isSettingsMode}} = this.props
+    const {classes, viewSettings: {isLayoutMode, isLiveMode, isSettingsMode}} = this.props
 
-    const preventScrollStyle = {
-      height: 'calc(100vh - 72px - 56px)',
+    const preventScrollStyle = isLiveMode ? {
+      height: 'calc(100vh - 64px)',
+      overflowY: 'hidden'
+    } : {
+      height: 'calc(100vh - 64px - 64px)',
       overflowY: 'hidden'
     }
+
     if (this.state.hasMidi) {
       return (
         <div

@@ -90,7 +90,7 @@ class App extends React.PureComponent {
 
 const styles = theme => ({
   root: {
-    width: 'calc(100% - 40px)',
+    width: '100%',
     height: '100%',
     zIndex: 1
   },
