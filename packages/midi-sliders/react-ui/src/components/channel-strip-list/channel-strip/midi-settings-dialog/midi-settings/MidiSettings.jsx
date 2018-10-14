@@ -4,6 +4,8 @@ import Input from '@material-ui/core/Input'
 import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
 import Tooltip from '@material-ui/core/Tooltip'
+import Checkbox from '@material-ui/core/Checkbox'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import CopyIcon from '@material-ui/icons/NoteAdd'
@@ -193,6 +195,25 @@ class MidiSettings extends React.PureComponent {
             <div />
           )
         }
+        {
+          ([SLIDER, SLIDER_HORZ].includes(type))
+            ? (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={sliderEntry.isValueHidden && sliderEntry.isValueHidden}
+                    onChange={this.props.actions.toggleHideValue.bind(this, { i: sliderEntry.i })}
+                  // value='checkedB'
+                  />
+                }
+                label='Hide Value'
+              />
+            )
+            : (
+              <div />
+            )
+
+        }
         <FormControl>
           <Typography
             className={classes.label}
@@ -211,7 +232,7 @@ class MidiSettings extends React.PureComponent {
             className={classes.label}
             htmlFor='fontWeight'
           >
-            {'Font Weight:  ' + (fontWeight || 500) }
+            {'Font Weight:  ' + (fontWeight || 500)}
           </Typography>
           <input
             type='range'

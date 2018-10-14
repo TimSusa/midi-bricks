@@ -10,7 +10,7 @@ class MidiSlider extends React.PureComponent {
     height: 0
   }
   render () {
-    const { sliderEntry: { val, label, fontSize, fontWeight }, idx, height, width } = this.props
+    const { sliderEntry: { val, label, fontSize, fontWeight, isValueHidden }, idx, height, width } = this.props
     const { classes } = this.props
     const tmpLabelHeight = (fontSize >= 20) && (fontSize < 65) ? (fontSize * 3.5) : (65)
     const tmpH = (height || 0) - (label ? tmpLabelHeight : 35)
@@ -28,7 +28,6 @@ class MidiSlider extends React.PureComponent {
           style={{
             fontSize: tmpFontSize,
             fontWeight: tmpFontWeight
-            // height: tmpLabelHeight
           }}
         >
           {label}
@@ -39,7 +38,7 @@ class MidiSlider extends React.PureComponent {
           style={{ height: tmpH }}
         >
           <input
-            style={{ width: tmpH, bottom: (tmpLabelHeight / 6) }}
+            style={{ width: tmpH, bottom: isValueHidden ? (tmpLabelHeight / 6) : 0 }}
             onChange={this.handleSliderChange.bind(this, idx)}
             type='range'
             max={127}
@@ -49,13 +48,17 @@ class MidiSlider extends React.PureComponent {
             className={classes.input}
           />
         </div>
-        <Typography
-          className={classes.caption}
-          style={{
-            fontSize: tmpFontSize,
-            fontWeight: tmpFontWeight
-          }}
-        >{val}</Typography>
+        {!isValueHidden ? (
+          <Typography
+            className={classes.caption}
+            style={{
+              fontSize: tmpFontSize,
+              fontWeight: tmpFontWeight
+            }}
+          >
+            {val}
+          </Typography>
+        ) : (<React.Fragment />)}
       </div>
     )
   }

@@ -1,7 +1,7 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
-import classNames from 'classnames'
+// import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { STRIP_TYPE } from '../../../../reducers/slider-list.js'
 
@@ -58,26 +58,27 @@ class MidiPage extends React.PureComponent {
 
     if (type === STRIP_TYPE.PAGE) {
       return (
+        // <div
+        //   id={`page-${i}`}
+        //   className={classNames({
+        //     [classes.root]: true
+        //   })}
+        // >
         <div
           id={`page-${i}`}
-          className={classNames({
-            [classes.root]: true
-          })}
+          style={labelStyle}
+          className={classes.labelWrap}
         >
-          <div
-            style={labelStyle}
-            className={classes.labelWrap}
+          <Typography
+            variant='headline'
+            align='center'
+            style={fontColorStyle}
+            className={classes.label}
           >
-            <Typography
-              variant='headline'
-              align='center'
-              style={fontColorStyle}
-              className={classes.label}
-            >
-              {label}
-            </Typography>
-          </div>
+            {label}
+          </Typography>
         </div>
+        // </div>
       )
     } else {
       return (<div />)
@@ -86,15 +87,14 @@ class MidiPage extends React.PureComponent {
 }
 
 const styles = theme => ({
-  root: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 0,
-    padding: 0
-  },
+  // root: {
+  //   display: 'flex',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   margin: 0,
+  //   padding: 0
+  // },
   labelWrap: {
-    // marginTop: 8,
     borderRadius: 3,
     height: '100%',
     background: theme.palette.button.background
@@ -107,15 +107,15 @@ const styles = theme => ({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)'
-  },
-  group: {
-  },
-  iconColor: {
-    color: theme.palette.primary.contrastText,
-    width: 18,
-    margin: 0,
-    padding: 0
   }
+  // group: {
+  // }
+  // iconColor: {
+  //   color: theme.palette.primary.contrastText,
+  //   width: 18,
+  //   margin: 0,
+  //   padding: 0
+  // }
 })
 
 function mapStateToProps ({ viewSettings }) {

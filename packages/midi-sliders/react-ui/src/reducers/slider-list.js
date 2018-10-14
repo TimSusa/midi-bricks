@@ -59,7 +59,8 @@ export const sliderList = createReducer([], {
           colorActive: 'rgba(240, 255, 0, 1)'
         },
         fontSize: 16,
-        fontWeight: 500
+        fontWeight: 500,
+        isValueHidden: false
       }
       arrToSend = [entry]
     }
@@ -144,7 +145,6 @@ export const sliderList = createReducer([], {
         return item
       }
     })
-    // const newState = transformState(toggleState, action, 'type')
     return toggleState
   },
   [ActionTypeSliderList.DELETE] (state, action) {
@@ -156,7 +156,6 @@ export const sliderList = createReducer([], {
   },
   [ActionTypeSliderList.DELETE_ALL] (state, action) {
     return [state[state.length - 1]]
-    // return []
   },
   [ActionTypeSliderList.TOGGLE_NOTE] (state, action) {
     const idx = action.payload
@@ -364,6 +363,22 @@ export const sliderList = createReducer([], {
       return tmp
     })
     return newArray
+  },
+
+  [ActionTypeSliderList.TOGGLE_HIDE_VALUE] (state, action) {
+    const { i } = action.payload
+    let newArray = []
+    newArray = state.map((item, idx) => {
+      let tmp = item
+      if (i === item.i) {
+        tmp = Object.assign({}, {
+          ...item,
+          isValueHidden: !item.isValueHidden
+        })
+      }
+      return tmp
+    })
+    return newArray
   }
 })
 
@@ -472,7 +487,8 @@ const transformAddState = (state, action, type) => {
       colorActive: 'rgba(240, 255, 0, 1)'
     },
     fontSize: 16,
-    fontWeight: 500
+    fontWeight: 500,
+    isValueHidden: false
   }
   return [...state, entry]
 }

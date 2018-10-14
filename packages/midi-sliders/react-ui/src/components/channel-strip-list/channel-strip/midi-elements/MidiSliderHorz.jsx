@@ -10,7 +10,7 @@ class MidiSliderHorz extends React.PureComponent {
     height: 0
   }
   render () {
-    const { sliderEntry: { val, label, fontSize, fontWeight }, idx, height, width } = this.props
+    const { sliderEntry: { val, label, fontSize, fontWeight, isValueHidden }, idx, height, width } = this.props
     const { classes } = this.props
     const tmpFontSize = (fontSize || 16) + 'px'
     const tmpFontWeight = fontWeight || 500
@@ -42,14 +42,18 @@ class MidiSliderHorz extends React.PureComponent {
           className={classes.input}
         />
         {/* </div> */}
-        <Typography
-          className={classes.caption}
-          style={{
-            fontSize: tmpFontSize,
-            fontWeight: tmpFontWeight
-          }}
-        >{val}
-        </Typography>
+        {
+          !isValueHidden ? (
+            <Typography
+              className={classes.caption}
+              style={{
+                fontSize: tmpFontSize,
+                fontWeight: tmpFontWeight
+              }}
+            >{val}
+            </Typography>
+          ) : (<div />)
+        }
       </div>
     )
   }

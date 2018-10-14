@@ -91,8 +91,8 @@ class ChannelStripList extends React.PureComponent {
               } else {
                 const settingsStyle = {
                   position: 'absolute',
-                  right: -0,
-                  top: -4,
+                  right: -12,
+                  top: -16,
                   cursor: 'pointer'
                 }
                 return (
