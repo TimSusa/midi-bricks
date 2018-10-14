@@ -37,8 +37,8 @@ class MidiPage extends React.PureComponent {
     const sColAct = colors && colors.colorActive && colors.colorActive
     const colorActivated = sColAct || '#FFFF00'
     const labelStyle = {
-      height: ((height || 0) - 16),
-      width: ((width || 0) - 16),
+      height: ((height || 0) - 0),
+      width: ((width || 0) - 0),
       background: isNoteOn ? colorActivated : color
     }
 
@@ -94,7 +94,7 @@ const styles = theme => ({
     padding: 0
   },
   labelWrap: {
-    marginTop: 8,
+    // marginTop: 8,
     borderRadius: 3,
     height: '100%',
     background: theme.palette.button.background

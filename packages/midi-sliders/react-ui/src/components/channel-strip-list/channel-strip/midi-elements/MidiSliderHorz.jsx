@@ -77,8 +77,8 @@ const styles = theme => ({
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',
     fontWeight: 600,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em'
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
+    // lineHeight: '1.375em'
   },
   rangeSliderWrapper: {
     appearance: 'none'
@@ -88,6 +88,7 @@ const styles = theme => ({
     '&[type=range]': {
       appearance: 'none',
       borderRadius: 3,
+      margin: 0,
 
       '&::-webkit-slider-runnable-track': {
         appearance: 'none',
@@ -130,8 +131,8 @@ const styles = theme => ({
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',
     fontWeight: 600,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em'
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
+    // lineHeight: '1.375em'
   }
 })
 

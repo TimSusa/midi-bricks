@@ -2,7 +2,7 @@ import React from 'react'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
-import classNames from 'classnames'
+// import classNames from 'classnames'
 
 class MidiButton extends React.PureComponent {
   render () {
@@ -16,32 +16,33 @@ class MidiButton extends React.PureComponent {
       idx
     } = this.props
     return (
-      <div
-        className={classNames({
-          [classes.root]: true
+      // <div
+      //   className={classNames({
+      //     [classes.root]: true
 
-        })}>
-        <Button
-          disableTouchRipple
-          disableFocusRipple
-          style={buttonStyle}
-          onContextMenu={this.preventCtxMenu}
-          classes={{ root: classes.button }}
-          variant='raised'
-          onMouseDown={!this.isTouchDevice() ? onChangeStart.bind(this, idx) : (e) => e.preventDefault()}
-          onMouseUp={!this.isTouchDevice() ? onChangeEnd.bind(this, idx) : (e) => e.preventDefault()}
-          onTouchStart={onChangeStart.bind(this, idx)}
-          onTouchEnd={onChangeEnd.bind(this, idx)}
+      //   })}>
+      <Button
+        disableTouchRipple
+        disableFocusRipple
+        style={buttonStyle}
+        onContextMenu={this.preventCtxMenu}
+        classes={{ root: classes.button }}
+        variant='raised'
+        onMouseDown={!this.isTouchDevice() ? onChangeStart.bind(this, idx) : (e) => e.preventDefault()}
+        onMouseUp={!this.isTouchDevice() ? onChangeEnd.bind(this, idx) : (e) => e.preventDefault()}
+        onTouchStart={onChangeStart.bind(this, idx)}
+        onTouchEnd={onChangeEnd.bind(this, idx)}
+      >
+        <Typography
+          variant='body1'
+          style={fontColorStyle}
+          className={classes.label}
         >
-          <Typography
-            variant='body1'
-            style={fontColorStyle}
-            className={classes.label}
-          >
-            {label}
-          </Typography>
-        </Button>
-      </div>)
+          {label}
+        </Typography>
+      </Button>
+      // </div>
+    )
   }
 
   // For touch-devices, we do not want
@@ -60,12 +61,14 @@ class MidiButton extends React.PureComponent {
 }
 
 const styles = theme => ({
-  root: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
+  // root: {
+  //   width: '100%'
+  //   // sdisplay: 'flex',
+  //   // alignItems: 'center',
+  //   // justifyContent: 'center'
+  // },
   label: {
+    width: '100%',
     margin: 0,
     padding: 0,
     fontWeight: 600
@@ -79,8 +82,9 @@ const styles = theme => ({
     padding: 0
   },
   button: {
-    marginTop: 16,
-    marginBottom: 16,
+    margin: 0,
+    padding: 0,
+    width: '100%',
     background: theme.palette.button.background
   }
 })

@@ -77,7 +77,7 @@ const styles = theme => ({
   labelTop: {
     textAlign: 'center',
     // overflow: 'hidden',
-    // whiteSpace: 'nowrap',
+    whiteSpace: 'nowrap',
     // margin: '0 8px',
     // textOverflow: 'ellipsis',
     color: theme.palette.primary.contrastText,

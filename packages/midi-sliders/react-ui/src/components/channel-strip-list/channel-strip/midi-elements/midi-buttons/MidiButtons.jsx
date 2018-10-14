@@ -47,8 +47,8 @@ class MidiButtons extends React.PureComponent {
     const sColAct = colors && colors.colorActive && colors.colorActive
     const colorActivated = sColAct || '#FFFF00'
     const buttonStyle = {
-      height: ((height || 0) - 32),
-      width: ((width || 0) - 32),
+      height: ((height || 0) - 0),
+      width: ((width || 0) - 0),
       background: isNoteOn ? colorActivated : color
     }
 
