@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../actions/slider-list.js'
 import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
+import { debounce } from 'lodash'
 
 class MidiSlidersPage extends React.PureComponent {
   state = {
@@ -82,7 +83,7 @@ class MidiSlidersPage extends React.PureComponent {
     // only send action, if any cc listener is in list
     if (this.props.sliderList.some((item) => item.listenToCc.length > 0)) {
       const command = midiMessage.data[0]
-      // var note = midiMessage.data[1]
+      const note = (midiMessage.data.length > 1) ? midiMessage.data[1] : midiMessage.data[0]
       // a velocity value might not be included with a noteOff command
       const velocity = (midiMessage.data.length > 2) ? midiMessage.data[2] : 0
 
@@ -90,15 +91,19 @@ class MidiSlidersPage extends React.PureComponent {
         case 144: // noteOn
           if (velocity > 0) {
             // console.log('note on ', note)
-            this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: true })
+            this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: true, cC: note })
           } else {
             // console.log('note off ', note)
-            this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: false })
+            this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: false, cC: note })
           }
           break
         case 128: // noteOff
           // console.log('note off ', note)
           this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: false })
+          break
+        case 176: // CC
+          const debounced = debounce(() => this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: undefined, val: velocity, cC: note }), 5)
+          debounced()
           break
         // we could easily expand this switch statement to cover other types of
         // commands such as controllers or sysex

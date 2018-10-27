@@ -290,14 +290,26 @@ export const sliderList = createReducer([], {
     const newState = state.map(item => {
       const { listenToCc } = item
       if (listenToCc.length > 0) {
-        const val = action.payload.midiMessage.data[1]
-        const hasVal = listenToCc.includes(val.toString())
-        if (hasVal) {
-          const { colors } = item
-          const { colorActive, color } = colors
-          return { ...item, colors: { color: colorActive, colorActive: color } }
+        const {isNoteOn, val, cC} = action.payload
+
+        if (isNoteOn === undefined) {
+          console.log('CC ', val)
+          const hasCc = listenToCc.includes(cC && cC.toString())
+          if (hasCc) {
+            return { ...item, val }
+          } else {
+            return {...item}
+          }
         } else {
-          return {...item}
+          console.log('Note')
+          const hasCc = listenToCc.includes(cC && cC.toString())
+          if (hasCc) {
+            const { colors } = item
+            const { colorActive, color } = colors
+            return { ...item, colors: { color: colorActive, colorActive: color } }
+          } else {
+            return {...item}
+          }
         }
       }
       return { ...item }

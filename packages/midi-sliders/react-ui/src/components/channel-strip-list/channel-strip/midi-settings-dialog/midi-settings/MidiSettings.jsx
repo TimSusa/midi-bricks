@@ -100,6 +100,21 @@ class MidiSettings extends React.PureComponent {
               {this.renderDriverSelection(midi.midiDrivers, type)}
             </Select>
           </FormControl>
+          <FormControl>
+            <InputLabel
+              className={classes.label}
+              htmlFor='cc'
+            >
+                  Listen to CC
+            </InputLabel>
+            <MidiSuggestedInput
+              suggestions={this.suggestionsMidiCc}
+              startVal={listenToCc || []}
+              sliderEntry={sliderEntry}
+              idx={idx}
+              handleChange={this.handleAddCCListener}
+            />
+          </FormControl>
           <FormControl className={classes.formControl}>
             <InputLabel className={classes.label} htmlFor='cc'>Channel </InputLabel>
             <Input
@@ -169,21 +184,6 @@ class MidiSettings extends React.PureComponent {
                   idx={idx}
                   fieldName='colorFontActive'
                   color={colors.colorFontActive}
-                />
-              </FormControl>
-              <FormControl>
-                <InputLabel
-                  className={classes.label}
-                  htmlFor='cc'
-                >
-                  Listen to CC
-                </InputLabel>
-                <MidiSuggestedInput
-                  suggestions={this.suggestionsMidiCc}
-                  startVal={listenToCc || []}
-                  sliderEntry={sliderEntry}
-                  idx={idx}
-                  handleChange={this.handleAddCCListener}
                 />
               </FormControl>
             </React.Fragment>
