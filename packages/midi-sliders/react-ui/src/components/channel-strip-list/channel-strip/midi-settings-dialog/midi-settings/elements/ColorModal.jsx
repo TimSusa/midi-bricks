@@ -20,7 +20,7 @@ const DEF_VAL = {
     a: 0.76,
     b: 51,
     g: 51,
-    r: 51
+    r: 0.51
   }
 }
 
@@ -29,7 +29,7 @@ class ColorModal extends React.PureComponent {
     super(props)
     this.state = {
       open: false,
-      color: this.convertRgba(this.props.color) || DEF_VAL
+      color: {...this.convertRgba(this.props.color)} || DEF_VAL
     }
   }
 
@@ -130,16 +130,15 @@ class ColorModal extends React.PureComponent {
       rgba => rgba
         .substr(5, (rgba.length - 6))
         .split(', ')
-        .map(item => parseInt(item, 10))
 
     const convert = rgba => {
       const array = convStrToArray(rgba)
       return {
         rgb: {
-          a: array[3],
-          b: array[2],
-          g: array[1],
-          r: array[0]
+          a: parseFloat(array[3]),
+          b: parseInt(array[2], 10),
+          g: parseInt(array[1], 10),
+          r: parseInt(array[0], 10)
         }
       }
     }
