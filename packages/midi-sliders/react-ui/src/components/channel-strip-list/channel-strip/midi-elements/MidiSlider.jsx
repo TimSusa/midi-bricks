@@ -12,9 +12,10 @@ class MidiSlider extends React.PureComponent {
   render () {
     const { sliderEntry: { val, label, fontSize, fontWeight, isValueHidden, minVal, maxVal }, idx, height, width } = this.props
     const { classes } = this.props
-    const tmpLabelHeight = (fontSize >= 20) && (fontSize < 65) ? (fontSize * 3.5) : (65)
-    const tmpH = (height || 0) - (label ? tmpLabelHeight : 35)
-    const tmpFontSize = (fontSize || 16) + 'px'
+
+    const tmpLabelHeight = this.fontSizeToHeight(fontSize)
+    const tmpH = (height || 0) - (label ? tmpLabelHeight : 35) - (isValueHidden ? tmpLabelHeight : 0)
+    const tmpFontSize = (parseInt(fontSize, 10) || 16) + 'px'
     const tmpFontWeight = fontWeight || 500
 
     return (
@@ -38,7 +39,10 @@ class MidiSlider extends React.PureComponent {
           style={{ height: tmpH }}
         >
           <input
-            style={{ width: tmpH, bottom: isValueHidden ? (tmpLabelHeight / 6) : 0 }}
+            style={{
+              width: isValueHidden ? ((1.4 * tmpLabelHeight) + tmpH) : tmpH,
+              bottom: isValueHidden ? (-tmpLabelHeight / 4) : ((fontSize > 23) ? (fontSize / 2) : 0)
+            }}
             onChange={this.handleSliderChange.bind(this, idx)}
             type='range'
             max={(maxVal && parseInt(maxVal, 10)) || 127}
@@ -74,12 +78,21 @@ class MidiSlider extends React.PureComponent {
     e.stopPropagation()
     return false
   }
+
+  fontSizeToHeight = (fontSize) => {
+    if (fontSize <= 10 && fontSize >= 0) return (fontSize * 6)
+    if (fontSize <= 13 && fontSize > 10) return (fontSize * 5)
+    if (fontSize <= 24 && fontSize > 13) return (fontSize * 4)
+    if (fontSize <= 45 && fontSize > 24) return (fontSize * 3)
+    if (fontSize <= 63 && fontSize > 45) return (fontSize * 2.5)
+    if (fontSize <= 100 && fontSize > 63) return (fontSize * 2.3)
+  }
 }
 
 const styles = theme => ({
   labelTop: {
     textAlign: 'center',
-
+    // lineHeight: 1,
     // overflow: 'hidden',
     whiteSpace: 'nowrap',
     // textOverflow: 'ellipsis',
@@ -144,7 +157,7 @@ const styles = theme => ({
     fontSize: '1rem',
     fontWeight: 600,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em'
+    lineHeight: 1
   }
 })
 
