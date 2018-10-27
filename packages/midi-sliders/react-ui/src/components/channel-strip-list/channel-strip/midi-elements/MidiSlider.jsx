@@ -79,6 +79,7 @@ class MidiSlider extends React.PureComponent {
 const styles = theme => ({
   labelTop: {
     textAlign: 'center',
+
     // overflow: 'hidden',
     whiteSpace: 'nowrap',
     // textOverflow: 'ellipsis',

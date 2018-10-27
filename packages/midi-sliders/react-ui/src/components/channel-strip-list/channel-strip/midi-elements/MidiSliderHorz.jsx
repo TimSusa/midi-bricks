@@ -74,7 +74,8 @@ class MidiSliderHorz extends React.PureComponent {
 const styles = theme => ({
   labelTop: {
     textAlign: 'center',
-    overflow: 'hidden',
+
+    // overflow: 'hidden',
     whiteSpace: 'nowrap',
     margin: '0 8px',
     textOverflow: 'ellipsis',
