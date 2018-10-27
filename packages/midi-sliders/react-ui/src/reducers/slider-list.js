@@ -204,7 +204,7 @@ export const sliderList = createReducer([], {
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL] (state, action) {
     const { val } = action.payload
 
-    // Limit to allowed number of midi channels
+    // Limit to allow number of midi channels
     // and prevent crash
     let newAction = null
     if ((val <= 16) && (val >= 1)) {
@@ -289,13 +289,15 @@ export const sliderList = createReducer([], {
   [ActionTypeSliderList.MIDI_MESSAGE_ARRIVED] (state, action) {
     const newState = state.map(item => {
       const { listenToCc } = item
-      if (listenToCc) {
+      if (listenToCc.length > 0) {
         const val = action.payload.midiMessage.data[1]
         const hasVal = listenToCc.includes(val.toString())
         if (hasVal) {
           const { colors } = item
           const { colorActive, color } = colors
           return { ...item, colors: { color: colorActive, colorActive: color } }
+        } else {
+          return {...item}
         }
       }
       return { ...item }
@@ -439,7 +441,7 @@ const transformAddState = (state, action, type) => {
   const midi = state[0].midi
   const availDriver = midi.midiDrivers[0].outputId
   const lastSelectedDriver = (state.length > 0) && state[state.length - 1].outputId
-  const newDriver = lastSelectedDriver || availDriver
+  const newDriver = ((lastSelectedDriver !== 'None') && lastSelectedDriver) || availDriver
 
   const addStateLength = () => (state.length + 1)
   const addMidiCCVal = () => 59 + addStateLength()
@@ -471,7 +473,7 @@ const transformAddState = (state, action, type) => {
     val: 50,
     midiCC,
     listenToCc: [],
-    outputId: newDriver,
+    outputId: [PAGE, LABEL].includes(type) ? 'None' : newDriver,
     midiChannel: 1,
     isNoteOn: false,
     midi,

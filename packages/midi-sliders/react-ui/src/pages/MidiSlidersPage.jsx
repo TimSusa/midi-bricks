@@ -66,8 +66,11 @@ class MidiSlidersPage extends React.PureComponent {
   onMIDISuccess = (midiAccess) => {
     if (midiAccess.outputs.size > 0) {
       this.props.actions.initMidiAccess({ midiAccess })
-      for (var input of midiAccess.inputs.values()) {
-        input.onmidimessage = this.getMIDIMessage
+
+      if (this.props.sliderList.some((item) => item.listenToCc.length > 0)) {
+        for (var input of midiAccess.inputs.values()) {
+          input.onmidimessage = this.getMIDIMessage
+        }
       }
     } else {
       this.setState({ hasMidi: false })
@@ -76,29 +79,32 @@ class MidiSlidersPage extends React.PureComponent {
   }
 
   getMIDIMessage = (midiMessage) => {
-    const command = midiMessage.data[0]
-    // var note = midiMessage.data[1]
-    // a velocity value might not be included with a noteOff command
-    const velocity = (midiMessage.data.length > 2) ? midiMessage.data[2] : 0
+    // only send action, if any cc listener is in list
+    if (this.props.sliderList.some((item) => item.listenToCc.length > 0)) {
+      const command = midiMessage.data[0]
+      // var note = midiMessage.data[1]
+      // a velocity value might not be included with a noteOff command
+      const velocity = (midiMessage.data.length > 2) ? midiMessage.data[2] : 0
 
-    switch (command) {
-      case 144: // noteOn
-        if (velocity > 0) {
-          // console.log('note on ', note)
-          this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: true })
-        } else {
+      switch (command) {
+        case 144: // noteOn
+          if (velocity > 0) {
+            // console.log('note on ', note)
+            this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: true })
+          } else {
+            // console.log('note off ', note)
+            this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: false })
+          }
+          break
+        case 128: // noteOff
           // console.log('note off ', note)
           this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: false })
-        }
-        break
-      case 128: // noteOff
-        // console.log('note off ', note)
-        this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: false })
-        break
-      // we could easily expand this switch statement to cover other types of
-      // commands such as controllers or sysex
-      default:
-        break
+          break
+        // we could easily expand this switch statement to cover other types of
+        // commands such as controllers or sysex
+        default:
+          break
+      }
     }
   }
 
@@ -127,9 +133,10 @@ function mapDispatchToProps (dispatch) {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
-function mapStateToProps ({ viewSettings }) {
+function mapStateToProps ({ viewSettings, sliderList }) {
   return {
-    viewSettings
+    viewSettings,
+    sliderList
   }
 }
 export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MidiSlidersPage)))

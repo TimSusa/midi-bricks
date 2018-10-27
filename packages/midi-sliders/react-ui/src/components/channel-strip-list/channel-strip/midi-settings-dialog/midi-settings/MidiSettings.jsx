@@ -28,6 +28,7 @@ const {
   BUTTON_TOGGLE_CC,
   SLIDER,
   SLIDER_HORZ,
+  PAGE,
   LABEL
 } = STRIP_TYPE
 
@@ -74,48 +75,43 @@ class MidiSettings extends React.PureComponent {
           />
         </FormControl>
 
-        {
-          (type !== LABEL) ? (
-            <React.Fragment>
-              <InputNoteOrCc
-                sliderEntry={sliderEntry}
-                idx={idx}
-              />
-              <br />
-              <FormControl
-                className={classes.formControl}
-              >
-                <InputLabel
-                  className={classes.label}
-                  htmlFor='cc'>
+        <React.Fragment>
+          <InputNoteOrCc
+            sliderEntry={sliderEntry}
+            idx={idx}
+          />
+          <br />
+          <FormControl
+            className={classes.formControl}
+          >
+            <InputLabel
+              className={classes.label}
+              htmlFor='cc'>
                   Driver
-                </InputLabel>
-                <Select
-                  className={classes.select}
-                  onChange={e => this.props.actions.selectSliderMidiDriver({
-                    idx,
-                    val: e.target.value
-                  })}
-                  value={outputId}>
-                  {this.renderDriverSelection(midi.midiDrivers)}
-                </Select>
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.label} htmlFor='cc'>Channel </InputLabel>
-                <Input
-                  className={classes.input}
-                  id='number'
-                  type='number'
-                  name={`input-channel-name-${idx}`}
-                  value={midiChannel}
-                  onChange={e => this.props.actions.selectMidiChannel({ idx, val: e.target.value })} />
-              </FormControl>
+            </InputLabel>
+            <Select
+              className={classes.select}
+              onChange={e => this.props.actions.selectSliderMidiDriver({
+                idx,
+                val: e.target.value
+              })}
+              value={outputId}
+            >
+              {this.renderDriverSelection(midi.midiDrivers, type)}
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel className={classes.label} htmlFor='cc'>Channel </InputLabel>
+            <Input
+              className={classes.input}
+              id='number'
+              type='number'
+              name={`input-channel-name-${idx}`}
+              value={midiChannel}
+              onChange={e => this.props.actions.selectMidiChannel({ idx, val: e.target.value })} />
+          </FormControl>
 
-            </React.Fragment>
-          ) : (
-            <div />
-          )
-        }
+        </React.Fragment>
 
         <br />
         {
@@ -187,7 +183,7 @@ class MidiSettings extends React.PureComponent {
                   startVal={listenToCc || []}
                   sliderEntry={sliderEntry}
                   idx={idx}
-                  handleChange={this.props.actions.addMidiCcListener}
+                  handleChange={this.handleAddCCListener}
                 />
               </FormControl>
             </React.Fragment>
@@ -285,6 +281,15 @@ class MidiSettings extends React.PureComponent {
     })
   }
 
+  handleAddCCListener = (e) => {
+    // detecrt if empty state
+    let isEmpty = this.props.sliderList.every((item) => item.listenToCc.length === 0)
+    this.props.actions.addMidiCcListener(e)
+
+    // this is a hack
+    // TODO: get rid of it
+    isEmpty && window.location.reload()
+  }
   handleButtonTypeChange = (idx, e) => {
     this.props.actions.changeButtonType({
       idx,
@@ -292,14 +297,18 @@ class MidiSettings extends React.PureComponent {
     })
   }
 
-  renderDriverSelection = (availableDrivers) => {
-    return availableDrivers.map((item, idx) => {
+  renderDriverSelection = (availableDrivers, type) => {
+    let tmpArray =
+    ![LABEL, PAGE].includes(type)
+      ? availableDrivers : [{outputId: 'None', name: 'None'}, ...availableDrivers]
+
+    return tmpArray.map((item, idx) => {
       return (
         <MenuItem
           key={`driver-${idx}`}
           value={item.outputId}
         >
-          {item.name}
+          { item.name }
         </MenuItem>
       )
     })
@@ -389,5 +398,9 @@ function mapDispatchToProps (dispatch) {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
-
-export default (withStyles(styles)(connect(null, mapDispatchToProps)(MidiSettings)))
+function mapStateToProps ({ sliderList }) {
+  return {
+    sliderList
+  }
+}
+export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MidiSettings)))
