@@ -18,6 +18,7 @@ require('react-resizable/css/styles.css')
 const GridLayout = WidthProvider(RGL)
 
 class ChannelStripList extends React.PureComponent {
+  hasListener = false
   componentWillMount () {
     document.body.addEventListener('keypress', this.handleKeyPress)
   }
@@ -28,8 +29,20 @@ class ChannelStripList extends React.PureComponent {
     const {
       classes,
       sliderList,
-      viewSettings: { isLayoutMode, isCompactHorz, isAutoArrangeMode }
+      viewSettings: { isLayoutMode, isCompactHorz, isAutoArrangeMode, isSettingsDialogMode }
     } = this.props
+
+    // Protect dialog mode from global listeners
+    if (isSettingsDialogMode) {
+      document.body.removeEventListener('keypress', this.handleKeyPress)
+      this.hasListener = false
+    } else {
+      if (!this.hasListener) {
+        document.body.addEventListener('keypress', this.handleKeyPress)
+        this.hasListener = true
+      }
+    }
+
     if (sliderList.length > 0) {
       return (
         <GridLayout
@@ -114,6 +127,9 @@ class ChannelStripList extends React.PureComponent {
                           style={settingsStyle}
                         >
                           <MidiSettingsDialogButton
+                            toggleSettings={this.props.actions.toggleSettingsDialogMode}
+                            lastFocusedIdx={this.props.viewSettings.lastFocusedIdx}
+                            isSettingsDialogMode={this.props.viewSettings.isSettingsDialogMode}
                             sliderEntry={sliderEntry}
                             idx={idx}
                           />

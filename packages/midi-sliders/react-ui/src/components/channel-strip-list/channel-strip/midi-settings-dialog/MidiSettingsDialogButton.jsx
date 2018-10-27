@@ -5,34 +5,31 @@ import { withStyles } from '@material-ui/core/styles'
 import MidiSettingsDialog from './MidiSettingsDialog'
 
 class MidiSettingsDialogButton extends React.PureComponent {
-  state = {
-    isDialogOpen: false
-  }
   render () {
-    const { sliderEntry, idx } = this.props
-    const { classes } = this.props
+    const { classes, sliderEntry, idx, isSettingsDialogMode, lastFocusedIdx } = this.props
+    const isOpen = !!(isSettingsDialogMode && lastFocusedIdx !== undefined && (lastFocusedIdx === idx))
     return (
       <div
         className={classes.root}
       >
         {
-          !this.state.isDialogOpen ? (
+          !isOpen ? (
             <ExpandMoreIcon
               className={classes.iconColor}
-              onClick={() => this.setState({ isDialogOpen: !this.state.isDialogOpen })}
+              onClick={this.props.toggleSettings.bind(this, {idx, isSettingsDialogMode: true})}
             />
           ) : (
             <ExpandLessIcon
               className={classes.iconColor}
-              onClick={() => this.setState({ isDialogOpen: !this.state.isDialogOpen })}
+              onClick={this.props.toggleSettings.bind(this, {idx, isSettingsDialogMode: false})}
             />
           )
         }
         {
-          this.state.isDialogOpen ? (
+          (isOpen) ? (
             <MidiSettingsDialog
-              open={this.state.isDialogOpen}
-              onClose={this.onDialogClose}
+              open={isOpen}
+              onClose={this.props.toggleSettings.bind(this, {idx, isSettingsDialogMode: false})}
               sliderEntry={sliderEntry}
               idx={idx}
             />
@@ -43,12 +40,6 @@ class MidiSettingsDialogButton extends React.PureComponent {
       </div>
 
     )
-  }
-
-  onDialogClose = (val) => {
-    this.setState({
-      isDialogOpen: !this.state.isDialogOpen
-    })
   }
 }
 

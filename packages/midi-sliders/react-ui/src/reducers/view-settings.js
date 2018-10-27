@@ -42,5 +42,20 @@ export const viewSettings = createReducer({}, {
     return Object.assign({}, state, {
       isChangedTheme: !castedVal
     })
+  },
+  [ActionTypeViewSettings.TOGGLE_SETTINGS_DIALOG_MODE] (state = {isSettingsDialogMode: false}, action) {
+    const {idx, isSettingsDialogMode} = action.payload
+
+    if (isSettingsDialogMode) {
+      return Object.assign({}, state, {
+        isSettingsDialogMode,
+        lastFocusedIdx: idx
+      })
+    }
+
+    return Object.assign({}, state, {
+      isSettingsDialogMode: false,
+      lastFocusedIdx: idx
+    })
   }
 })
