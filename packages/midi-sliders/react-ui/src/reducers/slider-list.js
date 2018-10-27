@@ -42,6 +42,8 @@ export const sliderList = createReducer([], {
         type: SLIDER,
         label: 'slider 1',
         val: 80,
+        minVal: 0,
+        maxVal: 127,
         midiCC: [60],
         listenToCc: [],
         isNoteOn: false,
@@ -201,6 +203,43 @@ export const sliderList = createReducer([], {
     const newState = transformState(state, action, 'listenToCc')
     return newState
   },
+  [ActionTypeSliderList.SET_MAX_VAL] (state, action) {
+    const { val } = action.payload
+
+    // Limit to allow number
+    // and prevent crash
+    const maxVal = parseInt(val, 10)
+    console.log(maxVal)
+    let newAction = null
+    if ((maxVal <= 127) && (maxVal >= 1)) {
+      newAction = action
+    } else if (maxVal > 127) {
+      newAction = { payload: { maxVal: 127 } }
+    } else {
+      newAction = { payload: { maxVal: 1 } }
+    }
+    const newState = transformState(state, newAction, 'maxVal')
+    return newState
+  },
+
+  [ActionTypeSliderList.SET_MIN_VAL] (state, action) {
+    const { val } = action.payload
+
+    // Limit to allow number
+    // and prevent crash
+    const minVal = parseInt(val, 10)
+    console.log(minVal)
+    let newAction = null
+    if ((minVal <= 127) && (minVal >= 1)) {
+      newAction = action
+    } else if (minVal > 127) {
+      newAction = { payload: { minVal: 127 } }
+    } else {
+      newAction = { payload: { minVal: 1 } }
+    }
+    const newState = transformState(state, newAction, 'minVal')
+    return newState
+  },
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL] (state, action) {
     const { val } = action.payload
 
@@ -293,7 +332,6 @@ export const sliderList = createReducer([], {
         const {isNoteOn, val, cC} = action.payload
 
         if (isNoteOn === undefined) {
-          console.log('CC ', val)
           const hasCc = listenToCc.includes(cC && cC.toString())
           if (hasCc) {
             return { ...item, val }
@@ -301,7 +339,6 @@ export const sliderList = createReducer([], {
             return {...item}
           }
         } else {
-          console.log('Note')
           const hasCc = listenToCc.includes(cC && cC.toString())
           if (hasCc) {
             const { colors } = item
@@ -483,6 +520,8 @@ const transformAddState = (state, action, type) => {
     type,
     label: label + addStateLength(),
     val: 50,
+    minVal: 0,
+    maxVal: 127,
     midiCC,
     listenToCc: [],
     outputId: [PAGE, LABEL].includes(type) ? 'None' : newDriver,

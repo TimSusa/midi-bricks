@@ -41,6 +41,8 @@ class MidiSettings extends React.PureComponent {
         label,
         type,
         colors,
+        minVal,
+        maxVal,
         outputId,
         midi,
         midiChannel,
@@ -87,7 +89,7 @@ class MidiSettings extends React.PureComponent {
             <InputLabel
               className={classes.label}
               htmlFor='cc'>
-                  Driver
+              Driver
             </InputLabel>
             <Select
               className={classes.select}
@@ -105,7 +107,7 @@ class MidiSettings extends React.PureComponent {
               className={classes.label}
               htmlFor='cc'
             >
-                  Listen to CC
+              Listen to CC
             </InputLabel>
             <MidiSuggestedInput
               suggestions={this.suggestionsMidiCc}
@@ -125,7 +127,6 @@ class MidiSettings extends React.PureComponent {
               value={midiChannel}
               onChange={e => this.props.actions.selectMidiChannel({ idx, val: e.target.value })} />
           </FormControl>
-
         </React.Fragment>
 
         <br />
@@ -194,16 +195,40 @@ class MidiSettings extends React.PureComponent {
         {
           ([SLIDER, SLIDER_HORZ].includes(type))
             ? (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={sliderEntry.isValueHidden && sliderEntry.isValueHidden}
-                    onChange={this.props.actions.toggleHideValue.bind(this, { i: sliderEntry.i })}
-                  // value='checkedB'
+              <React.Fragment>
+                <FormControl className={classes.formControl}>
+                  <InputLabel className={classes.label} htmlFor='maxVal'>Maximum Value </InputLabel>
+                  <Input
+                    className={classes.input}
+                    id='number'
+                    type='number'
+                    name={`input-maxval-name-${idx}`}
+                    value={(maxVal && maxVal) || 127}
+                    onChange={e => this.props.actions.setMaxVal({ idx, val: e.target.value })} />
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel className={classes.label} htmlFor='maxVal'>Minimum Value </InputLabel>
+                  <Input
+                    className={classes.input}
+                    id='number'
+                    type='number'
+                    name={`input-minval-name-${idx}`}
+                    value={(minVal && minVal) || 0}
+                    onChange={e => this.props.actions.setMinVal({ idx, val: e.target.value })} />
+                </FormControl>
+                <FormControl>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={sliderEntry.isValueHidden && sliderEntry.isValueHidden}
+                        onChange={this.props.actions.toggleHideValue.bind(this, { i: sliderEntry.i })}
+                      // value='checkedB'
+                      />
+                    }
+                    label='Hide Value'
                   />
-                }
-                label='Hide Value'
-              />
+                </FormControl>
+              </React.Fragment>
             )
             : (
               <div />
@@ -299,8 +324,8 @@ class MidiSettings extends React.PureComponent {
 
   renderDriverSelection = (availableDrivers, type) => {
     let tmpArray =
-    ![LABEL, PAGE].includes(type)
-      ? availableDrivers : [{outputId: 'None', name: 'None'}, ...availableDrivers]
+      ![LABEL, PAGE].includes(type)
+        ? availableDrivers : [{ outputId: 'None', name: 'None' }, ...availableDrivers]
 
     return tmpArray.map((item, idx) => {
       return (
@@ -308,7 +333,7 @@ class MidiSettings extends React.PureComponent {
           key={`driver-${idx}`}
           value={item.outputId}
         >
-          { item.name }
+          {item.name}
         </MenuItem>
       )
     })

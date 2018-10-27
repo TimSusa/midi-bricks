@@ -83,7 +83,7 @@ class DeleteModal extends React.PureComponent {
     this.props.onAction({ idx: sliderEntry.i })
 
     this.props.onClose()
-    e.preventDefault()
+    // e.preventDefault()
   }
 }
 

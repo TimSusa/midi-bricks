@@ -10,7 +10,7 @@ class MidiSlider extends React.PureComponent {
     height: 0
   }
   render () {
-    const { sliderEntry: { val, label, fontSize, fontWeight, isValueHidden }, idx, height, width } = this.props
+    const { sliderEntry: { val, label, fontSize, fontWeight, isValueHidden, minVal, maxVal }, idx, height, width } = this.props
     const { classes } = this.props
     const tmpLabelHeight = (fontSize >= 20) && (fontSize < 65) ? (fontSize * 3.5) : (65)
     const tmpH = (height || 0) - (label ? tmpLabelHeight : 35)
@@ -41,8 +41,8 @@ class MidiSlider extends React.PureComponent {
             style={{ width: tmpH, bottom: isValueHidden ? (tmpLabelHeight / 6) : 0 }}
             onChange={this.handleSliderChange.bind(this, idx)}
             type='range'
-            max={127}
-            min={0}
+            max={(maxVal && parseInt(maxVal, 10)) || 127}
+            min={(minVal && parseInt(minVal, 10)) || 0}
             step={1}
             value={val}
             className={classes.input}
