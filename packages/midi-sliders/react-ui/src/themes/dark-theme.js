@@ -30,7 +30,7 @@ export const darkTheme = {
   },
   palette: {
     background: {
-      default: 'black'
+      default: '#252526'
     },
     secondary: {
       light: '#ffffff',
@@ -45,7 +45,7 @@ export const darkTheme = {
       contrastText: '#18A49D'
     },
     appBar: {
-      background: 'black'
+      background: '#333333'
     },
     slider: {
       trackActive: '#18A49D',
