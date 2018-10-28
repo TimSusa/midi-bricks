@@ -10,6 +10,7 @@ import { Route, HashRouter } from 'react-router-dom'
 import MidiSlidersPage from './pages/MidiSlidersPage'
 import { bindActionCreators } from 'redux'
 import * as MidiSlidersAction from './actions/slider-list.js'
+import * as ViewActions from './actions/view-settings.js'
 
 import MenuAppBar from './components/menu-app-bar/MenuAppBar'
 import DrawerList from './components/drawer-list/DrawerList'
@@ -80,6 +81,7 @@ class App extends React.PureComponent {
 
   handleResetSliders = () => {
     this.props.actions.deleteAll()
+    this.props.actions.deleteFooterPages()
     this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen }))
   }
 
@@ -125,7 +127,7 @@ const styles = theme => ({
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(MidiSlidersAction, dispatch)
+    actions: bindActionCreators({...MidiSlidersAction, ...ViewActions}, dispatch)
   }
 }
 export default withStyles(styles)(connect(null, mapDispatchToProps)(App))

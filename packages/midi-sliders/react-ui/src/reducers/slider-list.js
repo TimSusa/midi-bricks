@@ -157,7 +157,13 @@ export const sliderList = createReducer([], {
     return [...newState]
   },
   [ActionTypeSliderList.DELETE_ALL] (state, action) {
-    return [state[state.length - 1]]
+    const lastValArray =
+      state
+        .filter(
+          (item) => !['PAGE', 'LABEL'].includes(item.type)
+        )
+        .reverse()
+    return [lastValArray[0]]
   },
   [ActionTypeSliderList.TOGGLE_NOTE] (state, action) {
     const idx = action.payload

@@ -1,6 +1,5 @@
 import createReducer from './createReducer'
 import { ActionTypeViewSettings } from '../actions/view-settings'
-import {difference} from 'lodash'
 
 export const viewSettings = createReducer({}, {
   [ActionTypeViewSettings.TOGGLE_LIVE_MODE] (state = {isLiveMode: false}, action) {
@@ -60,25 +59,35 @@ export const viewSettings = createReducer({}, {
 
     const extractedPages = extractPages(sliderList)
     const oldPages = state.footerPages && Object.values(state.footerPages)
-    let newItemToTake = null
+    let newItemToTake
 
     oldPages && oldPages.forEach((oldItem) => {
       if (!oldItem) return
-      console.log('oldPages')
       extractedPages && extractedPages.forEach((newItem) => {
         if (!newItem) return
-        console.log('extractedPages')
         if (oldItem.i !== newItem.i) {
           newItemToTake = newItem
         }
       })
     })
-    console.log('newItemToTake ', newItemToTake, 'oldPages ', oldPages, 'extractedPages', extractedPages)
     const newPages = oldPages || extractedPages
+    if (newItemToTake) {
+      return Object.assign({}, state, {
+        footerPages: [...newPages, newItemToTake]
+      })
+    } else {
+      return Object.assign({}, state, {
+        footerPages: [...newPages]
+      })
+    }
+  },
+
+  [ActionTypeViewSettings.DELETE_FOOTER_PAGES] (state = {footerPages: []}, action) {
     return Object.assign({}, state, {
-      footerPages: [...newPages, newItemToTake]
+      footerPages: []
     })
   },
+
   [ActionTypeViewSettings.TOGGLE_SETTINGS_DIALOG_MODE] (state = {isSettingsDialogMode: false}, action) {
     const {idx, isSettingsDialogMode} = action.payload
 

@@ -19,7 +19,7 @@ class AddMenu extends React.PureComponent {
   render () {
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
-    const { viewSettings: { isLayoutMode }, sliderList } = this.props
+    const { viewSettings: { isLayoutMode } } = this.props
     if (isLayoutMode) {
       return (
         <div>
