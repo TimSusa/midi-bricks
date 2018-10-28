@@ -8,6 +8,7 @@ class MidiButton extends React.PureComponent {
   render () {
     const {
       classes,
+      isDisabled,
       buttonStyle,
       onChangeStart = () => {},
       onChangeEnd = () => {},
@@ -22,6 +23,7 @@ class MidiButton extends React.PureComponent {
 
       //   })}>
       <Button
+        disabled={isDisabled}
         disableTouchRipple
         disableFocusRipple
         style={buttonStyle}

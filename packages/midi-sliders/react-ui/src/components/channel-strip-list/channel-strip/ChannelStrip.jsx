@@ -10,7 +10,7 @@ import MidiSliderHorz from './midi-elements/MidiSliderHorz'
 // This component configures the kind of channel strip
 class ChannelStrip extends React.PureComponent {
   render () {
-    const { sliderEntry, idx, classes, size } = this.props
+    const { sliderEntry, idx, classes, size, isDisabled } = this.props
     const tmpH = (size && size.height) || 0
     const tmpW = (size && size.width) || 0
     const isButton =
@@ -24,6 +24,7 @@ class ChannelStrip extends React.PureComponent {
         {
           (sliderEntry.type === STRIP_TYPE.SLIDER) &&
           <MidiSlider
+            isDisabled={isDisabled}
             sliderEntry={sliderEntry}
             idx={idx}
             height={tmpH}
@@ -33,6 +34,7 @@ class ChannelStrip extends React.PureComponent {
         {
           (sliderEntry.type === STRIP_TYPE.SLIDER_HORZ) &&
           <MidiSliderHorz
+            isDisabled={isDisabled}
             sliderEntry={sliderEntry}
             idx={idx}
             height={tmpH}
@@ -42,6 +44,7 @@ class ChannelStrip extends React.PureComponent {
         {
           (isButton) &&
           <MidiButtons
+            isDisabled={isDisabled}
             sliderEntry={sliderEntry}
             idx={idx}
             height={tmpH}

@@ -81,6 +81,7 @@ class ChannelStripList extends React.PureComponent {
       return (
         <div
           key={sliderEntry.i}
+          onFocus={e => console.log('focus on ', sliderEntry.i)}
         >
           <SizeMe
             monitorHeight
@@ -91,6 +92,7 @@ class ChannelStripList extends React.PureComponent {
                   <Card
                     style={{
                       height: '100%',
+                      cursor: 'pointer',
                       background: this.props.viewSettings.isLayoutMode ? 'azure' : 'transparent'
                     }}
                   >
@@ -98,6 +100,7 @@ class ChannelStripList extends React.PureComponent {
                       size={size}
                       sliderEntry={sliderEntry}
                       idx={idx}
+                      isDisabled={this.props.viewSettings.isLayoutMode}
                     />
                   </Card>
                 )
@@ -119,6 +122,7 @@ class ChannelStripList extends React.PureComponent {
                       size={size}
                       sliderEntry={sliderEntry}
                       idx={idx}
+                      isDisabled={this.props.viewSettings.isLayoutMode}
                     />
                     {
                       this.props.viewSettings.isSettingsMode ? (
