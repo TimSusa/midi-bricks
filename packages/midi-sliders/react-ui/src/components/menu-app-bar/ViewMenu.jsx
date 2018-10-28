@@ -57,7 +57,7 @@ class ViewMenu extends React.PureComponent {
               )}
             </ListItemIcon>
 
-            <Typography variant='subheading'>
+            <Typography variant='subtitle1'>
               Live Mode - shift + p
             </Typography>
           </MenuItem>
@@ -72,7 +72,7 @@ class ViewMenu extends React.PureComponent {
               )}
             </ListItemIcon>
 
-            <Typography variant='subheading'>
+            <Typography variant='subtitle1'>
               Layout Mode - shift + l
             </Typography>
           </MenuItem>
@@ -88,7 +88,7 @@ class ViewMenu extends React.PureComponent {
                   <OffIcon />
                 )}
               </ListItemIcon>
-              <Typography variant='subheading'>
+              <Typography variant='subtitle1'>
                 Settings Mode - shift + s
               </Typography>
             </MenuItem>
@@ -104,7 +104,7 @@ class ViewMenu extends React.PureComponent {
                 <OffIcon />
               )}
             </ListItemIcon>
-            <Typography variant='subheading'>
+            <Typography variant='subtitle1'>
               Compact Vertically - shift + v
             </Typography>
           </MenuItem>
@@ -121,7 +121,7 @@ class ViewMenu extends React.PureComponent {
                   <OffIcon />
                 )}
               </ListItemIcon>
-              <Typography variant='subheading'>
+              <Typography variant='subtitle1'>
                 Auto Arrange Mode - shift + a
               </Typography>
             </MenuItem>
@@ -135,7 +135,7 @@ class ViewMenu extends React.PureComponent {
                 <OffIcon />
               )}
             </ListItemIcon>
-            <Typography variant='subheading'>
+            <Typography variant='subtitle1'>
               Switch Theme - shift + t
             </Typography>
           </MenuItem>

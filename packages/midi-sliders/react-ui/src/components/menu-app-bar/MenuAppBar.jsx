@@ -38,7 +38,7 @@ class MenuAppBar extends React.PureComponent {
               <MenuIcon />
             </IconButton>
             <Typography
-              variant='title'
+              variant='h6'
               color='inherit'
               className={classes.flex}
             >

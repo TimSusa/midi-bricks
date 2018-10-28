@@ -115,6 +115,7 @@ class ChannelStripList extends React.PureComponent {
                   <div
                     style={{
                       height: '100%',
+                      borderRadius: 5,
                       background: this.props.viewSettings.isSettingsMode ? 'beige' : 'transparent'
                     }}
                   >

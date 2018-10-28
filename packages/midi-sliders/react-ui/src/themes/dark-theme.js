@@ -1,4 +1,7 @@
 export const darkTheme = {
+  typography: {
+    useNextVariants: true
+  },
   overrides: {
     // MuiTooltip: {
     //   tooltip: {

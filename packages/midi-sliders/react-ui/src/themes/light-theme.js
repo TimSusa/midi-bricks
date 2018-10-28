@@ -1,4 +1,7 @@
 export const lightTheme = {
+  typography: {
+    useNextVariants: true
+  },
   overrides: {
     // MuiTooltip: {
     //   tooltip: {

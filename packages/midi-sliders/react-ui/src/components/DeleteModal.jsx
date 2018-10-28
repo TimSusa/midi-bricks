@@ -26,7 +26,7 @@ class DeleteModal extends React.PureComponent {
           >
             <Button
               className={classes.button}
-              variant='raised'
+              variant='contained'
               onClick={this.handleClickOpen}
             >
               <DeleteIcon

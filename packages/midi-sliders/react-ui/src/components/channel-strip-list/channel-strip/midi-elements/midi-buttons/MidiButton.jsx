@@ -27,7 +27,7 @@ class MidiButton extends React.PureComponent {
         style={buttonStyle}
         onContextMenu={this.preventCtxMenu}
         classes={{ root: classes.button }}
-        variant='raised'
+        variant='contained'
         onMouseDown={!this.isTouchDevice() ? onChangeStart.bind(this, idx) : (e) => e.preventDefault()}
         onMouseUp={!this.isTouchDevice() ? onChangeEnd.bind(this, idx) : (e) => e.preventDefault()}
         onTouchStart={onChangeStart.bind(this, idx)}

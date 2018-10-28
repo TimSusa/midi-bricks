@@ -23,7 +23,7 @@ class TestPage extends React.PureComponent {
           disableTouchRipple
           onContextMenu={this.preventCtxMenu}
           classes={{ root: classes.button }}
-          variant='raised'
+          variant='contained'
           onMouseDown={!this.isTouchDevice() ? this.handleChangeButton1 : (e) => e.preventDefault()}
           // onMouseUp={this.handleChangeButton1}
           onTouchStart={this.handleChangeButton1}
@@ -33,7 +33,7 @@ class TestPage extends React.PureComponent {
         </Button>
         <Button
           className={classes.button}
-          variant='raised'
+          variant='contained'
           disableTouchRipple
           onContextMenu={this.preventCtxMenu}
           onMouseDown={!this.isTouchDevice() ? this.handleChangeButton2 : (e) => e.preventDefault()}

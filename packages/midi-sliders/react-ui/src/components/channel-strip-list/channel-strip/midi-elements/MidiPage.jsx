@@ -70,7 +70,7 @@ class MidiPage extends React.PureComponent {
           className={classes.labelWrap}
         >
           <Typography
-            variant='headline'
+            variant='h5'
             align='center'
             style={fontColorStyle}
             className={classes.label}

@@ -41,7 +41,7 @@ class ColorModal extends React.PureComponent {
         <Tooltip title={'Change Color: ' + title} >
           <Button
             className={classes.button}
-            variant='raised'
+            variant='contained'
             onClick={this.handleClickOpen}
           >
             <ColorizeIcon className={classes.iconColor} />

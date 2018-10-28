@@ -269,7 +269,7 @@ class MidiSettings extends React.PureComponent {
           title='Clone'>
           <Button
             className={classes.button}
-            variant='raised'
+            variant='contained'
             onClick={this.props.actions.clone.bind(this, sliderEntry)}
           >
             <CopyIcon className={classes.iconColor} />
