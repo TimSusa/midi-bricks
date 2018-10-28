@@ -13,6 +13,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../../actions/slider-list.js'
+import * as ViewActions from '../../../../../actions/view-settings.js'
 import InputNoteOrCc from './elements/InputNoteOrCc'
 import DeleteModal from '../../../../DeleteModal'
 import ColorModal from './elements/ColorModal'
@@ -280,12 +281,17 @@ class MidiSettings extends React.PureComponent {
           isOpen={false}
           sliderEntry={sliderEntry}
           idx={idx}
-          onAction={this.props.actions.delete}
+          onAction={this.handleDelete}
           onClose={this.props.onClose}
         />
 
       </div>
     )
+  }
+
+  handleDelete = ({ idx }) => {
+    this.props.actions.delete({ idx })
+    this.props.actions.deletePageFromFooter({ idx })
   }
 
   suggestionsMidiCc =
@@ -418,7 +424,7 @@ const styles = theme => ({
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(MidiSliderActions, dispatch)
+    actions: bindActionCreators({...MidiSliderActions, ...ViewActions}, dispatch)
   }
 }
 function mapStateToProps ({ sliderList }) {
