@@ -114,6 +114,7 @@ class AddMenu extends React.PureComponent {
     this.props.actions.addLabel()
     this.handleClose()
   }
+
   handleAddPage = () => {
     this.props.actions.addPage()
     this.setState({ anchorEl: null }, () => this.props.actions.addPageToFooter({sliderList: this.props.sliderList}))

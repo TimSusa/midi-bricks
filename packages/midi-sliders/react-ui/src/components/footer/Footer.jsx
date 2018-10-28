@@ -2,7 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
+import IconButton from '@material-ui/core/IconButton'
+import LeftIcon from '@material-ui/icons/KeyboardArrowLeft'
+import RightIcon from '@material-ui/icons/KeyboardArrowRight'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as ViewSettinsgsAction from '../../actions/view-settings'
 import { Button } from '@material-ui/core'
 
 class Footer extends React.PureComponent {
@@ -11,7 +16,7 @@ class Footer extends React.PureComponent {
   }
 
   render () {
-    const { classes, viewSettings: { footerPages } } = this.props
+    const { classes, viewSettings: { footerPages, isSettingsMode }, actions } = this.props
     const { value } = this.state
     if (footerPages && footerPages.every((item) => (item && item.type !== 'PAGE'))) return (<div />)
     return (
@@ -21,6 +26,39 @@ class Footer extends React.PureComponent {
         className={classes.root}
       >
         {footerPages && footerPages.map((item, idx) => {
+          if (isSettingsMode) {
+            return (
+              <div
+                key={`footer-button-${idx}`}
+              >
+                <IconButton
+                  onClick={actions.swapFooterPages.bind(this, {srcIdx: idx, offset: -1})}
+                  className={classes.button}
+                  color='inherit'
+                  aria-label='Menu'
+                >
+                  <LeftIcon className={classes.iconColor} />
+                </IconButton>
+
+                <Button
+                  className={classes.button}
+                  onClick={this.handleClick.bind(this, item)}
+                  value={idx}
+                >
+                  {item && item.label}
+                </Button>
+
+                <IconButton
+                  onClick={actions.swapFooterPages.bind(this, {srcIdx: idx, offset: 1})}
+                  className={classes.button}
+                  color='inherit'
+                  aria-label='Menu'
+                >
+                  <RightIcon className={classes.iconColor} />
+                </IconButton>
+              </div>
+            )
+          }
           return (
             <Button
               className={classes.button}
@@ -58,7 +96,12 @@ const styles = (theme) => ({
   },
   button: {
     color: theme.palette.primary.contrastText,
-    fontWeight: 600
+    fontWeight: 600,
+    height: 60
+  },
+  iconColor: {
+    color: theme.palette.primary.contrastText,
+    cursor: 'pointer'
   }
 })
 
@@ -67,4 +110,10 @@ function mapStateToProps ({ viewSettings }) {
     viewSettings
   }
 }
-export default (withStyles(styles)(connect(mapStateToProps, null)(Footer)))
+
+function mapDispatchToProps (dispatch) {
+  return {
+    actions: bindActionCreators({ ...ViewSettinsgsAction }, dispatch)
+  }
+}
+export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Footer)))

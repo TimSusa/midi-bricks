@@ -48,7 +48,7 @@ class DrawerList extends React.PureComponent {
             <ListItemIcon>
               <DeleteIcon />
             </ListItemIcon>
-            <ListItemText primary='Delete Sliders' />
+            <ListItemText primary='Delete Elements' />
             <DeleteModal
               isOpen={this.state.isDeleteModalOpen}
               asButton={false}

@@ -88,6 +88,28 @@ export const viewSettings = createReducer({}, {
     })
   },
 
+  [ActionTypeViewSettings.SWAP_FOOTER_PAGES] (state = {footerPages: []}, action) {
+    const {srcIdx, offset} = action.payload
+    const srcItem = state.footerPages[srcIdx]
+    const newIdx = (srcIdx === 0 && offset === -1) ? (state.footerPages.length) : srcIdx
+    const targetIdx = (newIdx === state.footerPages.length - 1 && offset === 1) ? 0 : offset + newIdx
+    const otherItem = state.footerPages[targetIdx]
+
+    let newArray = []
+    state.footerPages.forEach((item, idx) => {
+      if (idx === srcIdx) {
+        newArray.push(otherItem)
+      } else if (idx === targetIdx) {
+        newArray.push(srcItem)
+      } else {
+        newArray.push(item)
+      }
+    })
+
+    return Object.assign({}, state, {
+      footerPages: newArray
+    })
+  },
   [ActionTypeViewSettings.TOGGLE_SETTINGS_DIALOG_MODE] (state = {isSettingsDialogMode: false}, action) {
     const {idx, isSettingsDialogMode} = action.payload
 
