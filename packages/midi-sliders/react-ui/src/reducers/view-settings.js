@@ -59,7 +59,7 @@ export const viewSettings = createReducer({}, {
 
     const extractedPages = extractPages(sliderList)
     const oldPages = state.footerPages && Object.values(state.footerPages)
-    let newItemToTake
+    let newItemToTake = null
 
     oldPages && oldPages.forEach((oldItem) => {
       if (!oldItem) return
@@ -70,14 +70,14 @@ export const viewSettings = createReducer({}, {
         }
       })
     })
-    const newPages = oldPages || extractedPages
+    const newPages = (oldPages.length > 0) ? oldPages : extractedPages
     if (newItemToTake) {
       return Object.assign({}, state, {
         footerPages: [...newPages, newItemToTake]
       })
     } else {
       return Object.assign({}, state, {
-        footerPages: [...newPages]
+        footerPages: newPages
       })
     }
   },
