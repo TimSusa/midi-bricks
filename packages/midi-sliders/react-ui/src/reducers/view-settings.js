@@ -1,5 +1,6 @@
 import createReducer from './createReducer'
 import { ActionTypeViewSettings } from '../actions/view-settings'
+import {difference} from 'lodash'
 
 export const viewSettings = createReducer({}, {
   [ActionTypeViewSettings.TOGGLE_LIVE_MODE] (state = {isLiveMode: false}, action) {
@@ -41,6 +42,41 @@ export const viewSettings = createReducer({}, {
     const castedVal = !!state.isChangedTheme
     return Object.assign({}, state, {
       isChangedTheme: !castedVal
+    })
+  },
+
+  [ActionTypeViewSettings.ADD_PAGE_TO_FOOTER] (state = {footerPages: []}, action) {
+    const {sliderList} = action.payload
+
+    const extractPages = (list) => {
+      let tmp = []
+      list.forEach((item) => {
+        if (item.type === 'PAGE') {
+          tmp.push(item)
+        }
+      })
+      return tmp
+    }
+
+    const extractedPages = extractPages(sliderList)
+    const oldPages = state.footerPages && Object.values(state.footerPages)
+    let newItemToTake = null
+
+    oldPages && oldPages.forEach((oldItem) => {
+      if (!oldItem) return
+      console.log('oldPages')
+      extractedPages && extractedPages.forEach((newItem) => {
+        if (!newItem) return
+        console.log('extractedPages')
+        if (oldItem.i !== newItem.i) {
+          newItemToTake = newItem
+        }
+      })
+    })
+    console.log('newItemToTake ', newItemToTake, 'oldPages ', oldPages, 'extractedPages', extractedPages)
+    const newPages = oldPages || extractedPages
+    return Object.assign({}, state, {
+      footerPages: [...newPages, newItemToTake]
     })
   },
   [ActionTypeViewSettings.TOGGLE_SETTINGS_DIALOG_MODE] (state = {isSettingsDialogMode: false}, action) {

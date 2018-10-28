@@ -11,16 +11,16 @@ class Footer extends React.PureComponent {
   }
 
   render () {
-    const { classes, sliderList } = this.props
+    const { classes, viewSettings: { footerPages } } = this.props
     const { value } = this.state
-    if (sliderList.every((item) => (item.type !== 'PAGE'))) return (<div />)
+    if (footerPages && footerPages.every((item) => (item && item.type !== 'PAGE'))) return (<div />)
     return (
       <BottomNavigation
         value={value}
         onChange={this.handleChange}
         className={classes.root}
       >
-        {this.extractLabels(sliderList).map((item, idx) => {
+        {footerPages && footerPages.map((item, idx) => {
           return (
             <Button
               className={classes.button}
@@ -28,7 +28,7 @@ class Footer extends React.PureComponent {
               onClick={this.handleClick.bind(this, item)}
               value={idx}
             >
-              {item.label}
+              {item && item.label}
             </Button>
           )
         })}
@@ -38,16 +38,6 @@ class Footer extends React.PureComponent {
 
   handleChange = (event, value) => {
     this.setState({ value })
-  }
-
-  extractLabels = (list) => {
-    let tmp = []
-    list.forEach((item) => {
-      if (item.type === 'PAGE') {
-        tmp.push(item)
-      }
-    })
-    return tmp
   }
 
   handleClick = (entry, e) => {
@@ -72,9 +62,9 @@ const styles = (theme) => ({
   }
 })
 
-function mapStateToProps ({ sliderList }) {
+function mapStateToProps ({ viewSettings }) {
   return {
-    sliderList
+    viewSettings
   }
 }
 export default (withStyles(styles)(connect(mapStateToProps, null)(Footer)))

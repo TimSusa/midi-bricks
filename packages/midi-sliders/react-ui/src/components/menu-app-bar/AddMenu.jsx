@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSlidersAction from '../../actions/slider-list.js'
+import * as ViewSettinsgsAction from '../../actions/view-settings'
 import IconButton from '@material-ui/core/IconButton'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
@@ -18,7 +19,7 @@ class AddMenu extends React.PureComponent {
   render () {
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
-    const { viewSettings: { isLayoutMode } } = this.props
+    const { viewSettings: { isLayoutMode }, sliderList } = this.props
     if (isLayoutMode) {
       return (
         <div>
@@ -115,6 +116,11 @@ class AddMenu extends React.PureComponent {
   }
   handleAddPage = () => {
     this.props.actions.addPage()
+
+    window.requestAnimationFrame(() => {
+      this.props.actions.addPageToFooter({sliderList: this.props.sliderList})
+    })
+
     this.handleClose()
   }
 }
@@ -122,14 +128,15 @@ class AddMenu extends React.PureComponent {
 AddMenu.propTypes = {
   actions: PropTypes.object.isRequired
 }
-function mapStateToProps ({ viewSettings }) {
+function mapStateToProps ({ viewSettings, sliderList }) {
   return {
-    viewSettings
+    viewSettings,
+    sliderList
   }
 }
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(MidiSlidersAction, dispatch)
+    actions: bindActionCreators({...MidiSlidersAction, ...ViewSettinsgsAction}, dispatch)
   }
 }
 
