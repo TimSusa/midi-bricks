@@ -70,7 +70,7 @@ export const viewSettings = createReducer({}, {
         }
       })
     })
-    const newPages = (oldPages.length > 0) ? oldPages : extractedPages
+    const newPages = (oldPages && oldPages.length > 0) ? oldPages : extractedPages
     if (newItemToTake) {
       return Object.assign({}, state, {
         footerPages: [...newPages, newItemToTake]
