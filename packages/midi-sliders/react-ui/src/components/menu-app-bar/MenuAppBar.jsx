@@ -10,6 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
 import SwapVertIcon from '@material-ui/icons/SwapVert'
 import AutoArrangeModeIcon from '@material-ui/icons/Spellcheck'
+import AutoArrangeModeIconFalse from '@material-ui/icons/TextFormat'
 import ViewMenu from './ViewMenu'
 import AddMenu from './AddMenu'
 
@@ -47,7 +48,7 @@ class MenuAppBar extends React.PureComponent {
               isLayoutMode ? (isCompactHorz ? <SwapHorizIcon /> : <SwapVertIcon />) : (<div />)
             }
             {
-              isLayoutMode && isAutoArrangeMode ? <AutoArrangeModeIcon /> : <div />
+              isLayoutMode ? (isAutoArrangeMode ? <AutoArrangeModeIcon /> : <AutoArrangeModeIconFalse />) : (<div />)
             }
             <AddMenu sliderListLength={sliderList.length} />
             <ViewMenu />

@@ -109,10 +109,12 @@ const styles = theme => ({
   },
   navIconHide: {
   },
-  drawerHeader: theme.mixins.toolbar,
+  drawerHeader: {
+    ...theme.mixins.toolbar
+  },
   drawerPaper: {
     width: 250,
-    backgroundColor: theme.palette.background.default
+    backgroundColor: 'white'
   },
   content: {
     backgroundColor: theme.palette.background.default,
