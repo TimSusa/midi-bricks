@@ -26,6 +26,7 @@ class Footer extends React.PureComponent {
               className={classes.button}
               key={`footer-button-${idx}`}
               onClick={this.handleClick.bind(this, item)}
+              value={idx}
             >
               {item.label}
             </Button>
