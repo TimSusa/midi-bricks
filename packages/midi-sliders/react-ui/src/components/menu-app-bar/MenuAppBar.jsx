@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as ViewSettingsAction from '../../actions/view-settings'
 import { withStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -16,7 +18,7 @@ import AddMenu from './AddMenu'
 
 class MenuAppBar extends React.PureComponent {
   render () {
-    const { classes, sliderList, viewSettings: { isLiveMode, isLayoutMode, isCompactHorz, isAutoArrangeMode } } = this.props
+    const { classes, actions, sliderList, viewSettings: { isLiveMode, isLayoutMode, isCompactHorz, isAutoArrangeMode } } = this.props
     if (isLiveMode) {
       return (
         <div />
@@ -44,12 +46,28 @@ class MenuAppBar extends React.PureComponent {
             >
               MIDI Bricks
             </Typography>
-            {
-              isLayoutMode ? (isCompactHorz ? <SwapHorizIcon /> : <SwapVertIcon />) : (<div />)
-            }
-            {
-              isLayoutMode ? (isAutoArrangeMode ? <AutoArrangeModeIcon /> : <AutoArrangeModeIconFalse />) : (<div />)
-            }
+            <IconButton
+              onClick={actions.toggleCompactMode}
+              className={classes.menuButton}
+              color='inherit'
+              aria-label='Menu'
+            >
+              {
+                isLayoutMode ? (isCompactHorz ? <SwapHorizIcon /> : <SwapVertIcon />) : (<div />)
+              }
+            </IconButton>
+
+            <IconButton
+              onClick={actions.toggleAutoArrangeMode}
+              className={classes.menuButton}
+              color='inherit'
+              aria-label='Menu'
+            >
+              {
+                isLayoutMode ? (isAutoArrangeMode ? <AutoArrangeModeIcon /> : <AutoArrangeModeIconFalse />) : (<div />)
+              }
+            </IconButton>
+
             <AddMenu sliderListLength={sliderList.length} />
             <ViewMenu />
           </Toolbar>
@@ -81,6 +99,12 @@ const styles = theme => ({
   }
 })
 
+function mapDispatchToProps (dispatch) {
+  return {
+    actions: bindActionCreators(ViewSettingsAction, dispatch)
+  }
+}
+
 function mapStateToProps ({ sliderList, viewSettings }) {
   return {
     sliderList,
@@ -88,4 +112,4 @@ function mapStateToProps ({ sliderList, viewSettings }) {
   }
 }
 
-export default (withStyles(styles)(connect(mapStateToProps, null)(MenuAppBar)))
+export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MenuAppBar)))
