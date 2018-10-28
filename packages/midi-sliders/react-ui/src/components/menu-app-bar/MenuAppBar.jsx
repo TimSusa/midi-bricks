@@ -7,12 +7,15 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
+import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
+import SwapVertIcon from '@material-ui/icons/SwapVert'
+import AutoArrangeModeIcon from '@material-ui/icons/Spellcheck'
 import ViewMenu from './ViewMenu'
 import AddMenu from './AddMenu'
 
 class MenuAppBar extends React.PureComponent {
   render () {
-    const { classes, sliderList, viewSettings: { isLiveMode } } = this.props
+    const { classes, sliderList, viewSettings: { isLiveMode, isLayoutMode, isCompactHorz, isAutoArrangeMode } } = this.props
     if (isLiveMode) {
       return (
         <div />
@@ -40,6 +43,12 @@ class MenuAppBar extends React.PureComponent {
             >
               MIDI Bricks
             </Typography>
+            {
+              isLayoutMode ? (isCompactHorz ? <SwapHorizIcon /> : <SwapVertIcon />) : (<div />)
+            }
+            {
+              isLayoutMode && isAutoArrangeMode ? <AutoArrangeModeIcon /> : <div />
+            }
             <AddMenu sliderListLength={sliderList.length} />
             <ViewMenu />
           </Toolbar>

@@ -44,7 +44,6 @@ class ChannelStrip extends React.PureComponent {
         {
           (isButton) &&
           <MidiButtons
-            isDisabled={isDisabled}
             sliderEntry={sliderEntry}
             idx={idx}
             height={tmpH}
