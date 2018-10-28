@@ -26,11 +26,6 @@ class MidiSliderHorz extends React.PureComponent {
         >
           {label}
         </Typography>
-        {/* <div
-          onContextMenu={this.preventCtxMenu}
-          className={classes.rangeSliderWrapper}
-          style={{ height }}
-        > */}
         <input
           disabled={isDisabled}
           style={{ width }}
@@ -42,7 +37,6 @@ class MidiSliderHorz extends React.PureComponent {
           value={val}
           className={classes.input}
         />
-        {/* </div> */}
         {
           !isValueHidden ? (
             <Typography
@@ -86,10 +80,6 @@ const styles = theme => ({
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
     // lineHeight: '1.375em'
   },
-  // rangeSliderWrapper: {
-  //   appearance: 'none'
-  // },
-
   input: {
     '&[type=range]': {
       appearance: 'none',
@@ -105,8 +95,8 @@ const styles = theme => ({
         cursor: 'pointer',
 
         '&:active': {
-          background: theme.palette.slider.trackActive
-          // boxShadow: '0 0 3px 3px rgb(24, 164, 157)'
+          background: theme.palette.slider.trackActive,
+          boxShadow: '0 0 3px 3px rgb(24, 164, 157)'
         }
       },
 
@@ -134,12 +124,10 @@ const styles = theme => ({
     bottom: 0,
     width: '100%',
     textAlign: 'center',
-    // marginTop: theme.spacing.unit,
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',
     fontWeight: 600,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
-    // lineHeight: '1.375em'
   }
 })
 

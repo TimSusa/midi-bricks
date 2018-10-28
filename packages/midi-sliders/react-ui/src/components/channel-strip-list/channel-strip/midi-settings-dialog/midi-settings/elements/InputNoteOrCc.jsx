@@ -78,7 +78,6 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit * 2
   },
   input: {
-    // margin: theme.spacing.unit,
     color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
     fontSize: '1rem',
     fontWeight: 400,

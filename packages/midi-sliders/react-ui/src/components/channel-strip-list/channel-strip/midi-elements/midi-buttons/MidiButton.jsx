@@ -16,11 +16,6 @@ class MidiButton extends React.PureComponent {
       idx
     } = this.props
     return (
-      // <div
-      //   className={classNames({
-      //     [classes.root]: true
-
-      //   })}>
       <Button
         disableTouchRipple
         disableFocusRipple
@@ -41,7 +36,6 @@ class MidiButton extends React.PureComponent {
           {label}
         </Typography>
       </Button>
-      // </div>
     )
   }
 
@@ -61,12 +55,6 @@ class MidiButton extends React.PureComponent {
 }
 
 const styles = theme => ({
-  // root: {
-  //   width: '100%'
-  //   // sdisplay: 'flex',
-  //   // alignItems: 'center',
-  //   // justifyContent: 'center'
-  // },
   label: {
     width: '100%',
     margin: 0,

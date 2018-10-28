@@ -45,8 +45,6 @@ class MidiSettingsDialogButton extends React.PureComponent {
 
 const styles = theme => ({
   root: {
-    // position: 'absolute',
-    // left: -8
   },
   iconColor: {
     color: theme.palette.primary.contrastText,

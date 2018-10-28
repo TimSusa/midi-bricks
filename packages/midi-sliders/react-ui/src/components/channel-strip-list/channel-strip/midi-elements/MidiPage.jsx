@@ -1,7 +1,6 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
-// import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { STRIP_TYPE } from '../../../../reducers/slider-list.js'
 
@@ -58,12 +57,6 @@ class MidiPage extends React.PureComponent {
 
     if (type === STRIP_TYPE.PAGE) {
       return (
-        // <div
-        //   id={`page-${i}`}
-        //   className={classNames({
-        //     [classes.root]: true
-        //   })}
-        // >
         <div
           id={`page-${i}`}
           style={labelStyle}
@@ -78,7 +71,6 @@ class MidiPage extends React.PureComponent {
             {label}
           </Typography>
         </div>
-        // </div>
       )
     } else {
       return (<div />)
@@ -87,13 +79,6 @@ class MidiPage extends React.PureComponent {
 }
 
 const styles = theme => ({
-  // root: {
-  //   display: 'flex',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   margin: 0,
-  //   padding: 0
-  // },
   labelWrap: {
     borderRadius: 3,
     height: '100%',
@@ -108,14 +93,6 @@ const styles = theme => ({
     left: '50%',
     transform: 'translate(-50%, -50%)'
   }
-  // group: {
-  // }
-  // iconColor: {
-  //   color: theme.palette.primary.contrastText,
-  //   width: 18,
-  //   margin: 0,
-  //   padding: 0
-  // }
 })
 
 function mapStateToProps ({ viewSettings }) {

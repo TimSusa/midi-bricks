@@ -1,8 +1,6 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-// import MusicIcon from '@material-ui/icons/Autorenew'
 import { withStyles } from '@material-ui/core/styles'
-// import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { STRIP_TYPE } from '../../../../reducers/slider-list.js'
 
@@ -58,11 +56,6 @@ class StripLabel extends React.PureComponent {
 
     if (type === STRIP_TYPE.LABEL) {
       return (
-        // <div
-        //   className={classNames({
-        //     [classes.root]: true
-        //   })}
-        // >
         <div
           style={labelStyle}
           className={classes.labelWrap}
@@ -76,7 +69,6 @@ class StripLabel extends React.PureComponent {
             {label}
           </Typography>
         </div>
-        // </div>
       )
     } else {
       return (<div />)
@@ -85,15 +77,7 @@ class StripLabel extends React.PureComponent {
 }
 
 const styles = theme => ({
-  // root: {
-  //   display: 'flex',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   margin: 0,
-  //   padding: 0
-  // },
   labelWrap: {
-    // marginTop: 8,
     borderRadius: 3,
     height: '100%',
     background: theme.palette.button.background
@@ -108,14 +92,6 @@ const styles = theme => ({
     left: '50%',
     transform: 'translate(-50%, -50%)'
   }
-  // group: {
-  // },
-  // iconColor: {
-  //   color: theme.palette.primary.contrastText,
-  //   width: 18,
-  //   margin: 0,
-  //   padding: 0
-  // }
 })
 
 function mapStateToProps ({ viewSettings }) {

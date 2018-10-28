@@ -222,7 +222,6 @@ class MidiSettings extends React.PureComponent {
                       <Checkbox
                         checked={sliderEntry.isValueHidden && sliderEntry.isValueHidden}
                         onChange={this.props.actions.toggleHideValue.bind(this, { i: sliderEntry.i })}
-                      // value='checkedB'
                       />
                     }
                     label='Hide Value'
@@ -396,7 +395,6 @@ const styles = theme => ({
     cursor: 'pointer'
   },
   input: {
-    // margin: theme.spacing.unit,
     color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
     fontSize: '1rem',
     fontWeight: 400,
