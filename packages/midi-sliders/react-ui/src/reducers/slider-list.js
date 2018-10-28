@@ -111,12 +111,12 @@ export const sliderList = createReducer([], {
     const newDate = getUniqueId()
     let newEntry = i ? {
       ...tmpState,
-      label: 'CPY: ' + tmpState.label,
+      label: tmpState.label,
       i: newDate,
       midiCC: ([caclCCThresh])
     } : {
       ...state[idx],
-      label: 'CPY: ' + state[idx].label,
+      label: state[idx].label,
       i: newDate,
       midiCC: ([caclCCThresh || 60])
     }
