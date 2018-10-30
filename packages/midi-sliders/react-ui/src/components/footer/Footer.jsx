@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux'
 import * as ViewSettinsgsAction from '../../actions/view-settings'
 import { Button } from '@material-ui/core'
 
-class Footer extends React.PureComponent {
+class Footer extends React.Component {
   state = {
     value: 0
   }

@@ -70,8 +70,16 @@ class App extends React.PureComponent {
   }
 
   onFileChange = (e, results) => {
+    this.props.actions.deleteFooterPages()
     this.props.actions.loadFile(results)
-    this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen }))
+
+    // Prepare foooterpages flush
+    const files = results[0]
+    const content = files[0].target.result
+    const parsedJson = JSON.parse(content)
+    this.setState(state =>
+      ({ isMobileOpen: !this.state.isMobileOpen }),
+    () => parsedJson.sliderList && this.props.actions.addPageToFooter({sliderList: parsedJson.sliderList}))
   }
 
   handleSaveFile = () => {
@@ -81,8 +89,8 @@ class App extends React.PureComponent {
 
   handleResetSliders = () => {
     this.props.actions.deleteAll()
-    this.props.actions.deleteFooterPages()
-    this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen }))
+
+    this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen }), () => this.props.actions.deleteFooterPages())
   }
 
   handleDrawerToggle = () => {
