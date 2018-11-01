@@ -58,7 +58,7 @@ export const darkTheme = {
       thumpBorder: '#4C4C4C'
     },
     button: {
-      background: '#18A49D',
+      background: '#ffffff',
       fontColor: 'black'
     }
   }

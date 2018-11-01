@@ -36,7 +36,10 @@ class MidiSlider extends React.PureComponent {
         <div
           onContextMenu={this.preventCtxMenu}
           className={classes.rangeSliderWrapper}
-          style={{ height: tmpH }}
+          style={{
+            height: isValueHidden ? ((1.4 * tmpLabelHeight) + tmpH) : tmpH,
+            bottom: isValueHidden ? (-tmpLabelHeight / 4) : ((fontSize > 23) ? (fontSize / 2) : 0)
+          }}
         >
           <input
             disabled={isDisabled}

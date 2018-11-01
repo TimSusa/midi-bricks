@@ -2,7 +2,6 @@ import React from 'react'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
-// import classNames from 'classnames'
 
 class MidiButton extends React.PureComponent {
   render () {
@@ -48,8 +47,10 @@ class MidiButton extends React.PureComponent {
   }
 
   isTouchDevice = () => {
-    const hasToch = 'ontouchstart' in window || // works on most browsers
+    const hasToch =
+      'ontouchstart' in window || // works on most browsers
       navigator.maxTouchPoints // works on IE10/11 and Surface
+
     return !!hasToch
   }
 }
