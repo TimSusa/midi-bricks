@@ -290,7 +290,6 @@ export const sliderList = createReducer([], {
   },
   [ActionTypeSliderList.SAVE_FILE] (state, action) {
     const tmpStore = store.getState()
-    console.log(tmpStore)
     const content = JSON.stringify(tmpStore)
     const fileName = 'midi-bricks-preset.js'
     const contentType = 'application/json'
@@ -310,17 +309,17 @@ export const sliderList = createReducer([], {
     const parsedJson = JSON.parse(content)
     // Restore midi-access
     const list = (parsedJson.sliderList && parsedJson.sliderList) || parsedJson
-    const newState = list.map((item) => {
-      const tmp = {
-        ...item,
-        midi: {
-          midiAccess: state[0].midi.midiAccess,
-          midiDrivers: state[0].midi.midiDrivers
-        }
-      }
-      return Object.assign({}, tmp)
-    })
-    return newState
+    // const newState = list.map((item) => {
+    //   const tmp = {
+    //     ...item,
+    //     midi: {
+    //       midiAccess: state[0].midi.midiAccess,
+    //       midiDrivers: state[0].midi.midiDrivers
+    //     }
+    //   }
+    //   return Object.assign({}, tmp)
+    // })
+    return list
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER] (state, action) {
     let newArray = []
