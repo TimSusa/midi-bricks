@@ -77,9 +77,16 @@ class App extends React.PureComponent {
     const files = results[0]
     const content = files[0].target.result
     const parsedJson = JSON.parse(content)
-    this.setState(state =>
-      ({ isMobileOpen: !this.state.isMobileOpen }),
-    () => parsedJson.sliderList && this.props.actions.addPageToFooter({sliderList: parsedJson.sliderList}))
+    if (parsedJson.viewSettings && parsedJson.viewSettings.footerPages) {
+      this.setState(state =>
+        ({ isMobileOpen: !this.state.isMobileOpen }),
+      () => this.props.actions.addPageToFooter({sliderList: parsedJson.viewSettings.footerPages}))
+    } else {
+      this.setState(state =>
+        ({ isMobileOpen: !this.state.isMobileOpen }),
+      () => parsedJson.sliderList &&
+        this.props.actions.addPageToFooter({sliderList: parsedJson.sliderList}))
+    }
   }
 
   handleSaveFile = () => {
