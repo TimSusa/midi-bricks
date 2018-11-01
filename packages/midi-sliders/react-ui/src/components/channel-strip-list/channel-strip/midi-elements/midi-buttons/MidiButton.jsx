@@ -73,7 +73,8 @@ const styles = theme => ({
     margin: 0,
     padding: 0,
     width: '100%',
-    background: theme.palette.button.background
+    background: theme.palette.button.background,
+    textTransform: 'none'
   }
 })
 
