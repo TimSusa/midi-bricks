@@ -15,7 +15,6 @@ const {
 
 // This component is supposed to configure the right button type for rendering
 class MidiButtons extends React.PureComponent {
-  isCcToggleOn = true
   render () {
     const {
       sliderEntry:
@@ -137,12 +136,11 @@ class MidiButtons extends React.PureComponent {
   handleButtonCcToggle = (idx, e) => {
     e.preventDefault()
     e.stopPropagation()
-    if (this.isCcToggleOn) {
+    if (!this.props.sliderEntry.isNoteOn) {
       this.props.actions.handleSliderChange({ idx, val: this.props.sliderEntry.onVal })
     } else {
       this.props.actions.handleSliderChange({ idx, val: this.props.sliderEntry.offVal })
     }
-    this.isCcToggleOn = !this.isCcToggleOn
   }
 }
 

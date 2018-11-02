@@ -87,6 +87,8 @@ class App extends React.PureComponent {
       () => parsedJson.sliderList &&
         this.props.actions.addPageToFooter({sliderList: parsedJson.sliderList}))
     }
+
+    window.location.reload()
   }
 
   handleSaveFile = () => {

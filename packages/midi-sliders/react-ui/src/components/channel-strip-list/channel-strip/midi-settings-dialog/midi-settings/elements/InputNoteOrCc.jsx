@@ -61,7 +61,9 @@ class InputNoteOrCc extends React.PureComponent {
   }
 
   suggestionsMidiNote = Array.apply(null, { length: 128 }).map(Number.call, Number).map((item) => {
-    return { label: Note.fromMidi(item) }
+    return {
+      label: Note.fromMidi(item)
+    }
   })
 
   suggestionsMidiCc = Array.apply(null, { length: 128 }).map(Number.call, Number).map((item) => {
