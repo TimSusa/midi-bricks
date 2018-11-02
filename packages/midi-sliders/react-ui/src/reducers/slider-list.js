@@ -237,12 +237,12 @@ export const sliderList = createReducer([], {
     // and prevent crash
     const minVal = parseInt(val, 10)
     let newAction = null
-    if ((minVal <= 127) && (minVal >= 1)) {
+    if ((minVal <= 127) && (minVal >= 0)) {
       newAction = { payload: { val, idx } }
     } else if (minVal > 127) {
       newAction = { payload: { val: 127, idx } }
     } else {
-      newAction = { payload: { val: 1, idx } }
+      newAction = { payload: { val: 0, idx } }
     }
     const newState = transformState(state, newAction, 'minVal')
     return newState
