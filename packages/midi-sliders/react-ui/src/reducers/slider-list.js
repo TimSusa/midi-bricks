@@ -252,7 +252,7 @@ export const sliderList = createReducer([], {
     const { val, idx } = action.payload
     const valInt = parseInt(val, 10)
     let newAction = null
-    if ((valInt <= 127) && (valInt >= 1)) {
+    if ((valInt <= 127) && (valInt >= 0)) {
       newAction = { payload: { val: valInt, idx } }
     } else if (valInt > 127) {
       newAction = { payload: { val: 127, idx } }
@@ -268,7 +268,7 @@ export const sliderList = createReducer([], {
     const { val, idx } = action.payload
     const valInt = parseInt(val, 10)
     let newAction = null
-    if ((valInt <= 127) && (valInt >= 1)) {
+    if ((valInt <= 127) && (valInt >= 0)) {
       newAction = { payload: { val: valInt, idx } }
     } else if (valInt > 127) {
       newAction = { payload: { val: 127, idx } }
@@ -479,9 +479,9 @@ export const sliderList = createReducer([], {
 
 const getMidiOutputNoteOnOff = (sliderEntry) => {
   const { val, onVal, offVal } = sliderEntry
-  const valInt = parseInt(val, 10)
-  const onValInt = (onVal && parseInt(onVal, 10)) || valInt
-  const offValInt = (offVal && parseInt(offVal, 10)) || valInt
+  // const valInt = parseInt(val, 10)
+  const onValInt = (onVal && parseInt(onVal, 10)) || 127
+  const offValInt = ((offVal === 0) && 0) || (offVal && parseInt(offVal, 10)) || 0
 
   const midiCC = sliderEntry.midiCC
   const outputId = sliderEntry.outputId
