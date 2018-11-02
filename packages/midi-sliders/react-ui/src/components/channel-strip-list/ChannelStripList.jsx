@@ -20,6 +20,14 @@ const GridLayout = WidthProvider(RGL)
 class ChannelStripList extends React.PureComponent {
   hasListener = false
   hasPages = false
+
+  componentWillUnmount () {
+    if (this.hasListener) {
+      document.body.removeEventListener('keypress', this.handleKeyPress)
+      this.hasListener = false
+    }
+  }
+
   render () {
     const {
       classes,
@@ -29,8 +37,10 @@ class ChannelStripList extends React.PureComponent {
 
     // Protect dialog mode from global listeners
     if (isSettingsDialogMode) {
-      document.body.removeEventListener('keypress', this.handleKeyPress)
-      this.hasListener = false
+      if (this.hasListener) {
+        document.body.removeEventListener('keypress', this.handleKeyPress)
+        this.hasListener = false
+      }
     } else {
       if (!this.hasListener) {
         document.body.addEventListener('keypress', this.handleKeyPress)
