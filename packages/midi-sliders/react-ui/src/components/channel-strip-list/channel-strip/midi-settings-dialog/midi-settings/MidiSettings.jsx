@@ -75,7 +75,7 @@ class MidiSettings extends React.PureComponent {
             type='label'
             name={`input-label-name-${idx}`}
             value={label}
-            onChange={this.handleLabelChange.bind(this, idx)}
+            onChange={this.handleLabelChange.bind(this, i, idx)}
             autoFocus
           />
         </FormControl>
@@ -329,13 +329,19 @@ class MidiSettings extends React.PureComponent {
         return { label: `${item}` }
       })
 
-  handleLabelChange = (idx, e, val) => {
+  handleLabelChange = (i, idx, e) => {
     e.preventDefault()
     e.stopPropagation()
     this.props.actions.changeLabel({
       idx,
       val: e.target.value
     })
+    if (this.props.sliderEntry.type === 'PAGE') {
+      this.props.actions.changeFooterPageLabel({
+        i,
+        val: e.target.value
+      })
+    }
   }
 
   handleAddCCListener = (e) => {

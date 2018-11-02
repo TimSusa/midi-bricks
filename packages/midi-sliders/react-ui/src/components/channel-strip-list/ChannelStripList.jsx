@@ -20,12 +20,6 @@ const GridLayout = WidthProvider(RGL)
 class ChannelStripList extends React.PureComponent {
   hasListener = false
   hasPages = false
-  // componentWillMount () {
-  //   document.body.addEventListener('keypress', this.handleKeyPress)
-  // }
-  // componentWillUnmount () {
-  //   document.body.removeEventListener('keypress', this.handleKeyPress)
-  // }
   render () {
     const {
       classes,
