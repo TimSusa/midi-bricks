@@ -44,6 +44,8 @@ class MidiSettings extends React.PureComponent {
         colors,
         minVal,
         maxVal,
+        onVal,
+        offVal,
         outputId,
         midi,
         midiChannel,
@@ -143,19 +145,44 @@ class MidiSettings extends React.PureComponent {
                 ].includes(type) &&
                   (
                     <React.Fragment>
-                      <InputLabel
-                        className={classes.label}
-                        htmlFor='button-type'
-                      >
+
+                      <FormControl className={classes.formControl}>
+                        <InputLabel className={classes.label} htmlFor='onVal'> Value Button On</InputLabel>
+                        <Input
+                          className={classes.input}
+                          id='number'
+                          type='number'
+                          name={`input-onval-name-${idx}`}
+                          value={(onVal && onVal) || 127}
+                          onChange={e => this.props.actions.setOnVal({ idx, val: e.target.value })}
+                        />
+                      </FormControl>
+                      <FormControl className={classes.formControl}>
+                        <InputLabel className={classes.label} htmlFor='offVal'>Value Button Off</InputLabel>
+                        <Input
+                          className={classes.input}
+                          id='number'
+                          type='number'
+                          name={`input-offval-name-${idx}`}
+                          value={(offVal && offVal) || 0}
+                          onChange={e => this.props.actions.setOffVal({ idx, val: e.target.value })}
+                        />
+                      </FormControl>
+                      <FormControl className={classes.formControl}>
+                        <InputLabel
+                          className={classes.label}
+                          htmlFor='button-type'
+                        >
                         Type
-                      </InputLabel>
-                      <Select
-                        className={classes.select}
-                        onChange={this.handleButtonTypeChange.bind(this, idx)}
-                        value={type}
-                      >
-                        {this.renderButtonTypeSelection()}
-                      </Select>
+                        </InputLabel>
+                        <Select
+                          className={classes.select}
+                          onChange={this.handleButtonTypeChange.bind(this, idx)}
+                          value={type}
+                        >
+                          {this.renderButtonTypeSelection()}
+                        </Select>
+                      </FormControl>
                     </React.Fragment>
                   )}
 

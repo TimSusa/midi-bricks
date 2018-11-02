@@ -125,22 +125,22 @@ class MidiButtons extends React.PureComponent {
   handleButtonCcTriggerOn = (idx, e) => {
     e.preventDefault()
     e.stopPropagation()
-    this.props.actions.handleSliderChange({ idx, val: 127 })
+    this.props.actions.handleSliderChange({ idx, val: this.props.sliderEntry.onVal })
   }
 
   handleButtonCcTriggerOff = (idx, e) => {
     e.preventDefault()
     e.stopPropagation()
-    this.props.actions.handleSliderChange({ idx, val: 0 })
+    this.props.actions.handleSliderChange({ idx, val: this.props.sliderEntry.offVal })
   }
 
   handleButtonCcToggle = (idx, e) => {
     e.preventDefault()
     e.stopPropagation()
     if (this.isCcToggleOn) {
-      this.props.actions.handleSliderChange({ idx, val: 127 })
+      this.props.actions.handleSliderChange({ idx, val: this.props.sliderEntry.onVal })
     } else {
-      this.props.actions.handleSliderChange({ idx, val: 0 })
+      this.props.actions.handleSliderChange({ idx, val: this.props.sliderEntry.offVal })
     }
     this.isCcToggleOn = !this.isCcToggleOn
   }

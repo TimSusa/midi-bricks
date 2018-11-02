@@ -1,5 +1,5 @@
 import createReducer from './createReducer'
-import {store} from './../providers/ReduxWrappedMuiApp'
+import { store } from './../providers/ReduxWrappedMuiApp'
 import { ActionTypeSliderList } from '../actions/slider-list'
 import { midi, Note } from 'tonal'
 import { uniqueId } from 'lodash'
@@ -45,6 +45,8 @@ export const sliderList = createReducer([], {
         val: 80,
         minVal: 0,
         maxVal: 127,
+        onVal: 127,
+        offVal: 0,
         midiCC: [60],
         listenToCc: [],
         isNoteOn: false,
@@ -211,42 +213,72 @@ export const sliderList = createReducer([], {
     return newState
   },
   [ActionTypeSliderList.SET_MAX_VAL] (state, action) {
-    const { val } = action.payload
+    const { val, idx } = action.payload
 
     // Limit to allow number
     // and prevent crash
     const maxVal = parseInt(val, 10)
-    console.log(maxVal)
     let newAction = null
     if ((maxVal <= 127) && (maxVal >= 1)) {
-      newAction = action
+      newAction = { payload: { val, idx } }
     } else if (maxVal > 127) {
-      newAction = { payload: { maxVal: 127 } }
+      newAction = { payload: { val: 127, idx } }
     } else {
-      newAction = { payload: { maxVal: 1 } }
+      newAction = { payload: { val: 1, idx } }
     }
     const newState = transformState(state, newAction, 'maxVal')
     return newState
   },
 
   [ActionTypeSliderList.SET_MIN_VAL] (state, action) {
-    const { val } = action.payload
+    const { val, idx } = action.payload
 
     // Limit to allow number
     // and prevent crash
     const minVal = parseInt(val, 10)
-    console.log(minVal)
     let newAction = null
     if ((minVal <= 127) && (minVal >= 1)) {
-      newAction = action
+      newAction = { payload: { val, idx } }
     } else if (minVal > 127) {
-      newAction = { payload: { minVal: 127 } }
+      newAction = { payload: { val: 127, idx } }
     } else {
-      newAction = { payload: { minVal: 1 } }
+      newAction = { payload: { val: 1, idx } }
     }
     const newState = transformState(state, newAction, 'minVal')
     return newState
   },
+
+  [ActionTypeSliderList.SET_ON_VAL] (state, action) {
+    const { val, idx } = action.payload
+    const valInt = parseInt(val, 10)
+    let newAction = null
+    if ((valInt <= 127) && (valInt >= 1)) {
+      newAction = { payload: { val: valInt, idx } }
+    } else if (valInt > 127) {
+      newAction = { payload: { val: 127, idx } }
+    } else {
+      newAction = { payload: { val: 0, idx } }
+    }
+
+    const newState = transformState(state, newAction, 'onVal')
+    return newState
+  },
+
+  [ActionTypeSliderList.SET_OFF_VAL] (state, action) {
+    const { val, idx } = action.payload
+    const valInt = parseInt(val, 10)
+    let newAction = null
+    if ((valInt <= 127) && (valInt >= 1)) {
+      newAction = { payload: { val: valInt, idx } }
+    } else if (valInt > 127) {
+      newAction = { payload: { val: 127, idx } }
+    } else {
+      newAction = { payload: { val: 0, idx } }
+    }
+    const newState = transformState(state, newAction, 'offVal')
+    return newState
+  },
+
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL] (state, action) {
     const { val } = action.payload
 
@@ -268,8 +300,11 @@ export const sliderList = createReducer([], {
     let newStateTmp = state
 
     // Set noteOn/noteOff stemming from CC VAl
-    if ((val === 127) || (val === 0)) {
-      newStateTmp = toggleNote(newStateTmp, idx)
+    const {type, onVal, offVal} = newStateTmp[idx]
+    if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
+      if ((val === onVal) || (val === offVal)) {
+        newStateTmp = toggleNote(newStateTmp, idx)
+      }
     }
 
     // Handle multi CC
@@ -307,8 +342,8 @@ export const sliderList = createReducer([], {
     }
     const content = files[0].target.result
     const parsedJson = JSON.parse(content)
-    // Restore midi-access
     const list = (parsedJson.sliderList && parsedJson.sliderList) || parsedJson
+    // Restore midi-access
     // const newState = list.map((item) => {
     //   const tmp = {
     //     ...item,
@@ -338,14 +373,14 @@ export const sliderList = createReducer([], {
     const newState = state.map(item => {
       const { listenToCc } = item
       if (listenToCc.length > 0) {
-        const {isNoteOn, val, cC} = action.payload
+        const { isNoteOn, val, cC } = action.payload
 
         if (isNoteOn === undefined) {
           const hasCc = listenToCc.includes(cC && cC.toString())
           if (hasCc) {
             return { ...item, val }
           } else {
-            return {...item}
+            return { ...item }
           }
         } else {
           const hasCc = listenToCc.includes(cC && cC.toString())
@@ -354,7 +389,7 @@ export const sliderList = createReducer([], {
             const { colorActive, color } = colors
             return { ...item, colors: { color: colorActive, colorActive: color } }
           } else {
-            return {...item}
+            return { ...item }
           }
         }
       }
@@ -443,13 +478,16 @@ export const sliderList = createReducer([], {
 })
 
 const getMidiOutputNoteOnOff = (sliderEntry) => {
-  const val = sliderEntry.val
+  const { val, onVal, offVal } = sliderEntry
+  const valInt = parseInt(val, 10)
+  const onValInt = (onVal && parseInt(onVal, 10)) || valInt
+  const offValInt = (offVal && parseInt(offVal, 10)) || valInt
+
   const midiCC = sliderEntry.midiCC
   const outputId = sliderEntry.outputId
   const midiChannel = parseInt(sliderEntry.midiChannel, 10)
-  const valInt = parseInt(val, 10)
-  const noteOn = [0x8f + midiChannel, midiCC + 0x0c, valInt]
-  const noteOff = [0x7f + midiChannel, midiCC + 0x0c, valInt]
+  const noteOn = [0x8f + midiChannel, midiCC + 0x0c, onValInt]
+  const noteOff = [0x7f + midiChannel, midiCC + 0x0c, offValInt]
   const output = sliderEntry.midi.midiAccess.outputs.get(outputId)
 
   return {
@@ -531,6 +569,8 @@ const transformAddState = (state, action, type) => {
     val: 50,
     minVal: 0,
     maxVal: 127,
+    onVal: 127,
+    offVal: 0,
     midiCC,
     listenToCc: [],
     outputId: [PAGE, LABEL].includes(type) ? 'None' : newDriver,
