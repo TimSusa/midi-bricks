@@ -92,7 +92,10 @@ const styles = (theme) => ({
     background: theme.palette.appBar.background,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
+    bottom: 0,
+    width: '100%',
+    position: 'fixed'
   },
   button: {
     color: theme.palette.primary.contrastText,
