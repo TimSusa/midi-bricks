@@ -10,10 +10,12 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../actions/slider-list.js'
+import * as ViewStuff from '../actions/view-settings.js'
+import MidiSettingsDialog from '../components/channel-strip-list/channel-strip/midi-settings-dialog/MidiSettingsDialog'
 
 class GlobalSettingsPage extends React.PureComponent {
   render () {
-    const { classes, sliderList } = this.props
+    const { classes, sliderList, viewSettings: {isSettingsDialogMode, lastFocusedIdx} } = this.props
 
     return (
       <Table
@@ -21,7 +23,6 @@ class GlobalSettingsPage extends React.PureComponent {
       >
         <TableHead>
           <TableRow>
-            <TableCell>Index</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Type</TableCell>
             <TableCell>Driver</TableCell>
@@ -35,14 +36,25 @@ class GlobalSettingsPage extends React.PureComponent {
               const rowStyle = {
                 background: (!driverName && !['PAGE', 'LABEL'].includes(sliderEntry.type)) ? 'red' : 'none'
               }
+
+              if (isSettingsDialogMode && (idx === lastFocusedIdx)) {
+                return (
+                  <MidiSettingsDialog
+                    key={`glb-${idx}`}
+                    open
+                    onClose={this.props.actions.toggleSettingsDialogMode.bind(this, {idx, isSettingsDialogMode: false})}
+                    sliderEntry={sliderEntry}
+                    idx={idx}
+                  />
+                )
+              }
+
               return (
                 <TableRow
                   key={`glb-${idx}`}
                   style={rowStyle}
+                  onClick={this.props.actions.toggleSettingsDialogMode.bind(this, {idx, isSettingsDialogMode: true})}
                 >
-                  <TableCell>
-                    {idx}
-                  </TableCell>
                   <TableCell>
                     {sliderEntry.label || '-'}
                   </TableCell>
@@ -91,12 +103,13 @@ const styles = theme => ({
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(MidiSliderActions, dispatch)
+    actions: bindActionCreators({...MidiSliderActions, ...ViewStuff}, dispatch)
   }
 }
-function mapStateToProps ({ sliderList }) {
+function mapStateToProps ({ sliderList, viewSettings }) {
   return {
-    sliderList
+    sliderList,
+    viewSettings
   }
 }
 export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(GlobalSettingsPage)))
