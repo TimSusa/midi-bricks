@@ -345,8 +345,8 @@ class MidiSettings extends React.PureComponent {
   }
 
   handleAddCCListener = (e) => {
-    // detecrt if empty state
-    let isEmpty = this.props.sliderList.every((item) => item.listenToCc.length === 0)
+    // detect if empty state
+    let isEmpty = this.props.sliderList.every((item) => item.listenToCc && item.listenToCc.length === 0)
     this.props.actions.addMidiCcListener(e)
 
     // this is a hack

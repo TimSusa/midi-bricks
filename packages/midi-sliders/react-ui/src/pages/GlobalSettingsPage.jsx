@@ -34,7 +34,8 @@ class GlobalSettingsPage extends React.PureComponent {
             sliderList.map((sliderEntry, idx) => {
               const driverName = this.outputIdToDriverName(sliderEntry.midi.midiDrivers, sliderEntry.outputId)
               const rowStyle = {
-                background: (!driverName && !['PAGE', 'LABEL'].includes(sliderEntry.type)) ? 'red' : 'none'
+                background: (!driverName && !['PAGE', 'LABEL'].includes(sliderEntry.type)) ? 'red' : 'none',
+                cursor: 'pointer'
               }
 
               if (isSettingsDialogMode && (idx === lastFocusedIdx)) {
