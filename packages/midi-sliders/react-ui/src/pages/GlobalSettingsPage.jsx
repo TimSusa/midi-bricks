@@ -25,6 +25,7 @@ class GlobalSettingsPage extends React.PureComponent {
             <TableCell>Name</TableCell>
             <TableCell>Type</TableCell>
             <TableCell>Driver</TableCell>
+            <TableCell>Listeners</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -43,13 +44,16 @@ class GlobalSettingsPage extends React.PureComponent {
                     {idx}
                   </TableCell>
                   <TableCell>
-                    {sliderEntry.label || 'None'}
+                    {sliderEntry.label || '-'}
                   </TableCell>
                   <TableCell>
                     {sliderEntry.type}
                   </TableCell>
                   <TableCell>
-                    {driverName || 'None'}
+                    {driverName || '-'}
+                  </TableCell>
+                  <TableCell>
+                    {(sliderEntry.listenToCc && (sliderEntry.listenToCc.length > 0) && this.renderListeners(sliderEntry.listenToCc)) || '-'}
                   </TableCell>
                 </TableRow>
               )
@@ -58,6 +62,10 @@ class GlobalSettingsPage extends React.PureComponent {
         </TableBody>
       </Table>
     )
+  }
+
+  renderListeners = (listenToCc) => {
+    return (<div>{listenToCc.join(', ')}</div>)
   }
 
   outputIdToDriverName = (drivers, outputId) => {

@@ -2,6 +2,13 @@ import createReducer from './createReducer'
 import { ActionTypeViewSettings } from '../actions/view-settings'
 
 export const viewSettings = createReducer({}, {
+
+  [ActionTypeViewSettings.TOGGLE_GLOBAL_SETTINGS_MODE] (state = { isGlobalSettingsMode: false }, action) {
+    const { isGlobalSettingsMode } = action.payload
+    return Object.assign({}, state, {
+      isGlobalSettingsMode, isLayoutMode: false, isSettingsMode: false
+    })
+  },
   [ActionTypeViewSettings.TOGGLE_LIVE_MODE] (state = { isLiveMode: false }, action) {
     const castedVal = !!state.isLiveMode
     return Object.assign({}, state, {
@@ -101,7 +108,7 @@ export const viewSettings = createReducer({}, {
 
     const tmpArr = state.footerPages.map(item => {
       if (item.i === i) {
-        return Object.assign({}, item, {label: val})
+        return Object.assign({}, item, { label: val })
       }
       return Object.assign({}, item)
     })

@@ -61,7 +61,7 @@ class DrawerList extends React.PureComponent {
         </List>
         <Divider />
         <List>
-          <ListItem button onClick={() => window.location.replace('/#/')}>
+          <ListItem button onClick={() => this.props.toggleGlobalSettings({isGlobalSettingsMode: false})}>
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>
@@ -69,7 +69,7 @@ class DrawerList extends React.PureComponent {
           </ListItem>
         </List>
         <List>
-          <ListItem button onClick={() => window.location.replace('/#/global')}>
+          <ListItem button onClick={() => this.props.toggleGlobalSettings({isGlobalSettingsMode: true})}>
             <ListItemIcon>
               <GlobalIcon />
             </ListItemIcon>

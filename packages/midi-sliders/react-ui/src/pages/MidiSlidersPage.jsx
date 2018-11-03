@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../actions/slider-list.js'
 import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
 import { debounce } from 'lodash'
+import GlobalSettingsPage from './GlobalSettingsPage.jsx'
 
 class MidiSlidersPage extends React.PureComponent {
   state = {
@@ -23,7 +24,7 @@ class MidiSlidersPage extends React.PureComponent {
   }
 
   render () {
-    const { classes, viewSettings: { isLayoutMode, isLiveMode, isSettingsMode } } = this.props
+    const { classes, viewSettings: { isLayoutMode, isLiveMode, isSettingsMode, isGlobalSettingsMode } } = this.props
 
     const preventScrollStyle = isLiveMode ? {
       height: 'calc(100vh - 66px)',
@@ -34,6 +35,11 @@ class MidiSlidersPage extends React.PureComponent {
     }
 
     if (this.state.hasMidi) {
+      if (isGlobalSettingsMode) {
+        return (
+          <GlobalSettingsPage />
+        )
+      }
       return (
         <div
           className={this.props.classes.root}
@@ -80,7 +86,7 @@ class MidiSlidersPage extends React.PureComponent {
 
   getMIDIMessage = (midiMessage) => {
     // only send action, if any cc listener is in list
-    if (this.props.sliderList.some((item) => item.listenToCc.length > 0)) {
+    if (this.props.sliderList.some((item) => item.listenToCc && item.listenToCc.length > 0)) {
       const command = midiMessage.data[0]
       const note = (midiMessage.data.length > 1) ? midiMessage.data[1] : midiMessage.data[0]
       // a velocity value might not be included with a noteOff command

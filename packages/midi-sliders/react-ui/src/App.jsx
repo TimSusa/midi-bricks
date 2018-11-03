@@ -17,7 +17,6 @@ import DrawerList from './components/drawer-list/DrawerList'
 import Footer from './components/footer/Footer'
 
 import TestPage from './pages/TestPage.jsx'
-import GlobalSettingsPage from './pages/GlobalSettingsPage'
 
 const history = createBrowserHistory()
 
@@ -29,7 +28,6 @@ class App extends React.PureComponent {
   routes = (
     <div className={this.props.classes.content}>
       <Route exact path='/' component={MidiSlidersPage} />
-      <Route exact path='/global' component={GlobalSettingsPage} />
       <Route exact path='/test-page' component={TestPage} />
     </div>
   );
@@ -58,6 +56,7 @@ class App extends React.PureComponent {
                 onFileChange={this.onFileChange}
                 handleSaveFile={this.handleSaveFile}
                 handleResetSliders={this.handleResetSliders}
+                toggleGlobalSettings={this.toggleGlobalSettings}
                 classes={this.props.classes}
                 history={history}
               />
@@ -96,6 +95,10 @@ class App extends React.PureComponent {
   handleSaveFile = () => {
     this.props.actions.saveFile()
     this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen }))
+  }
+
+  toggleGlobalSettings = (isGlobalSettingsMode) => {
+    this.props.actions.toggleGlobalSettingsMode(isGlobalSettingsMode)
   }
 
   handleResetSliders = () => {

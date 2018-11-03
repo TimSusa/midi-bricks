@@ -372,7 +372,7 @@ export const sliderList = createReducer([], {
   [ActionTypeSliderList.MIDI_MESSAGE_ARRIVED] (state, action) {
     const newState = state.map(item => {
       const { listenToCc } = item
-      if (listenToCc.length > 0) {
+      if (listenToCc && listenToCc.length > 0) {
         const { isNoteOn, val, cC } = action.payload
 
         if (isNoteOn === undefined) {
