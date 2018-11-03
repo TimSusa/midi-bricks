@@ -478,7 +478,7 @@ export const sliderList = createReducer([], {
 })
 
 const getMidiOutputNoteOnOff = (sliderEntry) => {
-  const { val, onVal, offVal } = sliderEntry
+  const { onVal, offVal } = sliderEntry
   // const valInt = parseInt(val, 10)
   const onValInt = (onVal && parseInt(onVal, 10)) || 127
   const offValInt = ((offVal === 0) && 0) || (offVal && parseInt(offVal, 10)) || 0
