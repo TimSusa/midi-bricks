@@ -87,33 +87,40 @@ class MidiSlidersPage extends React.PureComponent {
   getMIDIMessage = (midiMessage) => {
     // only send action, if any cc listener is in list
     if (this.props.sliderList.some((item) => item.listenToCc && item.listenToCc.length > 0)) {
-      const command = midiMessage.data[0]
-      const note = (midiMessage.data.length > 1) ? midiMessage.data[1] : midiMessage.data[0]
+      const commandAndChannel = midiMessage.data[0]
+      const note = midiMessage.data[1]
+
       // a velocity value might not be included with a noteOff command
       const velocity = (midiMessage.data.length > 2) ? midiMessage.data[2] : 0
 
+      // Mask off the higher nibble (MIDI channel)
+      const channel = (commandAndChannel & 0x0f) + 1
+
+      // Mask off the lower nibble (Note On, Note Off or CC)
+      const command = commandAndChannel & 0xf0
       switch (command) {
-        case 144: // noteOn
-          if (velocity > 0) {
-            // console.log('note on ', note)
-            this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: true, cC: note })
-          } else {
-            // console.log('note off ', note)
-            this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: false, cC: note })
+        case 0x90:
+          if (velocity !== 0) { // if velocity != 0, this is a note-on message
+            console.log('on: note: ', note, ' channel: ', channel)
+            this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: true, cC: note, channel })
           }
           break
-        case 128: // noteOff
-          // console.log('note off ', note)
-          this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: false })
+
+        // if velocity == 0, fall thru: it's a note-off.  MIDI's weird, y'all.
+        case 0x80:
+          console.log('off note: ', note, ' channel: ', channel)
+          this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: false, cC: note, channel })
           break
-        case 176: // CC
-          const debounced = debounce(() => this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: undefined, val: velocity, cC: note }), 5)
+
+        case 0xb0:
+          console.log('cc: ', note, ' channel: ', channel, 'velocity', velocity)
+          const debounced = debounce(() => this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: undefined, val: velocity, cC: note, channel }), 5)
           debounced()
           break
-        // we could easily expand this switch statement to cover other types of
-        // commands such as controllers or sysex
+
         default:
-          break
+          // note off
+          console.warn('fallen through')
       }
     }
   }
