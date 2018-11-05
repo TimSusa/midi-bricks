@@ -101,19 +101,16 @@ class MidiSlidersPage extends React.PureComponent {
       switch (command) {
         case 0x90:
           if (velocity !== 0) { // if velocity != 0, this is a note-on message
-            console.log('on: note: ', note, ' channel: ', channel)
             this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: true, cC: note, channel })
           }
           break
 
         // if velocity == 0, fall thru: it's a note-off.  MIDI's weird, y'all.
         case 0x80:
-          console.log('off note: ', note, ' channel: ', channel)
           this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: false, cC: note, channel })
           break
 
         case 0xb0:
-          console.log('cc: ', note, ' channel: ', channel, 'velocity', velocity)
           const debounced = debounce(() => this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: undefined, val: velocity, cC: note, channel }), 5)
           debounced()
           break

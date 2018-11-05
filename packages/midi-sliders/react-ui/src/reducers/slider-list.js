@@ -52,6 +52,7 @@ export const sliderList = createReducer([], {
         isNoteOn: false,
         outputId: midi.midiDrivers[0].outputId,
         midiChannel: 1,
+        midiChannelInput: 'all',
         midi,
         i: '0',
         x: 0,
@@ -280,7 +281,7 @@ export const sliderList = createReducer([], {
   },
 
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL] (state, action) {
-    const { val } = action.payload
+    const { val, idx } = action.payload
 
     // Limit to allow number of midi channels
     // and prevent crash
@@ -288,13 +289,29 @@ export const sliderList = createReducer([], {
     if ((val <= 16) && (val >= 1)) {
       newAction = action
     } else if (val > 16) {
-      newAction = { payload: { val: 16 } }
+      newAction = { payload: { val: 16, idx } }
     } else {
-      newAction = { payload: { val: 1 } }
+      newAction = { payload: { val: 1, idx } }
     }
     const newState = transformState(state, newAction, 'midiChannel')
     return newState
   },
+
+  [ActionTypeSliderList.SELECT_MIDI_CHANNEL_INPUT] (state, action) {
+    const { val, idx } = action.payload
+
+    // Limit to allow number of midi channels
+    // and prevent crash
+    let newAction = null
+
+    if (val === 'all') {
+      newAction = { payload: { val: 'all', idx } }
+    }
+
+    const newState = transformState(state, newAction || action, 'midiChannelInput')
+    return newState
+  },
+
   [ActionTypeSliderList.HANDLE_SLIDER_CHANGE] (state, action) {
     const { idx, val } = action.payload
     let newStateTmp = state
@@ -371,26 +388,17 @@ export const sliderList = createReducer([], {
 
   [ActionTypeSliderList.MIDI_MESSAGE_ARRIVED] (state, action) {
     const newState = state.map(item => {
-      const { listenToCc } = item
+      const { listenToCc, midiChannelInput } = item
       if (listenToCc && listenToCc.length > 0) {
-        const { isNoteOn, val, cC } = action.payload
-
-        if (isNoteOn === undefined) {
-          const hasCc = listenToCc.includes(cC && cC.toString())
-          if (hasCc) {
-            return { ...item, val }
-          } else {
-            return { ...item }
-          }
+        const { val, cC, channel } = action.payload
+        const haveChannelsMatched = (midiChannelInput === 'all') || channel.toString() === midiChannelInput
+        const hasCc = listenToCc.includes(cC && cC.toString())
+        if (hasCc && haveChannelsMatched) {
+          const { colors } = item
+          const { colorActive, color } = colors
+          return { ...item, val, colors: { color: colorActive, colorActive: color } }
         } else {
-          const hasCc = listenToCc.includes(cC && cC.toString())
-          if (hasCc) {
-            const { colors } = item
-            const { colorActive, color } = colors
-            return { ...item, colors: { color: colorActive, colorActive: color } }
-          } else {
-            return { ...item }
-          }
+          return { ...item }
         }
       }
       return { ...item }
@@ -575,6 +583,7 @@ const transformAddState = (state, action, type) => {
     listenToCc: [],
     outputId: [PAGE, LABEL].includes(type) ? 'None' : newDriver,
     midiChannel: 1,
+    midiChannelInput: 'all',
     isNoteOn: false,
     midi,
     isDraggable: true,

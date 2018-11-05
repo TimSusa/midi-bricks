@@ -49,6 +49,7 @@ class MidiSettings extends React.PureComponent {
         outputId,
         midi,
         midiChannel,
+        midiChannelInput,
         listenToCc,
         fontSize,
         fontWeight
@@ -91,7 +92,7 @@ class MidiSettings extends React.PureComponent {
           >
             <InputLabel
               className={classes.label}
-              htmlFor='cc'>
+              htmlFor='midi-driver'>
               Driver
             </InputLabel>
             <Select
@@ -104,6 +105,16 @@ class MidiSettings extends React.PureComponent {
             >
               {this.renderDriverSelection(midi.midiDrivers, type)}
             </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel className={classes.label} htmlFor='cc-output'>Output Channel </InputLabel>
+            <Input
+              className={classes.input}
+              id='number'
+              type='number'
+              name={`input-channel-output-name-${idx}`}
+              value={midiChannel}
+              onChange={e => this.props.actions.selectMidiChannel({ idx, val: e.target.value })} />
           </FormControl>
           <FormControl>
             <InputLabel
@@ -121,14 +132,17 @@ class MidiSettings extends React.PureComponent {
             />
           </FormControl>
           <FormControl className={classes.formControl}>
-            <InputLabel className={classes.label} htmlFor='cc'>Channel </InputLabel>
-            <Input
-              className={classes.input}
-              id='number'
-              type='number'
-              name={`input-channel-name-${idx}`}
-              value={midiChannel}
-              onChange={e => this.props.actions.selectMidiChannel({ idx, val: e.target.value })} />
+            <InputLabel className={classes.label} htmlFor='cc-input'>Input Channel </InputLabel>
+            <Select
+              className={classes.select}
+              onChange={e => this.props.actions.selectMidiChannelInput({
+                idx,
+                val: e.target.value
+              })}
+              value={midiChannelInput || 'all'}
+            >
+              {this.renderMidiChannelInputSelection()}
+            </Select>
           </FormControl>
         </React.Fragment>
 
@@ -357,6 +371,20 @@ class MidiSettings extends React.PureComponent {
     this.props.actions.changeButtonType({
       idx,
       val: e.target.value
+    })
+  }
+
+  renderMidiChannelInputSelection = () => {
+    const array = ['all', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16']
+    return array.map((item, idx) => {
+      return (
+        <MenuItem
+          key={`input-driver-${idx}`}
+          value={item}
+        >
+          {item}
+        </MenuItem>
+      )
     })
   }
 
