@@ -46,7 +46,8 @@ class MidiSettings extends React.PureComponent {
         maxVal,
         onVal,
         offVal,
-        outputId,
+        outputId = 'None',
+        driverName = 'None',
         midi,
         midiChannel,
         midiChannelInput,
@@ -98,12 +99,12 @@ class MidiSettings extends React.PureComponent {
             <Select
               className={classes.select}
               onChange={e => this.props.actions.selectSliderMidiDriver({
-                idx,
-                val: e.target.value
+                i,
+                driverName: e.target.value
               })}
-              value={outputId}
+              value={driverName}
             >
-              {this.renderDriverSelection(midi.midiDrivers, type)}
+              {midi.midiDrivers && this.renderDriverSelection(midi.midiDrivers, type)}
             </Select>
           </FormControl>
           <FormControl className={classes.formControl}>
@@ -187,7 +188,7 @@ class MidiSettings extends React.PureComponent {
                           className={classes.label}
                           htmlFor='button-type'
                         >
-                        Type
+                          Type
                         </InputLabel>
                         <Select
                           className={classes.select}
@@ -249,7 +250,7 @@ class MidiSettings extends React.PureComponent {
                     onChange={e => this.props.actions.setMaxVal({ idx, val: e.target.value })} />
                 </FormControl>
                 <FormControl className={classes.formControl}>
-                  <InputLabel className={classes.label} htmlFor='maxVal'>Minimum Value </InputLabel>
+                  <InputLabel className={classes.label} htmlFor='minVal'>Minimum Value </InputLabel>
                   <Input
                     className={classes.input}
                     id='number'
@@ -359,7 +360,6 @@ class MidiSettings extends React.PureComponent {
   }
 
   handleAddCCListener = (e) => {
-    // detect if empty state
     let isEmpty = this.props.sliderList.every((item) => item.listenToCc && item.listenToCc.length === 0)
     this.props.actions.addMidiCcListener(e)
 
@@ -379,7 +379,7 @@ class MidiSettings extends React.PureComponent {
     return array.map((item, idx) => {
       return (
         <MenuItem
-          key={`input-driver-${idx}`}
+          key={`input-channel-${idx}`}
           value={item}
         >
           {item}
@@ -393,13 +393,13 @@ class MidiSettings extends React.PureComponent {
       ![LABEL, PAGE].includes(type)
         ? availableDrivers : [{ outputId: 'None', name: 'None' }, ...availableDrivers]
 
-    return tmpArray.map((item, idx) => {
+    return tmpArray.map(({ name }, idx) => {
       return (
         <MenuItem
           key={`driver-${idx}`}
-          value={item.outputId}
+          value={name}
         >
-          {item.name}
+          {name}
         </MenuItem>
       )
     })
@@ -485,7 +485,7 @@ const styles = theme => ({
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators({...MidiSliderActions, ...ViewActions}, dispatch)
+    actions: bindActionCreators({ ...MidiSliderActions, ...ViewActions }, dispatch)
   }
 }
 function mapStateToProps ({ sliderList }) {

@@ -32,7 +32,20 @@ export const sliderList = createReducer([], {
       midiAccess: action.payload.midiAccess,
       midiDrivers: getAvailableDrivers(action.payload.midiAccess)
     }
+
     let arrToSend = state.map((item) => {
+      if (item.driverName) {
+        midi.midiDrivers.forEach(({ name, outputId }) => {
+          if (name === item.driverName) {
+            console.log('refresh output id')
+            return Object.assign({}, {
+              ...item,
+              midi,
+              outputId
+            })
+          }
+        })
+      }
       return Object.assign({}, {
         ...item,
         midi
@@ -51,6 +64,7 @@ export const sliderList = createReducer([], {
         listenToCc: [],
         isNoteOn: false,
         outputId: midi.midiDrivers[0].outputId,
+        driverName: midi.midiDrivers[0].name,
         midiChannel: 1,
         midiChannelInput: 'all',
         midi,
@@ -202,8 +216,23 @@ export const sliderList = createReducer([], {
     return newState
   },
   [ActionTypeSliderList.SELECT_SLIDER_MIDI_DRIVER] (state, action) {
-    const newState = transformState(state, action, 'outputId')
-    return newState
+    const { i, driverName } = action.payload
+    let arrToSend = state.map((item) => {
+      let retVal = item
+      item.midi.midiDrivers.forEach(({ name, outputId }) => {
+        if (name === driverName) {
+          if (item.i === i) {
+            retVal = Object.assign({}, {
+              ...item,
+              driverName,
+              outputId
+            })
+          }
+        }
+      })
+      return retVal
+    })
+    return arrToSend
   },
   [ActionTypeSliderList.SELECT_CC] (state, action) {
     const newState = transformState(state, action, 'midiCC')
@@ -317,7 +346,7 @@ export const sliderList = createReducer([], {
     let newStateTmp = state
 
     // Set noteOn/noteOff stemming from CC VAl
-    const {type, onVal, offVal} = newStateTmp[idx]
+    const { type, onVal, offVal } = newStateTmp[idx]
     if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
       if ((val === onVal) || (val === offVal)) {
         newStateTmp = toggleNote(newStateTmp, idx)
@@ -541,11 +570,18 @@ const transformState = (state, action, field) => {
 }
 
 const transformAddState = (state, action, type) => {
-  // Either use last selected driver or take the first available one
+  // Either use last selected driver id or take the first available one
   const midi = state[0].midi
-  const availDriver = midi.midiDrivers[0].outputId
-  const lastSelectedDriver = (state.length > 0) && state[state.length - 1].outputId
-  const newDriver = ((lastSelectedDriver !== 'None') && lastSelectedDriver) || availDriver
+
+  // Driver Name
+  const availDriverName = midi.midiDrivers[0].name
+  const lastSelectedDriverName = ((state.length > 0) && state[state.length - 1].driverName) || 'None'
+  const newDriverName = ((lastSelectedDriverName !== 'None') && lastSelectedDriverName) || availDriverName
+
+  // Output Id / Driver Id
+  const availDriverId = midi.midiDrivers[0].outputId
+  const lastSelectedDriverId = (state.length > 0) && state[state.length - 1].outputId
+  const newDriverId = ((lastSelectedDriverId !== 'None') && lastSelectedDriverId) || availDriverId
 
   const addStateLength = () => (state.length + 1)
   const addMidiCCVal = () => 59 + addStateLength()
@@ -581,7 +617,8 @@ const transformAddState = (state, action, type) => {
     offVal: 0,
     midiCC,
     listenToCc: [],
-    outputId: [PAGE, LABEL].includes(type) ? 'None' : newDriver,
+    outputId: [PAGE, LABEL].includes(type) ? 'None' : newDriverId,
+    driverName: newDriverName,
     midiChannel: 1,
     midiChannelInput: 'all',
     isNoteOn: false,
