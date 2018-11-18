@@ -37,7 +37,6 @@ export const sliderList = createReducer([], {
       if (item.driverName) {
         midi.midiDrivers.forEach(({ name, outputId }) => {
           if (name === item.driverName) {
-            console.log('refresh output id')
             return Object.assign({}, {
               ...item,
               midi,
@@ -646,7 +645,8 @@ const toggleNote = (state, idx) => {
     if (idx === i) {
       const tmp = {
         ...item,
-        isNoteOn: !item.isNoteOn
+        isNoteOn: !item.isNoteOn,
+        val: !item.isNoteOn ? item.onVal : item.offVal
       }
       return Object.assign({}, tmp)
     } else {

@@ -46,7 +46,7 @@ class MidiSettings extends React.PureComponent {
         maxVal,
         onVal,
         offVal,
-        outputId = 'None',
+        // outputId = 'None',
         driverName = 'None',
         midi,
         midiChannel,

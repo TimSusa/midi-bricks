@@ -4,7 +4,8 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  TableHead
+  TableHead,
+  Tooltip
 } from '@material-ui/core'
 import * as React from 'react'
 import { connect } from 'react-redux'
@@ -15,7 +16,7 @@ import MidiSettingsDialog from '../components/channel-strip-list/channel-strip/m
 
 class GlobalSettingsPage extends React.PureComponent {
   render () {
-    const { classes, sliderList, viewSettings: {isSettingsDialogMode, lastFocusedIdx} } = this.props
+    const { classes, sliderList, viewSettings: { isSettingsDialogMode, lastFocusedIdx } } = this.props
 
     return (
       <Table
@@ -23,18 +24,21 @@ class GlobalSettingsPage extends React.PureComponent {
       >
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
+            <TableCell>Label</TableCell>
             <TableCell>Type</TableCell>
             <TableCell>Driver</TableCell>
+            <TableCell>Channel</TableCell>
+            <TableCell>Note(s)/CC</TableCell>
+            <TableCell>Value</TableCell>
             <TableCell>Listeners</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {
             sliderList.map((sliderEntry, idx) => {
-              const driverName = this.outputIdToDriverName(sliderEntry.midi.midiDrivers, sliderEntry.outputId)
+              const { driverName, outputId } = this.outputIdToDriverName(sliderEntry.midi.midiDrivers, sliderEntry.outputId, sliderEntry.driverName)
               const rowStyle = {
-                background: (!driverName && !['PAGE', 'LABEL'].includes(sliderEntry.type)) ? 'red' : 'none',
+                background: (!outputId && !['PAGE', 'LABEL'].includes(sliderEntry.type)) ? 'red' : 'none',
                 cursor: 'pointer'
               }
 
@@ -43,32 +47,56 @@ class GlobalSettingsPage extends React.PureComponent {
                   <MidiSettingsDialog
                     key={`glb-${idx}`}
                     open
-                    onClose={this.props.actions.toggleSettingsDialogMode.bind(this, {idx, isSettingsDialogMode: false})}
+                    onClose={this.props.actions.toggleSettingsDialogMode.bind(this, { idx, isSettingsDialogMode: false })}
                     sliderEntry={sliderEntry}
                     idx={idx}
                   />
                 )
               }
+              let title = ''
+              if (!['PAGE', 'LABEL'].includes(sliderEntry.type)) {
+                if (outputId && driverName) {
+                  title = driverName
+                } else if (!driverName) {
+                  title = 'No MIDI Driver available'
+                } else if (!outputId) {
+                  title = 'Driver ID cannot be found. Please reselect the driver.'
+                }
+              }
 
               return (
-                <TableRow
-                  key={`glb-${idx}`}
-                  style={rowStyle}
-                  onClick={this.props.actions.toggleSettingsDialogMode.bind(this, {idx, isSettingsDialogMode: true})}
+                <Tooltip
+                  title={title}
                 >
-                  <TableCell>
-                    {sliderEntry.label || '-'}
-                  </TableCell>
-                  <TableCell>
-                    {sliderEntry.type}
-                  </TableCell>
-                  <TableCell>
-                    {driverName || '-'}
-                  </TableCell>
-                  <TableCell>
-                    {(sliderEntry.listenToCc && (sliderEntry.listenToCc.length > 0) && this.renderListeners(sliderEntry.listenToCc)) || '-'}
-                  </TableCell>
-                </TableRow>
+                  <TableRow
+                    key={`glb-${idx}`}
+                    style={rowStyle}
+                    onClick={this.props.actions.toggleSettingsDialogMode.bind(this, { idx, isSettingsDialogMode: true })}
+                  >
+                    <TableCell>
+                      {sliderEntry.label || '-'}
+                    </TableCell>
+                    <TableCell>
+                      {sliderEntry.type}
+                    </TableCell>
+                    <TableCell style={{ color: !driverName && 'grey' }}>
+                      {driverName || sliderEntry.driverName || 'None'}
+                    </TableCell>
+                    <TableCell>
+                      {sliderEntry.midiChannel}
+                    </TableCell>
+                    <TableCell>
+                      {(sliderEntry.midiCC && (sliderEntry.midiCC.length > 0) && this.renderListeners(sliderEntry.midiCC)) || '-'}
+                    </TableCell>
+                    <TableCell>
+                      {!['PAGE', 'LABEL'].includes(sliderEntry.type) ? sliderEntry.val : '-'}
+                    </TableCell>
+                    <TableCell>
+                      {(sliderEntry.listenToCc && (sliderEntry.listenToCc.length > 0) && this.renderListeners(sliderEntry.listenToCc)) || '-'}
+                    </TableCell>
+                  </TableRow>
+                </Tooltip>
+
               )
             })
           }
@@ -77,18 +105,22 @@ class GlobalSettingsPage extends React.PureComponent {
     )
   }
 
-  renderListeners = (listenToCc) => {
-    return (<div>{listenToCc.join(', ')}</div>)
+  renderListeners = (tmp) => {
+    return (<div>{tmp.join(', ')}</div>)
   }
 
-  outputIdToDriverName = (drivers, outputId) => {
+  outputIdToDriverName = (drivers, outputId, driverName) => {
     let name = ''
+    let outputIdOut
     drivers.forEach((item) => {
-      if (item.outputId === outputId) {
+      if (item.name === driverName) {
         name = item.name
       }
+      if (item.outputId === outputId) {
+        outputIdOut = outputId
+      }
     })
-    return name
+    return { driverName: name, outputId: outputIdOut }
   }
 }
 
@@ -104,7 +136,7 @@ const styles = theme => ({
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators({...MidiSliderActions, ...ViewStuff}, dispatch)
+    actions: bindActionCreators({ ...MidiSliderActions, ...ViewStuff }, dispatch)
   }
 }
 function mapStateToProps ({ sliderList, viewSettings }) {
