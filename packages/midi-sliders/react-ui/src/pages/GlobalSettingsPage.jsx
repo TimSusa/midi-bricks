@@ -16,7 +16,7 @@ import MidiSettingsDialog from '../components/channel-strip-list/channel-strip/m
 
 class GlobalSettingsPage extends React.PureComponent {
   render () {
-    const { classes, sliderList, viewSettings: { isSettingsDialogMode, lastFocusedIdx } } = this.props
+    const { classes, sliderList, midi, viewSettings: { isSettingsDialogMode, lastFocusedIdx } } = this.props
 
     return (
       <Table
@@ -35,8 +35,8 @@ class GlobalSettingsPage extends React.PureComponent {
         </TableHead>
         <TableBody>
           {
-            sliderList.map((sliderEntry, idx) => {
-              const { driverName, outputId } = this.outputIdToDriverName(sliderEntry.midi.midiDrivers, sliderEntry.outputId, sliderEntry.driverName)
+            sliderList && sliderList.map((sliderEntry, idx) => {
+              const { driverName, outputId } = this.outputIdToDriverName(midi.midiDrivers, sliderEntry.outputId, sliderEntry.driverName)
               const rowStyle = {
                 background: (!outputId && !['PAGE', 'LABEL'].includes(sliderEntry.type)) ? 'red' : 'none',
                 cursor: 'pointer'
@@ -45,7 +45,7 @@ class GlobalSettingsPage extends React.PureComponent {
               if (isSettingsDialogMode && (idx === lastFocusedIdx)) {
                 return (
                   <MidiSettingsDialog
-                    key={`glb-${idx}`}
+                    key={`glb-settings-${idx}`}
                     open
                     onClose={this.props.actions.toggleSettingsDialogMode.bind(this, { idx, isSettingsDialogMode: false })}
                     sliderEntry={sliderEntry}
@@ -67,9 +67,9 @@ class GlobalSettingsPage extends React.PureComponent {
               return (
                 <Tooltip
                   title={title}
+                  key={`glb-${idx}`}
                 >
                   <TableRow
-                    key={`glb-${idx}`}
                     style={rowStyle}
                     onClick={this.props.actions.toggleSettingsDialogMode.bind(this, { idx, isSettingsDialogMode: true })}
                   >
@@ -139,9 +139,10 @@ function mapDispatchToProps (dispatch) {
     actions: bindActionCreators({ ...MidiSliderActions, ...ViewStuff }, dispatch)
   }
 }
-function mapStateToProps ({ sliderList, viewSettings }) {
+function mapStateToProps ({ sliders: { sliderList, midi }, viewSettings }) {
   return {
     sliderList,
+    midi,
     viewSettings
   }
 }

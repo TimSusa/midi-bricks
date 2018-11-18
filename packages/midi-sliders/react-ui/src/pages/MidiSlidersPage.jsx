@@ -73,7 +73,7 @@ class MidiSlidersPage extends React.PureComponent {
   onMIDISuccess = (midiAccess) => {
     if (midiAccess.outputs.size > 0) {
       this.props.actions.initMidiAccess({ midiAccess })
-      if (this.props.sliderList.some((item) => item.listenToCc && item.listenToCc.length > 0)) {
+      if (this.props.sliderList && this.props.sliderList.some((item) => item.listenToCc && item.listenToCc.length > 0)) {
         for (var input of midiAccess.inputs.values()) {
           input.onmidimessage = this.getMIDIMessage
         }
@@ -147,7 +147,7 @@ function mapDispatchToProps (dispatch) {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
-function mapStateToProps ({ viewSettings, sliderList }) {
+function mapStateToProps ({ viewSettings, sliders: { sliderList } }) {
   return {
     viewSettings,
     sliderList

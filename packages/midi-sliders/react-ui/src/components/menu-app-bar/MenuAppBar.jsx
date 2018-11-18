@@ -18,7 +18,7 @@ import AddMenu from './AddMenu'
 
 class MenuAppBar extends React.PureComponent {
   render () {
-    const { classes, actions, sliderList, viewSettings: { isLiveMode, isLayoutMode, isCompactHorz, isAutoArrangeMode } } = this.props
+    const { classes, actions, viewSettings: { isLiveMode, isLayoutMode, isCompactHorz, isAutoArrangeMode } } = this.props
     if (isLiveMode) {
       return (
         <div />
@@ -68,7 +68,7 @@ class MenuAppBar extends React.PureComponent {
               }
             </IconButton>
 
-            <AddMenu sliderListLength={sliderList.length} />
+            <AddMenu />
             <ViewMenu />
           </Toolbar>
         </AppBar>
@@ -105,7 +105,7 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-function mapStateToProps ({ sliderList, viewSettings }) {
+function mapStateToProps ({ sliders: {sliderList}, viewSettings }) {
   return {
     sliderList,
     viewSettings

@@ -97,7 +97,7 @@ class AddMenu extends React.PureComponent {
   }
 
   handleAddButton = (type) => {
-    this.props.actions.addButton({type})
+    this.props.actions.addButton({ type })
     this.handleClose()
   }
 
@@ -117,14 +117,14 @@ class AddMenu extends React.PureComponent {
 
   handleAddPage = () => {
     this.props.actions.addPage()
-    this.setState({ anchorEl: null }, () => this.props.actions.addPageToFooter({sliderList: this.props.sliderList}))
+    this.setState({ anchorEl: null }, () => this.props.actions.addPageToFooter({ sliderList: this.props.sliderList }))
   }
 }
 
 AddMenu.propTypes = {
   actions: PropTypes.object.isRequired
 }
-function mapStateToProps ({ viewSettings, sliderList }) {
+function mapStateToProps ({ viewSettings, sliders: { sliderList } }) {
   return {
     viewSettings,
     sliderList
@@ -132,7 +132,7 @@ function mapStateToProps ({ viewSettings, sliderList }) {
 }
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators({...MidiSlidersAction, ...ViewSettinsgsAction}, dispatch)
+    actions: bindActionCreators({ ...MidiSlidersAction, ...ViewSettinsgsAction }, dispatch)
   }
 }
 

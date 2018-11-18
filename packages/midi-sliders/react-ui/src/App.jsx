@@ -30,7 +30,7 @@ class App extends React.PureComponent {
       <Route exact path='/' component={MidiSlidersPage} />
       <Route exact path='/test-page' component={TestPage} />
     </div>
-  );
+  )
 
   render () {
     return (
@@ -85,11 +85,11 @@ class App extends React.PureComponent {
     } else {
       this.setState(state =>
         ({ isMobileOpen: !this.state.isMobileOpen }),
-      () => parsedJson.sliderList &&
-        this.props.actions.addPageToFooter({sliderList: parsedJson.sliderList}))
+      () => parsedJson.sliders.sliderList &&
+        this.props.actions.addPageToFooter({sliderList: parsedJson.sliders.sliderList}))
     }
 
-    window.location.reload()
+    // window.location.reload()
   }
 
   handleSaveFile = () => {

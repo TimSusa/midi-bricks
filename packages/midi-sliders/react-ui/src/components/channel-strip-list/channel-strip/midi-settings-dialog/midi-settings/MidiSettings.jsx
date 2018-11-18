@@ -488,7 +488,7 @@ function mapDispatchToProps (dispatch) {
     actions: bindActionCreators({ ...MidiSliderActions, ...ViewActions }, dispatch)
   }
 }
-function mapStateToProps ({ sliderList }) {
+function mapStateToProps ({ sliders: {sliderList} }) {
   return {
     sliderList
   }

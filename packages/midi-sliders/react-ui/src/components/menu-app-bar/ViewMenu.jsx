@@ -21,6 +21,16 @@ class ViewMenu extends React.PureComponent {
 
   render () {
     const { anchorEl } = this.state
+    const {
+      viewSettings: {
+        isLayoutMode,
+        isAutoArrangeMode,
+        isChangedTheme,
+        isSettingsMode,
+        isCompactHorz,
+        isLiveMode
+      }
+    } = this.props
     const isOpen = Boolean(anchorEl)
     return (
       <div>
@@ -50,7 +60,7 @@ class ViewMenu extends React.PureComponent {
           <MenuItem
             onClick={this.toggleLiveMode}>
             <ListItemIcon>
-              {this.props.viewSettings.isLiveMode ? (
+              {isLiveMode ? (
                 <OnIcon />
               ) : (
                 <OffIcon />
@@ -65,7 +75,7 @@ class ViewMenu extends React.PureComponent {
           <MenuItem
             onClick={this.toggleLayoutMode}>
             <ListItemIcon>
-              {this.props.viewSettings.isLayoutMode ? (
+              {isLayoutMode ? (
                 <OnIcon />
               ) : (
                 <OffIcon />
@@ -77,12 +87,12 @@ class ViewMenu extends React.PureComponent {
             </Typography>
           </MenuItem>
           {
-            !this.props.viewSettings.isLayoutMode &&
+            !isLayoutMode &&
             <MenuItem
               onClick={this.toggleSettingsMode}
             >
               <ListItemIcon>
-                {this.props.viewSettings.isSettingsMode ? (
+                {isSettingsMode ? (
                   <OnIcon />
                 ) : (
                   <OffIcon />
@@ -98,7 +108,7 @@ class ViewMenu extends React.PureComponent {
             onClick={this.toggleCompactMode}
           >
             <ListItemIcon>
-              {!this.props.viewSettings.isCompactHorz ? (
+              {!isCompactHorz ? (
                 <OnIcon />
               ) : (
                 <OffIcon />
@@ -110,12 +120,12 @@ class ViewMenu extends React.PureComponent {
           </MenuItem>
 
           {
-            this.props.viewSettings.isLayoutMode &&
+            isLayoutMode &&
             <MenuItem
               onClick={this.handleChangeAutoArrangeMode}
             >
               <ListItemIcon>
-                {this.props.viewSettings.isAutoArrangeMode ? (
+                {isAutoArrangeMode ? (
                   <OnIcon />
                 ) : (
                   <OffIcon />
@@ -129,7 +139,7 @@ class ViewMenu extends React.PureComponent {
           <MenuItem
             onClick={this.handleChangeTheme}>
             <ListItemIcon>
-              {this.props.viewSettings.isChangedTheme ? (
+              {isChangedTheme ? (
                 <OnIcon />
               ) : (
                 <OffIcon />

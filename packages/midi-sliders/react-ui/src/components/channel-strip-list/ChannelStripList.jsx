@@ -48,7 +48,7 @@ class ChannelStripList extends React.PureComponent {
       }
     }
 
-    if (sliderList.length > 0) {
+    if (sliderList && sliderList.length > 0) {
       return (
         <GridLayout
           rowHeight={40}
@@ -57,7 +57,7 @@ class ChannelStripList extends React.PureComponent {
           isDraggable={isLayoutMode}
           isResizable={isLayoutMode}
           compactType={isCompactHorz ? 'horizontal' : 'vertical'}
-          layout={this.props.sliderList}
+          layout={sliderList}
           onLayoutChange={isLayoutMode ? this.onLayoutChange : () => { }}
         >
           {this.renderChannelStrips()}
@@ -81,8 +81,8 @@ class ChannelStripList extends React.PureComponent {
   }
 
   renderChannelStrips = () => {
-    const entries = this.props.sliderList
-    return entries && entries.map((sliderEntry, idx) => {
+    const { sliderList, viewSettings: { isSettingsDialogMode, isSettingsMode, isLayoutMode, lastFocusedIdx } } = this.props
+    return sliderList && sliderList.map((sliderEntry, idx) => {
       return (
         <div
           key={sliderEntry.i}
@@ -92,20 +92,20 @@ class ChannelStripList extends React.PureComponent {
             monitorHeight
           >
             {({ size }) => {
-              if (this.props.viewSettings.isLayoutMode) {
+              if (isLayoutMode) {
                 return (
                   <Card
                     style={{
                       height: '100%',
                       cursor: 'pointer',
-                      background: this.props.viewSettings.isLayoutMode ? 'azure' : 'transparent'
+                      background: isLayoutMode ? 'azure' : 'transparent'
                     }}
                   >
                     <ChannelStrip
                       size={size}
                       sliderEntry={sliderEntry}
                       idx={idx}
-                      isDisabled={this.props.viewSettings.isLayoutMode}
+                      isDisabled={isLayoutMode}
                     />
                   </Card>
                 )
@@ -121,25 +121,25 @@ class ChannelStripList extends React.PureComponent {
                     style={{
                       height: '100%',
                       borderRadius: 5,
-                      background: this.props.viewSettings.isSettingsMode ? 'beige' : 'transparent'
+                      background: isSettingsMode ? 'beige' : 'transparent'
                     }}
                   >
                     <ChannelStrip
                       size={size}
                       sliderEntry={sliderEntry}
                       idx={idx}
-                      isDisabled={this.props.viewSettings.isLayoutMode}
+                      isDisabled={isLayoutMode}
                     />
                     {
-                      this.props.viewSettings.isSettingsMode ? (
+                      isSettingsMode ? (
                         <span
                           className='settings'
                           style={settingsStyle}
                         >
                           <MidiSettingsDialogButton
                             toggleSettings={this.props.actions.toggleSettingsDialogMode}
-                            lastFocusedIdx={this.props.viewSettings.lastFocusedIdx}
-                            isSettingsDialogMode={this.props.viewSettings.isSettingsDialogMode}
+                            lastFocusedIdx={lastFocusedIdx}
+                            isSettingsDialogMode={isSettingsDialogMode}
                             sliderEntry={sliderEntry}
                             idx={idx}
                           />
@@ -222,7 +222,7 @@ const styles = theme => ({
   }
 })
 
-function mapStateToProps ({ sliderList, viewSettings }) {
+function mapStateToProps ({ sliders: { sliderList }, viewSettings }) {
   return {
     sliderList,
     viewSettings
