@@ -75,7 +75,8 @@ const styles = theme => ({
     padding: 0,
     width: '100%',
     background: theme.palette.button.background,
-    textTransform: 'none'
+    textTransform: 'none',
+    transition: 'unset'
   }
 })
 
