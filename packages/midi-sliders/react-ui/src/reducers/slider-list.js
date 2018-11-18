@@ -578,7 +578,7 @@ const transformState = (state, action, field) => {
 const transformAddState = (state, action, type) => {
   // Either use last selected driver id or take the first available one
   const midi = state.midi
-  const list = state.sliderList
+  const list = state.sliderList || []
 
   // Driver Name
   const availDriverName = midi.midiDrivers[0].name
