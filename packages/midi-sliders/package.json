@@ -7,14 +7,14 @@
   },
   "scripts": {
     "start": "node server",
-    "heroku-postbuild": "cd react-ui/ && npm install && npm install --no-shrinkwrap && npm run build && rm build/static/js/main*.map"
+    "heroku-postbuild": "cd react-ui/ && npm install && npm install --no-shrinkwrap && npm run build"
   },
   "cacheDirectories": [
     "node_modules",
     "react-ui/node_modules"
   ],
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.4"
   },
   "repository": {
     "type": "git",
