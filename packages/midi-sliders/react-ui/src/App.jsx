@@ -78,6 +78,7 @@ class App extends React.PureComponent {
     const files = results[0]
     const content = files[0].target.result
     const parsedJson = JSON.parse(content)
+
     if (parsedJson.viewSettings && parsedJson.viewSettings.footerPages) {
       this.setState(state =>
         ({ isMobileOpen: !this.state.isMobileOpen }),
@@ -89,6 +90,7 @@ class App extends React.PureComponent {
         this.props.actions.addPageToFooter({sliderList: parsedJson.sliders.sliderList}))
     }
 
+    this.props.actions.toggleGlobalSettingsMode({isGlobalSettingsMode: true})
     // window.location.reload()
   }
 

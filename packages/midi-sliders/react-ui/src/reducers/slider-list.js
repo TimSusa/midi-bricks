@@ -388,7 +388,10 @@ export const sliders = createReducer([], {
     }
     const content = files[0].target.result
     const parsedJson = JSON.parse(content)
-    const tmp = (parsedJson.sliderList && parsedJson.sliderList) || (parsedJson.sliders.sliderList && parsedJson.sliders.sliderList) || parsedJson
+    const tmp =
+      (parsedJson.sliderList && parsedJson.sliderList) ||
+      (parsedJson.sliders.sliderList && parsedJson.sliders.sliderList) ||
+      parsedJson
 
     // Apply self healing ouputId
     const list = tmp.map(item => {
