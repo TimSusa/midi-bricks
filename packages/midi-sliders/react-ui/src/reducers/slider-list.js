@@ -212,7 +212,7 @@ export const sliders = createReducer([], {
     return { ...state, sliderList: newState }
   },
   [ActionTypeSliderList.CHANGE_LABEL] (state, action) {
-    const newState = transformState(state, action, 'label')
+    const newState = transformState(state.sliderList, action, 'label')
     return { ...state, sliderList: newState }
   },
   [ActionTypeSliderList.SELECT_SLIDER_MIDI_DRIVER] (state, action) {
@@ -562,9 +562,9 @@ const getAvailableDrivers = (midiAccess) => {
   return availableDrivers
 }
 
-const transformState = (state, action, field) => {
+const transformState = (sliderList, action, field) => {
   const { idx, val } = action.payload || action
-  const newState = state.sliderList.map((item, i) => {
+  const newState = sliderList.map((item, i) => {
     if (idx === i) {
       const tmp = {
         ...item,
