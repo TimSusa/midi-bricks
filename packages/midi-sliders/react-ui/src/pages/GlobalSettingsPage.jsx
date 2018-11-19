@@ -15,6 +15,10 @@ import * as ViewStuff from '../actions/view-settings.js'
 import MidiSettingsDialog from '../components/channel-strip-list/channel-strip/midi-settings-dialog/MidiSettingsDialog'
 
 class GlobalSettingsPage extends React.PureComponent {
+  constructor(props){
+    super(props)
+    this.props.actions.toggleLiveMode({isLiveMode: false})
+  }
   render () {
     const { classes, sliderList, midi, viewSettings: { isSettingsDialogMode, lastFocusedIdx } } = this.props
 

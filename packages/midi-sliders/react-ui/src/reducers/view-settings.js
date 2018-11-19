@@ -6,13 +6,18 @@ export const viewSettings = createReducer({}, {
   [ActionTypeViewSettings.TOGGLE_GLOBAL_SETTINGS_MODE] (state = { isGlobalSettingsMode: false }, action) {
     const { isGlobalSettingsMode } = action.payload
     return Object.assign({}, state, {
-      isGlobalSettingsMode, isLayoutMode: false, isSettingsMode: false
+      isGlobalSettingsMode, isLayoutMode: false, isSettingsMode: false, isLiveMode: false
     })
   },
   [ActionTypeViewSettings.TOGGLE_LIVE_MODE] (state = { isLiveMode: false }, action) {
-    const castedVal = !!state.isLiveMode
+    let castedVal = !!state.isLiveMode
+    if (action.payload && action.payload.isLiveMode !== undefined) {
+      castedVal = action.payload.isLiveMode
+    } else {
+      castedVal = !castedVal
+    }
     return Object.assign({}, state, {
-      isLiveMode: !castedVal, isLayoutMode: false, isSettingsMode: false
+      isLiveMode: castedVal, isLayoutMode: false, isSettingsMode: false
     })
   },
 
