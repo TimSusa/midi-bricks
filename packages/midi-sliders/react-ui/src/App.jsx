@@ -16,7 +16,6 @@ import MenuAppBar from './components/menu-app-bar/MenuAppBar'
 import DrawerList from './components/drawer-list/DrawerList'
 import Footer from './components/footer/Footer'
 
-import TestPage from './pages/TestPage.jsx'
 
 const history = createBrowserHistory()
 
@@ -28,7 +27,6 @@ class App extends React.PureComponent {
   routes = (
     <div className={this.props.classes.content}>
       <Route exact path='/' component={MidiSlidersPage} />
-      <Route exact path='/test-page' component={TestPage} />
     </div>
   )
 

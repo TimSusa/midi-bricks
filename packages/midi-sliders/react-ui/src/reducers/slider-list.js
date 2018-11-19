@@ -82,7 +82,7 @@ export const sliders = createReducer([], {
     //   }
     //   arrToSend = [entry]
     // }
-    return { midi, sliderList: arrToSend }
+    return { ...state, midi, sliderList: arrToSend }
   },
   [ActionTypeSliderList.ADD_SLIDER] (state, action) {
     const newState = transformAddState(state, action, SLIDER)
@@ -387,6 +387,8 @@ export const sliders = createReducer([], {
       window.alert('No file selected')
     }
     const content = files[0].target.result
+    const fileName = files[1].name
+    console.log('loaded file: ', fileName)
     const parsedJson = JSON.parse(content)
     const tmp =
       (parsedJson.sliderList && parsedJson.sliderList) ||
@@ -409,7 +411,7 @@ export const sliders = createReducer([], {
       })
       return tmp
     })
-    return { ...state, sliderList: list }
+    return { presetName: fileName, ...state, sliderList: list }
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER] (state, action) {
     let newArray = []

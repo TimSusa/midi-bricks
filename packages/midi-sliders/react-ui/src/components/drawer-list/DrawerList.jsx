@@ -10,7 +10,6 @@ import SaveIcon from '@material-ui/icons/Save'
 import HomeIcon from '@material-ui/icons/Home'
 import GlobalIcon from '@material-ui/icons/Public'
 import DeleteIcon from '@material-ui/icons/Delete'
-import TestPageIcon from '@material-ui/icons/Build'
 import * as React from 'react'
 import FileReader from './FileReader'
 import DeleteModal from '../DeleteModal'
@@ -21,7 +20,7 @@ class DrawerList extends React.PureComponent {
   }
   render () {
     return (
-      <div>
+      <React.Fragment>
         <div className={this.props.classes.drawerHeader} />
         <Divider />
         <List>
@@ -67,8 +66,6 @@ class DrawerList extends React.PureComponent {
             </ListItemIcon>
             <ListItemText primary='Main View' />
           </ListItem>
-        </List>
-        <List>
           <ListItem button onClick={() => this.props.toggleGlobalSettings({isGlobalSettingsMode: true})}>
             <ListItemIcon>
               <GlobalIcon />
@@ -76,17 +73,8 @@ class DrawerList extends React.PureComponent {
             <ListItemText primary='Global Settings' />
           </ListItem>
         </List>
-        <List>
-          <ListItem button onClick={() => window.location.replace('/#/test-page')}>
-            <ListItemIcon>
-              <TestPageIcon />
-            </ListItemIcon>
-            <ListItemText primary='Test Page' />
-          </ListItem>
-        </List>
         <Divider />
-        {/* <div style={{ height: 10000 }} /> */}
-      </div>
+      </React.Fragment>
     )
   }
 }

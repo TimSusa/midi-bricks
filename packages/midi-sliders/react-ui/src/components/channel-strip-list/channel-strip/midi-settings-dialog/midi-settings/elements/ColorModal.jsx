@@ -75,18 +75,11 @@ class ColorModal extends React.PureComponent {
           <DialogActions>
             <Button
               className={classes.iconColor}
-              onClick={this.handleCloseCancel}
-              color='primary'
-            >
-              Cancel
-            </Button>
-            <Button
-              className={classes.iconColor}
               onClick={this.handleClose.bind(this, sliderEntry)}
               color='primary'
               autoFocus
             >
-              Change Color
+              OK
             </Button>
           </DialogActions>
         </Dialog>

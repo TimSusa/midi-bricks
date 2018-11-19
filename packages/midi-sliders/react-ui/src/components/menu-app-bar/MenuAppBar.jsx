@@ -16,9 +16,9 @@ import AutoArrangeModeIconFalse from '@material-ui/icons/TextFormat'
 import ViewMenu from './ViewMenu'
 import AddMenu from './AddMenu'
 
-class MenuAppBar extends React.PureComponent {
+class MenuAppBar extends React.Component {
   render () {
-    const { classes, actions, viewSettings: { isLiveMode, isLayoutMode, isCompactHorz, isAutoArrangeMode } } = this.props
+    const { classes, actions, presetName, viewSettings: { isGlobalSettingsMode, isLiveMode, isLayoutMode, isCompactHorz, isAutoArrangeMode } } = this.props
     if (isLiveMode) {
       return (
         <div />
@@ -69,7 +69,10 @@ class MenuAppBar extends React.PureComponent {
             </IconButton>
 
             <AddMenu />
-            <ViewMenu />
+            {isGlobalSettingsMode && <Typography>
+              {presetName || 'File Unknown'}
+            </Typography>}
+            {!isGlobalSettingsMode && <ViewMenu />}
           </Toolbar>
         </AppBar>
         <div style={{ height: 64 }} />
@@ -105,9 +108,9 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-function mapStateToProps ({ sliders: {sliderList}, viewSettings }) {
+function mapStateToProps ({ sliders: {presetName}, viewSettings }) {
   return {
-    sliderList,
+    presetName,
     viewSettings
   }
 }
