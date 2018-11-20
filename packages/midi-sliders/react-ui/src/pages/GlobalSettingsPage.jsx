@@ -13,13 +13,14 @@ import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../actions/slider-list.js'
 import * as ViewStuff from '../actions/view-settings.js'
 import MidiSettingsDialog from '../components/channel-strip-list/channel-strip/midi-settings-dialog/MidiSettingsDialog'
+import { outputIdToDriverName } from '../utils/output-to-driver-name.js'
 
 class GlobalSettingsPage extends React.PureComponent {
-  constructor(props){
+  constructor(props) {
     super(props)
-    this.props.actions.toggleLiveMode({isLiveMode: false})
+    this.props.actions.toggleLiveMode({ isLiveMode: false })
   }
-  render () {
+  render() {
     const { classes, sliderList, midi, viewSettings: { isSettingsDialogMode, lastFocusedIdx } } = this.props
 
     return (
@@ -40,7 +41,7 @@ class GlobalSettingsPage extends React.PureComponent {
         <TableBody>
           {
             sliderList && sliderList.map((sliderEntry, idx) => {
-              const { driverName, outputId } = this.outputIdToDriverName(midi.midiDrivers, sliderEntry.outputId, sliderEntry.driverName)
+              const { driverName, outputId } = outputIdToDriverName(midi.midiDrivers, sliderEntry.outputId, sliderEntry.driverName)
               const rowStyle = {
                 background: ((!outputId || !driverName) && !['PAGE', 'LABEL'].includes(sliderEntry.type)) ? 'red' : 'none',
                 cursor: 'pointer'
@@ -112,20 +113,6 @@ class GlobalSettingsPage extends React.PureComponent {
   renderListeners = (tmp) => {
     return (<div>{tmp.join(', ')}</div>)
   }
-
-  outputIdToDriverName = (drivers, outputId, driverName) => {
-    let name = ''
-    let outputIdOut
-    drivers.forEach((item) => {
-      if (item.name === driverName) {
-        name = item.name
-      }
-      if (item.outputId === outputId) {
-        outputIdOut = outputId
-      }
-    })
-    return { driverName: name, outputId: outputIdOut }
-  }
 }
 
 const styles = theme => ({
@@ -138,12 +125,12 @@ const styles = theme => ({
   }
 })
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({ ...MidiSliderActions, ...ViewStuff }, dispatch)
   }
 }
-function mapStateToProps ({ sliders: { sliderList, midi }, viewSettings }) {
+function mapStateToProps({ sliders: { sliderList, midi }, viewSettings }) {
   return {
     sliderList,
     midi,

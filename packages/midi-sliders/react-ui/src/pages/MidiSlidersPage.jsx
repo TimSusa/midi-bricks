@@ -111,8 +111,7 @@ class MidiSlidersPage extends React.PureComponent {
           break
 
         case 0xb0:
-          const debounced = debounce(() => this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: undefined, val: velocity, cC: note, channel }), 5)
-          debounced()
+          this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: undefined, val: velocity, cC: note, channel })
           break
 
         default:
