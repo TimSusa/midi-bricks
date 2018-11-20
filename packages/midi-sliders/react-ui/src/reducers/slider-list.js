@@ -387,8 +387,8 @@ export const sliders = createReducer([], {
       window.alert('No file selected')
     }
     const content = files[0].target.result
-    const fileName = files[1].name
-    console.log('loaded file: ', fileName)
+    const presetName = files[1].name
+    console.log('loaded file: ', presetName)
     const parsedJson = JSON.parse(content)
     const tmp =
       (parsedJson.sliderList && parsedJson.sliderList) ||
@@ -411,7 +411,7 @@ export const sliders = createReducer([], {
       })
       return tmp
     })
-    return { presetName: fileName, ...state, sliderList: list }
+    return { ...state, sliderList: list, presetName }
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER] (state, action) {
     let newArray = []

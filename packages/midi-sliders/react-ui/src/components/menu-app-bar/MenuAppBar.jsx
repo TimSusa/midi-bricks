@@ -70,7 +70,7 @@ class MenuAppBar extends React.Component {
 
             <AddMenu />
             {isGlobalSettingsMode && <Typography>
-              {presetName || 'File Unknown'}
+              {presetName || ''}
             </Typography>}
             {!isGlobalSettingsMode && <ViewMenu />}
           </Toolbar>
