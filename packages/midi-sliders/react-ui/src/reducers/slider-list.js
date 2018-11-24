@@ -33,7 +33,7 @@ export const sliders = createReducer([], {
       midiDrivers: getAvailableDrivers(action.payload.midiAccess)
     }
 
-    let arrToSend = state.sliderList && state.sliderList.length && state.sliderList.map((item) => {
+    const sliderList = state.sliderList && state.sliderList.length && state.sliderList.map((item) => {
       if (item.driverName) {
         midi.midiDrivers.forEach(({ name, outputId }) => {
           if (name === item.driverName) {
@@ -50,7 +50,7 @@ export const sliders = createReducer([], {
         midi
       })
     })
-    return { ...state, midi, sliderList: arrToSend }
+    return { ...state, midi, sliderList }
   },
   [ActionTypeSliderList.ADD_SLIDER] (state, action) {
     const newState = transformAddState(state, action, SLIDER)
@@ -136,10 +136,10 @@ export const sliders = createReducer([], {
   },
   [ActionTypeSliderList.DELETE] (state, action) {
     const newIdx = action.payload.idx.toString()
-    const newState = state.sliderList.filter((t, idx) => {
+    const sliderList = state.sliderList.filter((t, idx) => {
       return newIdx !== t.i
     })
-    return { ...state, sliderList: [...newState] }
+    return { ...state, sliderList }
   },
   [ActionTypeSliderList.DELETE_ALL] (state, action) {
     return { ...state, sliderList: [] }
@@ -168,9 +168,8 @@ export const sliders = createReducer([], {
         }
       })
     }
-    const newState = toggleNote(state.sliderList, idx)
-
-    return { ...state, sliderList: newState }
+    const sliderList = toggleNote(state.sliderList, idx)
+    return { ...state, sliderList }
   },
   [ActionTypeSliderList.CHANGE_LABEL] (state, action) {
     const newState = transformState(state.sliderList, action, 'label')
@@ -178,7 +177,7 @@ export const sliders = createReducer([], {
   },
   [ActionTypeSliderList.SELECT_SLIDER_MIDI_DRIVER] (state, action) {
     const { i, driverName } = action.payload
-    let arrToSend = state.sliderList.map((item) => {
+    const sliderList = state.sliderList.map((item) => {
       let retVal = item
       state.midi.midiDrivers.forEach(({ name, outputId }) => {
         if (name === driverName) {
@@ -193,15 +192,15 @@ export const sliders = createReducer([], {
       })
       return retVal
     })
-    return { ...state, sliderList: arrToSend }
+    return { ...state, sliderList }
   },
   [ActionTypeSliderList.SELECT_CC] (state, action) {
-    const newState = transformState(state.sliderList, action, 'midiCC')
-    return { ...state, sliderList: newState }
+    const sliderList = transformState(state.sliderList, action, 'midiCC')
+    return { ...state, sliderList }
   },
   [ActionTypeSliderList.ADD_MIDI_CC_LISTENER] (state, action) {
-    const newState = transformState(state.sliderList, action, 'listenToCc')
-    return { ...state, sliderList: newState }
+    const sliderList = transformState(state.sliderList, action, 'listenToCc')
+    return { ...state, sliderList }
   },
   [ActionTypeSliderList.SET_MAX_VAL] (state, action) {
     const { val, idx } = action.payload
@@ -217,8 +216,8 @@ export const sliders = createReducer([], {
     } else {
       newAction = { payload: { val: 1, idx } }
     }
-    const newState = transformState(state.sliderList, newAction, 'maxVal')
-    return { ...state, sliderList: newState }
+    const sliderList = transformState(state.sliderList, newAction, 'maxVal')
+    return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.SET_MIN_VAL] (state, action) {
@@ -235,8 +234,8 @@ export const sliders = createReducer([], {
     } else {
       newAction = { payload: { val: 0, idx } }
     }
-    const newState = transformState(state.sliderList, newAction, 'minVal')
-    return { ...state, sliderList: newState }
+    const sliderList = transformState(state.sliderList, newAction, 'minVal')
+    return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.SET_ON_VAL] (state, action) {
@@ -251,8 +250,8 @@ export const sliders = createReducer([], {
       newAction = { payload: { val: 0, idx } }
     }
 
-    const newState = transformState(state.sliderList, newAction, 'onVal')
-    return { ...state, sliderList: newState }
+    const sliderList = transformState(state.sliderList, newAction, 'onVal')
+    return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.SET_OFF_VAL] (state, action) {
@@ -266,8 +265,8 @@ export const sliders = createReducer([], {
     } else {
       newAction = { payload: { val: 0, idx } }
     }
-    const newState = transformState(state.sliderList, newAction, 'offVal')
-    return { ...state, sliderList: newState }
+    const sliderList = transformState(state.sliderList, newAction, 'offVal')
+    return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL] (state, action) {
@@ -283,8 +282,8 @@ export const sliders = createReducer([], {
     } else {
       newAction = { payload: { val: 1, idx } }
     }
-    const newState = transformState(state.sliderList, newAction, 'midiChannel')
-    return { ...state, sliderList: newState }
+    const sliderList = transformState(state.sliderList, newAction, 'midiChannel')
+    return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL_INPUT] (state, action) {
@@ -297,8 +296,8 @@ export const sliders = createReducer([], {
     if (val === 'all') {
       newAction = { payload: { val: 'all', idx } }
     }
-    const newState = transformState(state.sliderList, newAction || action, 'midiChannelInput')
-    return { ...state, sliderList: newState }
+    const sliderList = transformState(state.sliderList, newAction || action, 'midiChannelInput')
+    return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.HANDLE_SLIDER_CHANGE] (state, action) {
@@ -326,8 +325,8 @@ export const sliders = createReducer([], {
         output.send(ccMessage, (window.performance.now() + 10.0))
       })
     }
-    const newState = transformState(newStateTmp, { payload: { idx: parseInt(idx, 10), val } }, 'val')
-    return { ...state, sliderList: newState }
+    const sliderList = transformState(newStateTmp, { payload: { idx: parseInt(idx, 10), val } }, 'val')
+    return { ...state, sliderList }
   },
   [ActionTypeSliderList.SAVE_FILE] (state, action) {
     const tmpStore = store.getState()
@@ -355,7 +354,7 @@ export const sliders = createReducer([], {
       parsedJson
 
     // Apply self healing ouputId
-    const list = tmp.map(item => {
+    const sliderList = tmp.map(item => {
       let tmp = item
       state.midi.midiDrivers.forEach(driver => {
         if (driver.name === item.driverName) {
@@ -369,7 +368,7 @@ export const sliders = createReducer([], {
       })
       return tmp
     })
-    return { ...state, sliderList: list, presetName, sliderListBackup: list }
+    return { ...state, sliderList, presetName, sliderListBackup: sliderList }
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER] (state, action) {
     let newArray = []
@@ -385,7 +384,7 @@ export const sliders = createReducer([], {
   },
 
   [ActionTypeSliderList.MIDI_MESSAGE_ARRIVED] (state, action) {
-    const newState = state.sliderList.map(item => {
+    const sliderList = state.sliderList.map(item => {
       const { listenToCc, midiChannelInput } = item
       if (listenToCc && listenToCc.length > 0) {
         const { val, cC, channel } = action.payload
@@ -401,7 +400,7 @@ export const sliders = createReducer([], {
       }
       return { ...item }
     })
-    return { ...state, sliderList: newState }
+    return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.CHANGE_COLORS] (state, action) {
@@ -417,8 +416,7 @@ export const sliders = createReducer([], {
     })
 
     // Add color fields to state
-    let newArray = []
-    newArray = state.sliderList.map((item, idx) => {
+    const sliderList = state.sliderList.map((item, idx) => {
       let tmp = item
       if (action.payload.i === item.i) {
         tmp = Object.assign({}, {
@@ -431,13 +429,12 @@ export const sliders = createReducer([], {
       }
       return tmp
     })
-    return { ...state, sliderList: newArray }
+    return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.CHANGE_FONT_SIZE] (state, action) {
     const { i, fontSize } = action.payload
-    let newArray = []
-    newArray = state.sliderList.map((item, idx) => {
+    const sliderList = state.sliderList.map((item, idx) => {
       let tmp = item
       if (i === item.i) {
         tmp = Object.assign({}, {
@@ -447,13 +444,12 @@ export const sliders = createReducer([], {
       }
       return tmp
     })
-    return { ...state, sliderList: newArray }
+    return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.CHANGE_FONT_WEIGHT] (state, action) {
     const { i, fontWeight } = action.payload
-    let newArray = []
-    newArray = state.sliderList.map((item, idx) => {
+    const sliderList = state.sliderList.map((item, idx) => {
       let tmp = item
       if (i === item.i) {
         tmp = Object.assign({}, {
@@ -463,13 +459,12 @@ export const sliders = createReducer([], {
       }
       return tmp
     })
-    return { ...state, sliderList: newArray }
+    return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.TOGGLE_HIDE_VALUE] (state, action) {
     const { i } = action.payload
-    let newArray = []
-    newArray = state.sliderList.map((item, idx) => {
+    const sliderList = state.sliderList.map((item, idx) => {
       let tmp = item
       if (i === item.i) {
         tmp = Object.assign({}, {
@@ -479,7 +474,7 @@ export const sliders = createReducer([], {
       }
       return tmp
     })
-    return { ...state, sliderList: newArray }
+    return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.RESET_VALUES] (state, action) {
@@ -494,17 +489,12 @@ export const sliders = createReducer([], {
   }
 })
 
-const getMidiOutputNoteOnOff = (sliderEntry, midiAccess) => {
-  const { onVal, offVal } = sliderEntry
-  // const valInt = parseInt(val, 10)
+const getMidiOutputNoteOnOff = ({ onVal, offVal, midiCC, outputId, midiChannel }, midiAccess) => {
   const onValInt = (onVal && parseInt(onVal, 10)) || 127
   const offValInt = ((offVal === 0) && 0) || (offVal && parseInt(offVal, 10)) || 0
-
-  const midiCC = sliderEntry.midiCC
-  const outputId = sliderEntry.outputId
-  const midiChannel = parseInt(sliderEntry.midiChannel, 10)
-  const noteOn = [0x8f + midiChannel, midiCC + 0x0c, onValInt]
-  const noteOff = [0x7f + midiChannel, midiCC + 0x0c, offValInt]
+  const midiChannelInt = parseInt(midiChannel, 10)
+  const noteOn = [0x8f + midiChannelInt, midiCC + 0x0c, onValInt]
+  const noteOff = [0x7f + midiChannelInt, midiCC + 0x0c, offValInt]
   const output = midiAccess.outputs.get(outputId)
 
   return {

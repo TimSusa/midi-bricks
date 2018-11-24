@@ -287,7 +287,7 @@ class MidiSettings extends React.PureComponent {
           <input
             type='range'
             min={8}
-            max={64}
+            max={54}
             value={fontSize || 16}
             onChange={this.handleFontsizeChange.bind(this, i)}
           />

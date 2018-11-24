@@ -34,7 +34,7 @@ class Footer extends React.Component {
               >
                 <IconButton
                   onClick={actions.swapFooterPages.bind(this, {srcIdx: idx, offset: -1})}
-                  className={classes.button}
+                  className={classes.signButton}
                   color='inherit'
                   aria-label='Menu'
                 >
@@ -51,7 +51,7 @@ class Footer extends React.Component {
 
                 <IconButton
                   onClick={actions.swapFooterPages.bind(this, {srcIdx: idx, offset: 1})}
-                  className={classes.button}
+                  className={classes.signButton}
                   color='inherit'
                   aria-label='Menu'
                 >
@@ -102,6 +102,9 @@ const styles = (theme) => ({
     color: theme.palette.primary.contrastText,
     fontWeight: 600,
     height: 60
+  },
+  signButton: {
+    width: 16
   },
   iconColor: {
     color: theme.palette.primary.contrastText,

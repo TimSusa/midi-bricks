@@ -38,14 +38,14 @@ class MidiSlider extends React.PureComponent {
           className={classes.rangeSliderWrapper}
           style={{
             height: isValueHidden ? ((1.4 * tmpLabelHeight) + tmpH) : tmpH,
-            bottom: isValueHidden ? (-tmpLabelHeight / 4) : ((fontSize > 23) ? (fontSize / 2) : 0)
+            bottom: isValueHidden ? (-tmpLabelHeight / 2) : ((fontSize > 23) ? (fontSize / 4) : -10)
           }}
         >
           <input
             disabled={isDisabled}
             style={{
               width: isValueHidden ? ((1.4 * tmpLabelHeight) + tmpH) : tmpH,
-              bottom: isValueHidden ? (-tmpLabelHeight / 4) : ((fontSize > 23) ? (fontSize / 2) : 0)
+              bottom: isValueHidden ? (-tmpLabelHeight / ((fontSize > 23) ? 3.6 : 1.7)) : ((fontSize > 23) ? (fontSize / 5) : -10)
             }}
             onChange={this.handleSliderChange.bind(this, idx)}
             type='range'
@@ -84,12 +84,16 @@ class MidiSlider extends React.PureComponent {
   }
 
   fontSizeToHeight = (fontSize) => {
-    if (fontSize <= 10 && fontSize >= 0) return (fontSize * 6)
-    if (fontSize <= 13 && fontSize > 10) return (fontSize * 5)
-    if (fontSize <= 24 && fontSize > 13) return (fontSize * 4)
-    if (fontSize <= 45 && fontSize > 24) return (fontSize * 3)
-    if (fontSize <= 63 && fontSize > 45) return (fontSize * 2.5)
-    if (fontSize <= 100 && fontSize > 63) return (fontSize * 2.3)
+    if (fontSize <= 8 && fontSize >= 0) return (fontSize * 5)
+    if (fontSize <= 10 && fontSize >= 8) return (fontSize * 4)
+    if (fontSize <= 13 && fontSize > 10) return (fontSize * 4)
+    if (fontSize <= 18 && fontSize > 13) return (fontSize * 3.2)
+    if (fontSize <= 23 && fontSize > 18) return (fontSize * 2.6)
+    if (fontSize <= 33 && fontSize > 23) return (fontSize * 2.9)
+    if (fontSize <= 45 && fontSize > 33) return (fontSize * 2.5)
+    if (fontSize <= 60 && fontSize > 45) return (fontSize * 2.2)
+    if (fontSize <= 63 && fontSize > 60) return (fontSize * 2)
+    if (fontSize <= 100 && fontSize > 63) return (fontSize * 1.8)
   }
 }
 
