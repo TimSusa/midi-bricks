@@ -3,9 +3,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as ViewSettingsAction from '../../actions/view-settings'
+import * as MidiSlidersAction from '../../actions/slider-list.js'
 import { withStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
+import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -69,10 +71,26 @@ class MenuAppBar extends React.Component {
             </IconButton>
 
             <AddMenu />
-            {isGlobalSettingsMode && <Typography>
-              {presetName || ''}
-            </Typography>}
-            {!isGlobalSettingsMode && <ViewMenu />}
+            {
+              isGlobalSettingsMode &&
+              <Typography>
+                {presetName || ''}
+              </Typography>
+            }
+            {
+              isGlobalSettingsMode &&
+              <Button
+                className={classes.resetButton}
+                variant='raised'
+                onClick={actions.resetValues}
+              >
+                Reset Values
+              </Button>
+            }
+            {
+              !isGlobalSettingsMode &&
+              <ViewMenu />
+            }
           </Toolbar>
         </AppBar>
         <div style={{ height: 64 }} />
@@ -99,16 +117,19 @@ const styles = theme => ({
   menuButton: {
     marginLeft: -12,
     marginRight: 20
+  },
+  resetButton: {
+    marginLeft: 16
   }
 })
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(ViewSettingsAction, dispatch)
+    actions: bindActionCreators({ ...MidiSlidersAction, ...ViewSettingsAction }, dispatch)
   }
 }
 
-function mapStateToProps ({ sliders: {presetName}, viewSettings }) {
+function mapStateToProps ({ sliders: { presetName }, viewSettings }) {
   return {
     presetName,
     viewSettings

@@ -480,6 +480,17 @@ export const sliders = createReducer([], {
       return tmp
     })
     return { ...state, sliderList: newArray }
+  },
+
+  [ActionTypeSliderList.RESET_VALUES] (state, action) {
+    const sliderList = state.sliderList.map((item, idx) => {
+      let retVal = {
+        ...item,
+        val: state.sliderListBackup[idx].val
+      }
+      return retVal
+    })
+    return { ...state, sliderList }
   }
 })
 
