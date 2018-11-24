@@ -219,7 +219,7 @@ export const sliders = createReducer([], {
     const { i, driverName } = action.payload
     let arrToSend = state.sliderList.map((item) => {
       let retVal = item
-      item.midi.midiDrivers.forEach(({ name, outputId }) => {
+      state.midi.midiDrivers.forEach(({ name, outputId }) => {
         if (name === driverName) {
           if (item.i === i) {
             retVal = Object.assign({}, {

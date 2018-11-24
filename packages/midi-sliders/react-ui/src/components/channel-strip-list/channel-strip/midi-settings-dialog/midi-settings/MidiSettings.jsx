@@ -34,8 +34,9 @@ const {
 } = STRIP_TYPE
 
 class MidiSettings extends React.PureComponent {
-  render () {
+  render() {
     const {
+      midiDrivers,
       sliderEntry,
       sliderEntry: {
         i,
@@ -48,7 +49,6 @@ class MidiSettings extends React.PureComponent {
         offVal,
         // outputId = 'None',
         driverName = 'None',
-        midi,
         midiChannel,
         midiChannelInput,
         listenToCc,
@@ -104,7 +104,7 @@ class MidiSettings extends React.PureComponent {
               })}
               value={driverName}
             >
-              {midi.midiDrivers && this.renderDriverSelection(midi.midiDrivers, type)}
+              {midiDrivers && this.renderDriverSelection(midiDrivers, type)}
             </Select>
           </FormControl>
           <FormControl className={classes.formControl}>
@@ -232,8 +232,8 @@ class MidiSettings extends React.PureComponent {
               </FormControl>
             </React.Fragment>
           ) : (
-            <div />
-          )
+              <div />
+            )
         }
         {
           ([SLIDER, SLIDER_HORZ].includes(type))
@@ -483,14 +483,15 @@ const styles = theme => ({
   }
 })
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({ ...MidiSliderActions, ...ViewActions }, dispatch)
   }
 }
-function mapStateToProps ({ sliders: {sliderList} }) {
+function mapStateToProps({ sliders: { sliderList, midi: { midiDrivers } } }) {
   return {
-    sliderList
+    sliderList,
+    midiDrivers
   }
 }
 export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MidiSettings)))
