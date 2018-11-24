@@ -355,12 +355,15 @@ export const sliders = createReducer([], {
 
     // Apply self healing ouputId
     const sliderList = tmp.map(item => {
-      let tmp = item
+      let tmp = {
+        ...item,
+        lastSavedVal: item.val
+      }
       state.midi.midiDrivers.forEach(driver => {
         if (driver.name === item.driverName) {
           if (driver.outputId !== item.outputId) {
             tmp = {
-              ...item,
+              ...tmp,
               outputId: driver.outputId
             }
           }
@@ -582,6 +585,7 @@ const transformAddState = (state, action, type) => {
     type,
     label: label + addStateLength(),
     val: 50,
+    lastSavedVal: 0,
     minVal: 0,
     maxVal: 127,
     onVal: 127,

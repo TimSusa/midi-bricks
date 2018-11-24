@@ -107,7 +107,7 @@ class GlobalSettingsPage extends React.PureComponent {
                       {!['PAGE', 'LABEL'].includes(sliderEntry.type) ? sliderEntry && sliderEntry.val : '-'}
                     </TableCell>
                     <TableCell>
-                      {!['PAGE', 'LABEL'].includes(sliderEntry.type) ? this.getLastValue(sliderListBackup, sliderEntry) : '-'}
+                      {!['PAGE', 'LABEL'].includes(sliderEntry.type) ? sliderEntry.lastSavedVal && (sliderEntry.lastSavedVal || '_') : '-'}
                     </TableCell>
                     <TableCell>
                       {(sliderEntry.listenToCc && (sliderEntry.listenToCc.length > 0) && this.renderListeners(sliderEntry.listenToCc)) || '-'}
@@ -125,16 +125,6 @@ class GlobalSettingsPage extends React.PureComponent {
 
   renderListeners = (tmp) => {
     return (<div>{tmp.join(', ')}</div>)
-  }
-
-  getLastValue = (sliderListBackup, sliderEntry) => {
-    let retVal = '-'
-    sliderListBackup && sliderListBackup.forEach((item) => {
-      if (sliderEntry.i === item.i) {
-        retVal = item.val
-      }
-    })
-    return retVal
   }
 
   hasChanged = (sliderListBackup, sliderEntry) => {

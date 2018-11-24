@@ -10,14 +10,13 @@ class MidiSlider extends React.PureComponent {
     height: 0
   }
   render () {
-    const { isDisabled, sliderEntry: { val, label, fontSize, fontWeight, isValueHidden, minVal, maxVal }, idx, height, width } = this.props
+    const { isDisabled, isSettingsMode, sliderEntry: { val, lastSavedVal, label, fontSize, fontWeight, isValueHidden, minVal, maxVal }, idx, height, width } = this.props
     const { classes } = this.props
 
     const tmpLabelHeight = this.fontSizeToHeight(fontSize)
     const tmpH = (height || 0) - (label ? tmpLabelHeight : 35) - (isValueHidden ? tmpLabelHeight : 0)
     const tmpFontSize = (parseInt(fontSize, 10) || 16) + 'px'
     const tmpFontWeight = fontWeight || 500
-
     return (
       <div style={{
         height,
@@ -64,7 +63,8 @@ class MidiSlider extends React.PureComponent {
               fontWeight: tmpFontWeight
             }}
           >
-            {val}
+            {`${val}`}
+            {isSettingsMode && ` / ${lastSavedVal}`}
           </Typography>
         ) : (<React.Fragment />)}
       </div>
@@ -169,10 +169,16 @@ const styles = theme => ({
   }
 })
 
+function mapStateToProps({viewSettings: {isSettingsMode} }) {
+  return {
+    isSettingsMode
+  }
+}
+
 function mapDispatchToProps (dispatch) {
   return {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
 
-export default (withStyles(styles)(connect(null, mapDispatchToProps)(MidiSlider)))
+export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MidiSlider)))
