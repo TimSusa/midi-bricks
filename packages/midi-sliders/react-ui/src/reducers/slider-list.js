@@ -50,38 +50,6 @@ export const sliders = createReducer([], {
         midi
       })
     })
-    // if (!arrToSend || arrToSend.length < 1) {
-    //   const entry = {
-    //     type: SLIDER,
-    //     label: 'slider 1',
-    //     val: 80,
-    //     minVal: 0,
-    //     maxVal: 127,
-    //     onVal: 127,
-    //     offVal: 0,
-    //     midiCC: [60],
-    //     listenToCc: [],
-    //     isNoteOn: false,
-    //     outputId: midi.midiDrivers[0].outputId,
-    //     driverName: midi.midiDrivers[0].name,
-    //     midiChannel: 1,
-    //     midiChannelInput: 'all',
-    //     i: '0',
-    //     x: 0,
-    //     y: 0,
-    //     w: 2,
-    //     h: 2,
-    //     static: false,
-    //     colors: {
-    //       color: 'rgba(240, 255, 0, 1)',
-    //       colorActive: 'rgba(240, 255, 0, 1)'
-    //     },
-    //     fontSize: 16,
-    //     fontWeight: 500,
-    //     isValueHidden: false
-    //   }
-    //   arrToSend = [entry]
-    // }
     return { ...state, midi, sliderList: arrToSend }
   },
   [ActionTypeSliderList.ADD_SLIDER] (state, action) {
@@ -174,13 +142,6 @@ export const sliders = createReducer([], {
     return { ...state, sliderList: [...newState] }
   },
   [ActionTypeSliderList.DELETE_ALL] (state, action) {
-    // const lastValArray =
-    //   state
-    //     .sliderList
-    //     .filter(
-    //       (item) => !['PAGE', 'LABEL'].includes(item.type)
-    //     )
-    //     .reverse()
     return { ...state, sliderList: [] }
   },
   [ActionTypeSliderList.TOGGLE_NOTE] (state, action) {
@@ -387,7 +348,6 @@ export const sliders = createReducer([], {
     }
     const content = files[0].target.result
     const presetName = files[1].name
-    console.log('loaded file: ', presetName)
     const parsedJson = JSON.parse(content)
     const tmp =
       (parsedJson.sliderList && parsedJson.sliderList) ||
@@ -400,7 +360,6 @@ export const sliders = createReducer([], {
       state.midi.midiDrivers.forEach(driver => {
         if (driver.name === item.driverName) {
           if (driver.outputId !== item.outputId) {
-            console.log('refresh output ID for label ', item.label)
             tmp = {
               ...item,
               outputId: driver.outputId
@@ -410,7 +369,7 @@ export const sliders = createReducer([], {
       })
       return tmp
     })
-    return { ...state, sliderList: list, presetName }
+    return { ...state, sliderList: list, presetName, sliderListBackup: list }
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER] (state, action) {
     let newArray = []

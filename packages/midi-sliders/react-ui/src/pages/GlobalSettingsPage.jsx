@@ -21,7 +21,7 @@ class GlobalSettingsPage extends React.PureComponent {
     this.props.actions.toggleLiveMode({ isLiveMode: false })
   }
   render() {
-    const { classes, sliderList, midi, viewSettings: { isSettingsDialogMode, lastFocusedIdx } } = this.props
+    const { classes, sliderList, sliderListBackup, midi, viewSettings: { isSettingsDialogMode, lastFocusedIdx } } = this.props
 
     return (
       <Table
@@ -34,7 +34,8 @@ class GlobalSettingsPage extends React.PureComponent {
             <TableCell>Driver</TableCell>
             <TableCell>Channel</TableCell>
             <TableCell>Note(s)/CC</TableCell>
-            <TableCell>Value</TableCell>
+            <TableCell>Current Value</TableCell>
+            <TableCell>Saved Value</TableCell>
             <TableCell>Listeners</TableCell>
           </TableRow>
         </TableHead>
@@ -42,9 +43,18 @@ class GlobalSettingsPage extends React.PureComponent {
           {
             sliderList && sliderList.map((sliderEntry, idx) => {
               const { driverName, outputId } = outputIdToDriverName(midi.midiDrivers, sliderEntry.outputId, sliderEntry.driverName)
-              const rowStyle = {
-                background: ((!outputId || !driverName) && !['PAGE', 'LABEL'].includes(sliderEntry.type)) ? 'red' : 'none',
+
+              let rowStyle = {
+                background: 'none',
                 cursor: 'pointer'
+              }
+
+              if (this.hasChanged(sliderListBackup, sliderEntry)) {
+                rowStyle.background = 'aliceblue'
+              }
+
+              if (((!outputId || !driverName) && !['PAGE', 'LABEL'].includes(sliderEntry.type))) {
+                rowStyle.background = 'red'
               }
 
               if (isSettingsDialogMode && (idx === lastFocusedIdx)) {
@@ -94,7 +104,10 @@ class GlobalSettingsPage extends React.PureComponent {
                       {(sliderEntry.midiCC && (sliderEntry.midiCC.length > 0) && this.renderListeners(sliderEntry.midiCC)) || '-'}
                     </TableCell>
                     <TableCell>
-                      {!['PAGE', 'LABEL'].includes(sliderEntry.type) ? sliderEntry.val : '-'}
+                      {!['PAGE', 'LABEL'].includes(sliderEntry.type) ? sliderEntry && sliderEntry.val : '-'}
+                    </TableCell>
+                    <TableCell>
+                      {!['PAGE', 'LABEL'].includes(sliderEntry.type) ? this.getLastValue(sliderListBackup, sliderEntry) : '-'}
                     </TableCell>
                     <TableCell>
                       {(sliderEntry.listenToCc && (sliderEntry.listenToCc.length > 0) && this.renderListeners(sliderEntry.listenToCc)) || '-'}
@@ -113,6 +126,28 @@ class GlobalSettingsPage extends React.PureComponent {
   renderListeners = (tmp) => {
     return (<div>{tmp.join(', ')}</div>)
   }
+
+  getLastValue = (sliderListBackup, sliderEntry) => {
+    let retVal = '-'
+    sliderListBackup && sliderListBackup.forEach((item) => {
+      if (sliderEntry.i === item.i) {
+        retVal = item.val
+      }
+    })
+    return retVal
+  }
+
+  hasChanged = (sliderListBackup, sliderEntry) => {
+    let retVal = false
+    sliderListBackup && sliderListBackup.forEach((sliderBackupEntry, idx) => {
+      if (sliderBackupEntry.i === sliderEntry.i) {
+        const backupVals = Object.values(sliderBackupEntry)
+        const vals = Object.values(sliderEntry)
+        retVal = backupVals.join(', ') !== vals.join(', ')
+      }
+    })
+    return retVal
+  }
 }
 
 const styles = theme => ({
@@ -130,11 +165,12 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({ ...MidiSliderActions, ...ViewStuff }, dispatch)
   }
 }
-function mapStateToProps({ sliders: { sliderList, midi }, viewSettings }) {
+function mapStateToProps({ sliders: { sliderList, midi, sliderListBackup }, viewSettings }) {
   return {
     sliderList,
     midi,
-    viewSettings
+    viewSettings,
+    sliderListBackup
   }
 }
 export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(GlobalSettingsPage)))
