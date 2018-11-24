@@ -13,7 +13,7 @@ const {
   BUTTON_TOGGLE_CC
 } = STRIP_TYPE
 
-// This component is supposed to configure the right button type for rendering
+// This component is supposed to configure the button type for rendering
 class MidiButtons extends React.PureComponent {
   render () {
     const {

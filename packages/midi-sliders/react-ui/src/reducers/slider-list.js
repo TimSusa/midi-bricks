@@ -235,11 +235,11 @@ export const sliders = createReducer([], {
     return { ...state, sliderList: arrToSend }
   },
   [ActionTypeSliderList.SELECT_CC] (state, action) {
-    const newState = transformState(state, action, 'midiCC')
+    const newState = transformState(state.sliderList, action, 'midiCC')
     return { ...state, sliderList: newState }
   },
   [ActionTypeSliderList.ADD_MIDI_CC_LISTENER] (state, action) {
-    const newState = transformState(state, action, 'listenToCc')
+    const newState = transformState(state.sliderList, action, 'listenToCc')
     return { ...state, sliderList: newState }
   },
   [ActionTypeSliderList.SET_MAX_VAL] (state, action) {
@@ -256,7 +256,7 @@ export const sliders = createReducer([], {
     } else {
       newAction = { payload: { val: 1, idx } }
     }
-    const newState = transformState(state, newAction, 'maxVal')
+    const newState = transformState(state.sliderList, newAction, 'maxVal')
     return { ...state, sliderList: newState }
   },
 
@@ -274,7 +274,7 @@ export const sliders = createReducer([], {
     } else {
       newAction = { payload: { val: 0, idx } }
     }
-    const newState = transformState(state, newAction, 'minVal')
+    const newState = transformState(state.sliderList, newAction, 'minVal')
     return { ...state, sliderList: newState }
   },
 
@@ -290,7 +290,7 @@ export const sliders = createReducer([], {
       newAction = { payload: { val: 0, idx } }
     }
 
-    const newState = transformState(state, newAction, 'onVal')
+    const newState = transformState(state.sliderList, newAction, 'onVal')
     return { ...state, sliderList: newState }
   },
 
@@ -305,7 +305,7 @@ export const sliders = createReducer([], {
     } else {
       newAction = { payload: { val: 0, idx } }
     }
-    const newState = transformState(state, newAction, 'offVal')
+    const newState = transformState(state.sliderList, newAction, 'offVal')
     return { ...state, sliderList: newState }
   },
 
@@ -322,7 +322,7 @@ export const sliders = createReducer([], {
     } else {
       newAction = { payload: { val: 1, idx } }
     }
-    const newState = transformState(state, newAction, 'midiChannel')
+    const newState = transformState(state.sliderList, newAction, 'midiChannel')
     return { ...state, sliderList: newState }
   },
 
@@ -336,8 +336,7 @@ export const sliders = createReducer([], {
     if (val === 'all') {
       newAction = { payload: { val: 'all', idx } }
     }
-
-    const newState = transformState(state, newAction || action, 'midiChannelInput')
+    const newState = transformState(state.sliderList, newAction || action, 'midiChannelInput')
     return { ...state, sliderList: newState }
   },
 

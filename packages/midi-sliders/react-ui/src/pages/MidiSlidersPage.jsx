@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../actions/slider-list.js'
 import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
-import { debounce } from 'lodash'
 import GlobalSettingsPage from './GlobalSettingsPage.jsx'
 
 class MidiSlidersPage extends React.PureComponent {
