@@ -57,10 +57,12 @@ class MidiSlider extends React.PureComponent {
         </div>
         {!isValueHidden ? (
           <Typography
+            onClick={() => isSettingsMode ? this.props.actions.handleSliderChange({ idx, val: lastSavedVal || 0 }) : {}}
             className={classes.caption}
             style={{
               fontSize: tmpFontSize,
-              fontWeight: tmpFontWeight
+              fontWeight: tmpFontWeight,
+              cursor: isSettingsMode ? 'pointer' : 'unset'
             }}
           >
             {`${val}`}

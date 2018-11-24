@@ -357,7 +357,11 @@ export const sliders = createReducer([], {
     const sliderList = tmp.map(item => {
       let tmp = {
         ...item,
-        lastSavedVal: item.val
+        lastSavedVal: item.val || 0,
+        onVal: item.onVal || 127,
+        offVal: item.offVal || 0,
+        minVal: item.minVal || 0,
+        maxVal: item.maxVal || 127
       }
       state.midi.midiDrivers.forEach(driver => {
         if (driver.name === item.driverName) {
@@ -482,9 +486,11 @@ export const sliders = createReducer([], {
 
   [ActionTypeSliderList.RESET_VALUES] (state, action) {
     const sliderList = state.sliderList.map((item, idx) => {
+      const tmp = state.sliderListBackup[idx]
       let retVal = {
         ...item,
-        val: state.sliderListBackup[idx].val
+        val: tmp.val,
+        isNoteOn: tmp.isNoteOn
       }
       return retVal
     })
