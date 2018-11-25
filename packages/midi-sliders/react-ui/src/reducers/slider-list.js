@@ -11,6 +11,7 @@ export const STRIP_TYPE = {
   BUTTON_TOGGLE: 'BUTTON_TOGGLE',
   BUTTON_CC: 'BUTTON_CC',
   BUTTON_TOGGLE_CC: 'BUTTON_TOGGLE_CC',
+  BUTTON_PROGRAM_CHANGE: 'BUTTON_PROGRAM_CHANGE',
   SLIDER: 'SLIDER',
   SLIDER_HORZ: 'SLIDER_HORZ',
   LABEL: 'LABEL',
@@ -22,6 +23,7 @@ const {
   BUTTON_CC,
   BUTTON_TOGGLE,
   BUTTON_TOGGLE_CC,
+  BUTTON_PROGRAM_CHANGE,
   SLIDER,
   SLIDER_HORZ,
   LABEL,
@@ -37,7 +39,13 @@ export const sliders = createReducer([], {
 
   [ActionTypeSliderList.INIT_FAILED] (state, action) {
     console.warn('reducer init failed', action)
-    return state
+    return {
+      ...state,
+      sliders: {
+        ...sliders,
+        isMidiFailed: true
+      }
+    }
   },
 
   [ActionTypeSliderList.INIT_MIDI_ACCESS] (state, action) {
@@ -208,6 +216,18 @@ export const sliders = createReducer([], {
     const sliderList = toggleNote(state.sliderList, idx)
     return { ...state, sliderList }
   },
+
+  [ActionTypeSliderList.SEND_PROGRAM_CHANGE] (state, action) {
+    const {idx} = action.payload
+    const tmp = state.sliderList[idx]
+    const { midiCC, midiChannel, outputId } = tmp
+
+    // WebMIDI.octaveOffset = -1
+    const output = WebMIDI.getOutputById(outputId)
+    output.sendProgramChange(midiCC[0] - 1, midiChannel)
+    return state
+  },
+
   [ActionTypeSliderList.CHANGE_LABEL] (state, action) {
     const newState = transformState(state.sliderList, action, 'label')
     return { ...state, sliderList: newState }
@@ -587,12 +607,16 @@ const transformAddState = (state, action, type) => {
     label = 'Button '
     midiCC = [fromMidi(addMidiCCVal())]
   }
-  if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
+  if ([BUTTON_CC, BUTTON_TOGGLE_CC, BUTTON_PROGRAM_CHANGE].includes(type)) {
     label = 'CC Button '
     midiCC = [addMidiCCVal()]
   }
   if ([SLIDER, SLIDER_HORZ].includes(type)) {
     label = 'Slider '
+    midiCC = [addMidiCCVal()]
+  }
+  if ([BUTTON_PROGRAM_CHANGE].includes(type)) {
+    label = 'Program Change'
     midiCC = [addMidiCCVal()]
   }
   if (type === LABEL) {

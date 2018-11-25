@@ -67,6 +67,11 @@ class AddMenu extends React.PureComponent {
               Add Button CC
             </MenuItem>
             <MenuItem
+              onClick={this.handleAddButton.bind(this, STRIP_TYPE.BUTTON_PROGRAM_CHANGE)}
+            >
+              Add Button Program Change
+            </MenuItem>
+            <MenuItem
               onClick={this.handleAddLabel}
             >
               Add Label

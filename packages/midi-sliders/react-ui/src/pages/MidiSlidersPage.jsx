@@ -1,56 +1,22 @@
 import { withStyles, Typography } from '@material-ui/core'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { initApp } from '../actions/init.js'
 import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
 import GlobalSettingsPage from './GlobalSettingsPage.jsx'
-import { STRIP_TYPE } from '../reducers/slider-list'
-
-const {
-  BUTTON,
-  BUTTON_TOGGLE,
-  LABEL,
-  PAGE
-} = STRIP_TYPE
 
 class MidiSlidersPage extends React.PureComponent {
-  state = {
-    open: false,
-    hasMidi: true
-  };
-
-  constructor(props) {
-    super(props)
-    this.props.initApp()
-  }
-
-  render() {
-    const { classes, viewSettings: { isLayoutMode, isLiveMode, isSettingsMode, isGlobalSettingsMode } } = this.props
+  render () {
+    const { classes, isMidiFailed, viewSettings: { isLayoutMode, isLiveMode, isSettingsMode, isGlobalSettingsMode } } = this.props
 
     const preventScrollStyle = isLiveMode ? {
       height: 'calc(100vh - 66px)',
       overflowY: 'hidden'
     } : {
-        height: 'calc(100vh - 66px - 64px)',
-        overflowY: 'hidden'
-      }
+      height: 'calc(100vh - 66px - 64px)',
+      overflowY: 'hidden'
+    }
 
-    if (this.state.hasMidi) {
-      if (isGlobalSettingsMode) {
-        return (
-          <GlobalSettingsPage />
-        )
-      }
-      return (
-        <div
-          className={this.props.classes.root}
-          style={(isLayoutMode || isSettingsMode) ? {} : preventScrollStyle}
-        >
-          <ChannelStripList />
-        </div>
-      )
-    } else {
+    if (isMidiFailed) {
       return (
         <Typography
           variant='display1'
@@ -68,6 +34,19 @@ class MidiSlidersPage extends React.PureComponent {
           <br />
           <img width='50%' alt='midi-sliders-screenshot' src='midi-sliders-screenshot.png' />
         </Typography>
+      )
+    } else if (isGlobalSettingsMode) {
+      return (
+        <GlobalSettingsPage />
+      )
+    } else {
+      return (
+        <div
+          className={this.props.classes.root}
+          style={(isLayoutMode || isSettingsMode) ? {} : preventScrollStyle}
+        >
+          <ChannelStripList />
+        </div>
       )
     }
   }
@@ -88,14 +67,10 @@ const styles = theme => ({
   }
 })
 
-function mapDispatchToProps(dispatch) {
+function mapStateToProps ({ viewSettings, sliders: { isMidiFailed } }) {
   return {
-    initApp: bindActionCreators(initApp, dispatch)
+    viewSettings,
+    isMidiFailed
   }
 }
-function mapStateToProps({ viewSettings }) {
-  return {
-    viewSettings
-  }
-}
-export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MidiSlidersPage)))
+export default (withStyles(styles)(connect(mapStateToProps, null)(MidiSlidersPage)))

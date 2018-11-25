@@ -1,5 +1,5 @@
 import WebMIDI from 'webmidi'
-import {initPending, midiMessageArrived, initFailed, initMidiAccess} from './slider-list'
+import { initPending, midiMessageArrived, initFailed, initMidiAccess } from './slider-list'
 import { STRIP_TYPE } from '../reducers/slider-list'
 
 const {
@@ -26,7 +26,7 @@ export function initApp () {
       }
       dispatch(initMidiAccess({ midiAccess }))
 
-      const {sliderList} = getState().sliders
+      const { sliderList } = getState().sliders
       let driverNames = []
       sliderList && sliderList.forEach((entry) => {
         if (entry.listenToCc && entry.listenToCc.length > 0) {
@@ -37,6 +37,21 @@ export function initApp () {
       })
 
       inputs.forEach(input => {
+        const {
+          connection,
+          id,
+          name,
+          state,
+          type
+        } = input
+        const tmp = {
+          connection,
+          id,
+          name,
+          state,
+          type
+        }
+        console.log(tmp)
         input.removeListener()
         if (driverNames.includes(input.name)) {
           let ccChannels = []

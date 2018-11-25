@@ -9,9 +9,10 @@ import { STRIP_TYPE } from '../../../../../../reducers/slider-list.js'
 import MidiSuggestedInput from './MidiSuggestedInput'
 import { fromMidi } from '../../../../../../utils/fromMidi'
 import { midi } from 'tonal'
+import { Input } from '@material-ui/core'
 
 class InputNoteOrCc extends React.PureComponent {
-  render() {
+  render () {
     const { sliderEntry, idx, classes, actions: { selectCc } } = this.props
     const isCcInput = [
       STRIP_TYPE.SLIDER,
@@ -40,6 +41,20 @@ class InputNoteOrCc extends React.PureComponent {
           />
         </FormControl>
       )
+    } else if (sliderEntry.type === STRIP_TYPE.BUTTON_PROGRAM_CHANGE) {
+      return (
+        <FormControl className={classes.formControl}>
+          <InputLabel className={classes.label} htmlFor='prgChange'>Program Change</InputLabel>
+          <Input
+            className={classes.input}
+            id='number'
+            type='number'
+            name={`input-prgChange-name-${idx}`}
+            value={sliderEntry.midiCC[0] || 0}
+            onChange={this.handleProgramChange.bind(this, idx)}
+          />
+        </FormControl>
+      )
     } else {
       return (
         <FormControl className={classes.formControl}>
@@ -61,7 +76,6 @@ class InputNoteOrCc extends React.PureComponent {
     }
   }
 
-
   suggestionsMidiNote = Array.apply(null, { length: 128 }).map(Number.call, Number).map((item) => {
     return {
       label: fromMidi(item, true)
@@ -71,6 +85,13 @@ class InputNoteOrCc extends React.PureComponent {
   suggestionsMidiCc = Array.apply(null, { length: 120 }).map(Number.call, Number).map((item) => {
     return { label: `${item}` }
   })
+
+  handleProgramChange = (idx, e) => {
+    this.props.actions.selectCc({
+      idx,
+      val: [parseInt(e.target.value, 10)]
+    })
+  }
 }
 
 const styles = theme => ({
@@ -90,7 +111,7 @@ const styles = theme => ({
   }
 })
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
   return {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }

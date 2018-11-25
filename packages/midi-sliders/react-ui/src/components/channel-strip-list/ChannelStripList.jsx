@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../actions/slider-list.js'
 import * as ViewSettingsActions from '../../actions/view-settings.js'
-
+import { initApp } from '../../actions/init.js'
 import MidiSettingsDialogButton from './channel-strip/midi-settings-dialog/MidiSettingsDialogButton'
 import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -20,6 +20,11 @@ const GridLayout = WidthProvider(RGL)
 class ChannelStripList extends React.PureComponent {
   hasListener = false
   hasPages = false
+
+  constructor(props) {
+    super(props)
+    this.props.initApp()
+  }
 
   componentWillUnmount () {
     if (this.hasListener) {
@@ -231,7 +236,8 @@ function mapStateToProps ({ sliders: { sliderList }, viewSettings }) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators({ ...MidiSliderActions, ...ViewSettingsActions }, dispatch)
+    actions: bindActionCreators({ ...MidiSliderActions, ...ViewSettingsActions }, dispatch),
+    initApp: bindActionCreators(initApp, dispatch)
   }
 }
 

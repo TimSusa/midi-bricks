@@ -10,14 +10,15 @@ const {
   BUTTON,
   BUTTON_CC,
   BUTTON_TOGGLE,
-  BUTTON_TOGGLE_CC
+  BUTTON_TOGGLE_CC,
+  BUTTON_PROGRAM_CHANGE
 } = STRIP_TYPE
 
 const noop = () => ({})
 
 // This component is supposed to configure the button type for rendering
 class MidiButtons extends React.PureComponent {
-  render() {
+  render () {
     const {
       sliderEntry:
       {
@@ -110,6 +111,17 @@ class MidiButtons extends React.PureComponent {
           buttonStyle={buttonStyle}
         />
       )
+    } else if (type === BUTTON_PROGRAM_CHANGE) {
+      return (
+        <MidiButton
+          label={label}
+          idx={idx}
+          onChangeStart={!isLayoutMode ? this.handleButtonProgramChange : noop}
+          // onChangeEnd={!isLayoutMode ? this.handleButtonCcTriggerOff : noop}
+          fontColorStyle={fontColorStyle}
+          buttonStyle={buttonStyle}
+        />
+      )
     } else {
       return (<div />)
     }
@@ -144,14 +156,20 @@ class MidiButtons extends React.PureComponent {
       this.props.actions.handleSliderChange({ idx, val: this.props.sliderEntry.offVal })
     }
   }
+
+  handleButtonProgramChange = (idx, e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    this.props.actions.sendProgramChange({ idx })
+  }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
   return {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
-function mapStateToProps({ viewSettings }) {
+function mapStateToProps ({ viewSettings }) {
   return {
     viewSettings
   }
