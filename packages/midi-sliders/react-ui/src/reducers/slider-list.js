@@ -29,6 +29,17 @@ const {
 } = STRIP_TYPE
 
 export const sliders = createReducer([], {
+
+  [ActionTypeSliderList.INIT_PENDING] (state, action) {
+    console.log('reducer init pending', action)
+    return state
+  },
+
+  [ActionTypeSliderList.INIT_FAILED] (state, action) {
+    console.warn('reducer init failed', action)
+    return state
+  },
+
   [ActionTypeSliderList.INIT_MIDI_ACCESS] (state, action) {
     const { midiAccess } = action.payload
     const midi = {

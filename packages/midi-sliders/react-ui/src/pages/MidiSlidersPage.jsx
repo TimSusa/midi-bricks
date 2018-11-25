@@ -1,19 +1,15 @@
-import WebMIDI from 'webmidi'
 import { withStyles, Typography } from '@material-ui/core'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../actions/slider-list.js'
+import { initApp } from '../actions/init.js'
 import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
 import GlobalSettingsPage from './GlobalSettingsPage.jsx'
 import { STRIP_TYPE } from '../reducers/slider-list'
+
 const {
   BUTTON,
-  BUTTON_CC,
   BUTTON_TOGGLE,
-  BUTTON_TOGGLE_CC,
-  SLIDER,
-  SLIDER_HORZ,
   LABEL,
   PAGE
 } = STRIP_TYPE
@@ -26,67 +22,7 @@ class MidiSlidersPage extends React.PureComponent {
 
   constructor(props) {
     super(props)
-    WebMIDI.enable((err) => {
-      if (err) {
-        window.alert("Midi could not be enabled.", err);
-        this.setState({ hasMidi: false })
-      }
-      const { inputs, outputs } = WebMIDI
-
-      const midiAccess = {
-        inputs,
-        outputs
-      }
-      this.props.actions.initMidiAccess({ midiAccess })
-      let driverNames = []
-      this.props.sliderList && this.props.sliderList.forEach((entry) => {
-        if (entry.listenToCc && entry.listenToCc.length > 0) {
-          if (!driverNames.includes(entry.driverName)) {
-            driverNames.push(entry.driverName)
-          }
-        }
-      })
-
-      inputs.forEach(input => {
-        input.removeListener()
-        if (driverNames.includes(input.name)) {
-          let ccChannels = []
-          let noteChannels = []
-          this.props.sliderList && this.props.sliderList.forEach((entry) => {
-            if (![BUTTON, BUTTON_TOGGLE, PAGE, LABEL].includes(entry.type)) {
-              if (entry.midiChannelInput === 'all') {
-                ccChannels = 'all'
-              }
-              if (Array.isArray(ccChannels) && !ccChannels.includes(entry.midiChannelInput)) {
-                entry.midiChannelInput && ccChannels.push(parseInt(entry.midiChannelInput, 10))
-              }
-            } else if ([BUTTON, BUTTON_TOGGLE].includes(entry.type)) {
-              if (entry.midiChannelInput === 'all') {
-                noteChannels = 'all'
-              }
-              if (Array.isArray(noteChannels) && !noteChannels.includes(entry.midiChannelInput)) {
-                entry.midiChannelInput && noteChannels.push(entry.midiChannelInput)
-              }
-            }
-          })
-          console.log({ noteChannels })
-          input.addListener('controlchange', ccChannels, ({ value, channel, controller: { number } }) => {
-            const obj = { isNoteOn: undefined, val: value, cC: number, channel, driver: input.name }
-            this.props.actions.midiMessageArrived(obj)
-          })
-          input.addListener('noteon', noteChannels, (event) => {
-            const { rawVelocity, channel, note: { number } } = event
-            const obj = { isNoteOn: true, val: rawVelocity, cC: number, channel, driver: input.name }
-            this.props.actions.midiMessageArrived(obj)
-          })
-          input.addListener('noteoff', noteChannels, ({ rawVelocity, channel, note: { number } }) => {
-            const obj = { isNoteOn: false, val: rawVelocity, cC: number, channel, driver: input.name }
-            this.props.actions.midiMessageArrived(obj)
-          })
-
-        }
-      })
-    })
+    this.props.initApp()
   }
 
   render() {
@@ -154,13 +90,12 @@ const styles = theme => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(MidiSliderActions, dispatch)
+    initApp: bindActionCreators(initApp, dispatch)
   }
 }
-function mapStateToProps({ viewSettings, sliders: { sliderList } }) {
+function mapStateToProps({ viewSettings }) {
   return {
-    viewSettings,
-    sliderList
+    viewSettings
   }
 }
 export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MidiSlidersPage)))
