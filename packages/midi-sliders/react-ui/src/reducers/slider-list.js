@@ -413,8 +413,15 @@ export const sliders = createReducer([], {
       const { listenToCc, midiChannelInput, driverName } = item
       if (listenToCc && listenToCc.length > 0) {
         const { val, cC, channel, driver } = action.payload
+        let tmpCc = null
+        if (!Number.isInteger(cC)) {
+          tmpCc = cC.number
+        } else {
+          tmpCc = cC
+        }
+
         const haveChannelsMatched = (midiChannelInput === 'all') || channel.toString() === midiChannelInput
-        const hasCc = listenToCc.includes(cC && cC.toString())
+        const hasCc = listenToCc.includes(tmpCc && tmpCc.toString())
         if (hasCc && haveChannelsMatched && (driverName === driver)) {
           const { colors } = item
           const { colorActive, color } = colors

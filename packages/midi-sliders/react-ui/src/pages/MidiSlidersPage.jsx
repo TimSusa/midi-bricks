@@ -34,6 +34,14 @@ class MidiSlidersPage extends React.PureComponent {
           const obj = { midiMessage: data, isNoteOn: undefined, val: value, cC: number, channel, driver: input.name }
           this.props.actions.midiMessageArrived(obj)
         })
+        input.addListener('noteoff', 'all', ({ data, value, channel, note }) => {
+          const obj = { midiMessage: data, isNoteOn: false, val: value, cC: note, channel, driver: input.name }
+          this.props.actions.midiMessageArrived(obj)
+        })
+        input.addListener('noteon', 'all', ({ data, value, channel, note}) => {
+          const obj = { midiMessage: data, isNoteOn: true, val: value, cC: note, channel, driver: input.name }
+          this.props.actions.midiMessageArrived(obj)
+        })
       })
     })
   }
