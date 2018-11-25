@@ -69,17 +69,18 @@ class MidiSlidersPage extends React.PureComponent {
               }
             }
           })
-          console.log({ ccChannels })
-          input.addListener('controlchange', ccChannels, ({ data, value, channel, controller: { number } }) => {
-            const obj = { midiMessage: data, isNoteOn: undefined, val: value, cC: number, channel, driver: input.name }
+          console.log({ noteChannels })
+          input.addListener('controlchange', ccChannels, ({ value, channel, controller: { number } }) => {
+            const obj = { isNoteOn: undefined, val: value, cC: number, channel, driver: input.name }
             this.props.actions.midiMessageArrived(obj)
           })
-          input.addListener('noteon', noteChannels, ({ data, value, channel, note }) => {
-            const obj = { midiMessage: data, isNoteOn: true, val: value, cC: note, channel, driver: input.name }
+          input.addListener('noteon', noteChannels, (event) => {
+            const { rawVelocity, channel, note: { number } } = event
+            const obj = { isNoteOn: true, val: rawVelocity, cC: number, channel, driver: input.name }
             this.props.actions.midiMessageArrived(obj)
           })
-          input.addListener('noteoff', noteChannels, ({ data, value, channel, note }) => {
-            const obj = { midiMessage: data, isNoteOn: false, val: value, cC: note, channel, driver: input.name }
+          input.addListener('noteoff', noteChannels, ({ rawVelocity, channel, note: { number } }) => {
+            const obj = { isNoteOn: false, val: rawVelocity, cC: number, channel, driver: input.name }
             this.props.actions.midiMessageArrived(obj)
           })
 

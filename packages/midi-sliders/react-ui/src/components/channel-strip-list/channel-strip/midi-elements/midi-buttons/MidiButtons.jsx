@@ -13,9 +13,11 @@ const {
   BUTTON_TOGGLE_CC
 } = STRIP_TYPE
 
+const noop = () => ({})
+
 // This component is supposed to configure the button type for rendering
 class MidiButtons extends React.PureComponent {
-  render () {
+  render() {
     const {
       sliderEntry:
       {
@@ -29,16 +31,16 @@ class MidiButtons extends React.PureComponent {
       idx,
       height,
       width,
-      viewSettings
+      viewSettings: { isChangedTheme, isLayoutMode }
     } = this.props
 
     // button basic font colors
-    const basicFont = viewSettings.isChangedTheme ? 'black' : '#616161' // bad hack go away
+    const basicFont = isChangedTheme ? 'black' : '#616161' // bad hack go away
     const bbCol = colors && colors.colorFont && colors.colorFont
     const colorFont = bbCol || basicFont
 
     // button background
-    const basicBackground = viewSettings.isChangedTheme ? '#18A49D' : 'white' // bad hack go away
+    const basicBackground = isChangedTheme ? '#18A49D' : 'white' // bad hack go away
     const sbCol = colors && colors.color && colors.color
     const color = sbCol || basicBackground
 
@@ -70,8 +72,8 @@ class MidiButtons extends React.PureComponent {
         <MidiButton
           label={label}
           idx={idx}
-          onChangeStart={this.props.actions.toggleNote}
-          onChangeEnd={this.props.actions.toggleNote}
+          onChangeStart={!isLayoutMode ? this.props.actions.toggleNote : noop}
+          onChangeEnd={!isLayoutMode ? this.props.actions.toggleNote : noop}
           fontColorStyle={fontColorStyle}
           buttonStyle={buttonStyle}
         />
@@ -81,7 +83,7 @@ class MidiButtons extends React.PureComponent {
         <MidiButton
           label={label}
           idx={idx}
-          onChangeStart={this.props.actions.toggleNote}
+          onChangeStart={!isLayoutMode ? this.props.actions.toggleNote : noop}
           fontColorStyle={fontColorStyle}
           buttonStyle={buttonStyle}
         />
@@ -92,8 +94,8 @@ class MidiButtons extends React.PureComponent {
         <MidiButton
           label={label}
           idx={idx}
-          onChangeStart={this.handleButtonCcTriggerOn}
-          onChangeEnd={this.handleButtonCcTriggerOff}
+          onChangeStart={!isLayoutMode ? this.handleButtonCcTriggerOn : noop}
+          onChangeEnd={!isLayoutMode ? this.handleButtonCcTriggerOff : noop}
           fontColorStyle={fontColorStyle}
           buttonStyle={buttonStyle}
         />
@@ -103,7 +105,7 @@ class MidiButtons extends React.PureComponent {
         <MidiButton
           label={label}
           idx={idx}
-          onChangeStart={this.handleButtonCcToggle}
+          onChangeStart={!isLayoutMode ? this.handleButtonCcToggle : noop}
           fontColorStyle={fontColorStyle}
           buttonStyle={buttonStyle}
         />
@@ -144,12 +146,12 @@ class MidiButtons extends React.PureComponent {
   }
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
-function mapStateToProps ({ viewSettings }) {
+function mapStateToProps({ viewSettings }) {
   return {
     viewSettings
   }

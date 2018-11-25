@@ -42,15 +42,15 @@ export const sliders = createReducer([], {
           if (name === item.driverName) {
             return Object.assign({}, {
               ...item,
-              midi,
+              // midi,
               outputId
             })
           }
         })
       }
       return Object.assign({}, {
-        ...item,
-        midi
+        ...item
+        // midi
       })
     })
     return { ...state, midi, sliderList }
@@ -190,9 +190,9 @@ export const sliders = createReducer([], {
     const onValInt = (onVal && parseInt(onVal, 10)) || 127
     const offValInt = ((offVal === 0) && 0) || (offVal && parseInt(offVal, 10)) || 0
     if (!isNoteOn) {
-      output.playNote(midiCC, midiChannel, { velocity: 127 / onValInt })
+      output.playNote(midiCC, midiChannel, { rawVelocity: true, velocity: onValInt })
     } else {
-      output.stopNote(midiCC, midiChannel, { velocity: offValInt / 127 })
+      output.stopNote(midiCC, midiChannel, { rawVelocity: true, velocity: offValInt })
     }
     const sliderList = toggleNote(state.sliderList, idx)
     return { ...state, sliderList }
@@ -328,7 +328,21 @@ export const sliders = createReducer([], {
 
   [ActionTypeSliderList.SAVE_FILE] (state, action) {
     const tmpStore = store.getState()
-    const content = JSON.stringify(tmpStore)
+    const { viewSettings, sliders: { sliderList, presetName, midi: { midiDrivers } } } = tmpStore
+    const tmpFilterStore = {
+      viewSettings,
+      sliders: {
+        sliderList,
+        presetName,
+        sliderListBackup: [],
+        midi: {
+          midiDrivers: null,
+          midiAccess: null
+        }
+      }
+    }
+    const content = JSON.stringify(tmpFilterStore)
+    console.log(content)
     const fileName = 'midi-bricks-preset.js'
     const contentType = 'application/json'
     let a = document.createElement('a')
@@ -359,7 +373,8 @@ export const sliders = createReducer([], {
         onVal: item.onVal || 127,
         offVal: item.offVal || 0,
         minVal: item.minVal || 0,
-        maxVal: item.maxVal || 127
+        maxVal: item.maxVal || 127,
+        midi: undefined
       }
       state.midi.midiDrivers.forEach(driver => {
         if (driver.name === item.driverName) {
@@ -393,14 +408,14 @@ export const sliders = createReducer([], {
       const { listenToCc, midiChannelInput, driverName } = item
       if (listenToCc && listenToCc.length > 0) {
         const { val, cC, channel, driver, isNoteOn } = action.payload
-        let tmpCc = null
-        if (!Number.isInteger(cC)) {
-          tmpCc = cC.number
-        } else {
-          tmpCc = cC
-        }
+        // let tmpCc = cC
+        // if (!Number.isInteger(cC)) {
+        //   tmpCc = cC.number
+        // } else {
+        //   tmpCc = cC
+        // }
         const haveChannelsMatched = (midiChannelInput === 'all') || channel.toString() === midiChannelInput
-        const hasCc = listenToCc.includes(tmpCc && tmpCc.toString())
+        const hasCc = listenToCc.includes(cC && cC.toString())
         if (hasCc && haveChannelsMatched && (driverName === driver)) {
           return { ...item, val, isNoteOn }
         } else {
