@@ -27,21 +27,31 @@ class MidiSlidersPage extends React.PureComponent {
         outputs
       }
       this.props.actions.initMidiAccess({ midiAccess })
+      let driverNames = []
+      this.props.sliderList.forEach((entry) => {
+        if (entry.listenToCc && entry.listenToCc.length > 0) {
+          if (!driverNames.includes(entry.driverName)) {
+            driverNames.push(entry.driverName)
+          }
+        }
+      })
 
       inputs.forEach(input => {
         input.removeListener()
-        input.addListener('controlchange', 'all', ({ data, value, channel, controller: { number } }) => {
-          const obj = { midiMessage: data, isNoteOn: undefined, val: value, cC: number, channel, driver: input.name }
-          this.props.actions.midiMessageArrived(obj)
-        })
-        input.addListener('noteoff', 'all', ({ data, value, channel, note }) => {
-          const obj = { midiMessage: data, isNoteOn: false, val: value, cC: note, channel, driver: input.name }
-          this.props.actions.midiMessageArrived(obj)
-        })
-        input.addListener('noteon', 'all', ({ data, value, channel, note}) => {
-          const obj = { midiMessage: data, isNoteOn: true, val: value, cC: note, channel, driver: input.name }
-          this.props.actions.midiMessageArrived(obj)
-        })
+        if (driverNames.includes(input.name)) {
+          input.addListener('controlchange', 'all', ({ data, value, channel, controller: { number } }) => {
+            const obj = { midiMessage: data, isNoteOn: undefined, val: value, cC: number, channel, driver: input.name }
+            this.props.actions.midiMessageArrived(obj)
+          })
+          input.addListener('noteoff', 'all', ({ data, value, channel, note }) => {
+            const obj = { midiMessage: data, isNoteOn: false, val: value, cC: note, channel, driver: input.name }
+            this.props.actions.midiMessageArrived(obj)
+          })
+          input.addListener('noteon', 'all', ({ data, value, channel, note }) => {
+            const obj = { midiMessage: data, isNoteOn: true, val: value, cC: note, channel, driver: input.name }
+            this.props.actions.midiMessageArrived(obj)
+          })
+        }
       })
     })
   }

@@ -412,20 +412,17 @@ export const sliders = createReducer([], {
     const sliderList = state.sliderList.map(item => {
       const { listenToCc, midiChannelInput, driverName } = item
       if (listenToCc && listenToCc.length > 0) {
-        const { val, cC, channel, driver } = action.payload
+        const { val, cC, channel, driver, isNoteOn } = action.payload
         let tmpCc = null
         if (!Number.isInteger(cC)) {
           tmpCc = cC.number
         } else {
           tmpCc = cC
         }
-
         const haveChannelsMatched = (midiChannelInput === 'all') || channel.toString() === midiChannelInput
         const hasCc = listenToCc.includes(tmpCc && tmpCc.toString())
         if (hasCc && haveChannelsMatched && (driverName === driver)) {
-          const { colors } = item
-          const { colorActive, color } = colors
-          return { ...item, val, colors: { color: colorActive, colorActive: color } }
+          return { ...item, val, isNoteOn }
         } else {
           return { ...item }
         }
@@ -522,21 +519,6 @@ export const sliders = createReducer([], {
     return { ...state, sliderList }
   }
 })
-
-const getMidiOutputNoteOnOff = ({ onVal, offVal, midiCC, outputId, midiChannel }, midiAccess) => {
-  const onValInt = (onVal && parseInt(onVal, 10)) || 127
-  const offValInt = ((offVal === 0) && 0) || (offVal && parseInt(offVal, 10)) || 0
-  const midiChannelInt = parseInt(midiChannel, 10)
-  const noteOn = [0x8f + midiChannelInt, midiCC + 0x0c, onValInt]
-  const noteOff = [0x7f + midiChannelInt, midiCC + 0x0c, offValInt]
-  // const output = midiAccess.outputs.get(outputId)
-  const output = WebMIDI.getOutputById(outputId)
-  return {
-    output,
-    noteOn,
-    noteOff
-  }
-}
 
 const getAvailableDrivers = (midiAccess) => {
   for (var input of midiAccess.inputs) {
@@ -660,5 +642,3 @@ const toggleNote = (list, idx) => {
 }
 
 const getUniqueId = () => uniqueId((new Date()).getTime() + Math.random().toString(16))
-
-function midiMessageArrived (payload) { return { type: 'MIDI_MESSAGE_ARRIVED', payload } }
