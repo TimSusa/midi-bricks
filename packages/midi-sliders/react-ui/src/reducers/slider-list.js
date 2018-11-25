@@ -194,26 +194,6 @@ export const sliders = createReducer([], {
     } else {
       output.stopNote(midiCC, midiChannel, { velocity: offValInt / 127 })
     }
-
-    // if (Array.isArray(tmp.midiCC) === true) {
-    //   tmp.midiCC.forEach((item) => {
-    //     const midiCC = midi(item)
-    //     const {
-    //       output,
-    //       noteOn,
-    //       noteOff
-    //     } = getMidiOutputNoteOnOff({
-    //       ...tmp,
-    //       midiCC
-    //     }, state.midi.midiAccess)
-
-    //     if (!tmp.isNoteOn) {
-    //       output.send(noteOn)
-    //     } else {
-    //       output.send(noteOff)
-    //     }
-    //   })
-    // }
     const sliderList = toggleNote(state.sliderList, idx)
     return { ...state, sliderList }
   },

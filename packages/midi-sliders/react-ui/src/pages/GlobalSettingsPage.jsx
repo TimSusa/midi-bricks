@@ -37,6 +37,8 @@ class GlobalSettingsPage extends React.PureComponent {
             <TableCell>Current Value</TableCell>
             <TableCell>Saved Value</TableCell>
             <TableCell>Listeners</TableCell>
+            <TableCell>Input Channel</TableCell>
+
           </TableRow>
         </TableHead>
         <TableBody>
@@ -111,6 +113,9 @@ class GlobalSettingsPage extends React.PureComponent {
                     </TableCell>
                     <TableCell>
                       {(sliderEntry.listenToCc && (sliderEntry.listenToCc.length > 0) && this.renderListeners(sliderEntry.listenToCc)) || '-'}
+                    </TableCell>
+                    <TableCell>
+                      {sliderEntry.midiChannelInput}
                     </TableCell>
                   </TableRow>
                 </Tooltip>
