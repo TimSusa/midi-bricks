@@ -1,7 +1,9 @@
+import WebMIDI from 'webmidi'
 import createReducer from './createReducer'
 import { store } from './../providers/ReduxWrappedMuiApp'
 import { ActionTypeSliderList } from '../actions/slider-list'
-import { midi, Note } from 'tonal'
+import { midi } from 'tonal'
+import { fromMidi } from '../utils/fromMidi'
 import { uniqueId } from 'lodash'
 
 export const STRIP_TYPE = {
@@ -28,9 +30,10 @@ const {
 
 export const sliders = createReducer([], {
   [ActionTypeSliderList.INIT_MIDI_ACCESS] (state, action) {
+    const { midiAccess } = action.payload
     const midi = {
-      midiAccess: action.payload.midiAccess,
-      midiDrivers: getAvailableDrivers(action.payload.midiAccess)
+      midiAccess,
+      midiDrivers: getAvailableDrivers(midiAccess)
     }
 
     const sliderList = state.sliderList && state.sliderList.length && state.sliderList.map((item) => {
@@ -144,30 +147,73 @@ export const sliders = createReducer([], {
   [ActionTypeSliderList.DELETE_ALL] (state, action) {
     return { ...state, sliderList: [] }
   },
+
+  [ActionTypeSliderList.HANDLE_SLIDER_CHANGE] (state, action) {
+    const { idx, val } = action.payload
+    let newStateTmp = state.sliderList
+
+    // Set noteOn/noteOff stemming from CC VAl
+    const { type, onVal, offVal } = newStateTmp[idx]
+    if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
+      if ((val === onVal) || (val === offVal)) {
+        newStateTmp = toggleNote(newStateTmp, idx)
+      }
+    }
+
+    // Handle multi CC
+    const tmp = newStateTmp[idx]
+    // const output = state.midi.midiAccess.outputs.get(outputId)
+    const { midiCC, midiChannel, outputId } = tmp
+    WebMIDI.octaveOffset = -1
+    const output = WebMIDI.getOutputById(outputId)
+
+    if (Array.isArray(midiCC) === true) {
+      midiCC.forEach((item) => {
+        const cc = midi(item)
+        // const ccMessage = [0xaf + parseInt(tmp.midiChannel, 10), midiCC, parseInt(val, 10)]
+        // omitting the timestamp means send immediately.
+        output.sendControlChange(cc, val, parseInt(midiChannel, 10))
+        // output.send(ccMessage, (window.performance.now() + 10.0))
+      })
+    }
+    const sliderList = transformState(newStateTmp, { payload: { idx: parseInt(idx, 10), val } }, 'val')
+    return { ...state, sliderList }
+  },
+
   [ActionTypeSliderList.TOGGLE_NOTE] (state, action) {
     const idx = action.payload
 
     const tmp = state.sliderList[idx]
-
-    if (Array.isArray(tmp.midiCC) === true) {
-      tmp.midiCC.forEach((item) => {
-        const midiCC = midi(item)
-        const {
-          output,
-          noteOn,
-          noteOff
-        } = getMidiOutputNoteOnOff({
-          ...tmp,
-          midiCC
-        }, state.midi.midiAccess)
-
-        if (!tmp.isNoteOn) {
-          output.send(noteOn)
-        } else {
-          output.send(noteOff)
-        }
-      })
+    const { onVal, offVal, midiCC, midiChannel, outputId, isNoteOn } = tmp
+    WebMIDI.octaveOffset = -1
+    const output = WebMIDI.getOutputById(outputId)
+    const onValInt = (onVal && parseInt(onVal, 10)) || 127
+    const offValInt = ((offVal === 0) && 0) || (offVal && parseInt(offVal, 10)) || 0
+    if (!isNoteOn) {
+      output.playNote(midiCC, midiChannel, { velocity: 127 / onValInt })
+    } else {
+      output.stopNote(midiCC, midiChannel, { velocity: offValInt / 127 })
     }
+
+    // if (Array.isArray(tmp.midiCC) === true) {
+    //   tmp.midiCC.forEach((item) => {
+    //     const midiCC = midi(item)
+    //     const {
+    //       output,
+    //       noteOn,
+    //       noteOff
+    //     } = getMidiOutputNoteOnOff({
+    //       ...tmp,
+    //       midiCC
+    //     }, state.midi.midiAccess)
+
+    //     if (!tmp.isNoteOn) {
+    //       output.send(noteOn)
+    //     } else {
+    //       output.send(noteOff)
+    //     }
+    //   })
+    // }
     const sliderList = toggleNote(state.sliderList, idx)
     return { ...state, sliderList }
   },
@@ -300,34 +346,6 @@ export const sliders = createReducer([], {
     return { ...state, sliderList }
   },
 
-  [ActionTypeSliderList.HANDLE_SLIDER_CHANGE] (state, action) {
-    const { idx, val } = action.payload
-    let newStateTmp = state.sliderList
-
-    // Set noteOn/noteOff stemming from CC VAl
-    const { type, onVal, offVal } = newStateTmp[idx]
-    if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
-      if ((val === onVal) || (val === offVal)) {
-        newStateTmp = toggleNote(newStateTmp, idx)
-      }
-    }
-
-    // Handle multi CC
-    const tmp = newStateTmp[idx]
-    const outputId = tmp.outputId
-    const output = state.midi.midiAccess.outputs.get(outputId)
-
-    if (Array.isArray(tmp.midiCC) === true) {
-      tmp.midiCC.forEach((item) => {
-        const midiCC = midi(item)
-        const ccMessage = [0xaf + parseInt(tmp.midiChannel, 10), midiCC, parseInt(val, 10)]
-        // omitting the timestamp means send immediately.
-        output.send(ccMessage, (window.performance.now() + 10.0))
-      })
-    }
-    const sliderList = transformState(newStateTmp, { payload: { idx: parseInt(idx, 10), val } }, 'val')
-    return { ...state, sliderList }
-  },
   [ActionTypeSliderList.SAVE_FILE] (state, action) {
     const tmpStore = store.getState()
     const content = JSON.stringify(tmpStore)
@@ -392,12 +410,12 @@ export const sliders = createReducer([], {
 
   [ActionTypeSliderList.MIDI_MESSAGE_ARRIVED] (state, action) {
     const sliderList = state.sliderList.map(item => {
-      const { listenToCc, midiChannelInput } = item
+      const { listenToCc, midiChannelInput, driverName } = item
       if (listenToCc && listenToCc.length > 0) {
-        const { val, cC, channel } = action.payload
+        const { val, cC, channel, driver } = action.payload
         const haveChannelsMatched = (midiChannelInput === 'all') || channel.toString() === midiChannelInput
         const hasCc = listenToCc.includes(cC && cC.toString())
-        if (hasCc && haveChannelsMatched) {
+        if (hasCc && haveChannelsMatched && (driverName === driver)) {
           const { colors } = item
           const { colorActive, color } = colors
           return { ...item, val, colors: { color: colorActive, colorActive: color } }
@@ -504,8 +522,8 @@ const getMidiOutputNoteOnOff = ({ onVal, offVal, midiCC, outputId, midiChannel }
   const midiChannelInt = parseInt(midiChannel, 10)
   const noteOn = [0x8f + midiChannelInt, midiCC + 0x0c, onValInt]
   const noteOff = [0x7f + midiChannelInt, midiCC + 0x0c, offValInt]
-  const output = midiAccess.outputs.get(outputId)
-
+  // const output = midiAccess.outputs.get(outputId)
+  const output = WebMIDI.getOutputById(outputId)
   return {
     output,
     noteOn,
@@ -514,15 +532,13 @@ const getMidiOutputNoteOnOff = ({ onVal, offVal, midiCC, outputId, midiChannel }
 }
 
 const getAvailableDrivers = (midiAccess) => {
-  for (var entry of midiAccess.inputs) {
-    const input = entry[1]
+  for (var input of midiAccess.inputs) {
     console.log("Input port [type:'" + input.type + "'] id:'" + input.id +
       "' manufacturer:'" + input.manufacturer + "' name:'" + input.name +
       "' version:'" + input.version + "'")
   }
   let availableDrivers = []
-  for (var outputEntry of midiAccess.outputs) {
-    const output = outputEntry[1]
+  for (var output of midiAccess.outputs) {
     console.log("Output port [type:'" + output.type + "'] id:'" + output.id +
       "' manufacturer:'" + output.manufacturer + "' name:'" + output.name +
       "' version:'" + output.version + "'")
@@ -571,7 +587,7 @@ const transformAddState = (state, action, type) => {
 
   if ([BUTTON, BUTTON_TOGGLE].includes(type)) {
     label = 'Button '
-    midiCC = [Note.fromMidi(addMidiCCVal())]
+    midiCC = [fromMidi(addMidiCCVal())]
   }
   if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
     label = 'CC Button '
@@ -637,3 +653,5 @@ const toggleNote = (list, idx) => {
 }
 
 const getUniqueId = () => uniqueId((new Date()).getTime() + Math.random().toString(16))
+
+function midiMessageArrived (payload) { return { type: 'MIDI_MESSAGE_ARRIVED', payload } }

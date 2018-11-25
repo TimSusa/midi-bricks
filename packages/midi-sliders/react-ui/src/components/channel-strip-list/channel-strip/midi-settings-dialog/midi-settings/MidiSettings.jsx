@@ -367,6 +367,7 @@ class MidiSettings extends React.PureComponent {
     // TODO: get rid of it
     isEmpty && window.location.reload()
   }
+
   handleButtonTypeChange = (idx, e) => {
     this.props.actions.changeButtonType({
       idx,

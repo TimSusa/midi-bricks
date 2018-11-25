@@ -1,3 +1,4 @@
+import WebMIDI from 'webmidi'
 import { withStyles, Typography } from '@material-ui/core'
 import * as React from 'react'
 import { connect } from 'react-redux'
@@ -12,26 +13,41 @@ class MidiSlidersPage extends React.PureComponent {
     hasMidi: true
   };
 
-  constructor (props) {
+  constructor(props) {
     super(props)
-    if (navigator.requestMIDIAccess) {
-      navigator.requestMIDIAccess({ sysex: true })
-        .then(this.onMIDISuccess, this.onMIDIFailure)
-    } else {
-      window.alert('WebMIDI is not supported in this browser.')
-    }
+    WebMIDI.enable((err) => {
+      if (err) {
+        window.alert("Midi could not be enabled.", err);
+        this.setState({ hasMidi: false })
+      }
+      const { inputs, outputs } = WebMIDI
+
+      const midiAccess = {
+        inputs,
+        outputs
+      }
+      this.props.actions.initMidiAccess({ midiAccess })
+
+      inputs.forEach(input => {
+        input.removeListener()
+        input.addListener('controlchange', 'all', ({ data, value, channel, controller: { number } }) => {
+          const obj = { midiMessage: data, isNoteOn: undefined, val: value, cC: number, channel, driver: input.name }
+          this.props.actions.midiMessageArrived(obj)
+        })
+      })
+    })
   }
 
-  render () {
+  render() {
     const { classes, viewSettings: { isLayoutMode, isLiveMode, isSettingsMode, isGlobalSettingsMode } } = this.props
 
     const preventScrollStyle = isLiveMode ? {
       height: 'calc(100vh - 66px)',
       overflowY: 'hidden'
     } : {
-      height: 'calc(100vh - 66px - 64px)',
-      overflowY: 'hidden'
-    }
+        height: 'calc(100vh - 66px - 64px)',
+        overflowY: 'hidden'
+      }
 
     if (this.state.hasMidi) {
       if (isGlobalSettingsMode) {
@@ -68,61 +84,6 @@ class MidiSlidersPage extends React.PureComponent {
       )
     }
   }
-
-  onMIDISuccess = (midiAccess) => {
-    if (midiAccess.outputs.size > 0) {
-      this.props.actions.initMidiAccess({ midiAccess })
-      if (this.props.sliderList && this.props.sliderList.some((item) => item.listenToCc && item.listenToCc.length > 0)) {
-        for (var input of midiAccess.inputs.values()) {
-          input.onmidimessage = this.getMIDIMessage
-        }
-      }
-    } else {
-      this.setState({ hasMidi: false })
-      console.warn('There are no midi-drivers available. Tip: Please create a virtual midi driver at first and then restart the application.')
-    }
-  }
-
-  getMIDIMessage = (midiMessage) => {
-    // only send action, if any cc listener is in list
-    if (this.props.sliderList.some((item) => item.listenToCc && item.listenToCc.length > 0)) {
-      const commandAndChannel = midiMessage.data[0]
-      const note = midiMessage.data[1]
-
-      // a velocity value might not be included with a noteOff command
-      const velocity = (midiMessage.data.length > 2) ? midiMessage.data[2] : 0
-
-      // Mask off the higher nibble (MIDI channel)
-      const channel = (commandAndChannel & 0x0f) + 1
-
-      // Mask off the lower nibble (Note On, Note Off or CC)
-      const command = commandAndChannel & 0xf0
-      switch (command) {
-        case 0x90:
-          if (velocity !== 0) { // if velocity != 0, this is a note-on message
-            this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: true, cC: note, channel })
-          }
-          break
-
-        // if velocity == 0, fall thru: it's a note-off.  MIDI's weird, y'all.
-        case 0x80:
-          this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: false, cC: note, channel })
-          break
-
-        case 0xb0:
-          this.props.actions.midiMessageArrived({ midiMessage, isNoteOn: undefined, val: velocity, cC: note, channel })
-          break
-
-        default:
-          // note off
-          console.warn('fallen through')
-      }
-    }
-  }
-
-  onMIDIFailure = () => {
-    window.alert('Could not access your MIDI devices.')
-  }
 }
 
 const styles = theme => ({
@@ -140,12 +101,12 @@ const styles = theme => ({
   }
 })
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
-function mapStateToProps ({ viewSettings, sliders: { sliderList } }) {
+function mapStateToProps({ viewSettings, sliders: { sliderList } }) {
   return {
     viewSettings,
     sliderList

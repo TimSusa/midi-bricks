@@ -7,10 +7,11 @@ import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../../../actions/slider-list.js'
 import { STRIP_TYPE } from '../../../../../../reducers/slider-list.js'
 import MidiSuggestedInput from './MidiSuggestedInput'
-import { Note, midi } from 'tonal'
+import { fromMidi } from '../../../../../../utils/fromMidi'
+import { midi } from 'tonal'
 
 class InputNoteOrCc extends React.PureComponent {
-  render () {
+  render() {
     const { sliderEntry, idx, classes, actions: { selectCc } } = this.props
     const isCcInput = [
       STRIP_TYPE.SLIDER,
@@ -50,7 +51,7 @@ class InputNoteOrCc extends React.PureComponent {
           </InputLabel>
           <MidiSuggestedInput
             suggestions={this.suggestionsMidiNote}
-            startVal={sliderEntry.midiCC.map((item) => Note.fromMidi(midi(item)))}
+            startVal={sliderEntry.midiCC.map((item) => fromMidi(midi(item)))}
             sliderEntry={sliderEntry}
             idx={idx}
             handleChange={selectCc}
@@ -60,13 +61,14 @@ class InputNoteOrCc extends React.PureComponent {
     }
   }
 
+
   suggestionsMidiNote = Array.apply(null, { length: 128 }).map(Number.call, Number).map((item) => {
     return {
-      label: Note.fromMidi(item)
+      label: fromMidi(item, true)
     }
   })
 
-  suggestionsMidiCc = Array.apply(null, { length: 128 }).map(Number.call, Number).map((item) => {
+  suggestionsMidiCc = Array.apply(null, { length: 120 }).map(Number.call, Number).map((item) => {
     return { label: `${item}` }
   })
 }
@@ -88,7 +90,7 @@ const styles = theme => ({
   }
 })
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
