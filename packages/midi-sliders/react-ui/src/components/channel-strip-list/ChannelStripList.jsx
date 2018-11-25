@@ -171,6 +171,19 @@ class ChannelStripList extends React.PureComponent {
   }
 
   handleKeyPress = (e) => {
+    
+    // shift + g
+    if ((e.keyCode === 71) && e.shiftKey) {
+      e.preventDefault()
+      this.props.actions.toggleGlobalSettingsMode({isGlobalSettingsMode: true})
+    }
+
+    // shift + z
+    if ((e.keyCode === 90) && e.shiftKey) {
+      e.preventDefault()
+      this.props.actions.goBack()
+    }
+
     // shift + p
     if ((e.keyCode === 80) && e.shiftKey) {
       e.preventDefault()
@@ -227,14 +240,14 @@ const styles = theme => ({
   }
 })
 
-function mapStateToProps ({ sliders: { sliderList }, viewSettings }) {
+function mapStateToProps({ sliders: { sliderList }, viewSettings }) {
   return {
     sliderList,
     viewSettings
   }
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({ ...MidiSliderActions, ...ViewSettingsActions }, dispatch),
     initApp: bindActionCreators(initApp, dispatch)

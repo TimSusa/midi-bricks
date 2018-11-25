@@ -218,7 +218,7 @@ export const sliders = createReducer([], {
   },
 
   [ActionTypeSliderList.SEND_PROGRAM_CHANGE] (state, action) {
-    const {idx} = action.payload
+    const { idx } = action.payload
     const tmp = state.sliderList[idx]
     const { midiCC, midiChannel, outputId } = tmp
 
@@ -362,8 +362,8 @@ export const sliders = createReducer([], {
     const { viewSettings, sliders: { sliderList, presetName } } = tmpStore
 
     // Clean out older preset fields
-    const filteredSliderList = sliderList.map(entry => ({...entry, midi: undefined}))
-    const filteredFooterpageList = viewSettings.footerPages.map(item => ({...item, midi: undefined}))
+    const filteredSliderList = sliderList.map(entry => ({ ...entry, midi: undefined }))
+    const filteredFooterpageList = viewSettings.footerPages.map(item => ({ ...item, midi: undefined }))
     const tmpFilterStore = {
       viewSettings: {
         ...viewSettings,
@@ -434,7 +434,7 @@ export const sliders = createReducer([], {
         ...action.payload.listOrder[i.toString()]
       }))
     }
-    return { ...state, sliderList: newArray }
+    return { ...state, sliderList: newArray, sliderListBackup: state.sliderList }
   },
 
   [ActionTypeSliderList.MIDI_MESSAGE_ARRIVED] (state, action) {
@@ -540,12 +540,15 @@ export const sliders = createReducer([], {
       const tmp = state.sliderListBackup[idx]
       let retVal = {
         ...item,
-        val: tmp.val,
-        isNoteOn: tmp.isNoteOn
+        val: (tmp && tmp.val) || 0,
+        isNoteOn: (tmp && tmp.isNoteOn) || false
       }
       return retVal
     })
     return { ...state, sliderList }
+  },
+  [ActionTypeSliderList.GO_BACK] (state, action) {
+    return { ...state, sliderList: state.sliderListBackup }
   }
 })
 
