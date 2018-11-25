@@ -328,21 +328,24 @@ export const sliders = createReducer([], {
 
   [ActionTypeSliderList.SAVE_FILE] (state, action) {
     const tmpStore = store.getState()
-    const { viewSettings, sliders: { sliderList, presetName, midi: { midiDrivers } } } = tmpStore
+    const { viewSettings, sliders: { sliderList, presetName } } = tmpStore
+
+    // Clean out older preset fields
+    const filteredSliderList = sliderList.map(entry => ({...entry, midi: undefined}))
+    const filteredFooterpageList = viewSettings.footerPages.map(item => ({...item, midi: undefined}))
     const tmpFilterStore = {
-      viewSettings,
+      viewSettings: {
+        ...viewSettings,
+        footerPages: filteredFooterpageList
+      },
       sliders: {
-        sliderList,
+        sliderList: filteredSliderList,
         presetName,
         sliderListBackup: [],
-        midi: {
-          midiDrivers: null,
-          midiAccess: null
-        }
+        midi: undefined
       }
     }
     const content = JSON.stringify(tmpFilterStore)
-    console.log(content)
     const fileName = 'midi-bricks-preset.js'
     const contentType = 'application/json'
     let a = document.createElement('a')

@@ -89,7 +89,9 @@ class App extends React.PureComponent {
     }
 
     this.props.actions.toggleGlobalSettingsMode({isGlobalSettingsMode: true})
-    // window.location.reload()
+
+    // Bad hack go away
+    window.location.reload()
   }
 
   handleSaveFile = () => {
