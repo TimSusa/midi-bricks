@@ -38,4 +38,4 @@ This application only works with Chrome Browsers. If browser will ask you for pe
 All this was made with LOVE!
 
 # Thanks
-Thanks to the people, who made react, redux, material-ui and big thanks to my friend Henrik Wenz (https://github.com/HaNdTriX), who made electron functionality available. And nice big greetz to my friend Alec Troniq (http://alec-troniq.com/), who gave me the right hints, to build up all this stuff, using this for his live performances.
+Thanks to the people, who made react, redux, material-ui, WebMIDI (https://github.com/cotejp) and big thanks to my friend Henrik Wenz (https://github.com/HaNdTriX), who made electron functionality available. Nice big greetz to my friend Alec Troniq (http://alec-troniq.com/), who gives me the right hints, to build up all this stuff, using this for his live performances.
