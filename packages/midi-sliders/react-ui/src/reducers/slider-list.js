@@ -161,10 +161,10 @@ export const sliders = createReducer([], {
     const sliderList = state.sliderList.filter((t, idx) => {
       return newIdx !== t.i
     })
-    return { ...state, sliderList }
+    return { ...state, sliderList, sliderListBackup: state.sliderList }
   },
   [ActionTypeSliderList.DELETE_ALL] (state, action) {
-    return { ...state, sliderList: [] }
+    return { ...state, sliderList: [], sliderListBackup: state.sliderList }
   },
 
   [ActionTypeSliderList.HANDLE_SLIDER_CHANGE] (state, action) {
@@ -545,8 +545,9 @@ export const sliders = createReducer([], {
       }
       return retVal
     })
-    return { ...state, sliderList }
+    return { ...state, sliderList, sliderListBackup: state.sliderList }
   },
+
   [ActionTypeSliderList.GO_BACK] (state, action) {
     return { ...state, sliderList: state.sliderListBackup }
   }
