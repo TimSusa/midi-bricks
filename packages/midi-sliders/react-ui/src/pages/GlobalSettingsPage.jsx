@@ -14,13 +14,15 @@ import * as MidiSliderActions from '../actions/slider-list.js'
 import * as ViewStuff from '../actions/view-settings.js'
 import MidiSettingsDialog from '../components/channel-strip-list/channel-strip/midi-settings-dialog/MidiSettingsDialog'
 import { outputIdToDriverName } from '../utils/output-to-driver-name.js'
+import { initApp } from '../actions/init.js'
 
 class GlobalSettingsPage extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.props.actions.toggleLiveMode({ isLiveMode: false })
+    this.props.initApp()
   }
-  render() {
+  render () {
     const { classes, sliderList, sliderListBackup, midi, viewSettings: { isSettingsDialogMode, lastFocusedIdx } } = this.props
 
     return (
@@ -155,12 +157,13 @@ const styles = theme => ({
   }
 })
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators({ ...MidiSliderActions, ...ViewStuff }, dispatch)
+    actions: bindActionCreators({ ...MidiSliderActions, ...ViewStuff }, dispatch),
+    initApp: bindActionCreators(initApp, dispatch)
   }
 }
-function mapStateToProps({ sliders: { sliderList, midi, sliderListBackup }, viewSettings }) {
+function mapStateToProps ({ sliders: { sliderList, midi, sliderListBackup }, viewSettings }) {
   return {
     sliderList,
     midi,
