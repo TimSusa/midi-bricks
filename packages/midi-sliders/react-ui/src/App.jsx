@@ -7,7 +7,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { Route, HashRouter } from 'react-router-dom'
 
-import MidiSlidersPage from './pages/MidiSlidersPage'
+import Home from './pages/Home'
 import { bindActionCreators } from 'redux'
 import * as MidiSlidersAction from './actions/slider-list.js'
 import * as ViewActions from './actions/view-settings.js'
@@ -15,7 +15,7 @@ import * as ViewActions from './actions/view-settings.js'
 import MenuAppBar from './components/menu-app-bar/MenuAppBar'
 import DrawerList from './components/drawer-list/DrawerList'
 import Footer from './components/footer/Footer'
-
+import { PAGE_TYPES } from './reducers/view-settings'
 
 const history = createBrowserHistory()
 
@@ -26,7 +26,7 @@ class App extends React.PureComponent {
 
   routes = (
     <div className={this.props.classes.content}>
-      <Route exact path='/' component={MidiSlidersPage} />
+      <Route exact path='/' component={Home} />
     </div>
   )
 
@@ -54,7 +54,7 @@ class App extends React.PureComponent {
                 onFileChange={this.onFileChange}
                 handleSaveFile={this.handleSaveFile}
                 handleResetSliders={this.handleResetSliders}
-                toggleGlobalSettings={this.toggleGlobalSettings}
+                togglePage={this.togglePage}
                 classes={this.props.classes}
                 history={history}
               />
@@ -88,10 +88,10 @@ class App extends React.PureComponent {
         this.props.actions.addPageToFooter({sliderList: parsedJson.sliders.sliderList}))
     }
 
-    this.props.actions.toggleGlobalSettingsMode({isGlobalSettingsMode: true})
+    this.props.actions.togglePage({pageType: PAGE_TYPES.GLOBAL_MODE})
 
     // Bad hack go away
-    //window.location.reload()
+    // window.location.reload()
   }
 
   handleSaveFile = () => {
@@ -99,8 +99,8 @@ class App extends React.PureComponent {
     this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen }))
   }
 
-  toggleGlobalSettings = (isGlobalSettingsMode) => {
-    this.props.actions.toggleGlobalSettingsMode(isGlobalSettingsMode)
+  togglePage = (pageType) => {
+    this.props.actions.togglePage(pageType)
   }
 
   handleResetSliders = () => {

@@ -1,15 +1,22 @@
 import createReducer from './createReducer'
 import { ActionTypeViewSettings } from '../actions/view-settings'
 
+export const PAGE_TYPES = {
+  HOME_MODE: 'HOME_MODE',
+  GLOBAL_MODE: 'GLOBAL_MODE',
+  MIDI_DRIVER_MODE: 'MIDI_DRIVER_MODE'
+}
+
 export const viewSettings = createReducer({}, {
 
-  [ActionTypeViewSettings.TOGGLE_GLOBAL_SETTINGS_MODE] (state = { isGlobalSettingsMode: false }, action) {
-    const { isGlobalSettingsMode } = action.payload
+  [ActionTypeViewSettings.TOGGLE_PAGE] (state = { isSettingsMode: true, pageType: PAGE_TYPES.HOME_MODE }, action) {
+    const { pageType } = action.payload
     return Object.assign({}, state, {
-      isGlobalSettingsMode, isLayoutMode: false, isSettingsMode: false, isLiveMode: false
+      pageType
     })
   },
-  [ActionTypeViewSettings.TOGGLE_LIVE_MODE] (state = { isLiveMode: false }, action) {
+
+  [ActionTypeViewSettings.TOGGLE_LIVE_MODE] (state = { isLiveMode: false, pageType: PAGE_TYPES.HOME_MODE }, action) {
     let castedVal = !!state.isLiveMode
     if (action.payload && action.payload.isLiveMode !== undefined) {
       castedVal = action.payload.isLiveMode
@@ -21,42 +28,42 @@ export const viewSettings = createReducer({}, {
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_LAYOUT_MODE] (state = { isLayoutMode: false }, action) {
+  [ActionTypeViewSettings.TOGGLE_LAYOUT_MODE] (state = { isLayoutMode: false, pageType: PAGE_TYPES.HOME_MODE }, action) {
     const castedVal = !!state.isLayoutMode
     return Object.assign({}, state, {
       isLayoutMode: !castedVal
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_COMPACT_MODE] (state = { isCompactHorz: true }, action) {
+  [ActionTypeViewSettings.TOGGLE_COMPACT_MODE] (state = { isCompactHorz: true, pageType: PAGE_TYPES.HOME_MODE }, action) {
     const castedVal = !!state.isCompactHorz
     return Object.assign({}, state, {
       isCompactHorz: !castedVal
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_SETTINGS_MODE] (state = { isSettingsMode: false }, action) {
+  [ActionTypeViewSettings.TOGGLE_SETTINGS_MODE] (state = { isSettingsMode: false, pageType: PAGE_TYPES.HOME_MODE }, action) {
     const castedVal = !!state.isSettingsMode
     return Object.assign({}, state, {
       isSettingsMode: !castedVal
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_AUTO_ARRANGE_MODE] (state = { isAutoArrangeMode: false }, action) {
+  [ActionTypeViewSettings.TOGGLE_AUTO_ARRANGE_MODE] (state = { isAutoArrangeMode: false, pageType: PAGE_TYPES.HOME_MODE }, action) {
     const castedVal = !!state.isAutoArrangeMode
     return Object.assign({}, state, {
       isAutoArrangeMode: !castedVal
     })
   },
 
-  [ActionTypeViewSettings.CHANGE_THEME] (state = { isChangedTheme: false }, action) {
+  [ActionTypeViewSettings.CHANGE_THEME] (state = { isChangedTheme: false, pageType: PAGE_TYPES.HOME_MODE }, action) {
     const castedVal = !!state.isChangedTheme
     return Object.assign({}, state, {
       isChangedTheme: !castedVal
     })
   },
 
-  [ActionTypeViewSettings.ADD_PAGE_TO_FOOTER] (state = { footerPages: [] }, action) {
+  [ActionTypeViewSettings.ADD_PAGE_TO_FOOTER] (state = { footerPages: [], pageType: PAGE_TYPES.HOME_MODE }, action) {
     const { sliderList } = action.payload
 
     const extractPages = (list) => {
@@ -94,7 +101,7 @@ export const viewSettings = createReducer({}, {
     }
   },
 
-  [ActionTypeViewSettings.DELETE_PAGE_FROM_FOOTER] (state = { footerPages: [] }, action) {
+  [ActionTypeViewSettings.DELETE_PAGE_FROM_FOOTER] (state = { footerPages: [], pageType: PAGE_TYPES.HOME_MODE }, action) {
     const { idx } = action.payload
     const footerPages = state.footerPages.filter(item => item.i !== idx)
     return Object.assign({}, state, {
@@ -102,13 +109,13 @@ export const viewSettings = createReducer({}, {
     })
   },
 
-  [ActionTypeViewSettings.DELETE_FOOTER_PAGES] (state = { footerPages: [] }, action) {
+  [ActionTypeViewSettings.DELETE_FOOTER_PAGES] (state = { footerPages: [], pageType: PAGE_TYPES.HOME_MODE }, action) {
     return Object.assign({}, state, {
       footerPages: []
     })
   },
 
-  [ActionTypeViewSettings.CHANGE_FOOTER_PAGE_LABEL] (state = { footerPages: [] }, action) {
+  [ActionTypeViewSettings.CHANGE_FOOTER_PAGE_LABEL] (state = { footerPages: [], pageType: PAGE_TYPES.HOME_MODE }, action) {
     const { i, val } = action.payload
 
     const tmpArr = state.footerPages.map(item => {
@@ -122,7 +129,7 @@ export const viewSettings = createReducer({}, {
     })
   },
 
-  [ActionTypeViewSettings.SWAP_FOOTER_PAGES] (state = { footerPages: [] }, action) {
+  [ActionTypeViewSettings.SWAP_FOOTER_PAGES] (state = { footerPages: [], pageType: PAGE_TYPES.HOME_MODE }, action) {
     const { srcIdx, offset } = action.payload
     const srcItem = state.footerPages[srcIdx]
     const newIdx = (srcIdx === 0 && offset === -1) ? (state.footerPages.length) : srcIdx
@@ -144,7 +151,7 @@ export const viewSettings = createReducer({}, {
       footerPages: newArray
     })
   },
-  [ActionTypeViewSettings.TOGGLE_SETTINGS_DIALOG_MODE] (state = { isSettingsDialogMode: false }, action) {
+  [ActionTypeViewSettings.TOGGLE_SETTINGS_DIALOG_MODE] (state = { isSettingsDialogMode: false, pageType: PAGE_TYPES.HOME_MODE }, action) {
     const { idx, isSettingsDialogMode } = action.payload
 
     if (isSettingsDialogMode) {

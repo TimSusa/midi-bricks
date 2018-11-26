@@ -17,10 +17,11 @@ import AutoArrangeModeIcon from '@material-ui/icons/Spellcheck'
 import AutoArrangeModeIconFalse from '@material-ui/icons/TextFormat'
 import ViewMenu from './ViewMenu'
 import AddMenu from './AddMenu'
+import { PAGE_TYPES } from '../../reducers/view-settings'
 
 class MenuAppBar extends React.Component {
   render () {
-    const { classes, actions, presetName, viewSettings: { isGlobalSettingsMode, isLiveMode, isLayoutMode, isCompactHorz, isAutoArrangeMode } } = this.props
+    const { classes, actions, presetName, viewSettings: { pageType, isLiveMode, isLayoutMode, isCompactHorz, isAutoArrangeMode } } = this.props
     if (isLiveMode) {
       return (
         <div />
@@ -72,13 +73,13 @@ class MenuAppBar extends React.Component {
 
             <AddMenu />
             {
-              isGlobalSettingsMode &&
+              ((pageType === PAGE_TYPES.GLOBAL_MODE)) &&
               <Typography>
                 {presetName || ''}
               </Typography>
             }
             {
-              isGlobalSettingsMode &&
+              ((pageType === PAGE_TYPES.GLOBAL_MODE)) &&
               <Button
                 className={classes.resetButton}
                 variant='raised'
@@ -88,7 +89,7 @@ class MenuAppBar extends React.Component {
               </Button>
             }
             {
-              isGlobalSettingsMode &&
+              ((pageType === PAGE_TYPES.GLOBAL_MODE)) &&
               <Button
                 className={classes.resetButton}
                 variant='raised'
@@ -98,7 +99,7 @@ class MenuAppBar extends React.Component {
               </Button>
             }
             {
-              !isGlobalSettingsMode &&
+              !(pageType === PAGE_TYPES.GLOBAL_MODE) &&
               <ViewMenu />
             }
           </Toolbar>

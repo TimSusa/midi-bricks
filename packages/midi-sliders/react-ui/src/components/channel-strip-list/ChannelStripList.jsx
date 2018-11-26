@@ -11,7 +11,7 @@ import MidiSettingsDialogButton from './channel-strip/midi-settings-dialog/MidiS
 import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import { SizeMe } from 'react-sizeme'
-
+import { PAGE_TYPES } from '../../reducers/view-settings'
 require('react-grid-layout/css/styles.css')
 require('react-resizable/css/styles.css')
 
@@ -171,10 +171,18 @@ class ChannelStripList extends React.PureComponent {
   }
 
   handleKeyPress = (e) => {
+    console.log(e.keyCode)
+
+    // shift + m
+    if ((e.keyCode === 77) && e.shiftKey) {
+      e.preventDefault()
+      this.props.actions.togglePage({pageType: PAGE_TYPES.MIDI_DRIVER_MODE})
+    }
+
     // shift + g
     if ((e.keyCode === 71) && e.shiftKey) {
       e.preventDefault()
-      this.props.actions.toggleGlobalSettingsMode({ isGlobalSettingsMode: true })
+      this.props.actions.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })
     }
 
     // shift + z

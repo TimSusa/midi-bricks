@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as ViewSettinsgsAction from '../../actions/view-settings'
 import { Button } from '@material-ui/core'
+import { PAGE_TYPES } from '../../reducers/view-settings'
 
 class Footer extends React.Component {
   state = {
@@ -16,9 +17,9 @@ class Footer extends React.Component {
   }
 
   render () {
-    const { classes, viewSettings: { footerPages, isSettingsMode, isGlobalSettingsMode }, actions } = this.props
+    const { classes, viewSettings: { footerPages, isSettingsMode, pageType }, actions } = this.props
     const { value } = this.state
-    if (isGlobalSettingsMode) return (<div />)
+    if (pageType !== PAGE_TYPES.HOME_MODE) return (<div />)
     if (footerPages && footerPages.every((item) => (item && item.type !== 'PAGE'))) return (<div />)
     return (
       <BottomNavigation
@@ -33,7 +34,7 @@ class Footer extends React.Component {
                 key={`footer-button-${idx}`}
               >
                 <IconButton
-                  onClick={actions.swapFooterPages.bind(this, {srcIdx: idx, offset: -1})}
+                  onClick={actions.swapFooterPages.bind(this, { srcIdx: idx, offset: -1 })}
                   className={classes.signButton}
                   color='inherit'
                   aria-label='Menu'
@@ -50,7 +51,7 @@ class Footer extends React.Component {
                 </Button>
 
                 <IconButton
-                  onClick={actions.swapFooterPages.bind(this, {srcIdx: idx, offset: 1})}
+                  onClick={actions.swapFooterPages.bind(this, { srcIdx: idx, offset: 1 })}
                   className={classes.signButton}
                   color='inherit'
                   aria-label='Menu'

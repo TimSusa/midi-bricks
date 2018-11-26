@@ -3,10 +3,12 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
 import GlobalSettingsPage from './GlobalSettingsPage.jsx'
+import MidiDriversSettingsPage from './MidiDriversSettingsPage'
+import { PAGE_TYPES } from '../reducers/view-settings'
 
-class MidiSlidersPage extends React.PureComponent {
+class Home extends React.PureComponent {
   render () {
-    const { classes, isMidiFailed, viewSettings: { isLayoutMode, isLiveMode, isSettingsMode, isGlobalSettingsMode } } = this.props
+    const { classes, isMidiFailed, viewSettings: { isLayoutMode, isLiveMode, isSettingsMode, pageType = PAGE_TYPES.HOME_MODE } } = this.props
 
     const preventScrollStyle = isLiveMode ? {
       height: 'calc(100vh - 66px)',
@@ -35,11 +37,15 @@ class MidiSlidersPage extends React.PureComponent {
           <img width='50%' alt='midi-sliders-screenshot' src='midi-sliders-screenshot.png' />
         </Typography>
       )
-    } else if (isGlobalSettingsMode) {
+    } else if (pageType === PAGE_TYPES.GLOBAL_MODE) {
       return (
         <GlobalSettingsPage />
       )
-    } else {
+    } else if (pageType === PAGE_TYPES.MIDI_DRIVER_MODE) {
+      return (
+        <MidiDriversSettingsPage />
+      )
+    } else if (pageType === PAGE_TYPES.HOME_MODE) {
       return (
         <div
           className={this.props.classes.root}
@@ -73,4 +79,4 @@ function mapStateToProps ({ viewSettings, sliders: { isMidiFailed } }) {
     isMidiFailed
   }
 }
-export default (withStyles(styles)(connect(mapStateToProps, null)(MidiSlidersPage)))
+export default (withStyles(styles)(connect(mapStateToProps, null)(Home)))

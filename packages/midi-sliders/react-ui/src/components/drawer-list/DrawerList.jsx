@@ -13,6 +13,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import * as React from 'react'
 import FileReader from './FileReader'
 import DeleteModal from '../DeleteModal'
+import { PAGE_TYPES } from '../../reducers/view-settings'
 
 class DrawerList extends React.PureComponent {
   state = {
@@ -60,18 +61,26 @@ class DrawerList extends React.PureComponent {
         </List>
         <Divider />
         <List>
-          <ListItem button onClick={() => this.props.toggleGlobalSettings({isGlobalSettingsMode: false})}>
+          <ListItem button onClick={() => this.props.togglePage({ pageType: PAGE_TYPES.HOME_MODE })}>
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>
             <ListItemText primary='Main View' />
           </ListItem>
-          <ListItem button onClick={() => this.props.toggleGlobalSettings({isGlobalSettingsMode: true})}>
+          <ListItem button onClick={() => this.props.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })}>
             <ListItemIcon>
               <GlobalIcon />
             </ListItemIcon>
             <ListItemText primary='Global Settings' />
           </ListItem>
+
+          <ListItem button onClick={() => this.props.togglePage({ pageType: PAGE_TYPES.MIDI_DRIVER_MODE })}>
+            <ListItemIcon>
+              <GlobalIcon />
+            </ListItemIcon>
+            <ListItemText primary='MIDI Driver Settings' />
+          </ListItem>
+
         </List>
         <Divider />
       </React.Fragment>

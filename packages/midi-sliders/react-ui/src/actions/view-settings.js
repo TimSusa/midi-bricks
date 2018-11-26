@@ -1,7 +1,7 @@
 const createActions = require('./create-actions.js').createActions
 
 const ActionTypeViewSettings = {
-  TOGGLE_GLOBAL_SETTINGS_MODE: 'TOGGLE_GLOBAL_SETTINGS_MODE',
+  TOGGLE_PAGE: 'TOGGLE_PAGE',
   TOGGLE_LIVE_MODE: 'TOGGLE_LIVE_MODE',
   TOGGLE_LAYOUT_MODE: 'TOGGLE_LAYOUT_MODE',
   TOGGLE_COMPACT_MODE: 'TOGGLE_COMPACT_MODE',
