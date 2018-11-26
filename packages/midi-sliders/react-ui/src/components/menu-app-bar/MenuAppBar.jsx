@@ -88,6 +88,16 @@ class MenuAppBar extends React.Component {
               </Button>
             }
             {
+              isGlobalSettingsMode &&
+              <Button
+                className={classes.resetButton}
+                variant='raised'
+                onClick={() => window.location.reload()}
+              >
+                Detect Driver Changes
+              </Button>
+            }
+            {
               !isGlobalSettingsMode &&
               <ViewMenu />
             }
