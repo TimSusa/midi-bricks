@@ -116,16 +116,28 @@ export const sliders = createReducer([], {
     const calcCC = i && parseInt(tmpState.midiCC && (tmpState.midiCC || tmpState.midiCC[0] || 60), 10) + 1
     const caclCCThresh = calcCC > 127 ? 60 : calcCC
     const newDate = getUniqueId()
+    let x = 0
+    let y = 0
+    let lastItem = { x: 0, y: 0 }
+    state.sliderList.forEach(item => {
+      if (item.x > lastItem.x) x = item.x
+      if (item.y > lastItem.y) y = item.y
+      lastItem = item
+    })
     let newEntry = i ? {
       ...tmpState,
       label: tmpState.label,
       i: newDate,
-      midiCC: ([caclCCThresh])
+      midiCC: ([caclCCThresh]),
+      x: x + 1,
+      y: y + 1
     } : {
       ...list[idx],
       label: list[idx].label,
       i: newDate,
-      midiCC: ([caclCCThresh || 60])
+      midiCC: ([caclCCThresh || 60]),
+      x: x + 1,
+      y: y + 1
     }
 
     newArr.splice(idx, 0, newEntry)
