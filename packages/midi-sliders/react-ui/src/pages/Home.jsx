@@ -13,8 +13,6 @@ import { PAGE_TYPES } from '../reducers/view-settings'
 class Home extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.props.actions.toggleLiveMode({ isLiveMode: false })
-
     // track driver changes after browser reload
     this.props.initApp()
   }

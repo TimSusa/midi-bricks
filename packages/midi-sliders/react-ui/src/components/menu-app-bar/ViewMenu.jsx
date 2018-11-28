@@ -58,21 +58,6 @@ class ViewMenu extends React.PureComponent {
         >
 
           <MenuItem
-            onClick={this.toggleLiveMode}>
-            <ListItemIcon>
-              {isLiveMode ? (
-                <OnIcon />
-              ) : (
-                <OffIcon />
-              )}
-            </ListItemIcon>
-
-            <Typography variant='subtitle1'>
-              Live Mode - shift + p
-            </Typography>
-          </MenuItem>
-
-          <MenuItem
             onClick={this.toggleLayoutMode}>
             <ListItemIcon>
               {isLayoutMode ? (
@@ -147,6 +132,20 @@ class ViewMenu extends React.PureComponent {
             </ListItemIcon>
             <Typography variant='subtitle1'>
               Switch Theme - shift + t
+            </Typography>
+          </MenuItem>
+          <MenuItem
+            onClick={this.toggleLiveMode}>
+            <ListItemIcon>
+              {isLiveMode ? (
+                <OnIcon />
+              ) : (
+                <OffIcon />
+              )}
+            </ListItemIcon>
+
+            <Typography variant='subtitle1'>
+              Live Mode - shift + p
             </Typography>
           </MenuItem>
         </Menu>

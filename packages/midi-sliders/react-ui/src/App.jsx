@@ -2,10 +2,8 @@ import {
   Drawer,
   withStyles
 } from '@material-ui/core'
-import { createBrowserHistory } from 'history'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Route, HashRouter } from 'react-router-dom'
 
 import Home from './pages/Home'
 import { bindActionCreators } from 'redux'
@@ -17,54 +15,43 @@ import DrawerList from './components/drawer-list/DrawerList'
 import Footer from './components/footer/Footer'
 import { PAGE_TYPES } from './reducers/view-settings'
 
-const history = createBrowserHistory()
-
 class App extends React.PureComponent {
   state = {
     isMobileOpen: false
   }
 
-  routes = (
-    <div className={this.props.classes.content}>
-      <Route exact path='/' component={Home} />
-    </div>
-  )
-
   render () {
     return (
-      <HashRouter>
-        <div className={this.props.classes.root}>
-          <div className={this.props.classes.appBar}>
-            <MenuAppBar
-              handleDrawerToggle={this.handleDrawerToggle}
+      <div className={this.props.classes.root}>
+        <div className={this.props.classes.appBar}>
+          <MenuAppBar
+            handleDrawerToggle={this.handleDrawerToggle}
+          />
+          <Drawer
+            variant='temporary'
+            anchor={'left'}
+            open={this.state.isMobileOpen}
+            classes={{
+              paper: this.props.classes.drawerPaper
+            }}
+            onClose={this.handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true // Better open performance on mobile.
+            }}
+          >
+            <DrawerList
+              onFileChange={this.onFileChange}
+              handleSaveFile={this.handleSaveFile}
+              handleResetSliders={this.handleResetSliders}
+              togglePage={this.togglePage}
+              classes={this.props.classes}
             />
-            <Drawer
-              variant='temporary'
-              anchor={'left'}
-              open={this.state.isMobileOpen}
-              classes={{
-                paper: this.props.classes.drawerPaper
-              }}
-              onClose={this.handleDrawerToggle}
-              ModalProps={{
-                keepMounted: true // Better open performance on mobile.
-              }}
-            >
-              <DrawerList
-                onFileChange={this.onFileChange}
-                handleSaveFile={this.handleSaveFile}
-                handleResetSliders={this.handleResetSliders}
-                togglePage={this.togglePage}
-                classes={this.props.classes}
-                history={history}
-              />
-            </Drawer>
-            {this.routes}
+          </Drawer>
+          <Home />
 
-            {(!window.location.href.endsWith('global')) && (<Footer />) }
-          </div>
+          {(!window.location.href.endsWith('global')) && (<Footer />) }
         </div>
-      </HashRouter>
+      </div>
     )
   }
 
