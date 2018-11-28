@@ -5,7 +5,10 @@ import {
   TableRow,
   TableCell,
   TableHead,
-  Tooltip
+  Tooltip,
+  Checkbox,
+  Card,
+  Paper
 } from '@material-ui/core'
 import * as React from 'react'
 import { connect } from 'react-redux'
@@ -28,29 +31,84 @@ class MidiDriversSettingsPage extends React.PureComponent {
       classes,
       sliderList,
       sliderListBackup,
-      midi,
+      midi: { midiAccess: {
+        inputs,
+        outputs
+      } },
       viewSettings: {
         pageType
       }
     } = this.props
-
+    console.log({
+      inputs,
+      outputs
+    })
+    const channelDummy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     return (
-      <Table
-        className={classes.root}
-      >
-        <TableHead>
-          <TableRow>
-            <TableCell>Channel</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          <TableRow>
-            <TableCell>
-             some stuff here
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+      <React.Fragment>
+        {
+          inputs.map((input, idx) => (
+            <Table
+              key={`input-${idx}`}
+              className={classes.root}
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell>Input {input.name}</TableCell>
+                  {
+                    channelDummy.map((item, idx) => (
+                      <TableCell
+                        key={`gred-${idx}`}
+                      >
+                      Ch {idx + 1}
+                      </TableCell>)
+                    )
+                  }
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell
+                  >
+                    <Checkbox />
+                  </TableCell>
+                  {
+                    channelDummy.map((item, idx) => (
+                      <TableCell key={`sdf-${idx}`}>
+                        <Checkbox />
+                      </TableCell>))
+                  }
+                </TableRow>
+              </TableBody>
+            </Table>
+          ))
+        }
+        <br />
+        <br />
+        {
+          outputs.map((output, idx) => (
+            <Table
+              key={`output-${idx}`}
+              className={classes.root}
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell key={`dd-${idx}`}>Output {output.name}</TableCell>
+                  {channelDummy.map((item, idx) => (<TableCell key={`ee-${idx}`}>Ch {idx + 1}</TableCell>))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  {channelDummy.map((item, idx) => (
+                    <TableCell key={`hh-${idx}`}>
+                      <Checkbox />
+                    </TableCell>))}
+                </TableRow>
+              </TableBody>
+            </Table>
+          ))
+        }
+      </React.Fragment>
     )
   }
 }
@@ -58,7 +116,8 @@ class MidiDriversSettingsPage extends React.PureComponent {
 const styles = theme => ({
   root: {
     textAlign: 'left',
-    width: '100%'
+    width: '100%',
+    margin: [8, 0, 8, 0]
   },
   heading: {
     marginTop: theme.spacing.unit * 2

@@ -24,7 +24,12 @@ export function initApp () {
         inputs,
         outputs
       }
-      dispatch(initMidiAccess({ midiAccess }))
+      const hasContent = (arr) => arr.length > 0
+      if (hasContent(inputs) && hasContent(outputs)) {
+        dispatch(initMidiAccess({ midiAccess }))
+      } else {
+        dispatch(initFailed('bad'))
+      }
 
       const { sliderList } = getState().sliders
       let driverNames = []
@@ -51,7 +56,6 @@ export function initApp () {
           state,
           type
         }
-        console.log(tmp)
         input.removeListener()
         if (driverNames.includes(input.name)) {
           let ccChannels = []

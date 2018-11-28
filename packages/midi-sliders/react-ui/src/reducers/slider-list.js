@@ -41,10 +41,7 @@ export const sliders = createReducer([], {
     console.warn('reducer init failed', action)
     return {
       ...state,
-      sliders: {
-        ...sliders,
-        isMidiFailed: true
-      }
+      isMidiFailed: true
     }
   },
 
@@ -61,7 +58,6 @@ export const sliders = createReducer([], {
           if (name === item.driverName) {
             return Object.assign({}, {
               ...item,
-              // midi,
               outputId
             })
           }
@@ -69,10 +65,9 @@ export const sliders = createReducer([], {
       }
       return Object.assign({}, {
         ...item
-        // midi
       })
     })
-    return { ...state, midi, sliderList }
+    return { ...state, isMidiFailed: false, midi, sliderList }
   },
   [ActionTypeSliderList.ADD_SLIDER] (state, action) {
     const newState = transformAddState(state, action, SLIDER)

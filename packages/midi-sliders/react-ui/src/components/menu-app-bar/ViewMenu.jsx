@@ -23,12 +23,12 @@ class ViewMenu extends React.PureComponent {
     const { anchorEl } = this.state
     const {
       viewSettings: {
-        isLayoutMode,
-        isAutoArrangeMode,
-        isChangedTheme,
-        isSettingsMode,
-        isCompactHorz,
-        isLiveMode
+        isLayoutMode = true,
+        isAutoArrangeMode = true,
+        isChangedTheme = false,
+        isSettingsMode = false,
+        isCompactHorz = true,
+        isLiveMode = false
       }
     } = this.props
     const isOpen = Boolean(anchorEl)

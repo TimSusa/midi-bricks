@@ -37,7 +37,7 @@ class ChannelStripList extends React.PureComponent {
     const {
       classes,
       sliderList,
-      viewSettings: { isLayoutMode, isCompactHorz, isAutoArrangeMode, isSettingsDialogMode }
+      viewSettings: { isLayoutMode = true, isCompactHorz = true, isAutoArrangeMode = true, isSettingsDialogMode = false }
     } = this.props
 
     // Protect dialog mode from global listeners
