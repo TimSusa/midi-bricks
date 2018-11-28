@@ -85,7 +85,7 @@ class MenuAppBar extends React.Component {
                 variant='raised'
                 onClick={actions.resetValues}
               >
-                Reset Values
+                Restore Values
               </Button>
             }
             {

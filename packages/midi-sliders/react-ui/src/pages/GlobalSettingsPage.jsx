@@ -90,7 +90,7 @@ class GlobalSettingsPage extends React.PureComponent {
                 } else if (!driverName) {
                   title = 'No MIDI Driver available'
                 } else if (!outputId) {
-                  title = 'Driver ID cannot be found. Please reload the preset or reselect the driver.'
+                  title = 'Driver ID cannot be found. Please reload the preset again, for self-healing or reselect the driver.'
                 }
               }
 
