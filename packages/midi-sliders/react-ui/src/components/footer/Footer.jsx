@@ -8,7 +8,7 @@ import RightIcon from '@material-ui/icons/KeyboardArrowRight'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as ViewSettinsgsAction from '../../actions/view-settings'
-import { Button } from '@material-ui/core'
+import { Button, Tooltip } from '@material-ui/core'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 
 class Footer extends React.Component {
@@ -72,7 +72,16 @@ class Footer extends React.Component {
             </Button>
           )
         })}
+        <Tooltip title='Toggle Live Mode'>
+          <Button
+            className={classes.liveButton}
+            onClick={this.props.actions.toggleLiveMode}
+          >
+              Live
+          </Button>
+        </Tooltip>
       </BottomNavigation>
+
     )
   }
 
@@ -94,7 +103,7 @@ const styles = (theme) => ({
     background: theme.palette.appBar.background,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    // justifyContent: 'space-evenly',
     bottom: 0,
     width: '100%',
     position: 'fixed'
@@ -103,6 +112,10 @@ const styles = (theme) => ({
     color: theme.palette.primary.contrastText,
     fontWeight: 600,
     height: 60
+  },
+  liveButton: {
+    marginLeft: 'auto',
+    width: 8
   },
   signButton: {
     width: 16

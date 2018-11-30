@@ -21,7 +21,7 @@ import { PAGE_TYPES } from '../../reducers/view-settings'
 
 class MenuAppBar extends React.Component {
   render () {
-    const { classes, actions, presetName, viewSettings: { pageType, isLiveMode = false, isLayoutMode = true, isCompactHorz = true, isAutoArrangeMode = true } } = this.props
+    const { classes, actions, presetName, viewSettings: { pageType, isLiveMode = false, isLayoutMode, isCompactHorz = true, isAutoArrangeMode = true } } = this.props
     if (isLiveMode) {
       return (
         <div />
