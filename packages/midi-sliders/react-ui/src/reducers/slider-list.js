@@ -239,25 +239,34 @@ export const sliders = createReducer([], {
     const newState = transformState(state.sliderList, action, 'label')
     return { ...state, sliderList: newState }
   },
-  [ActionTypeSliderList.SELECT_SLIDER_MIDI_DRIVER] (state, action) {
+  [ActionTypeSliderList.SELECT_MIDI_DRIVER] (state, action) {
     const { i, driverName } = action.payload
     const sliderList = state.sliderList.map((item) => {
-      let retVal = item
-      state.midi.midiDrivers.forEach(({ name, outputId }) => {
-        if (name === driverName) {
-          if (item.i === i) {
-            retVal = Object.assign({}, {
-              ...item,
-              driverName,
-              outputId
-            })
-          }
+      if (item.i === i) {
+        return {
+          ...item,
+          driverName
         }
-      })
-      return retVal
+      }
+      return item
     })
     return { ...state, sliderList }
   },
+
+  [ActionTypeSliderList.SELECT_MIDI_DRIVER_INPUT] (state, action) {
+    const { i, driverNameInput } = action.payload
+    const sliderList = state.sliderList.map((item) => {
+      if (item.i === i) {
+        return {
+          ...item,
+          driverNameInput
+        }
+      }
+      return item
+    })
+    return { ...state, sliderList }
+  },
+
   [ActionTypeSliderList.SELECT_CC] (state, action) {
     const sliderList = transformState(state.sliderList, action, 'midiCC')
     return { ...state, sliderList }
@@ -649,8 +658,9 @@ const transformAddState = (state, action, type) => {
     listenToCc: [],
     outputId: [PAGE, LABEL].includes(type) ? 'None' : newDriverId,
     driverName: newDriverName,
+    driverNameInput: 'None',
     midiChannel: 1,
-    midiChannelInput: 'all',
+    midiChannelInput: 1,
     isNoteOn: false,
     isDraggable: true,
     i: getUniqueId(),

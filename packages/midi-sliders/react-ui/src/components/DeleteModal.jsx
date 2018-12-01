@@ -88,8 +88,8 @@ class DeleteModal extends React.PureComponent {
 
 const styles = theme => ({
   button: {
-    margin: '8px 0 8px 0',
-    width: '100%',
+    margin: 8,
+    width: '95%',
     background: theme.palette.button.background
   },
   iconColor: {

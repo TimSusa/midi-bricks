@@ -190,10 +190,13 @@ const styles = theme => ({
     margin: theme.spacing.unit
   },
   card: {
-    margin: theme.spacing.unit * 2
+    margin: theme.spacing.unit * 2,
+    background: 'whitesmoke'
+
   },
   table: {
-    textAlign: 'left'
+    textAlign: 'left',
+    background: '#fafafa'
     // width: '100%',
     // margin: '8px, 0, 8px, 0'
   },
