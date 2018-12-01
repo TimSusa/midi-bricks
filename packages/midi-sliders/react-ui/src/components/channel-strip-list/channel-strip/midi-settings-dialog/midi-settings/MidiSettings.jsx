@@ -37,6 +37,8 @@ class MidiSettings extends React.PureComponent {
   render () {
     const {
       midiDrivers,
+      inputs,
+      outputs,
       sliderEntry,
       sliderEntry: {
         i,
@@ -104,7 +106,7 @@ class MidiSettings extends React.PureComponent {
               })}
               value={driverName}
             >
-              {midiDrivers && this.renderDriverSelection(midiDrivers, type)}
+              {midiDrivers && this.renderDriverSelection(midiDrivers, type, inputs, outputs)}
             </Select>
           </FormControl>
           <FormControl className={classes.formControl}>
@@ -389,12 +391,8 @@ class MidiSettings extends React.PureComponent {
     })
   }
 
-  renderDriverSelection = (availableDrivers, type) => {
-    let tmpArray =
-      ![LABEL, PAGE].includes(type)
-        ? availableDrivers : [{ outputId: 'None', name: 'None' }, ...availableDrivers]
-
-    return tmpArray.map(({ name }, idx) => {
+  renderDriverSelection = (availableDrivers, type, inputs, outputs) => {
+    return Object.keys(outputs).map((name, idx) => {
       return (
         <MenuItem
           key={`driver-${idx}`}
@@ -404,6 +402,21 @@ class MidiSettings extends React.PureComponent {
         </MenuItem>
       )
     })
+
+    // let tmpArray =
+    //   ![LABEL, PAGE].includes(type)
+    //     ? availableDrivers : [{ outputId: 'None', name: 'None' }, ...availableDrivers]
+
+    // return tmpArray.map(({ name }, idx) => {
+    //   return (
+    //     <MenuItem
+    //       key={`driver-${idx}`}
+    //       value={name}
+    //     >
+    //       {name}
+    //     </MenuItem>
+    //   )
+    // })
   }
 
   renderButtonTypeSelection = () => {
@@ -489,9 +502,11 @@ function mapDispatchToProps (dispatch) {
     actions: bindActionCreators({ ...MidiSliderActions, ...ViewActions }, dispatch)
   }
 }
-function mapStateToProps ({ sliders: { sliderList, midi: { midiDrivers } } }) {
+function mapStateToProps ({ viewSettings: {availableDrivers: {inputs, outputs}}, sliders: { sliderList, midi: { midiDrivers } } }) {
   return {
     sliderList,
+    inputs,
+    outputs,
     midiDrivers
   }
 }

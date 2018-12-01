@@ -9,8 +9,12 @@ import {
   Checkbox,
   Card,
   Paper,
-  Typography
+  Typography,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails
 } from '@material-ui/core'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -26,6 +30,10 @@ class MidiDriversSettingsPage extends React.PureComponent {
 
     // track driver changes after browser reload
     this.props.initApp()
+    this.state = {
+      isFirstPanelExpanded: false,
+      isScndPanelExpanded: true
+    }
   }
   render () {
     const {
@@ -45,71 +53,95 @@ class MidiDriversSettingsPage extends React.PureComponent {
         }
       }
     } = this.props
+    const { isFirstPanelExpanded, isScndPanelExpanded } = this.state
     console.log({
       availableInputs,
       avalableOutputs
     })
     return (
       <React.Fragment>
-        {
-          inputs.map((input, idx) => (
-            <MidiDriverTable
-              labelPostfix='In'
-              key={`input-midi-${idx}`}
-              classes={classes}
-              idx={idx}
-              available={availableInputs}
-              name={input.name}
-              handleCheckboxClickNote={this.handleCheckboxClickNoteIn}
-              handleCheckboxClickCc={this.handleCheckboxClickCcIn}
-            />
-          ))
-        }
-        {
-          outputs.map((output, idx) => (
-            <MidiDriverTable
-              labelPostfix='Out'
-              key={`output-midi-${idx}`}
-              classes={classes}
-              idx={idx}
-              available={avalableOutputs}
-              name={output.name}
-              handleCheckboxClickNote={this.handleCheckboxClickNoteOut}
-              handleCheckboxClickCc={this.handleCheckboxClickCcOut}
-            />
-          ))
-        }
-        {/* <br />
-        <br />
-        {
-          outputs.map((output, idx) => (
-            <Table
-              key={`output-${idx}`}
-              className={classes.root}
+        <ExpansionPanel
+          className={classes.root}
+          expanded={isFirstPanelExpanded}
+          onChange={e => this.setState({
+            isFirstPanelExpanded: !isFirstPanelExpanded
+          })}
+        >
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+          >
+            <Typography
+              className={classes.heading}
+              color='secondary'
+              variant='body1'
             >
-              <TableHead>
-                <TableRow>
-                  <TableCell key={`dd-${idx}`}>Output {output.name}</TableCell>
-                  {channelDummy.map((item, idx) => (<TableCell key={`ee-${idx}`}>Ch {idx + 1}</TableCell>))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell
-                  >
-                    <Checkbox />
-                  </TableCell>
-                  {channelDummy.map((item, idx) => (
-                    <TableCell key={`hh-${idx}`}>
-                      <Checkbox />
-                    </TableCell>))}
-                </TableRow>
-              </TableBody>
-            </Table>
-          ))
-        } */}
+              Input Midi Driver
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails
+            style={{ flexDirection: 'column' }}
+          >
+            {
+              inputs.map((input, idx) => (
+                <MidiDriverTable
+                  labelPostfix='In'
+                  key={`input-midi-${idx}`}
+                  classes={classes}
+                  idx={idx}
+                  available={availableInputs}
+                  name={input.name}
+                  handleCheckboxClickNote={this.handleCheckboxClickNoteIn}
+                  handleCheckboxClickCc={this.handleCheckboxClickCcIn}
+                />
+              ))
+            }
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+
+        <ExpansionPanel
+          className={classes.root}
+          expanded={isScndPanelExpanded}
+          onChange={e => this.setState({
+            isScndPanelExpanded: !isScndPanelExpanded
+          })}
+        >
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+          >
+            <Typography
+              className={classes.heading}
+              color='secondary'
+              variant='body1'
+            >
+              Output Midi Driver
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails
+            style={{ flexDirection: 'column' }}
+          >
+            {
+              outputs.map((output, idx) => (
+                <MidiDriverTable
+                  labelPostfix='Out'
+                  key={`output-midi-${idx}`}
+                  classes={classes}
+                  idx={idx}
+                  available={avalableOutputs}
+                  name={output.name}
+                  handleCheckboxClickNote={this.handleCheckboxClickNoteOut}
+                  handleCheckboxClickCc={this.handleCheckboxClickCcOut}
+                />
+              ))
+            }
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
       </React.Fragment>
     )
+  }
+  handleChange = panel => (event, expanded) => {
+    this.setState({
+      expanded: expanded ? panel : false
+    })
   }
   handleCheckboxClickNoteIn = (name, isChecked, e) => {
     this.props.actions.setAvailableDrivers({
@@ -151,10 +183,11 @@ class MidiDriversSettingsPage extends React.PureComponent {
 
 const styles = theme => ({
   root: {
-    textAlign: 'left'
+    margin: theme.spacing.unit * 2,
+    padding: 0
   },
   heading: {
-    margin: theme.spacing.unit * 2
+    margin: theme.spacing.unit
   },
   card: {
     margin: theme.spacing.unit * 2
@@ -165,6 +198,8 @@ const styles = theme => ({
     // margin: '8px, 0, 8px, 0'
   },
   tableCell: {
+    background: theme.palette.primary
+
   },
   topLabel: {
     margin: theme.spacing.unit
@@ -197,13 +232,14 @@ export const MidiDriverTable = props => {
       className={classes.card}
     >
       <Typography
-        variant='body1'
+        variant='body2'
         color='secondary'
         className={classes.topLabel}
       >
         {`${name} (${labelPostfix})`}
       </Typography>
       <Table
+        color='primary'
         padding='none'
         className={classes.table}
       >

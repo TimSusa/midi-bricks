@@ -190,7 +190,6 @@ export const viewSettings = createReducer(initState, {
     if (input) {
       const { name, noteChannel, ccChannel, isChecked } = input
       const { noteChannels: oldNoteChannels, ccChannels: oldCcChannels } = oldIn[name] || { noteChannels: [], ccChannels: [] }
-
       let inputs = getChannels(noteChannel, ccChannel, isChecked, oldCcChannels, oldNoteChannels, oldIn, name)
 
       availableDrivers = {
@@ -202,7 +201,6 @@ export const viewSettings = createReducer(initState, {
     if (output) {
       const { name, noteChannel, ccChannel, isChecked } = output
       const { noteChannels: oldNoteChannels, ccChannels: oldCcChannels } = oldOut[name] || { noteChannels: [], ccChannels: [] }
-
       let outputs = getChannels(noteChannel, ccChannel, isChecked, oldCcChannels, oldNoteChannels, oldOut, name)
 
       availableDrivers = {
