@@ -14,7 +14,8 @@ const TypeViewSettings = [
   'DELETE_PAGE_FROM_FOOTER',
   'DELETE_FOOTER_PAGES',
   'SWAP_FOOTER_PAGES',
-  'CHANGE_FOOTER_PAGE_LABEL'
+  'CHANGE_FOOTER_PAGE_LABEL',
+  'SET_AVAILABLE_DRIVERS'
 ]
 
 const ActionTypeViewSettings = createActionTypes(TypeViewSettings)
