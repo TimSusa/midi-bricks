@@ -30,15 +30,12 @@ const {
   BUTTON_TOGGLE,
   BUTTON_TOGGLE_CC,
   SLIDER,
-  SLIDER_HORZ,
-  PAGE,
-  LABEL
+  SLIDER_HORZ
 } = STRIP_TYPE
 
 class MidiSettings extends React.PureComponent {
   render () {
     const {
-      midiDrivers,
       inputs,
       outputs,
       sliderEntry,

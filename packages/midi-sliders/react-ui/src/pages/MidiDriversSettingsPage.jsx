@@ -5,10 +5,8 @@ import {
   TableRow,
   TableCell,
   TableHead,
-  Tooltip,
   Checkbox,
   Card,
-  Paper,
   Typography,
   ExpansionPanel,
   ExpansionPanelSummary,
@@ -20,7 +18,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../actions/slider-list.js'
 import * as ViewStuff from '../actions/view-settings.js'
-import { outputIdToDriverName } from '../utils/output-to-driver-name.js'
 import { initApp } from '../actions/init.js'
 
 class MidiDriversSettingsPage extends React.PureComponent {
@@ -38,15 +35,12 @@ class MidiDriversSettingsPage extends React.PureComponent {
   render () {
     const {
       classes,
-      sliderList,
-      sliderListBackup,
       midi: {
         midiAccess: {
           inputs,
           outputs
         } },
       viewSettings: {
-        pageType,
         availableDrivers: {
           inputs: availableInputs,
           outputs: avalableOutputs
@@ -54,10 +48,6 @@ class MidiDriversSettingsPage extends React.PureComponent {
       }
     } = this.props
     const { isFirstPanelExpanded, isScndPanelExpanded } = this.state
-    console.log({
-      availableInputs,
-      avalableOutputs
-    })
     return (
       <React.Fragment>
         <ExpansionPanel

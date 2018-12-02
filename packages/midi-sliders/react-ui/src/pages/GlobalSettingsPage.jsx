@@ -5,7 +5,8 @@ import {
   TableRow,
   TableCell,
   TableHead,
-  Tooltip
+  Tooltip,
+  Paper
 } from '@material-ui/core'
 import * as React from 'react'
 import { connect } from 'react-redux'
@@ -13,7 +14,7 @@ import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../actions/slider-list.js'
 import * as ViewStuff from '../actions/view-settings.js'
 import MidiSettingsDialog from '../components/channel-strip-list/channel-strip/midi-settings-dialog/MidiSettingsDialog'
-import { outputIdToDriverName } from '../utils/output-to-driver-name.js'
+import { outputToDriverName } from '../utils/output-to-driver-name.js'
 import { initApp } from '../actions/init.js'
 
 class GlobalSettingsPage extends React.PureComponent {
@@ -29,7 +30,12 @@ class GlobalSettingsPage extends React.PureComponent {
       classes,
       sliderList,
       sliderListBackup,
-      midi,
+      midi: {
+        midiAccess: {
+          inputs,
+          outputs
+        }
+      },
       viewSettings: {
         isSettingsDialogMode,
         lastFocusedIdx
@@ -37,111 +43,119 @@ class GlobalSettingsPage extends React.PureComponent {
     } = this.props
 
     return (
-      <Table
+      <Paper
+        style={{ flexDirection: 'column' }}
         className={classes.root}
       >
-        <TableHead>
-          <TableRow>
-            <TableCell>Label</TableCell>
-            <TableCell>Type</TableCell>
-            <TableCell>Output Driver</TableCell>
-            <TableCell>Output Channel</TableCell>
-            <TableCell>Note(s)/CC</TableCell>
-            <TableCell>Current Value</TableCell>
-            <TableCell>Saved Value</TableCell>
-            <TableCell>Input Driver</TableCell>
-            <TableCell>Listeners</TableCell>
-            <TableCell>Input Channel</TableCell>
 
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {
-            sliderList && sliderList.map((sliderEntry, idx) => {
-              const { driverName, outputId, driverNameInput = 'None' } = sliderEntry// outputIdToDriverName(midi.midiDrivers, sliderEntry.outputId, sliderEntry.driverName)
+        <Table
+          className={classes.table}
+        >
+          <TableHead>
+            <TableRow>
+              <TableCell>Label</TableCell>
+              <TableCell>Type</TableCell>
+              <TableCell>Output Driver</TableCell>
+              <TableCell>Output Channel</TableCell>
+              <TableCell>Note(s)/CC</TableCell>
+              <TableCell>Current Value</TableCell>
+              <TableCell>Saved Value</TableCell>
+              <TableCell>Input Driver</TableCell>
+              <TableCell>Listeners</TableCell>
+              <TableCell>Input Channel</TableCell>
 
-              let rowStyle = {
-                background: 'none',
-                cursor: 'pointer'
-              }
-
-              if (this.hasChanged(sliderListBackup, sliderEntry)) {
-                rowStyle.background = 'aliceblue'
-              }
-
-              if (((!outputId || !driverName) && !['PAGE', 'LABEL'].includes(sliderEntry.type))) {
-                rowStyle.background = 'red'
-              }
-
-              if (isSettingsDialogMode && (idx === lastFocusedIdx)) {
-                return (
-                  <MidiSettingsDialog
-                    key={`glb-settings-${idx}`}
-                    open
-                    onClose={this.props.actions.toggleSettingsDialogMode.bind(this, { idx, isSettingsDialogMode: false })}
-                    sliderEntry={sliderEntry}
-                    idx={idx}
-                  />
-                )
-              }
-              let title = ''
-              if (!['PAGE', 'LABEL'].includes(sliderEntry.type)) {
-                if (outputId && driverName) {
-                  title = driverName
-                } else if (!driverName) {
-                  title = 'No MIDI Driver available'
-                } else if (!outputId) {
-                  title = 'Driver ID cannot be found. Please reload the preset again, for self-healing or reselect the driver.'
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {
+              sliderList && sliderList.map((sliderEntry, idx) => {
+                let rowStyle = {
+                  background: 'none',
+                  cursor: 'pointer'
                 }
-              }
 
-              return (
-                <Tooltip
-                  title={title}
-                  key={`glb-${idx}`}
-                >
-                  <TableRow
-                    style={rowStyle}
-                    onClick={this.props.actions.toggleSettingsDialogMode.bind(this, { idx, isSettingsDialogMode: true })}
+                if (this.hasChanged(sliderListBackup, sliderEntry)) {
+                  rowStyle.background = 'aliceblue'
+                }
+
+                // if (((!driverName) && !['PAGE', 'LABEL'].includes(sliderEntry.type))) {
+                //   rowStyle.background = 'red'
+                // }
+
+                if (isSettingsDialogMode && (idx === lastFocusedIdx)) {
+                  return (
+                    <MidiSettingsDialog
+                      key={`glb-settings-${idx}`}
+                      open
+                      onClose={this.props.actions.toggleSettingsDialogMode.bind(this, { idx, isSettingsDialogMode: false })}
+                      sliderEntry={sliderEntry}
+                      idx={idx}
+                    />
+                  )
+                }
+                let title = ''
+                const { driverName, driverNameInput } = outputToDriverName({ inputs, outputs }, sliderEntry.driverNameInput || 'None', sliderEntry.driverName || 'None')
+
+                if (!['PAGE', 'LABEL'].includes(sliderEntry.type)) {
+                  if (driverNameInput && (driverNameInput !== 'None') && driverName) {
+                    title = `Output: ${driverName} / Input: ${driverNameInput}`
+                  } else if (driverName) {
+                    title = `Output: ${driverName}`
+                  } else if (!driverName) {
+                    title = 'No MIDI Driver available'
+                    rowStyle.background = 'red'
+                  }
+                }
+
+                return (
+                  <Tooltip
+                    title={title}
+                    key={`glb-${idx}`}
                   >
-                    <TableCell>
-                      {sliderEntry.label || '-'}
-                    </TableCell>
-                    <TableCell>
-                      {sliderEntry.type}
-                    </TableCell>
-                    <TableCell style={{ color: !driverName && 'grey' }}>
-                      {driverName || sliderEntry.driverName || 'None'}
-                    </TableCell>
-                    <TableCell>
-                      {sliderEntry.midiChannel}
-                    </TableCell>
-                    <TableCell>
-                      {(sliderEntry.midiCC && (sliderEntry.midiCC.length > 0) && this.renderListeners(sliderEntry.midiCC)) || '-'}
-                    </TableCell>
-                    <TableCell>
-                      {!['PAGE', 'LABEL'].includes(sliderEntry.type) ? sliderEntry && sliderEntry.val : '-'}
-                    </TableCell>
-                    <TableCell>
-                      {!['PAGE', 'LABEL'].includes(sliderEntry.type) ? sliderEntry.lastSavedVal && (sliderEntry.lastSavedVal || '_') : '-'}
-                    </TableCell>
-                    <TableCell style={{ color: !driverNameInput && 'grey' }}>
-                      {driverNameInput || sliderEntry.driverNameInput || 'None'}
-                    </TableCell>
-                    <TableCell>
-                      {(sliderEntry.listenToCc && (sliderEntry.listenToCc.length > 0) && this.renderListeners(sliderEntry.listenToCc)) || '-'}
-                    </TableCell>
-                    <TableCell>
-                      {sliderEntry.midiChannelInput}
-                    </TableCell>
-                  </TableRow>
-                </Tooltip>
+                    <TableRow
+                      style={rowStyle}
+                      onClick={this.props.actions.toggleSettingsDialogMode.bind(this, { idx, isSettingsDialogMode: true })}
+                    >
+                      <TableCell>
+                        {sliderEntry.label || '-'}
+                      </TableCell>
+                      <TableCell>
+                        {sliderEntry.type}
+                      </TableCell>
+                      <TableCell style={{ color: !driverName && 'grey' }}>
+                        {driverName || sliderEntry.driverName || 'None'}
+                      </TableCell>
+                      <TableCell>
+                        {sliderEntry.midiChannel}
+                      </TableCell>
+                      <TableCell>
+                        {(sliderEntry.midiCC && (sliderEntry.midiCC.length > 0) && this.renderListeners(sliderEntry.midiCC)) || '-'}
+                      </TableCell>
+                      <TableCell>
+                        {!['PAGE', 'LABEL'].includes(sliderEntry.type) ? sliderEntry && sliderEntry.val : '-'}
+                      </TableCell>
+                      <TableCell>
+                        {!['PAGE', 'LABEL'].includes(sliderEntry.type) ? sliderEntry.lastSavedVal && (sliderEntry.lastSavedVal || '_') : '-'}
+                      </TableCell>
+                      <TableCell style={{ color: !driverNameInput && 'grey' }}>
+                        {driverNameInput || sliderEntry.driverNameInput || 'None'}
+                      </TableCell>
+                      <TableCell>
+                        {(sliderEntry.listenToCc && (sliderEntry.listenToCc.length > 0) && this.renderListeners(sliderEntry.listenToCc)) || '-'}
+                      </TableCell>
+                      <TableCell>
+                        {sliderEntry.midiChannelInput}
+                      </TableCell>
+                    </TableRow>
+                  </Tooltip>
 
-              )
-            })
-          }
-        </TableBody>
-      </Table>
+                )
+              })
+            }
+          </TableBody>
+        </Table>
+
+      </Paper>
     )
   }
 
@@ -164,8 +178,9 @@ class GlobalSettingsPage extends React.PureComponent {
 
 const styles = theme => ({
   root: {
-    textAlign: 'left',
-    width: '100%'
+  },
+  table: {
+    textAlign: 'left'
   },
   heading: {
     marginTop: theme.spacing.unit * 2
