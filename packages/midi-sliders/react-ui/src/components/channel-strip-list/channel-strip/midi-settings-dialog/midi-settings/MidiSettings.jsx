@@ -36,8 +36,8 @@ const {
 class MidiSettings extends React.PureComponent {
   render () {
     const {
-      inputs,
-      outputs,
+      inputs = {},
+      outputs = {},
       sliderEntry,
       sliderEntry: {
         i,
@@ -465,7 +465,7 @@ class MidiSettings extends React.PureComponent {
       return this.renderSelection(inputs, true)
     }
     if (outputs) {
-      return this.renderSelection(outputs, false)
+      return this.renderSelection(outputs, true)
     }
   }
 
@@ -474,7 +474,7 @@ class MidiSettings extends React.PureComponent {
 
     Object.keys(obj).forEach((name, idx) => {
       const { ccChannels, noteChannels } = obj[name]
-      const hasContent = (arr) => arr.length > 0
+      const hasContent = (arr) => Array.isArray(arr) && (arr.length > 0)
       if (hasContent(ccChannels) || hasContent(noteChannels)) {
         ret.push((
           <MenuItem
@@ -590,7 +590,7 @@ function mapDispatchToProps (dispatch) {
     initApp: bindActionCreators(initApp, dispatch)
   }
 }
-function mapStateToProps ({ viewSettings: { availableDrivers: { inputs, outputs } }, sliders: { sliderList, midi: { midiDrivers } } }) {
+function mapStateToProps ({ viewSettings: { availableDrivers: { inputs = {}, outputs = {} } = {} }, sliders: { sliderList, midi: { midiDrivers } } }) {
   return {
     sliderList,
     inputs,

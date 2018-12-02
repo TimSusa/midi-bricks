@@ -12,13 +12,12 @@ export function initApp () {
         dispatch(initFailed('bad'))
       }
       const { inputs, outputs } = WebMIDI
+      if (!(inputs || outputs)) return
 
       const midiAccess = {
         inputs,
         outputs
       }
-
-      if (!(inputs || outputs)) return
 
       const hasContent = (arr) => arr.length > 0
       if (hasContent(outputs)) {
@@ -28,7 +27,7 @@ export function initApp () {
       }
       const { sliders: { sliderList }, viewSettings: { availableDrivers: { inputs: availableInputs } } } = getState()
 
-      inputs.forEach(input => {
+      Array.isArray(inputs) && inputs.forEach(input => {
         const {
           name
         } = input

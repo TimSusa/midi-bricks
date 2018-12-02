@@ -49,7 +49,7 @@ class App extends React.PureComponent {
           </Drawer>
           <Home />
 
-          {(!window.location.href.endsWith('global')) && (<Footer />) }
+          {(!window.location.href.endsWith('global')) && (<Footer />)}
         </div>
       </div>
     )
@@ -64,18 +64,21 @@ class App extends React.PureComponent {
     const content = files[0].target.result
     const parsedJson = JSON.parse(content)
 
+    const { viewSettings: { availableDrivers } } = parsedJson
+    const drivers = availableDrivers || { inputs: { 'None': { ccChannels: [], noteChannels: [] } }, outputs: { 'None': { ccChannels: [], noteChannels: [] } } }
+
     if (parsedJson.viewSettings && parsedJson.viewSettings.footerPages) {
       this.setState(state =>
         ({ isMobileOpen: !this.state.isMobileOpen }),
-      () => this.props.actions.updateViewSettings({viewSettings: parsedJson.viewSettings, sliderList: parsedJson.viewSettings.footerPages}))
+      () => this.props.actions.updateViewSettings({ viewSettings: { ...parsedJson.viewSettings, availableDrivers: drivers }, sliderList: parsedJson.viewSettings.footerPages }))
     } else {
       this.setState(state =>
         ({ isMobileOpen: !this.state.isMobileOpen }),
       () => parsedJson.sliders.sliderList &&
-        this.props.actions.updateViewSettings({viewSettings: parsedJson.viewSettings, sliderList: parsedJson.sliders.sliderList}))
+          this.props.actions.updateViewSettings({ viewSettings: { ...parsedJson.viewSettings, availableDrivers: drivers }, sliderList: parsedJson.sliders.sliderList }))
     }
 
-    this.props.actions.togglePage({pageType: PAGE_TYPES.GLOBAL_MODE})
+    this.props.actions.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })
 
     // Bad hack go away
     // window.location.reload()
@@ -138,7 +141,7 @@ const styles = theme => ({
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators({...MidiSlidersAction, ...ViewActions}, dispatch)
+    actions: bindActionCreators({ ...MidiSlidersAction, ...ViewActions }, dispatch)
   }
 }
 export default withStyles(styles)(connect(null, mapDispatchToProps)(App))

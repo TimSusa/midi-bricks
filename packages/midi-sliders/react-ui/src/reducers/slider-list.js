@@ -191,14 +191,17 @@ export const sliders = createReducer([], {
     // const output = state.midi.midiAccess.outputs.get(outputId)
     const { midiCC, midiChannel, driverName } = tmp
     WebMIDI.octaveOffset = -1
-    const output = WebMIDI.getOutputByName(driverName)// .getOutputById(outputId)
 
+    const output = WebMIDI.getOutputByName(driverName)// .getOutputById(outputId)
+    if ((driverName !== 'None') && !output) {
+      window.alert('Driver cannot be found! Please proof your settings.')
+    }
     if (Array.isArray(midiCC) === true) {
       midiCC.forEach((item) => {
         const cc = midi(item)
         // const ccMessage = [0xaf + parseInt(tmp.midiChannel, 10), midiCC, parseInt(val, 10)]
         // omitting the timestamp means send immediately.
-        output.sendControlChange(cc, val, parseInt(midiChannel, 10))
+        output && output.sendControlChange(cc, val, parseInt(midiChannel, 10))
         // output.send(ccMessage, (window.performance.now() + 10.0))
       })
     }
@@ -213,12 +216,15 @@ export const sliders = createReducer([], {
     const { onVal, offVal, midiCC, midiChannel, driverName, isNoteOn } = tmp
     WebMIDI.octaveOffset = -1
     const output = WebMIDI.getOutputByName(driverName)// .getOutputById(outputId)
+    if ((driverName !== 'None') && !output) {
+      window.alert('Driver cannot be found! Please proof your settings.')
+    }
     const onValInt = (onVal && parseInt(onVal, 10)) || 127
     const offValInt = ((offVal === 0) && 0) || (offVal && parseInt(offVal, 10)) || 0
     if (!isNoteOn) {
-      output.playNote(midiCC, midiChannel, { rawVelocity: true, velocity: onValInt })
+      output && output.playNote(midiCC, midiChannel, { rawVelocity: true, velocity: onValInt })
     } else {
-      output.stopNote(midiCC, midiChannel, { rawVelocity: true, velocity: offValInt })
+      output && output.stopNote(midiCC, midiChannel, { rawVelocity: true, velocity: offValInt })
     }
     const sliderList = toggleNote(state.sliderList, idx)
     return { ...state, sliderList }
@@ -230,8 +236,11 @@ export const sliders = createReducer([], {
     const { midiCC, midiChannel, driverName } = tmp
 
     // WebMIDI.octaveOffset = -1
-    const output = WebMIDI.getOutputByName(driverName)// .getOutputById(outputId)
-    output.sendProgramChange(midiCC[0] - 1, midiChannel)
+    const output = (driverName !== 'None') && WebMIDI.getOutputByName(driverName)// .getOutputById(outputId)
+    if ((driverName !== 'None') && !output) {
+      window.alert('Driver cannot be found! Please proof your settings.')
+    }
+    output && output.sendProgramChange(midiCC[0] - 1, midiChannel)
     return state
   },
 
@@ -424,18 +433,20 @@ export const sliders = createReducer([], {
         offVal: item.offVal || 0,
         minVal: item.minVal || 0,
         maxVal: item.maxVal || 127,
-        midi: undefined
+        midi: undefined,
+        driverName: item.driverName || 'None',
+        driverNameInput: item.driverNameInput || 'None'
       }
-      state.midi.midiDrivers.forEach(driver => {
-        if (driver.name === item.driverName) {
-          if (driver.outputId !== item.outputId) {
-            tmp = {
-              ...tmp,
-              outputId: driver.outputId
-            }
-          }
-        }
-      })
+      // state.midi.midiDrivers.forEach(driver => {
+      //   if (driver.name === item.driverName) {
+      //     if (driver.outputId !== item.outputId) {
+      //       tmp = {
+      //         ...tmp,
+      //         outputId: driver.outputId
+      //       }
+      //     }
+      //   }
+      // })
       return tmp
     })
     return { ...state, sliderList, presetName, sliderListBackup: sliderList }
