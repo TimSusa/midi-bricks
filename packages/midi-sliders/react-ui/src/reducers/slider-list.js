@@ -189,9 +189,9 @@ export const sliders = createReducer([], {
     // Handle multi CC
     const tmp = newStateTmp[idx]
     // const output = state.midi.midiAccess.outputs.get(outputId)
-    const { midiCC, midiChannel, outputId } = tmp
+    const { midiCC, midiChannel, driverName } = tmp
     WebMIDI.octaveOffset = -1
-    const output = WebMIDI.getOutputById(outputId)
+    const output = WebMIDI.getOutputByName(driverName)// .getOutputById(outputId)
 
     if (Array.isArray(midiCC) === true) {
       midiCC.forEach((item) => {
@@ -210,9 +210,9 @@ export const sliders = createReducer([], {
     const idx = action.payload
 
     const tmp = state.sliderList[idx]
-    const { onVal, offVal, midiCC, midiChannel, outputId, isNoteOn } = tmp
+    const { onVal, offVal, midiCC, midiChannel, driverName, isNoteOn } = tmp
     WebMIDI.octaveOffset = -1
-    const output = WebMIDI.getOutputById(outputId)
+    const output = WebMIDI.getOutputByName(driverName)// .getOutputById(outputId)
     const onValInt = (onVal && parseInt(onVal, 10)) || 127
     const offValInt = ((offVal === 0) && 0) || (offVal && parseInt(offVal, 10)) || 0
     if (!isNoteOn) {
@@ -227,10 +227,10 @@ export const sliders = createReducer([], {
   [ActionTypeSliderList.SEND_PROGRAM_CHANGE] (state, action) {
     const { idx } = action.payload
     const tmp = state.sliderList[idx]
-    const { midiCC, midiChannel, outputId } = tmp
+    const { midiCC, midiChannel, driverName } = tmp
 
     // WebMIDI.octaveOffset = -1
-    const output = WebMIDI.getOutputById(outputId)
+    const output = WebMIDI.getOutputByName(driverName)// .getOutputById(outputId)
     output.sendProgramChange(midiCC[0] - 1, midiChannel)
     return state
   },
