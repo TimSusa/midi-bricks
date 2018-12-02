@@ -17,10 +17,9 @@ class Footer extends React.Component {
   }
 
   render () {
-    const { classes, viewSettings: { footerPages, isSettingsMode, pageType }, actions } = this.props
+    const { classes, viewSettings: { footerPages, isSettingsMode, isLiveMode, pageType }, actions } = this.props
     const { value } = this.state
-    // if (pageType !== PAGE_TYPES.HOME_MODE) return (<div />)
-    // if (footerPages && footerPages.every((item) => (item && item.type !== 'PAGE'))) return (<div />)
+    if ((pageType !== PAGE_TYPES.HOME_MODE) && (!isLiveMode)) return (<div />)
     return (
       <BottomNavigation
         value={value}
@@ -77,7 +76,7 @@ class Footer extends React.Component {
             className={classes.liveButton}
             onClick={this.props.actions.toggleLiveMode}
           >
-              Live
+            Live
           </Button>
         </Tooltip>
       </BottomNavigation>
