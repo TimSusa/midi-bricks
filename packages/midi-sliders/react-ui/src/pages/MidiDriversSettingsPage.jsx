@@ -28,7 +28,7 @@ class MidiDriversSettingsPage extends React.PureComponent {
     // track driver changes after browser reload
     this.props.initApp()
     this.state = {
-      isFirstPanelExpanded: false,
+      isFirstPanelExpanded: true,
       isScndPanelExpanded: true
     }
   }
@@ -50,84 +50,76 @@ class MidiDriversSettingsPage extends React.PureComponent {
     const { isFirstPanelExpanded, isScndPanelExpanded } = this.state
     return (
       <React.Fragment>
-        <ExpansionPanel
-          className={classes.root}
-          expanded={isFirstPanelExpanded}
+        <DriverExpansionPanel
+          label='Input MIDI Driver'
+          classes={classes}
+          expanded={this.state.isFirstPanelExpanded}
           onChange={e => this.setState({
             isFirstPanelExpanded: !isFirstPanelExpanded
           })}
         >
-          <ExpansionPanelSummary
-            expandIcon={<ExpandMoreIcon />}
-          >
-            <Typography
-              className={classes.heading}
-              color='secondary'
-              variant='body1'
-            >
-              Input Midi Driver
-            </Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails
-            style={{ flexDirection: 'column' }}
-          >
-            {
-              inputs.map((input, idx) => (
-                <MidiDriverTable
-                  labelPostfix='In'
+          {
+            inputs.map((input, idx) => {
+              const { ccChannels, noteChannels } = availableInputs[input.name] || { ccChannels: [], noteChannels: [] }
+              const isNotEmpty = (ccChannels && ccChannels.length > 0) || (noteChannels && noteChannels.length > 0)
+              return (
+                <DriverExpansionPanel
                   key={`input-midi-${idx}`}
+                  label={input.name}
                   classes={classes}
-                  idx={idx}
-                  available={availableInputs}
-                  name={input.name}
-                  handleCheckboxClickNote={this.handleCheckboxClickNoteIn}
-                  handleCheckboxClickCc={this.handleCheckboxClickCcIn}
-                />
-              ))
-            }
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-
-        <ExpansionPanel
-          className={classes.root}
-          expanded={isScndPanelExpanded}
+                  isEmpty={!isNotEmpty}
+                >
+                  <MidiDriverTable
+                    labelPostfix='In'
+                    classes={classes}
+                    idx={idx}
+                    available={availableInputs}
+                    name={input.name}
+                    handleCheckboxClickNote={this.handleCheckboxClickNoteIn}
+                    handleCheckboxClickCc={this.handleCheckboxClickCcIn}
+                  />
+                </DriverExpansionPanel>
+              )
+            })
+          }
+        </DriverExpansionPanel>
+        <DriverExpansionPanel
+          label='Output MIDI Driver'
+          classes={classes}
+          expanded={this.state.isScndPanelExpanded}
           onChange={e => this.setState({
             isScndPanelExpanded: !isScndPanelExpanded
           })}
         >
-          <ExpansionPanelSummary
-            expandIcon={<ExpandMoreIcon />}
-          >
-            <Typography
-              className={classes.heading}
-              color='secondary'
-              variant='body1'
-            >
-              Output Midi Driver
-            </Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails
-            style={{ flexDirection: 'column' }}
-          >
-            {
-              outputs.map((output, idx) => (
-                <MidiDriverTable
-                  labelPostfix='Out'
+          {
+            outputs.map((output, idx) => {
+              const { ccChannels, noteChannels } = avalableOutputs[output.name] || { ccChannels: [], noteChannels: [] }
+              const isNotEmpty = (ccChannels && ccChannels.length > 0) || (noteChannels && noteChannels.length > 0)
+              return (
+                <DriverExpansionPanel
                   key={`output-midi-${idx}`}
+                  label={output.name}
                   classes={classes}
-                  idx={idx}
-                  available={avalableOutputs}
-                  name={output.name}
-                  handleCheckboxClickNote={this.handleCheckboxClickNoteOut}
-                  handleCheckboxClickCc={this.handleCheckboxClickCcOut}
-                />
-              ))
-            }
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+                  isEmpty={!isNotEmpty}
+                >
+                  <MidiDriverTable
+                    labelPostfix='Out'
+                    classes={classes}
+                    idx={idx}
+                    available={avalableOutputs}
+                    name={output.name}
+                    handleCheckboxClickNote={this.handleCheckboxClickNoteOut}
+                    handleCheckboxClickCc={this.handleCheckboxClickCcOut}
+                  />
+                </DriverExpansionPanel>
+              )
+            })
+          }
+        </DriverExpansionPanel>
       </React.Fragment>
     )
   }
+
   handleChange = panel => (event, expanded) => {
     this.setState({
       expanded: expanded ? panel : false
@@ -356,3 +348,34 @@ const isCheckedCc = (availableDrivers, name, val) => {
   return isCheckedCc
 }
 const channelDummy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+
+const DriverExpansionPanel = ({ children, isEmpty = false, classes, expanded, onChange, label }) => {
+  return (
+    <ExpansionPanel
+      className={classes.root}
+      expanded={expanded}
+      onChange={onChange}
+    >
+      <ExpansionPanelSummary
+        style={{ margin: 0 }}
+        expandIcon={<ExpandMoreIcon />}
+      >
+        <Typography
+          className={classes.heading}
+          color='secondary'
+          style={{ color: isEmpty && 'lightgrey' }}
+          variant='body1'
+        >
+          {label}
+        </Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails
+        style={{ flexDirection: 'column', padding: 0, margin: 0 }}
+      >
+        {
+          children
+        }
+      </ExpansionPanelDetails>
+    </ExpansionPanel>
+  )
+}
