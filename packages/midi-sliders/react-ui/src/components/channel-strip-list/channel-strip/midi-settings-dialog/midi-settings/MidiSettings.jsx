@@ -470,16 +470,23 @@ class MidiSettings extends React.PureComponent {
   }
 
   renderSelection = (obj) => {
-    return Object.keys(obj).map((name, idx) => {
-      return (
-        <MenuItem
-          key={`driver-${idx}`}
-          value={name}
-        >
-          {name}
-        </MenuItem>
-      )
-    }).filter(item => !!item)
+    let ret = []
+    Object.keys(obj).forEach((name, idx) => {
+      const {ccChannels, noteChannels} = obj[name]
+      const hasContent = (arr) => arr.length > 0
+      if (hasContent(ccChannels) || hasContent(noteChannels)) {
+        ret.push((
+          <MenuItem
+            key={`driver-${idx}`}
+            value={name}
+          >
+            {name}
+          </MenuItem>
+        )
+        )
+      }
+    })
+    return ret
   }
 
   renderButtonTypeSelection = () => {

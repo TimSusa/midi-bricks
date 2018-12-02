@@ -82,7 +82,7 @@ class MenuAppBar extends React.Component {
               ((pageType === PAGE_TYPES.GLOBAL_MODE)) &&
               <Button
                 className={classes.resetButton}
-                variant='raised'
+                variant='contained'
                 onClick={actions.resetValues}
               >
                 Restore Values
@@ -92,7 +92,7 @@ class MenuAppBar extends React.Component {
               ((pageType === PAGE_TYPES.GLOBAL_MODE)) &&
               <Button
                 className={classes.resetButton}
-                variant='raised'
+                variant='contained'
                 onClick={() => window.location.reload()}
               >
                 Detect Driver Changes

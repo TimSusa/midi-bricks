@@ -25,6 +25,29 @@ class DrawerList extends React.PureComponent {
         <div className={this.props.classes.drawerHeader} />
         <Divider />
         <List>
+          <ListItem button onClick={() => this.props.togglePage({ pageType: PAGE_TYPES.HOME_MODE })}>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary='Main View' />
+          </ListItem>
+          <ListItem button onClick={() => this.props.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })}>
+            <ListItemIcon>
+              <GlobalIcon />
+            </ListItemIcon>
+            <ListItemText primary='Global Settings' />
+          </ListItem>
+
+          <ListItem button onClick={() => this.props.togglePage({ pageType: PAGE_TYPES.MIDI_DRIVER_MODE })}>
+            <ListItemIcon>
+              <GlobalIcon />
+            </ListItemIcon>
+            <ListItemText primary='MIDI Driver Settings' />
+          </ListItem>
+
+        </List>
+        <Divider />
+        <List>
           <FileReader
             as='binary'
             onChange={this.props.onFileChange}>
@@ -58,29 +81,6 @@ class DrawerList extends React.PureComponent {
               onClose={() => ({})}
             />
           </ListItem>
-        </List>
-        <Divider />
-        <List>
-          <ListItem button onClick={() => this.props.togglePage({ pageType: PAGE_TYPES.HOME_MODE })}>
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
-            <ListItemText primary='Main View' />
-          </ListItem>
-          <ListItem button onClick={() => this.props.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })}>
-            <ListItemIcon>
-              <GlobalIcon />
-            </ListItemIcon>
-            <ListItemText primary='Global Settings' />
-          </ListItem>
-
-          <ListItem button onClick={() => this.props.togglePage({ pageType: PAGE_TYPES.MIDI_DRIVER_MODE })}>
-            <ListItemIcon>
-              <GlobalIcon />
-            </ListItemIcon>
-            <ListItemText primary='MIDI Driver Settings' />
-          </ListItem>
-
         </List>
         <Divider />
       </React.Fragment>

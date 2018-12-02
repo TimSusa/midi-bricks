@@ -21,7 +21,7 @@ export function initApp () {
       if (!(inputs || outputs)) return
 
       const hasContent = (arr) => arr.length > 0
-      if (hasContent(inputs) && hasContent(outputs)) {
+      if (hasContent(outputs)) {
         dispatch(initMidiAccess({ midiAccess }))
       } else {
         dispatch(initFailed('bad'))
