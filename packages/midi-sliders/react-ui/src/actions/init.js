@@ -17,6 +17,9 @@ export function initApp () {
         inputs,
         outputs
       }
+
+      if (!(inputs || outputs)) return
+
       const hasContent = (arr) => arr.length > 0
       if (hasContent(inputs) && hasContent(outputs)) {
         dispatch(initMidiAccess({ midiAccess }))
@@ -29,9 +32,9 @@ export function initApp () {
         const {
           name
         } = input
-        const { ccChannels, noteChannels } = availableInputs[name]
+        const { ccChannels, noteChannels } = availableInputs[name] || { ccChannels: [], noteChannels: [] }
         let ccArr = []
-        sliderList.forEach(entry => {
+        sliderList && sliderList.forEach(entry => {
           const { driverNameInput = '', listenToCc = [] } = entry
 
           if (name === driverNameInput) {

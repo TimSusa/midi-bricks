@@ -29,7 +29,7 @@ class MidiDriversSettingsPage extends React.PureComponent {
     this.props.actions.toggleLiveMode({ isLiveMode: false })
 
     // track driver changes after browser reload
-    this.props.initApp()
+    // this.props.initApp()
     this.state = {
       isFirstPanelExpanded: false,
       isScndPanelExpanded: true

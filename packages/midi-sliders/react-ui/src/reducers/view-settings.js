@@ -237,7 +237,7 @@ function getObjFromCcChannels (obj, name, ccChannels) {
   }
 }
 
-function getChannels (noteChannel, ccChannel, isChecked, oldCcChannels, oldNoteChannels, old, name) {
+function getChannels (noteChannel, ccChannel, isChecked, oldCcChannels = [], oldNoteChannels = [], old, name) {
   let channels
   let noteChannels = null
   let ccChannels = null

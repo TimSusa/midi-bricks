@@ -375,7 +375,7 @@ export const sliders = createReducer([], {
 
   [ActionTypeSliderList.SAVE_FILE] (state, action) {
     const tmpStore = store.getState()
-    const { viewSettings, sliders: { sliderList, presetName } } = tmpStore
+    const { viewSettings, sliders: { sliderList = [], presetName } } = tmpStore
 
     // Clean out older preset fields
     const filteredSliderList = sliderList.map(entry => ({ ...entry, midi: undefined }))
