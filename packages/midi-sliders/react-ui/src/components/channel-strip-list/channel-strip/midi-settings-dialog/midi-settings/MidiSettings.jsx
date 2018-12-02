@@ -23,6 +23,7 @@ import MidiSuggestedInput from './elements/MidiSuggestedInput'
 
 import { STRIP_TYPE } from '../../../../../reducers/slider-list.js'
 import { Typography, ExpansionPanelDetails, ExpansionPanelSummary, ExpansionPanel } from '@material-ui/core'
+import { PAGE_TYPES } from '../../../../../reducers/view-settings.js'
 
 const {
   BUTTON,
@@ -93,6 +94,7 @@ class MidiSettings extends React.PureComponent {
             <Typography
               className={classes.heading}
               color='secondary'
+              style={{ color: this.isAllEmpty(outputs) && 'lightgrey' }}
               variant='body1'
             >
               Output
@@ -101,114 +103,132 @@ class MidiSettings extends React.PureComponent {
           <ExpansionPanelDetails
             style={{ flexDirection: 'column' }}
           >
-
-            <InputNoteOrCc
-              sliderEntry={sliderEntry}
-              idx={idx}
-            />
-            <FormControl
-              className={classes.formControl}
-            >
-              <InputLabel
-                className={classes.label}
-                htmlFor='midi-driver'>
-                Driver
-              </InputLabel>
-              <Select
-                className={classes.select}
-                onChange={e => this.props.actions.selectMidiDriver({
-                  i,
-                  driverName: e.target.value
-                })}
-                value={driverName || 'None'}
-              >
-                {this.renderDriverSelection({ outputs })}
-              </Select>
-            </FormControl>
-
-            <FormControl className={classes.formControl}>
-              <InputLabel
-                className={classes.label}
-                htmlFor='output-cc-input'
-              >
-                Channel
-              </InputLabel>
-              <Select
-                className={classes.select}
-                onChange={e => this.props.actions.selectMidiChannel({
-                  idx,
-                  val: e.target.value
-                })}
-                value={midiChannel || 'None'}
-              >
-                {this.renderMidiChannelSelection({ outputs }, driverName, type)}
-              </Select>
-            </FormControl>
             {
-              ([SLIDER, SLIDER_HORZ].includes(type)) &&
-              (
+              this.isAllEmpty(outputs) ? (
+                <div>
+                  <Tooltip
+                    title='No MIDI Driver available. Go to settings...'
+                  >
+                    <Button
+                      onClick={() => this.props.actions.togglePage({ pageType: PAGE_TYPES.MIDI_DRIVER_MODE })}
+                    >
+                      Go to Driver Settings
+                    </Button>
+                  </Tooltip>
+                </div>
+              ) : (
                 <React.Fragment>
-                  <FormControl className={classes.formControl}>
-                    <InputLabel className={classes.label} htmlFor='maxVal'>Maximum Value </InputLabel>
-                    <Input
-                      className={classes.input}
-                      id='number'
-                      type='number'
-                      name={`input-maxval-name-${idx}`}
-                      value={(maxVal && maxVal) || 127}
-                      onChange={e => this.props.actions.setMaxVal({ idx, val: e.target.value })} />
+                  <InputNoteOrCc
+                    sliderEntry={sliderEntry}
+                    idx={idx}
+                  />
+                  <FormControl
+                    className={classes.formControl}
+                  >
+                    <InputLabel
+                      className={classes.label}
+                      htmlFor='midi-driver'>
+                        Driver
+                    </InputLabel>
+                    <Select
+                      className={classes.select}
+                      onChange={e => this.props.actions.selectMidiDriver({
+                        i,
+                        driverName: e.target.value
+                      })}
+                      value={driverName || 'None'}
+                    >
+                      {this.renderDriverSelection({ outputs })}
+                    </Select>
                   </FormControl>
+
                   <FormControl className={classes.formControl}>
-                    <InputLabel className={classes.label} htmlFor='minVal'>Minimum Value </InputLabel>
-                    <Input
-                      className={classes.input}
-                      id='number'
-                      type='number'
-                      name={`input-minval-name-${idx}`}
-                      value={(minVal && minVal) || 0}
-                      onChange={e => this.props.actions.setMinVal({ idx, val: e.target.value })} />
+                    <InputLabel
+                      className={classes.label}
+                      htmlFor='output-cc-input'
+                    >
+                        Channel
+                    </InputLabel>
+                    <Select
+                      className={classes.select}
+                      onChange={e => this.props.actions.selectMidiChannel({
+                        idx,
+                        val: e.target.value
+                      })}
+                      value={midiChannel || 'None'}
+                    >
+                      {this.renderMidiChannelSelection({ outputs }, driverName, type)}
+                    </Select>
                   </FormControl>
-                </React.Fragment>
-              )
-            }
-            {
-              (
-                <React.Fragment>
-                  {[
-                    BUTTON,
-                    BUTTON_CC,
-                    BUTTON_TOGGLE,
-                    BUTTON_TOGGLE_CC
-                  ].includes(type) &&
+                  {
+                    ([SLIDER, SLIDER_HORZ].includes(type)) &&
+                      (
+                        <React.Fragment>
+                          <FormControl className={classes.formControl}>
+                            <InputLabel className={classes.label} htmlFor='maxVal'>Maximum Value </InputLabel>
+                            <Input
+                              className={classes.input}
+                              id='number'
+                              type='number'
+                              name={`input-maxval-name-${idx}`}
+                              value={(maxVal && maxVal) || 127}
+                              onChange={e => this.props.actions.setMaxVal({ idx, val: e.target.value })} />
+                          </FormControl>
+                          <FormControl className={classes.formControl}>
+                            <InputLabel className={classes.label} htmlFor='minVal'>Minimum Value </InputLabel>
+                            <Input
+                              className={classes.input}
+                              id='number'
+                              type='number'
+                              name={`input-minval-name-${idx}`}
+                              value={(minVal && minVal) || 0}
+                              onChange={e => this.props.actions.setMinVal({ idx, val: e.target.value })} />
+                          </FormControl>
+                        </React.Fragment>
+                      )
+                  }
+                  {
                     (
                       <React.Fragment>
-                        <FormControl className={classes.formControl}>
-                          <InputLabel className={classes.label} htmlFor='onVal'> Value Button On</InputLabel>
-                          <Input
-                            className={classes.input}
-                            id='number'
-                            type='number'
-                            name={`input-onval-name-${idx}`}
-                            value={(onVal && onVal) || 127}
-                            onChange={e => this.props.actions.setOnVal({ idx, val: e.target.value })}
-                          />
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                          <InputLabel className={classes.label} htmlFor='offVal'>Value Button Off</InputLabel>
-                          <Input
-                            className={classes.input}
-                            id='number'
-                            type='number'
-                            name={`input-offval-name-${idx}`}
-                            value={(offVal && offVal) || 0}
-                            onChange={e => this.props.actions.setOffVal({ idx, val: e.target.value })}
-                          />
-                        </FormControl>
-                      </React.Fragment>
-                    )}
+                        {[
+                          BUTTON,
+                          BUTTON_CC,
+                          BUTTON_TOGGLE,
+                          BUTTON_TOGGLE_CC
+                        ].includes(type) &&
+                            (
+                              <React.Fragment>
+                                <FormControl className={classes.formControl}>
+                                  <InputLabel className={classes.label} htmlFor='onVal'> Value Button On</InputLabel>
+                                  <Input
+                                    className={classes.input}
+                                    id='number'
+                                    type='number'
+                                    name={`input-onval-name-${idx}`}
+                                    value={(onVal && onVal) || 127}
+                                    onChange={e => this.props.actions.setOnVal({ idx, val: e.target.value })}
+                                  />
+                                </FormControl>
+                                <FormControl className={classes.formControl}>
+                                  <InputLabel className={classes.label} htmlFor='offVal'>Value Button Off</InputLabel>
+                                  <Input
+                                    className={classes.input}
+                                    id='number'
+                                    type='number'
+                                    name={`input-offval-name-${idx}`}
+                                    value={(offVal && offVal) || 0}
+                                    onChange={e => this.props.actions.setOffVal({ idx, val: e.target.value })}
+                                  />
+                                </FormControl>
+                              </React.Fragment>
+                            )}
 
+                      </React.Fragment>
+                    )
+                  }
                 </React.Fragment>
               )
+
             }
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -221,6 +241,7 @@ class MidiSettings extends React.PureComponent {
             <Typography
               className={classes.heading}
               color='secondary'
+              style={{ color: this.isAllEmpty(inputs) && 'lightgrey' }}
               variant='body1'
             >
               Input
@@ -229,55 +250,75 @@ class MidiSettings extends React.PureComponent {
           <ExpansionPanelDetails
             style={{ flexDirection: 'column' }}
           >
-            <FormControl>
-              <InputLabel
-                className={classes.label}
-                htmlFor='cc'
-              >
-                Listen to CC
-              </InputLabel>
-              <MidiSuggestedInput
-                suggestions={this.suggestionsMidiCc}
-                startVal={listenToCc || []}
-                sliderEntry={sliderEntry}
-                idx={idx}
-                handleChange={this.handleAddCCListener}
-              />
-            </FormControl>
-            <FormControl
-              className={classes.formControl}
-            >
-              <InputLabel
-                className={classes.label}
-                htmlFor='midi-driver'
-              >
-                Driver
-              </InputLabel>
-              <Select
-                className={classes.select}
-                onChange={e => this.props.actions.selectMidiDriverInput({
-                  i,
-                  driverNameInput: e.target.value
-                })}
-                value={driverNameInput}
-              >
-                {this.renderDriverSelection({ inputs })}
-              </Select>
-            </FormControl>
 
-            <FormControl className={classes.formControl}>
-              <InputLabel className={classes.label} htmlFor='input-ch-input'>Input Channel </InputLabel>
-              <Select
-                className={classes.select}
-                onChange={e => this.props.actions.selectMidiChannelInput({
-                  idx,
-                  val: e.target.value
-                })}
-                value={midiChannelInput || 'None'}
-              >
-                {this.renderMidiChannelSelection({ inputs }, driverNameInput, type)}
-              </Select>
-            </FormControl>
+            {
+              this.isAllEmpty(inputs) ? (
+                <div>
+                  <Tooltip
+                    title='No MIDI Driver available. Go to settings...'
+                  >
+                    <Button
+                      onClick={() => this.props.actions.togglePage({ pageType: PAGE_TYPES.MIDI_DRIVER_MODE })}
+                    >
+                      Go to Driver Settings
+                    </Button>
+                  </Tooltip>
+                </div>
+              ) : (
+                <React.Fragment>
+                  <FormControl>
+                    <InputLabel
+                      className={classes.label}
+                      htmlFor='cc'
+                    >
+                        Listen to CC
+                    </InputLabel>
+                    <MidiSuggestedInput
+                      suggestions={this.suggestionsMidiCc}
+                      startVal={listenToCc || []}
+                      sliderEntry={sliderEntry}
+                      idx={idx}
+                      handleChange={this.handleAddCCListener}
+                    />
+                  </FormControl>
+                  <FormControl
+                    className={classes.formControl}
+                  >
+                    <InputLabel
+                      className={classes.label}
+                      htmlFor='midi-driver'
+                    >
+                        Driver
+                    </InputLabel>
+                    <Select
+                      className={classes.select}
+                      onChange={e => this.props.actions.selectMidiDriverInput({
+                        i,
+                        driverNameInput: e.target.value
+                      })}
+                      value={driverNameInput}
+                    >
+                      {this.renderDriverSelection({ inputs })}
+                    </Select>
+                  </FormControl>
+
+                  <FormControl className={classes.formControl}>
+                    <InputLabel className={classes.label} htmlFor='input-ch-input'>Input Channel </InputLabel>
+                    <Select
+                      className={classes.select}
+                      onChange={e => this.props.actions.selectMidiChannelInput({
+                        idx,
+                        val: e.target.value
+                      })}
+                      value={midiChannelInput || 'None'}
+                    >
+                      {this.renderMidiChannelSelection({ inputs }, driverNameInput, type)}
+                    </Select>
+                  </FormControl>
+                </React.Fragment>
+              )
+            }
+
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
@@ -491,6 +532,21 @@ class MidiSettings extends React.PureComponent {
     if (withNone) {
       ret.push(getItem('None'))
     }
+    return ret
+  }
+
+  isAllEmpty = (obj) => {
+    let ret = true
+
+    Object.keys(obj).forEach((name, idx) => {
+      const { ccChannels, noteChannels } = obj[name]
+      const hasContent = (arr) => Array.isArray(arr) && (arr.length > 0)
+      if (hasContent(ccChannels) || hasContent(noteChannels)) {
+        ret = false
+      }
+      console.log('isempty = ', ret, { ccChannels, noteChannels })
+    })
+
     return ret
   }
 

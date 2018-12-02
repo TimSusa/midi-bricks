@@ -38,7 +38,10 @@ class DrawerList extends React.PureComponent {
             <ListItemText primary='Global Settings' />
           </ListItem>
 
-          <ListItem button onClick={() => this.props.togglePage({ pageType: PAGE_TYPES.MIDI_DRIVER_MODE })}>
+          <ListItem
+            button
+            onClick={() => this.props.togglePage({ pageType: PAGE_TYPES.MIDI_DRIVER_MODE })}
+          >
             <ListItemIcon>
               <GlobalIcon />
             </ListItemIcon>
