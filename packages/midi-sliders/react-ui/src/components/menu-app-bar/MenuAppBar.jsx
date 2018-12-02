@@ -99,7 +99,7 @@ class MenuAppBar extends React.Component {
               </Button>
             }
             {
-              !(pageType === PAGE_TYPES.GLOBAL_MODE) &&
+              !([PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(pageType)) &&
               <ViewMenu />
             }
           </Toolbar>

@@ -19,8 +19,8 @@ class Footer extends React.Component {
   render () {
     const { classes, viewSettings: { footerPages, isSettingsMode, pageType }, actions } = this.props
     const { value } = this.state
-    if (pageType !== PAGE_TYPES.HOME_MODE) return (<div />)
-    if (footerPages && footerPages.every((item) => (item && item.type !== 'PAGE'))) return (<div />)
+    // if (pageType !== PAGE_TYPES.HOME_MODE) return (<div />)
+    // if (footerPages && footerPages.every((item) => (item && item.type !== 'PAGE'))) return (<div />)
     return (
       <BottomNavigation
         value={value}
