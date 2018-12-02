@@ -455,7 +455,7 @@ export const sliders = createReducer([], {
 
   [ActionTypeSliderList.MIDI_MESSAGE_ARRIVED] (state, action) {
     const sliderList = state.sliderList.map(item => {
-      const { listenToCc, midiChannelInput, driverName } = item
+      const { listenToCc, midiChannelInput, driverNameInput = 'None' } = item
       if (listenToCc && listenToCc.length > 0) {
         const { val, cC, channel, driver, isNoteOn } = action.payload
         // let tmpCc = cC
@@ -466,7 +466,7 @@ export const sliders = createReducer([], {
         // }
         const haveChannelsMatched = (midiChannelInput === 'all') || channel.toString() === midiChannelInput
         const hasCc = listenToCc.includes(cC && cC.toString())
-        if (hasCc && haveChannelsMatched && (driverName === driver)) {
+        if (hasCc && haveChannelsMatched && (driverNameInput === driver)) {
           return { ...item, val, isNoteOn }
         } else {
           return { ...item }

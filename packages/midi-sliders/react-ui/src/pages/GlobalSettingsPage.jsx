@@ -44,11 +44,12 @@ class GlobalSettingsPage extends React.PureComponent {
           <TableRow>
             <TableCell>Label</TableCell>
             <TableCell>Type</TableCell>
-            <TableCell>Driver</TableCell>
-            <TableCell>Channel</TableCell>
+            <TableCell>Output Driver</TableCell>
+            <TableCell>Output Channel</TableCell>
             <TableCell>Note(s)/CC</TableCell>
             <TableCell>Current Value</TableCell>
             <TableCell>Saved Value</TableCell>
+            <TableCell>Input Driver</TableCell>
             <TableCell>Listeners</TableCell>
             <TableCell>Input Channel</TableCell>
 
@@ -57,7 +58,7 @@ class GlobalSettingsPage extends React.PureComponent {
         <TableBody>
           {
             sliderList && sliderList.map((sliderEntry, idx) => {
-              const { driverName, outputId } = outputIdToDriverName(midi.midiDrivers, sliderEntry.outputId, sliderEntry.driverName)
+              const { driverName, outputId, driverNameInput = 'None' } = sliderEntry// outputIdToDriverName(midi.midiDrivers, sliderEntry.outputId, sliderEntry.driverName)
 
               let rowStyle = {
                 background: 'none',
@@ -123,6 +124,9 @@ class GlobalSettingsPage extends React.PureComponent {
                     </TableCell>
                     <TableCell>
                       {!['PAGE', 'LABEL'].includes(sliderEntry.type) ? sliderEntry.lastSavedVal && (sliderEntry.lastSavedVal || '_') : '-'}
+                    </TableCell>
+                    <TableCell style={{ color: !driverNameInput && 'grey' }}>
+                      {driverNameInput || sliderEntry.driverNameInput || 'None'}
                     </TableCell>
                     <TableCell>
                       {(sliderEntry.listenToCc && (sliderEntry.listenToCc.length > 0) && this.renderListeners(sliderEntry.listenToCc)) || '-'}
