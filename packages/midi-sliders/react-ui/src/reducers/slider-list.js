@@ -51,23 +51,7 @@ export const sliders = createReducer([], {
       midiAccess,
       midiDrivers: getAvailableDrivers(midiAccess)
     }
-
-    const sliderList = state.sliderList && state.sliderList.length && state.sliderList.map((item) => {
-      if (item.driverName) {
-        midi.midiDrivers.forEach(({ name, outputId }) => {
-          if (name === item.driverName) {
-            return Object.assign({}, {
-              ...item,
-              outputId
-            })
-          }
-        })
-      }
-      return Object.assign({}, {
-        ...item
-      })
-    })
-    return { ...state, isMidiFailed: false, midi, sliderList }
+    return { ...state, isMidiFailed: false, midi }
   },
   [ActionTypeSliderList.ADD_SLIDER] (state, action) {
     const newState = transformAddState(state, action, SLIDER)
@@ -188,11 +172,10 @@ export const sliders = createReducer([], {
 
     // Handle multi CC
     const tmp = newStateTmp[idx]
-    // const output = state.midi.midiAccess.outputs.get(outputId)
     const { midiCC, midiChannel, driverName } = tmp
     WebMIDI.octaveOffset = -1
 
-    const output = WebMIDI.getOutputByName(driverName)// .getOutputById(outputId)
+    const output = WebMIDI.getOutputByName(driverName)
     if ((driverName !== 'None') && !output) {
       window.alert('Driver cannot be found! Please proof your settings.')
     }
@@ -215,7 +198,7 @@ export const sliders = createReducer([], {
     const tmp = state.sliderList[idx]
     const { onVal, offVal, midiCC, midiChannel, driverName, isNoteOn } = tmp
     WebMIDI.octaveOffset = -1
-    const output = WebMIDI.getOutputByName(driverName)// .getOutputById(outputId)
+    const output = WebMIDI.getOutputByName(driverName)
     if ((driverName !== 'None') && !output) {
       window.alert('Driver cannot be found! Please proof your settings.')
     }
@@ -236,7 +219,7 @@ export const sliders = createReducer([], {
     const { midiCC, midiChannel, driverName } = tmp
 
     // WebMIDI.octaveOffset = -1
-    const output = (driverName !== 'None') && WebMIDI.getOutputByName(driverName)// .getOutputById(outputId)
+    const output = (driverName !== 'None') && WebMIDI.getOutputByName(driverName)
     if ((driverName !== 'None') && !output) {
       window.alert('Driver cannot be found! Please proof your settings.')
     }
@@ -434,19 +417,10 @@ export const sliders = createReducer([], {
         minVal: item.minVal || 0,
         maxVal: item.maxVal || 127,
         midi: undefined,
+        outputId: undefined,
         driverName: item.driverName || 'None',
         driverNameInput: item.driverNameInput || 'None'
       }
-      // state.midi.midiDrivers.forEach(driver => {
-      //   if (driver.name === item.driverName) {
-      //     if (driver.outputId !== item.outputId) {
-      //       tmp = {
-      //         ...tmp,
-      //         outputId: driver.outputId
-      //       }
-      //     }
-      //   }
-      // })
       return tmp
     })
     return { ...state, sliderList, presetName, sliderListBackup: sliderList }
@@ -592,7 +566,7 @@ const getAvailableDrivers = (midiAccess) => {
       "' manufacturer:'" + output.manufacturer + "' name:'" + output.name +
       "' version:'" + output.version + "'")
 
-    availableDrivers.push({ outputId: output.id, name: output.name })
+    availableDrivers.push({ name: output.name })
   }
   return availableDrivers
 }
@@ -622,11 +596,6 @@ const transformAddState = (state, action, type) => {
   const availDriverName = midi.midiDrivers[0].name
   const lastSelectedDriverName = ((list.length > 0) && list[list.length - 1].driverName) || 'None'
   const newDriverName = ((lastSelectedDriverName !== 'None') && lastSelectedDriverName) || availDriverName
-
-  // Output Id / Driver Id
-  const availDriverId = midi.midiDrivers[0].outputId
-  const lastSelectedDriverId = (list.length > 0) && list[list.length - 1].outputId
-  const newDriverId = ((lastSelectedDriverId !== 'None') && lastSelectedDriverId) || availDriverId
 
   const addStateLength = () => (list.length + 1)
   const addMidiCCVal = () => 59 + addStateLength()
@@ -667,7 +636,6 @@ const transformAddState = (state, action, type) => {
     offVal: 0,
     midiCC,
     listenToCc: [],
-    outputId: [PAGE, LABEL].includes(type) ? 'None' : newDriverId,
     driverName: newDriverName,
     driverNameInput: 'None',
     midiChannel: 1,

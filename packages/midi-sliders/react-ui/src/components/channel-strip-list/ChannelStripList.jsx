@@ -23,7 +23,7 @@ class ChannelStripList extends React.PureComponent {
 
   constructor (props) {
     super(props)
-    this.props.initApp()
+    // this.props.initApp()
   }
 
   componentWillUnmount () {
