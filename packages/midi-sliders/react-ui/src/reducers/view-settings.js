@@ -78,8 +78,8 @@ export const viewSettings = createReducer(initState, {
     })
   },
 
-  [ActionTypeViewSettings.ADD_PAGE_TO_FOOTER] (state = initState, action) {
-    const { sliderList } = action.payload
+  [ActionTypeViewSettings.UPDATE_VIEW_SETTINGS] (state = initState, action) {
+    const { sliderList, viewSettings: {availableDrivers} } = action.payload
 
     const extractPages = (list) => {
       let tmp = []
@@ -105,15 +105,17 @@ export const viewSettings = createReducer(initState, {
       })
     })
     const newPages = (oldPages && oldPages.length > 0) ? oldPages : extractedPages
+    let footerState = null
     if (newItemToTake) {
-      return Object.assign({}, state, {
+      footerState = Object.assign({}, state, {
         footerPages: [...newPages, newItemToTake]
       })
     } else {
-      return Object.assign({}, state, {
+      footerState = Object.assign({}, state, {
         footerPages: newPages
       })
     }
+    return {...footerState, availableDrivers}
   },
 
   [ActionTypeViewSettings.DELETE_PAGE_FROM_FOOTER] (state = initState, action) {

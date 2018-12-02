@@ -67,12 +67,12 @@ class App extends React.PureComponent {
     if (parsedJson.viewSettings && parsedJson.viewSettings.footerPages) {
       this.setState(state =>
         ({ isMobileOpen: !this.state.isMobileOpen }),
-      () => this.props.actions.addPageToFooter({sliderList: parsedJson.viewSettings.footerPages}))
+      () => this.props.actions.updateViewSettings({viewSettings: parsedJson.viewSettings, sliderList: parsedJson.viewSettings.footerPages}))
     } else {
       this.setState(state =>
         ({ isMobileOpen: !this.state.isMobileOpen }),
       () => parsedJson.sliders.sliderList &&
-        this.props.actions.addPageToFooter({sliderList: parsedJson.sliders.sliderList}))
+        this.props.actions.updateViewSettings({viewSettings: parsedJson.viewSettings, sliderList: parsedJson.sliders.sliderList}))
     }
 
     this.props.actions.togglePage({pageType: PAGE_TYPES.GLOBAL_MODE})
