@@ -78,10 +78,6 @@ class GlobalSettingsPage extends React.PureComponent {
                   rowStyle.background = 'aliceblue'
                 }
 
-                // if (((!driverName) && !['PAGE', 'LABEL'].includes(sliderEntry.type))) {
-                //   rowStyle.background = 'red'
-                // }
-
                 if (isSettingsDialogMode && (idx === lastFocusedIdx)) {
                   return (
                     <MidiSettingsDialog
@@ -103,7 +99,7 @@ class GlobalSettingsPage extends React.PureComponent {
                     title = `Output: ${driverName}`
                     if (!driverNameInput) {
                       title = title + ' / Input: No MIDI Input Driver available'
-                      rowStyle.background = 'red'
+                      rowStyle.background = 'yellow'
                     }
                   } else if (!driverName) {
                     title = 'No MIDI Output Driver available'
