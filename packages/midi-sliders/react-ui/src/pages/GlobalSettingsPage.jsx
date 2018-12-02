@@ -101,8 +101,12 @@ class GlobalSettingsPage extends React.PureComponent {
                     title = `Output: ${driverName} / Input: ${driverNameInput}`
                   } else if (driverName) {
                     title = `Output: ${driverName}`
+                    if (!driverNameInput) {
+                      title = title + ' / Input: No MIDI Input Driver available'
+                      rowStyle.background = 'red'
+                    }
                   } else if (!driverName) {
-                    title = 'No MIDI Driver available'
+                    title = 'No MIDI Output Driver available'
                     rowStyle.background = 'red'
                   }
                 }

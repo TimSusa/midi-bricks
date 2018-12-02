@@ -46,8 +46,8 @@ export function initApp () {
           }
         })
         input.removeListener()
-        if (Array.isArray(ccChannels) && ccChannels.length > 0) {
-          console.log('found cc driver ', name, ' ', ccArr)
+        if (Array.isArray(ccChannels) && hasContent(ccChannels) && hasContent(ccArr)) {
+          console.log('add cc listener ', name, ' ', ccArr)
           input.addListener('controlchange', ccChannels, debounce(({ value, channel, controller: { number } }) => {
             if (ccArr.includes(number)) {
               const obj = { isNoteOn: undefined, val: value, cC: number, channel, driver: name }
@@ -55,8 +55,8 @@ export function initApp () {
             }
           }, 5))
         }
-        if (Array.isArray(noteChannels) && noteChannels.length > 0) {
-          console.log('found note driver ', name, ' ', ccArr)
+        if (Array.isArray(noteChannels) && hasContent(noteChannels) && hasContent(ccArr)) {
+          console.log('add note listener ', name, ' ', ccArr)
           input.addListener('noteon', noteChannels, debounce((event) => {
             const { rawVelocity, channel, note: { number } } = event
             if (ccArr.includes(number)) {

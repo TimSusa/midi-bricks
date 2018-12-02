@@ -462,17 +462,18 @@ class MidiSettings extends React.PureComponent {
 
   renderDriverSelection = ({ inputs, outputs }) => {
     if (inputs) {
-      return this.renderSelection(inputs)
+      return this.renderSelection(inputs, true)
     }
     if (outputs) {
-      return this.renderSelection(outputs)
+      return this.renderSelection(outputs, false)
     }
   }
 
-  renderSelection = (obj) => {
+  renderSelection = (obj, withNone) => {
     let ret = []
+
     Object.keys(obj).forEach((name, idx) => {
-      const {ccChannels, noteChannels} = obj[name]
+      const { ccChannels, noteChannels } = obj[name]
       const hasContent = (arr) => arr.length > 0
       if (hasContent(ccChannels) || hasContent(noteChannels)) {
         ret.push((
@@ -486,6 +487,10 @@ class MidiSettings extends React.PureComponent {
         )
       }
     })
+
+    if (withNone) {
+      ret.push(getItem('None'))
+    }
     return ret
   }
 
