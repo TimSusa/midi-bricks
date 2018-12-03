@@ -6,6 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import Dialog from '@material-ui/core/Dialog'
 import MidiSettings from './midi-settings/MidiSettings'
+import { Typography } from '@material-ui/core'
 
 class MidiSettingsDialog extends React.PureComponent {
   render () {
@@ -17,7 +18,17 @@ class MidiSettingsDialog extends React.PureComponent {
         aria-labelledby='confirmation-dialog-title'
         {...other}
       >
-        <DialogTitle id='confirmation-dialog-title'>Settings</DialogTitle>
+        <DialogTitle
+          id='confirmation-dialog-title'
+        >
+          <Typography
+            color='secondary'
+            variant='h6'
+          >
+        Settings
+
+          </Typography>
+        </DialogTitle>
         <DialogContent>
           <MidiSettings
             sliderEntry={sliderEntry}

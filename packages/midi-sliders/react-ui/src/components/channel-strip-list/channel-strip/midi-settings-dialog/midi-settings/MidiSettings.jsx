@@ -349,13 +349,6 @@ class MidiSettings extends React.PureComponent {
                     color={colors.color}
                   />
                   <ColorModal
-                    title='Font-Color'
-                    sliderEntry={sliderEntry}
-                    idx={idx}
-                    fieldName='colorFont'
-                    color={colors.colorFont}
-                  />
-                  <ColorModal
                     title='Activated State'
                     sliderEntry={sliderEntry}
                     idx={idx}
@@ -363,7 +356,15 @@ class MidiSettings extends React.PureComponent {
                     color={colors.colorActive}
                   />
                   <ColorModal
-                    title='Font-Color Activated'
+                    title='Font-Color'
+                    sliderEntry={sliderEntry}
+                    idx={idx}
+                    fieldName='colorFont'
+                    color={colors.colorFont}
+                  />
+
+                  <ColorModal
+                    title='Activated Font-Color'
                     sliderEntry={sliderEntry}
                     idx={idx}
                     fieldName='colorFontActive'

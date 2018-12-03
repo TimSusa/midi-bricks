@@ -9,6 +9,7 @@ import Home from './pages/Home'
 import { bindActionCreators } from 'redux'
 import * as MidiSlidersAction from './actions/slider-list.js'
 import * as ViewActions from './actions/view-settings.js'
+import {initApp} from './actions/init'
 
 import MenuAppBar from './components/menu-app-bar/MenuAppBar'
 import DrawerList from './components/drawer-list/DrawerList'
@@ -77,11 +78,8 @@ class App extends React.PureComponent {
       () => parsedJson.sliders.sliderList &&
           this.props.actions.updateViewSettings({ viewSettings: { ...parsedJson.viewSettings, availableDrivers: drivers }, sliderList: parsedJson.sliders.sliderList }))
     }
-
+    this.props.initApp()
     this.props.actions.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })
-
-    // Bad hack go away
-    // window.location.reload()
   }
 
   handleSaveFile = () => {
@@ -141,7 +139,8 @@ const styles = theme => ({
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators({ ...MidiSlidersAction, ...ViewActions }, dispatch)
+    actions: bindActionCreators({ ...MidiSlidersAction, ...ViewActions }, dispatch),
+    initApp: bindActionCreators(initApp, dispatch)
   }
 }
 export default withStyles(styles)(connect(null, mapDispatchToProps)(App))

@@ -9,7 +9,6 @@ import Tooltip from '@material-ui/core/Tooltip'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
-import ColorizeIcon from '@material-ui/icons/Colorize'
 import Typography from '@material-ui/core/Typography'
 import { SketchPicker } from 'react-color'
 
@@ -44,11 +43,11 @@ class ColorModal extends React.PureComponent {
             variant='contained'
             onClick={this.handleClickOpen}
           >
-            <ColorizeIcon className={classes.iconColor} />
             <Typography
               variant='caption'
+              className={classes.label}
             >
-              {' Colorize: ' + title}
+              {title}
             </Typography>
           </Button>
         </Tooltip>

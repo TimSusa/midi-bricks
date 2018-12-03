@@ -177,7 +177,7 @@ export const sliders = createReducer([], {
 
     const output = WebMIDI.getOutputByName(driverName)
     if ((driverName !== 'None') && !output) {
-      window.alert('Driver cannot be found! Please proof your settings.')
+      window.alert('Driver cannot be found! Please check your settings.')
     }
     if (Array.isArray(midiCC) === true) {
       midiCC.forEach((item) => {
@@ -200,7 +200,7 @@ export const sliders = createReducer([], {
     WebMIDI.octaveOffset = -1
     const output = WebMIDI.getOutputByName(driverName)
     if ((driverName !== 'None') && !output) {
-      window.alert('Driver cannot be found! Please proof your settings.')
+      window.alert('Driver cannot be found! Please check your settings.')
     }
     const onValInt = (onVal && parseInt(onVal, 10)) || 127
     const offValInt = ((offVal === 0) && 0) || (offVal && parseInt(offVal, 10)) || 0
@@ -221,7 +221,7 @@ export const sliders = createReducer([], {
     // WebMIDI.octaveOffset = -1
     const output = (driverName !== 'None') && WebMIDI.getOutputByName(driverName)
     if ((driverName !== 'None') && !output) {
-      window.alert('Driver cannot be found! Please proof your settings.')
+      window.alert('Driver cannot be found! Please check your settings.')
     }
     output && output.sendProgramChange(midiCC[0] - 1, midiChannel)
     return state
@@ -407,21 +407,30 @@ export const sliders = createReducer([], {
       (parsedJson.sliders.sliderList && parsedJson.sliders.sliderList) ||
       parsedJson
 
-    // Apply self healing ouputId
+    // If somebody loads an old preset, add standard values
     const sliderList = tmp.map(item => {
-      let tmp = {
+      const {
+        val = 0,
+        onVal = 127,
+        offVal = 0,
+        minVal = 0,
+        maxVal = 127,
+        driverName = 'None',
+        driverNameInput = 'None'
+      } = item
+
+      return {
         ...item,
-        lastSavedVal: item.val || 0,
-        onVal: item.onVal || 127,
-        offVal: item.offVal || 0,
-        minVal: item.minVal || 0,
-        maxVal: item.maxVal || 127,
+        lastSavedVal: val,
+        onVal,
+        offVal,
+        minVal,
+        maxVal,
         midi: undefined,
         outputId: undefined,
-        driverName: item.driverName || 'None',
-        driverNameInput: item.driverNameInput || 'None'
+        driverName,
+        driverNameInput
       }
-      return tmp
     })
     return { ...state, sliderList, presetName, sliderListBackup: sliderList }
   },

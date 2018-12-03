@@ -5,20 +5,19 @@ import { debounce } from 'lodash'
 export function initApp () {
   return function (dispatch, getState) {
     dispatch(initPending('start'))
-
+    WebMIDI.disable()
     WebMIDI.enable((err) => {
       if (err) {
         window.alert('Midi could not be enabled.', err)
         dispatch(initFailed('bad'))
       }
       const { inputs, outputs } = WebMIDI
-      if (!(inputs || outputs)) return
+      // if (!(inputs || outputs)) return
 
       const midiAccess = {
         inputs,
         outputs
       }
-
       const hasContent = (arr) => arr.length > 0
       if (hasContent(outputs)) {
         dispatch(initMidiAccess({ midiAccess }))
