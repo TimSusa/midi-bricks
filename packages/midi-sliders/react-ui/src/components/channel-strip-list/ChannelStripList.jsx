@@ -172,39 +172,38 @@ class ChannelStripList extends React.PureComponent {
 
   handleKeyPress = (e) => {
     console.log(e.keyCode)
-
-    // shift + m
-    if ((e.keyCode === 77) && e.shiftKey) {
+    // m: midi driver settings
+    if ((e.keyCode === 109)) {
       e.preventDefault()
-      this.props.actions.togglePage({pageType: PAGE_TYPES.MIDI_DRIVER_MODE})
+      this.props.actions.togglePage({ pageType: PAGE_TYPES.MIDI_DRIVER_MODE })
     }
 
-    // shift + g
-    if ((e.keyCode === 71) && e.shiftKey) {
+    // g: global midi settings
+    if ((e.keyCode === 103)) {
       e.preventDefault()
       this.props.actions.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })
     }
 
-    // shift + z
-    if ((e.keyCode === 90) && e.shiftKey) {
+    // z: go back
+    if ((e.keyCode === 122)) {
       e.preventDefault()
       this.props.actions.goBack()
     }
 
-    // shift + p
-    if ((e.keyCode === 80) && e.shiftKey) {
+    // p: performance (live) mode
+    if ((e.keyCode === 112)) {
       e.preventDefault()
       this.props.actions.toggleLiveMode()
     }
 
-    // shift + l
-    if ((e.keyCode === 76) && e.shiftKey) {
+    // l: layout mode
+    if ((e.keyCode === 108)) {
       e.preventDefault()
       this.props.actions.toggleLayoutMode()
     }
 
-    // shift + s
-    if ((e.keyCode === 83) && e.shiftKey) {
+    // s: settings mode
+    if ((e.keyCode === 115)) {
       if (!this.props.viewSettings.isLayoutMode) {
         e.preventDefault()
         this.props.actions.toggleSettingsMode()
@@ -212,28 +211,28 @@ class ChannelStripList extends React.PureComponent {
       }
     }
 
-    // shift + a
-    if ((e.keyCode === 65) && e.shiftKey) {
+    // a: auto arrange mode
+    if ((e.keyCode === 97)) {
       if (this.props.viewSettings.isLayoutMode) {
         e.preventDefault()
         this.props.actions.toggleAutoArrangeMode()
       }
     }
 
-    // shift + d
-    if ((e.keyCode === 68) && e.shiftKey) {
+    // d: duplicate last added element
+    if ((e.keyCode === 100)) {
       e.preventDefault()
       this.props.actions.clone()
     }
 
-    // shift + v
-    if ((e.keyCode === 86) && e.shiftKey) {
+    // v: vertical / horizontal compact mode
+    if ((e.keyCode === 118)) {
       e.preventDefault()
       this.props.actions.toggleCompactMode()
     }
 
-    // shift + d
-    if ((e.keyCode === 84) && e.shiftKey) {
+    // t: theme
+    if ((e.keyCode === 116)) {
       e.preventDefault()
       this.props.actions.changeTheme()
     }
