@@ -48,7 +48,8 @@ class Home extends React.PureComponent {
           plug in your favourite MIDI Device.
           <br />
           <br />
-          After that, please reload the browser page to see the application in action like this:
+          After that, please push the 'detect drivers' button to re-animate the app.
+          (You see no button? Just reload the browser page.)
           <br />
           <br />
           <img width='50%' alt='midi-sliders-screenshot' src='midi-sliders-screenshot.png' />

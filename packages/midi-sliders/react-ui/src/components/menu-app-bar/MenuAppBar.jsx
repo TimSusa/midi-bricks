@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as ViewSettingsAction from '../../actions/view-settings'
 import * as MidiSlidersAction from '../../actions/slider-list.js'
+import { initApp } from '../../actions/init'
 import { withStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -93,7 +94,7 @@ class MenuAppBar extends React.Component {
               <Button
                 className={classes.resetButton}
                 variant='contained'
-                onClick={() => window.location.reload()}
+                onClick={() => this.props.initApp()}
               >
                 Detect Driver Changes
               </Button>
@@ -136,7 +137,8 @@ const styles = theme => ({
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators({ ...MidiSlidersAction, ...ViewSettingsAction }, dispatch)
+    actions: bindActionCreators({ ...MidiSlidersAction, ...ViewSettingsAction }, dispatch),
+    initApp: bindActionCreators(initApp, dispatch)
   }
 }
 
