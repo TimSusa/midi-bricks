@@ -48,8 +48,7 @@ export const sliders = createReducer([], {
   [ActionTypeSliderList.INIT_MIDI_ACCESS] (state, action) {
     const { midiAccess } = action.payload
     const midi = {
-      midiAccess,
-      midiDrivers: getAvailableDrivers(midiAccess)
+      midiAccess
     }
     return { ...state, isMidiFailed: false, midi }
   },
@@ -563,23 +562,6 @@ export const sliders = createReducer([], {
   }
 })
 
-const getAvailableDrivers = (midiAccess) => {
-  for (var input of midiAccess.inputs) {
-    console.log("Input port [type:'" + input.type + "'] id:'" + input.id +
-      "' manufacturer:'" + input.manufacturer + "' name:'" + input.name +
-      "' version:'" + input.version + "'")
-  }
-  let availableDrivers = []
-  for (var output of midiAccess.outputs) {
-    console.log("Output port [type:'" + output.type + "'] id:'" + output.id +
-      "' manufacturer:'" + output.manufacturer + "' name:'" + output.name +
-      "' version:'" + output.version + "'")
-
-    availableDrivers.push({ name: output.name })
-  }
-  return availableDrivers
-}
-
 const transformState = (sliderList, action, field) => {
   const { idx, val } = action.payload || action
   const newState = sliderList.map((item, i) => {
@@ -598,13 +580,11 @@ const transformState = (sliderList, action, field) => {
 
 const transformAddState = (state, action, type) => {
   // Either use last selected driver id or take the first available one
-  const midi = state.midi
   const list = state.sliderList || []
 
   // Driver Name
-  const availDriverName = midi.midiDrivers[0].name
   const lastSelectedDriverName = ((list.length > 0) && list[list.length - 1].driverName) || 'None'
-  const newDriverName = ((lastSelectedDriverName !== 'None') && lastSelectedDriverName) || availDriverName
+  const newDriverName = ((lastSelectedDriverName !== 'None') && lastSelectedDriverName)
 
   const addStateLength = () => (list.length + 1)
   const addMidiCCVal = () => 59 + addStateLength()

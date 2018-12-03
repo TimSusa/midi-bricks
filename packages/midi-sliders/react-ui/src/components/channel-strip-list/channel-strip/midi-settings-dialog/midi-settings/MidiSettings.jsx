@@ -129,7 +129,7 @@ class MidiSettings extends React.PureComponent {
                       className={classes.label}
                       htmlFor='midi-driver'>
                         Driver
-                    </InputLabel>
+                      </InputLabel>
                     <Select
                       className={classes.select}
                       onChange={e => this.props.actions.selectMidiDriver({
@@ -148,7 +148,7 @@ class MidiSettings extends React.PureComponent {
                       htmlFor='output-cc-input'
                     >
                         Channel
-                    </InputLabel>
+                      </InputLabel>
                     <Select
                       className={classes.select}
                       onChange={e => this.props.actions.selectMidiChannel({
@@ -272,7 +272,7 @@ class MidiSettings extends React.PureComponent {
                       htmlFor='cc'
                     >
                         Listen to CC
-                    </InputLabel>
+                      </InputLabel>
                     <MidiSuggestedInput
                       suggestions={this.suggestionsMidiCc}
                       startVal={listenToCc || []}
@@ -289,7 +289,7 @@ class MidiSettings extends React.PureComponent {
                       htmlFor='midi-driver'
                     >
                         Driver
-                    </InputLabel>
+                      </InputLabel>
                     <Select
                       className={classes.select}
                       onChange={e => this.props.actions.selectMidiDriverInput({
@@ -647,12 +647,11 @@ function mapDispatchToProps (dispatch) {
     initApp: bindActionCreators(initApp, dispatch)
   }
 }
-function mapStateToProps ({ viewSettings: { availableDrivers: { inputs = {}, outputs = {} } = {} }, sliders: { sliderList, midi: { midiDrivers } } }) {
+function mapStateToProps ({ viewSettings: { availableDrivers: { inputs = {}, outputs = {} } = {} }, sliders: { sliderList } }) {
   return {
     sliderList,
     inputs,
-    outputs,
-    midiDrivers
+    outputs
   }
 }
 export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MidiSettings)))
