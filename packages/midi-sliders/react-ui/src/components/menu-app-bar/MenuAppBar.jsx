@@ -81,13 +81,21 @@ class MenuAppBar extends React.Component {
             }
             {
               ((pageType === PAGE_TYPES.GLOBAL_MODE)) &&
-              <Button
-                className={classes.resetButton}
-                variant='contained'
-                onClick={actions.resetValues}
-              >
-                Restore Values
-              </Button>
+              <React.Fragment>
+                <Button
+                  className={classes.resetButton}
+                  variant='contained'
+                  onClick={actions.resetValues}
+                >
+                  Restore Values
+                </Button>
+                <Button
+                  className={classes.resetButton}
+                  variant='contained'
+                  onClick={actions.triggerAllMidiElements}>
+                  TRIGGER ALL MIDI
+                </Button>
+              </React.Fragment>
             }
             {
               ([PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(pageType)) &&

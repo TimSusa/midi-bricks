@@ -129,7 +129,7 @@ class MidiSettings extends React.PureComponent {
                       className={classes.label}
                       htmlFor='midi-driver'>
                         Driver
-                      </InputLabel>
+                    </InputLabel>
                     <Select
                       className={classes.select}
                       onChange={e => this.props.actions.selectMidiDriver({
@@ -148,7 +148,7 @@ class MidiSettings extends React.PureComponent {
                       htmlFor='output-cc-input'
                     >
                         Channel
-                      </InputLabel>
+                    </InputLabel>
                     <Select
                       className={classes.select}
                       onChange={e => this.props.actions.selectMidiChannel({
@@ -272,7 +272,7 @@ class MidiSettings extends React.PureComponent {
                       htmlFor='cc'
                     >
                         Listen to CC
-                      </InputLabel>
+                    </InputLabel>
                     <MidiSuggestedInput
                       suggestions={this.suggestionsMidiCc}
                       startVal={listenToCc || []}
@@ -289,7 +289,7 @@ class MidiSettings extends React.PureComponent {
                       htmlFor='midi-driver'
                     >
                         Driver
-                      </InputLabel>
+                    </InputLabel>
                     <Select
                       className={classes.select}
                       onChange={e => this.props.actions.selectMidiDriverInput({
@@ -341,6 +341,32 @@ class MidiSettings extends React.PureComponent {
             {
               ![SLIDER, SLIDER_HORZ].includes(type) && (
                 <FormControl>
+
+                  {[
+                    BUTTON,
+                    BUTTON_CC,
+                    BUTTON_TOGGLE,
+                    BUTTON_TOGGLE_CC
+                  ].includes(type) &&
+                    (
+                      <React.Fragment>
+                        <InputLabel
+                          className={classes.label}
+                          htmlFor='button-type'
+                        >
+                          Type
+                        </InputLabel>
+                        <Select
+                          className={classes.select}
+                          onChange={this.handleButtonTypeChange.bind(this, idx)}
+                          value={type}
+                        >
+                          {this.renderButtonTypeSelection()}
+                        </Select>
+                      </React.Fragment>
+                    )
+                  }
+
                   <ColorModal
                     title='Background'
                     sliderEntry={sliderEntry}

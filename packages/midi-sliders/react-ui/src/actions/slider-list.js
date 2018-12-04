@@ -37,7 +37,8 @@ const typeSliderList = [
   'MIDI_MESSAGE_ARRIVED',
   'ADD_MIDI_CC_LISTENER',
   'TOGGLE_HIDE_VALUE',
-  'GO_BACK'
+  'GO_BACK',
+  'TRIGGER_ALL_MIDI_ELEMENTS'
 ]
 
 const ActionTypeSliderList = createActionTypes(typeSliderList)

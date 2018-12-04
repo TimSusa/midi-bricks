@@ -165,28 +165,14 @@ export const sliders = createReducer([], {
     const { type, onVal, offVal } = newStateTmp[idx]
     if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
       if ((val === onVal) || (val === offVal)) {
-        newStateTmp = toggleNote(newStateTmp, idx)
+        newStateTmp = toggleNotesInState(newStateTmp, idx)
       }
     }
 
     // Handle multi CC
     const tmp = newStateTmp[idx]
-    const { midiCC, midiChannel, driverName } = tmp
-    WebMIDI.octaveOffset = -1
-
-    const output = WebMIDI.getOutputByName(driverName)
-    if ((driverName !== 'None') && !output) {
-      window.alert('Driver cannot be found! Please check your settings.')
-    }
-    if (Array.isArray(midiCC) === true) {
-      midiCC.forEach((item) => {
-        const cc = midi(item)
-        // const ccMessage = [0xaf + parseInt(tmp.midiChannel, 10), midiCC, parseInt(val, 10)]
-        // omitting the timestamp means send immediately.
-        output && output.sendControlChange(cc, val, parseInt(midiChannel, 10))
-        // output.send(ccMessage, (window.performance.now() + 10.0))
-      })
-    }
+    const { midiCC, midiChannel, driverName, label } = tmp
+    sendControlChanges({ midiCC, midiChannel, driverName, val, label })
     const sliderList = transformState(newStateTmp, { payload: { idx: parseInt(idx, 10), val } }, 'val')
     return { ...state, sliderList }
   },
@@ -194,21 +180,9 @@ export const sliders = createReducer([], {
   [ActionTypeSliderList.TOGGLE_NOTE] (state, action) {
     const idx = action.payload
 
-    const tmp = state.sliderList[idx]
-    const { onVal, offVal, midiCC, midiChannel, driverName, isNoteOn } = tmp
-    WebMIDI.octaveOffset = -1
-    const output = WebMIDI.getOutputByName(driverName)
-    if ((driverName !== 'None') && !output) {
-      window.alert('Driver cannot be found! Please check your settings.')
-    }
-    const onValInt = (onVal && parseInt(onVal, 10)) || 127
-    const offValInt = ((offVal === 0) && 0) || (offVal && parseInt(offVal, 10)) || 0
-    if (!isNoteOn) {
-      output && output.playNote(midiCC, midiChannel, { rawVelocity: true, velocity: onValInt })
-    } else {
-      output && output.stopNote(midiCC, midiChannel, { rawVelocity: true, velocity: offValInt })
-    }
-    const sliderList = toggleNote(state.sliderList, idx)
+    const { onVal, offVal, midiCC, midiChannel, driverName, isNoteOn, label } = state.sliderList[idx]
+    toggleNotes({ onVal, offVal, midiCC, midiChannel, driverName, isNoteOn, label })
+    const sliderList = toggleNotesInState(state.sliderList, idx)
     return { ...state, sliderList }
   },
 
@@ -451,12 +425,6 @@ export const sliders = createReducer([], {
       const { listenToCc, midiChannelInput, driverNameInput = 'None' } = item
       if (listenToCc && listenToCc.length > 0) {
         const { val, cC, channel, driver, isNoteOn } = action.payload
-        // let tmpCc = cC
-        // if (!Number.isInteger(cC)) {
-        //   tmpCc = cC.number
-        // } else {
-        //   tmpCc = cC
-        // }
         const haveChannelsMatched = (midiChannelInput === 'all') || channel.toString() === midiChannelInput
         const hasCc = listenToCc.includes(cC && cC.toString())
         if (hasCc && haveChannelsMatched && (driverNameInput === driver)) {
@@ -542,6 +510,36 @@ export const sliders = createReducer([], {
       return tmp
     })
     return { ...state, sliderList }
+  },
+
+  [ActionTypeSliderList.TRIGGER_ALL_MIDI_ELEMENTS] (state, action) {
+    state.sliderList.forEach((item, idx) => {
+      const { type, midiCC, midiChannel, driverName, val, onVal, offVal, isNoteOn, label } = item
+      if ([SLIDER, BUTTON_CC].includes(type)) {
+        sendControlChanges({ midiCC, midiChannel, driverName, val, label })
+      }
+      switch (type) {
+        case BUTTON: toggleNotes({ onVal, offVal, midiCC, midiChannel, driverName, isNoteOn, label })
+          break
+
+        case BUTTON_TOGGLE:
+          toggleNotes({ onVal, offVal, midiCC, midiChannel, driverName, isNoteOn: isNoteOn, label })
+          toggleNotes({ onVal, offVal, midiCC, midiChannel, driverName, isNoteOn: !isNoteOn, label })
+          break
+
+        case BUTTON_TOGGLE_CC:
+          if (!isNoteOn) {
+            sendControlChanges({ midiCC, midiChannel, driverName, val: onVal, label })
+            sendControlChanges({ midiCC, midiChannel, driverName, val: offVal, label })
+          } else {
+            sendControlChanges({ midiCC, midiChannel, driverName, val: offVal, label })
+            sendControlChanges({ midiCC, midiChannel, driverName, val: onVal, label })
+          }
+          break
+        default:
+      }
+    })
+    return state
   },
 
   [ActionTypeSliderList.RESET_VALUES] (state, action) {
@@ -648,7 +646,7 @@ const transformAddState = (state, action, type) => {
   return { ...state, sliderList: [...list, entry] }
 }
 
-const toggleNote = (list, idx) => {
+const toggleNotesInState = (list, idx) => {
   return list.map((item, i) => {
     if (idx === i) {
       const tmp = {
@@ -663,4 +661,38 @@ const toggleNote = (list, idx) => {
   })
 }
 
-const getUniqueId = () => uniqueId((new Date()).getTime() + Math.random().toString(16))
+function getUniqueId () {
+  return uniqueId((new Date()).getTime() + Math.random().toString(16))
+}
+
+function sendControlChanges ({ midiCC, midiChannel, driverName, val, label }) {
+  WebMIDI.octaveOffset = -1
+  console.log('sendControlChanges ', label)
+
+  const output = WebMIDI.getOutputByName(driverName)
+  if ((driverName !== 'None') && !output) {
+    window.alert('Driver cannot be found! Please check your settings.')
+  }
+  if (Array.isArray(midiCC) === true) {
+    midiCC.forEach((item) => {
+      const cc = midi(item)
+      output && output.sendControlChange(cc, val, parseInt(midiChannel, 10))
+    })
+  }
+}
+
+function toggleNotes ({ label, onVal, offVal, midiCC, midiChannel, driverName, isNoteOn }) {
+  console.log('toggle notes', label)
+  WebMIDI.octaveOffset = -1
+  const output = WebMIDI.getOutputByName(driverName)
+  if ((driverName !== 'None') && !output) {
+    window.alert('Driver cannot be found! Please check your settings.')
+  }
+  const onValInt = (onVal && parseInt(onVal, 10)) || 127
+  const offValInt = ((offVal === 0) && 0) || (offVal && parseInt(offVal, 10)) || 0
+  if (!isNoteOn) {
+    output && output.playNote(midiCC, midiChannel, { rawVelocity: true, velocity: onValInt })
+  } else {
+    output && output.stopNote(midiCC, midiChannel, { rawVelocity: true, velocity: offValInt })
+  }
+}
