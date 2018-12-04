@@ -515,11 +515,18 @@ export const sliders = createReducer([], {
   [ActionTypeSliderList.TRIGGER_ALL_MIDI_ELEMENTS] (state, action) {
     state.sliderList.forEach((item, idx) => {
       const { type, midiCC, midiChannel, driverName, val, onVal, offVal, isNoteOn, label } = item
-      if ([SLIDER, BUTTON_CC].includes(type)) {
+      if ([SLIDER].includes(type)) {
         sendControlChanges({ midiCC, midiChannel, driverName, val, label })
       }
       switch (type) {
-        case BUTTON: toggleNotes({ onVal, offVal, midiCC, midiChannel, driverName, isNoteOn, label })
+        case BUTTON:
+          toggleNotes({ onVal, offVal, midiCC, midiChannel, driverName, isNoteOn: false, label })
+          toggleNotes({ onVal, offVal, midiCC, midiChannel, driverName, isNoteOn: true, label })
+          break
+
+        case BUTTON_CC:
+          sendControlChanges({ midiCC, midiChannel, driverName, val: onVal, label })
+          sendControlChanges({ midiCC, midiChannel, driverName, val: offVal, label })
           break
 
         case BUTTON_TOGGLE:
@@ -528,12 +535,12 @@ export const sliders = createReducer([], {
           break
 
         case BUTTON_TOGGLE_CC:
-          if (!isNoteOn) {
-            sendControlChanges({ midiCC, midiChannel, driverName, val: onVal, label })
+          if (isNoteOn) {
             sendControlChanges({ midiCC, midiChannel, driverName, val: offVal, label })
+            sendControlChanges({ midiCC, midiChannel, driverName, val: onVal, label })
           } else {
-            sendControlChanges({ midiCC, midiChannel, driverName, val: offVal, label })
             sendControlChanges({ midiCC, midiChannel, driverName, val: onVal, label })
+            sendControlChanges({ midiCC, midiChannel, driverName, val: offVal, label })
           }
           break
         default:
