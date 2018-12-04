@@ -571,7 +571,6 @@ class MidiSettings extends React.PureComponent {
       if (hasContent(ccChannels) || hasContent(noteChannels)) {
         ret = false
       }
-      console.log('isempty = ', ret, { ccChannels, noteChannels })
     })
 
     return ret

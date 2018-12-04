@@ -21,11 +21,6 @@ class ChannelStripList extends React.PureComponent {
   hasListener = false
   hasPages = false
 
-  constructor (props) {
-    super(props)
-    // this.props.initApp()
-  }
-
   componentWillUnmount () {
     if (this.hasListener) {
       document.body.removeEventListener('keypress', this.handleKeyPress)

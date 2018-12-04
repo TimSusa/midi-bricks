@@ -23,7 +23,7 @@ class MidiSettingsDialog extends React.PureComponent {
         >
           <Typography
             color='secondary'
-            variant='h5'
+            variant='body1'
           >
         Settings
 

@@ -33,7 +33,6 @@ const {
 export const sliders = createReducer([], {
 
   [ActionTypeSliderList.INIT_PENDING] (state, action) {
-    console.log('reducer init pending', action)
     return state
   },
 
