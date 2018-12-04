@@ -30,6 +30,8 @@ const {
   PAGE
 } = STRIP_TYPE
 
+const NO_MIDI_ERROR_MESSAGE = 'Driver cannot be found! Please check your settings.'
+
 export const sliders = createReducer([], {
 
   [ActionTypeSliderList.INIT_PENDING] (state, action) {
@@ -193,7 +195,7 @@ export const sliders = createReducer([], {
     // WebMIDI.octaveOffset = -1
     const output = (driverName !== 'None') && WebMIDI.getOutputByName(driverName)
     if ((driverName !== 'None') && !output) {
-      window.alert('Driver cannot be found! Please check your settings.')
+      window.alert(NO_MIDI_ERROR_MESSAGE)
     }
     output && output.sendProgramChange(midiCC[0] - 1, midiChannel)
     return state
@@ -673,11 +675,9 @@ function getUniqueId () {
 
 function sendControlChanges ({ midiCC, midiChannel, driverName, val, label }) {
   WebMIDI.octaveOffset = -1
-  console.log('sendControlChanges ', label)
-
   const output = WebMIDI.getOutputByName(driverName)
   if ((driverName !== 'None') && !output) {
-    window.alert('Driver cannot be found! Please check your settings.')
+    window.alert(NO_MIDI_ERROR_MESSAGE)
   }
   if (Array.isArray(midiCC) === true) {
     midiCC.forEach((item) => {
@@ -688,11 +688,10 @@ function sendControlChanges ({ midiCC, midiChannel, driverName, val, label }) {
 }
 
 function toggleNotes ({ label, onVal, offVal, midiCC, midiChannel, driverName, isNoteOn }) {
-  console.log('toggle notes', label)
   WebMIDI.octaveOffset = -1
   const output = WebMIDI.getOutputByName(driverName)
   if ((driverName !== 'None') && !output) {
-    window.alert('Driver cannot be found! Please check your settings.')
+    window.alert(NO_MIDI_ERROR_MESSAGE)
   }
   const onValInt = (onVal && parseInt(onVal, 10)) || 127
   const offValInt = ((offVal === 0) && 0) || (offVal && parseInt(offVal, 10)) || 0
