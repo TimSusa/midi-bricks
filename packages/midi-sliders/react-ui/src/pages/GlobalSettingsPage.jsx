@@ -36,7 +36,10 @@ class GlobalSettingsPage extends React.PureComponent {
       },
       viewSettings: {
         isSettingsDialogMode,
-        lastFocusedIdx
+        lastFocusedIdx,
+        availableDrivers: {
+          outputs: chosenOutputs
+        }
       }
     } = this.props
 
@@ -116,6 +119,18 @@ class GlobalSettingsPage extends React.PureComponent {
                   }
                 }
 
+                let foundMischosenDriver = false
+                Object.keys(chosenOutputs)
+                  .forEach((name) => {
+                    if (name === driverName) {
+                      if (!foundMischosenDriver && (chosenOutputs[name] && chosenOutputs[name].ccChannels.length <= 0) && (chosenOutputs[name] && chosenOutputs[name].noteChannels.length <= 0)) {
+                        foundMischosenDriver = true
+                        rowStyle.background = 'pink'
+                        title = 'Output is disabled in MIDI Driver Settings'
+                      }
+                    }
+                  })
+
                 return (
                   <Tooltip
                     title={title}
@@ -132,7 +147,7 @@ class GlobalSettingsPage extends React.PureComponent {
                         {type}
                       </TableCell>
                       <TableCell style={{ color: !driverName && 'grey' }}>
-                        {driverName || driverName || 'None'}
+                        {driverName || 'None'}
                       </TableCell>
                       <TableCell>
                         {midiChannel}
