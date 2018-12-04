@@ -25,6 +25,7 @@ class GlobalSettingsPage extends React.PureComponent {
   render () {
     const {
       classes,
+      actions,
       sliderList,
       sliderListBackup,
       midi: {
@@ -66,6 +67,17 @@ class GlobalSettingsPage extends React.PureComponent {
           <TableBody>
             {
               sliderList && sliderList.map((sliderEntry, idx) => {
+                const {
+                  label,
+                  type,
+                  midiChannel,
+                  midiCC,
+                  val,
+                  lastSavedVal,
+                  midiChannelInput,
+                  listenToCc
+                } = sliderEntry
+
                 let rowStyle = {
                   background: 'none',
                   cursor: 'pointer'
@@ -80,7 +92,7 @@ class GlobalSettingsPage extends React.PureComponent {
                     <MidiSettingsDialog
                       key={`glb-settings-${idx}`}
                       open
-                      onClose={this.props.actions.toggleSettingsDialogMode.bind(this, { idx, isSettingsDialogMode: false })}
+                      onClose={actions.toggleSettingsDialogMode.bind(this, { idx, isSettingsDialogMode: false })}
                       sliderEntry={sliderEntry}
                       idx={idx}
                     />
@@ -111,37 +123,37 @@ class GlobalSettingsPage extends React.PureComponent {
                   >
                     <TableRow
                       style={rowStyle}
-                      onClick={this.props.actions.toggleSettingsDialogMode.bind(this, { idx, isSettingsDialogMode: true })}
+                      onClick={actions.toggleSettingsDialogMode.bind(this, { idx, isSettingsDialogMode: true })}
                     >
                       <TableCell>
-                        {sliderEntry.label || '-'}
+                        {label || '-'}
                       </TableCell>
                       <TableCell>
-                        {sliderEntry.type}
+                        {type}
                       </TableCell>
                       <TableCell style={{ color: !driverName && 'grey' }}>
-                        {driverName || sliderEntry.driverName || 'None'}
+                        {driverName || driverName || 'None'}
                       </TableCell>
                       <TableCell>
-                        {sliderEntry.midiChannel}
+                        {midiChannel}
                       </TableCell>
                       <TableCell>
-                        {(sliderEntry.midiCC && (sliderEntry.midiCC.length > 0) && this.renderListeners(sliderEntry.midiCC)) || '-'}
+                        {(midiCC && (midiCC.length > 0) && this.renderListeners(midiCC)) || '-'}
                       </TableCell>
                       <TableCell>
-                        {!['PAGE', 'LABEL'].includes(sliderEntry.type) ? sliderEntry && sliderEntry.val : '-'}
+                        {!['PAGE', 'LABEL'].includes(type) ? sliderEntry && val : '-'}
                       </TableCell>
                       <TableCell>
-                        {!['PAGE', 'LABEL'].includes(sliderEntry.type) ? sliderEntry.lastSavedVal && (sliderEntry.lastSavedVal || '_') : '-'}
+                        {!['PAGE', 'LABEL'].includes(type) ? lastSavedVal && (lastSavedVal || '_') : '-'}
                       </TableCell>
                       <TableCell style={{ color: !driverNameInput && 'grey' }}>
-                        {driverNameInput || sliderEntry.driverNameInput || 'None'}
+                        {driverNameInput || driverNameInput || 'None'}
                       </TableCell>
                       <TableCell>
-                        {(sliderEntry.listenToCc && (sliderEntry.listenToCc.length > 0) && this.renderListeners(sliderEntry.listenToCc)) || '-'}
+                        {(listenToCc && (listenToCc.length > 0) && this.renderListeners(listenToCc)) || '-'}
                       </TableCell>
                       <TableCell>
-                        {sliderEntry.midiChannelInput}
+                        {midiChannelInput}
                       </TableCell>
                     </TableRow>
                   </Tooltip>
