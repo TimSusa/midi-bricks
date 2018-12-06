@@ -66,7 +66,7 @@ class ChannelStripList extends React.PureComponent {
     } else {
       return (
         <Typography
-          variant='display1'
+          variant='h4'
           className={classes.noMidiTypography}
         >
           <br />

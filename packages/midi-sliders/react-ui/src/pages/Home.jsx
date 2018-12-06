@@ -38,7 +38,7 @@ class Home extends React.PureComponent {
     if (isMidiFailed) {
       return (
         <Typography
-          variant='display1'
+          variant='h4'
           className={classes.noMidiTypography}
         >
           Cannot find any available MIDI-Drivers to connect for.
