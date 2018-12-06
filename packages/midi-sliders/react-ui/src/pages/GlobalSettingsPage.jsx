@@ -124,7 +124,7 @@ class GlobalSettingsPage extends React.PureComponent {
                   .forEach((name) => {
                     if (foundMischosenDriver) return
                     if (name === driverName) {
-                      if (!foundMischosenDriver && (chosenOutputs[name] && chosenOutputs[name].ccChannels.length <= 0) && (chosenOutputs[name] && chosenOutputs[name].noteChannels.length <= 0)) {
+                      if (!foundMischosenDriver && (chosenOutputs[name] && chosenOutputs[name].ccChannels && chosenOutputs[name].ccChannels.length <= 0) && (chosenOutputs[name] && chosenOutputs[name].noteChannels && chosenOutputs[name].noteChannels.length <= 0)) {
                         foundMischosenDriver = true
                         rowStyle.background = 'pink'
                         title = `Output Driver "${driverName}" is disabled in MIDI Driver Settings`
