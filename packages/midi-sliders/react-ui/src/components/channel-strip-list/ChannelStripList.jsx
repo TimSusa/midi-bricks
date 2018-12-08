@@ -102,24 +102,25 @@ class ChannelStripList extends React.PureComponent {
           >
             <SizeMe monitorHeight>
               {({ size }) => {
-                if (isLayoutMode) {
-                  return (
-                    <Card
-                      style={{
-                        height: '100%',
-                        cursor: 'pointer',
-                        background: isLayoutMode ? 'azure' : 'transparent',
-                      }}
-                    >
-                      <ChannelStrip
-                        size={size}
-                        sliderEntry={sliderEntry}
-                        idx={idx}
-                        isDisabled={isLayoutMode}
-                      />
-                    </Card>
-                  )
-                } else {
+                // if (isLayoutMode) {
+                //   return (
+                //     <Card
+                //       style={{
+                //         height: '100%',
+                //         cursor: 'pointer',
+                //         background: isLayoutMode ? 'azure' : 'transparent',
+                //       }}
+                //     >
+                //       <ChannelStrip
+                //         size={size}
+                //         sliderEntry={sliderEntry}
+                //         idx={idx}
+                //         isDisabled={isLayoutMode}
+                //       />
+                //     </Card>
+                //   )
+                // } else 
+                {
                   const settingsStyle = {
                     position: 'absolute',
                     right: -12,
@@ -131,7 +132,7 @@ class ChannelStripList extends React.PureComponent {
                       style={{
                         height: '100%',
                         borderRadius: 5,
-                        background: isSettingsMode ? 'beige' : 'transparent',
+                        background: isLayoutMode ? 'azure' : (isSettingsMode ? 'beige' : 'transparent'),
                       }}
                     >
                       <ChannelStrip
