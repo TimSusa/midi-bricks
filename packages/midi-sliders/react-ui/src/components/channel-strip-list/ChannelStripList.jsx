@@ -21,18 +21,23 @@ class ChannelStripList extends React.PureComponent {
   hasListener = false
   hasPages = false
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (this.hasListener) {
       document.body.removeEventListener('keypress', this.handleKeyPress)
       this.hasListener = false
     }
   }
 
-  render () {
+  render() {
     const {
       classes,
       sliderList,
-      viewSettings: { isLayoutMode = true, isCompactHorz = true, isAutoArrangeMode = true, isSettingsDialogMode = false }
+      viewSettings: {
+        isLayoutMode = true,
+        isCompactHorz = true,
+        isAutoArrangeMode = true,
+        isSettingsDialogMode = false,
+      },
     } = this.props
 
     // Protect dialog mode from global listeners
@@ -58,17 +63,14 @@ class ChannelStripList extends React.PureComponent {
           isResizable={isLayoutMode}
           compactType={isCompactHorz ? 'horizontal' : 'vertical'}
           layout={sliderList}
-          onLayoutChange={isLayoutMode ? this.onLayoutChange : () => { }}
+          onLayoutChange={isLayoutMode ? this.onLayoutChange : () => {}}
         >
           {this.renderChannelStrips()}
         </GridLayout>
       )
     } else {
       return (
-        <Typography
-          variant='h4'
-          className={classes.noMidiTypography}
-        >
+        <Typography variant="h4" className={classes.noMidiTypography}>
           <br />
           <br />
           Please add a slider!
@@ -81,63 +83,69 @@ class ChannelStripList extends React.PureComponent {
   }
 
   renderChannelStrips = () => {
-    const { sliderList, viewSettings: { isSettingsDialogMode, isSettingsMode, isLayoutMode, lastFocusedIdx } } = this.props
-    return sliderList && sliderList.map((sliderEntry, idx) => {
-      return (
-        <div
-          key={sliderEntry.i}
-          onFocus={e => console.log('focus on ', sliderEntry.i)}
-        >
-          <SizeMe
-            monitorHeight
+    const {
+      sliderList,
+      viewSettings: {
+        isSettingsDialogMode,
+        isSettingsMode,
+        isLayoutMode,
+        lastFocusedIdx,
+      },
+    } = this.props
+    return (
+      sliderList &&
+      sliderList.map((sliderEntry, idx) => {
+        return (
+          <div
+            key={sliderEntry.i}
+            onFocus={e => console.log('focus on ', sliderEntry.i)}
           >
-            {({ size }) => {
-              if (isLayoutMode) {
-                return (
-                  <Card
-                    style={{
-                      height: '100%',
-                      cursor: 'pointer',
-                      background: isLayoutMode ? 'azure' : 'transparent'
-                    }}
-                  >
-                    <ChannelStrip
-                      size={size}
-                      sliderEntry={sliderEntry}
-                      idx={idx}
-                      isDisabled={isLayoutMode}
-                    />
-                  </Card>
-                )
-              } else {
-                const settingsStyle = {
-                  position: 'absolute',
-                  right: -12,
-                  top: -16,
-                  cursor: 'pointer'
-                }
-                return (
-                  <div
-                    style={{
-                      height: '100%',
-                      borderRadius: 5,
-                      background: isSettingsMode ? 'beige' : 'transparent'
-                    }}
-                  >
-                    <ChannelStrip
-                      size={size}
-                      sliderEntry={sliderEntry}
-                      idx={idx}
-                      isDisabled={isLayoutMode}
-                    />
-                    {
-                      isSettingsMode ? (
-                        <span
-                          className='settings'
-                          style={settingsStyle}
-                        >
+            <SizeMe monitorHeight>
+              {({ size }) => {
+                if (isLayoutMode) {
+                  return (
+                    <Card
+                      style={{
+                        height: '100%',
+                        cursor: 'pointer',
+                        background: isLayoutMode ? 'azure' : 'transparent',
+                      }}
+                    >
+                      <ChannelStrip
+                        size={size}
+                        sliderEntry={sliderEntry}
+                        idx={idx}
+                        isDisabled={isLayoutMode}
+                      />
+                    </Card>
+                  )
+                } else {
+                  const settingsStyle = {
+                    position: 'absolute',
+                    right: -12,
+                    top: -16,
+                    cursor: 'pointer',
+                  }
+                  return (
+                    <div
+                      style={{
+                        height: '100%',
+                        borderRadius: 5,
+                        background: isSettingsMode ? 'beige' : 'transparent',
+                      }}
+                    >
+                      <ChannelStrip
+                        size={size}
+                        sliderEntry={sliderEntry}
+                        idx={idx}
+                        isDisabled={isLayoutMode}
+                      />
+                      {isSettingsMode ? (
+                        <span className="settings" style={settingsStyle}>
                           <MidiSettingsDialogButton
-                            toggleSettings={this.props.actions.toggleSettingsDialogMode}
+                            toggleSettings={
+                              this.props.actions.toggleSettingsDialogMode
+                            }
                             lastFocusedIdx={lastFocusedIdx}
                             isSettingsDialogMode={isSettingsDialogMode}
                             sliderEntry={sliderEntry}
@@ -146,59 +154,58 @@ class ChannelStripList extends React.PureComponent {
                         </span>
                       ) : (
                         <div />
-                      )
-                    }
-                  </div>
-                )
-              }
-            }
-            }
-          </SizeMe>
-        </div>
-      )
-    })
+                      )}
+                    </div>
+                  )
+                }
+              }}
+            </SizeMe>
+          </div>
+        )
+      })
+    )
   }
 
-  onLayoutChange = (layout) => {
+  onLayoutChange = layout => {
     if (this.props.viewSettings.isLayoutMode) {
       this.props.actions.changeListOrder({ listOrder: layout })
     }
   }
 
-  handleKeyPress = (e) => {
+  handleKeyPress = e => {
     console.log(e.keyCode)
     // m: midi driver settings
-    if ((e.keyCode === 109)) {
+    if (e.keyCode === 109) {
       e.preventDefault()
       this.props.actions.togglePage({ pageType: PAGE_TYPES.MIDI_DRIVER_MODE })
     }
 
     // g: global midi settings
-    if ((e.keyCode === 103)) {
+    if (e.keyCode === 103) {
       e.preventDefault()
       this.props.actions.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })
     }
 
     // z: go back
-    if ((e.keyCode === 122)) {
+    if (e.keyCode === 122) {
       e.preventDefault()
       this.props.actions.goBack()
     }
 
     // p: performance (live) mode
-    if ((e.keyCode === 112)) {
+    if (e.keyCode === 112) {
       e.preventDefault()
       this.props.actions.toggleLiveMode()
     }
 
     // l: layout mode
-    if ((e.keyCode === 108)) {
+    if (e.keyCode === 108) {
       e.preventDefault()
       this.props.actions.toggleLayoutMode()
     }
 
     // s: settings mode
-    if ((e.keyCode === 115)) {
+    if (e.keyCode === 115) {
       if (!this.props.viewSettings.isLayoutMode) {
         e.preventDefault()
         this.props.actions.toggleSettingsMode()
@@ -207,7 +214,7 @@ class ChannelStripList extends React.PureComponent {
     }
 
     // a: auto arrange mode
-    if ((e.keyCode === 97)) {
+    if (e.keyCode === 97) {
       if (this.props.viewSettings.isLayoutMode) {
         e.preventDefault()
         this.props.actions.toggleAutoArrangeMode()
@@ -215,19 +222,19 @@ class ChannelStripList extends React.PureComponent {
     }
 
     // d: duplicate last added element
-    if ((e.keyCode === 100)) {
+    if (e.keyCode === 100) {
       e.preventDefault()
       this.props.actions.clone()
     }
 
     // v: vertical / horizontal compact mode
-    if ((e.keyCode === 118)) {
+    if (e.keyCode === 118) {
       e.preventDefault()
       this.props.actions.toggleCompactMode()
     }
 
     // t: theme
-    if ((e.keyCode === 116)) {
+    if (e.keyCode === 116) {
       e.preventDefault()
       this.props.actions.changeTheme()
     }
@@ -236,23 +243,31 @@ class ChannelStripList extends React.PureComponent {
 
 const styles = theme => ({
   channelList: {
-    display: 'flex'
+    display: 'flex',
     // overflowX: 'scroll'
-  }
+  },
 })
 
-function mapStateToProps ({ sliders: { sliderList }, viewSettings }) {
+function mapStateToProps({ sliders: { sliderList }, viewSettings }) {
   return {
     sliderList,
-    viewSettings
+    viewSettings,
   }
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...MidiSliderActions, ...ViewSettingsActions }, dispatch),
-    initApp: bindActionCreators(initApp, dispatch)
+    actions: bindActionCreators(
+      { ...MidiSliderActions, ...ViewSettingsActions },
+      dispatch
+    ),
+    initApp: bindActionCreators(initApp, dispatch),
   }
 }
 
-export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(ChannelStripList)))
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ChannelStripList)
+)

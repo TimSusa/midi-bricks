@@ -7,27 +7,47 @@ import * as MidiSliderActions from '../../../../actions/slider-list.js'
 
 class MidiSlider extends React.PureComponent {
   static defaultProps = {
-    height: 0
+    height: 0,
   }
-  render () {
-    const { isDisabled, isSettingsMode, sliderEntry: { val, lastSavedVal, label, fontSize, fontWeight, isValueHidden, minVal, maxVal }, idx, height, width } = this.props
+  render() {
+    const {
+      isDisabled,
+      isSettingsMode,
+      sliderEntry: {
+        val,
+        lastSavedVal,
+        label,
+        fontSize,
+        fontWeight,
+        isValueHidden,
+        minVal,
+        maxVal,
+      },
+      idx,
+      height,
+      width,
+    } = this.props
     const { classes } = this.props
 
     const tmpLabelHeight = this.fontSizeToHeight(fontSize)
-    const tmpH = (height || 0) - (label ? tmpLabelHeight : 35) - (isValueHidden ? tmpLabelHeight : 0)
+    const tmpH =
+      (height || 0) -
+      (label ? tmpLabelHeight : 35) -
+      (isValueHidden ? tmpLabelHeight : 0)
     const tmpFontSize = (parseInt(fontSize, 10) || 16) + 'px'
     const tmpFontWeight = fontWeight || 500
     return (
-      <div style={{
-        height,
-        width
-      }}
+      <div
+        style={{
+          height,
+          width,
+        }}
       >
         <Typography
           className={classes.labelTop}
           style={{
             fontSize: tmpFontSize,
-            fontWeight: tmpFontWeight
+            fontWeight: tmpFontWeight,
           }}
         >
           {label}
@@ -36,18 +56,26 @@ class MidiSlider extends React.PureComponent {
           onContextMenu={this.preventCtxMenu}
           className={classes.rangeSliderWrapper}
           style={{
-            height: isValueHidden ? ((1.4 * tmpLabelHeight) + tmpH) : tmpH,
-            bottom: isValueHidden ? (-tmpLabelHeight / 2) : ((fontSize > 23) ? (fontSize / 4) : -10)
+            height: isValueHidden ? 1.4 * tmpLabelHeight + tmpH : tmpH,
+            bottom: isValueHidden
+              ? -tmpLabelHeight / 2
+              : fontSize > 23
+              ? fontSize / 4
+              : -10,
           }}
         >
           <input
             disabled={isDisabled}
             style={{
-              width: isValueHidden ? ((1.4 * tmpLabelHeight) + tmpH) : tmpH,
-              bottom: isValueHidden ? (-tmpLabelHeight / ((fontSize > 23) ? 3.6 : 1.7)) : ((fontSize > 23) ? (fontSize / 5) : -10)
+              width: isValueHidden ? 1.4 * tmpLabelHeight + tmpH : tmpH,
+              bottom: isValueHidden
+                ? -tmpLabelHeight / (fontSize > 23 ? 3.6 : 1.7)
+                : fontSize > 23
+                ? fontSize / 5
+                : -10,
             }}
             onChange={this.handleSliderChange.bind(this, idx)}
-            type='range'
+            type="range"
             max={(maxVal && parseInt(maxVal, 10)) || 127}
             min={(minVal && parseInt(minVal, 10)) || 0}
             step={1}
@@ -57,18 +85,27 @@ class MidiSlider extends React.PureComponent {
         </div>
         {!isValueHidden ? (
           <Typography
-            onClick={() => isSettingsMode ? this.props.actions.handleSliderChange({ idx, val: lastSavedVal || 0 }) : {}}
+            onClick={() =>
+              isSettingsMode
+                ? this.props.actions.handleSliderChange({
+                    idx,
+                    val: lastSavedVal || 0,
+                  })
+                : {}
+            }
             className={classes.caption}
             style={{
               fontSize: tmpFontSize,
               fontWeight: tmpFontWeight,
-              cursor: isSettingsMode ? 'pointer' : 'unset'
+              cursor: isSettingsMode ? 'pointer' : 'unset',
             }}
           >
             {`${val}`}
             {isSettingsMode && ` / ${lastSavedVal}`}
           </Typography>
-        ) : (<React.Fragment />)}
+        ) : (
+          <React.Fragment />
+        )}
       </div>
     )
   }
@@ -79,23 +116,23 @@ class MidiSlider extends React.PureComponent {
 
   // For touch-devices, we do not want
   // context menu being shown on touch events
-  preventCtxMenu = (e) => {
+  preventCtxMenu = e => {
     e.preventDefault()
     e.stopPropagation()
     return false
   }
 
-  fontSizeToHeight = (fontSize) => {
-    if (fontSize <= 8 && fontSize >= 0) return (fontSize * 5)
-    if (fontSize <= 10 && fontSize >= 8) return (fontSize * 4)
-    if (fontSize <= 13 && fontSize > 10) return (fontSize * 4)
-    if (fontSize <= 18 && fontSize > 13) return (fontSize * 3.2)
-    if (fontSize <= 23 && fontSize > 18) return (fontSize * 2.6)
-    if (fontSize <= 33 && fontSize > 23) return (fontSize * 2.9)
-    if (fontSize <= 45 && fontSize > 33) return (fontSize * 2.5)
-    if (fontSize <= 60 && fontSize > 45) return (fontSize * 2.2)
-    if (fontSize <= 63 && fontSize > 60) return (fontSize * 2)
-    if (fontSize <= 100 && fontSize > 63) return (fontSize * 1.8)
+  fontSizeToHeight = fontSize => {
+    if (fontSize <= 8 && fontSize >= 0) return fontSize * 5
+    if (fontSize <= 10 && fontSize >= 8) return fontSize * 4
+    if (fontSize <= 13 && fontSize > 10) return fontSize * 4
+    if (fontSize <= 18 && fontSize > 13) return fontSize * 3.2
+    if (fontSize <= 23 && fontSize > 18) return fontSize * 2.6
+    if (fontSize <= 33 && fontSize > 23) return fontSize * 2.9
+    if (fontSize <= 45 && fontSize > 33) return fontSize * 2.5
+    if (fontSize <= 60 && fontSize > 45) return fontSize * 2.2
+    if (fontSize <= 63 && fontSize > 60) return fontSize * 2
+    if (fontSize <= 100 && fontSize > 63) return fontSize * 1.8
   }
 }
 
@@ -109,10 +146,10 @@ const styles = theme => ({
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',
     fontWeight: 600,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
   },
   rangeSliderWrapper: {
-    appearance: 'none'
+    appearance: 'none',
   },
 
   input: {
@@ -135,8 +172,8 @@ const styles = theme => ({
 
         '&:active': {
           background: theme.palette.slider.trackActive,
-          boxShadow: '0 0 3px 3px rgb(24, 164, 157)'
-        }
+          boxShadow: '0 0 3px 3px rgb(24, 164, 157)',
+        },
       },
 
       '&::-webkit-slider-thumb': {
@@ -147,15 +184,14 @@ const styles = theme => ({
         background: 'goldenrod',
 
         '&:active': {
-          boxShadow: '0 0 3px 3px rgb(24, 164, 157)'
-        }
+          boxShadow: '0 0 3px 3px rgb(24, 164, 157)',
+        },
       },
 
       '&:focus': {
-        outline: 'none'
-      }
-    }
-
+        outline: 'none',
+      },
+    },
   },
 
   caption: {
@@ -167,20 +203,25 @@ const styles = theme => ({
     fontSize: '1rem',
     fontWeight: 600,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: 1
-  }
+    lineHeight: 1,
+  },
 })
 
-function mapStateToProps({viewSettings: {isSettingsMode} }) {
+function mapStateToProps({ viewSettings: { isSettingsMode } }) {
   return {
-    isSettingsMode
+    isSettingsMode,
   }
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(MidiSliderActions, dispatch)
+    actions: bindActionCreators(MidiSliderActions, dispatch),
   }
 }
 
-export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MidiSlider)))
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(MidiSlider)
+)

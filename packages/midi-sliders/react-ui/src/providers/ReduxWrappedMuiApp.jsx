@@ -1,9 +1,6 @@
 import * as React from 'react'
 import MuiWrappedApp from './MuiWrappedApp'
-import {
-  createStore,
-  applyMiddleware
-} from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import { Provider } from 'react-redux'
@@ -14,7 +11,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web and AsyncStorage for react-native
 
-const logger = (createLogger)()
+const logger = createLogger()
 
 let middleware = null
 if (process.env.NODE_ENV === 'development') {
@@ -26,7 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 
 const persistConfig = {
   key: 'root',
-  storage
+  storage,
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -35,13 +32,10 @@ export const store = createStore(persistedReducer, {}, middleware)
 let persistor = persistStore(store)
 
 class ReduxWrappedMuiApp extends React.PureComponent {
-  render () {
+  render() {
     return (
       <Provider store={store}>
-        <PersistGate
-          loading={<div>Loading...</div>}
-          persistor={persistor}
-        >
+        <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
           <MuiWrappedApp />
         </PersistGate>
       </Provider>

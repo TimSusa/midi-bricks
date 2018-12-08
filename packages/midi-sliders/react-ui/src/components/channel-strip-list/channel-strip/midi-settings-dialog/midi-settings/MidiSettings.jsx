@@ -22,7 +22,12 @@ import ColorModal from './elements/ColorModal'
 import MidiSuggestedInput from './elements/MidiSuggestedInput'
 
 import { STRIP_TYPE } from '../../../../../reducers/slider-list.js'
-import { Typography, ExpansionPanelDetails, ExpansionPanelSummary, ExpansionPanel } from '@material-ui/core'
+import {
+  Typography,
+  ExpansionPanelDetails,
+  ExpansionPanelSummary,
+  ExpansionPanel,
+} from '@material-ui/core'
 import { PAGE_TYPES } from '../../../../../reducers/view-settings.js'
 
 const {
@@ -31,11 +36,11 @@ const {
   BUTTON_TOGGLE,
   BUTTON_TOGGLE_CC,
   SLIDER,
-  SLIDER_HORZ
+  SLIDER_HORZ,
 } = STRIP_TYPE
 
 class MidiSettings extends React.PureComponent {
-  render () {
+  render() {
     const {
       inputs = {},
       outputs = {},
@@ -55,29 +60,22 @@ class MidiSettings extends React.PureComponent {
         midiChannelInput,
         listenToCc,
         fontSize,
-        fontWeight
+        fontWeight,
       },
       idx,
-      classes
+      classes,
     } = this.props
 
     return (
-      <div
-        className={classes.root}
-      >
-        <FormControl
-          className={classes.formControl}
-        >
-          <InputLabel
-            className={classes.label}
-            htmlFor='label'
-          >
+      <div className={classes.root}>
+        <FormControl className={classes.formControl}>
+          <InputLabel className={classes.label} htmlFor="label">
             Label
           </InputLabel>
           <Input
             className={classes.input}
-            id='label'
-            type='label'
+            id="label"
+            type="label"
             name={`input-label-name-${idx}`}
             value={label}
             onChange={this.handleLabelChange.bind(this, i, idx)}
@@ -85,343 +83,335 @@ class MidiSettings extends React.PureComponent {
           />
         </FormControl>
 
-        <ExpansionPanel
-          className={classes.expPanel}
-        >
-          <ExpansionPanelSummary
-            expandIcon={<ExpandMoreIcon />}
-          >
+        <ExpansionPanel className={classes.expPanel}>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography
               className={classes.heading}
-              color='secondary'
+              color="secondary"
               style={{ color: this.isAllEmpty(outputs) && 'lightgrey' }}
-              variant='body1'
+              variant="body1"
             >
               Output
             </Typography>
           </ExpansionPanelSummary>
-          <ExpansionPanelDetails
-            style={{ flexDirection: 'column' }}
-          >
-            {
-              this.isAllEmpty(outputs) ? (
-                <div>
-                  <Tooltip
-                    title='No MIDI Driver available. Go to settings...'
+          <ExpansionPanelDetails style={{ flexDirection: 'column' }}>
+            {this.isAllEmpty(outputs) ? (
+              <div>
+                <Tooltip title="No MIDI Driver available. Go to settings...">
+                  <Button
+                    onClick={() =>
+                      this.props.actions.togglePage({
+                        pageType: PAGE_TYPES.MIDI_DRIVER_MODE,
+                      })
+                    }
                   >
-                    <Button
-                      onClick={() => this.props.actions.togglePage({ pageType: PAGE_TYPES.MIDI_DRIVER_MODE })}
-                    >
-                      Go to Driver Settings
-                    </Button>
-                  </Tooltip>
-                </div>
-              ) : (
-                <React.Fragment>
-                  <InputNoteOrCc
-                    sliderEntry={sliderEntry}
-                    idx={idx}
-                  />
-                  <FormControl
-                    className={classes.formControl}
-                  >
-                    <InputLabel
-                      className={classes.label}
-                      htmlFor='midi-driver'>
-                        Driver
-                    </InputLabel>
-                    <Select
-                      className={classes.select}
-                      onChange={e => this.props.actions.selectMidiDriver({
+                    Go to Driver Settings
+                  </Button>
+                </Tooltip>
+              </div>
+            ) : (
+              <React.Fragment>
+                <InputNoteOrCc sliderEntry={sliderEntry} idx={idx} />
+                <FormControl className={classes.formControl}>
+                  <InputLabel className={classes.label} htmlFor="midi-driver">
+                    Driver
+                  </InputLabel>
+                  <Select
+                    className={classes.select}
+                    onChange={e =>
+                      this.props.actions.selectMidiDriver({
                         i,
-                        driverName: e.target.value
-                      })}
-                      value={driverName || 'None'}
-                    >
-                      {this.renderDriverSelection({ outputs })}
-                    </Select>
-                  </FormControl>
+                        driverName: e.target.value,
+                      })
+                    }
+                    value={driverName || 'None'}
+                  >
+                    {this.renderDriverSelection({ outputs })}
+                  </Select>
+                </FormControl>
 
-                  <FormControl className={classes.formControl}>
-                    <InputLabel
-                      className={classes.label}
-                      htmlFor='output-cc-input'
-                    >
-                        Channel
-                    </InputLabel>
-                    <Select
-                      className={classes.select}
-                      onChange={e => this.props.actions.selectMidiChannel({
+                <FormControl className={classes.formControl}>
+                  <InputLabel
+                    className={classes.label}
+                    htmlFor="output-cc-input"
+                  >
+                    Channel
+                  </InputLabel>
+                  <Select
+                    className={classes.select}
+                    onChange={e =>
+                      this.props.actions.selectMidiChannel({
                         idx,
-                        val: e.target.value
-                      })}
-                      value={midiChannel || 'None'}
-                    >
-                      {this.renderMidiChannelSelection({ outputs }, driverName, type)}
-                    </Select>
-                  </FormControl>
-                  {
-                    ([SLIDER, SLIDER_HORZ].includes(type)) &&
-                      (
-                        <React.Fragment>
-                          <FormControl className={classes.formControl}>
-                            <InputLabel className={classes.label} htmlFor='maxVal'>Maximum Value </InputLabel>
-                            <Input
-                              className={classes.input}
-                              id='number'
-                              type='number'
-                              name={`input-maxval-name-${idx}`}
-                              value={(maxVal && maxVal) || 127}
-                              onChange={e => this.props.actions.setMaxVal({ idx, val: e.target.value })} />
-                          </FormControl>
-                          <FormControl className={classes.formControl}>
-                            <InputLabel className={classes.label} htmlFor='minVal'>Minimum Value </InputLabel>
-                            <Input
-                              className={classes.input}
-                              id='number'
-                              type='number'
-                              name={`input-minval-name-${idx}`}
-                              value={(minVal && minVal) || 0}
-                              onChange={e => this.props.actions.setMinVal({ idx, val: e.target.value })} />
-                          </FormControl>
-                        </React.Fragment>
-                      )
-                  }
-                  {
-                    (
+                        val: e.target.value,
+                      })
+                    }
+                    value={midiChannel || 'None'}
+                  >
+                    {this.renderMidiChannelSelection(
+                      { outputs },
+                      driverName,
+                      type
+                    )}
+                  </Select>
+                </FormControl>
+                {[SLIDER, SLIDER_HORZ].includes(type) && (
+                  <React.Fragment>
+                    <FormControl className={classes.formControl}>
+                      <InputLabel className={classes.label} htmlFor="maxVal">
+                        Maximum Value{' '}
+                      </InputLabel>
+                      <Input
+                        className={classes.input}
+                        id="number"
+                        type="number"
+                        name={`input-maxval-name-${idx}`}
+                        value={(maxVal && maxVal) || 127}
+                        onChange={e =>
+                          this.props.actions.setMaxVal({
+                            idx,
+                            val: e.target.value,
+                          })
+                        }
+                      />
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                      <InputLabel className={classes.label} htmlFor="minVal">
+                        Minimum Value{' '}
+                      </InputLabel>
+                      <Input
+                        className={classes.input}
+                        id="number"
+                        type="number"
+                        name={`input-minval-name-${idx}`}
+                        value={(minVal && minVal) || 0}
+                        onChange={e =>
+                          this.props.actions.setMinVal({
+                            idx,
+                            val: e.target.value,
+                          })
+                        }
+                      />
+                    </FormControl>
+                  </React.Fragment>
+                )}
+                {
+                  <React.Fragment>
+                    {[
+                      BUTTON,
+                      BUTTON_CC,
+                      BUTTON_TOGGLE,
+                      BUTTON_TOGGLE_CC,
+                    ].includes(type) && (
                       <React.Fragment>
-                        {[
-                          BUTTON,
-                          BUTTON_CC,
-                          BUTTON_TOGGLE,
-                          BUTTON_TOGGLE_CC
-                        ].includes(type) &&
-                            (
-                              <React.Fragment>
-                                <FormControl className={classes.formControl}>
-                                  <InputLabel className={classes.label} htmlFor='onVal'> Value Button On</InputLabel>
-                                  <Input
-                                    className={classes.input}
-                                    id='number'
-                                    type='number'
-                                    name={`input-onval-name-${idx}`}
-                                    value={(onVal && onVal) || 127}
-                                    onChange={e => this.props.actions.setOnVal({ idx, val: e.target.value })}
-                                  />
-                                </FormControl>
-                                <FormControl className={classes.formControl}>
-                                  <InputLabel className={classes.label} htmlFor='offVal'>Value Button Off</InputLabel>
-                                  <Input
-                                    className={classes.input}
-                                    id='number'
-                                    type='number'
-                                    name={`input-offval-name-${idx}`}
-                                    value={(offVal && offVal) || 0}
-                                    onChange={e => this.props.actions.setOffVal({ idx, val: e.target.value })}
-                                  />
-                                </FormControl>
-                              </React.Fragment>
-                            )}
-
+                        <FormControl className={classes.formControl}>
+                          <InputLabel className={classes.label} htmlFor="onVal">
+                            {' '}
+                            Value Button On
+                          </InputLabel>
+                          <Input
+                            className={classes.input}
+                            id="number"
+                            type="number"
+                            name={`input-onval-name-${idx}`}
+                            value={(onVal && onVal) || 127}
+                            onChange={e =>
+                              this.props.actions.setOnVal({
+                                idx,
+                                val: e.target.value,
+                              })
+                            }
+                          />
+                        </FormControl>
+                        <FormControl className={classes.formControl}>
+                          <InputLabel
+                            className={classes.label}
+                            htmlFor="offVal"
+                          >
+                            Value Button Off
+                          </InputLabel>
+                          <Input
+                            className={classes.input}
+                            id="number"
+                            type="number"
+                            name={`input-offval-name-${idx}`}
+                            value={(offVal && offVal) || 0}
+                            onChange={e =>
+                              this.props.actions.setOffVal({
+                                idx,
+                                val: e.target.value,
+                              })
+                            }
+                          />
+                        </FormControl>
                       </React.Fragment>
-                    )
-                  }
-                </React.Fragment>
-              )
-
-            }
+                    )}
+                  </React.Fragment>
+                }
+              </React.Fragment>
+            )}
           </ExpansionPanelDetails>
         </ExpansionPanel>
-        <ExpansionPanel
-          className={classes.expPanel}
-        >
-          <ExpansionPanelSummary
-            expandIcon={<ExpandMoreIcon />}
-          >
+        <ExpansionPanel className={classes.expPanel}>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography
               className={classes.heading}
-              color='secondary'
+              color="secondary"
               style={{ color: this.isAllEmpty(inputs) && 'lightgrey' }}
-              variant='body1'
+              variant="body1"
             >
               Input
             </Typography>
           </ExpansionPanelSummary>
-          <ExpansionPanelDetails
-            style={{ flexDirection: 'column' }}
-          >
-
-            {
-              this.isAllEmpty(inputs) ? (
-                <div>
-                  <Tooltip
-                    title='No MIDI Driver available. Go to settings...'
+          <ExpansionPanelDetails style={{ flexDirection: 'column' }}>
+            {this.isAllEmpty(inputs) ? (
+              <div>
+                <Tooltip title="No MIDI Driver available. Go to settings...">
+                  <Button
+                    onClick={() =>
+                      this.props.actions.togglePage({
+                        pageType: PAGE_TYPES.MIDI_DRIVER_MODE,
+                      })
+                    }
                   >
-                    <Button
-                      onClick={() => this.props.actions.togglePage({ pageType: PAGE_TYPES.MIDI_DRIVER_MODE })}
-                    >
-                      Go to Driver Settings
-                    </Button>
-                  </Tooltip>
-                </div>
-              ) : (
-                <React.Fragment>
-                  <FormControl>
-                    <InputLabel
-                      className={classes.label}
-                      htmlFor='cc'
-                    >
-                        Listen to CC
-                    </InputLabel>
-                    <MidiSuggestedInput
-                      suggestions={this.suggestionsMidiCc}
-                      startVal={listenToCc || []}
-                      sliderEntry={sliderEntry}
-                      idx={idx}
-                      handleChange={this.handleAddCCListener}
-                    />
-                  </FormControl>
-                  <FormControl
-                    className={classes.formControl}
-                  >
-                    <InputLabel
-                      className={classes.label}
-                      htmlFor='midi-driver'
-                    >
-                        Driver
-                    </InputLabel>
-                    <Select
-                      className={classes.select}
-                      onChange={e => this.props.actions.selectMidiDriverInput({
+                    Go to Driver Settings
+                  </Button>
+                </Tooltip>
+              </div>
+            ) : (
+              <React.Fragment>
+                <FormControl>
+                  <InputLabel className={classes.label} htmlFor="cc">
+                    Listen to CC
+                  </InputLabel>
+                  <MidiSuggestedInput
+                    suggestions={this.suggestionsMidiCc}
+                    startVal={listenToCc || []}
+                    sliderEntry={sliderEntry}
+                    idx={idx}
+                    handleChange={this.handleAddCCListener}
+                  />
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel className={classes.label} htmlFor="midi-driver">
+                    Driver
+                  </InputLabel>
+                  <Select
+                    className={classes.select}
+                    onChange={e =>
+                      this.props.actions.selectMidiDriverInput({
                         i,
-                        driverNameInput: e.target.value
-                      })}
-                      value={driverNameInput}
-                    >
-                      {this.renderDriverSelection({ inputs })}
-                    </Select>
-                  </FormControl>
+                        driverNameInput: e.target.value,
+                      })
+                    }
+                    value={driverNameInput}
+                  >
+                    {this.renderDriverSelection({ inputs })}
+                  </Select>
+                </FormControl>
 
-                  <FormControl className={classes.formControl}>
-                    <InputLabel className={classes.label} htmlFor='input-ch-input'>Input Channel </InputLabel>
-                    <Select
-                      className={classes.select}
-                      onChange={e => this.props.actions.selectMidiChannelInput({
+                <FormControl className={classes.formControl}>
+                  <InputLabel
+                    className={classes.label}
+                    htmlFor="input-ch-input"
+                  >
+                    Input Channel{' '}
+                  </InputLabel>
+                  <Select
+                    className={classes.select}
+                    onChange={e =>
+                      this.props.actions.selectMidiChannelInput({
                         idx,
-                        val: e.target.value
-                      })}
-                      value={midiChannelInput || 'None'}
-                    >
-                      {this.renderMidiChannelSelection({ inputs }, driverNameInput, type)}
-                    </Select>
-                  </FormControl>
-                </React.Fragment>
-              )
-            }
-
+                        val: e.target.value,
+                      })
+                    }
+                    value={midiChannelInput || 'None'}
+                  >
+                    {this.renderMidiChannelSelection(
+                      { inputs },
+                      driverNameInput,
+                      type
+                    )}
+                  </Select>
+                </FormControl>
+              </React.Fragment>
+            )}
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
-        <ExpansionPanel
-          className={classes.expPanel}
-        >
-          <ExpansionPanelSummary
-            expandIcon={<ExpandMoreIcon />}
-          >
-            <Typography
-              className={classes.heading}
-              variant='body1'
-            >
+        <ExpansionPanel className={classes.expPanel}>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography className={classes.heading} variant="body1">
               View
             </Typography>
           </ExpansionPanelSummary>
-          <ExpansionPanelDetails
-            style={{ flexDirection: 'column' }}
-          >
-            {
-              ![SLIDER, SLIDER_HORZ].includes(type) && (
-                <FormControl>
+          <ExpansionPanelDetails style={{ flexDirection: 'column' }}>
+            {![SLIDER, SLIDER_HORZ].includes(type) && (
+              <FormControl>
+                {[BUTTON, BUTTON_CC, BUTTON_TOGGLE, BUTTON_TOGGLE_CC].includes(
+                  type
+                ) && (
+                  <React.Fragment>
+                    <InputLabel className={classes.label} htmlFor="button-type">
+                      Type
+                    </InputLabel>
+                    <Select
+                      className={classes.select}
+                      onChange={this.handleButtonTypeChange.bind(this, idx)}
+                      value={type}
+                    >
+                      {this.renderButtonTypeSelection()}
+                    </Select>
+                  </React.Fragment>
+                )}
 
-                  {[
-                    BUTTON,
-                    BUTTON_CC,
-                    BUTTON_TOGGLE,
-                    BUTTON_TOGGLE_CC
-                  ].includes(type) &&
-                    (
-                      <React.Fragment>
-                        <InputLabel
-                          className={classes.label}
-                          htmlFor='button-type'
-                        >
-                          Type
-                        </InputLabel>
-                        <Select
-                          className={classes.select}
-                          onChange={this.handleButtonTypeChange.bind(this, idx)}
-                          value={type}
-                        >
-                          {this.renderButtonTypeSelection()}
-                        </Select>
-                      </React.Fragment>
-                    )
-                  }
+                <ColorModal
+                  title="Background"
+                  sliderEntry={sliderEntry}
+                  idx={idx}
+                  fieldName="color"
+                  color={colors.color}
+                />
+                <ColorModal
+                  title="Activated State"
+                  sliderEntry={sliderEntry}
+                  idx={idx}
+                  fieldName="colorActive"
+                  color={colors.colorActive}
+                />
+                <ColorModal
+                  title="Font-Color"
+                  sliderEntry={sliderEntry}
+                  idx={idx}
+                  fieldName="colorFont"
+                  color={colors.colorFont}
+                />
 
-                  <ColorModal
-                    title='Background'
-                    sliderEntry={sliderEntry}
-                    idx={idx}
-                    fieldName='color'
-                    color={colors.color}
-                  />
-                  <ColorModal
-                    title='Activated State'
-                    sliderEntry={sliderEntry}
-                    idx={idx}
-                    fieldName='colorActive'
-                    color={colors.colorActive}
-                  />
-                  <ColorModal
-                    title='Font-Color'
-                    sliderEntry={sliderEntry}
-                    idx={idx}
-                    fieldName='colorFont'
-                    color={colors.colorFont}
-                  />
-
-                  <ColorModal
-                    title='Activated Font-Color'
-                    sliderEntry={sliderEntry}
-                    idx={idx}
-                    fieldName='colorFontActive'
-                    color={colors.colorFontActive}
-                  />
-                </FormControl>
-              )
-            }
+                <ColorModal
+                  title="Activated Font-Color"
+                  sliderEntry={sliderEntry}
+                  idx={idx}
+                  fieldName="colorFontActive"
+                  color={colors.colorFontActive}
+                />
+              </FormControl>
+            )}
 
             <FormControl>
-              <Typography
-                className={classes.label}
-                htmlFor='fontsize'
-              >
+              <Typography className={classes.label} htmlFor="fontsize">
                 {'Font Size:  ' + (fontSize || 16) + 'px'}
               </Typography>
               <input
-                type='range'
+                type="range"
                 min={8}
                 max={54}
                 value={fontSize || 16}
                 onChange={this.handleFontsizeChange.bind(this, i)}
               />
-              <Typography
-                className={classes.label}
-                htmlFor='fontWeight'
-              >
+              <Typography className={classes.label} htmlFor="fontWeight">
                 {'Font Weight:  ' + (fontWeight || 500)}
               </Typography>
               <input
-                type='range'
+                type="range"
                 min={100}
                 max={900}
                 step={100}
@@ -435,22 +425,25 @@ class MidiSettings extends React.PureComponent {
                   control={
                     <Checkbox
                       className={classes.iconColor}
-                      checked={sliderEntry.isValueHidden && sliderEntry.isValueHidden}
-                      onChange={this.props.actions.toggleHideValue.bind(this, { i: sliderEntry.i })}
+                      checked={
+                        sliderEntry.isValueHidden && sliderEntry.isValueHidden
+                      }
+                      onChange={this.props.actions.toggleHideValue.bind(this, {
+                        i: sliderEntry.i,
+                      })}
                     />
                   }
-                  label='Hide Value'
+                  label="Hide Value"
                 />
               </FormControl>
             )}
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
-        <Tooltip
-          title='Clone'>
+        <Tooltip title="Clone">
           <Button
             className={classes.button}
-            variant='contained'
+            variant="contained"
             onClick={this.props.actions.clone.bind(this, sliderEntry)}
           >
             <CopyIcon className={classes.iconColor} />
@@ -465,7 +458,6 @@ class MidiSettings extends React.PureComponent {
           onAction={this.handleDelete}
           onClose={this.props.onClose}
         />
-
       </div>
     )
   }
@@ -475,30 +467,28 @@ class MidiSettings extends React.PureComponent {
     this.props.actions.deletePageFromFooter({ idx })
   }
 
-  suggestionsMidiCc =
-    Array
-      .apply(null, { length: 128 })
-      .map(Number.call, Number)
-      .map((item) => {
-        return { label: `${item}` }
-      })
+  suggestionsMidiCc = Array.apply(null, { length: 128 })
+    .map(Number.call, Number)
+    .map(item => {
+      return { label: `${item}` }
+    })
 
   handleLabelChange = (i, idx, e) => {
     e.preventDefault()
     e.stopPropagation()
     this.props.actions.changeLabel({
       idx,
-      val: e.target.value
+      val: e.target.value,
     })
     if (this.props.sliderEntry.type === 'PAGE') {
       this.props.actions.changeFooterPageLabel({
         i,
-        val: e.target.value
+        val: e.target.value,
       })
     }
   }
 
-  handleAddCCListener = (e) => {
+  handleAddCCListener = e => {
     this.props.actions.addMidiCcListener(e)
     this.props.initApp()
   }
@@ -506,7 +496,7 @@ class MidiSettings extends React.PureComponent {
   handleButtonTypeChange = (idx, e) => {
     this.props.actions.changeButtonType({
       idx,
-      val: e.target.value
+      val: e.target.value,
     })
   }
 
@@ -519,9 +509,7 @@ class MidiSettings extends React.PureComponent {
     }
 
     if (!channels) {
-      return (
-        getItem('None', 0)
-      )
+      return getItem('None', 0)
     }
 
     // const array = ['all', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16']
@@ -542,16 +530,12 @@ class MidiSettings extends React.PureComponent {
 
     Object.keys(obj).forEach((name, idx) => {
       const { ccChannels, noteChannels } = obj[name]
-      const hasContent = (arr) => Array.isArray(arr) && (arr.length > 0)
+      const hasContent = arr => Array.isArray(arr) && arr.length > 0
       if (hasContent(ccChannels) || hasContent(noteChannels)) {
-        ret.push((
-          <MenuItem
-            key={`driver-${idx}`}
-            value={name}
-          >
+        ret.push(
+          <MenuItem key={`driver-${idx}`} value={name}>
             {name}
           </MenuItem>
-        )
         )
       }
     })
@@ -562,12 +546,12 @@ class MidiSettings extends React.PureComponent {
     return ret
   }
 
-  isAllEmpty = (obj) => {
+  isAllEmpty = obj => {
     let ret = true
 
     Object.keys(obj).forEach((name, idx) => {
       const { ccChannels, noteChannels } = obj[name]
-      const hasContent = (arr) => Array.isArray(arr) && (arr.length > 0)
+      const hasContent = arr => Array.isArray(arr) && arr.length > 0
       if (hasContent(ccChannels) || hasContent(noteChannels)) {
         ret = false
       }
@@ -580,45 +564,35 @@ class MidiSettings extends React.PureComponent {
     const { type } = this.props.sliderEntry
     const isCC = type.endsWith('_CC')
     if (isCC) {
-      return (
-        [BUTTON_CC, BUTTON_TOGGLE_CC].map((item, btnIdx) => {
-          return (
-            <MenuItem
-              key={`button-type-cc-${btnIdx}`}
-              value={item}
-            >
-              {item}
-            </MenuItem>
-          )
-        })
-      )
+      return [BUTTON_CC, BUTTON_TOGGLE_CC].map((item, btnIdx) => {
+        return (
+          <MenuItem key={`button-type-cc-${btnIdx}`} value={item}>
+            {item}
+          </MenuItem>
+        )
+      })
     } else {
-      return (
-        [BUTTON, BUTTON_TOGGLE].map((item, btnIdx) => {
-          return (
-            <MenuItem
-              key={`button-type-${btnIdx}`}
-              value={item}
-            >
-              {item}
-            </MenuItem>
-          )
-        })
-      )
+      return [BUTTON, BUTTON_TOGGLE].map((item, btnIdx) => {
+        return (
+          <MenuItem key={`button-type-${btnIdx}`} value={item}>
+            {item}
+          </MenuItem>
+        )
+      })
     }
   }
 
   handleFontsizeChange = (i, e) => {
     this.props.actions.changeFontSize({
       i,
-      fontSize: e.target.value
+      fontSize: e.target.value,
     })
   }
 
   handleFontweightChange = (i, e) => {
     this.props.actions.changeFontWeight({
       i,
-      fontWeight: e.target.value
+      fontWeight: e.target.value,
     })
   }
 }
@@ -626,68 +600,74 @@ class MidiSettings extends React.PureComponent {
 const styles = theme => ({
   root: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   expPanel: {
     margin: theme.spacing.unit,
-    minHeight: theme.spacing.unit * 8
+    minHeight: theme.spacing.unit * 8,
   },
   button: {
     margin: theme.spacing.unit,
-    background: theme.palette.button.background
+    background: theme.palette.button.background,
   },
   heading: {
     margin: theme.spacing.unit,
-    color: theme.palette.primary.contrastText
+    color: theme.palette.primary.contrastText,
   },
   iconColor: {
     color: theme.palette.primary.contrastText,
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   input: {
     color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
     fontSize: '1rem',
     fontWeight: 400,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em'
+    lineHeight: '1.375em',
   },
   inputInput: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
   },
   formControl: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
   },
   label: {
-    color: theme.palette.primary.contrastText
+    color: theme.palette.primary.contrastText,
   },
   select: {
     color: theme.palette.primary.contrastText,
-    lineHeight: '1.375em'
-  }
+    lineHeight: '1.375em',
+  },
 })
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...MidiSliderActions, ...ViewActions }, dispatch),
-    initApp: bindActionCreators(initApp, dispatch)
+    actions: bindActionCreators(
+      { ...MidiSliderActions, ...ViewActions },
+      dispatch
+    ),
+    initApp: bindActionCreators(initApp, dispatch),
   }
 }
-function mapStateToProps ({ viewSettings: { availableDrivers: { inputs = {}, outputs = {} } = {} }, sliders: { sliderList } }) {
+function mapStateToProps({
+  viewSettings: { availableDrivers: { inputs = {}, outputs = {} } = {} },
+  sliders: { sliderList },
+}) {
   return {
     sliderList,
     inputs,
-    outputs
+    outputs,
   }
 }
-export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MidiSettings)))
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(MidiSettings)
+)
 
 const getItem = (name, idx) => (
-  (
-    <MenuItem
-      key={`input-channel-${idx}`}
-      value={name}
-    >
-      {name}
-    </MenuItem>
-  )
+  <MenuItem key={`input-channel-${idx}`} value={name}>
+    {name}
+  </MenuItem>
 )

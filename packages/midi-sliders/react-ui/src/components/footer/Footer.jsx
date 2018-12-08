@@ -13,65 +13,74 @@ import { PAGE_TYPES } from '../../reducers/view-settings'
 
 class Footer extends React.Component {
   state = {
-    value: 0
+    value: 0,
   }
 
-  render () {
-    const { classes, viewSettings: { footerPages, isSettingsMode, isLiveMode, pageType }, actions } = this.props
+  render() {
+    const {
+      classes,
+      viewSettings: { footerPages, isSettingsMode, isLiveMode, pageType },
+      actions,
+    } = this.props
     const { value } = this.state
-    if ((pageType !== PAGE_TYPES.HOME_MODE) && (!isLiveMode)) return (<div />)
+    if (pageType !== PAGE_TYPES.HOME_MODE && !isLiveMode) return <div />
     return (
       <BottomNavigation
         value={value}
         onChange={this.handleChange}
         className={classes.root}
       >
-        {footerPages && footerPages.map((item, idx) => {
-          if (isSettingsMode) {
+        {footerPages &&
+          footerPages.map((item, idx) => {
+            if (isSettingsMode) {
+              return (
+                <div key={`footer-button-${idx}`}>
+                  <IconButton
+                    onClick={actions.swapFooterPages.bind(this, {
+                      srcIdx: idx,
+                      offset: -1,
+                    })}
+                    className={classes.signButton}
+                    color="inherit"
+                    aria-label="Menu"
+                  >
+                    <LeftIcon className={classes.iconColor} />
+                  </IconButton>
+
+                  <Button
+                    className={classes.button}
+                    onClick={this.handleClick.bind(this, item)}
+                    value={idx}
+                  >
+                    {item && item.label}
+                  </Button>
+
+                  <IconButton
+                    onClick={actions.swapFooterPages.bind(this, {
+                      srcIdx: idx,
+                      offset: 1,
+                    })}
+                    className={classes.signButton}
+                    color="inherit"
+                    aria-label="Menu"
+                  >
+                    <RightIcon className={classes.iconColor} />
+                  </IconButton>
+                </div>
+              )
+            }
             return (
-              <div
+              <Button
+                className={classes.button}
                 key={`footer-button-${idx}`}
+                onClick={this.handleClick.bind(this, item)}
+                value={idx}
               >
-                <IconButton
-                  onClick={actions.swapFooterPages.bind(this, { srcIdx: idx, offset: -1 })}
-                  className={classes.signButton}
-                  color='inherit'
-                  aria-label='Menu'
-                >
-                  <LeftIcon className={classes.iconColor} />
-                </IconButton>
-
-                <Button
-                  className={classes.button}
-                  onClick={this.handleClick.bind(this, item)}
-                  value={idx}
-                >
-                  {item && item.label}
-                </Button>
-
-                <IconButton
-                  onClick={actions.swapFooterPages.bind(this, { srcIdx: idx, offset: 1 })}
-                  className={classes.signButton}
-                  color='inherit'
-                  aria-label='Menu'
-                >
-                  <RightIcon className={classes.iconColor} />
-                </IconButton>
-              </div>
+                {item && item.label}
+              </Button>
             )
-          }
-          return (
-            <Button
-              className={classes.button}
-              key={`footer-button-${idx}`}
-              onClick={this.handleClick.bind(this, item)}
-              value={idx}
-            >
-              {item && item.label}
-            </Button>
-          )
-        })}
-        <Tooltip title='Toggle Live Mode'>
+          })}
+        <Tooltip title="Toggle Live Mode">
           <Button
             className={classes.liveButton}
             onClick={this.props.actions.toggleLiveMode}
@@ -80,7 +89,6 @@ class Footer extends React.Component {
           </Button>
         </Tooltip>
       </BottomNavigation>
-
     )
   }
 
@@ -95,9 +103,9 @@ class Footer extends React.Component {
 }
 
 Footer.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 }
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
     background: theme.palette.appBar.background,
     display: 'flex',
@@ -105,36 +113,41 @@ const styles = (theme) => ({
     // justifyContent: 'space-evenly',
     bottom: 0,
     width: '100%',
-    position: 'fixed'
+    position: 'fixed',
   },
   button: {
     color: theme.palette.primary.contrastText,
     fontWeight: 600,
-    height: 60
+    height: 60,
   },
   liveButton: {
     marginLeft: 'auto',
     color: theme.palette.primary.contrastText,
-    width: 8
+    width: 8,
   },
   signButton: {
-    width: 16
+    width: 16,
   },
   iconColor: {
     color: theme.palette.primary.contrastText,
-    cursor: 'pointer'
-  }
+    cursor: 'pointer',
+  },
 })
 
-function mapStateToProps ({ viewSettings }) {
+function mapStateToProps({ viewSettings }) {
   return {
-    viewSettings
+    viewSettings,
   }
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...ViewSettinsgsAction }, dispatch)
+    actions: bindActionCreators({ ...ViewSettinsgsAction }, dispatch),
   }
 }
-export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Footer)))
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Footer)
+)

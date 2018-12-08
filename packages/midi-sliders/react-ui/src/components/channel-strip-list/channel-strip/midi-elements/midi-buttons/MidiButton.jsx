@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
 class MidiButton extends React.PureComponent {
-  render () {
+  render() {
     const {
       classes,
       buttonStyle,
@@ -12,7 +12,7 @@ class MidiButton extends React.PureComponent {
       onChangeEnd = () => {},
       fontColorStyle,
       label,
-      idx
+      idx,
     } = this.props
     return (
       <Button
@@ -21,14 +21,22 @@ class MidiButton extends React.PureComponent {
         style={buttonStyle}
         onContextMenu={this.preventCtxMenu}
         classes={{ root: classes.button }}
-        variant='contained'
-        onMouseDown={!this.isTouchDevice() ? onChangeStart.bind(this, idx) : (e) => e.preventDefault()}
-        onMouseUp={!this.isTouchDevice() ? onChangeEnd.bind(this, idx) : (e) => e.preventDefault()}
+        variant="contained"
+        onMouseDown={
+          !this.isTouchDevice()
+            ? onChangeStart.bind(this, idx)
+            : e => e.preventDefault()
+        }
+        onMouseUp={
+          !this.isTouchDevice()
+            ? onChangeEnd.bind(this, idx)
+            : e => e.preventDefault()
+        }
         onTouchStart={onChangeStart.bind(this, idx)}
         onTouchEnd={onChangeEnd.bind(this, idx)}
       >
         <Typography
-          variant='body1'
+          variant="body1"
           style={fontColorStyle}
           className={classes.label}
         >
@@ -40,7 +48,7 @@ class MidiButton extends React.PureComponent {
 
   // For touch-devices, we do not want
   // context menu being shown on touch events
-  preventCtxMenu = (e) => {
+  preventCtxMenu = e => {
     e.preventDefault()
     e.stopPropagation()
     return false
@@ -48,8 +56,7 @@ class MidiButton extends React.PureComponent {
 
   isTouchDevice = () => {
     const hasToch =
-      'ontouchstart' in window || // works on most browsers
-      navigator.maxTouchPoints // works on IE10/11 and Surface
+      'ontouchstart' in window || navigator.maxTouchPoints // works on most browsers // works on IE10/11 and Surface
 
     return !!hasToch
   }
@@ -60,15 +67,14 @@ const styles = theme => ({
     width: '100%',
     margin: 0,
     padding: 0,
-    fontWeight: 600
+    fontWeight: 600,
   },
-  group: {
-  },
+  group: {},
   iconColor: {
     color: theme.palette.primary.contrastText,
     width: 18,
     margin: 0,
-    padding: 0
+    padding: 0,
   },
   button: {
     margin: 0,
@@ -76,8 +82,8 @@ const styles = theme => ({
     width: '100%',
     background: theme.palette.button.background,
     textTransform: 'none',
-    transition: 'unset'
-  }
+    transition: 'unset',
+  },
 })
 
-export default (withStyles(styles)(MidiButton))
+export default withStyles(styles)(MidiButton)

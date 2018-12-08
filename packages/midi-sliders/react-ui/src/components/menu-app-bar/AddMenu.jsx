@@ -13,47 +13,44 @@ import { STRIP_TYPE } from '../../reducers/slider-list'
 class AddMenu extends React.PureComponent {
   state = {
     auth: true,
-    anchorEl: null
+    anchorEl: null,
   }
 
-  render () {
+  render() {
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
-    const { viewSettings: { isLayoutMode } } = this.props
+    const {
+      viewSettings: { isLayoutMode },
+    } = this.props
     if (isLayoutMode) {
       return (
         <div>
-
           <IconButton
             aria-owns={open ? 'menu-appbar-add' : null}
-            aria-haspopup='true'
+            aria-haspopup="true"
             onClick={this.handleMenu}
-            color='inherit'
+            color="inherit"
           >
             <AddIcon />
           </IconButton>
           <Menu
-            id='menu-appbar-add'
+            id="menu-appbar-add"
             anchorEl={anchorEl}
             anchorOrigin={{
               vertical: 'top',
-              horizontal: 'right'
+              horizontal: 'right',
             }}
             transformOrigin={{
               vertical: 'top',
-              horizontal: 'right'
+              horizontal: 'right',
             }}
             open={open}
             onClose={this.handleClose}
           >
-            <MenuItem
-              onClick={this.handleAddSlider}
-            >
+            <MenuItem onClick={this.handleAddSlider}>
               Add Vertical Slider
             </MenuItem>
-            <MenuItem
-              onClick={this.handleAddSliderHorz}
-            >
+            <MenuItem onClick={this.handleAddSliderHorz}>
               Add Horizontal Slider
             </MenuItem>
             <MenuItem
@@ -67,25 +64,20 @@ class AddMenu extends React.PureComponent {
               Add Button CC
             </MenuItem>
             <MenuItem
-              onClick={this.handleAddButton.bind(this, STRIP_TYPE.BUTTON_PROGRAM_CHANGE)}
+              onClick={this.handleAddButton.bind(
+                this,
+                STRIP_TYPE.BUTTON_PROGRAM_CHANGE
+              )}
             >
               Add Button Program Change
             </MenuItem>
-            <MenuItem
-              onClick={this.handleAddLabel}
-            >
-              Add Label
-            </MenuItem>
-            <MenuItem
-              onClick={this.handleAddPage}
-            >
-              Add Page
-            </MenuItem>
+            <MenuItem onClick={this.handleAddLabel}>Add Label</MenuItem>
+            <MenuItem onClick={this.handleAddPage}>Add Page</MenuItem>
           </Menu>
         </div>
       )
     } else {
-      return (<div />)
+      return <div />
     }
   }
 
@@ -101,7 +93,7 @@ class AddMenu extends React.PureComponent {
     this.setState({ anchorEl: null })
   }
 
-  handleAddButton = (type) => {
+  handleAddButton = type => {
     this.props.actions.addButton({ type })
     this.handleClose()
   }
@@ -122,23 +114,33 @@ class AddMenu extends React.PureComponent {
 
   handleAddPage = () => {
     this.props.actions.addPage()
-    this.setState({ anchorEl: null }, () => this.props.actions.updateViewSettings({ sliderList: this.props.sliderList }))
+    this.setState({ anchorEl: null }, () =>
+      this.props.actions.updateViewSettings({
+        sliderList: this.props.sliderList,
+      })
+    )
   }
 }
 
 AddMenu.propTypes = {
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
 }
-function mapStateToProps ({ viewSettings, sliders: { sliderList } }) {
+function mapStateToProps({ viewSettings, sliders: { sliderList } }) {
   return {
     viewSettings,
-    sliderList
+    sliderList,
   }
 }
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...MidiSlidersAction, ...ViewSettinsgsAction }, dispatch)
+    actions: bindActionCreators(
+      { ...MidiSlidersAction, ...ViewSettinsgsAction },
+      dispatch
+    ),
   }
 }
 
-export default (connect(mapStateToProps, mapDispatchToProps)(AddMenu))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddMenu)

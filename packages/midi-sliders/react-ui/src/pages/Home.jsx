@@ -11,12 +11,12 @@ import MidiDriversSettingsPage from './MidiDriversSettingsPage'
 import { PAGE_TYPES } from '../reducers/view-settings'
 
 class Home extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     // track driver changes after browser reload
     this.props.initApp()
   }
-  render () {
+  render() {
     const {
       classes,
       isMidiFailed,
@@ -24,23 +24,23 @@ class Home extends React.PureComponent {
         isLayoutMode = true,
         isLiveMode = false,
         isSettingsMode = false,
-        pageType = PAGE_TYPES.HOME_MODE
-      } } = this.props
+        pageType = PAGE_TYPES.HOME_MODE,
+      },
+    } = this.props
 
-    const preventScrollStyle = isLiveMode ? {
-      height: 'calc(100vh - 66px)',
-      overflowY: 'hidden'
-    } : {
-      height: 'calc(100vh - 66px - 64px)',
-      overflowY: 'hidden'
-    }
+    const preventScrollStyle = isLiveMode
+      ? {
+          height: 'calc(100vh - 66px)',
+          overflowY: 'hidden',
+        }
+      : {
+          height: 'calc(100vh - 66px - 64px)',
+          overflowY: 'hidden',
+        }
 
     if (isMidiFailed) {
       return (
-        <Typography
-          variant='h4'
-          className={classes.noMidiTypography}
-        >
+        <Typography variant="h4" className={classes.noMidiTypography}>
           Cannot find any available MIDI-Drivers to connect for.
           <br />
           We suggest to create at first a virtual midi driver or
@@ -48,26 +48,26 @@ class Home extends React.PureComponent {
           plug in your favourite MIDI Device.
           <br />
           <br />
-          After that, please push the 'detect drivers' button to re-animate the app.
-          (You see no button? Just reload the browser page.)
+          After that, please push the 'detect drivers' button to re-animate the
+          app. (You see no button? Just reload the browser page.)
           <br />
           <br />
-          <img width='50%' alt='midi-sliders-screenshot' src='midi-sliders-screenshot.png' />
+          <img
+            width="50%"
+            alt="midi-sliders-screenshot"
+            src="midi-sliders-screenshot.png"
+          />
         </Typography>
       )
     } else if (pageType === PAGE_TYPES.GLOBAL_MODE) {
-      return (
-        <GlobalSettingsPage />
-      )
+      return <GlobalSettingsPage />
     } else if (pageType === PAGE_TYPES.MIDI_DRIVER_MODE) {
-      return (
-        <MidiDriversSettingsPage />
-      )
+      return <MidiDriversSettingsPage />
     } else if (pageType === PAGE_TYPES.HOME_MODE) {
       return (
         <div
           className={this.props.classes.root}
-          style={(isLayoutMode || isSettingsMode) ? {} : preventScrollStyle}
+          style={isLayoutMode || isSettingsMode ? {} : preventScrollStyle}
         >
           <ChannelStripList />
         </div>
@@ -80,27 +80,35 @@ const styles = theme => ({
   root: {
     textAlign: 'center',
     width: '100%',
-    overflowX: 'hidden'
+    overflowX: 'hidden',
   },
   heading: {
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing.unit * 2,
   },
   noMidiTypography: {
     textAlign: 'center',
-    paddingTop: theme.spacing.unit * 4
-  }
+    paddingTop: theme.spacing.unit * 4,
+  },
 })
 
-function mapStateToProps ({ viewSettings, sliders: { isMidiFailed } }) {
+function mapStateToProps({ viewSettings, sliders: { isMidiFailed } }) {
   return {
     viewSettings,
-    isMidiFailed
+    isMidiFailed,
   }
 }
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...MidiSliderActions, ...ViewStuff }, dispatch),
-    initApp: bindActionCreators(initApp, dispatch)
+    actions: bindActionCreators(
+      { ...MidiSliderActions, ...ViewStuff },
+      dispatch
+    ),
+    initApp: bindActionCreators(initApp, dispatch),
   }
 }
-export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Home)))
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Home)
+)

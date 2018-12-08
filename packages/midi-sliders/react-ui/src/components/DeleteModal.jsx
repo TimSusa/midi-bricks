@@ -13,54 +13,45 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 class DeleteModal extends React.PureComponent {
   state = {
-    open: false
+    open: false,
   }
 
-  render () {
+  render() {
     const { classes, sliderEntry, asButton, isOpen } = this.props
     return (
       <React.Fragment>
-        {
-          asButton && <Tooltip
-            title='Remove'
-          >
+        {asButton && (
+          <Tooltip title="Remove">
             <Button
               className={classes.button}
-              variant='contained'
+              variant="contained"
               onClick={this.handleClickOpen}
             >
-              <DeleteIcon
-                className={classes.iconColor}
-              />
+              <DeleteIcon className={classes.iconColor} />
             </Button>
           </Tooltip>
-        }
+        )}
 
         <Dialog
           open={this.state.open || isOpen}
           onClose={this.handleClose}
-          aria-labelledby='alert-dialog-title'
-          aria-describedby='alert-dialog-description'
-
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
         >
           <DialogContent>
-            <DialogContentText
-              color='secondary'
-              id='alert-dialog-description'
-            >
+            <DialogContentText color="secondary" id="alert-dialog-description">
               Do you really want to delete?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button
-              onClick={this.handleCloseCancel}
-              color='secondary'
-            >
+            <Button onClick={this.handleCloseCancel} color="secondary">
               No
             </Button>
             <Button
               onClick={this.handleClose.bind(this, sliderEntry)}
-              color='secondary' autoFocus>
+              color="secondary"
+              autoFocus
+            >
               Yes, Delete!
             </Button>
           </DialogActions>
@@ -73,7 +64,7 @@ class DeleteModal extends React.PureComponent {
     this.setState({ open: true })
   }
 
-  handleCloseCancel = (e) => {
+  handleCloseCancel = e => {
     this.setState({ open: false })
     e.preventDefault()
   }
@@ -90,38 +81,43 @@ const styles = theme => ({
   button: {
     margin: 8,
     width: '95%',
-    background: theme.palette.button.background
+    background: theme.palette.button.background,
   },
   iconColor: {
     color: theme.palette.primary.contrastText,
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   input: {
     color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
     fontSize: '1rem',
     fontWeight: 400,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em'
+    lineHeight: '1.375em',
   },
   inputInput: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
   },
   formControl: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
   },
   label: {
-    color: theme.palette.primary.contrastText
+    color: theme.palette.primary.contrastText,
   },
   select: {
     color: theme.palette.primary.contrastText,
-    lineHeight: '1.375em'
-  }
+    lineHeight: '1.375em',
+  },
 })
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(MidiSliderActions, dispatch)
+    actions: bindActionCreators(MidiSliderActions, dispatch),
   }
 }
 
-export default (withStyles(styles)(connect(null, mapDispatchToProps)(DeleteModal)))
+export default withStyles(styles)(
+  connect(
+    null,
+    mapDispatchToProps
+  )(DeleteModal)
+)

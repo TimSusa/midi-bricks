@@ -10,7 +10,7 @@ import {
   Typography,
   ExpansionPanel,
   ExpansionPanelSummary,
-  ExpansionPanelDetails
+  ExpansionPanelDetails,
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import * as React from 'react'
@@ -21,97 +21,100 @@ import * as ViewStuff from '../actions/view-settings.js'
 import { initApp } from '../actions/init.js'
 
 class MidiDriversSettingsPage extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.props.actions.toggleLiveMode({ isLiveMode: false })
     this.state = {
       isFirstPanelExpanded: true,
-      isScndPanelExpanded: true
+      isScndPanelExpanded: true,
     }
   }
-  render () {
+  render() {
     const {
       classes,
       midi: {
-        midiAccess: {
-          inputs,
-          outputs
-        } },
+        midiAccess: { inputs, outputs },
+      },
       viewSettings: {
-        availableDrivers: {
-          inputs: availableInputs,
-          outputs: avalableOutputs
-        }
-      }
+        availableDrivers: { inputs: availableInputs, outputs: avalableOutputs },
+      },
     } = this.props
     const { isFirstPanelExpanded, isScndPanelExpanded } = this.state
     return (
       <React.Fragment>
         <DriverExpansionPanel
-          label='Input MIDI Driver'
+          label="Input MIDI Driver"
           classes={classes}
           expanded={this.state.isFirstPanelExpanded}
-          onChange={e => this.setState({
-            isFirstPanelExpanded: !isFirstPanelExpanded
-          })}
-        >
-          {
-            inputs.map((input, idx) => {
-              const { ccChannels, noteChannels } = availableInputs[input.name] || { ccChannels: [], noteChannels: [] }
-              const isNotEmpty = (ccChannels && ccChannels.length > 0) || (noteChannels && noteChannels.length > 0)
-              return (
-                <DriverExpansionPanel
-                  key={`input-midi-${idx}`}
-                  label={input.name}
-                  classes={classes}
-                  isEmpty={!isNotEmpty}
-                >
-                  <MidiDriverTable
-                    labelPostfix='In'
-                    classes={classes}
-                    idx={idx}
-                    available={availableInputs}
-                    name={input.name}
-                    handleCheckboxClickNote={this.handleCheckboxClickNoteIn}
-                    handleCheckboxClickCc={this.handleCheckboxClickCcIn}
-                  />
-                </DriverExpansionPanel>
-              )
+          onChange={e =>
+            this.setState({
+              isFirstPanelExpanded: !isFirstPanelExpanded,
             })
           }
+        >
+          {inputs.map((input, idx) => {
+            const { ccChannels, noteChannels } = availableInputs[
+              input.name
+            ] || { ccChannels: [], noteChannels: [] }
+            const isNotEmpty =
+              (ccChannels && ccChannels.length > 0) ||
+              (noteChannels && noteChannels.length > 0)
+            return (
+              <DriverExpansionPanel
+                key={`input-midi-${idx}`}
+                label={input.name}
+                classes={classes}
+                isEmpty={!isNotEmpty}
+              >
+                <MidiDriverTable
+                  labelPostfix="In"
+                  classes={classes}
+                  idx={idx}
+                  available={availableInputs}
+                  name={input.name}
+                  handleCheckboxClickNote={this.handleCheckboxClickNoteIn}
+                  handleCheckboxClickCc={this.handleCheckboxClickCcIn}
+                />
+              </DriverExpansionPanel>
+            )
+          })}
         </DriverExpansionPanel>
         <DriverExpansionPanel
-          label='Output MIDI Driver'
+          label="Output MIDI Driver"
           classes={classes}
           expanded={this.state.isScndPanelExpanded}
-          onChange={e => this.setState({
-            isScndPanelExpanded: !isScndPanelExpanded
-          })}
-        >
-          {
-            outputs.map((output, idx) => {
-              const { ccChannels, noteChannels } = avalableOutputs[output.name] || { ccChannels: [], noteChannels: [] }
-              const isNotEmpty = (ccChannels && ccChannels.length > 0) || (noteChannels && noteChannels.length > 0)
-              return (
-                <DriverExpansionPanel
-                  key={`output-midi-${idx}`}
-                  label={output.name}
-                  classes={classes}
-                  isEmpty={!isNotEmpty}
-                >
-                  <MidiDriverTable
-                    labelPostfix='Out'
-                    classes={classes}
-                    idx={idx}
-                    available={avalableOutputs}
-                    name={output.name}
-                    handleCheckboxClickNote={this.handleCheckboxClickNoteOut}
-                    handleCheckboxClickCc={this.handleCheckboxClickCcOut}
-                  />
-                </DriverExpansionPanel>
-              )
+          onChange={e =>
+            this.setState({
+              isScndPanelExpanded: !isScndPanelExpanded,
             })
           }
+        >
+          {outputs.map((output, idx) => {
+            const { ccChannels, noteChannels } = avalableOutputs[
+              output.name
+            ] || { ccChannels: [], noteChannels: [] }
+            const isNotEmpty =
+              (ccChannels && ccChannels.length > 0) ||
+              (noteChannels && noteChannels.length > 0)
+            return (
+              <DriverExpansionPanel
+                key={`output-midi-${idx}`}
+                label={output.name}
+                classes={classes}
+                isEmpty={!isNotEmpty}
+              >
+                <MidiDriverTable
+                  labelPostfix="Out"
+                  classes={classes}
+                  idx={idx}
+                  available={avalableOutputs}
+                  name={output.name}
+                  handleCheckboxClickNote={this.handleCheckboxClickNoteOut}
+                  handleCheckboxClickCc={this.handleCheckboxClickCcOut}
+                />
+              </DriverExpansionPanel>
+            )
+          })}
         </DriverExpansionPanel>
       </React.Fragment>
     )
@@ -119,7 +122,7 @@ class MidiDriversSettingsPage extends React.PureComponent {
 
   handleChange = panel => (event, expanded) => {
     this.setState({
-      expanded: expanded ? panel : false
+      expanded: expanded ? panel : false,
     })
   }
   handleCheckboxClickNoteIn = (name, isChecked, e) => {
@@ -127,8 +130,8 @@ class MidiDriversSettingsPage extends React.PureComponent {
       input: {
         name,
         noteChannel: e.target.value,
-        isChecked: !isChecked
-      }
+        isChecked: !isChecked,
+      },
     })
   }
   handleCheckboxClickCcIn = (name, isChecked, e) => {
@@ -136,8 +139,8 @@ class MidiDriversSettingsPage extends React.PureComponent {
       input: {
         name,
         ccChannel: e.target.value,
-        isChecked: !isChecked
-      }
+        isChecked: !isChecked,
+      },
     })
   }
   handleCheckboxClickNoteOut = (name, isChecked, e) => {
@@ -145,8 +148,8 @@ class MidiDriversSettingsPage extends React.PureComponent {
       output: {
         name,
         noteChannel: e.target.value,
-        isChecked: !isChecked
-      }
+        isChecked: !isChecked,
+      },
     })
   }
   handleCheckboxClickCcOut = (name, isChecked, e) => {
@@ -154,8 +157,8 @@ class MidiDriversSettingsPage extends React.PureComponent {
       output: {
         name,
         ccChannel: e.target.value,
-        isChecked: !isChecked
-      }
+        isChecked: !isChecked,
+      },
     })
   }
 }
@@ -163,74 +166,84 @@ class MidiDriversSettingsPage extends React.PureComponent {
 const styles = theme => ({
   root: {
     margin: theme.spacing.unit * 2,
-    padding: 0
+    padding: 0,
   },
   heading: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
   },
   card: {
     margin: theme.spacing.unit * 2,
-    background: 'whitesmoke'
-
+    background: 'whitesmoke',
   },
   table: {
     textAlign: 'left',
-    background: '#fafafa'
+    background: '#fafafa',
     // width: '100%',
     // margin: '8px, 0, 8px, 0'
   },
   tableCell: {
-    background: theme.palette.primary
-
+    background: theme.palette.primary,
   },
   topLabel: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
   },
   label: {
-    marginLeft: theme.spacing.unit
-  }
+    marginLeft: theme.spacing.unit,
+  },
 })
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...MidiSliderActions, ...ViewStuff }, dispatch),
-    initApp: bindActionCreators(initApp, dispatch)
+    actions: bindActionCreators(
+      { ...MidiSliderActions, ...ViewStuff },
+      dispatch
+    ),
+    initApp: bindActionCreators(initApp, dispatch),
   }
 }
-function mapStateToProps ({ sliders: { sliderList, midi, sliderListBackup }, viewSettings }) {
+function mapStateToProps({
+  sliders: { sliderList, midi, sliderListBackup },
+  viewSettings,
+}) {
   return {
     sliderList,
     midi,
     viewSettings,
-    sliderListBackup
+    sliderListBackup,
   }
 }
-export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MidiDriversSettingsPage)))
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(MidiDriversSettingsPage)
+)
 
 export const MidiDriverTable = props => {
-  const { classes, labelPostfix, available, name, handleCheckboxClickNote, handleCheckboxClickCc } = props
+  const {
+    classes,
+    labelPostfix,
+    available,
+    name,
+    handleCheckboxClickNote,
+    handleCheckboxClickCc,
+  } = props
   return (
-    <Card
-      className={classes.card}
-    >
+    <Card className={classes.card}>
       <Typography
-        variant='body2'
-        color='secondary'
+        variant="body2"
+        color="secondary"
         className={classes.topLabel}
       >
         {`${name} (${labelPostfix})`}
       </Typography>
-      <Table
-        color='primary'
-        padding='none'
-        className={classes.table}
-      >
+      <Table color="primary" padding="none" className={classes.table}>
         <TableHead>
           <TableRow>
             <TableCell>
               <Typography
-                variant='caption'
-                color='secondary'
+                variant="caption"
+                color="secondary"
                 className={classes.label}
               >
                 {'   '}
@@ -239,93 +252,108 @@ export const MidiDriverTable = props => {
 
             <TableCell>
               <Typography
-                variant='caption'
-                color='secondary'
+                variant="caption"
+                color="secondary"
                 className={classes.label}
               >
                 {' All'}
               </Typography>
             </TableCell>
-            {
-              channelDummy.map((item, idx) => (
-                <TableCell
-                  key={`input-midi-head-${idx}`}
+            {channelDummy.map((item, idx) => (
+              <TableCell key={`input-midi-head-${idx}`}>
+                <Typography
+                  variant="caption"
+                  color="secondary"
+                  className={classes.label}
                 >
-
-                  <Typography
-                    variant='caption'
-                    color='secondary'
-                    className={classes.label}
-                  >
-                    Ch {idx + 1}
-                  </Typography>
-                </TableCell>)
-              )
-            }
+                  Ch {idx + 1}
+                </Typography>
+              </TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
           <TableRow>
             <TableCell>
               <Typography
-                variant='body2'
-                color='secondary'
+                variant="body2"
+                color="secondary"
                 className={classes.label}
               >
                 Note
               </Typography>
             </TableCell>
-            <TableCell
-            >
+            <TableCell>
               <Checkbox
                 value={'all'}
-                checked={available[name] && Array.isArray(available[name].noteChannels) && available[name].noteChannels.length === 16}
-                onClick={handleCheckboxClickNote.bind(this, name, available[name] && Array.isArray(available[name].noteChannels) && available[name].noteChannels.length === 16)}
+                checked={
+                  available[name] &&
+                  Array.isArray(available[name].noteChannels) &&
+                  available[name].noteChannels.length === 16
+                }
+                onClick={handleCheckboxClickNote.bind(
+                  this,
+                  name,
+                  available[name] &&
+                    Array.isArray(available[name].noteChannels) &&
+                    available[name].noteChannels.length === 16
+                )}
               />
             </TableCell>
-            {
-              channelDummy.map((item, idx) => (
-                <TableCell
-                  key={`input-midi-note-${idx}`}
-                >
-                  <Checkbox
-                    value={`${idx + 1}`}
-                    checked={isCheckedNote(available, name, `${idx + 1}`)}
-                    onClick={handleCheckboxClickNote.bind(this, name, isCheckedNote(available, name, `${idx + 1}`))}
-                  />
-                </TableCell>))
-            }
+            {channelDummy.map((item, idx) => (
+              <TableCell key={`input-midi-note-${idx}`}>
+                <Checkbox
+                  value={`${idx + 1}`}
+                  checked={isCheckedNote(available, name, `${idx + 1}`)}
+                  onClick={handleCheckboxClickNote.bind(
+                    this,
+                    name,
+                    isCheckedNote(available, name, `${idx + 1}`)
+                  )}
+                />
+              </TableCell>
+            ))}
           </TableRow>
           <TableRow>
             <TableCell>
               <Typography
-                variant='body2'
-                color='secondary'
+                variant="body2"
+                color="secondary"
                 className={classes.label}
               >
                 CC
               </Typography>
             </TableCell>
-            <TableCell
-            >
+            <TableCell>
               <Checkbox
                 value={'all'}
-                checked={available[name] && Array.isArray(available[name].ccChannels) && available[name].ccChannels.length === 16}
-                onClick={handleCheckboxClickCc.bind(this, name, available[name] && Array.isArray(available[name].ccChannels) && available[name].ccChannels.length === 16)}
+                checked={
+                  available[name] &&
+                  Array.isArray(available[name].ccChannels) &&
+                  available[name].ccChannels.length === 16
+                }
+                onClick={handleCheckboxClickCc.bind(
+                  this,
+                  name,
+                  available[name] &&
+                    Array.isArray(available[name].ccChannels) &&
+                    available[name].ccChannels.length === 16
+                )}
               />
             </TableCell>
-            {
-              channelDummy.map((item, idx) => (
-                <TableCell
-                  key={`input-midi-cc-${idx}`}
-                >
-                  <Checkbox
-                    value={`${idx + 1}`}
-                    checked={isCheckedCc(available, name, `${idx + 1}`)}
-                    onClick={handleCheckboxClickCc.bind(this, name, isCheckedCc(available, name, `${idx + 1}`))}
-                  />
-                </TableCell>))
-            }
+            {channelDummy.map((item, idx) => (
+              <TableCell key={`input-midi-cc-${idx}`}>
+                <Checkbox
+                  value={`${idx + 1}`}
+                  checked={isCheckedCc(available, name, `${idx + 1}`)}
+                  onClick={handleCheckboxClickCc.bind(
+                    this,
+                    name,
+                    isCheckedCc(available, name, `${idx + 1}`)
+                  )}
+                />
+              </TableCell>
+            ))}
           </TableRow>
         </TableBody>
       </Table>
@@ -346,7 +374,14 @@ const isCheckedCc = (availableDrivers, name, val) => {
 }
 const channelDummy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 
-const DriverExpansionPanel = ({ children, isEmpty = false, classes, expanded, onChange, label }) => {
+const DriverExpansionPanel = ({
+  children,
+  isEmpty = false,
+  classes,
+  expanded,
+  onChange,
+  label,
+}) => {
   return (
     <ExpansionPanel
       className={classes.root}
@@ -359,9 +394,9 @@ const DriverExpansionPanel = ({ children, isEmpty = false, classes, expanded, on
       >
         <Typography
           className={classes.heading}
-          color='secondary'
+          color="secondary"
           style={{ color: isEmpty && 'lightgrey' }}
-          variant='body1'
+          variant="body1"
         >
           {label}
         </Typography>
@@ -369,9 +404,7 @@ const DriverExpansionPanel = ({ children, isEmpty = false, classes, expanded, on
       <ExpansionPanelDetails
         style={{ flexDirection: 'column', padding: 0, margin: 0 }}
       >
-        {
-          children
-        }
+        {children}
       </ExpansionPanelDetails>
     </ExpansionPanel>
   )

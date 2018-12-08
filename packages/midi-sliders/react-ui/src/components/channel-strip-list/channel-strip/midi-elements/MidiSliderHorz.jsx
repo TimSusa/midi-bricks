@@ -7,21 +7,34 @@ import * as MidiSliderActions from '../../../../actions/slider-list.js'
 
 class MidiSliderHorz extends React.PureComponent {
   static defaultProps = {
-    height: 0
+    height: 0,
   }
-  render () {
-    const { isDisabled, sliderEntry: { val, label, fontSize, fontWeight, isValueHidden, maxVal, minVal }, idx, height, width } = this.props
+  render() {
+    const {
+      isDisabled,
+      sliderEntry: {
+        val,
+        label,
+        fontSize,
+        fontWeight,
+        isValueHidden,
+        maxVal,
+        minVal,
+      },
+      idx,
+      height,
+      width,
+    } = this.props
     const { classes } = this.props
     const tmpFontSize = (fontSize || 16) + 'px'
     const tmpFontWeight = fontWeight || 500
     return (
-      <div style={{ height, width }}
-      >
+      <div style={{ height, width }}>
         <Typography
           className={classes.labelTop}
           style={{
             fontSize: tmpFontSize,
-            fontWeight: tmpFontWeight
+            fontWeight: tmpFontWeight,
           }}
         >
           {label}
@@ -30,25 +43,26 @@ class MidiSliderHorz extends React.PureComponent {
           disabled={isDisabled}
           style={{ width }}
           onChange={this.handleSliderChange.bind(this, idx)}
-          type='range'
+          type="range"
           max={(maxVal && parseInt(maxVal, 10)) || 127}
           min={(minVal && parseInt(minVal, 10)) || 0}
           step={1}
           value={val}
           className={classes.input}
         />
-        {
-          !isValueHidden ? (
-            <Typography
-              className={classes.caption}
-              style={{
-                fontSize: tmpFontSize,
-                fontWeight: tmpFontWeight
-              }}
-            >{val}
-            </Typography>
-          ) : (<div />)
-        }
+        {!isValueHidden ? (
+          <Typography
+            className={classes.caption}
+            style={{
+              fontSize: tmpFontSize,
+              fontWeight: tmpFontWeight,
+            }}
+          >
+            {val}
+          </Typography>
+        ) : (
+          <div />
+        )}
       </div>
     )
   }
@@ -59,7 +73,7 @@ class MidiSliderHorz extends React.PureComponent {
 
   // For touch-devices, we do not want
   // context menu being shown on touch events
-  preventCtxMenu = (e) => {
+  preventCtxMenu = e => {
     e.preventDefault()
     e.stopPropagation()
     return false
@@ -77,7 +91,7 @@ const styles = theme => ({
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',
     fontWeight: 600,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     // lineHeight: '1.375em'
   },
   input: {
@@ -96,8 +110,8 @@ const styles = theme => ({
 
         '&:active': {
           background: theme.palette.slider.trackActive,
-          boxShadow: '0 0 3px 3px rgb(24, 164, 157)'
-        }
+          boxShadow: '0 0 3px 3px rgb(24, 164, 157)',
+        },
       },
 
       '&::-webkit-slider-thumb': {
@@ -108,15 +122,14 @@ const styles = theme => ({
         background: 'goldenrod',
 
         '&:active': {
-          boxShadow: '0 0 3px 3px rgb(24, 164, 157)'
-        }
+          boxShadow: '0 0 3px 3px rgb(24, 164, 157)',
+        },
       },
 
       '&:focus': {
-        outline: 'none'
-      }
-    }
-
+        outline: 'none',
+      },
+    },
   },
 
   caption: {
@@ -127,14 +140,19 @@ const styles = theme => ({
     color: theme.palette.primary.contrastText,
     fontSize: '1rem',
     fontWeight: 600,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
-  }
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+  },
 })
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(MidiSliderActions, dispatch)
+    actions: bindActionCreators(MidiSliderActions, dispatch),
   }
 }
 
-export default (withStyles(styles)(connect(null, mapDispatchToProps)(MidiSliderHorz)))
+export default withStyles(styles)(
+  connect(
+    null,
+    mapDispatchToProps
+  )(MidiSliderHorz)
+)

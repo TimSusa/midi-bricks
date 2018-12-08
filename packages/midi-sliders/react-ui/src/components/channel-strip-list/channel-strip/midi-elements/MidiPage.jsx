@@ -5,21 +5,13 @@ import { connect } from 'react-redux'
 import { STRIP_TYPE } from '../../../../reducers/slider-list.js'
 
 class MidiPage extends React.PureComponent {
-  render () {
+  render() {
     const {
-      sliderEntry: {
-        colors,
-        isNoteOn,
-        label,
-        type,
-        i,
-        fontSize,
-        fontWeight
-      },
+      sliderEntry: { colors, isNoteOn, label, type, i, fontSize, fontWeight },
       classes,
       height,
       width,
-      viewSettings
+      viewSettings,
     } = this.props
 
     // label basic font colors
@@ -36,9 +28,9 @@ class MidiPage extends React.PureComponent {
     const sColAct = colors && colors.colorActive && colors.colorActive
     const colorActivated = sColAct || '#FFFF00'
     const labelStyle = {
-      height: ((height || 0) - 0),
-      width: ((width || 0) - 0),
-      background: isNoteOn ? colorActivated : color
+      height: (height || 0) - 0,
+      width: (width || 0) - 0,
+      background: isNoteOn ? colorActivated : color,
     }
 
     // label active font colors
@@ -52,19 +44,15 @@ class MidiPage extends React.PureComponent {
     const fontColorStyle = {
       color: !isNoteOn ? colorFont : colorFontActive,
       fontSize: tmpFontSize,
-      fontWeight: tmpFontWeight
+      fontWeight: tmpFontWeight,
     }
 
     if (type === STRIP_TYPE.PAGE) {
       return (
-        <div
-          id={`page-${i}`}
-          style={labelStyle}
-          className={classes.labelWrap}
-        >
+        <div id={`page-${i}`} style={labelStyle} className={classes.labelWrap}>
           <Typography
-            variant='h5'
-            align='center'
+            variant="h5"
+            align="center"
             style={fontColorStyle}
             className={classes.label}
           >
@@ -73,7 +61,7 @@ class MidiPage extends React.PureComponent {
         </div>
       )
     } else {
-      return (<div />)
+      return <div />
     }
   }
 }
@@ -82,7 +70,7 @@ const styles = theme => ({
   labelWrap: {
     borderRadius: 3,
     height: '100%',
-    background: theme.palette.button.background
+    background: theme.palette.button.background,
   },
   label: {
     margin: 0,
@@ -91,14 +79,19 @@ const styles = theme => ({
     position: 'absolute',
     top: '50%',
     left: '50%',
-    transform: 'translate(-50%, -50%)'
-  }
+    transform: 'translate(-50%, -50%)',
+  },
 })
 
-function mapStateToProps ({ viewSettings }) {
+function mapStateToProps({ viewSettings }) {
   return {
-    viewSettings
+    viewSettings,
   }
 }
 
-export default (withStyles(styles)(connect(mapStateToProps, null)(MidiPage)))
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    null
+  )(MidiPage)
+)

@@ -12,10 +12,10 @@ import Chip from '@material-ui/core/Chip'
 class MidiSuggestedInput extends React.PureComponent {
   state = {
     inputValue: '',
-    selectedItem: this.props.startVal || []
-  };
+    selectedItem: this.props.startVal || [],
+  }
 
-  render () {
+  render() {
     const { classes, idx, suggestions } = this.props
     const { inputValue, selectedItem } = this.state
 
@@ -31,7 +31,7 @@ class MidiSuggestedInput extends React.PureComponent {
           isOpen = true,
           inputValue,
           selectedItem,
-          highlightedIndex
+          highlightedIndex,
         }) => (
           <div className={classes.container}>
             {this.renderInput({
@@ -49,19 +49,20 @@ class MidiSuggestedInput extends React.PureComponent {
                 )),
                 onChange: this.handleInputChange,
                 onKeyDown: this.handleKeyDown,
-                id: 'integration-downshift-multiple'
-              })
+                id: 'integration-downshift-multiple',
+              }),
             })}
             {isOpen ? (
               <Paper className={classes.paper} square>
-                {this.getSuggestions(suggestions, inputValue).map((suggestion, index) =>
-                  renderSuggestion({
-                    suggestion,
-                    index,
-                    itemProps: getItemProps({ item: suggestion.label }),
-                    highlightedIndex,
-                    selectedItem: selectedItem
-                  })
+                {this.getSuggestions(suggestions, inputValue).map(
+                  (suggestion, index) =>
+                    renderSuggestion({
+                      suggestion,
+                      index,
+                      itemProps: getItemProps({ item: suggestion.label }),
+                      highlightedIndex,
+                      selectedItem: selectedItem,
+                    })
                 )}
               </Paper>
             ) : null}
@@ -71,7 +72,7 @@ class MidiSuggestedInput extends React.PureComponent {
     )
   }
 
-  renderInput = (inputProps) => {
+  renderInput = inputProps => {
     const { InputProps, classes, ref, ...other } = inputProps
 
     return (
@@ -79,9 +80,9 @@ class MidiSuggestedInput extends React.PureComponent {
         InputProps={{
           inputRef: ref,
           classes: {
-            root: classes.inputRoot
+            root: classes.inputRoot,
           },
-          ...InputProps
+          ...InputProps,
         }}
         {...other}
       />
@@ -91,9 +92,13 @@ class MidiSuggestedInput extends React.PureComponent {
   handleKeyDown = event => {
     const { inputValue, selectedItem } = this.state
 
-    if (selectedItem.length && !inputValue.length && keycode(event) === 'backspace') {
+    if (
+      selectedItem.length &&
+      !inputValue.length &&
+      keycode(event) === 'backspace'
+    ) {
       this.setState({
-        selectedItem: selectedItem.slice(0, selectedItem.length - 1)
+        selectedItem: selectedItem.slice(0, selectedItem.length - 1),
       })
     }
   }
@@ -107,12 +112,13 @@ class MidiSuggestedInput extends React.PureComponent {
 
     if (selectedItem.indexOf(item) === -1) {
       selectedItem = [...selectedItem, item]
-      this.props.handleChange && this.props.handleChange({ idx, val: selectedItem })
+      this.props.handleChange &&
+        this.props.handleChange({ idx, val: selectedItem })
     }
 
     this.setState({
       inputValue: '',
-      selectedItem
+      selectedItem,
     })
   }
 
@@ -120,7 +126,8 @@ class MidiSuggestedInput extends React.PureComponent {
     this.setState(state => {
       const selectedItem = [...state.selectedItem]
       selectedItem.splice(selectedItem.indexOf(item), 1)
-      this.props.handleChange && this.props.handleChange({ idx, val: selectedItem })
+      this.props.handleChange &&
+        this.props.handleChange({ idx, val: selectedItem })
       return { selectedItem }
     })
   }
@@ -128,7 +135,7 @@ class MidiSuggestedInput extends React.PureComponent {
   getSuggestions = (suggestions, inputValue) => {
     return suggestions.filter(suggestion => {
       const keep =
-        (suggestion.label.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1)
+        suggestion.label.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1
 
       return keep
     })
@@ -136,17 +143,17 @@ class MidiSuggestedInput extends React.PureComponent {
 }
 
 MidiSuggestedInput.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 }
 
 const styles = theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   container: {
     flexGrow: 1,
     position: 'relative',
-    marginTop: theme.spacing.unit * 5
+    marginTop: theme.spacing.unit * 5,
   },
   paper: {
     position: 'absolute',
@@ -156,20 +163,26 @@ const styles = theme => ({
     left: 0,
     right: 0,
     maxHeight: 220,
-    overflowY: 'scroll'
+    overflowY: 'scroll',
   },
   chip: {
-    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`
+    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
   },
   inputRoot: {
     flexWrap: 'wrap',
     width: 200,
 
-    margin: theme.spacing.unit
-  }
+    margin: theme.spacing.unit,
+  },
 })
 
-function renderSuggestion ({ suggestion, index, itemProps, highlightedIndex, selectedItem }) {
+function renderSuggestion({
+  suggestion,
+  index,
+  itemProps,
+  highlightedIndex,
+  selectedItem,
+}) {
   const isHighlighted = highlightedIndex === index
   const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1
 
@@ -178,9 +191,9 @@ function renderSuggestion ({ suggestion, index, itemProps, highlightedIndex, sel
       {...itemProps}
       key={suggestion.label}
       selected={isHighlighted}
-      component='div'
+      component="div"
       style={{
-        fontWeight: isSelected ? 500 : 400
+        fontWeight: isSelected ? 500 : 400,
       }}
     >
       {suggestion.label}
@@ -192,7 +205,7 @@ renderSuggestion.propTypes = {
   index: PropTypes.number,
   itemProps: PropTypes.object,
   selectedItem: PropTypes.string,
-  suggestion: PropTypes.shape({ label: PropTypes.string }).isRequired
+  suggestion: PropTypes.shape({ label: PropTypes.string }).isRequired,
 }
 
-export default (withStyles(styles)(MidiSuggestedInput))
+export default withStyles(styles)(MidiSuggestedInput)

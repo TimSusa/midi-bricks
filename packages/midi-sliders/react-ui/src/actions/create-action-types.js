@@ -1,9 +1,9 @@
-export function createActionTypes (typeArray) {
+export function createActionTypes(typeArray) {
   let typeObject = {}
   typeArray.forEach(item => {
     typeObject = {
       ...typeObject,
-      [item]: item
+      [item]: item,
     }
   })
   return typeObject

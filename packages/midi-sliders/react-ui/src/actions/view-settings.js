@@ -15,12 +15,12 @@ const TypeViewSettings = [
   'DELETE_FOOTER_PAGES',
   'SWAP_FOOTER_PAGES',
   'CHANGE_FOOTER_PAGE_LABEL',
-  'SET_AVAILABLE_DRIVERS'
+  'SET_AVAILABLE_DRIVERS',
 ]
 
 const ActionTypeViewSettings = createActionTypes(TypeViewSettings)
 
 module.exports = {
   ...createActions(ActionTypeViewSettings),
-  ActionTypeViewSettings
+  ActionTypeViewSettings,
 }

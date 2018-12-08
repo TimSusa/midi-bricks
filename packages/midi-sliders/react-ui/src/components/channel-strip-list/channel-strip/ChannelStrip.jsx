@@ -9,20 +9,17 @@ import MidiSliderHorz from './midi-elements/MidiSliderHorz'
 
 // This component configures the kind of channel strip
 class ChannelStrip extends React.PureComponent {
-  render () {
+  render() {
     const { sliderEntry, idx, classes, size, isDisabled } = this.props
     const tmpH = (size && size.height) || 0
     const tmpW = (size && size.width) || 0
     const isButton =
-    (sliderEntry.type !== STRIP_TYPE.SLIDER) &&
-    (sliderEntry.type !== STRIP_TYPE.LABEL)
+      sliderEntry.type !== STRIP_TYPE.SLIDER &&
+      sliderEntry.type !== STRIP_TYPE.LABEL
 
     return (
-      <div
-        className={classes.root}
-      >
-        {
-          (sliderEntry.type === STRIP_TYPE.SLIDER) &&
+      <div className={classes.root}>
+        {sliderEntry.type === STRIP_TYPE.SLIDER && (
           <MidiSlider
             isDisabled={isDisabled}
             sliderEntry={sliderEntry}
@@ -30,9 +27,8 @@ class ChannelStrip extends React.PureComponent {
             height={tmpH}
             width={tmpW}
           />
-        }
-        {
-          (sliderEntry.type === STRIP_TYPE.SLIDER_HORZ) &&
+        )}
+        {sliderEntry.type === STRIP_TYPE.SLIDER_HORZ && (
           <MidiSliderHorz
             isDisabled={isDisabled}
             sliderEntry={sliderEntry}
@@ -40,52 +36,47 @@ class ChannelStrip extends React.PureComponent {
             height={tmpH}
             width={tmpW}
           />
-        }
-        {
-          (isButton) &&
+        )}
+        {isButton && (
           <MidiButtons
             sliderEntry={sliderEntry}
             idx={idx}
             height={tmpH}
             width={tmpW}
           />
-        }
-        {
-          (sliderEntry.type === STRIP_TYPE.LABEL) &&
+        )}
+        {sliderEntry.type === STRIP_TYPE.LABEL && (
           <StripLabel
             sliderEntry={sliderEntry}
             idx={idx}
             height={tmpH}
             width={tmpW}
           />
-        }
-        {
-          (sliderEntry.type === STRIP_TYPE.PAGE) &&
+        )}
+        {sliderEntry.type === STRIP_TYPE.PAGE && (
           <MidiPage
             sliderEntry={sliderEntry}
             idx={idx}
             height={tmpH}
             width={tmpW}
           />
-        }
+        )}
       </div>
     )
   }
 }
 
 const styles = theme => ({
-  root: {
-  },
+  root: {},
   iconColor: {
     color: theme.palette.primary.contrastText,
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
 
   label: {
     color: theme.palette.primary.contrastText,
-    textAlign: 'center'
-  }
-
+    textAlign: 'center',
+  },
 })
 
 export default withStyles(styles)(ChannelStrip)

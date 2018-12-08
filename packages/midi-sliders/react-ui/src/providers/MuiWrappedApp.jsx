@@ -1,4 +1,8 @@
-import { CssBaseline, MuiThemeProvider, createMuiTheme } from '@material-ui/core'
+import {
+  CssBaseline,
+  MuiThemeProvider,
+  createMuiTheme,
+} from '@material-ui/core'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { darkTheme } from '../themes/dark-theme'
@@ -6,7 +10,7 @@ import { lightTheme } from '../themes/light-theme'
 import App from '../App'
 
 class MuiWrappedApp extends React.PureComponent {
-  render () {
+  render() {
     const theme = createMuiTheme(
       this.props.isChangedTheme ? darkTheme : lightTheme
     )
@@ -19,10 +23,13 @@ class MuiWrappedApp extends React.PureComponent {
   }
 }
 
-function mapStateToProps ({ viewSettings: { isChangedTheme } }) {
+function mapStateToProps({ viewSettings: { isChangedTheme } }) {
   return {
-    isChangedTheme
+    isChangedTheme,
   }
 }
 
-export default (connect(mapStateToProps, null)(MuiWrappedApp))
+export default connect(
+  mapStateToProps,
+  null
+)(MuiWrappedApp)

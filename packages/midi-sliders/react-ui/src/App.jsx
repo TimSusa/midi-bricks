@@ -1,7 +1,4 @@
-import {
-  Drawer,
-  withStyles
-} from '@material-ui/core'
+import { Drawer, withStyles } from '@material-ui/core'
 import * as React from 'react'
 import { connect } from 'react-redux'
 
@@ -9,7 +6,7 @@ import Home from './pages/Home'
 import { bindActionCreators } from 'redux'
 import * as MidiSlidersAction from './actions/slider-list.js'
 import * as ViewActions from './actions/view-settings.js'
-import {initApp} from './actions/init'
+import { initApp } from './actions/init'
 
 import MenuAppBar from './components/menu-app-bar/MenuAppBar'
 import DrawerList from './components/drawer-list/DrawerList'
@@ -18,26 +15,24 @@ import { PAGE_TYPES } from './reducers/view-settings'
 
 class App extends React.PureComponent {
   state = {
-    isMobileOpen: false
+    isMobileOpen: false,
   }
 
-  render () {
+  render() {
     return (
       <div className={this.props.classes.root}>
         <div className={this.props.classes.appBar}>
-          <MenuAppBar
-            handleDrawerToggle={this.handleDrawerToggle}
-          />
+          <MenuAppBar handleDrawerToggle={this.handleDrawerToggle} />
           <Drawer
-            variant='temporary'
+            variant="temporary"
             anchor={'left'}
             open={this.state.isMobileOpen}
             classes={{
-              paper: this.props.classes.drawerPaper
+              paper: this.props.classes.drawerPaper,
             }}
             onClose={this.handleDrawerToggle}
             ModalProps={{
-              keepMounted: true // Better open performance on mobile.
+              keepMounted: true, // Better open performance on mobile.
             }}
           >
             <DrawerList
@@ -50,7 +45,7 @@ class App extends React.PureComponent {
           </Drawer>
           <Home />
 
-          {(!window.location.href.endsWith('global')) && (<Footer />)}
+          {!window.location.href.endsWith('global') && <Footer />}
         </div>
       </div>
     )
@@ -65,18 +60,39 @@ class App extends React.PureComponent {
     const content = files[0].target.result
     const parsedJson = JSON.parse(content)
 
-    const { viewSettings: { availableDrivers } } = parsedJson
-    const drivers = availableDrivers || { inputs: { 'None': { ccChannels: [], noteChannels: [] } }, outputs: { 'None': { ccChannels: [], noteChannels: [] } } }
+    const {
+      viewSettings: { availableDrivers },
+    } = parsedJson
+    const drivers = availableDrivers || {
+      inputs: { None: { ccChannels: [], noteChannels: [] } },
+      outputs: { None: { ccChannels: [], noteChannels: [] } },
+    }
 
     if (parsedJson.viewSettings && parsedJson.viewSettings.footerPages) {
-      this.setState(state =>
-        ({ isMobileOpen: !this.state.isMobileOpen }),
-      () => this.props.actions.updateViewSettings({ viewSettings: { ...parsedJson.viewSettings, availableDrivers: drivers }, sliderList: parsedJson.viewSettings.footerPages }))
+      this.setState(
+        state => ({ isMobileOpen: !this.state.isMobileOpen }),
+        () =>
+          this.props.actions.updateViewSettings({
+            viewSettings: {
+              ...parsedJson.viewSettings,
+              availableDrivers: drivers,
+            },
+            sliderList: parsedJson.viewSettings.footerPages,
+          })
+      )
     } else {
-      this.setState(state =>
-        ({ isMobileOpen: !this.state.isMobileOpen }),
-      () => parsedJson.sliders.sliderList &&
-          this.props.actions.updateViewSettings({ viewSettings: { ...parsedJson.viewSettings, availableDrivers: drivers }, sliderList: parsedJson.sliders.sliderList }))
+      this.setState(
+        state => ({ isMobileOpen: !this.state.isMobileOpen }),
+        () =>
+          parsedJson.sliders.sliderList &&
+          this.props.actions.updateViewSettings({
+            viewSettings: {
+              ...parsedJson.viewSettings,
+              availableDrivers: drivers,
+            },
+            sliderList: parsedJson.sliders.sliderList,
+          })
+      )
     }
     this.props.initApp()
     this.props.actions.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })
@@ -87,14 +103,17 @@ class App extends React.PureComponent {
     this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen }))
   }
 
-  togglePage = (pageType) => {
+  togglePage = pageType => {
     this.props.actions.togglePage(pageType)
   }
 
   handleResetSliders = () => {
     this.props.actions.deleteAll()
 
-    this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen }), () => this.props.actions.deleteFooterPages())
+    this.setState(
+      state => ({ isMobileOpen: !this.state.isMobileOpen }),
+      () => this.props.actions.deleteFooterPages()
+    )
   }
 
   handleDrawerToggle = () => {
@@ -106,41 +125,48 @@ const styles = theme => ({
   root: {
     width: '100%',
     height: '100%',
-    zIndex: 1
+    zIndex: 1,
   },
   appFrame: {
     position: 'relative',
     display: 'flex',
     width: '100%',
-    height: '100%'
+    height: '100%',
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     position: 'absolute',
     right: 0,
     left: 0,
-    margin: 0
+    margin: 0,
   },
-  navIconHide: {
-  },
+  navIconHide: {},
   drawerHeader: {
-    ...theme.mixins.toolbar
+    ...theme.mixins.toolbar,
   },
   drawerPaper: {
     width: 250,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   content: {
     backgroundColor: theme.palette.background.default,
     width: '100%',
-    marginTop: theme.spacing.unit
-  }
+    marginTop: theme.spacing.unit,
+  },
 })
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...MidiSlidersAction, ...ViewActions }, dispatch),
-    initApp: bindActionCreators(initApp, dispatch)
+    actions: bindActionCreators(
+      { ...MidiSlidersAction, ...ViewActions },
+      dispatch
+    ),
+    initApp: bindActionCreators(initApp, dispatch),
   }
 }
-export default withStyles(styles)(connect(null, mapDispatchToProps)(App))
+export default withStyles(styles)(
+  connect(
+    null,
+    mapDispatchToProps
+  )(App)
+)

@@ -21,96 +21,107 @@ import AddMenu from './AddMenu'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 
 class MenuAppBar extends React.Component {
-  render () {
-    const { classes, actions, presetName, viewSettings: { pageType, isLiveMode = false, isLayoutMode, isCompactHorz = true, isAutoArrangeMode = true } } = this.props
+  render() {
+    const {
+      classes,
+      actions,
+      presetName,
+      viewSettings: {
+        pageType,
+        isLiveMode = false,
+        isLayoutMode,
+        isCompactHorz = true,
+        isAutoArrangeMode = true,
+      },
+    } = this.props
     if (isLiveMode) {
-      return (
-        <div />
-      )
+      return <div />
     }
     return (
       <div className={classes.root}>
-        <AppBar
-          className={classes.appBar}
-          position='fixed'
-        >
+        <AppBar className={classes.appBar} position="fixed">
           <Toolbar>
             <IconButton
               onClick={this.props.handleDrawerToggle}
               className={classes.menuButton}
-              color='inherit'
-              aria-label='Menu'
+              color="inherit"
+              aria-label="Menu"
             >
               <MenuIcon />
             </IconButton>
-            <Typography
-              variant='h6'
-              color='inherit'
-              className={classes.flex}
-            >
+            <Typography variant="h6" color="inherit" className={classes.flex}>
               MIDI Bricks
             </Typography>
             <IconButton
               onClick={actions.toggleCompactMode}
               className={classes.menuButton}
-              color='inherit'
-              aria-label='Menu'
+              color="inherit"
+              aria-label="Menu"
             >
-              {
-                isLayoutMode ? (isCompactHorz ? <SwapHorizIcon /> : <SwapVertIcon />) : (<div />)
-              }
+              {isLayoutMode ? (
+                isCompactHorz ? (
+                  <SwapHorizIcon />
+                ) : (
+                  <SwapVertIcon />
+                )
+              ) : (
+                <div />
+              )}
             </IconButton>
 
             <IconButton
               onClick={actions.toggleAutoArrangeMode}
               className={classes.menuButton}
-              color='inherit'
-              aria-label='Menu'
+              color="inherit"
+              aria-label="Menu"
             >
-              {
-                isLayoutMode ? (isAutoArrangeMode ? <AutoArrangeModeIcon /> : <AutoArrangeModeIconFalse />) : (<div />)
-              }
+              {isLayoutMode ? (
+                isAutoArrangeMode ? (
+                  <AutoArrangeModeIcon />
+                ) : (
+                  <AutoArrangeModeIconFalse />
+                )
+              ) : (
+                <div />
+              )}
             </IconButton>
 
             <AddMenu />
-            {
-              ((pageType === PAGE_TYPES.GLOBAL_MODE)) &&
-              <Typography>
-                {presetName || ''}
-              </Typography>
-            }
-            {
-              ((pageType === PAGE_TYPES.GLOBAL_MODE)) &&
+            {pageType === PAGE_TYPES.GLOBAL_MODE && (
+              <Typography>{presetName || ''}</Typography>
+            )}
+            {pageType === PAGE_TYPES.GLOBAL_MODE && (
               <React.Fragment>
                 <Button
                   className={classes.resetButton}
-                  variant='contained'
+                  variant="contained"
                   onClick={actions.resetValues}
                 >
                   Restore Values
                 </Button>
                 <Button
                   className={classes.resetButton}
-                  variant='contained'
-                  onClick={actions.triggerAllMidiElements}>
+                  variant="contained"
+                  onClick={actions.triggerAllMidiElements}
+                >
                   TRIGGER ALL MIDI
                 </Button>
               </React.Fragment>
-            }
-            {
-              ([PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(pageType)) &&
+            )}
+            {[PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
+              pageType
+            ) && (
               <Button
                 className={classes.resetButton}
-                variant='contained'
+                variant="contained"
                 onClick={() => this.props.initApp()}
               >
                 Detect Driver Changes
               </Button>
-            }
-            {
-              !([PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(pageType)) &&
-              <ViewMenu />
-            }
+            )}
+            {![PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
+              pageType
+            ) && <ViewMenu />}
           </Toolbar>
         </AppBar>
         <div style={{ height: 64 }} />
@@ -120,41 +131,49 @@ class MenuAppBar extends React.Component {
 }
 
 MenuAppBar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 }
 
 const styles = theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   appBar: {
     background: theme.palette.appBar.background,
-    fontWeight: 600
+    fontWeight: 600,
   },
   flex: {
-    flex: 1
+    flex: 1,
   },
   menuButton: {
     marginLeft: -12,
-    marginRight: 20
+    marginRight: 20,
   },
   resetButton: {
-    marginLeft: 16
-  }
+    marginLeft: 16,
+  },
 })
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...MidiSlidersAction, ...ViewSettingsAction }, dispatch),
-    initApp: bindActionCreators(initApp, dispatch)
+    actions: bindActionCreators(
+      { ...MidiSlidersAction, ...ViewSettingsAction },
+      dispatch
+    ),
+    initApp: bindActionCreators(initApp, dispatch),
   }
 }
 
-function mapStateToProps ({ sliders: { presetName }, viewSettings }) {
+function mapStateToProps({ sliders: { presetName }, viewSettings }) {
   return {
     presetName,
-    viewSettings
+    viewSettings,
   }
 }
 
-export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MenuAppBar)))
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(MenuAppBar)
+)

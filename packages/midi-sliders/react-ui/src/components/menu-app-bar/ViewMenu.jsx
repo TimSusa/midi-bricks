@@ -16,10 +16,10 @@ import { Typography } from '@material-ui/core'
 class ViewMenu extends React.PureComponent {
   state = {
     auth: true,
-    anchorEl: null
+    anchorEl: null,
   }
 
-  render () {
+  render() {
     const { anchorEl } = this.state
     const {
       viewSettings: {
@@ -28,125 +28,83 @@ class ViewMenu extends React.PureComponent {
         isChangedTheme = false,
         isSettingsMode = false,
         isCompactHorz = true,
-        isLiveMode = false
-      }
+        isLiveMode = false,
+      },
     } = this.props
     const isOpen = Boolean(anchorEl)
     return (
       <div>
         <IconButton
           aria-owns={isOpen ? 'menu-appbar' : null}
-          aria-haspopup='true'
+          aria-haspopup="true"
           onClick={this.handleMenu}
-          color='inherit'
+          color="inherit"
         >
           <ViewSettingsIcon />
         </IconButton>
         <Menu
-          id='menu-appbar'
+          id="menu-appbar"
           anchorEl={anchorEl}
           anchorOrigin={{
             vertical: 'top',
-            horizontal: 'right'
+            horizontal: 'right',
           }}
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'right'
+            horizontal: 'right',
           }}
           open={isOpen}
           onClose={this.handleClose}
         >
-
-          <MenuItem
-            onClick={this.toggleLayoutMode}>
+          <MenuItem onClick={this.toggleLayoutMode}>
             <ListItemIcon>
-              {isLayoutMode ? (
-                <OnIcon />
-              ) : (
-                <OffIcon />
-              )}
+              {isLayoutMode ? <OnIcon /> : <OffIcon />}
             </ListItemIcon>
 
-            <Typography variant='subtitle1'>
-              Layout Mode - shift + l
-            </Typography>
+            <Typography variant="subtitle1">Layout Mode - shift + l</Typography>
           </MenuItem>
-          {
-            !isLayoutMode &&
-            <MenuItem
-              onClick={this.toggleSettingsMode}
-            >
+          {!isLayoutMode && (
+            <MenuItem onClick={this.toggleSettingsMode}>
               <ListItemIcon>
-                {isSettingsMode ? (
-                  <OnIcon />
-                ) : (
-                  <OffIcon />
-                )}
+                {isSettingsMode ? <OnIcon /> : <OffIcon />}
               </ListItemIcon>
-              <Typography variant='subtitle1'>
+              <Typography variant="subtitle1">
                 Settings Mode - shift + s
               </Typography>
             </MenuItem>
-          }
+          )}
 
-          <MenuItem
-            onClick={this.toggleCompactMode}
-          >
+          <MenuItem onClick={this.toggleCompactMode}>
             <ListItemIcon>
-              {!isCompactHorz ? (
-                <OnIcon />
-              ) : (
-                <OffIcon />
-              )}
+              {!isCompactHorz ? <OnIcon /> : <OffIcon />}
             </ListItemIcon>
-            <Typography variant='subtitle1'>
+            <Typography variant="subtitle1">
               Compact Vertically - shift + v
             </Typography>
           </MenuItem>
 
-          {
-            isLayoutMode &&
-            <MenuItem
-              onClick={this.handleChangeAutoArrangeMode}
-            >
+          {isLayoutMode && (
+            <MenuItem onClick={this.handleChangeAutoArrangeMode}>
               <ListItemIcon>
-                {isAutoArrangeMode ? (
-                  <OnIcon />
-                ) : (
-                  <OffIcon />
-                )}
+                {isAutoArrangeMode ? <OnIcon /> : <OffIcon />}
               </ListItemIcon>
-              <Typography variant='subtitle1'>
+              <Typography variant="subtitle1">
                 Auto Arrange Mode - shift + a
               </Typography>
             </MenuItem>
-          }
-          <MenuItem
-            onClick={this.handleChangeTheme}>
+          )}
+          <MenuItem onClick={this.handleChangeTheme}>
             <ListItemIcon>
-              {isChangedTheme ? (
-                <OnIcon />
-              ) : (
-                <OffIcon />
-              )}
+              {isChangedTheme ? <OnIcon /> : <OffIcon />}
             </ListItemIcon>
-            <Typography variant='subtitle1'>
+            <Typography variant="subtitle1">
               Switch Theme - shift + t
             </Typography>
           </MenuItem>
-          <MenuItem
-            onClick={this.toggleLiveMode}>
-            <ListItemIcon>
-              {isLiveMode ? (
-                <OnIcon />
-              ) : (
-                <OffIcon />
-              )}
-            </ListItemIcon>
+          <MenuItem onClick={this.toggleLiveMode}>
+            <ListItemIcon>{isLiveMode ? <OnIcon /> : <OffIcon />}</ListItemIcon>
 
-            <Typography variant='subtitle1'>
-              Live Mode - shift + p
-            </Typography>
+            <Typography variant="subtitle1">Live Mode - shift + p</Typography>
           </MenuItem>
         </Menu>
       </div>
@@ -197,19 +155,25 @@ class ViewMenu extends React.PureComponent {
 }
 
 ViewMenu.propTypes = {
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
 }
 
-function mapStateToProps ({ viewSettings }) {
+function mapStateToProps({ viewSettings }) {
   return {
-    viewSettings
+    viewSettings,
   }
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...MidiSlidersAction, ...ViewSettingsAction }, dispatch)
+    actions: bindActionCreators(
+      { ...MidiSlidersAction, ...ViewSettingsAction },
+      dispatch
+    ),
   }
 }
 
-export default (connect(mapStateToProps, mapDispatchToProps)(ViewMenu))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ViewMenu)

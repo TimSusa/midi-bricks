@@ -1,6 +1,6 @@
 export const darkTheme = {
   typography: {
-    useNextVariants: true
+    useNextVariants: true,
   },
   overrides: {
     // MuiTooltip: {
@@ -25,46 +25,46 @@ export const darkTheme = {
         '&:hover': {
           backgroundColor: '#ffffff',
           '@media (hover: none)': {
-            backgroundColor: '#ffffff'
-          }
-        }
-      }
+            backgroundColor: '#ffffff',
+          },
+        },
+      },
     },
     MuiTableCell: {
       root: {
-        padding: '4px 8px 4px 24px'
-      }
-    }
+        padding: '4px 8px 4px 24px',
+      },
+    },
   },
   palette: {
     background: {
-      default: '#252526'
+      default: '#252526',
     },
     secondary: {
       light: '#ffffff',
       main: '#00000f',
       dark: '#aeaeae',
-      contrastText: '#ffffff'
+      contrastText: '#ffffff',
     },
     primary: {
       light: '#cfcfcf',
       main: '#9e9e9e', // '#8bc34a',
       dark: '#707070',
-      contrastText: '#18A49D'
+      contrastText: '#18A49D',
     },
     appBar: {
-      background: '#333333'
+      background: '#333333',
     },
     slider: {
       trackActive: '#18A49D',
       trackNonactive: '#07554F',
       border: '#737373',
       thump: '#000000',
-      thumpBorder: '#4C4C4C'
+      thumpBorder: '#4C4C4C',
     },
     button: {
       background: '#ffffff',
-      fontColor: 'black'
-    }
-  }
+      fontColor: 'black',
+    },
+  },
 }

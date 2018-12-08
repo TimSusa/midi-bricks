@@ -8,9 +8,6 @@ ReactDOM.render(<ReduxWrappedMuiApp />, rootEl)
 if (module.hot) {
   module.hot.accept('./providers/ReduxWrappedMuiApp', () => {
     const NextApp = require('./providers/ReduxWrappedMuiApp').default
-    ReactDOM.render(
-      <NextApp />,
-      rootEl
-    )
+    ReactDOM.render(<NextApp />, rootEl)
   })
 }

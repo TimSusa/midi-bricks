@@ -12,25 +12,28 @@ import { midi } from 'tonal'
 import { Input } from '@material-ui/core'
 
 class InputNoteOrCc extends React.PureComponent {
-  render () {
-    const { sliderEntry, idx, classes, actions: { selectCc } } = this.props
+  render() {
+    const {
+      sliderEntry,
+      idx,
+      classes,
+      actions: { selectCc },
+    } = this.props
     const isCcInput = [
       STRIP_TYPE.SLIDER,
       STRIP_TYPE.SLIDER_HORZ,
       STRIP_TYPE.BUTTON_CC,
-      STRIP_TYPE.BUTTON_TOGGLE_CC
+      STRIP_TYPE.BUTTON_TOGGLE_CC,
     ].includes(sliderEntry.type)
 
     if ([STRIP_TYPE.LABEL, STRIP_TYPE.PAGE].includes(sliderEntry.type)) {
-      return (<div />)
+      return <div />
     }
     if (isCcInput) {
       return (
         <FormControl className={classes.formControl}>
-          <InputLabel
-            className={classes.label}
-            htmlFor='cc'
-          >CC
+          <InputLabel className={classes.label} htmlFor="cc">
+            CC
           </InputLabel>
           <MidiSuggestedInput
             suggestions={this.suggestionsMidiCc}
@@ -44,11 +47,13 @@ class InputNoteOrCc extends React.PureComponent {
     } else if (sliderEntry.type === STRIP_TYPE.BUTTON_PROGRAM_CHANGE) {
       return (
         <FormControl className={classes.formControl}>
-          <InputLabel className={classes.label} htmlFor='prgChange'>Program Change</InputLabel>
+          <InputLabel className={classes.label} htmlFor="prgChange">
+            Program Change
+          </InputLabel>
           <Input
             className={classes.input}
-            id='number'
-            type='number'
+            id="number"
+            type="number"
             name={`input-prgChange-name-${idx}`}
             value={sliderEntry.midiCC[0] || 0}
             onChange={this.handleProgramChange.bind(this, idx)}
@@ -58,15 +63,12 @@ class InputNoteOrCc extends React.PureComponent {
     } else {
       return (
         <FormControl className={classes.formControl}>
-          <InputLabel
-            className={classes.label}
-            htmlFor='note'
-          >
+          <InputLabel className={classes.label} htmlFor="note">
             Notes
           </InputLabel>
           <MidiSuggestedInput
             suggestions={this.suggestionsMidiNote}
-            startVal={sliderEntry.midiCC.map((item) => fromMidi(midi(item)))}
+            startVal={sliderEntry.midiCC.map(item => fromMidi(midi(item)))}
             sliderEntry={sliderEntry}
             idx={idx}
             handleChange={selectCc}
@@ -76,45 +78,54 @@ class InputNoteOrCc extends React.PureComponent {
     }
   }
 
-  suggestionsMidiNote = Array.apply(null, { length: 128 }).map(Number.call, Number).map((item) => {
-    return {
-      label: fromMidi(item, true)
-    }
-  })
+  suggestionsMidiNote = Array.apply(null, { length: 128 })
+    .map(Number.call, Number)
+    .map(item => {
+      return {
+        label: fromMidi(item, true),
+      }
+    })
 
-  suggestionsMidiCc = Array.apply(null, { length: 120 }).map(Number.call, Number).map((item) => {
-    return { label: `${item}` }
-  })
+  suggestionsMidiCc = Array.apply(null, { length: 120 })
+    .map(Number.call, Number)
+    .map(item => {
+      return { label: `${item}` }
+    })
 
   handleProgramChange = (idx, e) => {
     this.props.actions.selectCc({
       idx,
-      val: [parseInt(e.target.value, 10)]
+      val: [parseInt(e.target.value, 10)],
     })
   }
 }
 
 const styles = theme => ({
   formControl: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
   },
   label: {
     color: theme.palette.primary.contrastText,
-    marginBottom: theme.spacing.unit * 2
+    marginBottom: theme.spacing.unit * 2,
   },
   input: {
     color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
     fontSize: '1rem',
     fontWeight: 400,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em'
-  }
+    lineHeight: '1.375em',
+  },
 })
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(MidiSliderActions, dispatch)
+    actions: bindActionCreators(MidiSliderActions, dispatch),
   }
 }
 
-export default (withStyles(styles)(connect(null, mapDispatchToProps)(InputNoteOrCc)))
+export default withStyles(styles)(
+  connect(
+    null,
+    mapDispatchToProps
+  )(InputNoteOrCc)
+)

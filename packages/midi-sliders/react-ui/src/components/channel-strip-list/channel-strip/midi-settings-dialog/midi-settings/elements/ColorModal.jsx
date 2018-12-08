@@ -19,34 +19,30 @@ const DEF_VAL = {
     a: 0.76,
     b: 51,
     g: 51,
-    r: 0.51
-  }
+    r: 0.51,
+  },
 }
 
 class ColorModal extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       open: false,
-      color: {...this.convertRgba(this.props.color)} || DEF_VAL
+      color: { ...this.convertRgba(this.props.color) } || DEF_VAL,
     }
   }
 
-  render () {
+  render() {
     const { classes, sliderEntry, title = '' } = this.props
     return (
       <div>
-
-        <Tooltip title={'Change Color: ' + title} >
+        <Tooltip title={'Change Color: ' + title}>
           <Button
             className={classes.button}
-            variant='contained'
+            variant="contained"
             onClick={this.handleClickOpen}
           >
-            <Typography
-              variant='caption'
-              className={classes.label}
-            >
+            <Typography variant="caption" className={classes.label}>
               {title}
             </Typography>
           </Button>
@@ -55,14 +51,14 @@ class ColorModal extends React.PureComponent {
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
-          aria-labelledby='alert-dialog-title'
-          aria-describedby='alert-dialog-description'
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
         >
           <DialogContent>
             <DialogContentText
               className={classes.iconColor}
-              id='alert-dialog-description'
-              color='secondary'
+              id="alert-dialog-description"
+              color="secondary"
             >
               Please, choose your color.
             </DialogContentText>
@@ -75,7 +71,7 @@ class ColorModal extends React.PureComponent {
             <Button
               className={classes.iconColor}
               onClick={this.handleClose.bind(this, sliderEntry)}
-              color='primary'
+              color="primary"
               autoFocus
             >
               OK
@@ -96,7 +92,7 @@ class ColorModal extends React.PureComponent {
     const rgba = `rgba(${c.rgb.r}, ${c.rgb.g}, ${c.rgb.b}, ${c.rgb.a})`
     this.props.actions.changeColors({
       i,
-      [this.props.fieldName]: rgba
+      [this.props.fieldName]: rgba,
     })
   }, 50)
 
@@ -104,7 +100,7 @@ class ColorModal extends React.PureComponent {
     this.setState({ open: true })
   }
 
-  handleCloseCancel = (e) => {
+  handleCloseCancel = e => {
     this.setState({ open: false })
     e.preventDefault()
   }
@@ -117,11 +113,8 @@ class ColorModal extends React.PureComponent {
   // Since the color picker is using an object as
   // rgba input, we have to parste the rgba(1,1,1,1) string
   // to that silly format
-  convertRgba = (rgba) => {
-    const convStrToArray =
-      rgba => rgba
-        .substr(5, (rgba.length - 6))
-        .split(', ')
+  convertRgba = rgba => {
+    const convStrToArray = rgba => rgba.substr(5, rgba.length - 6).split(', ')
 
     const convert = rgba => {
       const array = convStrToArray(rgba)
@@ -130,8 +123,8 @@ class ColorModal extends React.PureComponent {
           a: parseFloat(array[3]),
           b: parseInt(array[2], 10),
           g: parseInt(array[1], 10),
-          r: parseInt(array[0], 10)
-        }
+          r: parseInt(array[0], 10),
+        },
       }
     }
     let tmpVal = typeof rgba === 'string' ? convert(rgba) : DEF_VAL
@@ -143,11 +136,11 @@ const styles = theme => ({
   button: {
     margin: '8px 0 8px 0',
     width: '100%',
-    background: theme.palette.button.background
+    background: theme.palette.button.background,
   },
   iconColor: {
     color: theme.palette.primary.contrastText,
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   input: {
     // margin: theme.spacing.unit,
@@ -155,27 +148,32 @@ const styles = theme => ({
     fontSize: '1rem',
     fontWeight: 400,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em'
+    lineHeight: '1.375em',
   },
   inputInput: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
   },
   formControl: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
   },
   label: {
-    color: theme.palette.primary.contrastText
+    color: theme.palette.primary.contrastText,
   },
   select: {
     color: theme.palette.primary.contrastText,
-    lineHeight: '1.375em'
-  }
+    lineHeight: '1.375em',
+  },
 })
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(MidiSliderActions, dispatch)
+    actions: bindActionCreators(MidiSliderActions, dispatch),
   }
 }
 
-export default (withStyles(styles)(connect(null, mapDispatchToProps)(ColorModal)))
+export default withStyles(styles)(
+  connect(
+    null,
+    mapDispatchToProps
+  )(ColorModal)
+)
