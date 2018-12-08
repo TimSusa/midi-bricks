@@ -55,25 +55,18 @@ class MidiSlider extends React.PureComponent {
         <div
           onContextMenu={this.preventCtxMenu}
           className={classes.rangeSliderWrapper}
-          style={{
-            height: isValueHidden ? 1.4 * tmpLabelHeight + tmpH : tmpH,
-            bottom: isValueHidden
-              ? -tmpLabelHeight / 2
-              : fontSize > 23
-              ? fontSize / 4
-              : -10,
-          }}
+          // style={{
+          //   height: isValueHidden ? 1.4 * tmpLabelHeight + tmpH : tmpH,
+          //   bottom: isValueHidden
+          //     ? -tmpLabelHeight / 2
+          //     : fontSize > 23
+          //     ? fontSize / 4
+          //     : -10,
+          // }}
         >
           <input
             disabled={isDisabled}
-            style={{
-              width: isValueHidden ? 1.4 * tmpLabelHeight + tmpH : tmpH,
-              bottom: isValueHidden
-                ? -tmpLabelHeight / (fontSize > 23 ? 3.6 : 1.7)
-                : fontSize > 23
-                ? fontSize / 5
-                : -10,
-            }}
+            style={getSliderStyle(isValueHidden, tmpLabelHeight, tmpH, fontSize)}
             onChange={this.handleSliderChange.bind(this, idx)}
             type="range"
             max={(maxVal && parseInt(maxVal, 10)) || 127}
@@ -100,7 +93,7 @@ class MidiSlider extends React.PureComponent {
               cursor: isSettingsMode ? 'pointer' : 'unset',
             }}
           >
-            {`${val}`}
+            {val}
             {isSettingsMode && ` / ${lastSavedVal}`}
           </Typography>
         ) : (
@@ -225,3 +218,14 @@ export default withStyles(styles)(
     mapDispatchToProps
   )(MidiSlider)
 )
+
+function getSliderStyle (isValueHidden, tmpLabelHeight, tmpH, fontSize) {
+  return {
+    width: isValueHidden ? 1.4 * tmpLabelHeight + tmpH : tmpH,
+    bottom: isValueHidden
+      ? -tmpLabelHeight / (fontSize > 23 ? 3.6 : 1.7)
+      : fontSize > 23
+      ? fontSize / 5
+      : -10,
+  }
+}
