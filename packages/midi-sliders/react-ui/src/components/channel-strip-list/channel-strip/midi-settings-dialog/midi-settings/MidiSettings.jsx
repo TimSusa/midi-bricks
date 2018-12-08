@@ -463,7 +463,7 @@ class MidiSettings extends React.PureComponent {
   }
 
   handleDelete = ({ idx }) => {
-    this.props.actions.delete({ idx })
+    this.props.actions.delete({ i: idx })
     this.props.actions.deletePageFromFooter({ idx })
   }
 
