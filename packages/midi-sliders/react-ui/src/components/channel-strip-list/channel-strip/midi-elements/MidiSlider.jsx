@@ -11,6 +11,7 @@ class MidiSlider extends React.PureComponent {
   }
   render() {
     const {
+      classes,
       isDisabled,
       isSettingsMode,
       sliderEntry: {
@@ -27,7 +28,6 @@ class MidiSlider extends React.PureComponent {
       height,
       width,
     } = this.props
-    const { classes } = this.props
 
     const tmpLabelHeight = this.fontSizeToHeight(fontSize)
     const tmpH =
