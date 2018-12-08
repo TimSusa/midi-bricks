@@ -114,6 +114,7 @@ const styles = (theme) => ({
   },
   liveButton: {
     marginLeft: 'auto',
+    color: theme.palette.primary.contrastText,
     width: 8
   },
   signButton: {

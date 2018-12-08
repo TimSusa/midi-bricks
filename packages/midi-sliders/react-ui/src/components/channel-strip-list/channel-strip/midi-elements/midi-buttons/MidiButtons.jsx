@@ -11,28 +11,20 @@ const {
   BUTTON_CC,
   BUTTON_TOGGLE,
   BUTTON_TOGGLE_CC,
-  BUTTON_PROGRAM_CHANGE
+  BUTTON_PROGRAM_CHANGE,
 } = STRIP_TYPE
 
 const noop = () => ({})
 
 // This component is supposed to configure the button type for rendering
 class MidiButtons extends React.PureComponent {
-  render () {
+  render() {
     const {
-      sliderEntry:
-      {
-        type,
-        isNoteOn,
-        label,
-        colors,
-        fontSize,
-        fontWeight
-      },
+      sliderEntry: { type, isNoteOn, label, colors, fontSize, fontWeight },
       idx,
       height,
       width,
-      viewSettings: { isChangedTheme, isLayoutMode }
+      viewSettings: { isChangedTheme, isLayoutMode },
     } = this.props
 
     // button basic font colors
@@ -49,9 +41,9 @@ class MidiButtons extends React.PureComponent {
     const sColAct = colors && colors.colorActive && colors.colorActive
     const colorActivated = sColAct || '#FFFF00'
     const buttonStyle = {
-      height: ((height || 0) - 0),
-      width: ((width || 0) - 0),
-      background: isNoteOn ? colorActivated : color
+      height: (height || 0) - 0,
+      width: (width || 0) - 0,
+      background: isNoteOn ? colorActivated : color,
     }
 
     // button active font colors
@@ -65,7 +57,7 @@ class MidiButtons extends React.PureComponent {
     const fontColorStyle = {
       color: !isNoteOn ? colorFont : colorFontActive,
       fontSize: tmpFontSize,
-      fontWeight: tmpFontWeight
+      fontWeight: tmpFontWeight,
     }
 
     if (type === BUTTON) {
@@ -88,7 +80,6 @@ class MidiButtons extends React.PureComponent {
           fontColorStyle={fontColorStyle}
           buttonStyle={buttonStyle}
         />
-
       )
     } else if (type === BUTTON_CC) {
       return (
@@ -123,7 +114,7 @@ class MidiButtons extends React.PureComponent {
         />
       )
     } else {
-      return (<div />)
+      return <div />
     }
   }
 
@@ -138,22 +129,34 @@ class MidiButtons extends React.PureComponent {
   handleButtonCcTriggerOn = (idx, e) => {
     e.preventDefault()
     e.stopPropagation()
-    this.props.actions.handleSliderChange({ idx, val: this.props.sliderEntry.onVal })
+    this.props.actions.handleSliderChange({
+      idx,
+      val: this.props.sliderEntry.onVal,
+    })
   }
 
   handleButtonCcTriggerOff = (idx, e) => {
     e.preventDefault()
     e.stopPropagation()
-    this.props.actions.handleSliderChange({ idx, val: this.props.sliderEntry.offVal })
+    this.props.actions.handleSliderChange({
+      idx,
+      val: this.props.sliderEntry.offVal,
+    })
   }
 
   handleButtonCcToggle = (idx, e) => {
     e.preventDefault()
     e.stopPropagation()
     if (!this.props.sliderEntry.isNoteOn) {
-      this.props.actions.handleSliderChange({ idx, val: this.props.sliderEntry.onVal })
+      this.props.actions.handleSliderChange({
+        idx,
+        val: this.props.sliderEntry.onVal,
+      })
     } else {
-      this.props.actions.handleSliderChange({ idx, val: this.props.sliderEntry.offVal })
+      this.props.actions.handleSliderChange({
+        idx,
+        val: this.props.sliderEntry.offVal,
+      })
     }
   }
 
@@ -164,15 +167,18 @@ class MidiButtons extends React.PureComponent {
   }
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(MidiSliderActions, dispatch)
+    actions: bindActionCreators(MidiSliderActions, dispatch),
   }
 }
-function mapStateToProps ({ viewSettings }) {
+function mapStateToProps({ viewSettings }) {
   return {
-    viewSettings
+    viewSettings,
   }
 }
 
-export default ((connect(mapStateToProps, mapDispatchToProps)(MidiButtons)))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MidiButtons)
