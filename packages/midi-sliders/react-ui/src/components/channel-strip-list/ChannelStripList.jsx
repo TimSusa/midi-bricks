@@ -9,7 +9,6 @@ import * as ViewSettingsActions from '../../actions/view-settings.js'
 import { initApp } from '../../actions/init.js'
 import MidiSettingsDialogButton from './channel-strip/midi-settings-dialog/MidiSettingsDialogButton'
 import { withStyles } from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
 import { SizeMe } from 'react-sizeme'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 require('react-grid-layout/css/styles.css')
@@ -102,24 +101,6 @@ class ChannelStripList extends React.PureComponent {
           >
             <SizeMe monitorHeight>
               {({ size }) => {
-                // if (isLayoutMode) {
-                //   return (
-                //     <Card
-                //       style={{
-                //         height: '100%',
-                //         cursor: 'pointer',
-                //         background: isLayoutMode ? 'azure' : 'transparent',
-                //       }}
-                //     >
-                //       <ChannelStrip
-                //         size={size}
-                //         sliderEntry={sliderEntry}
-                //         idx={idx}
-                //         isDisabled={isLayoutMode}
-                //       />
-                //     </Card>
-                //   )
-                // } else 
                 {
                   const settingsStyle = {
                     position: 'absolute',
