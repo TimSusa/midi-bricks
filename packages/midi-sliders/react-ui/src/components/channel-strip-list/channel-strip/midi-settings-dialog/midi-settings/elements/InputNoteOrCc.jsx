@@ -67,7 +67,7 @@ class InputNoteOrCc extends React.PureComponent {
             Notes
           </InputLabel>
           <MidiSuggestedInput
-            suggestions={this.suggestionsMidiNote}
+            suggestions={[...this.suggestionsMidiNoteCC, ...this.suggestionsMidiNote]}
             startVal={sliderEntry.midiCC.map(item => fromMidi(midi(item)))}
             sliderEntry={sliderEntry}
             idx={idx}
@@ -86,6 +86,15 @@ class InputNoteOrCc extends React.PureComponent {
       }
     })
 
+    suggestionsMidiNoteCC = Array.apply(null, { length: 128 })
+    .map(Number.call, Number)
+    .map(item => {
+      return {
+        label: `${item}`,
+      }
+    })
+
+    
   suggestionsMidiCc = Array.apply(null, { length: 120 })
     .map(Number.call, Number)
     .map(item => {
