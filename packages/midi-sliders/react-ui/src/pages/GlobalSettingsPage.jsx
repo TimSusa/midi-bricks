@@ -112,12 +112,16 @@ class GlobalSettingsPage extends React.PureComponent {
                 if (tooltipTitle) {
                   title = tooltipTitle
                 }
+                let isBadChosenInputDriver = false
+                let isBadChosenOutputDriver = false
                 if (isBadChosenDriver(chosenOutputs, driverName)) {
-                  rowStyle.background = 'pink'
+                  isBadChosenOutputDriver = true
+                  //rowStyle.background = 'pink'
                   title = `Output Driver "${driverName}" is disabled in MIDI Driver Settings`
                 }
                 if (isBadChosenDriver(chosenInputs, driverNameInput)) {
-                  rowStyle.background = 'pink'
+                  //rowStyle.background = 'pink'
+                  isBadChosenInputDriver = true
                   title = `Input Driver "${driverNameInput}" is disabled in MIDI Driver Settings`
                 }
                 return (
@@ -134,6 +138,7 @@ class GlobalSettingsPage extends React.PureComponent {
                       <TableCell
                         style={{
                           color: !driverName && 'grey',
+                          background: isBadChosenOutputDriver && 'pink'
                         }}
                       >
                         {driverName || 'None'}
@@ -158,6 +163,7 @@ class GlobalSettingsPage extends React.PureComponent {
                       <TableCell
                         style={{
                           color: !driverNameInput && 'grey',
+                          background: isBadChosenInputDriver && 'pink'
                         }}
                       >
                         {driverNameInput || driverNameInput || 'None'}
@@ -237,7 +243,7 @@ export default withStyles(styles)(
 function isBadChosenDriver(driverObject, driverName) {
   let foundMischosenDriver = false
   Object.keys(driverObject).forEach(name => {
-    if (foundMischosenDriver || name === 'None') return
+    if (foundMischosenDriver || name === 'None' || driverName === 'None') return false
     if (name === driverName) {
       if (
         (!foundMischosenDriver &&

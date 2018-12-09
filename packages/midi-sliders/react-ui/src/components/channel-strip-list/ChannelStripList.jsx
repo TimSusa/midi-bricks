@@ -91,6 +91,17 @@ class ChannelStripList extends React.PureComponent {
         lastFocusedIdx,
       },
     } = this.props
+
+    // // change list into y-visible order
+    // let obj = {}
+    // sliderList.forEach(item => {
+    //   obj = {
+    //     ...obj, 
+    //     [`${item.y}.${item.x}`]: item
+    //   }
+    // })
+    // console.log('ordered object ', obj)
+    
     return (
       sliderList &&
       sliderList.map((sliderEntry, idx) => {
