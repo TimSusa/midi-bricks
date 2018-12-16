@@ -36,11 +36,12 @@ class ChannelStripList extends React.PureComponent {
         isCompactHorz = true,
         isAutoArrangeMode = true,
         isSettingsDialogMode = false,
+        isLiveMode = false
       },
     } = this.props
 
     // Protect dialog mode from global listeners
-    if (isSettingsDialogMode) {
+    if (isSettingsDialogMode || isLiveMode) {
       if (this.hasListener) {
         document.body.removeEventListener('keypress', this.handleKeyPress)
         this.hasListener = false
@@ -88,20 +89,11 @@ class ChannelStripList extends React.PureComponent {
         isSettingsDialogMode,
         isSettingsMode,
         isLayoutMode,
+        isLiveMode,
         lastFocusedIdx,
       },
     } = this.props
 
-    // // change list into y-visible order
-    // let obj = {}
-    // sliderList.forEach(item => {
-    //   obj = {
-    //     ...obj, 
-    //     [`${item.y}.${item.x}`]: item
-    //   }
-    // })
-    // console.log('ordered object ', obj)
-    
     return (
       sliderList &&
       sliderList.map((sliderEntry, idx) => {
@@ -124,7 +116,11 @@ class ChannelStripList extends React.PureComponent {
                       style={{
                         height: '100%',
                         borderRadius: 5,
-                        background: isLayoutMode ? 'azure' : (isSettingsMode ? 'beige' : 'transparent'),
+                        background: isLayoutMode
+                          ? 'azure'
+                          : isSettingsMode
+                          ? 'beige'
+                          : 'transparent',
                       }}
                     >
                       <ChannelStrip
@@ -241,10 +237,10 @@ const styles = theme => ({
   },
 })
 
-function mapStateToProps({ sliders: { sliderList }, viewSettings }) {
+function mapStateToProps({ viewSettings, sliders: { sliderList } }) {
   return {
-    sliderList,
     viewSettings,
+    sliderList,
   }
 }
 

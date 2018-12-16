@@ -38,7 +38,8 @@ const typeSliderList = [
   'ADD_MIDI_CC_LISTENER',
   'TOGGLE_HIDE_VALUE',
   'GO_BACK',
-  'TRIGGER_ALL_MIDI_ELEMENTS'
+  'TRIGGER_ALL_MIDI_ELEMENTS',
+  'EXTRACT_PAGE'
 ]
 
 const ActionTypeSliderList = createActionTypes(typeSliderList)

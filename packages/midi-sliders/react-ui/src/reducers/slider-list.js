@@ -187,7 +187,7 @@ export const sliders = createReducer([], {
       { payload: { idx: parseInt(idx, 10), val } },
       'val'
     )
-    return { ...state, sliderList, sliderListBackup: null }
+    return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.TOGGLE_NOTE](state, action) {
@@ -213,7 +213,7 @@ export const sliders = createReducer([], {
       label,
     })
     const sliderList = toggleNotesInState(state.sliderList, idx)
-    return { ...state, sliderList, sliderListBackup: null }
+    return { ...state, sliderList}
   },
 
   [ActionTypeSliderList.SEND_PROGRAM_CHANGE](state, action) {
@@ -698,6 +698,11 @@ export const sliders = createReducer([], {
   [ActionTypeSliderList.GO_BACK](state, action) {
     return { ...state, sliderList: state.sliderListBackup }
   },
+
+  [ActionTypeSliderList.EXTRACT_PAGE](state, action) {
+    return { ...state, sliderList: filterPage(state.sliderListBackup, action.payload.label) }
+  },
+  
 })
 
 const transformState = (sliderList, action, field) => {
@@ -850,4 +855,37 @@ function getCheckedMidiOut(driverName) {
     window.alert(NO_MIDI_ERROR_MESSAGE)
   }
   return output
+}
+
+function filterPage(sliderList, label) {
+  let newArr = []
+  // // change list into y-visible order
+  let arr = sliderList
+    .map(item => item)
+    .sort((a, b) => {
+      return a.y - b.y
+    })
+
+  const startIdx = arr.findIndex(cur => cur.label === label)
+  const startVal = arr[startIdx]
+
+  arr.splice(0, startIdx + 1)
+
+  
+  let wasFound = false
+  let i = 0
+  arr.forEach(cur => {
+    if (!wasFound && cur.type !== 'PAGE') {
+      newArr.push({ ...cur })
+    } else {
+      wasFound = true
+      return
+    }
+  })
+  const endVal = newArr[newArr.length-1]
+
+  newArr.splice(newArr.length - 1, 1)
+  const tmpVal = [startVal, ...newArr, endVal]
+  const ret = tmpVal.map(item => ({...item, y: item.y - tmpVal[0].y}))
+  return ret
 }

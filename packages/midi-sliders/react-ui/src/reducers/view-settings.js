@@ -82,7 +82,7 @@ export const viewSettings = createReducer(initState, {
   [ActionTypeViewSettings.UPDATE_VIEW_SETTINGS](state = initState, action) {
     const {
       sliderList,
-      viewSettings: { availableDrivers },
+      viewSettings: { availableDrivers } = {},
     } = action.payload
 
     const extractPages = list => {
@@ -121,7 +121,12 @@ export const viewSettings = createReducer(initState, {
         footerPages: newPages,
       })
     }
-    return { ...footerState, availableDrivers }
+    if (availableDrivers) {
+      return { ...footerState, availableDrivers }
+
+    } else {
+      return { ...footerState }
+    }
   },
 
   [ActionTypeViewSettings.DELETE_PAGE_FROM_FOOTER](state = initState, action) {

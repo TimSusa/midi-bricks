@@ -8,6 +8,7 @@ import RightIcon from '@material-ui/icons/KeyboardArrowRight'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as ViewSettinsgsAction from '../../actions/view-settings'
+import * as SliderSettinsgsAction from '../../actions/slider-list'
 import { Button, Tooltip } from '@material-ui/core'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 
@@ -83,7 +84,7 @@ class Footer extends React.Component {
         <Tooltip title="Toggle Live Mode">
           <Button
             className={classes.liveButton}
-            onClick={this.props.actions.toggleLiveMode}
+            onClick={this.handleLiveButtonClick}
           >
             Live
           </Button>
@@ -97,8 +98,20 @@ class Footer extends React.Component {
   }
 
   handleClick = (entry, e) => {
-    const elem = document.getElementById(`page-${entry.i}`)
-    elem.scrollIntoView({ block: 'start' })
+    if (this.props.viewSettings.isLiveMode) {
+      this.props.actions.extractPage({ label: entry.label })
+    } else {
+      const elem = document.getElementById(`page-${entry.i}`)
+      elem.scrollIntoView({ block: 'start' })
+    }
+  }
+
+  handleLiveButtonClick = () => {
+    if (this.props.viewSettings.isLiveMode) {
+      this.props.actions.goBack()
+    }
+    this.props.actions.toggleLiveMode()
+
   }
 }
 
@@ -142,7 +155,10 @@ function mapStateToProps({ viewSettings }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...ViewSettinsgsAction }, dispatch),
+    actions: bindActionCreators(
+      { ...ViewSettinsgsAction, ...SliderSettinsgsAction },
+      dispatch
+    ),
   }
 }
 export default withStyles(styles)(
