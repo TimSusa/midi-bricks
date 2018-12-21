@@ -213,7 +213,7 @@ export const sliders = createReducer([], {
       label,
     })
     const sliderList = toggleNotesInState(state.sliderList, idx)
-    return { ...state, sliderList}
+    return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.SEND_PROGRAM_CHANGE](state, action) {
@@ -456,21 +456,6 @@ export const sliders = createReducer([], {
       ...item,
       ...listOrder[idx.toString()],
     }))
-
-    // let newArray = []
-    // if (!action.payload.listOrder) return { ...state, sliderList: newArray }
-    // const len = action.payload.listOrder.length
-    // for (let i = 0; i < len; i++) {
-    //   newArray.push(
-    //     Object.assign(
-    //       {},
-    //       {
-    //         ...state.sliderList[i],
-    //         ...action.payload.listOrder[i.toString()],
-    //       }
-    //     )
-    //   )
-    // }
     return {
       ...state,
       sliderList,
@@ -700,9 +685,11 @@ export const sliders = createReducer([], {
   },
 
   [ActionTypeSliderList.EXTRACT_PAGE](state, action) {
-    return { ...state, sliderList: filterPage(state.sliderListBackup, action.payload.label) }
+    return {
+      ...state,
+      sliderList: filterPage(state.sliderListBackup, action.payload.label),
+    }
   },
-  
 })
 
 const transformState = (sliderList, action, field) => {
@@ -871,7 +858,6 @@ function filterPage(sliderList, label) {
 
   arr.splice(0, startIdx + 1)
 
-  
   let wasFound = false
   arr.forEach(cur => {
     if (!wasFound && cur.type !== 'PAGE') {
@@ -881,10 +867,10 @@ function filterPage(sliderList, label) {
       return
     }
   })
-  const endVal = newArr[newArr.length-1]
+  const endVal = newArr[newArr.length - 1]
 
   newArr.splice(newArr.length - 1, 1)
   const tmpVal = [startVal, ...newArr, endVal]
-  const ret = tmpVal.map(item => ({...item, y: item.y - tmpVal[0].y}))
+  const ret = tmpVal.map(item => ({ ...item, y: item.y - tmpVal[0].y }))
   return ret
 }

@@ -16,6 +16,7 @@ import * as ViewStuff from '../actions/view-settings.js'
 import MidiSettingsDialog from '../components/channel-strip-list/channel-strip/midi-settings-dialog/MidiSettingsDialog'
 import { outputToDriverName } from '../utils/output-to-driver-name.js'
 import { initApp } from '../actions/init.js'
+import { STRIP_TYPE } from '../reducers/slider-list.js'
 
 class GlobalSettingsPage extends React.PureComponent {
   constructor(props) {
@@ -93,6 +94,7 @@ class GlobalSettingsPage extends React.PureComponent {
                   )
                 }
                 let title = ''
+                let channelTooltipTitle = ''
                 const { driverName, driverNameInput } = outputToDriverName(
                   { inputs, outputs },
                   sliderEntry.driverNameInput || 'None',
@@ -112,20 +114,53 @@ class GlobalSettingsPage extends React.PureComponent {
                 if (tooltipTitle) {
                   title = tooltipTitle
                 }
-                let isBadChosenInputDriver = false
                 let isBadChosenOutputDriver = false
+                let isBadChosenInputDriver = false
+                let isBadChosenOutputChannel = false
+                let isBadChosenInputChannel = false
                 if (isBadChosenDriver(chosenOutputs, driverName)) {
                   isBadChosenOutputDriver = true
-                  //rowStyle.background = 'pink'
-                  title = `Output Driver "${driverName}" is disabled in MIDI Driver Settings`
+                  title = `Output Driver "${driverName}" is disabled in MIDI Driver Settings. `
+                } else {
+                  isBadChosenOutputChannel = isBadChosenChannel(
+                    chosenOutputs,
+                    midiChannel,
+                    driverName,
+                    type,
+                    true
+                  )
+                  if (isBadChosenOutputChannel) {
+                    if (midiChannel) {
+                      channelTooltipTitle = `Output Channel "${midiChannel}" for driver "${driverName}" is disabled in MIDI Driver Settings`
+                    } else {
+                      channelTooltipTitle = `No Output Channel for driver "${driverName}" was chosen`
+                    }
+                  }
                 }
                 if (isBadChosenDriver(chosenInputs, driverNameInput)) {
-                  //rowStyle.background = 'pink'
                   isBadChosenInputDriver = true
-                  title = `Input Driver "${driverNameInput}" is disabled in MIDI Driver Settings`
+                  title = `Input Driver "${driverNameInput}" is disabled in MIDI Driver Settings. `
+                } else {
+                  isBadChosenInputChannel = isBadChosenChannel(
+                    chosenInputs,
+                    midiChannelInput,
+                    driverNameInput,
+                    type,
+                    false
+                  )
+                  if (isBadChosenInputChannel) {
+                    if (midiChannelInput) {
+                      channelTooltipTitle = `Input Channel "${midiChannelInput}" for driver "${driverNameInput}" is disabled in MIDI Driver Settings`
+                    } else {
+                      channelTooltipTitle = `No Input Channel for driver "${driverNameInput}" was chosen`
+                    }
+                  }
                 }
                 return (
-                  <Tooltip title={title} key={`glb-${idx}`}>
+                  <Tooltip
+                    title={title + channelTooltipTitle}
+                    key={`glb-${idx}`}
+                  >
                     <TableRow
                       style={rowStyle}
                       onClick={actions.toggleSettingsDialogMode.bind(this, {
@@ -138,12 +173,18 @@ class GlobalSettingsPage extends React.PureComponent {
                       <TableCell
                         style={{
                           color: !driverName && 'grey',
-                          background: isBadChosenOutputDriver && 'pink'
+                          background: isBadChosenOutputDriver && 'pink',
                         }}
                       >
                         {driverName || 'None'}
                       </TableCell>
-                      <TableCell>{midiChannel}</TableCell>
+                      <TableCell
+                        style={{
+                          background: isBadChosenOutputChannel && 'pink',
+                        }}
+                      >
+                        {midiChannel}
+                      </TableCell>
                       <TableCell>
                         {(midiCC &&
                           midiCC.length > 0 &&
@@ -151,19 +192,19 @@ class GlobalSettingsPage extends React.PureComponent {
                           '-'}
                       </TableCell>
                       <TableCell>
-                        {!['PAGE', 'LABEL'].includes(type)
+                        {![STRIP_TYPE.PAGE, STRIP_TYPE.LABEL].includes(type)
                           ? sliderEntry && val
                           : '-'}
                       </TableCell>
                       <TableCell>
-                        {!['PAGE', 'LABEL'].includes(type)
+                        {![STRIP_TYPE.PAGE, STRIP_TYPE.LABEL].includes(type)
                           ? lastSavedVal && (lastSavedVal || '_')
                           : '-'}
                       </TableCell>
                       <TableCell
                         style={{
                           color: !driverNameInput && 'grey',
-                          background: isBadChosenInputDriver && 'pink'
+                          background: isBadChosenInputDriver && 'pink',
                         }}
                       >
                         {driverNameInput || driverNameInput || 'None'}
@@ -174,7 +215,13 @@ class GlobalSettingsPage extends React.PureComponent {
                           this.renderListeners(listenToCc)) ||
                           '-'}
                       </TableCell>
-                      <TableCell>{midiChannelInput}</TableCell>
+                      <TableCell
+                        style={{
+                          background: isBadChosenInputChannel && 'pink',
+                        }}
+                      >
+                        {midiChannelInput}
+                      </TableCell>
                     </TableRow>
                   </Tooltip>
                 )
@@ -241,9 +288,10 @@ export default withStyles(styles)(
 )
 
 function isBadChosenDriver(driverObject, driverName) {
+  if (driverName === 'None') return false
   let foundMischosenDriver = false
   Object.keys(driverObject).forEach(name => {
-    if (foundMischosenDriver || name === 'None' || driverName === 'None') return false
+    if (foundMischosenDriver || name === 'None') return false
     if (name === driverName) {
       if (
         (!foundMischosenDriver &&
@@ -261,14 +309,53 @@ function isBadChosenDriver(driverObject, driverName) {
   return foundMischosenDriver
 }
 
+function isBadChosenChannel(driverObject, channel, driverName, type, isOut) {
+  if (driverName === 'None') return false
+  if (!channel) return true
+
+  let foundMischosenChannel = false
+  const isNoteChannels =
+    driverObject[driverName] &&
+    driverObject[driverName].noteChannels &&
+    driverObject[driverName].noteChannels.includes(`${channel}`)
+  const isCcChannels =
+    driverObject[driverName] &&
+    driverObject[driverName].ccChannels &&
+    driverObject[driverName].ccChannels.includes(`${channel}`)
+
+  // For page and label, only cc inputs can happen
+  if ([STRIP_TYPE.PAGE, STRIP_TYPE.LABEL].includes(type) && !isOut) {
+    foundMischosenChannel = !isCcChannels
+  }
+
+  // slider // cc button
+  if (
+    [
+      STRIP_TYPE.SLIDER,
+      STRIP_TYPE.SLIDER_HORZ,
+      STRIP_TYPE.BUTTON_CC,
+      STRIP_TYPE.BUTTON_TOGGLE_CC,
+    ].includes(type)
+  ) {
+    foundMischosenChannel = !isCcChannels
+  }
+
+  // button
+  if ([STRIP_TYPE.BUTTON, STRIP_TYPE.BUTTON_TOGGLE].includes(type)) {
+    foundMischosenChannel = !isNoteChannels
+  }
+
+  return foundMischosenChannel
+}
+
 function createTooltipAndBackground(type, driverNameInput, driverName) {
   let title = undefined
   let background = undefined
-  if (!['PAGE', 'LABEL'].includes(type)) {
+  if (![STRIP_TYPE.PAGE, STRIP_TYPE.LABEL].includes(type)) {
     if (driverNameInput && driverName) {
-      title = `Output: ${driverName} / Input: ${driverNameInput}`
+      //title = `Output: ${driverName} / Input: ${driverNameInput}`
     } else if (driverName) {
-      title = `Output: ${driverName}`
+      //title = `Output: ${driverName}`
       if (!driverNameInput) {
         title = title + ' / Input: No MIDI Input Driver available'
         background = 'yellow'
