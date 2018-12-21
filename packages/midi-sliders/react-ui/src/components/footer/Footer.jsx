@@ -14,77 +14,72 @@ import { Button, Tooltip } from '@material-ui/core'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 
 class Footer extends React.Component {
-  state = {
-    value: 0,
-  }
 
   render() {
     const {
       classes,
-      footerPages,
+      footerPages = [],
+      lastFocusedFooterButtonIdx,
       isSettingsMode,
       isLiveMode,
       pageType,
       actions,
     } = this.props
-    const { value } = this.state
     if (pageType !== PAGE_TYPES.HOME_MODE && !isLiveMode) return <div />
     return (
       <BottomNavigation
-        value={value}
-        onChange={this.handleChange}
+        value={lastFocusedFooterButtonIdx}
         className={classes.root}
       >
-        {footerPages &&
-          footerPages.map((item, idx) => {
-            if (isSettingsMode) {
-              return (
-                <div key={`footer-button-${idx}`}>
-                  <IconButton
-                    onClick={actions.swapFooterPages.bind(this, {
-                      srcIdx: idx,
-                      offset: -1,
-                    })}
-                    className={classes.signButton}
-                    color="inherit"
-                    aria-label="Menu"
-                  >
-                    <LeftIcon className={classes.iconColor} />
-                  </IconButton>
-
-                  <FooterButton
-                    classes={classes}
-                    value={this.state.value}
-                    idx={idx}
-                    item={item}
-                    handleClick={this.handleClick}
-                  />
-
-                  <IconButton
-                    onClick={actions.swapFooterPages.bind(this, {
-                      srcIdx: idx,
-                      offset: 1,
-                    })}
-                    className={classes.signButton}
-                    color="inherit"
-                    aria-label="Menu"
-                  >
-                    <RightIcon className={classes.iconColor} />
-                  </IconButton>
-                </div>
-              )
-            }
+        {footerPages.map((item, idx) => {
+          if (isSettingsMode) {
             return (
-              <FooterButton
-                key={`footer-button-${idx}`}
-                classes={classes}
-                value={this.state.value}
-                idx={idx}
-                item={item}
-                handleClick={this.handleClick}
-              />
+              <div key={`footer-button-${idx}`}>
+                <IconButton
+                  onClick={actions.swapFooterPages.bind(this, {
+                    srcIdx: idx,
+                    offset: -1,
+                  })}
+                  className={classes.signButton}
+                  color="inherit"
+                  aria-label="Menu"
+                >
+                  <LeftIcon className={classes.iconColor} />
+                </IconButton>
+
+                <FooterButton
+                  classes={classes}
+                  value={lastFocusedFooterButtonIdx}
+                  idx={item.i}
+                  item={item}
+                  handleClick={this.handleClick}
+                />
+
+                <IconButton
+                  onClick={actions.swapFooterPages.bind(this, {
+                    srcIdx: idx,
+                    offset: 1,
+                  })}
+                  className={classes.signButton}
+                  color="inherit"
+                  aria-label="Menu"
+                >
+                  <RightIcon className={classes.iconColor} />
+                </IconButton>
+              </div>
             )
-          })}
+          }
+          return (
+            <FooterButton
+              key={`footer-button-${idx}`}
+              classes={classes}
+              value={lastFocusedFooterButtonIdx}
+              idx={item.i}
+              item={item}
+              handleClick={this.handleClick}
+            />
+          )
+        })}
         <Tooltip title="Toggle Live Mode">
           <Button
             className={classes.liveButton}
@@ -98,23 +93,19 @@ class Footer extends React.Component {
     )
   }
 
-  handleChange = (event, value) => {
-    this.setState({ value })
-  }
-
   handleClick = (entry, value) => {
-    this.setState({ value })
+    this.props.actions.setFooterButtonFocus({i: value})
     if (this.props.isLiveMode) {
       this.props.actions.extractPage({ label: entry.label })
     } else {
-      const elem = document.getElementById(`page-${entry.i}`)
-      elem.scrollIntoView({ block: 'start' })
+      scrollByIndex(entry.i);
     }
   }
 
   handleLiveButtonClick = () => {
     if (this.props.isLiveMode) {
       this.props.actions.goBack()
+      this.props.actions.setFooterButtonFocus({i: ''})
     }
     this.props.actions.toggleLiveMode()
   }
@@ -155,11 +146,23 @@ const styles = theme => ({
   },
 })
 
+function scrollByIndex(i) {
+  const elem = document.getElementById(`page-${i}`);
+  elem.scrollIntoView({ block: 'start' });
+}
+
 function mapStateToProps({
-  viewSettings: { footerPages, isSettingsMode, isLiveMode, pageType },
+  viewSettings: {
+    footerPages,
+    lastFocusedFooterButtonIdx,
+    isSettingsMode,
+    isLiveMode,
+    pageType,
+  },
 }) {
   return {
     footerPages,
+    lastFocusedFooterButtonIdx,
     isSettingsMode,
     isLiveMode,
     pageType,

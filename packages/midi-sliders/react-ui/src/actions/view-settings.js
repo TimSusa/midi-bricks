@@ -16,6 +16,7 @@ const TypeViewSettings = [
   'SWAP_FOOTER_PAGES',
   'CHANGE_FOOTER_PAGE_LABEL',
   'SET_AVAILABLE_DRIVERS',
+  'SET_FOOTER_BUTTON_FOCUS'
 ]
 
 const ActionTypeViewSettings = createActionTypes(TypeViewSettings)

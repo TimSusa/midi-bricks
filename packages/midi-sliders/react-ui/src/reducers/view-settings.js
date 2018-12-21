@@ -9,6 +9,7 @@ export const PAGE_TYPES = {
 
 const initState = {
   footerPages: [],
+  lastFocusedFooterButtonIdx: '',
   isLiveMode: false,
   isSettingsDialogMode: false,
   isLayoutMode: false,
@@ -153,6 +154,14 @@ export const viewSettings = createReducer(initState, {
     })
     return Object.assign({}, state, {
       footerPages: tmpArr,
+    })
+  },
+
+  
+  [ActionTypeViewSettings.SET_FOOTER_BUTTON_FOCUS](state = initState, action) {
+    const { i } = action.payload
+    return Object.assign({}, state, {
+      lastFocusedFooterButtonIdx: i,
     })
   },
 

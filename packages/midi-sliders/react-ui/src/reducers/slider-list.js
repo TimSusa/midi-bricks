@@ -686,15 +686,15 @@ export const sliders = createReducer([], {
 
   [ActionTypeSliderList.EXTRACT_PAGE](state, action) {
     const sliderListBackup = state.sliderListBackup.map(item => {
-      let item2 = state.sliderList.find(i2 => i2.i === item.i)
-      return item2
+      const tmpItem = state.sliderList.find(tmpI => tmpI.i === item.i)
+      return tmpItem
         ? {
             ...item,
-            val: item2.val,
-            isNoteOn: item2.isNoteOn,
-            onVal: item2.onVal,
-            offVal: item2.offVal,
-            lastSavedVal: item2.lastSavedVal,
+            val: tmpItem.val,
+            isNoteOn: tmpItem.isNoteOn,
+            onVal: tmpItem.onVal,
+            offVal: tmpItem.offVal,
+            lastSavedVal: tmpItem.lastSavedVal,
           }
         : item
     })
