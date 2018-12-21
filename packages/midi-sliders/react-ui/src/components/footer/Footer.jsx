@@ -104,7 +104,7 @@ class Footer extends React.Component {
 
   handleClick = (entry, value) => {
     this.setState({ value })
-    if (this.props.viewSettings.isLiveMode) {
+    if (this.props.isLiveMode) {
       this.props.actions.extractPage({ label: entry.label })
     } else {
       const elem = document.getElementById(`page-${entry.i}`)
@@ -113,7 +113,7 @@ class Footer extends React.Component {
   }
 
   handleLiveButtonClick = () => {
-    if (this.props.viewSettings.isLiveMode) {
+    if (this.props.isLiveMode) {
       this.props.actions.goBack()
     }
     this.props.actions.toggleLiveMode()

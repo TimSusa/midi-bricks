@@ -95,6 +95,7 @@ class GlobalSettingsPage extends React.PureComponent {
                 }
                 let title = ''
                 let channelTooltipTitle = ''
+
                 const { driverName, driverNameInput } = outputToDriverName(
                   { inputs, outputs },
                   sliderEntry.driverNameInput || 'None',
@@ -114,46 +115,44 @@ class GlobalSettingsPage extends React.PureComponent {
                 if (tooltipTitle) {
                   title = tooltipTitle
                 }
-                let isBadChosenOutputDriver = false
-                let isBadChosenInputDriver = false
-                let isBadChosenOutputChannel = false
-                let isBadChosenInputChannel = false
-                if (isBadChosenDriver(chosenOutputs, driverName)) {
-                  isBadChosenOutputDriver = true
+                const isBadChosenOutputDriver = isBadChosenDriver(
+                  chosenOutputs,
+                  driverName
+                )
+                const isBadChosenInputDriver = isBadChosenDriver(
+                  chosenInputs,
+                  driverNameInput
+                )
+                const isBadChosenOutputChannel = !isBadChosenOutputDriver && isBadChosenChannel(
+                  chosenOutputs,
+                  midiChannel,
+                  driverName,
+                  type,
+                  true
+                )
+                const isBadChosenInputChannel = !isBadChosenInputDriver && isBadChosenChannel(
+                  chosenInputs,
+                  midiChannelInput,
+                  driverNameInput,
+                  type,
+                  false
+                )
+                if (isBadChosenOutputDriver) {
                   title += `Output Driver "${driverName}" is disabled in MIDI Driver Settings. `
-                } else {
-                  isBadChosenOutputChannel = isBadChosenChannel(
-                    chosenOutputs,
-                    midiChannel,
-                    driverName,
-                    type,
-                    true
-                  )
-                  if (isBadChosenOutputChannel && driverName) {
-                    if (midiChannel) {
-                      channelTooltipTitle = `Output Channel "${midiChannel}" for driver "${driverName}" is disabled in MIDI Driver Settings`
-                    } else {
-                      channelTooltipTitle = `No Output Channel for driver "${driverName}" was chosen`
-                    }
+                } else if (isBadChosenOutputChannel && driverName) {
+                  if (midiChannel) {
+                    channelTooltipTitle = `Output Channel "${midiChannel}" for driver "${driverName}" is disabled in MIDI Driver Settings. `
+                  } else {
+                    channelTooltipTitle = `No Output Channel for driver "${driverName}" was chosen. `
                   }
                 }
-                if (isBadChosenDriver(chosenInputs, driverNameInput)) {
-                  isBadChosenInputDriver = true
+                if (isBadChosenInputDriver) {
                   title += `Input Driver "${driverNameInput}" is disabled in MIDI Driver Settings. `
-                } else {
-                  isBadChosenInputChannel = isBadChosenChannel(
-                    chosenInputs,
-                    midiChannelInput,
-                    driverNameInput,
-                    type,
-                    false
-                  )
-                  if (isBadChosenInputChannel && driverNameInput) {
-                    if (midiChannelInput) {
-                      channelTooltipTitle = `Input Channel "${midiChannelInput}" for driver "${driverNameInput}" is disabled in MIDI Driver Settings`
-                    } else {
-                      channelTooltipTitle = `No Input Channel for driver "${driverNameInput}" was chosen`
-                    }
+                } else if (isBadChosenInputChannel && driverNameInput) {
+                  if (midiChannelInput) {
+                    channelTooltipTitle += `Input Channel "${midiChannelInput}" for driver "${driverNameInput}" is disabled in MIDI Driver Settings`
+                  } else {
+                    channelTooltipTitle += `No Input Channel for driver "${driverNameInput}" was chosen`
                   }
                 }
                 return (
@@ -207,7 +206,9 @@ class GlobalSettingsPage extends React.PureComponent {
                           background: isBadChosenInputDriver && 'pink',
                         }}
                       >
-                        {driverNameInput || sliderEntry.driverNameInput || 'None'}
+                        {driverNameInput ||
+                          sliderEntry.driverNameInput ||
+                          'None'}
                       </TableCell>
                       <TableCell>
                         {(listenToCc &&
@@ -314,14 +315,9 @@ function isBadChosenChannel(driverObject, channel, driverName, type, isOut) {
   if (!channel) return true
 
   let foundMischosenChannel = false
-  const isNoteChannels =
-    driverObject[driverName] &&
-    driverObject[driverName].noteChannels &&
-    driverObject[driverName].noteChannels.includes(`${channel}`)
-  const isCcChannels =
-    driverObject[driverName] &&
-    driverObject[driverName].ccChannels &&
-    driverObject[driverName].ccChannels.includes(`${channel}`)
+  const { noteChannels = [], ccChannels = [] } = driverObject[driverName] || {}
+  const isNoteChannels = noteChannels.includes(`${channel}`)
+  const isCcChannels = ccChannels.includes(`${channel}`)
 
   // For page and label, only cc inputs can happen
   if ([STRIP_TYPE.PAGE, STRIP_TYPE.LABEL].includes(type) && !isOut) {
