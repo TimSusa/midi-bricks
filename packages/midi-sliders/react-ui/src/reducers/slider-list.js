@@ -685,9 +685,24 @@ export const sliders = createReducer([], {
   },
 
   [ActionTypeSliderList.EXTRACT_PAGE](state, action) {
+    const sliderListBackup = state.sliderListBackup.map(item => {
+      let item2 = state.sliderList.find(i2 => i2.i === item.i)
+      return item2
+        ? {
+            ...item,
+            val: item2.val,
+            isNoteOn: item2.isNoteOn,
+            onVal: item2.onVal,
+            offVal: item2.offVal,
+            lastSavedVal: item2.lastSavedVal,
+          }
+        : item
+    })
+
     return {
       ...state,
-      sliderList: filterPage(state.sliderListBackup, action.payload.label),
+      sliderList: filterPage(sliderListBackup, action.payload.label),
+      sliderListBackup
     }
   },
 })
