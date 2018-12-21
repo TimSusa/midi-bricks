@@ -19,115 +19,118 @@ import AutoArrangeModeIconFalse from '@material-ui/icons/TextFormat'
 import ViewMenu from './ViewMenu'
 import AddMenu from './AddMenu'
 import { PAGE_TYPES } from '../../reducers/view-settings'
+const MenuAppBar = props => {
+  const {
+    classes,
+    actions,
+    presetName,
+    viewSettings: {
+      pageType,
+      isLiveMode = false,
+      isLayoutMode,
+      isCompactHorz = true,
+      isAutoArrangeMode = true,
+    },
+  } = props
 
-class MenuAppBar extends React.Component {
-  render() {
-    const {
-      classes,
-      actions,
-      presetName,
-      viewSettings: {
-        pageType,
-        isLiveMode = false,
-        isLayoutMode,
-        isCompactHorz = true,
-        isAutoArrangeMode = true,
-      },
-    } = this.props
-    if (isLiveMode) {
-      return <div />
-    }
-    return (
-      <div className={classes.root}>
-        <AppBar className={classes.appBar} position="fixed">
-          <Toolbar>
-            <IconButton
-              onClick={this.props.handleDrawerToggle}
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="Menu"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit" className={classes.flex}>
-              MIDI Bricks
-            </Typography>
-            <IconButton
-              onClick={actions.toggleCompactMode}
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="Menu"
-            >
-              {isLayoutMode ? (
-                isCompactHorz ? (
-                  <SwapHorizIcon />
-                ) : (
-                  <SwapVertIcon />
-                )
+  if (isLiveMode) {
+    return <div />
+  }
+
+  return (
+    <div className={classes.root}>
+      <AppBar className={classes.appBar} position="fixed">
+        <Toolbar>
+          <IconButton
+            onClick={props.handleDrawerToggle}
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="Menu"
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" color="inherit" className={classes.flex}>
+            MIDI Bricks
+          </Typography>
+          <IconButton
+            onClick={actions.toggleCompactMode}
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="Menu"
+          >
+            {isLayoutMode ? (
+              isCompactHorz ? (
+                <SwapHorizIcon />
               ) : (
-                <div />
-              )}
-            </IconButton>
+                <SwapVertIcon />
+              )
+            ) : (
+              <div />
+            )}
+          </IconButton>
 
-            <IconButton
-              onClick={actions.toggleAutoArrangeMode}
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="Menu"
-            >
-              {isLayoutMode ? (
-                isAutoArrangeMode ? (
-                  <AutoArrangeModeIcon />
-                ) : (
-                  <AutoArrangeModeIconFalse />
-                )
+          <IconButton
+            onClick={actions.toggleAutoArrangeMode}
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="Menu"
+          >
+            {isLayoutMode ? (
+              isAutoArrangeMode ? (
+                <AutoArrangeModeIcon />
               ) : (
-                <div />
-              )}
-            </IconButton>
+                <AutoArrangeModeIconFalse />
+              )
+            ) : (
+              <div />
+            )}
+          </IconButton>
 
-            <AddMenu />
-            {pageType === PAGE_TYPES.GLOBAL_MODE && (
-              <Typography>{presetName || ''}</Typography>
-            )}
-            {pageType === PAGE_TYPES.GLOBAL_MODE && (
-              <React.Fragment>
-                <Button
-                  className={classes.resetButton}
-                  variant="contained"
-                  onClick={actions.resetValues}
-                >
-                  Restore Values
-                </Button>
-                <Button
-                  className={classes.resetButton}
-                  variant="contained"
-                  onClick={actions.triggerAllMidiElements}
-                >
-                  TRIGGER ALL MIDI
-                </Button>
-              </React.Fragment>
-            )}
-            {[PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
-              pageType
-            ) && (
+          <AddMenu />
+          {pageType === PAGE_TYPES.GLOBAL_MODE && (
+            <Typography>{presetName || ''}</Typography>
+          )}
+          {pageType === PAGE_TYPES.GLOBAL_MODE && (
+            <React.Fragment>
               <Button
                 className={classes.resetButton}
                 variant="contained"
-                onClick={() => this.props.initApp()}
+                onClick={actions.resetValues}
               >
-                Detect Driver Changes
+                Restore Values
               </Button>
-            )}
-            {![PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
-              pageType
-            ) && <ViewMenu />}
-          </Toolbar>
-        </AppBar>
-        <div style={{ height: 64 }} />
-      </div>
-    )
-  }
+              <Button
+                className={classes.resetButton}
+                variant="contained"
+                onClick={actions.triggerAllMidiElements}
+              >
+                TRIGGER ALL MIDI
+              </Button>
+            </React.Fragment>
+          )}
+          {[PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
+            pageType
+          ) && (
+            <Button
+              className={classes.resetButton}
+              variant="contained"
+              onClick={() => props.initApp()}
+            >
+              Detect Driver Changes
+            </Button>
+          )}
+          {![PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
+            pageType
+          ) && <ViewMenu />}
+        </Toolbar>
+      </AppBar>
+      <div
+        style={{
+          height: 64,
+        }}
+      />
+    </div>
+  )
 }
 
 MenuAppBar.propTypes = {

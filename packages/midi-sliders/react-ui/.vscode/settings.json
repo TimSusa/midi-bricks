@@ -1,8 +1,6 @@
 {
   "editor.tabSize": 2,
-  "javascript.validate.enable": false,
-  "standard.enable": true,
-  "standard.autoFixOnSave": true,
+  "javascript.validate.enable": true,
   "auto-rename-tag.activationOnLanguage": [
       "html",
       "xml",
@@ -22,5 +20,11 @@
   "sync.autoUpload": false,
   "sync.lastUpload": "",
   "sync.lastDownload": "2018-05-17T13:33:58.166Z",
-  "sync.forceDownload": false
+  "sync.forceDownload": false,
+  "prettier.eslintIntegration": true,
+  "prettier.jsxSingleQuote": true,
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
+  "editor.codeLens": false,
+  "editor.detectIndentation": false
 }

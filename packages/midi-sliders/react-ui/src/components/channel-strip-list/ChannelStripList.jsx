@@ -36,7 +36,7 @@ class ChannelStripList extends React.PureComponent {
         isCompactHorz = true,
         isAutoArrangeMode = true,
         isSettingsDialogMode = false,
-        isLiveMode = false
+        isLiveMode = false,
       },
     } = this.props
 
@@ -89,7 +89,6 @@ class ChannelStripList extends React.PureComponent {
         isSettingsDialogMode,
         isSettingsMode,
         isLayoutMode,
-        isLiveMode,
         lastFocusedIdx,
       },
     } = this.props

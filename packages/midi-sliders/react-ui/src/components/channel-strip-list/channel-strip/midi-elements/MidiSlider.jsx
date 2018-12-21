@@ -55,18 +55,15 @@ class MidiSlider extends React.PureComponent {
         <div
           onContextMenu={this.preventCtxMenu}
           className={classes.rangeSliderWrapper}
-          // style={{
-          //   height: isValueHidden ? 1.4 * tmpLabelHeight + tmpH : tmpH,
-          //   bottom: isValueHidden
-          //     ? -tmpLabelHeight / 2
-          //     : fontSize > 23
-          //     ? fontSize / 4
-          //     : -10,
-          // }}
         >
           <input
             disabled={isDisabled}
-            style={getSliderStyle(isValueHidden, tmpLabelHeight, tmpH, fontSize)}
+            style={getSliderStyle(
+              isValueHidden,
+              tmpLabelHeight,
+              tmpH,
+              fontSize
+            )}
             onChange={this.handleSliderChange.bind(this, idx)}
             type="range"
             max={(maxVal && parseInt(maxVal, 10)) || 127}
@@ -174,16 +171,16 @@ const styles = theme => ({
         border: 'none',
         height: 70,
         width: 30,
-       background: 'goldenrod',
+        background: 'goldenrod',
 
         // '&:active': {
         //   boxShadow: '0 0 3px 3px rgb(24, 164, 157)',
         // },
       },
 
-      // '&:focus': {
-      //   outline: 'none',
-      // },
+      '&:focus': {
+        outline: 'none',
+      },
     },
   },
 
@@ -219,7 +216,7 @@ export default withStyles(styles)(
   )(MidiSlider)
 )
 
-function getSliderStyle (isValueHidden, tmpLabelHeight, tmpH, fontSize) {
+function getSliderStyle(isValueHidden, tmpLabelHeight, tmpH, fontSize) {
   return {
     width: isValueHidden ? 1.4 * tmpLabelHeight + tmpH : tmpH,
     bottom: isValueHidden

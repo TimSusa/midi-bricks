@@ -873,7 +873,6 @@ function filterPage(sliderList, label) {
 
   
   let wasFound = false
-  let i = 0
   arr.forEach(cur => {
     if (!wasFound && cur.type !== 'PAGE') {
       newArr.push({ ...cur })

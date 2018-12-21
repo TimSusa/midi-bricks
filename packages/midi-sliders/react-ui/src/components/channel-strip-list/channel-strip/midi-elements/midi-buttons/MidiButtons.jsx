@@ -24,7 +24,8 @@ class MidiButtons extends React.PureComponent {
       idx,
       height,
       width,
-      viewSettings: { isChangedTheme, isLayoutMode },
+      isChangedTheme,
+      isLayoutMode,
     } = this.props
 
     // button basic font colors
@@ -172,9 +173,10 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(MidiSliderActions, dispatch),
   }
 }
-function mapStateToProps({ viewSettings }) {
+function mapStateToProps({ viewSettings: { isChangedTheme, isLayoutMode } }) {
   return {
-    viewSettings,
+    isChangedTheme,
+    isLayoutMode,
   }
 }
 

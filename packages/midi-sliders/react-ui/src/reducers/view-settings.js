@@ -123,7 +123,6 @@ export const viewSettings = createReducer(initState, {
     }
     if (availableDrivers) {
       return { ...footerState, availableDrivers }
-
     } else {
       return { ...footerState }
     }

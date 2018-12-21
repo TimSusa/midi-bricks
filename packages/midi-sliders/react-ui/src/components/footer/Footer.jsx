@@ -1,3 +1,4 @@
+import { FooterButton } from './FooterButton'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
@@ -20,7 +21,10 @@ class Footer extends React.Component {
   render() {
     const {
       classes,
-      viewSettings: { footerPages, isSettingsMode, isLiveMode, pageType },
+      footerPages,
+      isSettingsMode,
+      isLiveMode,
+      pageType,
       actions,
     } = this.props
     const { value } = this.state
@@ -48,13 +52,13 @@ class Footer extends React.Component {
                     <LeftIcon className={classes.iconColor} />
                   </IconButton>
 
-                  <Button
-                    className={classes.button}
-                    onClick={this.handleClick.bind(this, item)}
-                    value={idx}
-                  >
-                    {item && item.label}
-                  </Button>
+                  <FooterButton
+                    classes={classes}
+                    value={this.state.value}
+                    idx={idx}
+                    item={item}
+                    handleClick={this.handleClick}
+                  />
 
                   <IconButton
                     onClick={actions.swapFooterPages.bind(this, {
@@ -71,19 +75,20 @@ class Footer extends React.Component {
               )
             }
             return (
-              <Button
-                className={classes.button}
+              <FooterButton
                 key={`footer-button-${idx}`}
-                onClick={this.handleClick.bind(this, item)}
-                value={idx}
-              >
-                {item && item.label}
-              </Button>
+                classes={classes}
+                value={this.state.value}
+                idx={idx}
+                item={item}
+                handleClick={this.handleClick}
+              />
             )
           })}
         <Tooltip title="Toggle Live Mode">
           <Button
             className={classes.liveButton}
+            style={{ boxShadow: isLiveMode && '0 0 3px 3px rgb(24, 164, 157)' }}
             onClick={this.handleLiveButtonClick}
           >
             Live
@@ -97,7 +102,8 @@ class Footer extends React.Component {
     this.setState({ value })
   }
 
-  handleClick = (entry, e) => {
+  handleClick = (entry, value) => {
+    this.setState({ value })
     if (this.props.viewSettings.isLiveMode) {
       this.props.actions.extractPage({ label: entry.label })
     } else {
@@ -111,7 +117,6 @@ class Footer extends React.Component {
       this.props.actions.goBack()
     }
     this.props.actions.toggleLiveMode()
-
   }
 }
 
@@ -131,12 +136,15 @@ const styles = theme => ({
   button: {
     color: theme.palette.primary.contrastText,
     fontWeight: 600,
-    height: 60,
+    padding: 8,
+    marginLeft: 8,
+    height: 16,
   },
   liveButton: {
     marginLeft: 'auto',
+    marginRight: 8,
+    fontWeight: 600,
     color: theme.palette.primary.contrastText,
-    width: 8,
   },
   signButton: {
     width: 16,
@@ -147,9 +155,14 @@ const styles = theme => ({
   },
 })
 
-function mapStateToProps({ viewSettings }) {
+function mapStateToProps({
+  viewSettings: { footerPages, isSettingsMode, isLiveMode, pageType },
+}) {
   return {
-    viewSettings,
+    footerPages,
+    isSettingsMode,
+    isLiveMode,
+    pageType,
   }
 }
 

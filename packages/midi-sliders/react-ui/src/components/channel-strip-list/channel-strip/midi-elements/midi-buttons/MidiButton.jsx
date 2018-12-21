@@ -3,63 +3,60 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
-class MidiButton extends React.PureComponent {
-  render() {
-    const {
-      classes,
-      buttonStyle,
-      onChangeStart = () => {},
-      onChangeEnd = () => {},
-      fontColorStyle,
-      label,
-      idx,
-    } = this.props
-    return (
-      <Button
-        disableTouchRipple
-        disableFocusRipple
-        style={buttonStyle}
-        onContextMenu={this.preventCtxMenu}
-        classes={{ root: classes.button }}
-        variant="contained"
-        onMouseDown={
-          !this.isTouchDevice()
-            ? onChangeStart.bind(this, idx)
-            : e => e.preventDefault()
-        }
-        onMouseUp={
-          !this.isTouchDevice()
-            ? onChangeEnd.bind(this, idx)
-            : e => e.preventDefault()
-        }
-        onTouchStart={onChangeStart.bind(this, idx)}
-        onTouchEnd={onChangeEnd.bind(this, idx)}
+const MidiButton = props => {
+  const {
+    classes,
+    buttonStyle,
+    onChangeStart = () => {},
+    onChangeEnd = () => {},
+    fontColorStyle,
+    label,
+    idx,
+  } = props
+  return (
+    <Button
+      disableTouchRipple
+      disableFocusRipple
+      style={buttonStyle}
+      onContextMenu={preventCtxMenu}
+      classes={{
+        root: classes.button,
+      }}
+      variant="contained"
+      onMouseDown={
+        !isTouchDevice()
+          ? onChangeStart.bind(this, idx)
+          : e => e.preventDefault()
+      }
+      onMouseUp={
+        !isTouchDevice() ? onChangeEnd.bind(this, idx) : e => e.preventDefault()
+      }
+      onTouchStart={onChangeStart.bind(this, idx)}
+      onTouchEnd={onChangeEnd.bind(this, idx)}
+    >
+      <Typography
+        variant="body1"
+        style={fontColorStyle}
+        className={classes.label}
       >
-        <Typography
-          variant="body1"
-          style={fontColorStyle}
-          className={classes.label}
-        >
-          {label}
-        </Typography>
-      </Button>
-    )
-  }
+        {label}
+      </Typography>
+    </Button>
+  )
+}
 
-  // For touch-devices, we do not want
-  // context menu being shown on touch events
-  preventCtxMenu = e => {
-    e.preventDefault()
-    e.stopPropagation()
-    return false
-  }
+// For touch-devices, we do not want
+// context menu being shown on touch events
+const preventCtxMenu = e => {
+  e.preventDefault()
+  e.stopPropagation()
+  return false
+}
 
-  isTouchDevice = () => {
-    const hasToch =
-      'ontouchstart' in window || navigator.maxTouchPoints // works on most browsers // works on IE10/11 and Surface
+const isTouchDevice = () => {
+  const hasToch = 'ontouchstart' in window || navigator.maxTouchPoints // works on most browsers // works on IE10/11 and Surface
 
-    return !!hasToch
-  }
+  return !!hasToch
 }
 
 const styles = theme => ({
