@@ -120,7 +120,7 @@ class GlobalSettingsPage extends React.PureComponent {
                 let isBadChosenInputChannel = false
                 if (isBadChosenDriver(chosenOutputs, driverName)) {
                   isBadChosenOutputDriver = true
-                  title = `Output Driver "${driverName}" is disabled in MIDI Driver Settings. `
+                  title += `Output Driver "${driverName}" is disabled in MIDI Driver Settings. `
                 } else {
                   isBadChosenOutputChannel = isBadChosenChannel(
                     chosenOutputs,
@@ -129,7 +129,7 @@ class GlobalSettingsPage extends React.PureComponent {
                     type,
                     true
                   )
-                  if (isBadChosenOutputChannel) {
+                  if (isBadChosenOutputChannel && driverName) {
                     if (midiChannel) {
                       channelTooltipTitle = `Output Channel "${midiChannel}" for driver "${driverName}" is disabled in MIDI Driver Settings`
                     } else {
@@ -139,7 +139,7 @@ class GlobalSettingsPage extends React.PureComponent {
                 }
                 if (isBadChosenDriver(chosenInputs, driverNameInput)) {
                   isBadChosenInputDriver = true
-                  title = `Input Driver "${driverNameInput}" is disabled in MIDI Driver Settings. `
+                  title += `Input Driver "${driverNameInput}" is disabled in MIDI Driver Settings. `
                 } else {
                   isBadChosenInputChannel = isBadChosenChannel(
                     chosenInputs,
@@ -148,7 +148,7 @@ class GlobalSettingsPage extends React.PureComponent {
                     type,
                     false
                   )
-                  if (isBadChosenInputChannel) {
+                  if (isBadChosenInputChannel && driverNameInput) {
                     if (midiChannelInput) {
                       channelTooltipTitle = `Input Channel "${midiChannelInput}" for driver "${driverNameInput}" is disabled in MIDI Driver Settings`
                     } else {
@@ -176,7 +176,7 @@ class GlobalSettingsPage extends React.PureComponent {
                           background: isBadChosenOutputDriver && 'pink',
                         }}
                       >
-                        {driverName || 'None'}
+                        {driverName || sliderEntry.driverName || 'None'}
                       </TableCell>
                       <TableCell
                         style={{
@@ -207,7 +207,7 @@ class GlobalSettingsPage extends React.PureComponent {
                           background: isBadChosenInputDriver && 'pink',
                         }}
                       >
-                        {driverNameInput || driverNameInput || 'None'}
+                        {driverNameInput || sliderEntry.driverNameInput || 'None'}
                       </TableCell>
                       <TableCell>
                         {(listenToCc &&
@@ -357,11 +357,11 @@ function createTooltipAndBackground(type, driverNameInput, driverName) {
     } else if (driverName) {
       //title = `Output: ${driverName}`
       if (!driverNameInput) {
-        title = title + ' / Input: No MIDI Input Driver available'
+        title = ' Input: No MIDI Input Driver available. '
         background = 'yellow'
       }
     } else if (!driverName) {
-      title = 'No MIDI Output Driver available'
+      title = 'No MIDI Output Driver available. '
       background = 'red'
     }
   }
