@@ -33,7 +33,7 @@ class ColorModal extends React.PureComponent {
   }
 
   render() {
-    const { classes, sliderEntry, title = '' } = this.props
+    const { classes, i, title = '' } = this.props
     return (
       <div>
         <Tooltip title={'Change Color: ' + title}>
@@ -64,13 +64,13 @@ class ColorModal extends React.PureComponent {
             </DialogContentText>
             <SketchPicker
               color={this.state.color.rgb}
-              onChange={this.handleColorChange.bind(this, sliderEntry.i)}
+              onChange={this.handleColorChange.bind(this, i)}
             />
           </DialogContent>
           <DialogActions>
             <Button
               className={classes.iconColor}
-              onClick={this.handleClose.bind(this, sliderEntry)}
+              onClick={this.handleClose}
               color="primary"
               autoFocus
             >
@@ -82,8 +82,6 @@ class ColorModal extends React.PureComponent {
     )
   }
 
-  // In order to avoid performance spikes,
-  // debounce
   handleColorChange = debounce((i, c) => {
     this.setState({ color: c })
 
@@ -105,7 +103,7 @@ class ColorModal extends React.PureComponent {
     e.preventDefault()
   }
 
-  handleClose = (sliderEntry, e) => {
+  handleClose = () => {
     this.setState({ open: false })
     this.props.onClose && this.props.onClose()
   }

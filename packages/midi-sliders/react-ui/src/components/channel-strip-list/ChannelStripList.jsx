@@ -35,8 +35,10 @@ class ChannelStripList extends React.PureComponent {
         isLayoutMode = true,
         isCompactHorz = true,
         isAutoArrangeMode = true,
+        isSettingsMode = true,
         isSettingsDialogMode = false,
         isLiveMode = false,
+        lastFocusedIdx
       },
     } = this.props
 
@@ -65,7 +67,62 @@ class ChannelStripList extends React.PureComponent {
           layout={sliderList}
           onLayoutChange={isLayoutMode ? this.onLayoutChange : () => {}}
         >
-          {this.renderChannelStrips()}
+          {sliderList.map((sliderEntry, idx) => {
+            return (
+              <div
+                key={sliderEntry.i}
+                onFocus={e => console.log('focus on ', sliderEntry.i)}
+              >
+                <SizeMe monitorHeight>
+                  {({ size }) => {
+                    {
+                      const settingsStyle = {
+                        position: 'absolute',
+                        right: -12,
+                        top: -16,
+                        cursor: 'pointer',
+                      }
+                      return (
+                        <div
+                          style={{
+                            height: '100%',
+                            borderRadius: 5,
+                            background: isLayoutMode
+                              ? 'azure'
+                              : isSettingsMode
+                              ? 'beige'
+                              : 'transparent',
+                          }}
+                        >
+                          <ChannelStrip
+                            size={size}
+                            sliderEntry={sliderEntry}
+                            idx={idx}
+                            isDisabled={isLayoutMode}
+                          />
+                          {isSettingsMode ? (
+                            <span className="settings" style={settingsStyle}>
+                              <MidiSettingsDialogButton
+                                toggleSettings={
+                                  this.props.actions.toggleSettingsDialogMode
+                                }
+                                lastFocusedIdx={lastFocusedIdx}
+                                isSettingsDialogMode={isSettingsDialogMode}
+                                sliderEntry={sliderEntry}
+                                idx={idx}
+                              />
+                            </span>
+                          ) : (
+                            <div />
+                          )}
+                        </div>
+                      )
+                    }
+                  }}
+                </SizeMe>
+              </div>
+            )
+          })}
         </GridLayout>
       )
     } else {
@@ -82,78 +139,6 @@ class ChannelStripList extends React.PureComponent {
     }
   }
 
-  renderChannelStrips = () => {
-    const {
-      sliderList,
-      viewSettings: {
-        isSettingsDialogMode,
-        isSettingsMode,
-        isLayoutMode,
-        lastFocusedIdx,
-      },
-    } = this.props
-
-    return (
-      sliderList &&
-      sliderList.map((sliderEntry, idx) => {
-        return (
-          <div
-            key={sliderEntry.i}
-            onFocus={e => console.log('focus on ', sliderEntry.i)}
-          >
-            <SizeMe monitorHeight>
-              {({ size }) => {
-                {
-                  const settingsStyle = {
-                    position: 'absolute',
-                    right: -12,
-                    top: -16,
-                    cursor: 'pointer',
-                  }
-                  return (
-                    <div
-                      style={{
-                        height: '100%',
-                        borderRadius: 5,
-                        background: isLayoutMode
-                          ? 'azure'
-                          : isSettingsMode
-                          ? 'beige'
-                          : 'transparent',
-                      }}
-                    >
-                      <ChannelStrip
-                        size={size}
-                        sliderEntry={sliderEntry}
-                        idx={idx}
-                        isDisabled={isLayoutMode}
-                      />
-                      {isSettingsMode ? (
-                        <span className="settings" style={settingsStyle}>
-                          <MidiSettingsDialogButton
-                            toggleSettings={
-                              this.props.actions.toggleSettingsDialogMode
-                            }
-                            lastFocusedIdx={lastFocusedIdx}
-                            isSettingsDialogMode={isSettingsDialogMode}
-                            sliderEntry={sliderEntry}
-                            idx={idx}
-                          />
-                        </span>
-                      ) : (
-                        <div />
-                      )}
-                    </div>
-                  )
-                }
-              }}
-            </SizeMe>
-          </div>
-        )
-      })
-    )
-  }
-
   onLayoutChange = layout => {
     if (this.props.viewSettings.isLayoutMode) {
       this.props.actions.changeListOrder({ listOrder: layout })
@@ -161,7 +146,6 @@ class ChannelStripList extends React.PureComponent {
   }
 
   handleKeyPress = e => {
-    console.log(e.keyCode)
     // m: midi driver settings
     if (e.keyCode === 109) {
       e.preventDefault()

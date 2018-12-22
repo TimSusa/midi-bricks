@@ -327,30 +327,26 @@ class MidiSettings extends React.PureComponent {
 
               <ColorModal
                 title="Background"
-                sliderEntry={sliderEntry}
-                idx={idx}
+                i={i}
                 fieldName="color"
                 color={colors.color}
               />
               <ColorModal
                 title="Activated State"
-                sliderEntry={sliderEntry}
-                idx={idx}
+                i={i}
                 fieldName="colorActive"
                 color={colors.colorActive}
               />
               <ColorModal
                 title="Font-Color"
-                sliderEntry={sliderEntry}
-                idx={idx}
+                i={i}
                 fieldName="colorFont"
                 color={colors.colorFont}
               />
 
               <ColorModal
                 title="Activated Font-Color"
-                sliderEntry={sliderEntry}
-                idx={idx}
+                i={i}
                 fieldName="colorFontActive"
                 color={colors.colorFontActive}
               />
@@ -471,7 +467,6 @@ class MidiSettings extends React.PureComponent {
       return getItem('None', 0)
     }
 
-    // const array = ['all', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16']
     return channels.map((name, idx) => getItem(name, idx))
   }
 
@@ -489,7 +484,7 @@ class MidiSettings extends React.PureComponent {
 
     Object.keys(obj).forEach((name, idx) => {
       const { ccChannels, noteChannels } = obj[name]
-      const hasContent = arr => Array.isArray(arr) && arr.length > 0
+
       if (hasContent(ccChannels) || hasContent(noteChannels)) {
         ret.push(
           <MenuItem key={`driver-${idx}`} value={name}>
@@ -510,7 +505,6 @@ class MidiSettings extends React.PureComponent {
 
     Object.keys(obj).forEach((name, idx) => {
       const { ccChannels, noteChannels } = obj[name]
-      const hasContent = arr => Array.isArray(arr) && arr.length > 0
       if (hasContent(ccChannels) || hasContent(noteChannels)) {
         ret = false
       }
@@ -630,3 +624,5 @@ const getItem = (name, idx) => (
     {name}
   </MenuItem>
 )
+
+const hasContent = arr => Array.isArray(arr) && arr.length > 0

@@ -8,12 +8,17 @@ import MidiPage from './midi-elements/MidiPage'
 import MidiSliderHorz from './midi-elements/MidiSliderHorz'
 
 const ChannelStrip = props => {
-  const { sliderEntry, sliderEntry: {type}, idx, classes, size, isDisabled } = props
+  const {
+    sliderEntry,
+    sliderEntry: { type },
+    idx,
+    classes,
+    size,
+    isDisabled,
+  } = props
   const tmpH = (size && size.height) || 0
   const tmpW = (size && size.width) || 0
-  const isButton =
-    type !== STRIP_TYPE.SLIDER &&
-    type !== STRIP_TYPE.LABEL
+  const isButton = type !== STRIP_TYPE.SLIDER && type !== STRIP_TYPE.LABEL
   return (
     <div className={classes.root}>
       {type === STRIP_TYPE.SLIDER && (
