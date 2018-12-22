@@ -93,12 +93,12 @@ class Footer extends React.Component {
     )
   }
 
-  handleClick = (entry, value) => {
+  handleClick = ({label, i}, value) => {
     this.props.actions.setFooterButtonFocus({i: value})
     if (this.props.isLiveMode) {
-      this.props.actions.extractPage({ label: entry.label })
+      this.props.actions.extractPage({ label })
     } else {
-      scrollByIndex(entry.i);
+      scrollByIndex(i);
     }
   }
 

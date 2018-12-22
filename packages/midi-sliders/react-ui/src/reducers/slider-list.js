@@ -780,8 +780,8 @@ const transformAddState = (state, action, type) => {
     i: getUniqueId(),
     x: addStateLength(),
     y: addStateLength(),
-    w: 2,
-    h: 3,
+    w: (type === PAGE) ? 18 : 2,
+    h: (type === SLIDER) ? 6 : 3,
     static: false,
     colors: {
       color: 'rgba(240, 255, 0, 1)',

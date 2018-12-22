@@ -30,6 +30,7 @@ class ChannelStripList extends React.PureComponent {
   render() {
     const {
       classes,
+      actions,
       sliderList,
       viewSettings: {
         isLayoutMode = true,
@@ -100,11 +101,11 @@ class ChannelStripList extends React.PureComponent {
                             idx={idx}
                             isDisabled={isLayoutMode}
                           />
-                          {isSettingsMode ? (
+                          {(isSettingsMode && !isLayoutMode) ? (
                             <span className="settings" style={settingsStyle}>
                               <MidiSettingsDialogButton
                                 toggleSettings={
-                                  this.props.actions.toggleSettingsDialogMode
+                                  actions.toggleSettingsDialogMode
                                 }
                                 lastFocusedIdx={lastFocusedIdx}
                                 isSettingsDialogMode={isSettingsDialogMode}
@@ -130,7 +131,7 @@ class ChannelStripList extends React.PureComponent {
         <Typography variant="h4" className={classes.noMidiTypography}>
           <br />
           <br />
-          Please add a slider!
+          At first, please add a page.
           <br />
           <br />
           You can do this with the button at the right top in the AppBar → ↑

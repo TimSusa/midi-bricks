@@ -20,6 +20,7 @@ const noop = () => ({})
 class MidiButtons extends React.PureComponent {
   render() {
     const {
+      actions,
       sliderEntry: { type, isNoteOn, label, colors, fontSize, fontWeight },
       idx,
       height,
@@ -28,46 +29,23 @@ class MidiButtons extends React.PureComponent {
       isLayoutMode,
     } = this.props
 
-    // button basic font colors
-    const basicFont = isChangedTheme ? 'black' : '#616161' // bad hack go away
-    const bbCol = colors && colors.colorFont && colors.colorFont
-    const colorFont = bbCol || basicFont
-
-    // button background
-    const basicBackground = isChangedTheme ? '#18A49D' : 'white' // bad hack go away
-    const sbCol = colors && colors.color && colors.color
-    const color = sbCol || basicBackground
-
-    // button activ background
-    const sColAct = colors && colors.colorActive && colors.colorActive
-    const colorActivated = sColAct || '#FFFF00'
-    const buttonStyle = {
-      height: (height || 0) - 0,
-      width: (width || 0) - 0,
-      background: isNoteOn ? colorActivated : color,
-    }
-
-    // button active font colors
-    const bColAct = colors && colors.colorFontActive && colors.colorFontActive
-    const colorFontActive = bColAct || '#BEBEBE'
-
-    // button font size
-    const tmpFontSize = (fontSize || 16) + 'px'
-    const tmpFontWeight = fontWeight || 500
-
-    const fontColorStyle = {
-      color: !isNoteOn ? colorFont : colorFontActive,
-      fontSize: tmpFontSize,
-      fontWeight: tmpFontWeight,
-    }
+    const { fontColorStyle, buttonStyle } = getStyles(
+      isChangedTheme,
+      colors,
+      height,
+      width,
+      isNoteOn,
+      fontSize,
+      fontWeight
+    )
 
     if (type === BUTTON) {
       return (
         <MidiButton
           label={label}
           idx={idx}
-          onChangeStart={!isLayoutMode ? this.props.actions.toggleNote : noop}
-          onChangeEnd={!isLayoutMode ? this.props.actions.toggleNote : noop}
+          onChangeStart={!isLayoutMode ? actions.toggleNote : noop}
+          onChangeEnd={!isLayoutMode ? actions.toggleNote : noop}
           fontColorStyle={fontColorStyle}
           buttonStyle={buttonStyle}
         />
@@ -77,7 +55,7 @@ class MidiButtons extends React.PureComponent {
         <MidiButton
           label={label}
           idx={idx}
-          onChangeStart={!isLayoutMode ? this.props.actions.toggleNote : noop}
+          onChangeStart={!isLayoutMode ? actions.toggleNote : noop}
           fontColorStyle={fontColorStyle}
           buttonStyle={buttonStyle}
         />
@@ -119,14 +97,6 @@ class MidiButtons extends React.PureComponent {
     }
   }
 
-  // Prevent double events, after touch,
-  // from being triggered
-  handleTouchButtonTrigger = (idx, e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    this.props.actions.toggleNote(idx)
-  }
-
   handleButtonCcTriggerOn = (idx, e) => {
     e.preventDefault()
     e.stopPropagation()
@@ -166,6 +136,44 @@ class MidiButtons extends React.PureComponent {
     e.stopPropagation()
     this.props.actions.sendProgramChange({ idx })
   }
+}
+
+function getStyles(
+  isChangedTheme,
+  colors,
+  height,
+  width,
+  isNoteOn,
+  fontSize,
+  fontWeight
+) {
+  const basicFont = isChangedTheme ? 'black' : '#616161' // bad hack go away
+  const bbCol = colors && colors.colorFont && colors.colorFont
+  const colorFont = bbCol || basicFont
+  // button background
+  const basicBackground = isChangedTheme ? '#18A49D' : 'white' // bad hack go away
+  const sbCol = colors && colors.color && colors.color
+  const color = sbCol || basicBackground
+  // button activ background
+  const sColAct = colors && colors.colorActive && colors.colorActive
+  const colorActivated = sColAct || '#FFFF00'
+  const buttonStyle = {
+    height: (height || 0) - 0,
+    width: (width || 0) - 0,
+    background: isNoteOn ? colorActivated : color,
+  }
+  // button active font colors
+  const bColAct = colors && colors.colorFontActive && colors.colorFontActive
+  const colorFontActive = bColAct || '#BEBEBE'
+  // button font size
+  const tmpFontSize = (fontSize || 16) + 'px'
+  const tmpFontWeight = fontWeight || 500
+  const fontColorStyle = {
+    color: !isNoteOn ? colorFont : colorFontActive,
+    fontSize: tmpFontSize,
+    fontWeight: tmpFontWeight,
+  }
+  return { fontColorStyle, buttonStyle }
 }
 
 function mapDispatchToProps(dispatch) {

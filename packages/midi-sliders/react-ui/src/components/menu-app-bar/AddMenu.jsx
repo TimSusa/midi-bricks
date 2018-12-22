@@ -47,6 +47,8 @@ class AddMenu extends React.PureComponent {
             open={open}
             onClose={this.handleClose}
           >
+            <MenuItem onClick={this.handleAddPage}>Add Page</MenuItem>
+
             <MenuItem onClick={this.handleAddSlider}>
               Add Vertical Slider
             </MenuItem>
@@ -72,7 +74,6 @@ class AddMenu extends React.PureComponent {
               Add Button Program Change
             </MenuItem>
             <MenuItem onClick={this.handleAddLabel}>Add Label</MenuItem>
-            <MenuItem onClick={this.handleAddPage}>Add Page</MenuItem>
           </Menu>
         </div>
       )
