@@ -55,7 +55,6 @@ const preventCtxMenu = e => {
 
 const isTouchDevice = () => {
   const hasToch = 'ontouchstart' in window || navigator.maxTouchPoints // works on most browsers // works on IE10/11 and Surface
-
   return !!hasToch
 }
 

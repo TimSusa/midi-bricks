@@ -2,17 +2,31 @@ import React from 'react'
 import { Button } from '@material-ui/core'
 
 export const FooterButton = props => {
-  const { classes, idx, item, value, handleClick } = props
+  const { classes, item, lastFocusedFooterButtonIdx, isLiveMode, actions } = props
   return (
     <Button
       className={classes.button}
       style={{
-        boxShadow: idx === value && '0 0 3px 3px rgb(24, 164, 157)',
+        boxShadow: item.i === lastFocusedFooterButtonIdx && '0 0 3px 3px rgb(24, 164, 157)',
       }}
-      onClick={ handleClick.bind(this, item, idx)}
-      value={idx}
+      onClick={ handleClick.bind(this, {item, lastFocusedFooterButtonIdx, isLiveMode, actions})}
+      value={item.i}
     >
       {item && item.label}
     </Button>
   )
+}
+
+const handleClick = ({item, lastFocusedFooterButtonIdx, isLiveMode, actions}) => {
+  actions.setFooterButtonFocus({i: lastFocusedFooterButtonIdx})
+  if (isLiveMode) {
+    actions.extractPage({ label: item.label })
+  } else {
+    scrollByIndex(item.i);
+  }
+}
+
+function scrollByIndex(i) {
+  const elem = document.getElementById(`page-${i}`);
+  elem.scrollIntoView({ block: 'start' });
 }

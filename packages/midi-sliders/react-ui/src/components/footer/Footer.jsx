@@ -13,107 +13,101 @@ import * as SliderSettinsgsAction from '../../actions/slider-list'
 import { Button, Tooltip } from '@material-ui/core'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 
-class Footer extends React.Component {
+const Footer = props => {
+  const {
+    classes,
+    footerPages = [],
+    lastFocusedFooterButtonIdx,
+    isSettingsMode,
+    isLiveMode,
+    pageType,
+    actions,
+  } = props
 
-  render() {
-    const {
-      classes,
-      footerPages = [],
-      lastFocusedFooterButtonIdx,
-      isSettingsMode,
-      isLiveMode,
-      pageType,
-      actions,
-    } = this.props
-    if (pageType !== PAGE_TYPES.HOME_MODE && !isLiveMode) return <div />
-    return (
-      <BottomNavigation
-        value={lastFocusedFooterButtonIdx}
-        className={classes.root}
-      >
-        {footerPages.map((item, idx) => {
-          if (isSettingsMode) {
-            return (
-              <div key={`footer-button-${idx}`}>
-                <IconButton
-                  onClick={actions.swapFooterPages.bind(this, {
-                    srcIdx: idx,
-                    offset: -1,
-                  })}
-                  className={classes.signButton}
-                  color="inherit"
-                  aria-label="Menu"
-                >
-                  <LeftIcon className={classes.iconColor} />
-                </IconButton>
+  if (pageType !== PAGE_TYPES.HOME_MODE && !isLiveMode) return <div />
 
-                <FooterButton
-                  classes={classes}
-                  value={lastFocusedFooterButtonIdx}
-                  idx={item.i}
-                  item={item}
-                  handleClick={this.handleClick}
-                />
-
-                <IconButton
-                  onClick={actions.swapFooterPages.bind(this, {
-                    srcIdx: idx,
-                    offset: 1,
-                  })}
-                  className={classes.signButton}
-                  color="inherit"
-                  aria-label="Menu"
-                >
-                  <RightIcon className={classes.iconColor} />
-                </IconButton>
-              </div>
-            )
-          }
+  return (
+    <BottomNavigation
+      value={lastFocusedFooterButtonIdx}
+      className={classes.root}
+    >
+      {footerPages.map((item, idx) => {
+        if (isSettingsMode) {
           return (
-            <FooterButton
-              key={`footer-button-${idx}`}
-              classes={classes}
-              value={lastFocusedFooterButtonIdx}
-              idx={item.i}
-              item={item}
-              handleClick={this.handleClick}
-            />
+            <div key={`footer-button-${idx}`}>
+              <IconButton
+                onClick={actions.swapFooterPages.bind(this, {
+                  srcIdx: idx,
+                  offset: -1,
+                })}
+                className={classes.signButton}
+                color="inherit"
+                aria-label="Menu"
+              >
+                <LeftIcon className={classes.iconColor} />
+              </IconButton>
+
+              <FooterButton
+                classes={classes}
+                lastFocusedFooterButtonIdx={lastFocusedFooterButtonIdx}
+                item={item}
+                isLiveMode={isLiveMode}
+                actions={actions}
+              />
+
+              <IconButton
+                onClick={actions.swapFooterPages.bind(this, {
+                  srcIdx: idx,
+                  offset: 1,
+                })}
+                className={classes.signButton}
+                color="inherit"
+                aria-label="Menu"
+              >
+                <RightIcon deleteclassName={classes.iconColor} />
+              </IconButton>
+            </div>
           )
-        })}
-        <Tooltip title="Toggle Live Mode">
-          <Button
-            className={classes.liveButton}
-            style={{ boxShadow: isLiveMode && '0 0 3px 3px rgb(24, 164, 157)' }}
-            onClick={this.handleLiveButtonClick}
-          >
-            Live
-          </Button>
-        </Tooltip>
-      </BottomNavigation>
-    )
-  }
+        }
 
-  handleClick = ({label, i}, value) => {
-    this.props.actions.setFooterButtonFocus({i: value})
-    if (this.props.isLiveMode) {
-      this.props.actions.extractPage({ label })
-    } else {
-      scrollByIndex(i);
-    }
-  }
+        return (
+          <FooterButton
+            key={`footer-button-${idx}`}
+            classes={classes}
+            lastFocusedFooterButtonIdx={lastFocusedFooterButtonIdx}
+            item={item}
+            isLiveMode={isLiveMode}
+            actions={actions}
+          />
+        )
+      })}
+      <Tooltip title="Toggle Live Mode">
+        <Button
+          className={classes.liveButton}
+          style={{
+            boxShadow: isLiveMode && '0 0 3px 3px rgb(24, 164, 157)',
+          }}
+          onClick={handleLiveButtonClick.bind(this, isLiveMode, actions)}
+        >
+          Live
+        </Button>
+      </Tooltip>
+    </BottomNavigation>
+  )
+}
 
-  handleLiveButtonClick = () => {
-    if (this.props.isLiveMode) {
-      this.props.actions.goBack()
-      this.props.actions.setFooterButtonFocus({i: ''})
-    }
-    this.props.actions.toggleLiveMode()
+const handleLiveButtonClick = (isLiveMode, actions) => {
+  if (isLiveMode) {
+    actions.goBack()
+    actions.setFooterButtonFocus({ i: '' })
   }
+  actions.toggleLiveMode()
 }
 
 Footer.propTypes = {
   classes: PropTypes.object.isRequired,
 }
+
 const styles = theme => ({
   root: {
     background: theme.palette.appBar.background,
@@ -145,11 +139,6 @@ const styles = theme => ({
     cursor: 'pointer',
   },
 })
-
-function scrollByIndex(i) {
-  const elem = document.getElementById(`page-${i}`);
-  elem.scrollIntoView({ block: 'start' });
-}
 
 function mapStateToProps({
   viewSettings: {

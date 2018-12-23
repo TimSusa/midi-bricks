@@ -58,7 +58,7 @@ const MidiSettingsInput = props => {
           value={driverNameInput}
         >
           {renderDriverSelection({
-            inputs,
+            inputs
           })}
         </Select>
       </FormControl>

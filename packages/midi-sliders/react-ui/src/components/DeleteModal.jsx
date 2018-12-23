@@ -18,7 +18,16 @@ class DeleteModal extends React.PureComponent {
   }
 
   render() {
-    const { classes, sliderEntry, asButton, isOpen } = this.props
+    const {
+      classes,
+      sliderEntry,
+      asButton,
+      isOpen,
+      onAction,
+      actions,
+      onClose,
+    } = this.props
+
     return (
       <React.Fragment>
         {asButton && (
@@ -32,7 +41,7 @@ class DeleteModal extends React.PureComponent {
             </Button>
           </Tooltip>
         )}
-^
+
         <Dialog
           open={this.state.open || isOpen}
           onClose={this.handleClose}
@@ -49,7 +58,13 @@ class DeleteModal extends React.PureComponent {
               No
             </Button>
             <Button
-              onClick={this.handleClose.bind(this, sliderEntry)}
+              onClick={this.handleClose.bind(
+                this,
+                sliderEntry,
+                onAction,
+                actions,
+                onClose
+              )}
               color="secondary"
               autoFocus
             >
@@ -70,11 +85,12 @@ class DeleteModal extends React.PureComponent {
     e.preventDefault()
   }
 
-  handleClose = ({i}, e) => {
+  handleClose = ({ i }, onAction, actions, onClose) => {
     this.setState({ open: false })
-    this.props.actions.delete({ i })
-    this.props.actions.deletePageFromFooter({ idx: i })
-    this.props.onClose()
+    onAction && onAction()
+    actions.delete({ i })
+    actions.deletePageFromFooter({ idx: i })
+    onClose()
   }
 }
 
@@ -88,31 +104,14 @@ const styles = theme => ({
     color: theme.palette.primary.contrastText,
     cursor: 'pointer',
   },
-  input: {
-    color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
-    fontSize: '1rem',
-    fontWeight: 400,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em',
-  },
-  inputInput: {
-    margin: theme.spacing.unit,
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-  },
-  label: {
-    color: theme.palette.primary.contrastText,
-  },
-  select: {
-    color: theme.palette.primary.contrastText,
-    lineHeight: '1.375em',
-  },
 })
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators( { ...MidiSliderActions, ...ViewActions }, dispatch),
+    actions: bindActionCreators(
+      { ...MidiSliderActions, ...ViewActions },
+      dispatch
+    ),
   }
 }
 

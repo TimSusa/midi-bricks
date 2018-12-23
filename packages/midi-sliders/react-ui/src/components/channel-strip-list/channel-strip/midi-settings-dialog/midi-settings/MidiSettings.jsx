@@ -10,9 +10,9 @@ import * as MidiSliderActions from '../../../../../actions/slider-list.js'
 import * as ViewActions from '../../../../../actions/view-settings.js'
 import DeleteModal from '../../../../DeleteModal'
 import DriverExpansionPanel from '../../../../DriverExpansionPanel'
-import { MidiSettingsLabel } from './elements/MidiSettingsLabel'
-import { MidiSettingsOutput } from './elements/MidiSettingsOutput'
 import MidiSettingsInput from './elements/MidiSettingsInput'
+import { MidiSettingsLabelInput } from './elements/MidiSettingsLabelInput'
+import { MidiSettingsOutput } from './elements/MidiSettingsOutput'
 import { MidiSettingsView } from './elements/MidiSettingsView'
 import { DriverEmtpyRedirectButton } from './elements/DriverEmtpyRedirectButton'
 
@@ -20,88 +20,86 @@ import { STRIP_TYPE } from '../../../../../reducers/slider-list'
 
 const { BUTTON, BUTTON_TOGGLE } = STRIP_TYPE
 
-class MidiSettings extends React.PureComponent {
-  render() {
-    const {
-      actions,
-      inputs = {},
-      outputs = {},
-      sliderEntry,
-      sliderEntry: { i, label, type },
-      idx,
-      classes,
-      onClose,
-    } = this.props
+const MidiSettings = props => {
+  const {
+    actions,
+    inputs = {},
+    outputs = {},
+    sliderEntry,
+    sliderEntry: { i, label, type },
+    idx,
+    classes,
+    onClose,
+  } = props
 
-    const isOutputsEmpty = isAllEmpty(outputs)
-    const isInputsEmpty = isAllEmpty(inputs)
+  const isOutputsEmpty = isAllEmpty(outputs)
+  const isInputsEmpty = isAllEmpty(inputs)
 
-    return (
-      <div className={classes.root}>
-        <MidiSettingsLabel
-          classes={classes}
-          idx={idx}
-          label={label}
-          i={i}
-          actions={actions}
-          type={type}
-        />
+  return (
+    <div className={classes.root}>
+      <MidiSettingsLabelInput
+        classes={classes}
+        idx={idx}
+        label={label}
+        i={i}
+        actions={actions}
+        type={type}
+      />
 
-        {type !== STRIP_TYPE.PAGE ? (
-          <DriverExpansionPanel label={'Outputs'} isEmpty={isOutputsEmpty}>
-            {isOutputsEmpty ? (
-              <DriverEmtpyRedirectButton actions={actions} />
-            ) : (
-              <MidiSettingsOutput
-                classes={classes}
-                sliderEntry={sliderEntry}
-                idx={idx}
-                outputs={outputs}
-                actions={actions}
-              />
-            )}
-          </DriverExpansionPanel>
-        ) : null}
-        <DriverExpansionPanel label={'Inputs'} isEmpty={isInputsEmpty}>
-          {isInputsEmpty ? (
+      {type !== STRIP_TYPE.PAGE ? (
+        <DriverExpansionPanel label={'Outputs'} isEmpty={isOutputsEmpty}>
+          {isOutputsEmpty ? (
             <DriverEmtpyRedirectButton actions={actions} />
           ) : (
-            <MidiSettingsInput
+            <MidiSettingsOutput
               classes={classes}
               sliderEntry={sliderEntry}
               idx={idx}
-              inputs={inputs}
+              outputs={outputs}
+              actions={actions}
             />
           )}
         </DriverExpansionPanel>
-        <DriverExpansionPanel label="View" isEmpty={false}>
-          <MidiSettingsView
-            sliderEntry={sliderEntry}
+      ) : null}
+      <DriverExpansionPanel label={'Inputs'} isEmpty={isInputsEmpty}>
+        {isInputsEmpty ? (
+          <DriverEmtpyRedirectButton actions={actions} />
+        ) : (
+          <MidiSettingsInput
             classes={classes}
-            actions={actions}
+            sliderEntry={sliderEntry}
+            idx={idx}
+            inputs={inputs}
           />
-        </DriverExpansionPanel>
-        <Tooltip title="Clone">
-          <Button
-            className={classes.button}
-            variant="contained"
-            onClick={actions.clone.bind(this, sliderEntry)}
-          >
-            <CopyIcon className={classes.iconColor} />
-          </Button>
-        </Tooltip>
-
-        <DeleteModal
-          asButton
-          isOpen={false}
+        )}
+      </DriverExpansionPanel>
+      <DriverExpansionPanel label="View" isEmpty={false}>
+        <MidiSettingsView
           sliderEntry={sliderEntry}
-          idx={idx}
-          onClose={onClose}
+          classes={classes}
           actions={actions}
         />
-      </div>
-    )
-  }
+      </DriverExpansionPanel>
+      <Tooltip title="Clone">
+        <Button
+          className={classes.button}
+          variant="contained"
+          onClick={actions.clone.bind(this, sliderEntry)}
+        >
+          <CopyIcon className={classes.iconColor} />
+        </Button>
+      </Tooltip>
+
+      <DeleteModal
+        asButton
+        isOpen={false}
+        sliderEntry={sliderEntry}
+        idx={idx}
+        onClose={onClose}
+        actions={actions}
+      />
+    </div>
+  )
 }
 
 const styles = theme => ({
@@ -109,18 +107,18 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
   },
-  expPanel: {
-    margin: theme.spacing.unit,
-    minHeight: theme.spacing.unit * 8,
-  },
+  // expPanel: {
+  //   margin: theme.spacing.unit,
+  //   minHeight: theme.spacing.unit * 8,
+  // },
   button: {
     margin: theme.spacing.unit,
     background: theme.palette.button.background,
   },
-  heading: {
-    margin: theme.spacing.unit,
-    color: theme.palette.primary.contrastText,
-  },
+  // heading: {
+  //   margin: theme.spacing.unit,
+  //   color: theme.palette.primary.contrastText,
+  // },
   iconColor: {
     color: theme.palette.primary.contrastText,
     cursor: 'pointer',
@@ -174,6 +172,7 @@ export const renderMidiChannelSelection = ({ inputs, outputs }, name, type) => {
 }
 
 export const renderDriverSelection = ({ inputs, outputs }) => {
+  console.log({ inputs, outputs })
   let ret = []
   const puts = inputs || outputs
   Object.keys(puts).forEach((name, idx) => {
