@@ -1,3 +1,4 @@
+import { MinMaxValInput } from './MinMaxValInput'
 import React from 'react'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -86,42 +87,32 @@ export const MidiSettingsOutput = props => {
       </FormControl>
       {[SLIDER, SLIDER_HORZ].includes(type) && (
         <React.Fragment>
-          <FormControl className={classes.formControl}>
-            <InputLabel className={classes.label} htmlFor="maxVal">
-              Maximum Value{' '}
-            </InputLabel>
-            <Input
-              className={classes.input}
-              id="number"
-              type="number"
-              name={`input-maxval-name-${idx}`}
-              value={(maxVal && maxVal) || 127}
-              onChange={e =>
-                actions.setMaxVal({
-                  idx,
-                  val: e.target.value,
-                })
-              }
-            />
-          </FormControl>
-          <FormControl className={classes.formControl}>
-            <InputLabel className={classes.label} htmlFor="minVal">
-              Minimum Value{' '}
-            </InputLabel>
-            <Input
-              className={classes.input}
-              id="number"
-              type="number"
-              name={`input-minval-name-${idx}`}
-              value={(minVal && minVal) || 0}
-              onChange={e =>
-                actions.setMinVal({
-                  idx,
-                  val: e.target.value,
-                })
-              }
-            />
-          </FormControl>
+          <MinMaxValInput
+            classes={classes}
+            label="Maximum Value"
+            value={maxVal}
+            name={`input-maxval-name-${idx}`}
+            limitVal={127}
+            onChange={e =>
+              actions.setMaxVal({
+                idx,
+                val: e.target.value,
+              })
+            }
+          />
+          <MinMaxValInput
+            classes={classes}
+            label="Minimum Value"
+            value={minVal}
+            name={`input-minval-name-${idx}`}
+            limitVal={0}
+            onChange={e =>
+              actions.setMinVal({
+                idx,
+                val: e.target.value,
+              })
+            }
+          />
         </React.Fragment>
       )}
       {
@@ -130,43 +121,32 @@ export const MidiSettingsOutput = props => {
             type
           ) && (
             <React.Fragment>
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.label} htmlFor="onVal">
-                  {' '}
-                  Value Button On
-                </InputLabel>
-                <Input
-                  className={classes.input}
-                  id="number"
-                  type="number"
-                  name={`input-onval-name-${idx}`}
-                  value={(onVal && onVal) || 127}
-                  onChange={e =>
-                    actions.setOnVal({
-                      idx,
-                      val: e.target.value,
-                    })
-                  }
-                />
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.label} htmlFor="offVal">
-                  Value Button Off
-                </InputLabel>
-                <Input
-                  className={classes.input}
-                  id="number"
-                  type="number"
-                  name={`input-offval-name-${idx}`}
-                  value={(offVal && offVal) || 0}
-                  onChange={e =>
-                    actions.setOffVal({
-                      idx,
-                      val: e.target.value,
-                    })
-                  }
-                />
-              </FormControl>
+              <MinMaxValInput
+                classes={classes}
+                label="Value Button On"
+                value={onVal}
+                name={`input-onval-name-${idx}`}
+                limitVal={127}
+                onChange={e =>
+                  actions.setOnVal({
+                    idx,
+                    val: e.target.value,
+                  })
+                }
+              />
+              <MinMaxValInput
+                classes={classes}
+                label="Value Button Off"
+                value={offVal}
+                name={`input-offval-name-${idx}`}
+                limitVal={0}
+                onChange={e =>
+                  actions.setOffVal({
+                    idx,
+                    val: e.target.value,
+                  })
+                }
+              />
             </React.Fragment>
           )}
         </React.Fragment>

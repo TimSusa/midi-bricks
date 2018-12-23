@@ -172,12 +172,10 @@ export const renderMidiChannelSelection = ({ inputs, outputs }, name, type) => {
 }
 
 export const renderDriverSelection = ({ inputs, outputs }) => {
-  console.log({ inputs, outputs })
   let ret = []
   const puts = inputs || outputs
   Object.keys(puts).forEach((name, idx) => {
     const { ccChannels, noteChannels } = puts[name]
-
     if (hasContent(ccChannels) || hasContent(noteChannels)) {
       ret.push(
         <MenuItem key={`driver-${idx}`} value={name}>
