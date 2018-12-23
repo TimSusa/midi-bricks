@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography } from '@material-ui/core'
+import { Typography, MenuItem } from '@material-ui/core'
 import InputLabel from '@material-ui/core/InputLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -24,10 +24,6 @@ export const MidiSettingsView = props => {
     classes,
     sliderEntry: { i, type, colors, fontSize, fontWeight, isValueHidden },
     actions,
-    handleButtonTypeChange,
-    renderButtonTypeSelection,
-    handleFontsizeChange,
-    handleFontweightChange,
   } = props
   return (
     <React.Fragment>
@@ -42,10 +38,10 @@ export const MidiSettingsView = props => {
               </InputLabel>
               <Select
                 className={classes.select}
-                onChange={handleButtonTypeChange.bind(this, idx)}
+                onChange={handleButtonTypeChange.bind(this, idx, actions)}
                 value={type}
               >
-                {renderButtonTypeSelection()}
+                {renderButtonTypeSelection(type)}
               </Select>
             </React.Fragment>
           )}
@@ -87,7 +83,7 @@ export const MidiSettingsView = props => {
           min={8}
           max={54}
           value={fontSize || 16}
-          onChange={handleFontsizeChange.bind(this, i)}
+          onChange={handleFontsizeChange.bind(this, i, actions)}
         />
         <Typography className={classes.label} htmlFor="fontWeight">
           {'Font Weight:  ' + (fontWeight || 500)}
@@ -98,7 +94,7 @@ export const MidiSettingsView = props => {
           max={900}
           step={100}
           value={fontWeight || 500}
-          onChange={handleFontweightChange.bind(this, i)}
+          onChange={handleFontweightChange.bind(this, i, actions)}
         />
       </FormControl>
       {[SLIDER, SLIDER_HORZ].includes(type) && (
@@ -119,4 +115,48 @@ export const MidiSettingsView = props => {
       )}
     </React.Fragment>
   )
+}
+
+const renderButtonTypeSelection = (type) => {
+  const isCC = type.endsWith('_CC')
+  if (isCC) {
+    return [BUTTON_CC, BUTTON_TOGGLE_CC].map((item, btnIdx) => {
+      return (
+        <MenuItem key={`button-type-cc-${btnIdx}`} value={item}>
+          {item}
+        </MenuItem>
+      )
+    })
+  } else {
+    return [BUTTON, BUTTON_TOGGLE].map((item, btnIdx) => {
+      return (
+        <MenuItem key={`button-type-${btnIdx}`} value={item}>
+          {item}
+        </MenuItem>
+      )
+    })
+  }
+}
+
+const handleButtonTypeChange = (idx, actions, e) => {
+  actions.changeButtonType({
+    idx,
+    val: e.target.value,
+  })
+}
+
+
+
+const handleFontsizeChange = (i, actions, e) => {
+  actions.changeFontSize({
+    i,
+    fontSize: e.target.value,
+  })
+}
+
+const handleFontweightChange = (i, actions, e) => {
+  actions.changeFontWeight({
+    i,
+    fontWeight: e.target.value,
+  })
 }

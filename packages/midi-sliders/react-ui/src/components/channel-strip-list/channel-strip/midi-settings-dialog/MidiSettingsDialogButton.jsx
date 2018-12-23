@@ -12,11 +12,13 @@ const MidiSettingsDialogButton = props => {
     isSettingsDialogMode,
     lastFocusedIdx,
   } = props
+
   const isOpen = !!(
     isSettingsDialogMode &&
     lastFocusedIdx !== undefined &&
     lastFocusedIdx === idx
   )
+
   return (
     <div className={classes.root}>
       {!isOpen ? (

@@ -4,6 +4,10 @@ import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import InputNoteOrCc from './InputNoteOrCc'
+import {
+  renderDriverSelection,
+  renderMidiChannelSelection,
+} from '../MidiSettings'
 
 import { STRIP_TYPE } from '../../../../../../reducers/slider-list'
 
@@ -33,8 +37,6 @@ export const MidiSettingsOutput = props => {
     },
     idx,
     outputs,
-    renderDriverSelection,
-    renderMidiChannelSelection,
   } = props
   return (
     <React.Fragment>

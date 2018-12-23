@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../actions/slider-list.js'
+import * as ViewActions from '../actions/view-settings.js'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
@@ -31,7 +32,7 @@ class DeleteModal extends React.PureComponent {
             </Button>
           </Tooltip>
         )}
-
+^
         <Dialog
           open={this.state.open || isOpen}
           onClose={this.handleClose}
@@ -69,10 +70,10 @@ class DeleteModal extends React.PureComponent {
     e.preventDefault()
   }
 
-  handleClose = (sliderEntry, e) => {
+  handleClose = ({i}, e) => {
     this.setState({ open: false })
-    this.props.onAction({ idx: sliderEntry.i })
-
+    this.props.actions.delete({ i })
+    this.props.actions.deletePageFromFooter({ idx: i })
     this.props.onClose()
   }
 }
@@ -111,7 +112,7 @@ const styles = theme => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(MidiSliderActions, dispatch),
+    actions: bindActionCreators( { ...MidiSliderActions, ...ViewActions }, dispatch),
   }
 }
 

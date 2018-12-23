@@ -1,10 +1,19 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { initApp } from '../../../../../../actions/init.js'
+import * as MidiSliderActions from '../../../../../../actions/slider-list.js'
+import * as ViewActions from '../../../../../../actions/view-settings.js'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import MidiSuggestedInput from './MidiSuggestedInput'
+import {
+  renderDriverSelection,
+  renderMidiChannelSelection,
+} from '../MidiSettings'
 
-export const MidiSettingsInput = props => {
+const MidiSettingsInput = props => {
   const {
     sliderEntry,
     sliderEntry: {
@@ -17,11 +26,8 @@ export const MidiSettingsInput = props => {
     idx,
     inputs,
     classes,
-    actions,
-    handleAddCCListener,
-    suggestionsMidiCc,
-    renderDriverSelection,
-    renderMidiChannelSelection,
+    initApp,
+    actions
   } = props
   return (
     <React.Fragment>
@@ -34,7 +40,7 @@ export const MidiSettingsInput = props => {
           startVal={listenToCc || []}
           sliderEntry={sliderEntry}
           idx={idx}
-          handleChange={handleAddCCListener}
+          handleChange={handleAddCCListener.bind(this, actions, initApp)}
         />
       </FormControl>
       <FormControl className={classes.formControl}>
@@ -83,3 +89,29 @@ export const MidiSettingsInput = props => {
     </React.Fragment>
   )
 }
+
+const suggestionsMidiCc = Array.apply(null, { length: 128 })
+  .map(Number.call, Number)
+  .map(item => {
+    return { label: `${item}` }
+  })
+
+const handleAddCCListener = (actions, initApp, e) => {
+  actions.addMidiCcListener(e)
+  initApp()
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(
+      { ...MidiSliderActions, ...ViewActions },
+      dispatch
+    ),
+    initApp: bindActionCreators(initApp, dispatch),
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(MidiSettingsInput)
