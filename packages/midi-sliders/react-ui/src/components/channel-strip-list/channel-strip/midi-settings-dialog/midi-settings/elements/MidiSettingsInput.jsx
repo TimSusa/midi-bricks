@@ -15,7 +15,6 @@ import {
 
 const MidiSettingsInput = props => {
   const {
-    sliderEntry,
     sliderEntry: {
       i,
       type,
@@ -27,7 +26,7 @@ const MidiSettingsInput = props => {
     inputs,
     classes,
     initApp,
-    actions
+    actions,
   } = props
   return (
     <React.Fragment>
@@ -38,7 +37,6 @@ const MidiSettingsInput = props => {
         <MidiSuggestedInput
           suggestions={suggestionsMidiCc}
           startVal={listenToCc || []}
-          sliderEntry={sliderEntry}
           idx={idx}
           handleChange={handleAddCCListener.bind(this, actions, initApp)}
         />
@@ -58,7 +56,7 @@ const MidiSettingsInput = props => {
           value={driverNameInput}
         >
           {renderDriverSelection({
-            inputs
+            inputs,
           })}
         </Select>
       </FormControl>

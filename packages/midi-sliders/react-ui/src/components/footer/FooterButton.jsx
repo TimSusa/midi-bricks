@@ -9,7 +9,7 @@ export const FooterButton = props => {
       style={{
         boxShadow: item.i === lastFocusedFooterButtonIdx && '0 0 3px 3px rgb(24, 164, 157)',
       }}
-      onClick={ handleClick.bind(this, {item, lastFocusedFooterButtonIdx, isLiveMode, actions})}
+      onClick={ handleClick.bind(this, {item, isLiveMode, actions})}
       value={item.i}
     >
       {item && item.label}
@@ -17,8 +17,8 @@ export const FooterButton = props => {
   )
 }
 
-const handleClick = ({item, lastFocusedFooterButtonIdx, isLiveMode, actions}) => {
-  actions.setFooterButtonFocus({i: lastFocusedFooterButtonIdx})
+const handleClick = ({item, isLiveMode, actions}) => {
+  actions.setFooterButtonFocus({i: item.i})
   if (isLiveMode) {
     actions.extractPage({ label: item.label })
   } else {

@@ -1,6 +1,5 @@
 import { MinMaxValInput } from './MinMaxValInput'
 import React from 'react'
-import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
@@ -25,7 +24,6 @@ export const MidiSettingsOutput = props => {
   const {
     classes,
     actions,
-    sliderEntry,
     sliderEntry: {
       i,
       type,
@@ -35,13 +33,14 @@ export const MidiSettingsOutput = props => {
       offVal,
       driverName = 'None',
       midiChannel,
+      midiCC
     },
     idx,
     outputs,
   } = props
   return (
     <React.Fragment>
-      <InputNoteOrCc sliderEntry={sliderEntry} idx={idx} />
+      <InputNoteOrCc midiCC={midiCC} type={type} idx={idx} />
       <FormControl className={classes.formControl}>
         <InputLabel className={classes.label} htmlFor="midi-driver">
           Driver

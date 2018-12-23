@@ -11,103 +11,100 @@ import { fromMidi } from '../../../../../../utils/fromMidi'
 import { midi } from 'tonal'
 import { Input } from '@material-ui/core'
 
-class InputNoteOrCc extends React.PureComponent {
-  render() {
-    const {
-      sliderEntry,
-      idx,
-      classes,
-      actions: { selectCc },
-    } = this.props
-    const isCcInput = [
-      STRIP_TYPE.SLIDER,
-      STRIP_TYPE.SLIDER_HORZ,
-      STRIP_TYPE.BUTTON_CC,
-      STRIP_TYPE.BUTTON_TOGGLE_CC,
-    ].includes(sliderEntry.type)
+const InputNoteOrCc = props => {
+  const {
+    midiCC,
+    type,
+    idx,
+    classes,
+    actions: { selectCc },
+  } = props
+  const isCcInput = [
+    STRIP_TYPE.SLIDER,
+    STRIP_TYPE.SLIDER_HORZ,
+    STRIP_TYPE.BUTTON_CC,
+    STRIP_TYPE.BUTTON_TOGGLE_CC,
+  ].includes(type)
 
-    if ([STRIP_TYPE.LABEL, STRIP_TYPE.PAGE].includes(sliderEntry.type)) {
-      return <div />
-    }
-    if (isCcInput) {
-      return (
-        <FormControl className={classes.formControl}>
-          <InputLabel className={classes.label} htmlFor="cc">
-            CC
-          </InputLabel>
-          <MidiSuggestedInput
-            suggestions={this.suggestionsMidiCc}
-            startVal={sliderEntry.midiCC}
-            sliderEntry={sliderEntry}
-            idx={idx}
-            handleChange={selectCc}
-          />
-        </FormControl>
-      )
-    } else if (sliderEntry.type === STRIP_TYPE.BUTTON_PROGRAM_CHANGE) {
-      return (
-        <FormControl className={classes.formControl}>
-          <InputLabel className={classes.label} htmlFor="prgChange">
-            Program Change
-          </InputLabel>
-          <Input
-            className={classes.input}
-            id="number"
-            type="number"
-            name={`input-prgChange-name-${idx}`}
-            value={sliderEntry.midiCC[0] || 0}
-            onChange={this.handleProgramChange.bind(this, idx)}
-          />
-        </FormControl>
-      )
-    } else {
-      return (
-        <FormControl className={classes.formControl}>
-          <InputLabel className={classes.label} htmlFor="note">
-            Notes
-          </InputLabel>
-          <MidiSuggestedInput
-            suggestions={[...this.suggestionsMidiNoteCC, ...this.suggestionsMidiNote]}
-            startVal={sliderEntry.midiCC.map(item => fromMidi(midi(item)))}
-            sliderEntry={sliderEntry}
-            idx={idx}
-            handleChange={selectCc}
-          />
-        </FormControl>
-      )
-    }
+  if ([STRIP_TYPE.LABEL, STRIP_TYPE.PAGE].includes(type)) {
+    return <div />
   }
 
-  suggestionsMidiNote = Array.apply(null, { length: 128 })
-    .map(Number.call, Number)
-    .map(item => {
-      return {
-        label: fromMidi(item, true),
-      }
-    })
-
-    suggestionsMidiNoteCC = Array.apply(null, { length: 128 })
-    .map(Number.call, Number)
-    .map(item => {
-      return {
-        label: `${item}`,
-      }
-    })
-
-    
-  suggestionsMidiCc = Array.apply(null, { length: 120 })
-    .map(Number.call, Number)
-    .map(item => {
-      return { label: `${item}` }
-    })
-
-  handleProgramChange = (idx, e) => {
-    this.props.actions.selectCc({
-      idx,
-      val: [parseInt(e.target.value, 10)],
-    })
+  if (isCcInput) {
+    return (
+      <FormControl className={classes.formControl}>
+        <InputLabel className={classes.label} htmlFor="cc">
+          CC
+        </InputLabel>
+        <MidiSuggestedInput
+          suggestions={suggestionsMidiCc}
+          startVal={midiCC}
+          idx={idx}
+          handleChange={selectCc}
+        />
+      </FormControl>
+    )
+  } else if (type === STRIP_TYPE.BUTTON_PROGRAM_CHANGE) {
+    return (
+      <FormControl className={classes.formControl}>
+        <InputLabel className={classes.label} htmlFor="prgChange">
+          Program Change
+        </InputLabel>
+        <Input
+          className={classes.input}
+          id="number"
+          type="number"
+          name={`input-prgChange-name-${idx}`}
+          value={midiCC[0] || 0}
+          onChange={handleProgramChange.bind(this, idx, selectCc)}
+        />
+      </FormControl>
+    )
+  } else {
+    return (
+      <FormControl className={classes.formControl}>
+        <InputLabel className={classes.label} htmlFor="note">
+          Notes
+        </InputLabel>
+        <MidiSuggestedInput
+          suggestions={[...suggestionsMidiNoteCC, ...suggestionsMidiNote]}
+          startVal={midiCC.map(item => fromMidi(midi(item)))}
+          idx={idx}
+          handleChange={selectCc}
+        />
+      </FormControl>
+    )
   }
 }
+
+const handleProgramChange = (idx, selectCc, e) => {
+  selectCc({
+    idx,
+    val: [parseInt(e.target.value, 10)],
+  })
+}
+
+const suggestionsMidiNote = Array.apply(null, { length: 128 })
+  .map(Number.call, Number)
+  .map(item => {
+    return {
+      label: fromMidi(item, true),
+    }
+  })
+
+const suggestionsMidiNoteCC = Array.apply(null, { length: 128 })
+  .map(Number.call, Number)
+  .map(item => {
+    return {
+      label: `${item}`,
+    }
+  })
+
+const suggestionsMidiCc = Array.apply(null, { length: 120 })
+  .map(Number.call, Number)
+  .map(item => {
+    return { label: `${item}` }
+  })
 
 const styles = theme => ({
   formControl: {
