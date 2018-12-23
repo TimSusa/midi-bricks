@@ -13,6 +13,10 @@ const StripLabel = props => {
     isChangedTheme,
   } = props
 
+  if (type !== STRIP_TYPE.LABEL) {
+    return <div />
+  }
+
   const { labelStyle, fontColorStyle } = getLabelStyles(
     isChangedTheme,
     colors,
@@ -23,22 +27,18 @@ const StripLabel = props => {
     fontWeight
   )
 
-  if (type === STRIP_TYPE.LABEL) {
-    return (
-      <div style={labelStyle} className={classes.labelWrap}>
-        <Typography
-          variant="h5"
-          align="center"
-          style={fontColorStyle}
-          className={classes.label}
-        >
-          {label}
-        </Typography>
-      </div>
-    )
-  } else {
-    return <div />
-  }
+  return (
+    <div style={labelStyle} className={classes.labelWrap}>
+      <Typography
+        variant="h5"
+        align="center"
+        style={fontColorStyle}
+        className={classes.label}
+      >
+        {label}
+      </Typography>
+    </div>
+  )
 }
 
 const styles = theme => ({

@@ -29,7 +29,7 @@ class MidiSlider extends React.PureComponent {
       width,
     } = this.props
 
-    const tmpLabelHeight = this.fontSizeToHeight(fontSize)
+    const tmpLabelHeight = fontSizeToHeight(fontSize)
     const tmpH =
       (height || 0) -
       (label ? tmpLabelHeight : 35) -
@@ -53,7 +53,7 @@ class MidiSlider extends React.PureComponent {
           {label}
         </Typography>
         <div
-          onContextMenu={this.preventCtxMenu}
+          onContextMenu={preventCtxMenu}
           className={classes.rangeSliderWrapper}
         >
           <input
@@ -103,27 +103,23 @@ class MidiSlider extends React.PureComponent {
   handleSliderChange = (idx, e, val) => {
     this.props.actions.handleSliderChange({ idx, val: e.target.value })
   }
-
-  // For touch-devices, we do not want
-  // context menu being shown on touch events
-  preventCtxMenu = e => {
-    e.preventDefault()
-    e.stopPropagation()
-    return false
-  }
-
-  fontSizeToHeight = fontSize => {
-    if (fontSize <= 8 && fontSize >= 0) return fontSize * 5
-    if (fontSize <= 10 && fontSize >= 8) return fontSize * 4
-    if (fontSize <= 13 && fontSize > 10) return fontSize * 4
-    if (fontSize <= 18 && fontSize > 13) return fontSize * 3.2
-    if (fontSize <= 23 && fontSize > 18) return fontSize * 2.6
-    if (fontSize <= 33 && fontSize > 23) return fontSize * 2.9
-    if (fontSize <= 45 && fontSize > 33) return fontSize * 2.5
-    if (fontSize <= 60 && fontSize > 45) return fontSize * 2.2
-    if (fontSize <= 63 && fontSize > 60) return fontSize * 2
-    if (fontSize <= 100 && fontSize > 63) return fontSize * 1.8
-  }
+}
+const preventCtxMenu = e => {
+  e.preventDefault()
+  e.stopPropagation()
+  return false
+}
+const fontSizeToHeight = fontSize => {
+  if (fontSize <= 8 && fontSize >= 0) return fontSize * 5
+  if (fontSize <= 10 && fontSize >= 8) return fontSize * 4
+  if (fontSize <= 13 && fontSize > 10) return fontSize * 4
+  if (fontSize <= 18 && fontSize > 13) return fontSize * 3.2
+  if (fontSize <= 23 && fontSize > 18) return fontSize * 2.6
+  if (fontSize <= 33 && fontSize > 23) return fontSize * 2.9
+  if (fontSize <= 45 && fontSize > 33) return fontSize * 2.5
+  if (fontSize <= 60 && fontSize > 45) return fontSize * 2.2
+  if (fontSize <= 63 && fontSize > 60) return fontSize * 2
+  if (fontSize <= 100 && fontSize > 63) return fontSize * 1.8
 }
 
 const styles = theme => ({

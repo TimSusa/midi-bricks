@@ -885,7 +885,7 @@ function filterPage(sliderList, label) {
   const endVal = newArr[newArr.length - 1]
 
   newArr.splice(newArr.length - 1, 1)
-  const tmpVal = [startVal, ...newArr, endVal]
+  const tmpVal = endVal ? [startVal, ...newArr, endVal] :[startVal, ...newArr]
   const ret = tmpVal.map(item => ({ ...item, y: item.y - tmpVal[0].y }))
   return ret
 }

@@ -33,7 +33,7 @@ export const MidiSettingsOutput = props => {
       offVal,
       driverName = 'None',
       midiChannel,
-      midiCC
+      midiCC,
     },
     idx,
     outputs,
