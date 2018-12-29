@@ -373,11 +373,10 @@ export const sliders = createReducer([], {
   },
 
   [ActionTypeSliderList.SAVE_FILE](state, action) {
-    const tmpStore = store.getState()
     const {
       viewSettings,
       sliders: { sliderList = [], presetName },
-    } = tmpStore
+    } = action.payload
 
     // Clean out older preset fields
     const filteredSliderList = sliderList.map(entry => ({
@@ -861,7 +860,7 @@ function getCheckedMidiOut(driverName) {
 
 function filterPage(sliderList, label) {
   let newArr = []
-  // // change list into y-visible order
+  // change list into y-visible order
   let arr = sliderList
     .map(item => item)
     .sort((a, b) => {

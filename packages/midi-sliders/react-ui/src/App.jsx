@@ -99,7 +99,8 @@ class App extends React.PureComponent {
   }
 
   handleSaveFile = () => {
-    this.props.actions.saveFile()
+    const { viewSettings, sliders } = this.props
+    this.props.actions.saveFile({ viewSettings, sliders })
     this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen }))
   }
 
@@ -155,6 +156,13 @@ const styles = theme => ({
   },
 })
 
+function mapStateToProps({ viewSettings, sliders }) {
+  return {
+    viewSettings,
+    sliders,
+  }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
@@ -166,7 +174,7 @@ function mapDispatchToProps(dispatch) {
 }
 export default withStyles(styles)(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   )(App)
 )
