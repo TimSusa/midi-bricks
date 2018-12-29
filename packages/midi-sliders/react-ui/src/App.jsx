@@ -68,32 +68,18 @@ class App extends React.PureComponent {
       outputs: { None: { ccChannels: [], noteChannels: [] } },
     }
 
-    if (parsedJson.viewSettings && parsedJson.viewSettings.footerPages) {
-      this.setState(
-        state => ({ isMobileOpen: !this.state.isMobileOpen }),
-        () =>
-          this.props.actions.updateViewSettings({
-            viewSettings: {
-              ...parsedJson.viewSettings,
-              availableDrivers: drivers,
-            },
-            sliderList: parsedJson.viewSettings.footerPages,
-          })
-      )
-    } else {
-      this.setState(
-        state => ({ isMobileOpen: !this.state.isMobileOpen }),
-        () =>
-          parsedJson.sliders.sliderList &&
-          this.props.actions.updateViewSettings({
-            viewSettings: {
-              ...parsedJson.viewSettings,
-              availableDrivers: drivers,
-            },
-            sliderList: parsedJson.sliders.sliderList,
-          })
-      )
-    }
+    this.setState(
+      state => ({ isMobileOpen: !this.state.isMobileOpen }),
+      () =>
+        parsedJson.sliders.sliderList &&
+        this.props.actions.updateViewSettings({
+          viewSettings: {
+            ...parsedJson.viewSettings,
+            availableDrivers: drivers,
+          },
+          sliderList: parsedJson.sliders.sliderList,
+        })
+    )
     this.props.initApp()
     this.props.actions.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })
   }
