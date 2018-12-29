@@ -114,10 +114,13 @@ class AddMenu extends React.PureComponent {
   }
 
   handleAddPage = () => {
-    this.props.actions.addPage()
-    this.setState({ anchorEl: null }, () =>
-      this.props.actions.updateViewSettings({
+    const { actions, viewSettings } = this.props
+    actions.addPage()
+    this.setState({ anchorEl: null })
+    window.requestAnimationFrame(
+      () => actions.updateViewSettings({
         sliderList: this.props.sliderList,
+        viewSettings
       })
     )
   }
@@ -126,6 +129,7 @@ class AddMenu extends React.PureComponent {
 AddMenu.propTypes = {
   actions: PropTypes.object.isRequired,
 }
+
 function mapStateToProps({ viewSettings, sliders: { sliderList } }) {
   return {
     viewSettings,

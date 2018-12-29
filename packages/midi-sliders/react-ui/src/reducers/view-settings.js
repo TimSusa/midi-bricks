@@ -93,6 +93,9 @@ export const viewSettings = createReducer(initState, {
           tmp.push(item)
         }
       })
+      if (tmp.length < 1) {
+        console.warn('list was empty!')
+      }
       return tmp
     }
 
