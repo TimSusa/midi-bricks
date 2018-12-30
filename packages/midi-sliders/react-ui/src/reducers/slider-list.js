@@ -683,6 +683,11 @@ export const sliders = createReducer([], {
     return { ...state, sliderList: state.sliderListBackup }
   },
 
+  
+  [ActionTypeSliderList.UPDATE_SLIDER_LIST_BACKUP](state, action) {
+    return { ...state, sliderListBackup: state.sliderList }
+  },
+
   [ActionTypeSliderList.EXTRACT_PAGE](state, action) {
     const sliderListBackup = state.sliderListBackup.map(item => {
       const tmpItem = state.sliderList.find(tmpI => tmpI.i === item.i)
@@ -884,6 +889,7 @@ function filterPage(sliderList, label) {
   const endVal = newArr[newArr.length - 1]
 
   newArr.splice(newArr.length - 1, 1)
+  
   const tmpVal = endVal ? [startVal, ...newArr, endVal] :[startVal, ...newArr]
   const ret = tmpVal.map(item => ({ ...item, y: item.y - tmpVal[0].y }))
   return ret

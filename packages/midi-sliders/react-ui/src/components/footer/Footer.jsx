@@ -64,7 +64,7 @@ const Footer = props => {
                 color="inherit"
                 aria-label="Menu"
               >
-                <RightIcon deleteclassName={classes.iconColor} />
+                <RightIcon className={classes.iconColor} />
               </IconButton>
             </div>
           )
@@ -100,6 +100,8 @@ const handleLiveButtonClick = (isLiveMode, actions) => {
   if (isLiveMode) {
     actions.goBack()
     actions.setFooterButtonFocus({ i: '' })
+  } else {
+    actions.updateSliderListBackup()
   }
   actions.toggleLiveMode()
 }
@@ -121,8 +123,9 @@ const styles = theme => ({
   button: {
     color: theme.palette.primary.contrastText,
     fontWeight: 600,
-    padding: 8,
-    marginLeft: 8,
+    padding: 4,
+    marginLeft: 4,
+    marginRight: 4,
     height: 16,
   },
   liveButton: {
@@ -132,7 +135,9 @@ const styles = theme => ({
     color: theme.palette.primary.contrastText,
   },
   signButton: {
-    width: 16,
+    width: 8,
+    padding: 4,
+    margin: 4
   },
   iconColor: {
     color: theme.palette.primary.contrastText,
