@@ -4,6 +4,7 @@ import { ActionTypeSliderList } from '../actions/slider-list'
 import { midi } from 'tonal'
 import { fromMidi } from '../utils/fromMidi'
 import { uniqueId } from 'lodash'
+import { groupBy } from 'lodash'
 
 export const STRIP_TYPE = {
   BUTTON: 'BUTTON',
@@ -456,7 +457,7 @@ export const sliders = createReducer([], {
     }))
     return {
       ...state,
-      sliderList,
+      sliderList: sortSliderList(sliderList),
       sliderListBackup: state.sliderList,
     }
   },
@@ -861,12 +862,7 @@ function getCheckedMidiOut(driverName) {
 
 function filterPage(sliderList, label) {
   let newArr = []
-  // change list into y-visible order
-  let arr = sliderList
-    .map(item => item)
-    .sort((a, b) => {
-      return a.y - b.y
-    })
+  let arr = sortSliderList(sliderList)
 
   const startIdx = arr.findIndex(cur => cur.label === label)
   const startVal = arr[startIdx]
@@ -889,4 +885,31 @@ function filterPage(sliderList, label) {
   const tmpVal = endVal ? [startVal, ...newArr, endVal] : [startVal, ...newArr]
   const ret = tmpVal.map(item => ({ ...item, y: item.y - tmpVal[0].y }))
   return ret
+}
+
+function sortSliderList(list) {
+  const tmpList = sortListVertically(list)
+  const yGroups = groupBy(tmpList, 'y')
+  let ySortedList = []
+  Object.keys(yGroups).forEach(group => {
+    const sortedXList = sortListHorizontally(yGroups[group])
+    ySortedList = [...ySortedList, ...sortedXList]
+  })
+  return ySortedList
+}
+
+function sortListVertically(list) {
+  return list
+    .map(item => item)
+    .sort((a, b) => {
+      return a.y - b.y
+    })
+}
+
+function sortListHorizontally(list) {
+  return list
+    .map(item => item)
+    .sort((a, b) => {
+      return a.x - b.x
+    })
 }
