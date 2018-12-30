@@ -59,7 +59,7 @@ class ChannelStripList extends React.PureComponent {
     if (sliderList && sliderList.length > 0) {
       return (
         <GridLayout
-          style={{ bottom: 64 }}
+          style={{ bottom: 48, top: 8, height: 'calc(100vh - 120px)' }}
           rowHeight={40}
           cols={18}
           preventCollision={!isAutoArrangeMode}
