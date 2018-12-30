@@ -38,9 +38,9 @@ const handleLabelChange = (i, idx, actions, type, e) => {
     val: e.target.value,
   })
   if (type === 'PAGE') {
-    actions.changeFooterPageLabel({
+    actions.changeFooterPage({
       i,
-      val: e.target.value,
+      label: e.target.value,
     })
   }
 }

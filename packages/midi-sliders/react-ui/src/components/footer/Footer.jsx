@@ -130,6 +130,7 @@ const styles = theme => ({
     marginLeft: 4,
     marginRight: 4,
     height: 16,
+    textTransform: 'none',
   },
   liveButton: {
     marginLeft: 'auto',

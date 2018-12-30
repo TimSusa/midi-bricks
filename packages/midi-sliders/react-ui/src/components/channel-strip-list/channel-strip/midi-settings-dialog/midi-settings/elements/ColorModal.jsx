@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../../../actions/slider-list.js'
+import * as ViewSettingsActions from '../../../../../../actions/view-settings.js'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
@@ -92,6 +93,10 @@ class ColorModal extends React.PureComponent {
       i,
       [this.props.fieldName]: rgba,
     })
+    this.props.actions.changeFooterPage({
+      i,
+      [this.props.fieldName]: rgba,
+    })
   }, 50)
 
   handleClickOpen = () => {
@@ -147,7 +152,7 @@ const styles = theme => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(MidiSliderActions, dispatch),
+    actions: bindActionCreators({...MidiSliderActions, ...ViewSettingsActions}, dispatch),
   }
 }
 

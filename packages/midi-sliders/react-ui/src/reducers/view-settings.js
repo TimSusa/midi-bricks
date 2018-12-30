@@ -146,21 +146,33 @@ export const viewSettings = createReducer(initState, {
     })
   },
 
-  [ActionTypeViewSettings.CHANGE_FOOTER_PAGE_LABEL](state = initState, action) {
-    const { i, val } = action.payload
+  [ActionTypeViewSettings.CHANGE_FOOTER_PAGE](state = initState, action) {
+    const { i, label, colorFont, color } = action.payload
 
     const tmpArr = state.footerPages.map(item => {
-      if (item.i === i) {
-        return Object.assign({}, item, { label: val })
+      if (label) {
+        if (item.i === i) {
+          return Object.assign({}, item, { label })
+        }
+      }
+      if (color) {
+        if (item.i === i) {
+          return Object.assign({}, item, { colors: {...item.colors, color} })
+        }
+      }
+      if (colorFont) {
+        if (item.i === i) {
+          return Object.assign({}, item, { colors: {...item.colors, colorFont} })
+        }
       }
       return Object.assign({}, item)
     })
+
     return Object.assign({}, state, {
       footerPages: tmpArr,
     })
   },
 
-  
   [ActionTypeViewSettings.SET_FOOTER_BUTTON_FOCUS](state = initState, action) {
     const { i } = action.payload
     return Object.assign({}, state, {

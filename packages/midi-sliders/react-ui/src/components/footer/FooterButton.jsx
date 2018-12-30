@@ -8,6 +8,8 @@ export const FooterButton = props => {
       className={classes.button}
       style={{
         boxShadow: item.i === lastFocusedFooterButtonIdx && '0 0 3px 3px rgb(24, 164, 157)',
+        background: item.colors.color, 
+        color: item.colors.colorFont
       }}
       onClick={ handleClick.bind(this, {item, isLiveMode, actions})}
       value={item.i}
