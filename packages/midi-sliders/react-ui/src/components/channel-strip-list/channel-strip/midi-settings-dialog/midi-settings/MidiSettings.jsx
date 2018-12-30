@@ -49,7 +49,7 @@ const MidiSettings = props => {
       {type !== STRIP_TYPE.PAGE ? (
         <DriverExpansionPanel label={'Outputs'} isEmpty={isOutputsEmpty}>
           {isOutputsEmpty ? (
-            <DriverEmtpyRedirectButton actions={actions} />
+            <DriverEmtpyRedirectButton actions={actions} i={i}/>
           ) : (
             <MidiSettingsOutput
               classes={classes}
@@ -63,7 +63,7 @@ const MidiSettings = props => {
       ) : null}
       <DriverExpansionPanel label={'Inputs'} isEmpty={isInputsEmpty}>
         {isInputsEmpty ? (
-          <DriverEmtpyRedirectButton actions={actions} />
+          <DriverEmtpyRedirectButton actions={actions} i={i} />
         ) : (
           <MidiSettingsInput
             classes={classes}

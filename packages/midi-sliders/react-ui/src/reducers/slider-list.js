@@ -1,6 +1,5 @@
 import WebMIDI from 'webmidi'
 import createReducer from './createReducer'
-import { store } from './../providers/ReduxWrappedMuiApp'
 import { ActionTypeSliderList } from '../actions/slider-list'
 import { midi } from 'tonal'
 import { fromMidi } from '../utils/fromMidi'
@@ -889,7 +888,7 @@ function filterPage(sliderList, label) {
   const endVal = newArr[newArr.length - 1]
 
   newArr.splice(newArr.length - 1, 1)
-  
+
   const tmpVal = endVal ? [startVal, ...newArr, endVal] :[startVal, ...newArr]
   const ret = tmpVal.map(item => ({ ...item, y: item.y - tmpVal[0].y }))
   return ret
