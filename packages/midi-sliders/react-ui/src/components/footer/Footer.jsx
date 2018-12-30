@@ -99,10 +99,10 @@ const Footer = props => {
 const handleLiveButtonClick = (isLiveMode, actions) => {
   if (isLiveMode) {
     actions.goBack()
-    actions.setFooterButtonFocus({ i: '' })
   } else {
     actions.updateSliderListBackup()
   }
+  actions.setFooterButtonFocus({ i: '' })
   actions.toggleLiveMode()
 }
 

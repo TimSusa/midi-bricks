@@ -457,7 +457,7 @@ export const sliders = createReducer([], {
     }))
     return {
       ...state,
-      sliderList: sortSliderList(sliderList),
+      sliderList,
       sliderListBackup: state.sliderList,
     }
   },
@@ -684,7 +684,8 @@ export const sliders = createReducer([], {
   },
 
   [ActionTypeSliderList.UPDATE_SLIDER_LIST_BACKUP](state, action) {
-    return { ...state, sliderListBackup: state.sliderList }
+    const sliderList = sortSliderList(state.sliderList)
+    return { ...state, sliderList, sliderListBackup: sliderList }
   },
 
   [ActionTypeSliderList.EXTRACT_PAGE](state, action) {
