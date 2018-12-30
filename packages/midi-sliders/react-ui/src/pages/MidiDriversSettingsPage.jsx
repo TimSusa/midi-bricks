@@ -29,42 +29,6 @@ class MidiDriversSettingsPage extends React.PureComponent {
     return (
       <React.Fragment>
         <DriverExpansionPanel
-          label="Input MIDI Driver"
-          expanded={this.state.isFirstPanelExpanded}
-          noPadding={true}
-          onChange={e =>
-            this.setState({
-              isFirstPanelExpanded: !isFirstPanelExpanded,
-            })
-          }
-        >
-          {inputs.map((input, idx) => {
-            const { ccChannels, noteChannels } = availableInputs[
-              input.name
-            ] || { ccChannels: [], noteChannels: [] }
-            const isNotEmpty =
-              (ccChannels && ccChannels.length > 0) ||
-              (noteChannels && noteChannels.length > 0)
-            return (
-              <DriverExpansionPanel
-                key={`input-midi-${idx}`}
-                label={input.name}
-                isEmpty={!isNotEmpty}
-                noPadding={true}
-              >
-                <MidiDriverTable
-                  labelPostfix="In"
-                  idx={idx}
-                  available={availableInputs}
-                  name={input.name}
-                  handleCheckboxClickNote={this.handleCheckboxClickNoteIn}
-                  handleCheckboxClickCc={this.handleCheckboxClickCcIn}
-                />
-              </DriverExpansionPanel>
-            )
-          })}
-        </DriverExpansionPanel>
-        <DriverExpansionPanel
           label="Output MIDI Driver"
           expanded={this.state.isScndPanelExpanded}
           noPadding={true}
@@ -95,6 +59,42 @@ class MidiDriversSettingsPage extends React.PureComponent {
                   name={output.name}
                   handleCheckboxClickNote={this.handleCheckboxClickNoteOut}
                   handleCheckboxClickCc={this.handleCheckboxClickCcOut}
+                />
+              </DriverExpansionPanel>
+            )
+          })}
+        </DriverExpansionPanel>
+        <DriverExpansionPanel
+          label="Input MIDI Driver"
+          expanded={this.state.isFirstPanelExpanded}
+          noPadding={true}
+          onChange={e =>
+            this.setState({
+              isFirstPanelExpanded: !isFirstPanelExpanded,
+            })
+          }
+        >
+          {inputs.map((input, idx) => {
+            const { ccChannels, noteChannels } = availableInputs[
+              input.name
+            ] || { ccChannels: [], noteChannels: [] }
+            const isNotEmpty =
+              (ccChannels && ccChannels.length > 0) ||
+              (noteChannels && noteChannels.length > 0)
+            return (
+              <DriverExpansionPanel
+                key={`input-midi-${idx}`}
+                label={input.name}
+                isEmpty={!isNotEmpty}
+                noPadding={true}
+              >
+                <MidiDriverTable
+                  labelPostfix="In"
+                  idx={idx}
+                  available={availableInputs}
+                  name={input.name}
+                  handleCheckboxClickNote={this.handleCheckboxClickNoteIn}
+                  handleCheckboxClickCc={this.handleCheckboxClickCcIn}
                 />
               </DriverExpansionPanel>
             )

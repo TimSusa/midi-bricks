@@ -682,7 +682,6 @@ export const sliders = createReducer([], {
     return { ...state, sliderList: state.sliderListBackup }
   },
 
-  
   [ActionTypeSliderList.UPDATE_SLIDER_LIST_BACKUP](state, action) {
     return { ...state, sliderListBackup: state.sliderList }
   },
@@ -705,7 +704,7 @@ export const sliders = createReducer([], {
     return {
       ...state,
       sliderList: filterPage(sliderListBackup, action.payload.label),
-      sliderListBackup
+      sliderListBackup,
     }
   },
 })
@@ -726,10 +725,8 @@ const transformState = (sliderList, action, field) => {
 }
 
 const transformAddState = (state, action, type) => {
-  // Either use last selected driver id or take the first available one
   const list = state.sliderList || []
 
-  // Driver Name
   const lastSelectedDriverName =
     (list.length > 0 && list[list.length - 1].driverName) || 'None'
   const newDriverName =
@@ -783,8 +780,8 @@ const transformAddState = (state, action, type) => {
     i: getUniqueId(),
     x: addStateLength(),
     y: addStateLength(),
-    w: (type === PAGE) ? 18 : 2,
-    h: (type === SLIDER) ? 6 : 3,
+    w: type === PAGE ? 18 : 2,
+    h: type === SLIDER ? 6 : 3,
     static: false,
     colors: {
       color: 'rgba(240, 255, 0, 1)',
@@ -889,7 +886,7 @@ function filterPage(sliderList, label) {
 
   newArr.splice(newArr.length - 1, 1)
 
-  const tmpVal = endVal ? [startVal, ...newArr, endVal] :[startVal, ...newArr]
+  const tmpVal = endVal ? [startVal, ...newArr, endVal] : [startVal, ...newArr]
   const ret = tmpVal.map(item => ({ ...item, y: item.y - tmpVal[0].y }))
   return ret
 }
