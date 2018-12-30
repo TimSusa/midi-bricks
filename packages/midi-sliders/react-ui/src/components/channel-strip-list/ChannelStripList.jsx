@@ -39,7 +39,7 @@ class ChannelStripList extends React.PureComponent {
         isSettingsMode = true,
         isSettingsDialogMode = false,
         isLiveMode = false,
-        lastFocusedIdx
+        lastFocusedIdx,
       },
     } = this.props
 
@@ -59,6 +59,7 @@ class ChannelStripList extends React.PureComponent {
     if (sliderList && sliderList.length > 0) {
       return (
         <GridLayout
+          style={{ bottom: 64 }}
           rowHeight={40}
           cols={18}
           preventCollision={!isAutoArrangeMode}
@@ -101,7 +102,7 @@ class ChannelStripList extends React.PureComponent {
                             idx={idx}
                             isDisabled={isLayoutMode}
                           />
-                          {(isSettingsMode && !isLayoutMode) ? (
+                          {isSettingsMode && !isLayoutMode ? (
                             <span className="settings" style={settingsStyle}>
                               <MidiSettingsDialogButton
                                 toggleSettings={

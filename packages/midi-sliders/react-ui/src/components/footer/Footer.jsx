@@ -27,7 +27,7 @@ const Footer = props => {
   if (pageType !== PAGE_TYPES.HOME_MODE && !isLiveMode) return <div />
 
   return (
-    <BottomNavigation
+    <div
       value={lastFocusedFooterButtonIdx}
       className={classes.root}
     >
@@ -92,7 +92,7 @@ const Footer = props => {
           Live
         </Button>
       </Tooltip>
-    </BottomNavigation>
+    </div>
   )
 }
 
@@ -119,6 +119,9 @@ const styles = theme => ({
     bottom: 0,
     width: '100%',
     position: 'fixed',
+    margin: 0,
+    padding: 0, 
+    height: 56
   },
   button: {
     color: theme.palette.primary.contrastText,
@@ -137,7 +140,7 @@ const styles = theme => ({
   signButton: {
     width: 8,
     padding: 4,
-    margin: 4
+    margin: 2
   },
   iconColor: {
     color: theme.palette.primary.contrastText,
