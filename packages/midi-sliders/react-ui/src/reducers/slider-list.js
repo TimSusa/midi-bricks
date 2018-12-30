@@ -888,28 +888,20 @@ function filterPage(sliderList, label) {
 }
 
 function sortSliderList(list) {
-  const tmpList = sortListVertically(list)
-  const yGroups = groupBy(tmpList, 'y')
+  const vList = sortBy(list, 'y')
+  const yGroups = groupBy(vList, 'y')
   let ySortedList = []
   Object.keys(yGroups).forEach(group => {
-    const sortedXList = sortListHorizontally(yGroups[group])
+    const sortedXList = sortBy(yGroups[group], 'x')
     ySortedList = [...ySortedList, ...sortedXList]
   })
   return ySortedList
 }
 
-function sortListVertically(list) {
+function sortBy(list, by) {
   return list
     .map(item => item)
     .sort((a, b) => {
-      return a.y - b.y
-    })
-}
-
-function sortListHorizontally(list) {
-  return list
-    .map(item => item)
-    .sort((a, b) => {
-      return a.x - b.x
+      return a[by] - b[by]
     })
 }
