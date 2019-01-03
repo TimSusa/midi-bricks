@@ -19,11 +19,21 @@ const initState = {
   isChangedTheme: false,
   pageType: PAGE_TYPES.HOME_MODE,
   availableDrivers: {
-    inputs: {},
-    outputs: {},
+    inputs: {
+      None: {
+        ccChannels: [],
+        noteChannels: [],
+      },
+    },
+    outputs: {
+      None: {
+        ccChannels: [],
+        noteChannels: [],
+      },
+    },
   },
 }
-export const viewSettings = createReducer(initState, {
+export const reducers = {
   [ActionTypeViewSettings.TOGGLE_PAGE](state = initState, action) {
     const { pageType } = action.payload
     return Object.assign({}, state, {
@@ -157,12 +167,14 @@ export const viewSettings = createReducer(initState, {
       }
       if (color) {
         if (item.i === i) {
-          return Object.assign({}, item, { colors: {...item.colors, color} })
+          return Object.assign({}, item, { colors: { ...item.colors, color } })
         }
       }
       if (colorFont) {
         if (item.i === i) {
-          return Object.assign({}, item, { colors: {...item.colors, colorFont} })
+          return Object.assign({}, item, {
+            colors: { ...item.colors, colorFont },
+          })
         }
       }
       return Object.assign({}, item)
@@ -281,7 +293,9 @@ export const viewSettings = createReducer(initState, {
       availableDrivers,
     }
   },
-})
+}
+
+export const viewSettings = createReducer(initState, reducers)
 
 const chDummy = [
   '1',

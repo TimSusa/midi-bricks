@@ -612,7 +612,7 @@ describe('Test Reducers for slider-list', () => {
     const { MIDI_MESSAGE_ARRIVED } = reducers
     const { sliders } = mockStore
     const idx = sliders.sliderList.findIndex(item => item.label === 'me too')
-    const { val: oldVal, cC: oldCc, channel: oldChannel, driver: oldDriver, isNoteOn: oldIdNoteOn, i } = sliders.sliderList[idx]
+    const { val: oldVal, isNoteOn: oldIdNoteOn } = sliders.sliderList[idx]
 
     const { sliderList } = MIDI_MESSAGE_ARRIVED(sliders, {
       payload: {
@@ -623,7 +623,7 @@ describe('Test Reducers for slider-list', () => {
         isNoteOn: true,
       },
     })
-    const { val, cC, channel, driver, isNoteOn } = sliderList[idx]
+    const { val, isNoteOn } = sliderList[idx]
 
     expect(oldIdNoteOn).toEqual(!isNoteOn)
     expect(oldVal !== val).toBe(true)
@@ -633,7 +633,7 @@ describe('Test Reducers for slider-list', () => {
     const { MIDI_MESSAGE_ARRIVED } = reducers
     const { sliders } = mockStore
     const idx = sliders.sliderList.findIndex(item => item.label === 'me too')
-    const { val: oldVal, cC: oldCc, channel: oldChannel, driver: oldDriver, isNoteOn: oldIdNoteOn, i } = sliders.sliderList[idx]
+    const { isNoteOn: oldIdNoteOn } = sliders.sliderList[idx]
 
     const { sliderList } = MIDI_MESSAGE_ARRIVED(sliders, {
       payload: {
@@ -644,7 +644,7 @@ describe('Test Reducers for slider-list', () => {
         isNoteOn: true,
       },
     })
-    const { val, cC, channel, driver, isNoteOn } = sliderList[idx]
+    const { isNoteOn } = sliderList[idx]
 
     expect(oldIdNoteOn).toEqual(isNoteOn)
   })
@@ -653,7 +653,7 @@ describe('Test Reducers for slider-list', () => {
     const { MIDI_MESSAGE_ARRIVED } = reducers
     const { sliders } = mockStore
     const idx = sliders.sliderList.findIndex(item => item.label === 'me too')
-    const { val: oldVal, cC: oldCc, channel: oldChannel, driver: oldDriver, isNoteOn: oldIdNoteOn, i } = sliders.sliderList[idx]
+    const { isNoteOn: oldIdNoteOn } = sliders.sliderList[idx]
 
     const { sliderList } = MIDI_MESSAGE_ARRIVED(sliders, {
       payload: {
@@ -664,7 +664,7 @@ describe('Test Reducers for slider-list', () => {
         isNoteOn: true,
       },
     })
-    const { val, cC, channel, driver, isNoteOn } = sliderList[idx]
+    const { isNoteOn } = sliderList[idx]
 
     expect(oldIdNoteOn).toEqual(isNoteOn)
   })
@@ -673,7 +673,7 @@ describe('Test Reducers for slider-list', () => {
     const { MIDI_MESSAGE_ARRIVED } = reducers
     const { sliders } = mockStore
     const idx = sliders.sliderList.findIndex(item => item.label === 'me too')
-    const { val: oldVal, cC: oldCc, channel: oldChannel, driver: oldDriver, isNoteOn: oldIdNoteOn, i } = sliders.sliderList[idx]
+    const { isNoteOn: oldIdNoteOn } = sliders.sliderList[idx]
 
     const { sliderList } = MIDI_MESSAGE_ARRIVED(sliders, {
       payload: {
@@ -684,7 +684,7 @@ describe('Test Reducers for slider-list', () => {
         isNoteOn: true,
       },
     })
-    const { val, cC, channel, driver, isNoteOn } = sliderList[idx]
+    const { isNoteOn } = sliderList[idx]
 
     expect(oldIdNoteOn).toEqual(isNoteOn)
   })
