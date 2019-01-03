@@ -236,30 +236,12 @@ export const reducers = {
   [ActionTypeSliderList.SELECT_MIDI_DRIVER](state, action) {
     const { i, driverName } = action.payload
     const sliderList = transformState(state.sliderList, {payload: {i, val: driverName}}, 'driverName')
-    // const sliderList = state.sliderList.map(item => {
-    //   if (item.i === i) {
-    //     return {
-    //       ...item,
-    //       driverName,
-    //     }
-    //   }
-    //   return item
-    // })
     return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.SELECT_MIDI_DRIVER_INPUT](state, action) {
     const { i, driverNameInput } = action.payload
     const sliderList = transformState(state.sliderList, {payload: {i, val: driverNameInput}}, 'driverNameInput')
-    // const sliderList = state.sliderList.map(item => {
-    //   if (item.i === i) {
-    //     return {
-    //       ...item,
-    //       driverNameInput,
-    //     }
-    //   }
-    //   return item
-    // })
     return { ...state, sliderList }
   },
 

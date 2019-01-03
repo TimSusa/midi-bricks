@@ -574,7 +574,7 @@ describe('Test Reducers for slider-list', () => {
         payload: {},
       }
     )
-    expect(sliders.sliderList[idx] === sliderListBackup[idx]).toBe(true)
+    expect(sliders.sliderList[idx]).toEqual(sliderListBackup[idx])
   })
 
   test('EXTRACT_PAGE', () => {
@@ -588,13 +588,16 @@ describe('Test Reducers for slider-list', () => {
     const idx = oldSliderList.findIndex(item => item.type === 'PAGE')
     const { label } = oldSliderList[idx]
 
-    const endIdx = oldSliderList.map((cur, idx)=> {
-      if (idx > 0) {
-        return cur
-      }
-    })
-    .filter(Boolean)
-    .findIndex((cur) => cur.type === 'PAGE') + 1
+    const endIdx =
+      oldSliderList
+        .map((cur, idx) => {
+          if (idx > 0) {
+            return cur
+          }
+          return undefined
+        })
+        .filter(Boolean)
+        .findIndex(cur => cur.type === 'PAGE') + 1
 
     let expectedList = oldSliderList.map(item => item).splice(idx, endIdx)
     const { sliderList } = EXTRACT_PAGE(sliders, {
@@ -603,5 +606,86 @@ describe('Test Reducers for slider-list', () => {
     expect(sliderList.length < oldSliderList.length).toBe(true)
     expect(sliderList.length === expectedList.length).toBe(true)
     expect(sliderList).toEqual(expectedList)
+  })
+
+  test('MIDI_MESSAGE_ARRIVED with right driver, cc and channel', () => {
+    const { MIDI_MESSAGE_ARRIVED } = reducers
+    const { sliders } = mockStore
+    const idx = sliders.sliderList.findIndex(item => item.label === 'me too')
+    const { val: oldVal, cC: oldCc, channel: oldChannel, driver: oldDriver, isNoteOn: oldIdNoteOn, i } = sliders.sliderList[idx]
+
+    const { sliderList } = MIDI_MESSAGE_ARRIVED(sliders, {
+      payload: {
+        val: 69,
+        cC: '60',
+        channel: '3',
+        driver: 'midi-iac IAC Bus 1',
+        isNoteOn: true,
+      },
+    })
+    const { val, cC, channel, driver, isNoteOn } = sliderList[idx]
+
+    expect(oldIdNoteOn).toEqual(!isNoteOn)
+    expect(oldVal !== val).toBe(true)
+  })
+
+  test('MIDI_MESSAGE_ARRIVED with wrong driver', () => {
+    const { MIDI_MESSAGE_ARRIVED } = reducers
+    const { sliders } = mockStore
+    const idx = sliders.sliderList.findIndex(item => item.label === 'me too')
+    const { val: oldVal, cC: oldCc, channel: oldChannel, driver: oldDriver, isNoteOn: oldIdNoteOn, i } = sliders.sliderList[idx]
+
+    const { sliderList } = MIDI_MESSAGE_ARRIVED(sliders, {
+      payload: {
+        val: 69,
+        cC: '60',
+        channel: '3',
+        driver: 'midi-iac IAC Bus 2',
+        isNoteOn: true,
+      },
+    })
+    const { val, cC, channel, driver, isNoteOn } = sliderList[idx]
+
+    expect(oldIdNoteOn).toEqual(isNoteOn)
+  })
+
+  test('MIDI_MESSAGE_ARRIVED with wrong cc', () => {
+    const { MIDI_MESSAGE_ARRIVED } = reducers
+    const { sliders } = mockStore
+    const idx = sliders.sliderList.findIndex(item => item.label === 'me too')
+    const { val: oldVal, cC: oldCc, channel: oldChannel, driver: oldDriver, isNoteOn: oldIdNoteOn, i } = sliders.sliderList[idx]
+
+    const { sliderList } = MIDI_MESSAGE_ARRIVED(sliders, {
+      payload: {
+        val: 69,
+        cC: '61',
+        channel: '3',
+        driver: 'midi-iac IAC Bus 1',
+        isNoteOn: true,
+      },
+    })
+    const { val, cC, channel, driver, isNoteOn } = sliderList[idx]
+
+    expect(oldIdNoteOn).toEqual(isNoteOn)
+  })
+
+  test('MIDI_MESSAGE_ARRIVED with wrong channel', () => {
+    const { MIDI_MESSAGE_ARRIVED } = reducers
+    const { sliders } = mockStore
+    const idx = sliders.sliderList.findIndex(item => item.label === 'me too')
+    const { val: oldVal, cC: oldCc, channel: oldChannel, driver: oldDriver, isNoteOn: oldIdNoteOn, i } = sliders.sliderList[idx]
+
+    const { sliderList } = MIDI_MESSAGE_ARRIVED(sliders, {
+      payload: {
+        val: 69,
+        cC: '60',
+        channel: '2',
+        driver: 'midi-iac IAC Bus 1',
+        isNoteOn: true,
+      },
+    })
+    const { val, cC, channel, driver, isNoteOn } = sliderList[idx]
+
+    expect(oldIdNoteOn).toEqual(isNoteOn)
   })
 })
