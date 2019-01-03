@@ -38,7 +38,7 @@ export const MidiSettingsView = props => {
               </InputLabel>
               <Select
                 className={classes.select}
-                onChange={handleButtonTypeChange.bind(this, idx, actions)}
+                onChange={handleButtonTypeChange.bind(this, i, actions)}
                 value={type}
               >
                 {renderButtonTypeSelection(type)}
@@ -138,9 +138,9 @@ const renderButtonTypeSelection = (type) => {
   }
 }
 
-const handleButtonTypeChange = (idx, actions, e) => {
+const handleButtonTypeChange = (i, actions, e) => {
   actions.changeButtonType({
-    idx,
+    i,
     val: e.target.value,
   })
 }

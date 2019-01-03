@@ -33,7 +33,7 @@ const {
 const NO_MIDI_ERROR_MESSAGE =
   'Driver cannot be found! Please check your settings.'
 
-export const sliders = createReducer([], {
+export const reducers = {
   [ActionTypeSliderList.INIT_PENDING](state, action) {
     return state
   },
@@ -141,9 +141,12 @@ export const sliders = createReducer([], {
     return { ...state, sliderList: newArr }
   },
   [ActionTypeSliderList.CHANGE_BUTTON_TYPE](state, action) {
-    const { idx, val } = action.payload
-    const sliderList = state.sliderList.map((item, i) => {
-      if (idx === i) {
+    const { i, val } = action.payload
+    if (!i) {
+      console.warn('Cannot change button type. Index is missed.')
+    }
+    const sliderList = state.sliderList.map(item => {
+      if (item.i === i) {
         return {
           ...item,
           isNoteOn: false,
@@ -182,7 +185,7 @@ export const sliders = createReducer([], {
     const tmp = newStateTmp[idx]
     const { midiCC, midiChannel, driverName, label } = tmp
     sendControlChanges({ midiCC, midiChannel, driverName, val, label })
-    const sliderList = transformState(
+    const sliderList = transformStateByIndex(
       newStateTmp,
       { payload: { idx: parseInt(idx, 10), val } },
       'val'
@@ -194,14 +197,14 @@ export const sliders = createReducer([], {
     const idx = action.payload
 
     const {
-      onVal,
-      offVal,
+      onVal = 127,
+      offVal = 0,
       midiCC,
       midiChannel,
       driverName,
       isNoteOn,
       label,
-    } = state.sliderList[idx]
+    } = state.sliderList[idx] || {}
 
     toggleNotes({
       onVal,
@@ -227,43 +230,49 @@ export const sliders = createReducer([], {
   },
 
   [ActionTypeSliderList.CHANGE_LABEL](state, action) {
-    const newState = transformState(state.sliderList, action, 'label')
+    const newState = transformStateByIndex(state.sliderList, action, 'label')
     return { ...state, sliderList: newState }
   },
   [ActionTypeSliderList.SELECT_MIDI_DRIVER](state, action) {
     const { i, driverName } = action.payload
-    const sliderList = state.sliderList.map(item => {
-      if (item.i === i) {
-        return {
-          ...item,
-          driverName,
-        }
-      }
-      return item
-    })
+    const sliderList = transformState(state.sliderList, {payload: {i, val: driverName}}, 'driverName')
+    // const sliderList = state.sliderList.map(item => {
+    //   if (item.i === i) {
+    //     return {
+    //       ...item,
+    //       driverName,
+    //     }
+    //   }
+    //   return item
+    // })
     return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.SELECT_MIDI_DRIVER_INPUT](state, action) {
     const { i, driverNameInput } = action.payload
-    const sliderList = state.sliderList.map(item => {
-      if (item.i === i) {
-        return {
-          ...item,
-          driverNameInput,
-        }
-      }
-      return item
-    })
+    const sliderList = transformState(state.sliderList, {payload: {i, val: driverNameInput}}, 'driverNameInput')
+    // const sliderList = state.sliderList.map(item => {
+    //   if (item.i === i) {
+    //     return {
+    //       ...item,
+    //       driverNameInput,
+    //     }
+    //   }
+    //   return item
+    // })
     return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.SELECT_CC](state, action) {
-    const sliderList = transformState(state.sliderList, action, 'midiCC')
+    const sliderList = transformStateByIndex(state.sliderList, action, 'midiCC')
     return { ...state, sliderList }
   },
   [ActionTypeSliderList.ADD_MIDI_CC_LISTENER](state, action) {
-    const sliderList = transformState(state.sliderList, action, 'listenToCc')
+    const sliderList = transformStateByIndex(
+      state.sliderList,
+      action,
+      'listenToCc'
+    )
     return { ...state, sliderList }
   },
   [ActionTypeSliderList.SET_MAX_VAL](state, action) {
@@ -280,7 +289,11 @@ export const sliders = createReducer([], {
     } else {
       newAction = { payload: { val: 1, idx } }
     }
-    const sliderList = transformState(state.sliderList, newAction, 'maxVal')
+    const sliderList = transformStateByIndex(
+      state.sliderList,
+      newAction,
+      'maxVal'
+    )
     return { ...state, sliderList }
   },
 
@@ -298,7 +311,11 @@ export const sliders = createReducer([], {
     } else {
       newAction = { payload: { val: 0, idx } }
     }
-    const sliderList = transformState(state.sliderList, newAction, 'minVal')
+    const sliderList = transformStateByIndex(
+      state.sliderList,
+      newAction,
+      'minVal'
+    )
     return { ...state, sliderList }
   },
 
@@ -314,7 +331,11 @@ export const sliders = createReducer([], {
       newAction = { payload: { val: 0, idx } }
     }
 
-    const sliderList = transformState(state.sliderList, newAction, 'onVal')
+    const sliderList = transformStateByIndex(
+      state.sliderList,
+      newAction,
+      'onVal'
+    )
     return { ...state, sliderList }
   },
 
@@ -329,7 +350,11 @@ export const sliders = createReducer([], {
     } else {
       newAction = { payload: { val: 0, idx } }
     }
-    const sliderList = transformState(state.sliderList, newAction, 'offVal')
+    const sliderList = transformStateByIndex(
+      state.sliderList,
+      newAction,
+      'offVal'
+    )
     return { ...state, sliderList }
   },
 
@@ -346,7 +371,7 @@ export const sliders = createReducer([], {
     } else {
       newAction = { payload: { val: 1, idx } }
     }
-    const sliderList = transformState(
+    const sliderList = transformStateByIndex(
       state.sliderList,
       newAction,
       'midiChannel'
@@ -364,7 +389,7 @@ export const sliders = createReducer([], {
     if (val === 'all') {
       newAction = { payload: { val: 'all', idx } }
     }
-    const sliderList = transformState(
+    const sliderList = transformStateByIndex(
       state.sliderList,
       newAction || action,
       'midiChannelInput'
@@ -373,6 +398,7 @@ export const sliders = createReducer([], {
   },
 
   [ActionTypeSliderList.SAVE_FILE](state, action) {
+
     const {
       viewSettings,
       sliders: { sliderList = [], presetName },
@@ -511,29 +537,24 @@ export const sliders = createReducer([], {
 
   [ActionTypeSliderList.CHANGE_FONT_SIZE](state, action) {
     const { i, fontSize } = action.payload
-    const sliderList = state.sliderList.map((item, idx) => {
-      if (i === item.i) {
-        return {
-          ...item,
-          fontSize,
-        }
-      }
-      return item
-    })
+    const sliderList = transformState(state.sliderList, {payload: {i, val: fontSize}}, 'fontSize')
+    // state.sliderList.map((item, idx) => {
+    //   if (i === item.i) {
+    //     return {
+    //       ...item,
+    //       fontSize,
+    //     }
+    //   }
+    //   return item
+    // })
     return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.CHANGE_FONT_WEIGHT](state, action) {
     const { i, fontWeight } = action.payload
-    const sliderList = state.sliderList.map((item, idx) => {
-      if (i === item.i) {
-        return {
-          ...item,
-          fontWeight,
-        }
-      }
-      return item
-    })
+
+    const sliderList = transformState(state.sliderList, {payload: {i, val: fontWeight}}, 'fontWeight')
+    
     return { ...state, sliderList }
   },
 
@@ -699,6 +720,7 @@ export const sliders = createReducer([], {
             onVal: tmpItem.onVal,
             offVal: tmpItem.offVal,
             lastSavedVal: tmpItem.lastSavedVal,
+            fontSize: tmpItem.fontSize,
           }
         : item
     })
@@ -709,12 +731,29 @@ export const sliders = createReducer([], {
       sliderListBackup,
     }
   },
-})
+}
 
-const transformState = (sliderList, action, field) => {
+export const sliders = createReducer([], reducers)
+
+const transformStateByIndex = (sliderList, action, field) => {
   const { idx, val } = action.payload || action
   const newState = sliderList.map((item, i) => {
     if (idx === i) {
+      return {
+        ...item,
+        [field]: val,
+      }
+    } else {
+      return item
+    }
+  })
+  return newState
+}
+
+const transformState = (sliderList, action, field) => {
+  const { i, val } = action.payload || action
+  const newState = sliderList.map((item) => {
+    if (item.i === i) {
       return {
         ...item,
         [field]: val,
