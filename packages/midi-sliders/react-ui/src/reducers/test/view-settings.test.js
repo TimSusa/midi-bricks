@@ -122,13 +122,88 @@ describe('Test Reducers for slider-list', () => {
     expect(footerPages.find(cur => cur.i === i)).toBeFalsy()
   })
 
-  // CHANGE_FOOTER_PAGE
+  test('CHANGE_FOOTER_PAGE label', () => {
+    const expLabel = 'this is just a test'
+    const { CHANGE_FOOTER_PAGE } = reducers
+    const idx = mockStore.viewSettings.footerPages.findIndex(cur => cur.type === 'PAGE')
+    const {i} = mockStore.viewSettings.footerPages[idx]
+    const { footerPages } = CHANGE_FOOTER_PAGE(mockStore.viewSettings, {
+      payload: { i, label: expLabel },
+    })
+    expect(footerPages[idx].label).toEqual(
+      expLabel
+    )
+  })
+  test('CHANGE_FOOTER_PAGE color', () => {
+    const expColor = 'rgba(24, 11, 11, 1)'
+    const { CHANGE_FOOTER_PAGE } = reducers
+    const idx = mockStore.viewSettings.footerPages.findIndex(cur => cur.type === 'PAGE')
+    const {i} = mockStore.viewSettings.footerPages[idx]
+    const { footerPages } = CHANGE_FOOTER_PAGE(mockStore.viewSettings, {
+      payload: { i, color: expColor },
+    })
+    expect(footerPages[idx].colors.color).toEqual(
+      expColor
+    )
+  })
+  test('CHANGE_FOOTER_PAGE colorFont', () => {
+    const expcolorFont = 'rgba(24, 11, 11, 1)'
+    const { CHANGE_FOOTER_PAGE } = reducers
+    const idx = mockStore.viewSettings.footerPages.findIndex(cur => cur.type === 'PAGE')
+    const {i} = mockStore.viewSettings.footerPages[idx]
+    const { footerPages } = CHANGE_FOOTER_PAGE(mockStore.viewSettings, {
+      payload: { i, colorFont: expcolorFont },
+    })
+    expect(footerPages[idx].colors.colorFont).toEqual(
+      expcolorFont
+    )
+  })
 
-  // SET_FOOTER_BUTTON_FOCUS
-  // lastFocusedFooterButtonIdx
+  test('SET_FOOTER_BUTTON_FOCUS', () => {
+    const { SET_FOOTER_BUTTON_FOCUS } = reducers
+    const idx = mockStore.viewSettings.footerPages.findIndex(cur => cur.type === 'PAGE')
+    const {i} = mockStore.viewSettings.footerPages[idx]
+    const explastFocusedFooterButtonIdx = i
 
-  // SWAP_FOOTER_PAGES
+    const { lastFocusedFooterButtonIdx } = SET_FOOTER_BUTTON_FOCUS(mockStore.viewSettings, {
+      payload: { i },
+    })
+    expect(lastFocusedFooterButtonIdx).toEqual(
+      explastFocusedFooterButtonIdx
+    )
+  })
 
+  test('SWAP_FOOTER_PAGES to the right', () => {
+    const { SWAP_FOOTER_PAGES } = reducers
+    const idx = mockStore.viewSettings.footerPages.findIndex(cur => cur.type === 'PAGE')
+    const {i} = mockStore.viewSettings.footerPages[idx]
+    const explastFocusedFooterButtonIdx = idx + 1 
+
+    const { footerPages } = SWAP_FOOTER_PAGES(mockStore.viewSettings, {
+      payload: { srcIdx: idx, offset: 1 },
+    })
+    const newIdx = footerPages.findIndex(cur => cur.i === i)
+    expect(newIdx).toEqual(
+      explastFocusedFooterButtonIdx
+    )
+  })
+
+  test('SWAP_FOOTER_PAGES to the left', () => {
+    const { SWAP_FOOTER_PAGES } = reducers
+    const idx = mockStore.viewSettings.footerPages.findIndex(cur => cur.type === 'PAGE')
+    const {i} = mockStore.viewSettings.footerPages[idx]
+
+    const { footerPages } = SWAP_FOOTER_PAGES(mockStore.viewSettings, {
+      payload: { srcIdx: idx, offset: -1 },
+    })
+    const newIdx = footerPages.findIndex(cur => cur.i === i)
+    const explastFocusedFooterButtonIdx = mockStore.viewSettings.footerPages.length - 1
+
+    expect(newIdx).toEqual(
+      explastFocusedFooterButtonIdx
+    )
+  })
+  
   // SET_AVAILABLE_DRIVERS
   // availableDrivers
 })
