@@ -30,8 +30,8 @@ class GlobalSettingsPage extends React.PureComponent {
       sliderList = [],
       sliderListBackup,
       midi: {
-        midiAccess: { inputs, outputs },
-      },
+        midiAccess: { inputs, outputs } = { inputs: [], outputs: [] },
+      } = {},
       viewSettings: {
         isSettingsDialogMode,
         lastFocusedIdx,
@@ -58,7 +58,6 @@ class GlobalSettingsPage extends React.PureComponent {
           </TableHead>
           <TableBody>
             {sliderList.map((sliderEntry, idx) => {
-
               const {
                 label,
                 type,
@@ -168,7 +167,7 @@ class GlobalSettingsPage extends React.PureComponent {
                   channelTooltipTitle += `No Input Channel for driver "${driverNameInput}" was chosen`
                 }
               }
-              
+
               return (
                 <Tooltip title={title + channelTooltipTitle} key={`glb-${idx}`}>
                   <TableRow

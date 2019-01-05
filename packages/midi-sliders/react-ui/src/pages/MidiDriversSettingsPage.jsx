@@ -19,8 +19,8 @@ class MidiDriversSettingsPage extends React.PureComponent {
   render() {
     const {
       midi: {
-        midiAccess: { inputs, outputs },
-      },
+        midiAccess: { inputs, outputs } = { inputs: [], outputs: [] },
+      } = {},
       viewSettings: {
         availableDrivers: { inputs: availableInputs, outputs: avalableOutputs },
       },

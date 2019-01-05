@@ -17,7 +17,6 @@ export function initApp() {
         dispatch(initFailed('bad'))
       }
       const { inputs = [], outputs = [] } = WebMIDI
-      if (!hasContent(outputs)) return
 
       const midiAccess = {
         inputs,
