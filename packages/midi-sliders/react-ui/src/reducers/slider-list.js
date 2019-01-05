@@ -30,8 +30,8 @@ const {
   PAGE,
 } = STRIP_TYPE
 
-const NO_MIDI_ERROR_MESSAGE =
-  'Driver cannot be found! Please check your settings.'
+// const NO_MIDI_ERROR_MESSAGE =
+//   'Driver cannot be found! Please check your settings.'
 
 export const reducers = {
   [ActionTypeSliderList.INIT_PENDING](state, action) {
@@ -877,7 +877,7 @@ function toggleNotes({
 function getCheckedMidiOut(driverName) {
   const output = driverName !== 'None' && WebMIDI.getOutputByName(driverName)
   if (driverName !== 'None' && !output) {
-    window.alert(NO_MIDI_ERROR_MESSAGE)
+    //window.alert(NO_MIDI_ERROR_MESSAGE)
   }
   return output
 }

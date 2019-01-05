@@ -30,3 +30,9 @@ height: 100% !important;
     width: 30px;
 }
 
+html {
+  touch-action: manipulation;
+}
+html, body {
+  -webkit-tap-highlight-color: transparent;
+}

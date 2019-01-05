@@ -20,7 +20,6 @@ const {
 
 export const MidiSettingsView = props => {
   const {
-    idx,
     classes,
     sliderEntry: { i, type, colors, fontSize, fontWeight, isValueHidden },
     actions,

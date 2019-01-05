@@ -89,7 +89,7 @@ class DeleteModal extends React.PureComponent {
     this.setState({ open: false })
     onAction && onAction()
     actions.delete({ i })
-    actions.deletePageFromFooter({ idx: i })
+    actions.deletePageFromFooter({ i })
     onClose()
   }
 }
