@@ -28,7 +28,6 @@ const Footer = props => {
 
   return (
     <div
-      value={lastFocusedFooterButtonIdx}
       className={classes.root}
     >
       {footerPages.map((item, idx) => {

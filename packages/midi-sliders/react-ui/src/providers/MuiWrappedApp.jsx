@@ -11,13 +11,12 @@ import App from '../App'
 
 class MuiWrappedApp extends React.PureComponent {
   render() {
-    const theme = createMuiTheme(
-      this.props.isChangedTheme ? darkTheme : lightTheme
-    )
+    const { isChangedTheme, children } = this.props
+    const theme = createMuiTheme(isChangedTheme ? darkTheme : lightTheme)
     return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        <App {...this.props} />
+        {children ? children : <App {...this.props} />}
       </MuiThemeProvider>
     )
   }

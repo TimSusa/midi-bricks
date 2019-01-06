@@ -108,10 +108,10 @@ const styles = theme => ({
         borderRadius: 3,
         cursor: 'pointer',
 
-        '&:active': {
-          background: theme.palette.slider.trackActive,
-          boxShadow: '0 0 3px 3px rgb(24, 164, 157)',
-        },
+        // '&:active': {
+        //   background: theme.palette.slider.trackActive,
+        //   boxShadow: '0 0 3px 3px rgb(24, 164, 157)',
+        // },
       },
 
       '&::-webkit-slider-thumb': {
@@ -121,9 +121,9 @@ const styles = theme => ({
         width: 30,
         background: 'goldenrod',
 
-        '&:active': {
-          boxShadow: '0 0 3px 3px rgb(24, 164, 157)',
-        },
+        // '&:active': {
+        //   boxShadow: '0 0 3px 3px rgb(24, 164, 157)',
+        // },
       },
 
       '&:focus': {

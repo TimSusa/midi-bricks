@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../actions/slider-list.js'
 import * as ViewStuff from '../actions/view-settings.js'
 import { initApp } from '../actions/init.js'
+import {JoyStick} from './Joystick'
 
 class MidiDriversSettingsPage extends React.PureComponent {
   constructor(props) {
@@ -28,6 +29,7 @@ class MidiDriversSettingsPage extends React.PureComponent {
     const { isFirstPanelExpanded, isScndPanelExpanded } = this.state
     return (
       <React.Fragment>
+        <JoyStick></JoyStick>
         <DriverExpansionPanel
           label="Output MIDI Driver"
           expanded={this.state.isScndPanelExpanded}

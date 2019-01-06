@@ -31,16 +31,19 @@ export const store = createStore(persistedReducer, {}, middleware)
 
 let persistor = persistStore(store)
 
-class ReduxWrappedMuiApp extends React.PureComponent {
-  render() {
-    return (
-      <Provider store={store}>
+export const ReduxWrappedMuiApp = props => {
+  const { store: propsStore, children } = props
+  return (
+    <Provider store={propsStore || store}>
+      {children ? (
+        <MuiWrappedApp children={children} />
+      ) : (
         <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
           <MuiWrappedApp />
         </PersistGate>
-      </Provider>
-    )
-  }
+      )}
+    </Provider>
+  )
 }
 
 export default ReduxWrappedMuiApp
