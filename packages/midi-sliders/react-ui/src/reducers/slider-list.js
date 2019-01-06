@@ -42,9 +42,16 @@ export const reducers = {
 
   [ActionTypeSliderList.INIT_FAILED](state, action) {
     console.warn('reducer init failed', action)
+    const midi = {
+      midiAccess: {
+        inputs: [],
+        outputs: []
+      },
+    }
     return {
       ...state,
       isMidiFailed: true,
+      midi
     }
   },
 
@@ -603,7 +610,7 @@ export const reducers = {
       )
       sliderList = [...sliderList, ...listWithChannels]
     }
-    
+
     if (yDriverName) {
       sliderList = transformState(
         state.sliderList,

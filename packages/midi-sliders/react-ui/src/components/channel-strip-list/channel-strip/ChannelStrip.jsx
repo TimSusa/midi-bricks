@@ -7,6 +7,7 @@ import { STRIP_TYPE } from '../../../reducers/slider-list'
 import MidiPage from './midi-elements/MidiPage'
 import MidiSliderHorz from './midi-elements/MidiSliderHorz'
 import XyPad from '../../XyPad'
+import { Typography } from '@material-ui/core';
 
 const ChannelStrip = props => {
   const {
@@ -22,7 +23,9 @@ const ChannelStrip = props => {
   const isButton = type !== STRIP_TYPE.SLIDER && type !== STRIP_TYPE.LABEL
   return (
     <div className={classes.root}>
+
       {type === STRIP_TYPE.SLIDER && (
+
         <MidiSlider
           isDisabled={isDisabled}
           sliderEntry={sliderEntry}

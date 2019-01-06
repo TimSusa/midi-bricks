@@ -24,21 +24,22 @@ class GlobalSettingsPage extends React.PureComponent {
     this.props.actions.toggleLiveMode({ isLiveMode: false })
   }
   render() {
+    if (this.props.isMidiFailed) return (<div></div>)
+
     const {
       classes,
       actions,
       sliderList = [],
       sliderListBackup,
       midi: {
-        midiAccess: { inputs, outputs } = { inputs: [], outputs: [] },
-      } = {},
+        midiAccess: { inputs, outputs },
+      } ,
       viewSettings: {
         isSettingsDialogMode,
         lastFocusedIdx,
         availableDrivers: { outputs: chosenOutputs, inputs: chosenInputs },
       },
     } = this.props
-
     return (
       <Paper style={{ flexDirection: 'column' }} className={classes.root}>
         <Table className={classes.table}>
@@ -279,12 +280,13 @@ function mapDispatchToProps(dispatch) {
   }
 }
 function mapStateToProps({
-  sliders: { sliderList, midi, sliderListBackup },
+  sliders: { sliderList, midi, sliderListBackup, isMidiFailed },
   viewSettings,
 }) {
   return {
     sliderList,
     midi,
+    isMidiFailed,
     viewSettings,
     sliderListBackup,
   }

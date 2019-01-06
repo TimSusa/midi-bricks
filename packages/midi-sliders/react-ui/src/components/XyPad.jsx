@@ -53,9 +53,9 @@ class XyPad extends Component {
     } = this.props
     return (
       <React.Fragment>
-        <Typography className={classes.label} style={{ marginBottom: -21 }}>
+        {/* <Typography className={classes.label} style={{ marginBottom: -21 }}>
           {label}
-        </Typography>
+        </Typography> */}
         <Gamepad
           gamepadIndex={0}
           onConnect={this.connectHandler}
@@ -72,6 +72,7 @@ class XyPad extends Component {
             width={width}
             pressedButtons={pressedButtons}
             isConnected={this.state.connected}
+            sendOutFromChildren={this.sendOutFromChildren}
           />
         </Gamepad>
       </React.Fragment>
@@ -115,6 +116,18 @@ class XyPad extends Component {
     }
   }
 
+  sendOutFromChildren = (x, y) => {
+    this.props.actions.handleSliderChange({
+      idx: this.props.idx,
+      val: parseInt(x, 10),
+    })
+
+    this.props.actions.sendMidiCcY({
+      idx: this.props.idx,
+      yVal: parseInt(y, 10),
+    })
+  }
+
   onButtonDown = e => {
     this.setState({ pressedButtons: [...this.state.pressedButtons, e] })
   }
@@ -156,21 +169,96 @@ export default connect(
   mapDispatchToProps
 )(XyPad)
 
-const Pad = props => {
-  return (
-    <div
-      style={{
-        height: props.height || 300,
-        width: props.width || 300,
-        border: '1px solid grey',
-        background: props.pressedButtons.length > 0 ? 'pink' : (props.isConnected ? 'aliceblue' : 'red'),
-        opacity: 0.7,
-      }}
-    >
+class Pad extends Component {
+  selfRef = null
+  onPointerMove = null
+  constructor(props) {
+    super(props)
+    this.state = {
+      x: 0,
+      y: 0,
+    }
+    this.selfRef = React.createRef()
+  }
+
+  render() {
+    return (
       <div
-        style={props.getPlayerStyle(props.x, props.y, props.pressedButtons)}
-      />
-      {props.pressedButtons}
-    </div>
-  )
+        onContextMenu={e => {
+          e.preventDefault()
+          e.stopPropagation()
+          return false
+        }}
+        ref={ref => (this.selfRef = ref)}
+        onPointerDown={this.handlePointerStart}
+        onPointerMove={this.onPointerMove}
+        onPointerUp={this.handlePointerEnd}
+        style={{
+          cursor: 'pointer',
+          height: this.props.height || 300,
+          borderRadius: 3,
+          width: this.props.width || 300,
+          border: '1px solid grey',
+          background:
+            this.props.pressedButtons.length > 0
+              ? 'pink'
+              : this.props.isConnected
+              ? 'aliceblue'
+              : 'red',
+          opacity: 0.7,
+        }}
+      >
+        <div
+          style={this.props.getPlayerStyle(
+            this.state.x || this.props.x,
+            this.state.y || this.props.y,
+            this.props.pressedButtons
+          )}
+        />
+        {this.props.pressedButtons}
+      </div>
+    )
+  }
+
+  handlePointerStart = e => {
+    console.log('pointer start', e)
+    this.onPointerMove = this.handlePointerMove
+    this.selfRef.setPointerCapture(e.pointerId)
+  }
+  handlePointerEnd = e => {
+    console.log('pointer end', e)
+    this.onPointerMove = null
+    this.selfRef.releasePointerCapture(e.pointerId)
+
+    const tmpX = this.props.width / 2
+    const tmpXx = tmpX < 0 ? 0 : tmpX
+    const x = tmpXx > this.props.width - 0 ? this.props.width - 0 : tmpXx
+    const valX = ((this.props.width - x) * 127) / (this.props.width + 0)
+
+    const tmpY = this.props.height / 2
+    const tmpYy = tmpY < 0 ? 0 : tmpY
+    const y = tmpYy > this.props.height - 0 ? this.props.height - 0 : tmpYy
+    const val = ((this.props.height - y) * 127) / (this.props.height + 0)
+
+    console.log('hadlepointermove ', val)
+    this.setState({ x, y })
+    this.props.sendOutFromChildren(valX, val)
+  }
+  handlePointerMove = e => {
+    const parentRect = this.selfRef.getBoundingClientRect()
+
+    const tmpX = e.clientX - parentRect.x
+    const tmpXx = tmpX < 0 ? 0 : tmpX
+    const x = tmpXx > this.props.width - 0 ? this.props.width - 0 : tmpXx
+    const valX = ((this.props.width - x) * 127) / (this.props.width + 0)
+
+    const tmpY = e.clientY - parentRect.y
+    const tmpYy = tmpY < 0 ? 0 : tmpY
+    const y = tmpYy > this.props.height - 0 ? this.props.height - 0 : tmpYy
+    const val = ((this.props.height - y) * 127) / (this.props.height + 0)
+
+    console.log('hadlepointermove ', val)
+    this.setState({ x, y })
+    this.props.sendOutFromChildren(valX, val)
+  }
 }

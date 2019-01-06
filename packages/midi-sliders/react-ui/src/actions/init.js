@@ -25,16 +25,25 @@ export function initApp() {
       if (hasContent(outputs)) {
         dispatch(initMidiAccess({ midiAccess }))
       } else {
+        //alert('sdfa')
         dispatch(initFailed('bad'))
       }
       const {
         sliders: { sliderList },
         viewSettings: {
-          availableDrivers: { inputs: availableInputs },
+          availableDrivers: { inputs: availableInputs } = {
+            inputs: {
+              None: {
+                ccChannels: [],
+                noteChannels: [],
+              },
+            },
+          },
         },
       } = getState()
 
-      Array.isArray(inputs) &&
+      inputs &&
+        Array.isArray(inputs) &&
         inputs.forEach(input => {
           const { name } = input
           const { ccChannels, noteChannels } = availableInputs[name] || {

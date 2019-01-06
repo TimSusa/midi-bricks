@@ -31,9 +31,9 @@ height: 100% !important;
 }
 
 html {
-  touch-action: manipulation; 
-  /* touch-action: none;
-  pointer-events: auto; */
+  /* touch-action: manipulation;  */
+  touch-action: none;
+  pointer-events: auto;
 }
 html, body {
   -webkit-tap-highlight-color: transparent;
