@@ -13,6 +13,7 @@ const typeSliderList = [
   'ADD_BUTTON',
   'ADD_LABEL',
   'ADD_PAGE',
+  'ADD_XYPAD',
   'CHANGE_COLORS',
   'CHANGE_FONT_SIZE',
   'CHANGE_FONT_WEIGHT',

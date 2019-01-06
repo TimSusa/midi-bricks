@@ -18,6 +18,7 @@ const {
   BUTTON_TOGGLE_CC,
   SLIDER,
   SLIDER_HORZ,
+  XYPAD
 } = STRIP_TYPE
 
 export const MidiSettingsOutput = props => {
@@ -84,7 +85,7 @@ export const MidiSettingsOutput = props => {
           )}
         </Select>
       </FormControl>
-      {[SLIDER, SLIDER_HORZ].includes(type) && (
+      {[SLIDER, SLIDER_HORZ, XYPAD].includes(type) && (
         <React.Fragment>
           <MinMaxValInput
             classes={classes}

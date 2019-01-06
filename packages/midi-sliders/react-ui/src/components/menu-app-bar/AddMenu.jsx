@@ -74,6 +74,7 @@ class AddMenu extends React.PureComponent {
               Add Button Program Change
             </MenuItem>
             <MenuItem onClick={this.handleAddLabel}>Add Label</MenuItem>
+            <MenuItem onClick={this.handleAddXyPad}>Add X/Y Pad</MenuItem>
           </Menu>
         </div>
       )
@@ -110,6 +111,12 @@ class AddMenu extends React.PureComponent {
 
   handleAddLabel = () => {
     this.props.actions.addLabel()
+    this.handleClose()
+  }
+
+  
+  handleAddXyPad = () => {
+    this.props.actions.addXypad()
     this.handleClose()
   }
 

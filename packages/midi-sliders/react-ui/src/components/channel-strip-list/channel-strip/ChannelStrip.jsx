@@ -6,6 +6,7 @@ import StripLabel from './midi-elements/StripLabel'
 import { STRIP_TYPE } from '../../../reducers/slider-list'
 import MidiPage from './midi-elements/MidiPage'
 import MidiSliderHorz from './midi-elements/MidiSliderHorz'
+import XyPad from '../../XyPad'
 
 const ChannelStrip = props => {
   const {
@@ -62,6 +63,9 @@ const ChannelStrip = props => {
           height={tmpH}
           width={tmpW}
         />
+      )}
+      {type === STRIP_TYPE.XYPAD && (
+        <XyPad classes={classes} sliderEntry={sliderEntry} idx={idx} height={tmpH} width={tmpW} />
       )}
     </div>
   )

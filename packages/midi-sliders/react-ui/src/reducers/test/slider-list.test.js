@@ -160,6 +160,23 @@ describe('Test Reducers for slider-list', () => {
     expect(isLastElementSlider).toBe(true)
   })
 
+  test('ADD_XYPAD', () => {
+    const { ADD_XYPAD } = reducers
+    const {
+      sliders,
+      sliders: { sliderList: oldSliderList },
+    } = mockStore
+    const { sliderList } = ADD_XYPAD(sliders, { payload: {} })
+    const isNewListLonger = sliderList.length > oldSliderList.length
+    expect(isNewListLonger).toBe(true)
+    const isOldLastElementNoSlider =
+      oldSliderList[oldSliderList.length - 1].type !== 'XYPAD'
+    expect(isOldLastElementNoSlider).toBe(true)
+    const isLastElementSlider =
+      sliderList[sliderList.length - 1].type === 'XYPAD'
+    expect(isLastElementSlider).toBe(true)
+  })
+
   test('CLONE', () => {
     const { CLONE } = reducers
     const { sliders } = mockStore

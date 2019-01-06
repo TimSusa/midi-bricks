@@ -48,6 +48,7 @@
     "react-color": "^2.14.1",
     "react-dev-utils": "^5.0.2",
     "react-dom": "^16.6.3",
+    "react-gamepad": "^1.0.3",
     "react-grid-layout": "^0.16.6",
     "react-redux": "^6.0.0",
     "react-sizeme": "^2.5.2",

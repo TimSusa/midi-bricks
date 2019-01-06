@@ -16,6 +16,7 @@ export const STRIP_TYPE = {
   SLIDER_HORZ: 'SLIDER_HORZ',
   LABEL: 'LABEL',
   PAGE: 'PAGE',
+  XYPAD: 'XYPAD'
 }
 
 const {
@@ -28,6 +29,7 @@ const {
   SLIDER_HORZ,
   LABEL,
   PAGE,
+  XYPAD
 } = STRIP_TYPE
 
 const NO_MIDI_ERROR_MESSAGE =
@@ -75,6 +77,12 @@ export const reducers = {
     const newState = transformAddState(state, action, PAGE)
     return newState
   },
+  
+  [ActionTypeSliderList.ADD_XYPAD](state, action) {
+    const newState = transformAddState(state, action, XYPAD)
+    return newState
+  },
+
   [ActionTypeSliderList.CLONE](state, action) {
     // Action can come without payload
     const i = (action.payload && action.payload.i) || ''
@@ -760,6 +768,8 @@ const transformAddState = (state, action, type) => {
 
   let midiCC = null
   let label = ''
+  let yDriver = undefined
+  let yDriverInput = undefined
 
   if ([BUTTON, BUTTON_TOGGLE].includes(type)) {
     label = 'Button '
@@ -783,6 +793,12 @@ const transformAddState = (state, action, type) => {
   if (type === PAGE) {
     label = 'Page '
   }
+  if (type === XYPAD) {
+    label = 'X / Y Pad '
+    midiCC = [addMidiCCVal()]
+    yDriver = 'None'
+    yDriverInput = 'None'
+  }
   const entry = {
     type,
     label: label + addStateLength(),
@@ -796,6 +812,8 @@ const transformAddState = (state, action, type) => {
     listenToCc: [],
     driverName: newDriverName,
     driverNameInput: 'None',
+    yDriver, 
+    yDriverInput,
     midiChannel: 1,
     midiChannelInput: 1,
     isNoteOn: false,
