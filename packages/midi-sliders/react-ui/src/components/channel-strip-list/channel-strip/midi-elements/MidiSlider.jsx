@@ -8,73 +8,82 @@ import * as MidiSliderActions from '../../../../actions/slider-list.js'
 import { Typography } from '@material-ui/core'
 
 class MidiSlider extends Component {
-  state = {
-    speedX: 0.0,
-    speedY: 0.0,
-    x: this.props.x || 0,
-    y: this.props.y || 0,
-    connected: false,
-    pressedButtons: [],
-  }
-
-  componentDidMount() {
-    window.requestAnimationFrame(this.update.bind(this))
-  }
-
-  update(datetime) {
-    window.requestAnimationFrame(this.update.bind(this))
-
-    const frameTime = datetime - this.previousFrameTime
-    this.previousFrameTime = datetime
-
-    if (isNaN(frameTime)) return
-
-    this.setState({
-      x:
-        1 +
-        (this.state.speedX * this.props.width) / 2 +
-        this.props.width / 2 -
-        12,
-      y:
-        1 -
-        (this.state.speedY * this.props.height) / 2 +
-        this.props.height / 2 -
-        16,
-    })
+  selfRef = null
+  onPointerMove = null
+  constructor(props) {
+    super(props)
+    this.selfRef = React.createRef()
   }
 
   render() {
-    // const { x, y, pressedButtons } = this.state
     const {
-      width,
-      height,
-      classes,
-      sliderEntry: { label, val },
+      sliderEntry: { val },
     } = this.props
     return (
-      <React.Fragment>
-        {/* <Typography style={{position: 'absolute'}}>
-        {label} 
-        </Typography> */}
-
-        <Pad
-          // x={x}
-          // y={y}
-          val={val}
-          getPlayerStyle={this.getPlayerStyle}
-          height={height}
-          width={width}
-          //pressedButtons={pressedButtons}
-          isConnected={this.state.connected}
-          sendOutFromChildren={this.sendOutFromChildren}
-        />
-        {/* <Typography
-        style={{margin: 0, padding: 0}}
+      <div
+        onContextMenu={e => {
+          e.preventDefault()
+          e.stopPropagation()
+          return false
+        }}
+        ref={ref => (this.selfRef = ref)}
+        onPointerDown={this.handlePointerStart}
+        onPointerMove={this.onPointerMove}
+        onPointerUp={this.handlePointerEnd}
+        style={{
+          height: this.props.height || 300,
+          width: this.props.width || 300,
+          background: 'aliceblue',
+          opacity: 0.7,
+        }}
+      >
+        <div
+          style={this.getPlayerStyle(
+            calcYFromVal({
+              val: this.props.sliderEntry.val,
+              height: this.props.height,
+            })
+          )}
         >
-        {val} 
-        </Typography> */}
-      </React.Fragment>
+          <Typography>{val}</Typography>
+        </div>
+      </div>
     )
+  }
+
+  handlePointerStart = e => {
+    console.log('pointer start', this.selfRef)
+    this.onPointerMove = this.handlePointerMove
+    window.requestAnimationFrame(this.onPointerMove)
+    this.selfRef.setPointerCapture(e.pointerId)
+    const parentRect = this.selfRef.getBoundingClientRect()
+    const tmpY = e.clientY - parentRect.y
+    const tmpYy = tmpY < 0 ? 0 : tmpY
+    const y = tmpYy > parentRect.height - 0 ? parentRect.height - 0 : tmpYy
+    const val = ((parentRect.height - y) * 127) / (parentRect.height + 0)
+    this.sendOutFromChildren(val)
+  }
+  handlePointerEnd = e => {
+    const parentRect = this.selfRef.getBoundingClientRect()
+    console.log('pointer end', parentRect)
+
+    this.onPointerMove = null
+    this.selfRef.releasePointerCapture(e.pointerId)
+    const tmpY = e.clientY - parentRect.y
+    const tmpYy = tmpY < 0 ? 0 : tmpY
+    const y = tmpYy > parentRect.height - 0 ? parentRect.height - 0 : tmpYy
+    const val = ((parentRect.height - y) * 127) / (parentRect.height + 0)
+    this.sendOutFromChildren(val)
+  }
+  handlePointerMove = e => {
+    const parentRect = this.selfRef.getBoundingClientRect()
+    const tmpY = e.clientY - parentRect.y
+    const tmpYy = tmpY < 0 ? 0 : tmpY
+    const y = tmpYy > parentRect.height - 0 ? parentRect.height - 0 : tmpYy
+    const val = ((parentRect.height - y) * 127) / (parentRect.height || 1 + 0)
+    console.log('hadlepointermove ', parentRect)
+    if (isNaN(val)) return
+    this.sendOutFromChildren(val)
   }
 
   sendOutFromChildren = y => {
@@ -84,7 +93,7 @@ class MidiSlider extends Component {
     })
   }
 
-  getPlayerStyle = (x, y) => {
+  getPlayerStyle = y => {
     return {
       position: 'relative',
       cursor: 'pointer',
@@ -116,84 +125,9 @@ export default connect(
   mapDispatchToProps
 )(MidiSlider)
 
-function calcYFromVal(props) {
-  const y = -((props.val * props.height) / 127) + props.height
+function calcYFromVal({ val, height }) {
+  const y = -((val * height) / 127) + height
   return y
-}
-
-class Pad extends Component {
-  selfRef = null
-  onPointerMove = null
-  constructor(props) {
-    super(props)
-    this.state = {
-      x: 0,
-      y: calcYFromVal(this.props),
-    }
-    this.selfRef = React.createRef()
-  }
-
-  render() {
-    return (
-      <div
-        onContextMenu={e => {
-          e.preventDefault()
-          e.stopPropagation()
-          return false
-        }}
-        ref={ref => (this.selfRef = ref)}
-        onPointerDown={this.handlePointerStart}
-        onPointerMove={this.onPointerMove}
-        onPointerUp={this.handlePointerEnd}
-        style={{
-          height: this.props.height || 300,
-          width: this.props.width || 300,
-          background: 'aliceblue',
-          opacity: 0.7,
-        }}
-      >
-        <div
-          style={this.props.getPlayerStyle(
-            this.state.x,
-            this.state.y,
-            this.props.pressedButtons
-          )}
-        >
-          <Typography>{this.props.val}</Typography>
-        </div>
-      </div>
-    )
-  }
-
-  handlePointerStart = e => {
-    console.log('pointer start', e)
-    this.onPointerMove = this.handlePointerMove
-    this.selfRef.setPointerCapture(e.pointerId)
-  }
-  handlePointerEnd = e => {
-    console.log('pointer end', e)
-    const parentRect = this.selfRef.getBoundingClientRect()
-    this.onPointerMove = null
-    this.selfRef.releasePointerCapture(e.pointerId)
-    const x = this.props.width / 2
-    const tmpY = e.clientY - parentRect.y 
-    const tmpYy = tmpY < 0 ? 0 : tmpY
-    const y = tmpYy > this.props.height - 0 ? this.props.height - 0 : tmpYy
-    this.setState({ x, y })
-    const val = ((this.props.height - y) * 127) / (this.props.height + 0)
-    this.props.sendOutFromChildren(val)
-  }
-  handlePointerMove = e => {
-    const parentRect = this.selfRef.getBoundingClientRect()
-    const x = this.props.width / 2
-    const tmpY = e.clientY - parentRect.y 
-    const tmpYy = tmpY < 0 ? 0 : tmpY
-    const y = tmpYy > this.props.height - 0 ? this.props.height - 0 : tmpYy
-    const val = ((this.props.height - y) * 127) / (this.props.height + 0)
-    console.log('hadlepointermove ', val)
-    this.setState({ x, y })
-    this.props.sendOutFromChildren(val)
-  }
 }
 
 // import React from 'react'
