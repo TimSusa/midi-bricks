@@ -13,6 +13,7 @@ import DriverExpansionPanel from '../../../../DriverExpansionPanel'
 import MidiSettingsInput from './elements/MidiSettingsInput'
 import { MidiSettingsLabelInput } from './elements/MidiSettingsLabelInput'
 import { MidiSettingsOutput } from './elements/MidiSettingsOutput'
+import { MidiSettingsOutputY } from './elements/MidiSettingsOutputY'
 import { MidiSettingsView } from './elements/MidiSettingsView'
 import { DriverEmtpyRedirectButton } from './elements/DriverEmtpyRedirectButton'
 
@@ -47,9 +48,12 @@ const MidiSettings = props => {
       />
 
       {type !== STRIP_TYPE.PAGE ? (
-        <DriverExpansionPanel label={type === STRIP_TYPE.XYPAD ? 'Outputs X' : 'Outputs'} isEmpty={isOutputsEmpty}>
+        <DriverExpansionPanel
+          label={type === STRIP_TYPE.XYPAD ? 'Outputs X' : 'Outputs'}
+          isEmpty={isOutputsEmpty}
+        >
           {isOutputsEmpty ? (
-            <DriverEmtpyRedirectButton actions={actions} i={i}/>
+            <DriverEmtpyRedirectButton actions={actions} i={i} />
           ) : (
             <MidiSettingsOutput
               classes={classes}
@@ -61,12 +65,12 @@ const MidiSettings = props => {
           )}
         </DriverExpansionPanel>
       ) : null}
-       {type === STRIP_TYPE.XYPAD ? (
+      {type === STRIP_TYPE.XYPAD ? (
         <DriverExpansionPanel label={'Outputs Y'} isEmpty={isOutputsEmpty}>
           {isOutputsEmpty ? (
-            <DriverEmtpyRedirectButton actions={actions} i={i}/>
+            <DriverEmtpyRedirectButton actions={actions} i={i} />
           ) : (
-            <MidiSettingsOutput
+            <MidiSettingsOutputY
               classes={classes}
               sliderEntry={sliderEntry}
               idx={idx}
@@ -75,26 +79,32 @@ const MidiSettings = props => {
             />
           )}
         </DriverExpansionPanel>
-      ) : null}     
-      <DriverExpansionPanel label={'Inputs'} isEmpty={isInputsEmpty}>
-        {isInputsEmpty ? (
-          <DriverEmtpyRedirectButton actions={actions} i={i} />
-        ) : (
-          <MidiSettingsInput
-            classes={classes}
-            sliderEntry={sliderEntry}
-            idx={idx}
-            inputs={inputs}
-          />
-        )}
-      </DriverExpansionPanel>
-      <DriverExpansionPanel label="View" isEmpty={false}>
-        <MidiSettingsView
-          sliderEntry={sliderEntry}
-          classes={classes}
-          actions={actions}
-        />
-      </DriverExpansionPanel>
+      ) : null}
+      {type !== STRIP_TYPE.XYPAD ? (
+        <React.Fragment>
+          {' '}
+          <DriverExpansionPanel label={'Inputs'} isEmpty={isInputsEmpty}>
+            {isInputsEmpty ? (
+              <DriverEmtpyRedirectButton actions={actions} i={i} />
+            ) : (
+              <MidiSettingsInput
+                classes={classes}
+                sliderEntry={sliderEntry}
+                idx={idx}
+                inputs={inputs}
+              />
+            )}
+          </DriverExpansionPanel>
+          <DriverExpansionPanel label="View" isEmpty={false}>
+            <MidiSettingsView
+              sliderEntry={sliderEntry}
+              classes={classes}
+              actions={actions}
+            />
+          </DriverExpansionPanel>
+        </React.Fragment>
+      ) : null}
+
       <Tooltip title="Clone">
         <Button
           className={classes.button}

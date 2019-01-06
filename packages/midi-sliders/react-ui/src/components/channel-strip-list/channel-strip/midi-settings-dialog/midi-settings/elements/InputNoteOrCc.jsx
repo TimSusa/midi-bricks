@@ -14,6 +14,7 @@ import { Input } from '@material-ui/core'
 const InputNoteOrCc = props => {
   const {
     midiCC,
+    yMidiCc,
     type,
     idx,
     classes,
@@ -44,7 +45,22 @@ const InputNoteOrCc = props => {
         />
       </FormControl>
     )
-  } else if (type === STRIP_TYPE.BUTTON_PROGRAM_CHANGE) {
+  }  else if (type === STRIP_TYPE.XYPAD) {
+    return (
+      <FormControl className={classes.formControl}>
+        <InputLabel className={classes.label} htmlFor="cc">
+          CC
+        </InputLabel>
+        <MidiSuggestedInput
+          suggestions={suggestionsMidiCc}
+          startVal={yMidiCc}
+          idx={idx}
+          handleChange={selectCcY.bind(this, props)}
+        />
+      </FormControl>
+    )
+  } 
+  else if (type === STRIP_TYPE.BUTTON_PROGRAM_CHANGE) {
     return (
       <FormControl className={classes.formControl}>
         <InputLabel className={classes.label} htmlFor="prgChange">
@@ -135,3 +151,11 @@ export default withStyles(styles)(
     mapDispatchToProps
   )(InputNoteOrCc)
 )
+
+function selectCcY (props, e) {
+  console.log(e)
+  props.actions.changeXypadSettings({
+    i: props.i,
+    yMidiCc: e.val,
+  })
+}

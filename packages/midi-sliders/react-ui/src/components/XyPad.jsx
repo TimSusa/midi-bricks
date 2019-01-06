@@ -50,7 +50,6 @@ class XyPad extends Component {
       height,
       classes,
       sliderEntry: { label },
-      actions
     } = this.props
     return (
       <React.Fragment>
@@ -106,6 +105,10 @@ class XyPad extends Component {
         speedX: value,
       })
     } else if (axisName === 'LeftStickY') {
+      this.props.actions.sendMidiCcY({
+        idx: this.props.idx,
+        yVal: parseInt((value + 1) * 63.5, 10),
+      })
       this.setState({
         speedY: value,
       })

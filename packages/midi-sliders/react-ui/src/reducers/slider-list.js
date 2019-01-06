@@ -16,7 +16,7 @@ export const STRIP_TYPE = {
   SLIDER_HORZ: 'SLIDER_HORZ',
   LABEL: 'LABEL',
   PAGE: 'PAGE',
-  XYPAD: 'XYPAD'
+  XYPAD: 'XYPAD',
 }
 
 const {
@@ -29,7 +29,7 @@ const {
   SLIDER_HORZ,
   LABEL,
   PAGE,
-  XYPAD
+  XYPAD,
 } = STRIP_TYPE
 
 const NO_MIDI_ERROR_MESSAGE =
@@ -77,7 +77,7 @@ export const reducers = {
     const newState = transformAddState(state, action, PAGE)
     return newState
   },
-  
+
   [ActionTypeSliderList.ADD_XYPAD](state, action) {
     const newState = transformAddState(state, action, XYPAD)
     return newState
@@ -201,6 +201,26 @@ export const reducers = {
     return { ...state, sliderList }
   },
 
+  
+
+  [ActionTypeSliderList.SEND_MIDI_CC_Y](state, action) {
+    const { idx, yVal } = action.payload
+    let newStateTmp = state.sliderList
+
+
+    // Handle multi CC
+    const tmp = newStateTmp[idx]
+    const { yMidiCc, yMidiChannel, yDriverName, label } = tmp
+    console.log({ yMidiCc, yMidiChannel, yDriverName, label })
+    sendControlChanges({ midiCC: yMidiCc, midiChannel: yMidiChannel, driverName: yDriverName, val: yVal, label })
+    const sliderList = transformStateByIndex(
+      newStateTmp,
+      { payload: { idx: parseInt(idx, 10), val: yVal } },
+      'yVal'
+    )
+    return { ...state, sliderList }
+  },
+
   [ActionTypeSliderList.TOGGLE_NOTE](state, action) {
     const idx = action.payload
 
@@ -243,13 +263,21 @@ export const reducers = {
   },
   [ActionTypeSliderList.SELECT_MIDI_DRIVER](state, action) {
     const { i, driverName } = action.payload
-    const sliderList = transformState(state.sliderList, {payload: {i, val: driverName}}, 'driverName')
+    const sliderList = transformState(
+      state.sliderList,
+      { payload: { i, val: driverName } },
+      'driverName'
+    )
     return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.SELECT_MIDI_DRIVER_INPUT](state, action) {
     const { i, driverNameInput } = action.payload
-    const sliderList = transformState(state.sliderList, {payload: {i, val: driverNameInput}}, 'driverNameInput')
+    const sliderList = transformState(
+      state.sliderList,
+      { payload: { i, val: driverNameInput } },
+      'driverNameInput'
+    )
     return { ...state, sliderList }
   },
 
@@ -388,7 +416,6 @@ export const reducers = {
   },
 
   [ActionTypeSliderList.SAVE_FILE](state, action) {
-
     const {
       viewSettings,
       sliders: { sliderList = [], presetName },
@@ -527,7 +554,11 @@ export const reducers = {
 
   [ActionTypeSliderList.CHANGE_FONT_SIZE](state, action) {
     const { i, fontSize } = action.payload
-    const sliderList = transformState(state.sliderList, {payload: {i, val: fontSize}}, 'fontSize')
+    const sliderList = transformState(
+      state.sliderList,
+      { payload: { i, val: fontSize } },
+      'fontSize'
+    )
     // state.sliderList.map((item, idx) => {
     //   if (i === item.i) {
     //     return {
@@ -543,8 +574,71 @@ export const reducers = {
   [ActionTypeSliderList.CHANGE_FONT_WEIGHT](state, action) {
     const { i, fontWeight } = action.payload
 
-    const sliderList = transformState(state.sliderList, {payload: {i, val: fontWeight}}, 'fontWeight')
+    const sliderList = transformState(
+      state.sliderList,
+      { payload: { i, val: fontWeight } },
+      'fontWeight'
+    )
+
+    return { ...state, sliderList }
+  },
+
+  [ActionTypeSliderList.CHANGE_XYPAD_SETTINGS](state, action) {
+    const {
+      i,
+      yDriverName,
+      yMidiChannel,
+      yMaxVal,
+      yMinVal,
+      yMidiCc,
+    } = action.payload
+
+    let sliderList = []
+
+    if (yMidiChannel) {
+      const listWithChannels = transformState(
+        state.sliderList,
+        { payload: { i, val: yMidiChannel } },
+        'yMidiChannel'
+      )
+      sliderList = [...sliderList, ...listWithChannels]
+    }
     
+    if (yDriverName) {
+      sliderList = transformState(
+        state.sliderList,
+        { payload: { i, val: yDriverName } },
+        'yDriverName'
+      )
+    }
+
+    if (yMidiCc && yMidiCc.length > 0) {
+      const listWithMidiCc = transformState(
+        state.sliderList,
+        { payload: { i, val: yMidiCc } },
+        'yMidiCc'
+      )
+      sliderList = [...sliderList, ...listWithMidiCc]
+    }
+
+
+    if (yMaxVal) {
+      const listWithyMaxVal = transformState(
+        state.sliderList,
+        { payload: { i, val: yMaxVal } },
+        'yMaxVal'
+      )
+      sliderList = [...sliderList, ...listWithyMaxVal]
+    }
+    if (yMinVal) {
+      const listWithyMinVal = transformState(
+        state.sliderList,
+        { payload: { i, val: yMinVal } },
+        'yMinVal'
+      )
+      sliderList = [...sliderList, ...listWithyMinVal]
+    }
+
     return { ...state, sliderList }
   },
 
@@ -742,7 +836,7 @@ const transformStateByIndex = (sliderList, action, field) => {
 
 const transformState = (sliderList, action, field) => {
   const { i, val } = action.payload || action
-  const newState = sliderList.map((item) => {
+  const newState = sliderList.map(item => {
     if (item.i === i) {
       return {
         ...item,
@@ -764,12 +858,18 @@ const transformAddState = (state, action, type) => {
     lastSelectedDriverName !== 'None' && lastSelectedDriverName
 
   const addStateLength = () => list.length + 1
-  const addMidiCCVal = () => 59 + addStateLength()
+  const addMidiCCVal = () => 59 + addStateLength() > 119 && 119
 
   let midiCC = null
   let label = ''
-  let yDriver = undefined
-  let yDriverInput = undefined
+  let yVal = undefined
+  let yDriverName = undefined
+  let yMidiCc = undefined
+  //let yDriverNameInput = undefined
+  let yMidiChannel = undefined
+  //let yMidiChannelInput = undefined
+  let yMinVal = undefined
+  let yMaxVal = undefined
 
   if ([BUTTON, BUTTON_TOGGLE].includes(type)) {
     label = 'Button '
@@ -795,9 +895,15 @@ const transformAddState = (state, action, type) => {
   }
   if (type === XYPAD) {
     label = 'X / Y Pad '
+    yVal = 50
     midiCC = [addMidiCCVal()]
-    yDriver = 'None'
-    yDriverInput = 'None'
+    yDriverName = 'None'
+    yMidiCc = [addMidiCCVal()]
+    //yDriverNameInput = 'None'
+    yMidiChannel = 1
+    //yMidiChannelInput = 1
+    yMinVal = 0
+    yMaxVal = 127
   }
   const entry = {
     type,
@@ -812,8 +918,14 @@ const transformAddState = (state, action, type) => {
     listenToCc: [],
     driverName: newDriverName,
     driverNameInput: 'None',
-    yDriver, 
-    yDriverInput,
+    yDriverName,
+    yVal,
+    yMidiCc,
+    //yDriverNameInput,
+    yMidiChannel,
+    //yMidiChannelInput,
+    yMinVal,
+    yMaxVal,
     midiChannel: 1,
     midiChannelInput: 1,
     isNoteOn: false,

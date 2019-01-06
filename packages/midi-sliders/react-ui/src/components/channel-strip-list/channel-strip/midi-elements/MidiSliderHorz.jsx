@@ -29,7 +29,7 @@ class MidiSliderHorz extends React.PureComponent {
     const tmpFontSize = (fontSize || 16) + 'px'
     const tmpFontWeight = fontWeight || 500
     return (
-      <div style={{ height, width }}>
+      <div style={{ height, width }} onContextMenu={this.preventCtxMenu}>
         <Typography
           className={classes.labelTop}
           style={{
