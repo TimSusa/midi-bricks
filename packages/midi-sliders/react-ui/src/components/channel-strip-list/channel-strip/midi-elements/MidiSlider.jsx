@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-
-import Gamepad from 'react-gamepad'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../actions/slider-list.js'
@@ -63,6 +61,7 @@ class MidiSlider extends Component {
     const val = ((parentRect.height - y) * 127) / (parentRect.height + 0)
     this.sendOutFromChildren(val)
   }
+
   handlePointerEnd = e => {
     const parentRect = this.selfRef.getBoundingClientRect()
     console.log('pointer end', parentRect)
@@ -75,12 +74,13 @@ class MidiSlider extends Component {
     const val = ((parentRect.height - y) * 127) / (parentRect.height + 0)
     this.sendOutFromChildren(val)
   }
+
   handlePointerMove = e => {
     const parentRect = this.selfRef.getBoundingClientRect()
     const tmpY = e.clientY - parentRect.y
     const tmpYy = tmpY < 0 ? 0 : tmpY
     const y = tmpYy > parentRect.height - 0 ? parentRect.height - 0 : tmpYy
-    const val = ((parentRect.height - y) * 127) / (parentRect.height || 1 + 0)
+    const val = ((parentRect.height - y) * 127) / (parentRect.height + 0)
     console.log('hadlepointermove ', parentRect)
     if (isNaN(val)) return
     this.sendOutFromChildren(val)
@@ -103,7 +103,7 @@ class MidiSlider extends Component {
       background: 'grey',
       color: 'black',
       top: Math.round(y - 15) < 0 ? 0 : Math.round(y - 15) + 'px',
-      left: 0, //Math.round(x) + 'px',
+      left: 0, 
     }
   }
 }
