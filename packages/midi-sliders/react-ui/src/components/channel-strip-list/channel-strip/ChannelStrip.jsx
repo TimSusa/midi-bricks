@@ -91,7 +91,9 @@ class ChannelStrip extends React.Component {
 
 
 const styles = theme => ({
-  root: {},
+  root: {
+    userSelect: 'none'
+  },
   iconColor: {
     color: theme.palette.primary.contrastText,
     cursor: 'pointer',
