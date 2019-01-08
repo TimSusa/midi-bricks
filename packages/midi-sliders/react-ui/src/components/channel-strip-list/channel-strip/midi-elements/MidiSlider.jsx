@@ -15,7 +15,7 @@ class MidiSlider extends Component {
 
   render() {
     const {
-      sliderEntry: { val },
+      height, width
     } = this.props
     return (
       <div
@@ -29,49 +29,48 @@ class MidiSlider extends Component {
         onPointerMove={this.onPointerMove}
         onPointerUp={this.handlePointerEnd}
         style={{
-          height: this.props.height || 300,
-          width: this.props.width || 300,
+          height,
+          width,
           background: 'aliceblue',
           opacity: 0.7,
         }}
       >
         <div
-          style={this.getPlayerStyle(
+          style={this.getSliderThumbStyle(
             calcYFromVal({
               val: this.props.sliderEntry.val,
               height: this.props.height,
             })
           )}
-        >
-          <Typography>{val}</Typography>
-        </div>
+        />
       </div>
     )
   }
 
   handlePointerStart = e => {
-    console.log('pointer start', this.selfRef)
     this.onPointerMove = this.handlePointerMove
     window.requestAnimationFrame(this.onPointerMove)
     this.selfRef.setPointerCapture(e.pointerId)
     const parentRect = this.selfRef.getBoundingClientRect()
     const tmpY = e.clientY - parentRect.y
+    console.log('pointer start', parentRect.y)
+
     const tmpYy = tmpY < 0 ? 0 : tmpY
-    const y = tmpYy > parentRect.height - 0 ? parentRect.height - 0 : tmpYy
-    const val = ((parentRect.height - y) * 127) / (parentRect.height + 0)
+    const y = tmpYy > this.props.height - 0 ? this.props.height - 0 : tmpYy
+    const val = ((this.props.height - y) * 127) / (this.props.height + 0)
     this.sendOutFromChildren(val)
   }
 
   handlePointerEnd = e => {
     const parentRect = this.selfRef.getBoundingClientRect()
-    console.log('pointer end', parentRect)
+    console.log('pointer end', this.selfRef)
 
     this.onPointerMove = null
     this.selfRef.releasePointerCapture(e.pointerId)
     const tmpY = e.clientY - parentRect.y
-    const tmpYy = tmpY < 0 ? 0 : tmpY
-    const y = tmpYy > parentRect.height - 0 ? parentRect.height - 0 : tmpYy
-    const val = ((parentRect.height - y) * 127) / (parentRect.height + 0)
+    const tmpYy = tmpY < 0 ? 8 : tmpY
+    const y = tmpYy > this.props.height - 0 ? this.props.height - 0 : tmpYy
+    const val = ((this.props.height - y) * 127) / (this.props.height + 0)
     this.sendOutFromChildren(val)
   }
 
@@ -79,9 +78,9 @@ class MidiSlider extends Component {
     const parentRect = this.selfRef.getBoundingClientRect()
     const tmpY = e.clientY - parentRect.y
     const tmpYy = tmpY < 0 ? 0 : tmpY
-    const y = tmpYy > parentRect.height - 0 ? parentRect.height - 0 : tmpYy
-    const val = ((parentRect.height - y) * 127) / (parentRect.height + 0)
-    console.log('hadlepointermove ', parentRect)
+    const y = tmpYy > this.props.height - 0 ? this.props.height - 0 : tmpYy
+    const val = ((this.props.height - y) * 127) / (this.props.height + 0)
+    console.log('hadlepointermove m', this.selfRef, this.props.height)
     if (isNaN(val)) return
     this.sendOutFromChildren(val)
   }
@@ -93,7 +92,7 @@ class MidiSlider extends Component {
     })
   }
 
-  getPlayerStyle = y => {
+  getSliderThumbStyle = y => {
     return {
       position: 'relative',
       cursor: 'pointer',
@@ -103,7 +102,7 @@ class MidiSlider extends Component {
       background: 'grey',
       color: 'black',
       top: Math.round(y - 15) < 0 ? 0 : Math.round(y - 15) + 'px',
-      left: 0, 
+      left: 0,
     }
   }
 }
