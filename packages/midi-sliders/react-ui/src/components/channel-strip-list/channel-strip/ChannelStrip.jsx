@@ -20,7 +20,15 @@ class ChannelStrip extends React.Component {
   render() {
     const {
       sliderEntry,
-      sliderEntry: { type, label, val, fontSize, fontWeight, isValueHidden },
+      sliderEntry: {
+        type,
+        label,
+        val,
+        fontSize,
+        fontWeight,
+        colors: { colorFont },
+        isValueHidden,
+      },
       idx,
       classes,
       size,
@@ -38,6 +46,7 @@ class ChannelStrip extends React.Component {
               fontSize={fontSize}
               fontWeight={fontWeight}
               labelStyle={this.props.classes.label}
+              colorFont={colorFont}
               {...this.props}
               ref={this.topLabelRef}
             >
@@ -59,6 +68,7 @@ class ChannelStrip extends React.Component {
                 fontSize={fontSize}
                 fontWeight={fontWeight}
                 labelStyle={this.props.classes.bottomLabel}
+                colorFont={colorFont}
                 {...this.props}
                 ref={this.bottomLabelRef}
               >
@@ -177,6 +187,7 @@ const Label = React.forwardRef((props, ref) => (
     style={{
       fontWeight: props.fontWeight,
       fontSize: (parseInt(props.fontSize, 10) || 16) + 'px',
+      color: props.colorFont,
     }}
     ref={ref}
     className={props.labelStyle}

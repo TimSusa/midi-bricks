@@ -26,7 +26,6 @@ export const MidiSettingsView = props => {
   } = props
   return (
     <React.Fragment>
-      {![SLIDER, SLIDER_HORZ].includes(type) && (
         <FormControl>
           {[BUTTON, BUTTON_CC, BUTTON_TOGGLE, BUTTON_TOGGLE_CC].includes(
             type
@@ -71,7 +70,6 @@ export const MidiSettingsView = props => {
             color={colors.colorFontActive}
           />
         </FormControl>
-      )}
 
       <FormControl>
         <Typography className={classes.label} htmlFor="fontsize">

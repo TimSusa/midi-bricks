@@ -12,7 +12,7 @@ class MidiSlider extends Component {
   }
 
   render() {
-    const { height, width } = this.props
+    const { height, width, sliderEntry } = this.props
     return (
       <div
         onContextMenu={e => {
@@ -27,17 +27,18 @@ class MidiSlider extends Component {
         style={{
           height,
           width,
-          background: 'aliceblue',
-          opacity: 0.7,
+          borderRadius: 3,
+          background: sliderEntry.colors.color ? sliderEntry.colors.color : 'aliceblue',
+          //opacity: 0.7,
         }}
       >
         <div
           style={this.getSliderThumbStyle(
             calcYFromVal({
-              val: this.props.sliderEntry.val,
-              height: this.props.height,
-              maxVal: this.props.sliderEntry.maxVal,
-              minVal: this.props.sliderEntry.minVal,
+              val: sliderEntry.val,
+              height,
+              maxVal: sliderEntry.maxVal,
+              minVal: sliderEntry.minVal,
             })
           )}
         />
@@ -82,8 +83,7 @@ class MidiSlider extends Component {
       height: this.props.sliderThumbHeight,
       width: '100%',
       borderRadius: 3,
-      background: 'grey',
-      color: 'black',
+      background: this.props.sliderEntry.colors.colorActive ? this.props.sliderEntry.colors.colorActive : 'goldenrod',
       top: Math.round(y),
       left: 0,
     }

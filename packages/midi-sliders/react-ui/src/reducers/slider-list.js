@@ -45,13 +45,13 @@ export const reducers = {
     const midi = {
       midiAccess: {
         inputs: [],
-        outputs: []
+        outputs: [],
       },
     }
     return {
       ...state,
       isMidiFailed: true,
-      midi
+      midi,
     }
   },
 
@@ -208,18 +208,21 @@ export const reducers = {
     return { ...state, sliderList }
   },
 
-  
-
   [ActionTypeSliderList.SEND_MIDI_CC_Y](state, action) {
     const { idx, yVal } = action.payload
     let newStateTmp = state.sliderList
-
 
     // Handle multi CC
     const tmp = newStateTmp[idx]
     const { yMidiCc, yMidiChannel, yDriverName, label } = tmp
     console.log({ yMidiCc, yMidiChannel, yDriverName, label })
-    sendControlChanges({ midiCC: yMidiCc, midiChannel: yMidiChannel, driverName: yDriverName, val: yVal, label })
+    sendControlChanges({
+      midiCC: yMidiCc,
+      midiChannel: yMidiChannel,
+      driverName: yDriverName,
+      val: yVal,
+      label,
+    })
     const sliderList = transformStateByIndex(
       newStateTmp,
       { payload: { idx: parseInt(idx, 10), val: yVal } },
@@ -628,7 +631,6 @@ export const reducers = {
       sliderList = [...sliderList, ...listWithMidiCc]
     }
 
-
     if (yMaxVal) {
       const listWithyMaxVal = transformState(
         state.sliderList,
@@ -944,8 +946,10 @@ const transformAddState = (state, action, type) => {
     h: type === SLIDER ? 6 : 3,
     static: false,
     colors: {
-      color: 'rgba(240, 255, 0, 1)',
+      color: 'rgba(184, 233, 134, 1)',
       colorActive: 'rgba(240, 255, 0, 1)',
+      colorFont: 'rgba(184, 233, 134, 1)',
+      colorFontActive: 'rgba(184, 233, 134, 1)'
     },
     fontSize: 16,
     fontWeight: 500,
