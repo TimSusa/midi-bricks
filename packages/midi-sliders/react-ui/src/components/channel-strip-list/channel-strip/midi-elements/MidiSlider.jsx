@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MidiSliderActions from '../../../../actions/slider-list.js'
 
-import { Typography } from '@material-ui/core'
-
 class MidiSlider extends Component {
   selfRef = null
   onPointerMove = null
@@ -14,9 +12,7 @@ class MidiSlider extends Component {
   }
 
   render() {
-    const {
-      height, width
-    } = this.props
+    const { height, width } = this.props
     return (
       <div
         onContextMenu={e => {
@@ -24,7 +20,7 @@ class MidiSlider extends Component {
           e.stopPropagation()
           return false
         }}
-        ref={ref => (this.selfRef = ref)}
+        ref={this.selfRef}
         onPointerDown={this.handlePointerStart}
         onPointerMove={this.onPointerMove}
         onPointerUp={this.handlePointerEnd}
@@ -40,6 +36,8 @@ class MidiSlider extends Component {
             calcYFromVal({
               val: this.props.sliderEntry.val,
               height: this.props.height,
+              maxVal: this.props.sliderEntry.maxVal,
+              minVal: this.props.sliderEntry.minVal,
             })
           )}
         />
@@ -50,37 +48,22 @@ class MidiSlider extends Component {
   handlePointerStart = e => {
     this.onPointerMove = this.handlePointerMove
     window.requestAnimationFrame(this.onPointerMove)
-    this.selfRef.setPointerCapture(e.pointerId)
-    const parentRect = this.selfRef.getBoundingClientRect()
-    const tmpY = e.clientY - parentRect.y
-    console.log('pointer start', parentRect.y)
+    this.selfRef.current.setPointerCapture(e.pointerId)
 
-    const tmpYy = tmpY < 0 ? 0 : tmpY
-    const y = tmpYy > this.props.height - 0 ? this.props.height - 0 : tmpYy
-    const val = ((this.props.height - y) * 127) / (this.props.height + 0)
+    const val = this.heightToVal(e)
     this.sendOutFromChildren(val)
   }
 
   handlePointerEnd = e => {
-    const parentRect = this.selfRef.getBoundingClientRect()
-    console.log('pointer end', this.selfRef)
-
     this.onPointerMove = null
-    this.selfRef.releasePointerCapture(e.pointerId)
-    const tmpY = e.clientY - parentRect.y
-    const tmpYy = tmpY < 0 ? 8 : tmpY
-    const y = tmpYy > this.props.height - 0 ? this.props.height - 0 : tmpYy
-    const val = ((this.props.height - y) * 127) / (this.props.height + 0)
+    this.selfRef.current.releasePointerCapture(e.pointerId)
+
+    const val = this.heightToVal(e)
     this.sendOutFromChildren(val)
   }
 
   handlePointerMove = e => {
-    const parentRect = this.selfRef.getBoundingClientRect()
-    const tmpY = e.clientY - parentRect.y
-    const tmpYy = tmpY < 0 ? 0 : tmpY
-    const y = tmpYy > this.props.height - 0 ? this.props.height - 0 : tmpYy
-    const val = ((this.props.height - y) * 127) / (this.props.height + 0)
-    console.log('hadlepointermove m', this.selfRef, this.props.height)
+    const val = this.heightToVal(e)
     if (isNaN(val)) return
     this.sendOutFromChildren(val)
   }
@@ -96,14 +79,30 @@ class MidiSlider extends Component {
     return {
       position: 'relative',
       cursor: 'pointer',
-      height: 30,
+      height: this.props.sliderThumbHeight,
       width: '100%',
       borderRadius: 3,
       background: 'grey',
       color: 'black',
-      top: Math.round(y - 15) < 0 ? 0 : Math.round(y - 15) + 'px',
+      top: Math.round(y),
       left: 0,
     }
+  }
+
+  heightToVal(e) {
+    const parentRect = this.selfRef.current.getBoundingClientRect()
+    const tmpY = e.clientY - parentRect.y
+    const thumb = this.props.sliderThumbHeight / 2
+    const tmpThumb = tmpY - thumb 
+    const tmpYy = tmpThumb < 0 ? 0 : tmpThumb
+    const y = tmpYy >= this.props.height ? this.props.height : tmpYy
+    const val =
+      ((this.props.height - Math.round(y)) * this.props.sliderEntry.maxVal) /
+      this.props.height
+    if (isNaN(val)) return
+    return val > this.props.sliderEntry.minVal
+      ? val
+      : this.props.sliderEntry.minVal
   }
 }
 
@@ -124,11 +123,11 @@ export default connect(
   mapDispatchToProps
 )(MidiSlider)
 
-function calcYFromVal({ val, height }) {
-  const y = -((val * height) / 127) + height
+function calcYFromVal({ val, height, maxVal, minVal }) {
+  const y = height * (1 - (val - (0)) / (maxVal - 0))
   return y
 }
-
+// (val )  = -diff * ((y / height) - 1 ) + minVal
 // import React from 'react'
 // import Typography from '@material-ui/core/Typography'
 // import { withStyles } from '@material-ui/core/styles'
