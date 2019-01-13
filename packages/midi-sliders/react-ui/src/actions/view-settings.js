@@ -19,9 +19,6 @@ const TypeViewSettings = [
   'SET_FOOTER_BUTTON_FOCUS'
 ]
 
-const ActionTypeViewSettings = createActionTypes(TypeViewSettings)
+export const ActionTypeViewSettings = createActionTypes(TypeViewSettings)
 
-module.exports = {
-  ...createActions(ActionTypeViewSettings),
-  ActionTypeViewSettings,
-}
+export const Actions = {...createActions(ActionTypeViewSettings)}

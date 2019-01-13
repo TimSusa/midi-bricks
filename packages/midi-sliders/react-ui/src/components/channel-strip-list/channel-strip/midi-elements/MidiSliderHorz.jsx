@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../../../../actions/slider-list.js'
+import {Actions as MidiSliderActions} from '../../../../actions/slider-list.js'
 
 class MidiSliderHorz extends Component {
   selfRef = null
@@ -139,7 +139,7 @@ function calcXFromVal({ val, width, maxVal, minVal }) {
 // import { withStyles } from '@material-ui/core/styles'
 // import { connect } from 'react-redux'
 // import { bindActionCreators } from 'redux'
-// import * as MidiSliderActions from '../../../../actions/slider-list.js'
+// import {Actions as MidiSliderActions} from '../../../../actions/slider-list.js'
 
 // class MidiSlider extends React.PureComponent {
 //   static defaultProps = {
@@ -365,7 +365,7 @@ function calcXFromVal({ val, width, maxVal, minVal }) {
 // import { withStyles } from '@material-ui/core/styles'
 // import { connect } from 'react-redux'
 // import { bindActionCreators } from 'redux'
-// import * as MidiSliderActions from '../../../../actions/slider-list.js'
+// import {Actions as MidiSliderActions} from '../../../../actions/slider-list.js'
 
 // class MidiSliderHorz extends React.PureComponent {
 //   static defaultProps = {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../../../../actions/slider-list.js'
+import {Actions as MidiSliderActions} from '../../../../actions/slider-list.js'
 
 class MidiSlider extends Component {
   selfRef = null
@@ -90,7 +90,7 @@ class MidiSlider extends Component {
       width: '100%',
       borderRadius: 3,
       background: this.props.sliderEntry.colors.colorActive ? this.props.sliderEntry.colors.colorActive : 'goldenrod',
-      top: Math.round(y),
+      top: Math.round(y-1),
       left: 0,
       boxShadow: this.state.isActivated && '0 0 3px 3px rgb(24, 164, 157)',
     }
@@ -140,7 +140,7 @@ function calcYFromVal({ val, height, maxVal, minVal }) {
 // import { withStyles } from '@material-ui/core/styles'
 // import { connect } from 'react-redux'
 // import { bindActionCreators } from 'redux'
-// import * as MidiSliderActions from '../../../../actions/slider-list.js'
+// import {Actions as MidiSliderActions} from '../../../../actions/slider-list.js'
 
 // class MidiSlider extends React.PureComponent {
 //   static defaultProps = {

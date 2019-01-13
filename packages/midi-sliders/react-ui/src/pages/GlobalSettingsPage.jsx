@@ -8,11 +8,11 @@ import {
   Tooltip,
   Paper,
 } from '@material-ui/core'
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../actions/slider-list.js'
-import * as ViewStuff from '../actions/view-settings.js'
+import {Actions as MidiSliderActions} from '../actions/slider-list.js'
+import {Actions as ViewStuff}  from '../actions/view-settings.js'
 import MidiSettingsDialog from '../components/channel-strip-list/channel-strip/midi-settings-dialog/MidiSettingsDialog'
 import { outputToDriverName } from '../utils/output-to-driver-name.js'
 import { initApp } from '../actions/init.js'

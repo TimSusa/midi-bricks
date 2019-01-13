@@ -1,12 +1,15 @@
 import WebMIDI from 'webmidi'
 import {
+Actions
+} from './slider-list'
+import { debounce } from 'lodash'
+
+const {
   initPending,
   midiMessageArrived,
   initFailed,
   initMidiAccess,
-} from './slider-list'
-import { debounce } from 'lodash'
-
+} = Actions
 export function initApp() {
   return function(dispatch, getState) {
     dispatch(initPending('start'))

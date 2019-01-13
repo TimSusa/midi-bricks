@@ -46,9 +46,6 @@ const typeSliderList = [
   'EXTRACT_PAGE'
 ]
 
-const ActionTypeSliderList = createActionTypes(typeSliderList)
+export const ActionTypeSliderList = createActionTypes(typeSliderList)
 
-module.exports = {
-  ...createActions(ActionTypeSliderList),
-  ActionTypeSliderList
-}
+export const Actions = {...createActions(ActionTypeSliderList)}

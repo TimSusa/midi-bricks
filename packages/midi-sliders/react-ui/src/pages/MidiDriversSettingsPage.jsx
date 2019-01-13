@@ -1,10 +1,10 @@
-import * as React from 'react'
+import React from 'react'
 import DriverExpansionPanel from '../components/DriverExpansionPanel'
 import MidiDriverTable from '../components/MidiDriverTable'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../actions/slider-list.js'
-import * as ViewStuff from '../actions/view-settings.js'
+import {Actions as MidiSliderActions} from '../actions/slider-list.js'
+import {Actions as ViewStuff}  from '../actions/view-settings.js'
 import { initApp } from '../actions/init.js'
 
 class MidiDriversSettingsPage extends React.PureComponent {

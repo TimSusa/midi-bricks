@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import Gamepad from 'react-gamepad'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as MidiSliderActions from '../actions/slider-list.js'
+import {Actions as MidiSliderActions} from '../actions/slider-list.js'
 
 import { Typography } from '@material-ui/core'
 

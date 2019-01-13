@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import MuiWrappedApp from './MuiWrappedApp'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
