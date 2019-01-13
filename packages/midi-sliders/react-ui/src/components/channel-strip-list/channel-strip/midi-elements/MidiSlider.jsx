@@ -9,6 +9,9 @@ class MidiSlider extends Component {
   constructor(props) {
     super(props)
     this.selfRef = React.createRef()
+    this.state = {
+      isActivated: false
+    }
   }
 
   render() {
@@ -25,10 +28,11 @@ class MidiSlider extends Component {
         onPointerMove={this.onPointerMove}
         onPointerUp={this.handlePointerEnd}
         style={{
-          height: height + this.props.sliderThumbHeight -8,
+          height: height + this.props.sliderThumbHeight,
           width,
           borderRadius: 3,
           background: sliderEntry.colors.color ? sliderEntry.colors.color : 'aliceblue',
+          boxShadow: this.state.isActivated && '0 0 3px 3px rgb(24, 164, 157)',
           //opacity: 0.7,
         }}
       >
@@ -53,6 +57,7 @@ class MidiSlider extends Component {
 
     const val = this.heightToVal(e)
     this.sendOutFromChildren(val)
+    this.setState({isActivated: true})
   }
 
   handlePointerEnd = e => {
@@ -61,6 +66,7 @@ class MidiSlider extends Component {
 
     const val = this.heightToVal(e)
     this.sendOutFromChildren(val)
+    this.setState({isActivated: false})
   }
 
   handlePointerMove = e => {
@@ -86,6 +92,7 @@ class MidiSlider extends Component {
       background: this.props.sliderEntry.colors.colorActive ? this.props.sliderEntry.colors.colorActive : 'goldenrod',
       top: Math.round(y),
       left: 0,
+      boxShadow: this.state.isActivated && '0 0 3px 3px rgb(24, 164, 157)',
     }
   }
 
