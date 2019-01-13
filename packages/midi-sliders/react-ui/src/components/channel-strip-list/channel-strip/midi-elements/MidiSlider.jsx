@@ -25,7 +25,7 @@ class MidiSlider extends Component {
         onPointerMove={this.onPointerMove}
         onPointerUp={this.handlePointerEnd}
         style={{
-          height,
+          height: height + this.props.sliderThumbHeight -8,
           width,
           borderRadius: 3,
           background: sliderEntry.colors.color ? sliderEntry.colors.color : 'aliceblue',

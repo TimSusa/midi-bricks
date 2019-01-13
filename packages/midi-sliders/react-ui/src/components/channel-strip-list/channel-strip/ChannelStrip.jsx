@@ -126,8 +126,8 @@ class ChannelStrip extends React.Component {
     return (
       tmpH -
       this.calcTopLabelHeight(tmpH) -
-      this.calcBottomLabelHeight(tmpH) -
-      this.sliderThumbHeight
+      parseInt(this.props.sliderEntry.fontSize, 10) -
+      this.sliderThumbHeight - 8
     )
   }
   calcTopLabelHeight = () => {
@@ -138,15 +138,15 @@ class ChannelStrip extends React.Component {
         : parseInt(this.props.sliderEntry.fontSize, 10)
     return topLabelHeight
   }
-  calcBottomLabelHeight = () => {
-    if (this.props.sliderEntry.isValueHidden) return 0
-    const bottomLabelHeight =
-      this.bottomLabelRef.current !== null &&
-      this.bottomLabelRef.current.clientHeight !== null
-        ? this.bottomLabelRef.current.clientHeight
-        : parseInt(this.props.sliderEntry.fontSize, 10)
-    return bottomLabelHeight
-  }
+  // calcBottomLabelHeight = () => {
+  //   if (this.props.sliderEntry.isValueHidden) return 0
+  //   const bottomLabelHeight =
+  //     this.bottomLabelRef.current !== null &&
+  //     this.bottomLabelRef.current.clientHeight !== null
+  //       ? this.bottomLabelRef.current.clientHeight
+  //       : parseInt(this.props.sliderEntry.fontSize, 10)
+  //   return bottomLabelHeight
+  // }
 }
 
 const styles = theme => ({
@@ -159,7 +159,7 @@ const styles = theme => ({
   },
   sliderChannelWrapper: {
     position: 'relative',
-    paddingBottom: 16,
+    //paddingBottom: 16,
   },
   label: {
     color: theme.palette.primary.contrastText,
@@ -167,6 +167,7 @@ const styles = theme => ({
     fontWeight: 400,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     lineHeight: 1,
+    marginBottom: 8
   },
   bottomLabel: {
     position: 'fixed',
