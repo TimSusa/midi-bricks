@@ -71,13 +71,39 @@ const ChannelStrip = props => {
         </div>
       )}
       {type === STRIP_TYPE.SLIDER_HORZ && (
-        <MidiSliderHorz
-          isDisabled={isDisabled}
-          sliderEntry={sliderEntry}
-          idx={idx}
-          height={tmpH}
-          width={tmpW}
-        />
+        <div className={classes.sliderChannelWrapper}>
+          <Label
+            fontSize={fontSize}
+            fontWeight={fontWeight}
+            labelStyle={props.classes.label}
+            colorFont={colorFont}
+            {...props}
+            //ref={topLabelRef}
+          >
+            {label}
+          </Label>
+          <MidiSliderHorz
+            className={classes.sliderWrapper}
+            isDisabled={isDisabled}
+            sliderEntry={sliderEntry}
+            idx={idx}
+            height={calcHeight(tmpH, props)}
+            width={tmpW}
+            sliderThumbHeight={sliderThumbHeight}
+          />
+          {!isValueHidden ? (
+            <Label
+              fontSize={fontSize}
+              fontWeight={fontWeight}
+              labelStyle={props.classes.bottomLabel}
+              colorFont={colorFont}
+              {...props}
+              //ref={bottomLabelRef}
+            >
+              {val}
+            </Label>
+          ) : null}
+        </div>
       )}
       {isButton && (
         <MidiButtons
@@ -122,7 +148,8 @@ const calcHeight = (tmpH, props) => {
   return (
     tmpH -
     parseInt(fact * props.sliderEntry.fontSize, 10) -
-    sliderThumbHeight - marge
+    sliderThumbHeight -
+    marge
   )
 }
 
