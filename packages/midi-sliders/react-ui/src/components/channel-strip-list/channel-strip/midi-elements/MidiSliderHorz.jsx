@@ -29,11 +29,10 @@ class MidiSliderHorz extends Component {
         onPointerUp={this.handlePointerEnd}
         style={{
           height: height + this.props.sliderThumbHeight,
-          width,
+          width: width + this.props.sliderThumbHeight,
           borderRadius: 3,
           background: sliderEntry.colors.color ? sliderEntry.colors.color : 'aliceblue',
           boxShadow: this.state.isActivated && '0 0 3px 3px rgb(24, 164, 157)',
-          //opacity: 0.7,
         }}
       >
         <div

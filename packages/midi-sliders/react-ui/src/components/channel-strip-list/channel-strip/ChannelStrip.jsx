@@ -88,7 +88,7 @@ const ChannelStrip = props => {
             sliderEntry={sliderEntry}
             idx={idx}
             height={calcHeight(tmpH, props)}
-            width={tmpW}
+            width={tmpW - sliderThumbHeight}
             sliderThumbHeight={sliderThumbHeight}
           />
           {!isValueHidden ? (
