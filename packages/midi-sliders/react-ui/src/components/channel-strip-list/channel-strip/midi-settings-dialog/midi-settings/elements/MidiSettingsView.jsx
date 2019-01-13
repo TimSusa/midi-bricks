@@ -26,50 +26,56 @@ export const MidiSettingsView = props => {
   } = props
   return (
     <React.Fragment>
-        <FormControl>
-          {[BUTTON, BUTTON_CC, BUTTON_TOGGLE, BUTTON_TOGGLE_CC].includes(
-            type
-          ) && (
-            <React.Fragment>
-              <InputLabel className={classes.label} htmlFor="button-type">
-                Type
-              </InputLabel>
-              <Select
-                className={classes.select}
-                onChange={handleButtonTypeChange.bind(this, i, actions)}
-                value={type}
-              >
-                {renderButtonTypeSelection(type)}
-              </Select>
-            </React.Fragment>
-          )}
+      <FormControl>
+        {[BUTTON, BUTTON_CC, BUTTON_TOGGLE, BUTTON_TOGGLE_CC].includes(
+          type
+        ) && (
+          <React.Fragment>
+            <InputLabel className={classes.label} htmlFor="button-type">
+              Type
+            </InputLabel>
+            <Select
+              className={classes.select}
+              onChange={handleButtonTypeChange.bind(this, i, actions)}
+              value={type}
+            >
+              {renderButtonTypeSelection(type)}
+            </Select>
+          </React.Fragment>
+        )}
 
-          <ColorModal
-            title="Background"
-            i={i}
-            fieldName="color"
-            color={colors.color}
-          />
-          <ColorModal
-            title="Activated State"
-            i={i}
-            fieldName="colorActive"
-            color={colors.colorActive}
-          />
-          <ColorModal
-            title="Font-Color"
-            i={i}
-            fieldName="colorFont"
-            color={colors.colorFont}
-          />
+        <ColorModal
+          title="Background"
+          i={i}
+          fieldName="color"
+          color={colors.color}
+        />
+        <ColorModal
+          title={
+            [SLIDER, SLIDER_HORZ].includes(type)
+              ? 'Thumb Background'
+              : 'Activated State'
+          }
+          i={i}
+          fieldName="colorActive"
+          color={colors.colorActive}
+        />
+        <ColorModal
+          title="Font-Color"
+          i={i}
+          fieldName="colorFont"
+          color={colors.colorFont}
+        />
 
+        {![SLIDER, SLIDER_HORZ].includes(type) ? (
           <ColorModal
             title="Activated Font-Color"
             i={i}
             fieldName="colorFontActive"
             color={colors.colorFontActive}
           />
-        </FormControl>
+        ) : null}
+      </FormControl>
 
       <FormControl>
         <Typography className={classes.label} htmlFor="fontsize">
@@ -114,7 +120,7 @@ export const MidiSettingsView = props => {
   )
 }
 
-const renderButtonTypeSelection = (type) => {
+const renderButtonTypeSelection = type => {
   const isCC = type.endsWith('_CC')
   if (isCC) {
     return [BUTTON_CC, BUTTON_TOGGLE_CC].map((item, btnIdx) => {
@@ -141,8 +147,6 @@ const handleButtonTypeChange = (i, actions, e) => {
     val: e.target.value,
   })
 }
-
-
 
 const handleFontsizeChange = (i, actions, e) => {
   actions.changeFontSize({
