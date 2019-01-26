@@ -32,7 +32,7 @@
     "electron": "^4.0.1",
     "electron-builder": "^20.38.5",
     "electron-publish": "^20.38.5",
-    "midi-bricks": "^0.6.0",
+    "midi-bricks": "^0.8.0",
     "wait-for-localhost-cli": "^1.0.0"
   },
   "browserslist": [
@@ -45,7 +45,7 @@
     "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
     "build": "npm run clean && react-scripts build && build --mac --win",
     "test": "react-scripts test",
-    "postinstall": "electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
+    "postinstall": "npm i --save-dev midi-bricks && electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
     "clean": "rimraf build && rimraf dist && rimraf src && cp -R node_modules/midi-bricks/src src"
   }
 }
