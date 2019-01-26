@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks-electron",
-  "version": "0.12.12",
+  "version": "0.12.13",
   "main": "./build/electron.js",
   "homepage": ".",
   "repository": "https://github.com/TimSusa/midi-bricks-mono/tree/master/packages/midi-bricks-electron",
@@ -33,7 +33,7 @@
     "electron": "^4.0.1",
     "electron-builder": "^20.38.5",
     "electron-publish": "^20.38.5",
-    "midi-bricks": "^0.12.12",
+    "midi-bricks": "^0.12.13",
     "wait-for-localhost-cli": "^1.0.0"
   },
   "browserslist": [
