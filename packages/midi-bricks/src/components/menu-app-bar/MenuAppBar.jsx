@@ -20,6 +20,7 @@ import ViewMenu from './ViewMenu'
 import AddMenu from './AddMenu'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 import { Tooltip } from '@material-ui/core'
+
 const MenuAppBar = props => {
   const {
     classes,

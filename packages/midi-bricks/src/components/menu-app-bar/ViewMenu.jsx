@@ -7,16 +7,8 @@ import { Actions as ViewSettingsAction } from '../../actions/view-settings'
 import IconButton from '@material-ui/core/IconButton'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import OnIcon from '@material-ui/icons/Done'
-import OffIcon from '@material-ui/icons/Close'
 import ViewSettingsIcon from '@material-ui/icons/Settings'
-import {
-  Typography,
-  Tooltip,
-  FormControlLabel,
-  Switch,
-} from '@material-ui/core'
+import { Tooltip, FormControlLabel, Switch } from '@material-ui/core'
 
 class ViewMenu extends React.PureComponent {
   constructor(props) {

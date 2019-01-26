@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 
 import Home from './pages/Home'
 import { bindActionCreators } from 'redux'
-import {Actions as MidiSlidersAction} from './actions/slider-list.js'
-import {Actions as ViewActions}from './actions/view-settings.js'
+import { Actions as MidiSlidersAction } from './actions/slider-list.js'
+import { Actions as ViewActions } from './actions/view-settings.js'
 import { initApp } from './actions/init'
 
 import MenuAppBar from './components/menu-app-bar/MenuAppBar'

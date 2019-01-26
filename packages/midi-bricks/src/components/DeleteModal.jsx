@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {Actions as MidiSliderActions} from '../actions/slider-list.js'
-import {Actions as ViewActions}from '../actions/view-settings.js'
+import { Actions as MidiSliderActions } from '../actions/slider-list.js'
+import { Actions as ViewActions } from '../actions/view-settings.js'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
@@ -14,7 +14,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 class DeleteModal extends React.PureComponent {
   state = {
-    open: false,
+    open: false
   }
 
   render() {
