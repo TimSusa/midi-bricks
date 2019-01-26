@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks-electron",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "main": "./build/electron.js",
   "homepage": "./",
   "description": "Midi Bricks for all!",
