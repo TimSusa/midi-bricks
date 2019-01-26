@@ -1,8 +1,16 @@
-const { BrowserWindow, app } = require('electron')
+const { BrowserWindow, app, autoUpdater } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev')
 const windowStateKeeper = require('electron-window-state')
+
 let win
+
+const server = 'https://hazel-al9wqrth9.now.sh'
+const feed = `${server}/update/${process.platform}/${app.getVersion()}`
+
+console.log('SFda ', feed)
+
+autoUpdater.setFeedURL(feed)
 
 // Prevent Zoom, disrupting touches
 app.commandLine.appendSwitch('disable-pinch')
