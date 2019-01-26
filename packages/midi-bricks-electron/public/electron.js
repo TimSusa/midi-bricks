@@ -1,14 +1,16 @@
-import { BrowserWindow, app } from 'electron'
-import path from 'path'
-import isDev from 'electron-is-dev'
-import windowStateKeeper from 'electron-window-state'
+const { BrowserWindow, app, autoUpdater } = require('electron')
+const path = require('path')
+const isDev = require('electron-is-dev')
+const windowStateKeeper = require('electron-window-state')
 
 let win
 
-// const server = 'https://hazel-euwqzahun.now.sh'
+// const server = 'https://hazel-al9wqrth9.now.sh'
 // const feed = `${server}/update/${process.platform}/${app.getVersion()}`
 
-//autoUpdater.setFeedURL(feed)
+// console.log('SFda ', feed)
+
+// autoUpdater.setFeedURL(feed)
 
 // Prevent Zoom, disrupting touches
 app.commandLine.appendSwitch('disable-pinch')
@@ -47,7 +49,6 @@ app.on('ready', async () => {
 
   const url = isDev
     ? 'http://localhost:3000/'
-    // eslint-disable-next-line
     : `file://${path.join(__dirname, '../build/index.html')}`
 
   win.loadURL(url)
