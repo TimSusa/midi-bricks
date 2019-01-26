@@ -2,7 +2,7 @@
   "name": "midi-bricks-electron",
   "version": "0.11.9",
   "main": "./build/electron.js",
-  "homepage": "./",
+  "homepage": ".",
   "repository": "https://github.com/TimSusa/midi-bricks-mono/tree/master/packages/midi-bricks-electron",
   "description": "Midi Bricks for all!",
   "author": "TimSusa <timmsusa@googlemail.com>",
@@ -12,7 +12,7 @@
     "build"
   ],
   "dependencies": {
-    "electron-is-dev": "^0.3.0",
+    "electron-is-dev": "^1.0.1",
     "electron-window-state": "^5.0.1"
   },
   "build": {
@@ -29,7 +29,7 @@
     ]
   },
   "devDependencies": {
-    "concurrently": "^3.6.0",
+    "concurrently": "^4.1.0",
     "electron": "^4.0.1",
     "electron-builder": "^20.38.5",
     "electron-publish": "^20.38.5",
@@ -44,10 +44,10 @@
   ],
   "scripts": {
     "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
-    "build": "yarn clean && react-scripts build && build --mac --win",
+    "build": "yarn clean && react-scripts build && build --mac --win --linux",
     "test": "react-scripts test",
     "postinstall": "npm i --save-dev midi-bricks@latest && electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
     "clean": "rimraf build && rimraf dist && rimraf src && cp -R node_modules/midi-bricks/src src"
   },
-  "gitHead": "aeab264d1372ce709c78d549b0d9f117d92f50f0"
+  "gitHead": "f59d10239678b021e4eca5372c5e22767a0edd41"
 }
