@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks-electron",
-  "version": "0.11.7",
+  "version": "0.11.8",
   "main": "./build/electron.js",
   "homepage": "./",
   "repository": "https://github.com/TimSusa/midi-bricks-mono/tree/master/packages/midi-bricks-electron",
@@ -48,5 +48,6 @@
     "test": "react-scripts test",
     "postinstall": "npm i --save-dev midi-bricks@latest && electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
     "clean": "rimraf build && rimraf dist && rimraf src && cp -R node_modules/midi-bricks/src src"
-  }
+  },
+  "gitHead": "aeab264d1372ce709c78d549b0d9f117d92f50f0"
 }
