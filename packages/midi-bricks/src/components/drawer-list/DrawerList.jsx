@@ -45,7 +45,7 @@ class DrawerList extends React.PureComponent {
             <ListItemIcon>
               <GlobalIcon />
             </ListItemIcon>
-            <ListItemText primary="Global Settings" />
+            <ListItemText primary="Controllers Overview" />
           </ListItem>
 
           <ListItem

@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {Actions as MidiSlidersAction} from '../../actions/slider-list.js'
-import {Actions as ViewSettingsAction} from '../../actions/view-settings'
+import { Actions as MidiSlidersAction } from '../../actions/slider-list.js'
+import { Actions as ViewSettingsAction } from '../../actions/view-settings'
 import IconButton from '@material-ui/core/IconButton'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
@@ -11,7 +11,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import OnIcon from '@material-ui/icons/Done'
 import OffIcon from '@material-ui/icons/Close'
 import ViewSettingsIcon from '@material-ui/icons/Settings'
-import { Typography } from '@material-ui/core'
+import { Typography, Tooltip } from '@material-ui/core'
 
 class ViewMenu extends React.PureComponent {
   state = {
@@ -40,7 +40,9 @@ class ViewMenu extends React.PureComponent {
           onClick={this.handleMenu}
           color="inherit"
         >
-          <ViewSettingsIcon />
+          <Tooltip title='View Settings'>
+            <ViewSettingsIcon />
+          </Tooltip>
         </IconButton>
         <Menu
           id="menu-appbar"
@@ -61,16 +63,14 @@ class ViewMenu extends React.PureComponent {
               {isLayoutMode ? <OnIcon /> : <OffIcon />}
             </ListItemIcon>
 
-            <Typography variant="subtitle1">Layout Mode - shift + l</Typography>
+            <Typography variant="subtitle1">Layout - shift + l</Typography>
           </MenuItem>
           {!isLayoutMode && (
             <MenuItem onClick={this.toggleSettingsMode}>
               <ListItemIcon>
                 {isSettingsMode ? <OnIcon /> : <OffIcon />}
               </ListItemIcon>
-              <Typography variant="subtitle1">
-                Settings Mode - shift + s
-              </Typography>
+              <Typography variant="subtitle1">Settings - shift + s</Typography>
             </MenuItem>
           )}
 
@@ -79,7 +79,7 @@ class ViewMenu extends React.PureComponent {
               {!isCompactHorz ? <OnIcon /> : <OffIcon />}
             </ListItemIcon>
             <Typography variant="subtitle1">
-              Compact Vertically - shift + v
+              Gravity v / h - shift + v
             </Typography>
           </MenuItem>
 
@@ -89,7 +89,7 @@ class ViewMenu extends React.PureComponent {
                 {isAutoArrangeMode ? <OnIcon /> : <OffIcon />}
               </ListItemIcon>
               <Typography variant="subtitle1">
-                Auto Arrange Mode - shift + a
+                Auto Gravity - shift + a
               </Typography>
             </MenuItem>
           )}
@@ -97,14 +97,12 @@ class ViewMenu extends React.PureComponent {
             <ListItemIcon>
               {isChangedTheme ? <OnIcon /> : <OffIcon />}
             </ListItemIcon>
-            <Typography variant="subtitle1">
-              Switch Theme - shift + t
-            </Typography>
+            <Typography variant="subtitle1">Theme - shift + t</Typography>
           </MenuItem>
           <MenuItem onClick={this.toggleLiveMode}>
             <ListItemIcon>{isLiveMode ? <OnIcon /> : <OffIcon />}</ListItemIcon>
 
-            <Typography variant="subtitle1">Live Mode - shift + p</Typography>
+            <Typography variant="subtitle1">Live - shift + p</Typography>
           </MenuItem>
         </Menu>
       </div>

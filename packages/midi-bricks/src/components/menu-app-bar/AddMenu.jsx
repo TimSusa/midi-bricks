@@ -2,13 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {Actions as MidiSlidersAction} from '../../actions/slider-list.js'
-import {Actions as ViewSettinsgsAction} from '../../actions/view-settings'
+import { Actions as MidiSlidersAction } from '../../actions/slider-list.js'
+import { Actions as ViewSettinsgsAction } from '../../actions/view-settings'
 import IconButton from '@material-ui/core/IconButton'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import AddIcon from '@material-ui/icons/Add'
 import { STRIP_TYPE } from '../../reducers/slider-list'
+import { Tooltip } from '@material-ui/core'
 
 class AddMenu extends React.PureComponent {
   state = {
@@ -31,7 +32,9 @@ class AddMenu extends React.PureComponent {
             onClick={this.handleMenu}
             color="inherit"
           >
-            <AddIcon />
+            <Tooltip title='Add Element'>
+              <AddIcon />
+            </Tooltip>
           </IconButton>
           <Menu
             id="menu-appbar-add"
@@ -114,7 +117,6 @@ class AddMenu extends React.PureComponent {
     this.handleClose()
   }
 
-  
   handleAddXyPad = () => {
     this.props.actions.addXypad()
     this.handleClose()
@@ -124,10 +126,10 @@ class AddMenu extends React.PureComponent {
     const { actions, viewSettings } = this.props
     actions.addPage()
     this.setState({ anchorEl: null })
-    window.requestAnimationFrame(
-      () => actions.updateViewSettings({
+    window.requestAnimationFrame(() =>
+      actions.updateViewSettings({
         sliderList: this.props.sliderList,
-        viewSettings
+        viewSettings,
       })
     )
   }

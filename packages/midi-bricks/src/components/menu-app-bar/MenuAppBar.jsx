@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {Actions as ViewSettingsAction} from '../../actions/view-settings'
-import {Actions as MidiSlidersAction} from '../../actions/slider-list.js'
+import { Actions as ViewSettingsAction } from '../../actions/view-settings'
+import { Actions as MidiSlidersAction } from '../../actions/slider-list.js'
 import { initApp } from '../../actions/init'
 import { withStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
@@ -19,6 +19,7 @@ import AutoArrangeModeIconFalse from '@material-ui/icons/TextFormat'
 import ViewMenu from './ViewMenu'
 import AddMenu from './AddMenu'
 import { PAGE_TYPES } from '../../reducers/view-settings'
+import { Tooltip } from '@material-ui/core'
 const MenuAppBar = props => {
   const {
     classes,
@@ -60,9 +61,13 @@ const MenuAppBar = props => {
           >
             {isLayoutMode ? (
               isCompactHorz ? (
-                <SwapHorizIcon />
+                <Tooltip title="Gravity horizontal">
+                  <SwapHorizIcon />
+                </Tooltip>
               ) : (
-                <SwapVertIcon />
+                <Tooltip title="Gravity vertical">
+                  <SwapVertIcon />
+                </Tooltip>
               )
             ) : (
               <div />
@@ -77,9 +82,13 @@ const MenuAppBar = props => {
           >
             {isLayoutMode ? (
               isAutoArrangeMode ? (
-                <AutoArrangeModeIcon />
+                <Tooltip title="Automatic Gravity">
+                  <AutoArrangeModeIcon />
+                </Tooltip>
               ) : (
-                <AutoArrangeModeIconFalse />
+                <Tooltip title="Static Gravity">
+                  <AutoArrangeModeIconFalse />
+                </Tooltip>
               )
             ) : (
               <div />
@@ -97,7 +106,7 @@ const MenuAppBar = props => {
                 variant="contained"
                 onClick={actions.resetValues}
               >
-                Restore Values
+                Restore Saved Values
               </Button>
               <Button
                 className={classes.resetButton}
