@@ -1,7 +1,8 @@
 {
   "name": "root",
-  "version": "0.2.0",
-  "private": true,
+  "version": "0.3.0",
+  "private": false,
+  "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
   "devDependencies": {
     "lerna": "^3.10.7"
   }
