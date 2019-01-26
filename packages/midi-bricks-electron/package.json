@@ -6,16 +6,11 @@
   "description": "Midi Bricks for all!",
   "author": "TimSusa <timmsusa@googlemail.com>",
   "license": "ISC",
-  "directories": {
-    "public": "public",
-    "src": "src"
-  },
   "files": [
     "public",
-    "src"
+    "build"
   ],
   "dependencies": {
-    "midi-bricks": "https://github.com/TimSusa/midi-bricks.git",
     "electron-is-dev": "^0.3.0",
     "electron-window-state": "^5.0.1"
   },
@@ -33,6 +28,7 @@
     ]
   },
   "devDependencies": {
+    "midi-bricks": "latest",
     "@material-ui/core": "^3.6.2",
     "@material-ui/icons": "^3.0.1",
     "@material-ui/lab": "^3.0.0-alpha.25",
@@ -69,6 +65,6 @@
     "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
     "build": "react-scripts build && build --mac --win",
     "test": "react-scripts test",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps && cp -R node_modules/midi-bricks/src src"
   }
 }

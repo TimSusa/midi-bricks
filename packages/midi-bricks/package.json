@@ -1,7 +1,7 @@
 {
   "name": "midi-bricks",
   "version": "0.1.1",
-  "private": true,
+  "private": false,
   "main": "./src/index.js",
   "dependencies": {
     "@material-ui/core": "^3.6.2",
