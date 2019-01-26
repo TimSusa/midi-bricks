@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks",
-  "version": "0.11.4",
+  "version": "0.11.5",
   "private": false,
   "homepage": "https://timsusa.github.io/midi-bricks-mono/",
   "main": "./src/index.js",
