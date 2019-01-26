@@ -43,8 +43,9 @@
   ],
   "scripts": {
     "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
-    "build": "react-scripts build && build --mac --win",
+    "build": "npm run clean && react-scripts build && build --mac --win",
     "test": "react-scripts test",
-    "postinstall": "electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src"
+    "postinstall": "electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
+    "clean": "rimraf build && rimraf dist && rimraf src && cp -R node_modules/midi-bricks/src src"
   }
 }
