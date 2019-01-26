@@ -49,5 +49,5 @@
     "postinstall": "npm i --save-dev midi-bricks@latest && electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
     "clean": "rimraf build && rimraf dist && rimraf src && cp -R node_modules/midi-bricks/src src"
   },
-  "gitHead": "e2026b46f7fe07e1fec1f13ea3237b5017dc0463"
+  "gitHead": "3129d20959b0fade90b1d87ee5d7debbb8ecd211"
 }
