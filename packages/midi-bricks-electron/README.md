@@ -1,7 +1,7 @@
 
-# midi-bricks electron app
+# midi-bricks-electron
 
-Much thanks to https://github.com/HaNdTriX for establishing this!
+Special thanks to https://github.com/HaNdTriX for establishing this!
 
 
 ## Install
