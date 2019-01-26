@@ -10,6 +10,8 @@ import { darkTheme } from '../themes/dark-theme'
 import { lightTheme } from '../themes/light-theme'
 import App from '../App'
 
+console.log('hey my funny test vol 2')
+
 const MuiWrappedApp = props => {
   const { isChangedTheme, children } = props
   const theme = createMuiTheme(isChangedTheme ? darkTheme : lightTheme)
