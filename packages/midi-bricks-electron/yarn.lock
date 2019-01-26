@@ -7109,10 +7109,10 @@ micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8, micromatch@^3.1.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-midi-bricks@^0.11.13:
-  version "0.11.13"
-  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.11.13.tgz#545242d6a176b3ef39d361f7eaa6bf0fea033c0b"
-  integrity sha512-2Bdmxqa6QPvVqGpfc9XOu4CLZmtMw2izBrZkbAyx0OLXg9F31tBT1Dw7hq+g9GRREcyuX0y9ZcnetcT9wTegaw==
+midi-bricks@^0.12.13:
+  version "0.12.13"
+  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.13.tgz#45521dc7c136e973f3bc7aadd01e21678ede3331"
+  integrity sha512-/tLBpaSNJdKv8RrvMPe0l3fAeLM600W3BjcaYa5QP2NnNgoME0hFSb8mNuFvtLqQHr04uvuxg2ISiuW6llFB6Q==
   dependencies:
     "@material-ui/core" "^3.9.1"
     "@material-ui/icons" "^3.0.1"
