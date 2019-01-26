@@ -1,5 +1,5 @@
-const createActions = require('./create-actions.js').createActions
-const createActionTypes = require('./create-action-types').createActionTypes
+import { createActions } from './create-actions.js'
+import { createActionTypes } from './create-action-types.js'
 
 const typeSliderList = [
   'INIT_MIDI_ACCESS',
@@ -43,9 +43,9 @@ const typeSliderList = [
   'GO_BACK',
   'UPDATE_SLIDER_LIST_BACKUP',
   'TRIGGER_ALL_MIDI_ELEMENTS',
-  'EXTRACT_PAGE'
+  'EXTRACT_PAGE',
 ]
 
 export const ActionTypeSliderList = createActionTypes(typeSliderList)
 
-export const Actions = {...createActions(ActionTypeSliderList)}
+export const Actions = { ...createActions(ActionTypeSliderList) }

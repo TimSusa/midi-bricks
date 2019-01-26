@@ -1,5 +1,5 @@
-const createActions = require('./create-actions.js').createActions
-const createActionTypes = require('./create-action-types').createActionTypes
+import { createActions } from './create-actions.js'
+import { createActionTypes } from './create-action-types.js'
 
 const TypeViewSettings = [
   'TOGGLE_PAGE',
