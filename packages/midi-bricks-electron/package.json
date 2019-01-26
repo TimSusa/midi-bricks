@@ -5,7 +5,7 @@
   "homepage": "./",
   "description": "Midi Bricks for all!",
   "author": "TimSusa <timmsusa@googlemail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "files": [
     "public",
     "build"
