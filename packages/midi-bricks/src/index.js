@@ -1,6 +1,8 @@
-//import React from 'react'
-import ReactDOM from 'react-dom'
-//import ReduxWrappedMuiApp from './providers/ReduxWrappedMuiApp'
+/*eslint-disable-next-line */
+import React from 'react'
+import ReactDOM from 'react-dom' 
+/*eslint-disable-next-line */
+import ReduxWrappedMuiApp from './providers/ReduxWrappedMuiApp'
 
 const rootEl = document.getElementById('root')
 ReactDOM.render(<ReduxWrappedMuiApp />, rootEl)
