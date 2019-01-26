@@ -11,8 +11,8 @@ import {
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {Actions as MidiSliderActions} from '../actions/slider-list.js'
-import {Actions as ViewStuff}  from '../actions/view-settings.js'
+import { Actions as MidiSliderActions } from '../actions/slider-list.js'
+import { Actions as ViewStuff } from '../actions/view-settings.js'
 import MidiSettingsDialog from '../components/channel-strip-list/channel-strip/midi-settings-dialog/MidiSettingsDialog'
 import { outputToDriverName } from '../utils/output-to-driver-name.js'
 import { initApp } from '../actions/init.js'
@@ -24,7 +24,7 @@ class GlobalSettingsPage extends React.PureComponent {
     this.props.actions.toggleLiveMode({ isLiveMode: false })
   }
   render() {
-    if (this.props.isMidiFailed) return (<div></div>)
+    if (this.props.isMidiFailed) return <div />
 
     const {
       classes,
@@ -33,7 +33,7 @@ class GlobalSettingsPage extends React.PureComponent {
       sliderListBackup,
       midi: {
         midiAccess: { inputs, outputs },
-      } ,
+      },
       viewSettings: {
         isSettingsDialogMode,
         lastFocusedIdx,
