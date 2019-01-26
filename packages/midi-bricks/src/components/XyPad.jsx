@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-
 import Gamepad from 'react-gamepad'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'

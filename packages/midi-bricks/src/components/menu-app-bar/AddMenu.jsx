@@ -32,7 +32,7 @@ class AddMenu extends React.PureComponent {
             onClick={this.handleMenu}
             color="inherit"
           >
-            <Tooltip title='Add Element'>
+            <Tooltip title="Add Element">
               <AddIcon />
             </Tooltip>
           </IconButton>

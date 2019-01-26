@@ -4,7 +4,13 @@
     "node": true,
     "es6": true
   },
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "standard",
+    "react-native",
+    "airbnb"
+  ],
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
@@ -34,20 +40,30 @@
     "import/namespace": 0,
     "import/no-unresolved": 0,
     "import/no-named-as-default": 2,
-    "indent": [2, 2, {
-      "SwitchCase": 1
-    }],
+    "indent": [
+      2,
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
     "jsx-a11y/interactive-supports-focus": 1,
     "max-len": 0,
-    "new-cap": [2, {
-      "capIsNewExceptions": ["List", "Map", "Set"]
-    }],
+    "new-cap": [
+      2,
+      {
+        "capIsNewExceptions": ["List", "Map", "Set"]
+      }
+    ],
     "no-alert": 1,
     "no-console": 2,
     "no-unused-vars": 2,
-    "no-use-before-define": ["error", {
-      "functions": false
-    }],
+    "no-use-before-define": [
+      "error",
+      {
+        "functions": false
+      }
+    ],
     "react/jsx-boolean-value": 0,
     "react/jsx-filename-extension": 0,
     "react/no-multi-comp": 0,
@@ -58,4 +74,5 @@
     "import/resolve": {
       "moduleDirectory": ["node_modules", "src"]
     }
+  }
 }
