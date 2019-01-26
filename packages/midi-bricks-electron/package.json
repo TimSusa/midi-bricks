@@ -3,6 +3,7 @@
   "version": "0.7.0",
   "main": "./build/electron.js",
   "homepage": "./",
+  "repository": "https://github.com/TimSusa/midi-bricks-mono/tree/master/packages/midi-bricks-electron",
   "description": "Midi Bricks for all!",
   "author": "TimSusa <timmsusa@googlemail.com>",
   "license": "MIT",
@@ -32,7 +33,7 @@
     "electron": "^4.0.1",
     "electron-builder": "^20.38.5",
     "electron-publish": "^20.38.5",
-    "midi-bricks": "^0.8.0",
+    "midi-bricks": "^0.9.0",
     "wait-for-localhost-cli": "^1.0.0"
   },
   "browserslist": [
@@ -45,7 +46,7 @@
     "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
     "build": "npm run clean && react-scripts build && build --mac --win",
     "test": "react-scripts test",
-    "postinstall": "npm i --save-dev midi-bricks && electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
+    "postinstall": "npm i --save-dev midi-bricks@latest && electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
     "clean": "rimraf build && rimraf dist && rimraf src && cp -R node_modules/midi-bricks/src src"
   }
 }
