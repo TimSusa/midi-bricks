@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks",
-  "version": "0.11.7",
+  "version": "0.11.10",
   "private": false,
   "homepage": "https://build-k1d0vlprf.now.sh.",
   "main": "./src/index.js",
