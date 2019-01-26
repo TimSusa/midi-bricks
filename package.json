@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks-mono",
-  "version": "0.12.3",
+  "version": "0.12.4",
   "private": false,
   "license": "MIT",
   "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
@@ -8,6 +8,8 @@
     "lerna": "^3.10.7"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap"
+    "bootstrap": "lerna bootstrap",
+    "publish": "lerna publish",
+    "deploy": "cd packages/midi-bricks/ && yarn deploy && cd .."
   }
 }
