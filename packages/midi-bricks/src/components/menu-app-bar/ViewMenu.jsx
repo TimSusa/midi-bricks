@@ -14,9 +14,12 @@ import ViewSettingsIcon from '@material-ui/icons/Settings'
 import { Typography, Tooltip } from '@material-ui/core'
 
 class ViewMenu extends React.PureComponent {
-  state = {
-    auth: true,
-    anchorEl: null,
+  constructor(props) {
+    super(props)
+    this.state = {
+      auth: true,
+      anchorEl: null,
+    }
   }
 
   render() {
@@ -40,7 +43,7 @@ class ViewMenu extends React.PureComponent {
           onClick={this.handleMenu}
           color="inherit"
         >
-          <Tooltip title='View Settings'>
+          <Tooltip title="View Settings">
             <ViewSettingsIcon />
           </Tooltip>
         </IconButton>
@@ -63,14 +66,14 @@ class ViewMenu extends React.PureComponent {
               {isLayoutMode ? <OnIcon /> : <OffIcon />}
             </ListItemIcon>
 
-            <Typography variant="subtitle1">Layout - shift + l</Typography>
+            <Typography variant="subtitle1">Layout - 'l'</Typography>
           </MenuItem>
           {!isLayoutMode && (
             <MenuItem onClick={this.toggleSettingsMode}>
               <ListItemIcon>
                 {isSettingsMode ? <OnIcon /> : <OffIcon />}
               </ListItemIcon>
-              <Typography variant="subtitle1">Settings - shift + s</Typography>
+              <Typography variant="subtitle1">Settings - 's'</Typography>
             </MenuItem>
           )}
 
@@ -78,9 +81,7 @@ class ViewMenu extends React.PureComponent {
             <ListItemIcon>
               {!isCompactHorz ? <OnIcon /> : <OffIcon />}
             </ListItemIcon>
-            <Typography variant="subtitle1">
-              Gravity v / h - shift + v
-            </Typography>
+            <Typography variant="subtitle1">Gravity v / h - 'v'</Typography>
           </MenuItem>
 
           {isLayoutMode && (
@@ -88,21 +89,19 @@ class ViewMenu extends React.PureComponent {
               <ListItemIcon>
                 {isAutoArrangeMode ? <OnIcon /> : <OffIcon />}
               </ListItemIcon>
-              <Typography variant="subtitle1">
-                Auto Gravity - shift + a
-              </Typography>
+              <Typography variant="subtitle1">Auto Gravity - 'a'</Typography>
             </MenuItem>
           )}
           <MenuItem onClick={this.handleChangeTheme}>
             <ListItemIcon>
               {isChangedTheme ? <OnIcon /> : <OffIcon />}
             </ListItemIcon>
-            <Typography variant="subtitle1">Theme - shift + t</Typography>
+            <Typography variant="subtitle1">Theme - 't'</Typography>
           </MenuItem>
           <MenuItem onClick={this.toggleLiveMode}>
             <ListItemIcon>{isLiveMode ? <OnIcon /> : <OffIcon />}</ListItemIcon>
 
-            <Typography variant="subtitle1">Live - shift + p</Typography>
+            <Typography variant="subtitle1">Live - 'p'</Typography>
           </MenuItem>
         </Menu>
       </div>
