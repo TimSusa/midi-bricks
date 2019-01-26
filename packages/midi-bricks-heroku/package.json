@@ -7,14 +7,15 @@
   },
   "scripts": {
     "start": "node server",
-    "heroku-postbuild": "cd react-ui/ && npm install && npm run test && npm run build"
+    "heroku-postbuild": "rimraf react-ui/* && cp -R node_modules/midi-bricks/* react-ui/ && cd react-ui/ && npm install && npm run test && npm run build"
   },
   "cacheDirectories": [
     "node_modules",
     "react-ui/node_modules"
   ],
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "midi-bricks": "latest"
   },
   "repository": {
     "type": "git",
@@ -27,5 +28,7 @@
     "react"
   ],
   "license": "MIT",
-  "devDependencies": {}
+  "devDependencies": {
+    "rimraf": "^2.6.3"
+  }
 }

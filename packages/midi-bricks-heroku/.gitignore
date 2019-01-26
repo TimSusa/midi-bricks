@@ -2,8 +2,8 @@
 
 # dependencies
 /node_modules
-/node_modules_npm
-/.vscode
+/react-ui/*
+
 # testing
 /coverage
 
