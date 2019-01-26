@@ -9,29 +9,28 @@ https://build-7ws1wlbt3.now.sh
 ## Installation
 
 ```
-npm i -g lerna
-lerna bootstrap
+yarn && yarn bootstrap
 ```
 
-## Run Midi-Bricks locally
+## Run Midi-Bricks-Webapp locally
 
 ```
 cd packages/midi-bricks
 yarn start
 ```
 
-## Build Midi-Bricks
+## Build Midi-Bricks-Webapp
 
 ```
 cd packages/midi-bricks
 yarn build
 ```
 
-## Deploy to now
+## Deploy Midi-Bricks-Webapp to now
 
 ```
 cd packages/midi-bricks
-yarn deploy-now
+yarn deploy
 ```
 
 ## Run Midi-Bricks-Electron-App locally
