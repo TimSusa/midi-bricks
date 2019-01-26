@@ -10,6 +10,10 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "publish": "lerna publish",
-    "deploy": "cd packages/midi-bricks/ && yarn deploy && cd .."
+    "deploy": "cd packages/midi-bricks/ && yarn deploy && cd ..",
+    "build:midi-bricks": "cd packages/midi-bricks && yarn build && cd ..",
+    "build:midi-bricks-electron": "cd packages/midi-bricks-electron && yarn build && cd ..",
+    "dev:midi-bricks": "cd packages/midi-bricks && yarn start && cd ..",
+    "dev:midi-bricks-electron": "cd packages/midi-bricks-electron && yarn dev && cd .."
   }
 }

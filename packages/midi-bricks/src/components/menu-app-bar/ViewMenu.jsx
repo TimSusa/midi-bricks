@@ -11,7 +11,12 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import OnIcon from '@material-ui/icons/Done'
 import OffIcon from '@material-ui/icons/Close'
 import ViewSettingsIcon from '@material-ui/icons/Settings'
-import { Typography, Tooltip } from '@material-ui/core'
+import {
+  Typography,
+  Tooltip,
+  FormControlLabel,
+  Switch,
+} from '@material-ui/core'
 
 class ViewMenu extends React.PureComponent {
   constructor(props) {
@@ -61,47 +66,89 @@ class ViewMenu extends React.PureComponent {
           open={isOpen}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.toggleLayoutMode}>
-            <ListItemIcon>
-              {isLayoutMode ? <OnIcon /> : <OffIcon />}
-            </ListItemIcon>
-
-            <Typography variant="subtitle1">Layout - 'l'</Typography>
+          <MenuItem>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={isLayoutMode}
+                  onChange={this.toggleLayoutMode}
+                  value={isLayoutMode}
+                  color="secondary"
+                />
+              }
+              label="Layout - l"
+            />
           </MenuItem>
           {!isLayoutMode && (
-            <MenuItem onClick={this.toggleSettingsMode}>
-              <ListItemIcon>
-                {isSettingsMode ? <OnIcon /> : <OffIcon />}
-              </ListItemIcon>
-              <Typography variant="subtitle1">Settings - 's'</Typography>
+            <MenuItem>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={isSettingsMode}
+                    onChange={this.toggleSettingsMode}
+                    value={isSettingsMode}
+                    color="secondary"
+                  />
+                }
+                label="Settings - s"
+              />
             </MenuItem>
           )}
 
-          <MenuItem onClick={this.toggleCompactMode}>
-            <ListItemIcon>
-              {!isCompactHorz ? <OnIcon /> : <OffIcon />}
-            </ListItemIcon>
-            <Typography variant="subtitle1">Gravity v / h - 'v'</Typography>
+          <MenuItem>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={isCompactHorz}
+                  onChange={this.toggleCompactMode}
+                  value={isCompactHorz}
+                  color="secondary"
+                />
+              }
+              label="Gravity Horz/Vert - v"
+            />
           </MenuItem>
 
           {isLayoutMode && (
-            <MenuItem onClick={this.handleChangeAutoArrangeMode}>
-              <ListItemIcon>
-                {isAutoArrangeMode ? <OnIcon /> : <OffIcon />}
-              </ListItemIcon>
-              <Typography variant="subtitle1">Auto Gravity - 'a'</Typography>
+            <MenuItem>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={isAutoArrangeMode}
+                    onChange={this.handleChangeAutoArrangeMode}
+                    value={isAutoArrangeMode}
+                    color="secondary"
+                  />
+                }
+                label="Auto Gravity  - a"
+              />
             </MenuItem>
           )}
-          <MenuItem onClick={this.handleChangeTheme}>
-            <ListItemIcon>
-              {isChangedTheme ? <OnIcon /> : <OffIcon />}
-            </ListItemIcon>
-            <Typography variant="subtitle1">Theme - 't'</Typography>
+          <MenuItem>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={isChangedTheme}
+                  onChange={this.handleChangeTheme}
+                  value={isChangedTheme}
+                  color="secondary"
+                />
+              }
+              label="Theme  - t"
+            />
           </MenuItem>
-          <MenuItem onClick={this.toggleLiveMode}>
-            <ListItemIcon>{isLiveMode ? <OnIcon /> : <OffIcon />}</ListItemIcon>
-
-            <Typography variant="subtitle1">Live - 'p'</Typography>
+          <MenuItem>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={isLiveMode}
+                  onChange={this.toggleLiveMode}
+                  value={isLiveMode}
+                  color="secondary"
+                />
+              }
+              label="Live  - p"
+            />
           </MenuItem>
         </Menu>
       </div>
@@ -132,22 +179,22 @@ class ViewMenu extends React.PureComponent {
 
   toggleLayoutMode = () => {
     this.props.actions.toggleLayoutMode()
-    this.handleClose()
+    //this.handleClose()
   }
 
   handleChangeAutoArrangeMode = () => {
     this.props.actions.toggleAutoArrangeMode()
-    this.handleClose()
+    //this.handleClose()
   }
 
   toggleCompactMode = () => {
     this.props.actions.toggleCompactMode()
-    this.handleClose()
+    //this.handleClose()
   }
 
   toggleSettingsMode = () => {
     this.props.actions.toggleSettingsMode()
-    this.handleClose()
+    //this.handleClose()
   }
 }
 
