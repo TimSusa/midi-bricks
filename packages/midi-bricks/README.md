@@ -15,9 +15,7 @@ Simple sliders or buttons, which send MIDI Messages to the MIDI-Device you wish.
 - You can listen for midi notes for every slider or button, which will change activated/not activated state color
 - You have keyboard shortcuts available for: 'change to layout mode', 'show settings', 'compact vertical', 'Disable auto-arrange-mode'
 
-- You can have offline mode by installing cross plattform application on your operating system(mac, win): https://github.com/TimSusa/electron-example-midi-sliders
-
-Demo: https://midi-sliders.herokuapp.com/
+Demo: https://build-k1d0vlprf.now.sh.
 
 # Run
 ```
