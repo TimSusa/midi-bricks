@@ -33,7 +33,7 @@
     "electron": "^4.0.1",
     "electron-builder": "^20.38.5",
     "electron-publish": "^20.38.5",
-    "midi-bricks": "^0.9.0",
+    "midi-bricks": "^0.9.1",
     "wait-for-localhost-cli": "^1.0.0"
   },
   "browserslist": [
