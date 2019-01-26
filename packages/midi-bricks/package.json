@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks",
-  "version": "0.3.0",
+  "version": "0.0.1",
   "private": false,
   "main": "./src/index.js",
   "repository": "https://github.com/TimSusa/midi-bricks.git",

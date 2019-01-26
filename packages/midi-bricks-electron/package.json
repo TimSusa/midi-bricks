@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks-electron",
-  "version": "0.3.0",
+  "version": "0.0.1",
   "main": "./build/electron.js",
   "homepage": "./",
   "description": "Midi Bricks for all!",
@@ -28,11 +28,11 @@
     ]
   },
   "devDependencies": {
-    "midi-bricks": "latest",
     "concurrently": "^3.6.0",
     "electron": "^4.0.1",
     "electron-builder": "^20.38.5",
     "electron-publish": "^20.38.5",
+    "midi-bricks": "latest",
     "wait-for-localhost-cli": "^1.0.0"
   },
   "browserslist": [
