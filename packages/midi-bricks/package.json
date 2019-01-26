@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": false,
   "main": "./src/index.js",
   "license": "MIT",

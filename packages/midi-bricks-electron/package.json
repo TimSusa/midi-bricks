@@ -15,7 +15,7 @@
     "electron-window-state": "^5.0.1"
   },
   "build": {
-    "appId": "tim.susa.midi-sliders.de",
+    "appId": "tim.susa.midi-bricks.de",
     "mac": {
       "category": "your.app.category.type"
     },
