@@ -21,14 +21,12 @@ Demo: https://midi-sliders.herokuapp.com/
 
 # Run
 ```
-cd react-ui
 npm i
 npm start
 ```
 
 # Build for prd
 ```
-cd react-ui
 npm run build
 ```
 
