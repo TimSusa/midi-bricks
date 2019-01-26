@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks-electron",
-  "version": "0.11.12",
+  "version": "0.11.13",
   "main": "./build/electron.js",
   "homepage": ".",
   "repository": "https://github.com/TimSusa/midi-bricks-mono/tree/master/packages/midi-bricks-electron",
@@ -33,7 +33,7 @@
     "electron": "^4.0.1",
     "electron-builder": "^20.38.5",
     "electron-publish": "^20.38.5",
-    "midi-bricks": "^0.13.0",
+    "midi-bricks": "^0.11.13",
     "wait-for-localhost-cli": "^1.0.0"
   },
   "browserslist": [
@@ -49,5 +49,5 @@
     "postinstall": "npm i --save-dev midi-bricks@latest && electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
     "clean": "rimraf build && rimraf dist && rimraf src && cp -R node_modules/midi-bricks/src src"
   },
-  "gitHead": "3129d20959b0fade90b1d87ee5d7debbb8ecd211"
+  "gitHead": "1b5be75d1eff7e5a0c0fb3c6e86e250ffc3849eb"
 }
