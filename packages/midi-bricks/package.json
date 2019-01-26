@@ -30,6 +30,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "npm run build && cp now.json build/ && cd build && now && cd ..",
     "test": "react-scripts test"
   },
   "eslintConfig": {
