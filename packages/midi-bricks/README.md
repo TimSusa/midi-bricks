@@ -15,17 +15,17 @@ Simple sliders or buttons, which send MIDI Messages to the MIDI-Device you wish.
 - You can listen for midi notes for every slider or button, which will change activated/not activated state color
 - You have keyboard shortcuts available for: 'change to layout mode', 'show settings', 'compact vertical', 'Disable auto-arrange-mode'
 
-Demo: https://build-k1d0vlprf.now.sh.
+Demo: https://build-7ws1wlbt3.now.sh
 
 # Run
 ```
-npm i
-npm start
+yarn
+yarn start
 ```
 
 # Build for prd
 ```
-npm run build
+yarn run build
 ```
 
 # Restrictions

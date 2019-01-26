@@ -33,9 +33,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "predeploy": "yarn build",
-    "deploy": "gh-pages -d build",
-    "deploy-now": "react-scripts build && cp now.json build/ && cd build && now && cd ..",
+    "deploy": "react-scripts build && cp now.json build/ && cd build && now && cd ..",
     "test": "react-scripts test"
   },
   "eslintConfig": {
@@ -50,7 +48,6 @@
   "devDependencies": {
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.8.0",
-    "gh-pages": "^2.0.1",
     "redux-mock-store": "^1.5.3"
   }
 }
