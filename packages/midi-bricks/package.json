@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks",
-  "version": "0.12.17",
+  "version": "0.12.18",
   "private": false,
   "homepage": "https://build-k1d0vlprf.now.sh.",
   "main": "./src/index.js",
@@ -50,5 +50,5 @@
     "enzyme-adapter-react-16": "^1.8.0",
     "redux-mock-store": "^1.5.3"
   },
-  "gitHead": "045e19d3afcd8a59b5b1609653e577535f5309a6"
+  "gitHead": "57f875c0c5dcf4fa3c03b9d7f80a6840c28ae76d"
 }
