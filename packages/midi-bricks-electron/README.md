@@ -1,7 +1,5 @@
 
-# midi-sliders electron app
-
-This is just an example of how using electron with a webapp like midi-sliders
+# midi-bricks electron app
 
 Much thanks to https://github.com/HaNdTriX for establishing this!
 
