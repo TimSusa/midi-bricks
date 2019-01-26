@@ -1,0 +1,47 @@
+{
+  "name": "midi-bricks",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^3.6.2",
+    "@material-ui/icons": "^3.0.1",
+    "@material-ui/lab": "^3.0.0-alpha.25",
+    "downshift": "^3.2.0",
+    "react": "^16.7.0",
+    "react-color": "^2.14.1",
+    "react-dom": "^16.7.0",
+    "react-gamepad": "^1.0.3",
+    "react-grid-layout": "^0.16.6",
+    "react-redux": "^6.0.0",
+    "react-scripts": "2.1.3",
+    "react-sizeme": "^2.5.2",
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-logger": "^3.0.6",
+    "redux-mock-store": "^1.5.3",
+    "redux-persist": "^5.5.0",
+    "redux-thunk": "^2.2.0",
+    "tonal": "^2.1.2",
+    "typeface-roboto": "0.0.54",
+    "webmidi": "^2.3.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.8.0"
+  }
+}
