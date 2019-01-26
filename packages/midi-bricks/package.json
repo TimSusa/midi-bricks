@@ -3,6 +3,7 @@
   "version": "0.3.0",
   "private": false,
   "main": "./src/index.js",
+  "repository": "https://github.com/TimSusa/midi-bricks.git",
   "dependencies": {
     "@material-ui/core": "^3.6.2",
     "@material-ui/icons": "^3.0.1",
