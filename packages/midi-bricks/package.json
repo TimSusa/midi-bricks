@@ -2,6 +2,7 @@
   "name": "midi-bricks",
   "version": "0.11.2",
   "private": false,
+  "homepage": "https://timsusa.github.io/midi-bricks-mono/",
   "main": "./src/index.js",
   "license": "MIT",
   "repository": "https://github.com/TimSusa/midi-bricks.git",
@@ -23,7 +24,6 @@
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.2",
     "redux-logger": "^3.0.6",
-    "redux-mock-store": "^1.5.3",
     "redux-persist": "^5.5.0",
     "redux-thunk": "^2.2.0",
     "tonal": "^2.1.2",
@@ -33,7 +33,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "deploy": "npm run build && cp now.json build/ && cd build && now && cd ..",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build",
+    "deploy-now": "react-scripts build && cp now.json build/ && cd build && now && cd ..",
     "test": "react-scripts test"
   },
   "eslintConfig": {
@@ -47,6 +49,8 @@
   ],
   "devDependencies": {
     "enzyme": "^3.8.0",
-    "enzyme-adapter-react-16": "^1.8.0"
+    "enzyme-adapter-react-16": "^1.8.0",
+    "gh-pages": "^2.0.1",
+    "redux-mock-store": "^1.5.3"
   }
 }
