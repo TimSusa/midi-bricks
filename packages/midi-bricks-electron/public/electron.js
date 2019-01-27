@@ -39,7 +39,7 @@ app.on('ready', async () => {
   // and restore the maximized or full screen state
   mainWindowState.manage(win)
 
-  win.webContents.openDevTools()
+  isDev && win.webContents.openDevTools()
 
   win.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
     console.log('granted permission:', permission)

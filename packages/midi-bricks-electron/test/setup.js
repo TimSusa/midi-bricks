@@ -1,5 +1,4 @@
 const Application = require('spectron').Application
-//var Application = require('..').Application
 var assert = require('assert')
 var chai = require('chai')
 var chaiAsPromised = require('chai-as-promised')
