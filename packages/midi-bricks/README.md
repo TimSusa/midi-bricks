@@ -15,7 +15,7 @@ Simple sliders or buttons, which send MIDI Messages to the MIDI-Device you wish.
 - You can listen for midi notes for every slider or button, which will change activated/not activated state color
 - You have keyboard shortcuts available for: 'change to layout mode', 'show settings', 'compact vertical', 'Disable auto-arrange-mode'
 
-Demo: https://build-7ws1wlbt3.now.sh
+Demo: https://build-n8153krgg.now.sh
 
 # Run
 ```
@@ -30,9 +30,6 @@ yarn run build
 
 # Restrictions
 This application only works with Chrome Browsers. If browser will ask you for permissions, to take over midi, give it to him! There is no security hole there, so do not care about that. If you make use of the electron-installer, this will be no issue for you. Additionaly, you have to have some midi-drivers preconfigured. 
-
-# Love
-All this was made with LOVE!
 
 # Thanks
 Thanks to the people, who made react, redux, material-ui and big thanks to my friend Henrik Wenz (https://github.com/HaNdTriX), who made electron functionality available. And nice big greetz to my friend Alec Troniq (http://alec-troniq.com/), who gave me the right hints, to build up all this stuff, using this for his live performances.

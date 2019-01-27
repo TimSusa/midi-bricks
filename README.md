@@ -4,7 +4,7 @@ Mono-Repository for midi-bricks, its electron app and deployment. See more under
 
 ## Demo
 
-https://build-7ws1wlbt3.now.sh
+https://build-n8153krgg.now.sh
 
 ## Installation
 
