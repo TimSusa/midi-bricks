@@ -7379,7 +7379,7 @@ micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8, micromatch@^3.1.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-midi-bricks@^0.12.25:
+midi-bricks@latest:
   version "0.12.25"
   resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.25.tgz#b6c56cccb43923106b6e1b22d20f319adea255a5"
   integrity sha512-S4cypxk6o9NGGu1hw0U1/nRK61ts0+xWxlsxRlm8Ytzf/Ox55mHm7cVNtKhnaoVBgJ8knHVu1RoiyCh+4DFOZw==

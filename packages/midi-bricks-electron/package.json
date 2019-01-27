@@ -36,7 +36,7 @@
     "chai-roughly": "^1.0.0",
     "concurrently": "4.1.0",
     "electron-builder": "20.38.5",
-    "midi-bricks": "^0.12.25",
+    "midi-bricks": "latest",
     "mocha": "^5.2.0",
     "spectron": "^5.0.0",
     "wait-for-localhost-cli": "1.1.0"
@@ -52,7 +52,7 @@
     "build": "yarn clean && react-scripts build && build --mac --win --linux",
     "test": "react-scripts test",
     "test-e2e": "mocha",
-    "postinstall": "npm i --save-dev midi-bricks@latest && rimraf package-lock.json && electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
+    "postinstall": "electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
     "clean": "rimraf build && rimraf dist && rimraf src && cp -R node_modules/midi-bricks/src src"
   },
   "gitHead": "1e1181b83d25f0e8f9f21feef501cb2270f90e92"
