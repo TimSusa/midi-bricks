@@ -30,11 +30,16 @@
     ]
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "chai-roughly": "^1.0.0",
     "concurrently": "4.1.0",
     "electron": "4.0.2",
     "electron-builder": "20.38.5",
     "electron-publish": "20.38.5",
     "midi-bricks": "^0.12.23",
+    "mocha": "^5.2.0",
+    "spectron": "^5.0.0",
     "wait-for-localhost-cli": "1.1.0"
   },
   "browserslist": [
@@ -44,9 +49,10 @@
     "not op_mini all"
   ],
   "scripts": {
-    "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
+    "dev": "concurrently \"BROWSER=none react-scripts start --remote-debugging-port=9222\" \"wait-for-localhost 3000 && electron .\"",
     "build": "yarn clean && react-scripts build && build --mac --win --linux",
     "test": "react-scripts test",
+    "test-e2e": "mocha",
     "postinstall": "npm i --save-dev midi-bricks@latest && electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
     "clean": "rimraf build && rimraf dist && rimraf src && cp -R node_modules/midi-bricks/src src"
   },
