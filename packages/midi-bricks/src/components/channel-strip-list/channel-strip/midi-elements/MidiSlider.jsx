@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {Actions as MidiSliderActions} from '../../../../actions/slider-list.js'
+import { Actions as MidiSliderActions } from '../../../../actions/slider-list.js'
 
 class MidiSlider extends Component {
   selfRef = null
@@ -10,12 +10,22 @@ class MidiSlider extends Component {
     super(props)
     this.selfRef = React.createRef()
     this.state = {
-      isActivated: false
+      isActivated: false,
     }
   }
 
   render() {
-    const { height, width, sliderEntry } = this.props
+    const {
+      height,
+      sliderThumbHeight,
+      width,
+      sliderEntry: {
+        colors: { color },
+        val,
+        maxVal,
+        minVal,
+      },
+    } = this.props
     return (
       <div
         onContextMenu={e => {
@@ -28,10 +38,10 @@ class MidiSlider extends Component {
         onPointerMove={this.onPointerMove}
         onPointerUp={this.handlePointerEnd}
         style={{
-          height: height + this.props.sliderThumbHeight,
+          height: height + sliderThumbHeight,
           width,
           borderRadius: 3,
-          background: sliderEntry.colors.color ? sliderEntry.colors.color : 'aliceblue',
+          background: color ? color : 'aliceblue',
           boxShadow: this.state.isActivated && '0 0 3px 3px rgb(24, 164, 157)',
           //opacity: 0.7,
         }}
@@ -39,10 +49,10 @@ class MidiSlider extends Component {
         <div
           style={this.getSliderThumbStyle(
             calcYFromVal({
-              val: sliderEntry.val,
+              val,
               height,
-              maxVal: sliderEntry.maxVal,
-              minVal: sliderEntry.minVal,
+              maxVal,
+              minVal,
             })
           )}
         />
@@ -57,7 +67,7 @@ class MidiSlider extends Component {
 
     const val = this.heightToVal(e)
     this.sendOutFromChildren(val)
-    this.setState({isActivated: true})
+    this.setState({ isActivated: true })
   }
 
   handlePointerEnd = e => {
@@ -66,7 +76,7 @@ class MidiSlider extends Component {
 
     const val = this.heightToVal(e)
     this.sendOutFromChildren(val)
-    this.setState({isActivated: false})
+    this.setState({ isActivated: false })
   }
 
   handlePointerMove = e => {
@@ -89,8 +99,10 @@ class MidiSlider extends Component {
       height: this.props.sliderThumbHeight,
       width: '100%',
       borderRadius: 3,
-      background: this.props.sliderEntry.colors.colorActive ? this.props.sliderEntry.colors.colorActive : 'goldenrod',
-      top: Math.round(y-1),
+      background: this.props.sliderEntry.colors.colorActive
+        ? this.props.sliderEntry.colors.colorActive
+        : 'goldenrod',
+      top: Math.round(y - 1),
       left: 0,
       boxShadow: this.state.isActivated && '0 0 3px 3px rgb(24, 164, 157)',
     }
@@ -100,14 +112,15 @@ class MidiSlider extends Component {
     const parentRect = this.selfRef.current.getBoundingClientRect()
     const tmpY = e.clientY - parentRect.y
     const thumb = this.props.sliderThumbHeight / 2
-    const tmpThumb = tmpY - thumb 
+    const tmpThumb = tmpY - thumb
     const tmpYy = tmpThumb < 0 ? 0 : tmpThumb
     const y = tmpYy >= this.props.height ? this.props.height : tmpYy
     const val =
-      ((this.props.height - Math.round(y)) * (this.props.sliderEntry.maxVal-this.props.sliderEntry.minVal)) /
+      ((this.props.height - Math.round(y)) *
+        (this.props.sliderEntry.maxVal - this.props.sliderEntry.minVal)) /
       this.props.height
     if (isNaN(val)) return
-    return val 
+    return val
     // > this.props.sliderEntry.minVal
     //   ? val
     //   : this.props.sliderEntry.minVal
@@ -132,6 +145,6 @@ export default connect(
 )(MidiSlider)
 
 function calcYFromVal({ val, height, maxVal, minVal }) {
-  const y = height * (1 - (val ) / (maxVal - minVal))
+  const y = height * (1 - val / (maxVal - minVal))
   return y
 }
