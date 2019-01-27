@@ -1,12 +1,3 @@
 {
-  "timezone": "America/New_York",
-  "schedule": "before 5am every weekday",
-  "lockFileMaintenance": {
-    "enabled": true,
-    "schedule": "after 10pm on sunday"
-  },
-  "packageRules": [{
-    "packageNames": ["aws-sdk"],
-    "schedule": "before 5am every wednesday"
-  }]
+  "extends": ["config:base"]
 }
