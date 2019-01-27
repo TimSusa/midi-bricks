@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks",
-  "version": "0.12.31",
+  "version": "0.12.32",
   "private": false,
   "homepage": "https://build-b3ouct0rs.now.sh/",
   "main": "./src/index.js",
