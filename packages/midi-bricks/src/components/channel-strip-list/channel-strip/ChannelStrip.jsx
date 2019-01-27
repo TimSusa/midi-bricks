@@ -70,7 +70,7 @@ const ChannelStrip = props => {
               {` / ${lastSavedVal}`}
             </Label>
           )}
-          }
+          
         </div>
       )}
       {type === STRIP_TYPE.SLIDER_HORZ && (
