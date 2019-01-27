@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks-electron",
-  "version": "0.12.23",
+  "version": "0.12.25",
   "main": "./public/electron.js",
   "homepage": ".",
   "repository": "https://github.com/TimSusa/midi-bricks-mono/tree/master/packages/midi-bricks-electron",
@@ -11,9 +11,6 @@
     "public",
     "build"
   ],
-  "dependencies": {
-
-  },
   "build": {
     "appId": "tim.susa.midi-bricks.de",
     "mac": {
@@ -28,19 +25,19 @@
     ]
   },
   "devDependencies": {
-    "midi-bricks": "^0.12.23",
-    "electron": "4.0.2",
-    "electron-builder": "20.38.5",
-    "electron-publish": "20.38.5",
-    "electron-is-dev": "^1.0.1",
-    "electron-window-state": "^5.0.1",
-    "concurrently": "4.1.0",
-    "wait-for-localhost-cli": "1.1.0",
-    "mocha": "^5.2.0",
-    "spectron": "^5.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "chai-roughly": "^1.0.0"
+    "chai-roughly": "^1.0.0",
+    "concurrently": "4.1.0",
+    "electron": "4.0.2",
+    "electron-builder": "20.38.5",
+    "electron-is-dev": "^1.0.1",
+    "electron-publish": "20.38.5",
+    "electron-window-state": "^5.0.1",
+    "midi-bricks": "^0.12.25",
+    "mocha": "^5.2.0",
+    "spectron": "^5.0.0",
+    "wait-for-localhost-cli": "1.1.0"
   },
   "browserslist": [
     ">0.2%",

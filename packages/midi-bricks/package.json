@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks",
-  "version": "0.12.23",
+  "version": "0.12.25",
   "private": false,
   "homepage": "https://build-n8153krgg.now.sh",
   "main": "./src/index.js",
