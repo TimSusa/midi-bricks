@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks",
-  "version": "0.12.30",
+  "version": "0.12.31",
   "private": false,
   "homepage": "https://build-b3ouct0rs.now.sh/",
   "main": "./src/index.js",
@@ -50,5 +50,5 @@
     "enzyme-adapter-react-16": "1.8.0",
     "redux-mock-store": "1.5.3"
   },
-  "gitHead": "f9ab3b9ab7fff16711163a0b3771b8a281447764"
+  "gitHead": "67494282e406f4121be3dbd66fb20cd77514e88f"
 }
