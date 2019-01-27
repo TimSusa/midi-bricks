@@ -19,7 +19,6 @@ class App extends React.PureComponent {
   }
 
   render() {
-    console.log('testmeldung')
     return (
       <div className={this.props.classes.root}>
         <div className={this.props.classes.appBar}>
