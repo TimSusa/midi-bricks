@@ -30,15 +30,15 @@
     "electron-window-state": "^5.0.1"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
-    "chai-roughly": "^1.0.0",
+    "chai": "4.2.0",
+    "chai-as-promised": "7.1.1",
+    "chai-roughly": "1.0.0",
     "concurrently": "4.1.0",
     "electron": "4.0.2",
     "electron-builder": "20.38.5",
     "midi-bricks": "^0.12.32",
-    "mocha": "^5.2.0",
-    "spectron": "^5.0.0",
+    "mocha": "5.2.0",
+    "spectron": "5.0.0",
     "wait-for-localhost-cli": "1.1.0"
   },
   "browserslist": [
