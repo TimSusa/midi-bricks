@@ -13,8 +13,8 @@ let win
 // autoUpdater.setFeedURL(feed)
 
 // Prevent Zoom, disrupting touches
-app.commandLine.appendSwitch('disable-pinch')
-app.commandLine.appendSwitch('overscroll-history-navigation=0')
+!isDev && app.commandLine.appendSwitch('disable-pinch')
+!isDev && app.commandLine.appendSwitch('overscroll-history-navigation=0')
 
 app.on('ready', async () => {
   // Load the previous state with fallback to defaults

@@ -171,22 +171,22 @@ class ViewMenu extends React.PureComponent {
 
   toggleLayoutMode = () => {
     this.props.actions.toggleLayoutMode()
-    //this.handleClose()
+    this.handleClose()
   }
 
   handleChangeAutoArrangeMode = () => {
     this.props.actions.toggleAutoArrangeMode()
-    //this.handleClose()
+    this.handleClose()
   }
 
   toggleCompactMode = () => {
     this.props.actions.toggleCompactMode()
-    //this.handleClose()
+    this.handleClose()
   }
 
   toggleSettingsMode = () => {
     this.props.actions.toggleSettingsMode()
-    //this.handleClose()
+    this.handleClose()
   }
 }
 

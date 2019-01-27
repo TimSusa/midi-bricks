@@ -1,4 +1,5 @@
 const Application = require('spectron').Application
+const electronPath = require('electron')
 var assert = require('assert')
 var chai = require('chai')
 var chaiAsPromised = require('chai-as-promised')
@@ -27,7 +28,7 @@ exports.setupTimeout = function (test) {
 }
 
 exports.startApplication = function (options) {
-  options.path = exports.getElectronPath()
+  options.path = electronPath // exports.getElectronPath()
   if (process.env.CI) options.startTimeout = 30000
 
   var app = new Application(options)

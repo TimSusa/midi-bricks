@@ -1051,7 +1051,7 @@ function filterPage(sliderList, label) {
   return ret
 }
 
-function sortSliderList(list) {
+function sortSliderList(list=[]) {
   const vList = sortBy(list, 'y')
   const yGroups = groupBy(vList, 'y')
   let ySortedList = []
@@ -1062,7 +1062,7 @@ function sortSliderList(list) {
   return ySortedList
 }
 
-function sortBy(list, by) {
+function sortBy(list=[], by) {
   return list
     .map(item => item)
     .sort((a, b) => {
