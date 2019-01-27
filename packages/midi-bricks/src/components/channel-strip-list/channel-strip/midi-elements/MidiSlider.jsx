@@ -23,7 +23,7 @@ class MidiSlider extends Component {
         colors: { color },
         val,
         maxVal,
-        minVal,
+        minVal
       },
     } = this.props
     return (
