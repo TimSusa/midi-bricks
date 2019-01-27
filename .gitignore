@@ -7,3 +7,4 @@ packages/*/build
 .idea
 .vscode
 .github
+package-lock.json
