@@ -2781,7 +2781,7 @@ concat-stream@1.6.2, concat-stream@^1.5.0:
     readable-stream "^2.2.2"
     typedarray "^0.0.6"
 
-concurrently@^4.1.0:
+concurrently@4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/concurrently/-/concurrently-4.1.0.tgz#17fdf067da71210685d9ea554423ef239da30d33"
   integrity sha512-pwzXCE7qtOB346LyO9eFWpkFJVO3JQZ/qU/feGeaAHiX1M3Rw3zgXKc5cZ8vSH5DGygkjzLFDzA/pwoQDkRNGg==
@@ -3687,7 +3687,7 @@ ejs@^2.6.1:
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.6.1.tgz#498ec0d495655abc6f23cd61868d926464071aa0"
   integrity sha512-0xy4A/twfrRCnkhfk8ErDi5DqdAsAqeGxht4xkCUrsvhhbQNs7E+4jV0CN7+NKIY0aHE72+XvqtBIXzD31ZbXQ==
 
-electron-builder@^20.38.5:
+electron-builder@20.38.5:
   version "20.38.5"
   resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-20.38.5.tgz#31b3913a68b4911afd4cfc7bcd2522c5808040cd"
   integrity sha512-p88IDHhH2J4hA6KwRBJY+OfVZuFtFIShY3Uh/TwYAfbX0v1RhKZytuGdO8sty2zcWxDYX74xDBv+X9oN6qEIRQ==
@@ -3738,7 +3738,7 @@ electron-osx-sign@0.4.11:
     minimist "^1.2.0"
     plist "^3.0.1"
 
-electron-publish@20.38.5, electron-publish@^20.38.5:
+electron-publish@20.38.5:
   version "20.38.5"
   resolved "https://registry.yarnpkg.com/electron-publish/-/electron-publish-20.38.5.tgz#c6ed7ea12bc80796b1f36489995f4651f730b1df"
   integrity sha512-EhdPm6t0nKDfa0r3KjV1kSFcz03VrzgJRv7v5nHkkpQZB6OSmDNlHq7k66NBwQhPK3i4CK+uvehljZAP28vbCA==
@@ -3764,7 +3764,7 @@ electron-window-state@^5.0.1:
     jsonfile "^4.0.0"
     mkdirp "^0.5.1"
 
-electron@^4.0.1:
+electron@4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/electron/-/electron-4.0.2.tgz#b5e074c149841490825d0785aa2bc4f5e29bbea4"
   integrity sha512-H0pmSvOVuC+Mq/+cYNXbCDBmqq5d1xYUVdBOjqGJuwuwJeP7qDHF35JA3cq+ARzq/CbwlXq98zdW6i6+x3U24g==
@@ -11438,7 +11438,7 @@ w3c-xmlserializer@^1.0.1:
     webidl-conversions "^4.0.2"
     xml-name-validator "^3.0.0"
 
-wait-for-localhost-cli@^1.0.0:
+wait-for-localhost-cli@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/wait-for-localhost-cli/-/wait-for-localhost-cli-1.1.0.tgz#38e80b10a70b7d433501435f773bbf8676c09e90"
   integrity sha512-MwrmsR8Oscyt5cINOJtcjQoVKDIqN+Cy+Y2MGuGXaeibV12MHvSTO6zjJLgraD51yGfYPH5X9nflMH2jD1n9nQ==

@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks-electron",
-  "version": "0.12.24",
+  "version": "0.12.23",
   "main": "./build/electron.js",
   "homepage": ".",
   "repository": "https://github.com/TimSusa/midi-bricks-mono/tree/master/packages/midi-bricks-electron",
@@ -30,12 +30,12 @@
     ]
   },
   "devDependencies": {
-    "concurrently": "^4.1.0",
-    "electron": "^4.0.1",
-    "electron-builder": "^20.38.5",
-    "electron-publish": "^20.38.5",
+    "concurrently": "4.1.0",
+    "electron": "4.0.2",
+    "electron-builder": "20.38.5",
+    "electron-publish": "20.38.5",
     "midi-bricks": "^0.12.23",
-    "wait-for-localhost-cli": "^1.0.0"
+    "wait-for-localhost-cli": "1.1.0"
   },
   "browserslist": [
     ">0.2%",
@@ -45,7 +45,7 @@
   ],
   "scripts": {
     "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
-    "build": "CI=true yarn test && yarn clean && react-scripts build && build --mac --win --linux",
+    "build": "yarn clean && react-scripts build && build --mac --win --linux",
     "test": "react-scripts test",
     "postinstall": "npm i --save-dev midi-bricks@latest && electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
     "clean": "rimraf build && rimraf dist && rimraf src && cp -R node_modules/midi-bricks/src src"
