@@ -15,53 +15,41 @@ yarn && yarn bootstrap
 ## Run Midi-Bricks-Webapp locally
 
 ```
-cd packages/midi-bricks
-yarn start
+yarn dev:midi-bricks
 ```
 
 ## Build Midi-Bricks-Webapp
 
 ```
-cd packages/midi-bricks
-yarn build
+yarn build:midi-bricks
 ```
 
 ## Deploy Midi-Bricks-Webapp to now
 
 ```
-cd packages/midi-bricks
 yarn deploy
 ```
 
 ## Run Midi-Bricks-Electron-App locally
 
 ```
-cd packages/midi-bricks-electron
-yarn dev
+yarn dev:midi-bricks-electron
 ```
 
 ## Build Midi-Bricks-Electron-App
 
 ```
-cd packages/midi-bricks-electron
-yarn build
+yarn build:midi-bricks-electron
 ```
 
 ## Contributing
 
 You can make changes to midi-bricks repo, commit them and publish. Midi-Bricks-Electron will automatically take the latest version from npm.
 
-### Development Mode
-
-```
-cd packages/midi-bricks
-yarn start
-```
 
 ### Publish
 
 ```
-cd packages/midi-bricks
 release patch
-npm publish or lerna publish
+yarn publish
 ```

@@ -33,8 +33,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "deploy": "react-scripts build && cp now.json build/ && cd build && now && cd ..",
-    "test": "react-scripts test"
+    "deploy": "CI=true react-scripts test && react-scripts build && cp now.json build/ && cd build && now && cd ..",
+    "test": "CI=true react-scripts test"
   },
   "eslintConfig": {
     "extends": "react-app"

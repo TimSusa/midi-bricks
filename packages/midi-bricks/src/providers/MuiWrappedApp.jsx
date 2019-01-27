@@ -9,7 +9,7 @@ import 'typeface-roboto'
 import { darkTheme } from '../themes/dark-theme'
 import { lightTheme } from '../themes/light-theme'
 import App from '../App'
-console.log('sfdasfasfsafasdfsdfasfsadfs')
+
 const MuiWrappedApp = props => {
   const { isChangedTheme, children } = props
   const theme = createMuiTheme(isChangedTheme ? darkTheme : lightTheme)

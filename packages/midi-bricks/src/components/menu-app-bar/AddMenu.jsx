@@ -45,7 +45,7 @@ class AddMenu extends React.PureComponent {
             }}
             transformOrigin={{
               vertical: 'top',
-              horizontal: 'right',
+              horizontal: 'right'
             }}
             open={open}
             onClose={this.handleClose}
