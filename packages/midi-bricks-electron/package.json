@@ -45,7 +45,7 @@
   ],
   "scripts": {
     "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
-    "build": "CI=true yarn test && yarn clean && react-scripts build && build --mac --win --linux",
+    "build": "yarn clean && react-scripts build && build --mac --win --linux",
     "test": "react-scripts test",
     "postinstall": "npm i --save-dev midi-bricks@latest && electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
     "clean": "rimraf build && rimraf dist && rimraf src && cp -R node_modules/midi-bricks/src src"
