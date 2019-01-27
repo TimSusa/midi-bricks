@@ -24,16 +24,18 @@
       "build/**/*"
     ]
   },
+  "dependencies": {
+    "electron": "4.0.2",
+    "electron-is-dev": "^1.0.1",
+    "electron-publish": "20.38.5",
+    "electron-window-state": "^5.0.1"
+  },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-roughly": "^1.0.0",
     "concurrently": "4.1.0",
-    "electron": "4.0.2",
     "electron-builder": "20.38.5",
-    "electron-is-dev": "^1.0.1",
-    "electron-publish": "20.38.5",
-    "electron-window-state": "^5.0.1",
     "midi-bricks": "^0.12.25",
     "mocha": "^5.2.0",
     "spectron": "^5.0.0",
