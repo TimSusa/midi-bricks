@@ -1,53 +1,53 @@
 # midi-bricks-mono
 
-Mono-Repository for midi-bricks, its electron app and deployment. See more under packages
+Mono-repo for midi-bricks, its electron app and deployment. See more under packages
 
-## Demo
+## demo
 
 https://build-n8153krgg.now.sh
 
-## Installation
+## install
 
 ```
 yarn && yarn bootstrap
 ```
 
-## Run Midi-Bricks-Webapp locally
+## midi-bricks dev
 
 ```
 yarn dev:midi-bricks
 ```
 
-## Build Midi-Bricks-Webapp
+## midi-bricks build
 
 ```
 yarn build:midi-bricks
 ```
 
-## Deploy Midi-Bricks-Webapp to now
+## midi-bricks deployment to now
 
 ```
 yarn deploy
 ```
 
-## Run Midi-Bricks-Electron-App locally
+## midi-bricks-electron-app dev
 
 ```
 yarn dev:midi-bricks-electron
 ```
 
-## Build Midi-Bricks-Electron-App
+## midi-bricks-electron-app build
 
 ```
 yarn build:midi-bricks-electron
 ```
 
-## Contributing
+## contributing
 
 You can make changes to midi-bricks repo, commit them and publish. Midi-Bricks-Electron will automatically take the latest version from npm.
 
 
-### Publish
+### publish
 
 ```
 release patch
