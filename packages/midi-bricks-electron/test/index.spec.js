@@ -91,21 +91,17 @@ describe("Application launch", function() {
       .should.eventually.equal('MIDI Bricks')
       .element('button*=Live')
       .click()
-      .waitUntilWindowLoaded()
-      .element('h6*=MIDI Bricks')
-      .should.eventually.roughly({type: 'NoSuchElement'})
-      .element('button*=Live')
-      .click()
       // .waitUntilWindowLoaded()
+      // .element('h6*=MIDI Bricks')
+      // .should.eventually.roughly({type: 'NoSuchElement'})
       // .element('button*=Live')
       // .click()
-      //.element('button svg[title="View Settings"]')
-
-      //console.log('Sfd ', button)
+      // .element('button*=Live')
+      // .click()
     return app
   })
 
-  it.only('Change to layout mode', async function() {
+  it('Change to layout mode', async function() {
     const button = await app.client
       .waitUntilWindowLoaded()
       .browserWindow.focus()
@@ -125,26 +121,32 @@ describe("Application launch", function() {
       .click()
       .element('span*=Layout - l')
       .click()
-      .waitUntilWindowLoaded()
-      .element('h6*=MIDI Bricks')
-      .click()
-      .waitUntilWindowLoaded()
-      .element('button svg[title="Add Element"]')
-      .click()
-      .waitUntilWindowLoaded()
-      .element('li*=Add Page')
-      .click()
-      //.should.eventually.equal('View Settings')
-      // .element('button svg[title="View Settings"]')
-      // .click()
-      // .waitUntilWindowLoaded()
-      // .element('button svg[title="Layout"]')
-      // .click()
-      // .waitUntilWindowLoaded()
-      // .element('span*=Layout - l')
-      // .click()
+  
+    return app
+  })
 
-      console.log('Sfd ', button)
+  it('Open Drawer Menu Left', async function() {
+    const button = await app.client
+      .waitUntilWindowLoaded()
+      .browserWindow.focus()
+      .getWindowCount()
+      .should.eventually.equal(2)
+      .windowByIndex(0)
+      .browserWindow.getBounds()
+      .should.eventually.roughly(5)
+      .deep.equal({
+        height: 800,
+        width: 1000,
+        x: 0,
+        y: 23,
+      })
+      .element('body')
+      .element('button[aria-label="Menu"]')
+      .click()
+      //.element('span*=Load Preset')
+      //.isVisible()
+      //.click()
+
     return app
   })
 });
