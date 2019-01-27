@@ -13,7 +13,8 @@
   ],
   "dependencies": {
     "electron-is-dev": "^1.0.1",
-    "electron-window-state": "^5.0.1"
+    "electron-window-state": "^5.0.1",
+    "enzyme": "^3.8.0"
   },
   "build": {
     "appId": "tim.susa.midi-bricks.de",
