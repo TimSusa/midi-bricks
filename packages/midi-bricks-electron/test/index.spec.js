@@ -90,7 +90,7 @@ describe("Application launch", function() {
     return app
   })
 
-  it.only("Change to layout mode", async function() {
+  it("Change to layout mode", async function() {
     const button = await app.client
       .waitUntilWindowLoaded()
       .browserWindow.focus()
