@@ -13,11 +13,11 @@ global.before(function () {
   chai.use(chaiRoughly)
 })
 
-exports.getElectronPath = function () {
-  var electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron')
-  if (process.platform === 'win32') electronPath += '.cmd'
-  return electronPath
-}
+// exports.getElectronPath = function () {
+//   var electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron')
+//   if (process.platform === 'win32') electronPath += '.cmd'
+//   return electronPath
+// }
 
 exports.setupTimeout = function (test) {
   if (process.env.CI) {

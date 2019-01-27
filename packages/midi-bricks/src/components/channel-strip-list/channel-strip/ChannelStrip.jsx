@@ -7,6 +7,7 @@ import { STRIP_TYPE } from '../../../reducers/slider-list'
 import MidiPage from './midi-elements/MidiPage'
 import MidiSliderHorz from './midi-elements/MidiSliderHorz'
 import XyPad from '../../XyPad'
+import { Label } from './midi-elements/Label'
 
 // const topLabelRef = React.createRef()
 // const bottomLabelRef = null//React.createRef()
@@ -23,6 +24,7 @@ const ChannelStrip = props => {
       fontWeight,
       colors: { colorFont },
       isValueHidden,
+      lastSavedVal,
     },
     idx,
     classes,
@@ -42,11 +44,9 @@ const ChannelStrip = props => {
             labelStyle={props.classes.label}
             colorFont={colorFont}
             {...props}
-            //ref={topLabelRef}
           >
             {label}
           </Label>
-
           <MidiSlider
             className={classes.sliderWrapper}
             isDisabled={isDisabled}
@@ -56,18 +56,21 @@ const ChannelStrip = props => {
             width={tmpW}
             sliderThumbHeight={sliderThumbHeight}
           />
-          {!isValueHidden ? (
+          {!isValueHidden && (
             <Label
+              lastSavedVal={lastSavedVal}
+              idx={idx}
               fontSize={fontSize}
               fontWeight={fontWeight}
               labelStyle={props.classes.bottomLabel}
               colorFont={colorFont}
               {...props}
-              //ref={bottomLabelRef}
             >
               {val}
+              {` / ${lastSavedVal}`}
             </Label>
-          ) : null}
+          )}
+          }
         </div>
       )}
       {type === STRIP_TYPE.SLIDER_HORZ && (
@@ -186,30 +189,3 @@ const styles = theme => ({
 })
 
 export default withStyles(styles)(ChannelStrip)
-
-const Label = props => (
-  <div
-    style={{
-      fontWeight: props.fontWeight,
-      fontSize: (parseInt(props.fontSize, 10) || 16) + 'px',
-      color: props.colorFont,
-    }}
-    className={props.labelStyle}
-  >
-    {props.children}
-  </div>
-)
-
-// const Label = React.forwardRef((props, ref) => (
-//   <div
-//     style={{
-//       fontWeight: props.fontWeight,
-//       fontSize: (parseInt(props.fontSize, 10) || 16) + 'px',
-//       color: props.colorFont,
-//     }}
-//     ref={ref}
-//     className={props.labelStyle}
-//   >
-//     {props.children}
-//   </div>
-// ))
