@@ -1,6 +1,6 @@
 import WebMIDI from 'webmidi'
 import { Actions } from './slider-list'
-import { debounce } from 'lodash'
+import { throttle } from 'lodash'
 
 const { initPending, midiMessageArrived, initFailed, initMidiAccess } = Actions
 
@@ -70,7 +70,7 @@ export function initApp() {
             input.addListener(
               'controlchange',
               ccChannels,
-              debounce(({ value, channel, controller: { number } }) => {
+              throttle(({ value, channel, controller: { number } }) => {
                 if (ccArr.includes(number)) {
                   const obj = {
                     isNoteOn: undefined,
@@ -81,7 +81,7 @@ export function initApp() {
                   }
                   dispatch(midiMessageArrived(obj))
                 }
-              }, 5)
+              }, 10)
             )
           }
           if (
@@ -93,7 +93,7 @@ export function initApp() {
             input.addListener(
               'noteon',
               noteChannels,
-              debounce(event => {
+              throttle(event => {
                 const {
                   rawVelocity,
                   channel,
