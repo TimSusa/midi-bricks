@@ -2477,21 +2477,21 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-chai-as-promised@^7.1.1:
+chai-as-promised@7.1.1:
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/chai-as-promised/-/chai-as-promised-7.1.1.tgz#08645d825deb8696ee61725dbf590c012eb00ca0"
   integrity sha512-azL6xMoi+uxu6z4rhWQ1jbdUhOMhis2PvscD/xjLqNMkv3BPPp2JyyuTHOrf9BOosGpNQ11v6BKv/g57RXbiaA==
   dependencies:
     check-error "^1.0.2"
 
-chai-roughly@^1.0.0:
+chai-roughly@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/chai-roughly/-/chai-roughly-1.0.0.tgz#1fea8e03ab7c76b428a2bc97a7d844d82e6ee176"
   integrity sha1-H+qOA6t8drQooryXp9hE2C5u4XY=
   dependencies:
     deep-eql "git+https://github.com/Turbo87/deep-eql.git#9bad4db"
 
-chai@^4.2.0:
+chai@4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/chai/-/chai-4.2.0.tgz#760aa72cf20e3795e84b12877ce0e83737aa29e5"
   integrity sha512-XQU3bhBukrOsQCuwZndwGcCVQHyZi53fQ6Ys1Fym7E4olpIqqZZhhoFJoaKVvV17lWQoXYwgWN2nF5crA8J2jw==
@@ -7379,10 +7379,10 @@ micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8, micromatch@^3.1.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-midi-bricks@^0.12.34:
-  version "0.12.34"
-  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.34.tgz#e753413950494817d2075dc7296ce8567e95bb17"
-  integrity sha512-v2/6N6elApHfHtz1UuEMZbSxFSJZjovrGpXI/8may70yXib+DXg1Yjt5eYX1yoM/xOhyXrVJnGsjU5BskGdfUQ==
+midi-bricks@^0.12.35:
+  version "0.12.35"
+  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.35.tgz#31ff246108fc752c4338ae9498c2dc8645c161d9"
+  integrity sha512-IL4d1vuNZVbsoEfkTrXpfl0k4rkROD/iE67ewbWsjttRZrcUbJRrCWyuM/4f9VGlvpgGXklIGdVpKuPrgBKxuw==
   dependencies:
     "@material-ui/core" "^3.9.1"
     "@material-ui/icons" "^3.0.1"
@@ -7561,7 +7561,7 @@ mkdirp@0.5.1, mkdirp@0.5.x, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@
   dependencies:
     minimist "0.0.8"
 
-mocha@^5.2.0:
+mocha@5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/mocha/-/mocha-5.2.0.tgz#6d8ae508f59167f940f2b5b3c4a612ae50c90ae6"
   integrity sha512-2IUgKDhc3J7Uug+FxMXuqIyYzH7gJjXECKe/w43IGgQHTSj3InJi+yAA7T24L9bQMRKiUEHxEX37G5JpVUGLcQ==
@@ -10539,7 +10539,7 @@ spdy@^4.0.0:
     select-hose "^2.0.0"
     spdy-transport "^3.0.0"
 
-spectron@^5.0.0:
+spectron@5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/spectron/-/spectron-5.0.0.tgz#602440da0c892f8d73471652ae68000b98d7769c"
   integrity sha512-wJrFe8EZ7xvarYawBPd1pDegmSz81U1jG0rSCx+yXqD1TISUH9ASB21KysLXkPylAnc2vhbpGiWQxrqVFtsiJg==

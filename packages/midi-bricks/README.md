@@ -15,7 +15,8 @@ Simple sliders or buttons, which send MIDI Messages to the MIDI-Device you wish.
 - You can listen for midi notes for every slider or button, which will change activated/not activated state color
 - You have keyboard shortcuts available for: 'change to layout mode', 'show settings', 'compact vertical', 'Disable auto-arrange-mode'
 
-Demo: https://build-3n49m3xuh.now.sh
+# Web Demo:
+https://build-3n49m3xuh.now.sh
 
 # Run
 ```

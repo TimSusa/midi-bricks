@@ -1,0 +1,26 @@
+{
+  "name": "midi-bricks-doc",
+  "version": "0.12.35",
+  "description": "Documentation for midi-bricks",
+  "author": "TimSusa <timsusa@altus-insight.de>",
+  "homepage": "https://github.com/TimSusa/midi-bricks-mono#readme",
+  "license": "ISC",
+  "main": "lib/midi-bricks-doc.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TimSusa/midi-bricks-mono.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/TimSusa/midi-bricks-mono/issues"
+  }
+}

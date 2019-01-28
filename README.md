@@ -2,7 +2,7 @@
 
 Mono-repo for midi-bricks, its electron app and deployment. See more under packages
 
-## demo
+## web-demo
 
 https://build-3n49m3xuh.now.sh
 
