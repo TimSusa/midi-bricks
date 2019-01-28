@@ -7,6 +7,8 @@ assignees: ''
 
 ---
 
+**Does the issue occur in the electron-app or the web-app**
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 
