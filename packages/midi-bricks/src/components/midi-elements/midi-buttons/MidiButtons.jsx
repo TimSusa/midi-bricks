@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {Actions as MidiSliderActions} from '../../../../../actions/slider-list.js'
+import { Actions as MidiSliderActions } from '../../../actions/slider-list.js'
 import MidiButton from './MidiButton'
 
-import { STRIP_TYPE } from '../../../../../reducers/slider-list.js'
+import { STRIP_TYPE } from '../../../reducers/slider-list.js'
 
 const {
   BUTTON,

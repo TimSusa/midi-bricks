@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Actions as MidiSliderActions } from '../../../../actions/slider-list.js'
+import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 
 class MidiSliderHorz extends Component {
   selfRef = null

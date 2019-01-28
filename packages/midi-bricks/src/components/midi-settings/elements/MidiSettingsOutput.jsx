@@ -9,7 +9,7 @@ import {
   renderMidiChannelSelection,
 } from '../MidiSettings'
 
-import { STRIP_TYPE } from '../../../../../../reducers/slider-list'
+import { STRIP_TYPE } from '../../../reducers/slider-list'
 
 const {
   BUTTON,
@@ -18,7 +18,7 @@ const {
   BUTTON_TOGGLE_CC,
   SLIDER,
   SLIDER_HORZ,
-  XYPAD
+  XYPAD,
 } = STRIP_TYPE
 
 export const MidiSettingsOutput = props => {

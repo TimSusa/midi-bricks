@@ -4,10 +4,10 @@ import FormControl from '@material-ui/core/FormControl'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {Actions as MidiSliderActions} from '../../../../../../actions/slider-list.js'
-import { STRIP_TYPE } from '../../../../../../reducers/slider-list.js'
+import { Actions as MidiSliderActions } from '../../../actions/slider-list.js'
+import { STRIP_TYPE } from '../../../reducers/slider-list.js'
 import MidiSuggestedInput from './MidiSuggestedInput'
-import { fromMidi } from '../../../../../../utils/fromMidi'
+import { fromMidi } from '../../../utils/fromMidi'
 import { midi } from 'tonal'
 import { Input } from '@material-ui/core'
 
@@ -45,7 +45,7 @@ const InputNoteOrCc = props => {
         />
       </FormControl>
     )
-  }  else if (type === STRIP_TYPE.XYPAD) {
+  } else if (type === STRIP_TYPE.XYPAD) {
     return (
       <FormControl className={classes.formControl}>
         <InputLabel className={classes.label} htmlFor="cc">
@@ -59,8 +59,7 @@ const InputNoteOrCc = props => {
         />
       </FormControl>
     )
-  } 
-  else if (type === STRIP_TYPE.BUTTON_PROGRAM_CHANGE) {
+  } else if (type === STRIP_TYPE.BUTTON_PROGRAM_CHANGE) {
     return (
       <FormControl className={classes.formControl}>
         <InputLabel className={classes.label} htmlFor="prgChange">
@@ -152,7 +151,7 @@ export default withStyles(styles)(
   )(InputNoteOrCc)
 )
 
-function selectCcY (props, e) {
+function selectCcY(props, e) {
   console.log(e)
   props.actions.changeXypadSettings({
     i: props.i,

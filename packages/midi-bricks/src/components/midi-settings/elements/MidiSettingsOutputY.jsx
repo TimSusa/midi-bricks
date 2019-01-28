@@ -9,13 +9,9 @@ import {
   renderMidiChannelSelection,
 } from '../MidiSettings'
 
-import { STRIP_TYPE } from '../../../../../../reducers/slider-list'
+import { STRIP_TYPE } from '../../../reducers/slider-list'
 
-const {
-  SLIDER,
-  SLIDER_HORZ,
-  XYPAD
-} = STRIP_TYPE
+const { SLIDER, SLIDER_HORZ, XYPAD } = STRIP_TYPE
 
 export const MidiSettingsOutputY = props => {
   const {
@@ -70,7 +66,7 @@ export const MidiSettingsOutputY = props => {
               yMidiChannel: e.target.value,
             })
           }
-          value={yMidiChannel|| 'None'}
+          value={yMidiChannel || 'None'}
         >
           {renderMidiChannelSelection(
             {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {Actions as MidiSliderActions}  from '../../../../actions/slider-list.js'
+import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 
 export const LabelComponent = props => (
   <div
@@ -32,6 +32,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export const Label = connect(
-    null,
-    mapDispatchToProps
-  )(LabelComponent)
+  null,
+  mapDispatchToProps
+)(LabelComponent)

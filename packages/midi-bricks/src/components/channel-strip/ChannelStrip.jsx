@@ -1,13 +1,13 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import MidiSlider from './midi-elements/MidiSlider'
-import MidiButtons from './midi-elements/midi-buttons/MidiButtons'
-import StripLabel from './midi-elements/StripLabel'
-import { STRIP_TYPE } from '../../../reducers/slider-list'
-import MidiPage from './midi-elements/MidiPage'
-import MidiSliderHorz from './midi-elements/MidiSliderHorz'
-import XyPad from '../../XyPad'
-import { Label } from './midi-elements/Label'
+import MidiSlider from '../midi-elements/MidiSlider'
+import MidiButtons from '../midi-elements/midi-buttons/MidiButtons'
+import StripLabel from '../midi-elements/StripLabel'
+import { STRIP_TYPE } from '../../reducers/slider-list'
+import MidiPage from '../midi-elements/MidiPage'
+import MidiSliderHorz from '../midi-elements/MidiSliderHorz'
+import XyPad from '../XyPad'
+import { Label } from '../midi-elements/Label'
 
 // const topLabelRef = React.createRef()
 // const bottomLabelRef = null//React.createRef()

@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {Actions as MidiSliderActions} from '../../../../../../actions/slider-list.js'
-import {Actions as ViewSettingsActions} from '../../../../../../actions/view-settings.js'
+import { Actions as MidiSliderActions } from '../../../actions/slider-list.js'
+import { Actions as ViewSettingsActions } from '../../../actions/view-settings.js'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
@@ -152,7 +152,10 @@ const styles = theme => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({...MidiSliderActions, ...ViewSettingsActions}, dispatch),
+    actions: bindActionCreators(
+      { ...MidiSliderActions, ...ViewSettingsActions },
+      dispatch
+    ),
   }
 }
 

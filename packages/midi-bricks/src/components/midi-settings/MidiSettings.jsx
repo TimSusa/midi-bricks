@@ -6,10 +6,10 @@ import CopyIcon from '@material-ui/icons/NoteAdd'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {Actions as MidiSliderActions} from '../../../../../actions/slider-list.js'
-import {Actions as ViewActions}from '../../../../../actions/view-settings.js'
-import DeleteModal from '../../../../DeleteModal'
-import DriverExpansionPanel from '../../../../DriverExpansionPanel'
+import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
+import { Actions as ViewActions } from '../../actions/view-settings.js'
+import DeleteModal from '../DeleteModal'
+import DriverExpansionPanel from '../DriverExpansionPanel'
 import MidiSettingsInput from './elements/MidiSettingsInput'
 import { MidiSettingsLabelInput } from './elements/MidiSettingsLabelInput'
 import { MidiSettingsOutput } from './elements/MidiSettingsOutput'
@@ -17,7 +17,7 @@ import { MidiSettingsOutputY } from './elements/MidiSettingsOutputY'
 import { MidiSettingsView } from './elements/MidiSettingsView'
 import { DriverEmtpyRedirectButton } from './elements/DriverEmtpyRedirectButton'
 
-import { STRIP_TYPE } from '../../../../../reducers/slider-list'
+import { STRIP_TYPE } from '../../reducers/slider-list'
 
 const { BUTTON, BUTTON_TOGGLE } = STRIP_TYPE
 
