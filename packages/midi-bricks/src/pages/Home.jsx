@@ -36,28 +36,6 @@ class Home extends React.PureComponent {
           overflowY: 'hidden',
         }
 
-    // if (isMidiFailed) {
-    //   return (
-    //     <Typography variant="h4" className={classes.noMidiTypography}>
-    //       Cannot find any available MIDI-Drivers to connect for.
-    //       <br />
-    //       We suggest to create at first a virtual midi driver or
-    //       <br />
-    //       plug in your favourite MIDI Device.
-    //       <br />
-    //       <br />
-    //       After that, please push the 'detect drivers' button to re-animate the
-    //       app. (You see no button? Just reload the browser page.)
-    //       <br />
-    //       <br />
-    //       <img
-    //         width="50%"
-    //         alt="midi-sliders-screenshot"
-    //         src="midi-sliders-screenshot.png"
-    //       />
-    //     </Typography>
-    //   )
-    // } else 
     if (pageType === PAGE_TYPES.GLOBAL_MODE) {
       return <GlobalSettingsPage />
     } else if (pageType === PAGE_TYPES.MIDI_DRIVER_MODE) {
