@@ -1,4 +1,4 @@
-import {generateReducers} from 'redux-generate'
+import { generateReducers } from 'redux-generate'
 import { ActionTypeViewSettings } from '../actions/view-settings'
 
 export const PAGE_TYPES = {

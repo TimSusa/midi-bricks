@@ -1,5 +1,5 @@
 import WebMIDI from 'webmidi'
-import {generateReducers} from 'redux-generate'
+import { generateReducers } from 'redux-generate'
 import { ActionTypeSliderList } from '../actions/slider-list'
 import { midi } from 'tonal'
 import { fromMidi } from '../utils/fromMidi'
@@ -949,7 +949,7 @@ const transformAddState = (state, action, type) => {
       color: 'rgba(184, 233, 134, 1)',
       colorActive: 'rgba(240, 255, 0, 1)',
       colorFont: 'rgba(184, 233, 134, 1)',
-      colorFontActive: 'rgba(184, 233, 134, 1)'
+      colorFontActive: 'rgba(184, 233, 134, 1)',
     },
     fontSize: 16,
     fontWeight: 500,
@@ -1051,7 +1051,7 @@ function filterPage(sliderList, label) {
   return ret
 }
 
-function sortSliderList(list=[]) {
+function sortSliderList(list = []) {
   const vList = sortBy(list, 'y')
   const yGroups = groupBy(vList, 'y')
   let ySortedList = []
@@ -1062,7 +1062,7 @@ function sortSliderList(list=[]) {
   return ySortedList
 }
 
-function sortBy(list=[], by) {
+function sortBy(list = [], by) {
   return list
     .map(item => item)
     .sort((a, b) => {
