@@ -1,4 +1,4 @@
-import { createActions, createActionTypes } from './create-actions.js'
+import { generateActions, createActionTypes } from 'redux-generate'
 
 const TypeViewSettings = [
   'TOGGLE_PAGE',
@@ -20,4 +20,4 @@ const TypeViewSettings = [
 
 export const ActionTypeViewSettings = createActionTypes(TypeViewSettings)
 
-export const Actions = {...createActions(ActionTypeViewSettings)}
+export const Actions = {...generateActions(ActionTypeViewSettings)}

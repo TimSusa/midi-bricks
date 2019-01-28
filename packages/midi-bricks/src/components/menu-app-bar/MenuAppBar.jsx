@@ -96,7 +96,7 @@ const MenuAppBar = props => {
             )}
           </IconButton>
 
-          <AddMenu />
+          {isLayoutMode && <AddMenu />}
           {pageType === PAGE_TYPES.GLOBAL_MODE && (
             <Typography>{presetName || ''}</Typography>
           )}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -10,188 +10,197 @@ import Menu from '@material-ui/core/Menu'
 import ViewSettingsIcon from '@material-ui/icons/Settings'
 import { Tooltip, FormControlLabel, Switch } from '@material-ui/core'
 
-class ViewMenu extends React.PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = {
-      auth: true,
-      anchorEl: null,
-    }
-  }
+const ViewMenu = props => {
+  const {
+    viewSettings: {
+      isLayoutMode = true,
+      isAutoArrangeMode = true,
+      isChangedTheme = false,
+      isSettingsMode = false,
+      isCompactHorz = true,
+      isLiveMode = false,
+    },
+    actions,
+  } = props
 
-  render() {
-    const { anchorEl } = this.state
-    const {
-      viewSettings: {
-        isLayoutMode = true,
-        isAutoArrangeMode = true,
-        isChangedTheme = false,
-        isSettingsMode = false,
-        isCompactHorz = true,
-        isLiveMode = false,
-      },
-    } = this.props
-    const isOpen = Boolean(anchorEl)
-    return (
-      <div>
-        <IconButton
-          aria-owns={isOpen ? 'menu-appbar' : null}
-          aria-haspopup="true"
-          onClick={this.handleMenu}
-          color="inherit"
-        >
-          <Tooltip title="View Settings">
-            <ViewSettingsIcon />
-          </Tooltip>
-        </IconButton>
-        <Menu
-          id="menu-appbar"
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          open={isOpen}
-          onClose={this.handleClose}
-        >
-          <MenuItem>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={isLayoutMode}
-                  onChange={this.toggleLayoutMode}
-                  value={isLayoutMode}
-                  color="secondary"
-                />
-              }
-              label="Layout - l"
-            />
-          </MenuItem>
-          {!isLayoutMode && (
-            <MenuItem>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={isSettingsMode}
-                    onChange={this.toggleSettingsMode}
-                    value={isSettingsMode}
-                    color="secondary"
-                  />
-                }
-                label="Settings - s"
+  const [ancEl, setAncEl] = useState(null)
+  const isOpen = Boolean(ancEl)
+
+  return (
+    <React.Fragment>
+      <IconButton
+        aria-owns={isOpen ? 'menu-appbar' : null}
+        aria-haspopup="true"
+        onClick={({ currentTarget }) => setAncEl(currentTarget)}
+        color="inherit"
+      >
+        <Tooltip title="View Settings">
+          <ViewSettingsIcon />
+        </Tooltip>
+      </IconButton>
+      <Menu
+        id="menu-appbar"
+        ancEl={ancEl}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={isOpen}
+        onClose={handleClose.bind(this, setAncEl)}
+      >
+        <MenuItem>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isLayoutMode}
+                onChange={toggleLayoutMode.bind(
+                  this,
+                  actions.toggleLayoutMode,
+                  setAncEl
+                )}
+                value={isLayoutMode}
+                color="secondary"
               />
-            </MenuItem>
-          )}
-
+            }
+            label="Layout - l"
+          />
+        </MenuItem>
+        {!isLayoutMode && (
           <MenuItem>
             <FormControlLabel
               control={
                 <Switch
-                  checked={isCompactHorz}
-                  onChange={this.toggleCompactMode}
-                  value={isCompactHorz}
+                  checked={isSettingsMode}
+                  onChange={toggleSettingsMode.bind(
+                    this,
+                    actions.toggleSettingsMode,
+                    setAncEl
+                  )}
+                  value={isSettingsMode}
                   color="secondary"
                 />
               }
-              label="Gravity Horz/Vert - v"
+              label="Settings - s"
             />
           </MenuItem>
+        )}
 
-          {isLayoutMode && (
-            <MenuItem>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={isAutoArrangeMode}
-                    onChange={this.handleChangeAutoArrangeMode}
-                    value={isAutoArrangeMode}
-                    color="secondary"
-                  />
-                }
-                label="Auto Gravity  - a"
+        <MenuItem>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isCompactHorz}
+                onChange={toggleCompactMode.bind(
+                  this,
+                  actions.toggleCompactMode,
+                  setAncEl
+                )}
+                value={isCompactHorz}
+                color="secondary"
               />
-            </MenuItem>
-          )}
+            }
+            label="Gravity Horz/Vert - v"
+          />
+        </MenuItem>
+
+        {isLayoutMode && (
           <MenuItem>
             <FormControlLabel
               control={
                 <Switch
-                  checked={isChangedTheme}
-                  onChange={this.handleChangeTheme}
-                  value={isChangedTheme}
+                  checked={isAutoArrangeMode}
+                  onChange={handleChangeAutoArrangeMode.bind(
+                    this,
+                    actions.toggleAutoArrangeMode,
+                    setAncEl
+                  )}
+                  value={isAutoArrangeMode}
                   color="secondary"
                 />
               }
-              label="Theme  - t"
+              label="Auto Gravity  - a"
             />
           </MenuItem>
-          <MenuItem>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={isLiveMode}
-                  onChange={this.toggleLiveMode}
-                  value={isLiveMode}
-                  color="secondary"
-                />
-              }
-              label="Live  - p"
-            />
-          </MenuItem>
-        </Menu>
-      </div>
-    )
-  }
-
-  handleChange = (event, checked) => {
-    this.setState({ auth: checked })
-  }
-
-  handleChangeTheme = () => {
-    this.props.actions.changeTheme()
-    this.handleClose()
-  }
-
-  handleMenu = event => {
-    this.setState({ anchorEl: event.currentTarget })
-  }
-
-  handleClose = () => {
-    this.setState({ anchorEl: null })
-  }
-
-  toggleLiveMode = () => {
-    this.props.actions.toggleLiveMode()
-    this.handleClose()
-  }
-
-  toggleLayoutMode = () => {
-    this.props.actions.toggleLayoutMode()
-    this.handleClose()
-  }
-
-  handleChangeAutoArrangeMode = () => {
-    this.props.actions.toggleAutoArrangeMode()
-    this.handleClose()
-  }
-
-  toggleCompactMode = () => {
-    this.props.actions.toggleCompactMode()
-    this.handleClose()
-  }
-
-  toggleSettingsMode = () => {
-    this.props.actions.toggleSettingsMode()
-    this.handleClose()
-  }
+        )}
+        <MenuItem>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isChangedTheme}
+                onChange={handleChangeTheme.bind(
+                  this,
+                  actions.changeTheme,
+                  setAncEl
+                )}
+                value={isChangedTheme}
+                color="secondary"
+              />
+            }
+            label="Theme  - t"
+          />
+        </MenuItem>
+        <MenuItem>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isLiveMode}
+                onChange={toggleLiveMode.bind(
+                  this,
+                  actions.toggleLiveMode,
+                  setAncEl
+                )}
+                value={isLiveMode}
+                color="secondary"
+              />
+            }
+            label="Live  - p"
+          />
+        </MenuItem>
+      </Menu>
+    </React.Fragment>
+  )
 }
 
 ViewMenu.propTypes = {
   actions: PropTypes.object.isRequired,
+}
+
+const handleChangeTheme = (changeTheme, setAncEl) => {
+  changeTheme()
+  handleClose(setAncEl)
+}
+
+const handleClose = setAncEl => {
+  setAncEl(null)
+}
+
+const toggleLiveMode = (toggleLiveMode, setAncEl) => {
+  toggleLiveMode()
+  handleClose(setAncEl)
+}
+
+const toggleLayoutMode = (toggleLayoutMode, setAncEl) => {
+  toggleLayoutMode()
+  handleClose(setAncEl)
+}
+
+const handleChangeAutoArrangeMode = (toggleAutoArrangeMode, setAncEl) => {
+  toggleAutoArrangeMode()
+  handleClose(setAncEl)
+}
+
+const toggleCompactMode = (toggleCompactMode, setAncEl) => {
+  toggleCompactMode()
+  handleClose(setAncEl)
+}
+
+const toggleSettingsMode = (toggleSettingsMode, setAncEl) => {
+  toggleSettingsMode()
+  handleClose(setAncEl)
 }
 
 function mapStateToProps({ viewSettings }) {

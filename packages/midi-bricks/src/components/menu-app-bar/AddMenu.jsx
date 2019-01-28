@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -11,137 +11,151 @@ import AddIcon from '@material-ui/icons/Add'
 import { STRIP_TYPE } from '../../reducers/slider-list'
 import { Tooltip } from '@material-ui/core'
 
-class AddMenu extends React.PureComponent {
-  state = {
-    auth: true,
-    anchorEl: null,
-  }
+const AddMenu = props => {
+  const [ancEl, setAncEl] = useState(null)
+  const open = Boolean(ancEl)
+  const { sliderList, actions } = props
+  return (
+    <React.Fragment>
+      <IconButton
+        aria-owns={open ? 'menu-appbar-add' : null}
+        aria-haspopup="true"
+        onClick={handleMenu.bind(this, setAncEl)}
+        color="inherit"
+      >
+        <Tooltip title="Add Element">
+          <AddIcon />
+        </Tooltip>
+      </IconButton>
+      <Menu
+        id="menu-appbar-add"
+        ancEl={ancEl}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={open}
+        onClose={handleClose.bind(this, setAncEl)}
+      >
+        <MenuItem
+          onClick={handleAddPage.bind(this, props, setAncEl, sliderList)}
+        >
+          Add Page
+        </MenuItem>
 
-  render() {
-    const { anchorEl } = this.state
-    const open = Boolean(anchorEl)
-    const {
-      viewSettings: { isLayoutMode },
-    } = this.props
-    if (isLayoutMode) {
-      return (
-        <div>
-          <IconButton
-            aria-owns={open ? 'menu-appbar-add' : null}
-            aria-haspopup="true"
-            onClick={this.handleMenu}
-            color="inherit"
-          >
-            <Tooltip title="Add Element">
-              <AddIcon />
-            </Tooltip>
-          </IconButton>
-          <Menu
-            id="menu-appbar-add"
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right'
-            }}
-            open={open}
-            onClose={this.handleClose}
-          >
-            <MenuItem onClick={this.handleAddPage}>Add Page</MenuItem>
+        <MenuItem
+          onClick={handleAddSlider.bind(this, setAncEl, actions.addSlider)}
+        >
+          Add Vertical Slider
+        </MenuItem>
+        <MenuItem
+          onClick={handleAddSliderHorz.bind(
+            this,
+            setAncEl,
+            actions.addSliderHorz
+          )}
+        >
+          Add Horizontal Slider
+        </MenuItem>
+        <MenuItem
+          onClick={handleAddButton.bind(
+            this,
+            setAncEl,
+            actions.addButton,
+            STRIP_TYPE.BUTTON
+          )}
+        >
+          Add Button
+        </MenuItem>
+        <MenuItem
+          onClick={handleAddButton.bind(
+            this,
+            setAncEl,
+            actions.addButton,
+            STRIP_TYPE.BUTTON_CC
+          )}
+        >
+          Add Button CC
+        </MenuItem>
+        <MenuItem
+          onClick={handleAddButton.bind(
+            this,
+            setAncEl,
+            actions.addButton,
+            STRIP_TYPE.BUTTON_PROGRAM_CHANGE
+          )}
+        >
+          Add Button Program Change
+        </MenuItem>
+        <MenuItem
+          onClick={handleAddLabel.bind(this, setAncEl, actions.addLabel)}
+        >
+          Add Label
+        </MenuItem>
+        <MenuItem
+          onClick={handleAddXyPad.bind(this, setAncEl, actions.addXypad)}
+        >
+          Add X/Y Pad
+        </MenuItem>
+      </Menu>
+    </React.Fragment>
+  )
+}
 
-            <MenuItem onClick={this.handleAddSlider}>
-              Add Vertical Slider
-            </MenuItem>
-            <MenuItem onClick={this.handleAddSliderHorz}>
-              Add Horizontal Slider
-            </MenuItem>
-            <MenuItem
-              onClick={this.handleAddButton.bind(this, STRIP_TYPE.BUTTON)}
-            >
-              Add Button
-            </MenuItem>
-            <MenuItem
-              onClick={this.handleAddButton.bind(this, STRIP_TYPE.BUTTON_CC)}
-            >
-              Add Button CC
-            </MenuItem>
-            <MenuItem
-              onClick={this.handleAddButton.bind(
-                this,
-                STRIP_TYPE.BUTTON_PROGRAM_CHANGE
-              )}
-            >
-              Add Button Program Change
-            </MenuItem>
-            <MenuItem onClick={this.handleAddLabel}>Add Label</MenuItem>
-            <MenuItem onClick={this.handleAddXyPad}>Add X/Y Pad</MenuItem>
-          </Menu>
-        </div>
-      )
-    } else {
-      return <div />
-    }
-  }
+const handleMenu = (setAncEl, event) => {
+  setAncEl(event.currentTarget)
+}
 
-  handleChange = (event, checked) => {
-    this.setState({ auth: checked })
-  }
+const handleClose = setAncEl => {
+  setAncEl(null)
+}
 
-  handleMenu = event => {
-    this.setState({ anchorEl: event.currentTarget })
-  }
+const handleAddButton = (setAncEl, addButton, type) => {
+  addButton({ type })
+  handleClose(setAncEl)
+}
 
-  handleClose = () => {
-    this.setState({ anchorEl: null })
-  }
+const handleAddSlider = (setAncEl, addSlider) => {
+  addSlider()
+  handleClose(setAncEl)
+}
+const handleAddSliderHorz = (setAncEl, addSliderHorz) => {
+  addSliderHorz()
+  handleClose(setAncEl)
+}
 
-  handleAddButton = type => {
-    this.props.actions.addButton({ type })
-    this.handleClose()
-  }
+const handleAddLabel = (setAncEl, addLabel) => {
+  addLabel()
+  handleClose(setAncEl)
+}
 
-  handleAddSlider = () => {
-    this.props.actions.addSlider()
-    this.handleClose()
-  }
-  handleAddSliderHorz = () => {
-    this.props.actions.addSliderHorz()
-    this.handleClose()
-  }
+const handleAddXyPad = (setAncEl, addXypad) => {
+  addXypad()
+  handleClose(setAncEl)
+}
 
-  handleAddLabel = () => {
-    this.props.actions.addLabel()
-    this.handleClose()
-  }
-
-  handleAddXyPad = () => {
-    this.props.actions.addXypad()
-    this.handleClose()
-  }
-
-  handleAddPage = () => {
-    const { actions, viewSettings } = this.props
-    actions.addPage()
-    this.setState({ anchorEl: null })
-    window.requestAnimationFrame(() =>
-      actions.updateViewSettings({
-        sliderList: this.props.sliderList,
-        viewSettings,
-      })
-    )
-  }
+const handleAddPage = (props, setAncEl, sliderList) => {
+  const { actions, viewSettings } = props
+  actions.addPage()
+  setAncEl(null)
+  window.requestAnimationFrame(() =>
+    actions.updateViewSettings({
+      sliderList,
+      viewSettings,
+    })
+  )
 }
 
 AddMenu.propTypes = {
   actions: PropTypes.object.isRequired,
 }
 
-function mapStateToProps({ viewSettings, sliders: { sliderList } }) {
+function mapStateToProps({ sliders: { sliderList } }) {
   return {
-    viewSettings,
     sliderList,
   }
 }

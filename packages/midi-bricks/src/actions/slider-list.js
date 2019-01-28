@@ -1,4 +1,4 @@
-import { createActions, createActionTypes } from './create-actions.js'
+import { generateActions, createActionTypes } from 'redux-generate'
 
 const typeSliderList = [
   'INIT_MIDI_ACCESS',
@@ -47,4 +47,4 @@ const typeSliderList = [
 
 export const ActionTypeSliderList = createActionTypes(typeSliderList)
 
-export const Actions = { ...createActions(ActionTypeSliderList) }
+export const Actions = { ...generateActions(ActionTypeSliderList) }

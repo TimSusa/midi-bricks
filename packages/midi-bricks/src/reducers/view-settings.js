@@ -1,4 +1,4 @@
-import createReducer from './createReducer'
+import {generateReducers} from 'redux-generate'
 import { ActionTypeViewSettings } from '../actions/view-settings'
 
 export const PAGE_TYPES = {
@@ -295,7 +295,7 @@ export const reducers = {
   },
 }
 
-export const viewSettings = createReducer(initState, reducers)
+export const viewSettings = generateReducers(initState, reducers)
 
 const chDummy = [
   '1',

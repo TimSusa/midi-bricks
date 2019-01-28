@@ -1,5 +1,5 @@
 import WebMIDI from 'webmidi'
-import createReducer from './createReducer'
+import {generateReducers} from 'redux-generate'
 import { ActionTypeSliderList } from '../actions/slider-list'
 import { midi } from 'tonal'
 import { fromMidi } from '../utils/fromMidi'
@@ -826,7 +826,7 @@ export const reducers = {
   },
 }
 
-export const sliders = createReducer([], reducers)
+export const sliders = generateReducers([], reducers)
 
 const transformStateByIndex = (sliderList, action, field) => {
   const { idx, val } = action.payload || action
