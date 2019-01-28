@@ -33,7 +33,7 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Adding RSS Support - RSS Truncation Test]]></title>
+        <title type="html"><![CDATA[Adding tim RSS Support - RSS Truncation Test]]></title>
         <id>https://timsusa.github.io/midi-bricks-mono/blog/2017/09/25/testing-rss.html</id>
         <link href="https://timsusa.github.io/midi-bricks-mono/blog/2017/09/25/testing-rss.html">
         </link>
@@ -47,7 +47,7 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[New Blog Post]]></title>
+        <title type="html"><![CDATA[Blog post two]]></title>
         <id>https://timsusa.github.io/midi-bricks-mono/blog/2017/04/10/blog-post-two.html</id>
         <link href="https://timsusa.github.io/midi-bricks-mono/blog/2017/04/10/blog-post-two.html">
         </link>
@@ -56,11 +56,11 @@
 ]]></summary>
         <author>
             <name>Blog Author</name>
-            <uri>http://twitter.com/</uri>
+            <uri>http://twitter.com/timsusa</uri>
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Blog Title]]></title>
+        <title type="html"><![CDATA[Tims Blog Title]]></title>
         <id>https://timsusa.github.io/midi-bricks-mono/blog/2016/03/11/blog-post.html</id>
         <link href="https://timsusa.github.io/midi-bricks-mono/blog/2016/03/11/blog-post.html">
         </link>
@@ -68,8 +68,8 @@
         <summary type="html"><![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elementum massa eget nulla aliquet sagittis. Proin odio tortor, vulputate ut odio in, ultrices ultricies augue. Cras ornare ultrices lorem malesuada iaculis. Etiam sit amet libero tempor, pulvinar mauris sed, sollicitudin sapien.</p>
 ]]></summary>
         <author>
-            <name>Blog Author</name>
-            <uri>http://twitter.com/</uri>
+            <name>Tim Susa</name>
+            <uri>http://twitter.com/timsusa</uri>
         </author>
     </entry>
 </feed>

@@ -28,7 +28,7 @@
             <description><![CDATA[<p>This is a test post.</p> <p>A whole bunch of other information.</p> ]]></description>
         </item>
         <item>
-            <title><![CDATA[Adding RSS Support - RSS Truncation Test]]></title>
+            <title><![CDATA[Adding tim RSS Support - RSS Truncation Test]]></title>
             <link>https://timsusa.github.io/midi-bricks-mono/blog/2017/09/25/testing-rss.html</link>
             <guid>https://timsusa.github.io/midi-bricks-mono/blog/2017/09/25/testing-rss.html</guid>
             <pubDate>Mon, 25 Sep 2017 06:00:00 GMT</pubDate>
@@ -37,7 +37,7 @@
 ]]></description>
         </item>
         <item>
-            <title><![CDATA[New Blog Post]]></title>
+            <title><![CDATA[Blog post two]]></title>
             <link>https://timsusa.github.io/midi-bricks-mono/blog/2017/04/10/blog-post-two.html</link>
             <guid>https://timsusa.github.io/midi-bricks-mono/blog/2017/04/10/blog-post-two.html</guid>
             <pubDate>Mon, 10 Apr 2017 06:00:00 GMT</pubDate>
@@ -45,7 +45,7 @@
 ]]></description>
         </item>
         <item>
-            <title><![CDATA[Blog Title]]></title>
+            <title><![CDATA[Tims Blog Title]]></title>
             <link>https://timsusa.github.io/midi-bricks-mono/blog/2016/03/11/blog-post.html</link>
             <guid>https://timsusa.github.io/midi-bricks-mono/blog/2016/03/11/blog-post.html</guid>
             <pubDate>Fri, 11 Mar 2016 06:00:00 GMT</pubDate>
