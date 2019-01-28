@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks-doc",
-  "version": "0.12.37",
+  "version": "0.12.38",
   "description": "Documentation for midi-bricks",
   "author": "TimSusa <timsusa@altus-insight.de>",
   "homepage": "https://github.com/TimSusa/midi-bricks-mono#readme",
@@ -24,5 +24,5 @@
   "bugs": {
     "url": "https://github.com/TimSusa/midi-bricks-mono/issues"
   },
-  "gitHead": "c27f96a4f99b0abe2839c05ea6191bc8c92ecc6d"
+  "gitHead": "bfe2cbbe47c1ee54feeb6a28953887bb1dfb6442"
 }
