@@ -5,7 +5,7 @@
   "homepage": "https://build-fzyz623s3.now.sh",
   "main": "./src/index.js",
   "license": "MIT",
-  "repository": "https://github.com/TimSusa/midi-bricks.git",
+  "repository": "https://github.com/TimSusa/midi-bricks-mono/tree/master/packages/midi-bricks",
   "dependencies": {
     "@material-ui/core": "^3.9.1",
     "@material-ui/icons": "^3.0.1",

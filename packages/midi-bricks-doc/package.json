@@ -13,10 +13,7 @@
   "files": [
     "lib"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TimSusa/midi-bricks-mono.git"
-  },
+  "repository": "https://github.com/TimSusa/midi-bricks-mono/tree/master/packages/midi-bricks-doc",
   "scripts": {
     "deploy": "cd website && yarn build && GIT_USER=timsusa CURRENT_BRANCH=master USE_SSH=true yarn run publish-gh-pages && cd ..",
     "test": "echo \"Error: run tests from root\" && exit 1"

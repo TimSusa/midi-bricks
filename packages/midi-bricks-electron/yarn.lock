@@ -7379,10 +7379,10 @@ micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8, micromatch@^3.1.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-midi-bricks@^0.12.39:
-  version "0.12.39"
-  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.39.tgz#7735ff9696bea30e7499a2c7c6232d496dab9715"
-  integrity sha512-tBXCJmufilLwcuNju3BjAsjuOlrFDOiL9pA1EH4cXghIUckrlVnglX+S6MhlXjRYezIFFXx/7bGG0hrfqanEEQ==
+midi-bricks@^0.12.40:
+  version "0.12.40"
+  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.40.tgz#164155baad1be756555779f8885a54a459fcd140"
+  integrity sha512-o16w9bWyk/lWtRDK4Lul2REUmZSGDZWyeA75IzoE599YvIO91lS3LJbvCpUNblo725Vbwh958hxOMcQdb39Rtw==
   dependencies:
     "@material-ui/core" "^3.9.1"
     "@material-ui/icons" "^3.0.1"
@@ -7400,6 +7400,7 @@ midi-bricks@^0.12.39:
     react-sizeme "^2.5.2"
     redux "^4.0.1"
     redux-devtools-extension "^2.13.2"
+    redux-generate "^1.0.3"
     redux-logger "^3.0.6"
     redux-persist "^5.5.0"
     redux-thunk "^2.2.0"
@@ -9705,6 +9706,11 @@ redux-devtools-extension@^2.13.2:
   version "2.13.7"
   resolved "https://registry.yarnpkg.com/redux-devtools-extension/-/redux-devtools-extension-2.13.7.tgz#14bd7a1a7c8bee7f397beb1116fd16fc9633b752"
   integrity sha512-F2GlWMWxCTJGRjJ+GSZcGDcVAj6Pbf77FKb4C9S8eni5Eah6UBGNwxNj8K1MTtmItdZH1Wx+EvIifHN2KKcQrw==
+
+redux-generate@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/redux-generate/-/redux-generate-1.0.3.tgz#9e9fe715fb6b64afec491d3f9fab2c51cf9b1da8"
+  integrity sha512-hTP65SlHoJzSDlnU2DqqgT1MmXXByFg3ewrP/9YybM95ibFVQon10mnJDpklZAC31CaCfIN9mDdFMcQl9DoWXg==
 
 redux-logger@^3.0.6:
   version "3.0.6"
