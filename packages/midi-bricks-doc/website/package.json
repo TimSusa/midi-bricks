@@ -10,6 +10,6 @@
     "deploy": "GIT_USER=timsusa && CURRENT_BRANCH=master && USE_SSH=true && yarn run publish-gh-pages"
   },
   "devDependencies": {
-    "docusaurus": "^1.7.1"
+    "docusaurus": "1.7.1"
   }
 }
