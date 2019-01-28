@@ -6,7 +6,7 @@
   "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
   "devDependencies": {
     "babel-eslint": "9.0.0",
-    "eslint": "5.6.0",
+    "eslint": "5.12.1",
     "eslint-config-react-app": "3.0.6",
     "eslint-plugin-babel": "5.3.0",
     "lerna": "3.10.7"
