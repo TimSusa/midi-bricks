@@ -10,7 +10,7 @@ assignees: ''
 **Does the issue occur in the electron-app or the web-app?**
 - [ ] midi-bricks-electron
 - [ ] midi-bricks-web-app
-- [ ] I do not know or understand
+- [x] I do not know nor understand
 
 **Can you determine, which version was used?**
 Version: x.x.x
