@@ -41,7 +41,7 @@ const ChannelStrip = props => {
           <Label
             fontSize={fontSize}
             fontWeight={fontWeight}
-            labelStyle={props.classes.label}
+            labelStyle={classes.label}
             colorFont={colorFont}
             {...props}
           >
@@ -62,7 +62,7 @@ const ChannelStrip = props => {
               idx={idx}
               fontSize={fontSize}
               fontWeight={fontWeight}
-              labelStyle={props.classes.bottomLabel}
+              labelStyle={classes.bottomLabel}
               colorFont={colorFont}
               {...props}
             >
@@ -70,7 +70,6 @@ const ChannelStrip = props => {
               {` / ${lastSavedVal}`}
             </Label>
           )}
-          }
         </div>
       )}
       {type === STRIP_TYPE.SLIDER_HORZ && (
@@ -96,14 +95,16 @@ const ChannelStrip = props => {
           />
           {!isValueHidden ? (
             <Label
+              lastSavedVal={lastSavedVal}
+              idx={idx}
               fontSize={fontSize}
               fontWeight={fontWeight}
-              labelStyle={props.classes.bottomLabel}
+              labelStyle={classes.bottomLabel}
               colorFont={colorFont}
               {...props}
-              //ref={bottomLabelRef}
             >
               {val}
+              {` / ${lastSavedVal}`}
             </Label>
           ) : null}
         </div>
