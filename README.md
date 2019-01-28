@@ -4,7 +4,7 @@ Mono-repo for midi-bricks, its electron app and deployment. See more under packa
 
 ## demo
 
-https://build-b3ouct0rs.now.sh/
+https://build-3n49m3xuh.now.sh
 
 ## install
 
