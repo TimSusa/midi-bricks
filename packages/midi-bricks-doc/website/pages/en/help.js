@@ -21,18 +21,18 @@ function Help(props) {
 
   const supportLinks = [
     {
-      content: `Learn more using the [documentation on this site.](${docUrl(
+      content: `Tim Learns more using the [documentation on this site.](${docUrl(
         'doc1.html',
       )})`,
-      title: 'Browse Docs',
+      title: 'Tim Browse Docs',
     },
     {
       content: 'Ask questions about the documentation and project',
-      title: 'Join the community',
+      title: 'Tim Join the community',
     },
     {
       content: "Find out what's new with this project",
-      title: 'Stay up to date',
+      title: 'Tim Stay up to date',
     },
   ];
 
@@ -41,9 +41,9 @@ function Help(props) {
       <Container className="mainContainer documentContainer postContainer">
         <div className="post">
           <header className="postHeader">
-            <h1>Need help?</h1>
+            <h1>Tim Need help?</h1>
           </header>
-          <p>This project is maintained by a dedicated group of people.</p>
+          <p>Tim, This project is maintained by a dedicated group of people.</p>
           <GridBlock contents={supportLinks} layout="threeColumn" />
         </div>
       </Container>

@@ -1,7 +1,7 @@
 ---
-title: New Blog Post
+title: Blog post two
 author: Blog Author
-authorURL: http://twitter.com/
+authorURL: http://twitter.com/timsusa
 authorFBID: 100002976521003
 ---
 
