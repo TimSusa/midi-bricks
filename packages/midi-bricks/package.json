@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks",
-  "version": "0.12.39",
+  "version": "0.12.40",
   "private": false,
   "homepage": "https://build-fzyz623s3.now.sh",
   "main": "./src/index.js",
@@ -51,5 +51,5 @@
     "enzyme-adapter-react-16": "1.8.0",
     "redux-mock-store": "1.5.3"
   },
-  "gitHead": "012d9c81cb64db12fcaa5a005e8a91ab5f85c900"
+  "gitHead": "8c5bb228b3a898c1e2459496b0a353f7757e962b"
 }
