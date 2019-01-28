@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
@@ -12,86 +12,84 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DeleteIcon from '@material-ui/icons/Delete'
 
-class DeleteModal extends React.PureComponent {
-  state = {
-    open: false
-  }
+export const DeleteModalComponent = props => {
+  const {
+    classes,
+    sliderEntry,
+    asButton,
+    isOpen,
+    onAction,
+    actions,
+    onClose,
+  } = props
+  const [open, setOpen] = useState(false)
+  return (
+    <React.Fragment>
+      {asButton && (
+        <Tooltip title="Remove">
+          <Button
+            className={classes.button}
+            variant="contained"
+            onClick={handleClickOpen.bind(this, setOpen)}
+          >
+            <DeleteIcon className={classes.iconColor} />
+          </Button>
+        </Tooltip>
+      )}
 
-  render() {
-    const {
-      classes,
-      sliderEntry,
-      asButton,
-      isOpen,
-      onAction,
-      actions,
-      onClose,
-    } = this.props
+      <Dialog
+        open={open || isOpen}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText color="secondary" id="alert-dialog-description">
+            Do you really want to delete?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={handleCloseCancel.bind(this, setOpen)}
+            color="secondary"
+          >
+            No
+          </Button>
+          <Button
+            onClick={handleClose.bind(
+              this,
+              sliderEntry,
+              onAction,
+              actions,
+              onClose,
+              setOpen
+            )}
+            color="secondary"
+            autoFocus
+          >
+            Yes, Delete!
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </React.Fragment>
+  )
+}
 
-    return (
-      <React.Fragment>
-        {asButton && (
-          <Tooltip title="Remove">
-            <Button
-              className={classes.button}
-              variant="contained"
-              onClick={this.handleClickOpen}
-            >
-              <DeleteIcon className={classes.iconColor} />
-            </Button>
-          </Tooltip>
-        )}
+const handleClickOpen = setOpen => {
+  setOpen(true)
+}
 
-        <Dialog
-          open={this.state.open || isOpen}
-          onClose={this.handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogContent>
-            <DialogContentText color="secondary" id="alert-dialog-description">
-              Do you really want to delete?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleCloseCancel} color="secondary">
-              No
-            </Button>
-            <Button
-              onClick={this.handleClose.bind(
-                this,
-                sliderEntry,
-                onAction,
-                actions,
-                onClose
-              )}
-              color="secondary"
-              autoFocus
-            >
-              Yes, Delete!
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </React.Fragment>
-    )
-  }
+const handleCloseCancel = (setOpen, e) => {
+  setOpen(false)
+  e.preventDefault()
+}
 
-  handleClickOpen = () => {
-    this.setState({ open: true })
-  }
-
-  handleCloseCancel = e => {
-    this.setState({ open: false })
-    e.preventDefault()
-  }
-
-  handleClose = ({ i }, onAction, actions, onClose) => {
-    this.setState({ open: false })
-    onAction && onAction()
-    actions.delete({ i })
-    actions.deletePageFromFooter({ i })
-    onClose()
-  }
+const handleClose = ({ i }, onAction, actions, onClose, setOpen) => {
+  setOpen(false)
+  onAction && onAction()
+  actions.delete({ i })
+  actions.deletePageFromFooter({ i })
+  onClose && onClose(false)
 }
 
 const styles = theme => ({
@@ -119,5 +117,5 @@ export default withStyles(styles)(
   connect(
     null,
     mapDispatchToProps
-  )(DeleteModal)
+  )(DeleteModalComponent)
 )

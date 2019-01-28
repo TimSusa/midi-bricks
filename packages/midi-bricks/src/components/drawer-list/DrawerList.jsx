@@ -10,101 +10,108 @@ import SaveIcon from '@material-ui/icons/Save'
 import HomeIcon from '@material-ui/icons/Home'
 import GlobalIcon from '@material-ui/icons/Public'
 import DeleteIcon from '@material-ui/icons/Delete'
-import React from 'react'
+import IconDriverSettings from '@material-ui/icons/SettingsInputSvideo'
+import React, { useState } from 'react'
 import FileReader from './FileReader'
 import DeleteModal from '../DeleteModal'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 
-class DrawerList extends React.PureComponent {
-  state = {
-    isDeleteModalOpen: false,
-  }
-  render() {
-    return (
-      <React.Fragment>
-        <div className={this.props.classes.drawerHeader} />
-        <Divider />
-        <List>
-          <ListItem
-            button
-            onClick={() =>
-              this.props.togglePage({ pageType: PAGE_TYPES.HOME_MODE })
-            }
-          >
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
-            <ListItemText primary="Main View" />
-          </ListItem>
-          <ListItem
-            button
-            onClick={() =>
-              this.props.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })
-            }
-          >
-            <ListItemIcon>
-              <GlobalIcon />
-            </ListItemIcon>
-            <ListItemText primary="Controllers Overview" />
-          </ListItem>
+const DrawerList = props => {
+  const {
+    classes,
+    togglePage,
+    onFileChange,
+    handleSaveFile,
+    handleResetSliders,
+  } = props
+  const [open, setOpen] = useState(false)
+  return (
+    <React.Fragment>
+      <div className={classes.drawerHeader} />
+      <Divider />
+      <List>
+        <ListItem
+          button
+          onClick={() =>
+            togglePage({
+              pageType: PAGE_TYPES.HOME_MODE,
+            })
+          }
+        >
+          <ListItemIcon>
+            <HomeIcon />
+          </ListItemIcon>
+          <ListItemText primary="Main" />
+        </ListItem>
+        <ListItem
+          button
+          onClick={() =>
+            togglePage({
+              pageType: PAGE_TYPES.GLOBAL_MODE,
+            })
+          }
+        >
+          <ListItemIcon>
+            <GlobalIcon />
+          </ListItemIcon>
+          <ListItemText primary="Controllers" />
+        </ListItem>
 
-          <ListItem
-            button
-            onClick={() =>
-              this.props.togglePage({ pageType: PAGE_TYPES.MIDI_DRIVER_MODE })
-            }
-          >
+        <ListItem
+          button
+          onClick={() =>
+            togglePage({
+              pageType: PAGE_TYPES.MIDI_DRIVER_MODE,
+            })
+          }
+        >
+          <ListItemIcon>
+            <IconDriverSettings />
+          </ListItemIcon>
+          <ListItemText primary="Drivers" />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <FileReader as="binary" onChange={onFileChange}>
+          <ListItem button>
             <ListItemIcon>
-              <GlobalIcon />
+              <LoadIcon />
             </ListItemIcon>
-            <ListItemText primary="MIDI Driver Settings" />
+            <ListItemText primary="Load Preset" />
           </ListItem>
-        </List>
-        <Divider />
-        <List>
-          <FileReader as="binary" onChange={this.props.onFileChange}>
-            <ListItem button>
-              <ListItemIcon>
-                <LoadIcon />
-              </ListItemIcon>
-              <ListItemText primary="Load Preset" />
-            </ListItem>
-          </FileReader>
-        </List>
-        <List>
-          <ListItem button onClick={this.props.handleSaveFile}>
-            <ListItemIcon>
-              <SaveIcon />
-            </ListItemIcon>
-            <ListItemText primary="Save Preset" />
-          </ListItem>
-        </List>
-        <List>
-          <ListItem
-            button
-            onClick={() =>
-              this.setState({
-                isDeleteModalOpen: !this.state.isDeleteModalOpen,
-              })
-            }
-          >
-            <ListItemIcon>
-              <DeleteIcon />
-            </ListItemIcon>
-            <ListItemText primary="Delete Elements" />
-            <DeleteModal
-              isOpen={this.state.isDeleteModalOpen}
-              asButton={false}
-              sliderEntry={{ i: 'me' }}
-              onAction={this.props.handleResetSliders}
-              onClose={() => ({})}
-            />
-          </ListItem>
-        </List>
-        <Divider />
-      </React.Fragment>
-    )
-  }
+        </FileReader>
+      </List>
+      <List>
+        <ListItem button onClick={handleSaveFile}>
+          <ListItemIcon>
+            <SaveIcon />
+          </ListItemIcon>
+          <ListItemText primary="Save Preset" />
+        </ListItem>
+        <ListItem
+          button
+          onClick={() =>
+            setOpen(!open)
+          }
+        >
+          <ListItemIcon>
+            <DeleteIcon />
+          </ListItemIcon>
+          <ListItemText primary="Delete All" />
+          <DeleteModal
+            isOpen={open}
+            asButton={false}
+            sliderEntry={{
+              i: 'me',
+            }}
+            onAction={handleResetSliders}
+            onClose={setOpen}
+          />
+        </ListItem>
+      </List>
+      <Divider />
+    </React.Fragment>
+  )
 }
-
 export default DrawerList
