@@ -7,7 +7,10 @@ assignees: ''
 
 ---
 
-**Does the issue occur in the electron-app or the web-app**
+**Does the issue occur in the electron-app or the web-app?**
+[ok] electron-app
+[+] web-app
+[-] I do not know or understand
 
 **Describe the bug**
 A clear and concise description of what the bug is.
