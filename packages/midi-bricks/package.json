@@ -27,6 +27,7 @@
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.5.0",
     "redux-thunk": "^2.2.0",
+    "source-map-explorer": "^1.6.0",
     "tonal": "^2.1.2",
     "typeface-roboto": "0.0.54",
     "webmidi": "^2.3.1"
@@ -35,7 +36,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "deploy": "CI=true react-scripts test && react-scripts build && cp now.json build/ && cd build && now && cd ..",
-    "test": "CI=true react-scripts test"
+    "test": "CI=true react-scripts test",
+    "analyze": "source-map-explorer build/static/js/main.*"
   },
   "eslintConfig": {
     "extends": "react-app"
