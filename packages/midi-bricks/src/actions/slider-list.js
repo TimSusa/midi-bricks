@@ -1,5 +1,4 @@
-import { createActions } from './create-actions.js'
-import { createActionTypes } from './create-action-types.js'
+import { createActions, createActionTypes } from './create-actions.js'
 
 const typeSliderList = [
   'INIT_MIDI_ACCESS',

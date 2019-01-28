@@ -26,3 +26,14 @@ function camelize(str) {
     return index === 0 ? match.toLowerCase() : match.toUpperCase()
   })
 }
+
+export function createActionTypes(typeArray) {
+  let typeObject = {}
+  typeArray.forEach(item => {
+    typeObject = {
+      ...typeObject,
+      [item]: item,
+    }
+  })
+  return typeObject
+}
