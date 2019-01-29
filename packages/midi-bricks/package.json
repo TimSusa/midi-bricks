@@ -2,7 +2,7 @@
   "name": "midi-bricks",
   "version": "0.12.44",
   "private": false,
-  "homepage": "https://build-fzyz623s3.now.sh",
+  "homepage": "https://build-qs1ndqaid.now.sh",
   "main": "./src/index.js",
   "license": "MIT",
   "repository": "https://github.com/TimSusa/midi-bricks-mono/tree/master/packages/midi-bricks",
@@ -35,9 +35,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "deploy": "CI=true react-scripts test && react-scripts build && cp now.json build/ && cd build && now && cd ..",
+    "deploy": "react-scripts build && cp now.json build/ && cd build && now && cd ..",
     "test": "CI=true react-scripts test",
-    "analyze": "source-map-explorer build/static/js/main.*"
+    "analyze": "source-map-explorer build/static/js/main.*",
+    "precommit": "yarn test"
   },
   "eslintConfig": {
     "extends": "react-app"
