@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks",
-  "version": "0.12.42",
+  "version": "0.12.43",
   "private": false,
   "homepage": "https://build-fzyz623s3.now.sh",
   "main": "./src/index.js",
