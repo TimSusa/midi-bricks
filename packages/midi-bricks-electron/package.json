@@ -55,5 +55,5 @@
     "postinstall": "electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
     "clean": "rimraf build && rimraf dist && rimraf src && cp -R node_modules/midi-bricks/src src"
   },
-  "gitHead": "5cada4010fa7d9c2fd2e45106bc8fc59ebdb504d"
+  "gitHead": "caf1cf0addfbf41ceec02a94fb1ef18aa12999a8"
 }
