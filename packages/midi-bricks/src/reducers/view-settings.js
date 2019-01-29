@@ -96,19 +96,6 @@ export const reducers = {
       viewSettings: { availableDrivers } = {},
     } = action.payload
 
-    const extractPages = list => {
-      let tmp = []
-      list.forEach(item => {
-        if (item.type === 'PAGE') {
-          tmp.push(item)
-        }
-      })
-      if (tmp.length < 1) {
-        console.warn('list was empty!')
-      }
-      return tmp
-    }
-
     const extractedPages = extractPages(sliderList)
     const oldPages = state.footerPages && Object.values(state.footerPages)
     let newItemToTake = null
@@ -315,7 +302,22 @@ const chDummy = [
   '15',
   '16',
 ]
-const hasAll = arr => arr.length === chDummy.length
+
+const hasAll = (arr = []) => arr.length === chDummy.length
+
+const extractPages = (list = []) => {
+  let tmp = []
+  list.forEach(item => {
+    if (item.type === 'PAGE') {
+      tmp.push(item)
+    }
+  })
+  if (tmp.length < 1) {
+    console.warn('list was empty!')
+  }
+  return tmp
+}
+
 function getObjFromNoteChannels(obj, name, noteChannels) {
   return {
     ...obj,
