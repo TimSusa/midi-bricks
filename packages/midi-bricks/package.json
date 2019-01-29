@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks",
-  "version": "0.12.43",
+  "version": "0.12.44",
   "private": false,
   "homepage": "https://build-fzyz623s3.now.sh",
   "main": "./src/index.js",
@@ -23,7 +23,7 @@
     "react-sizeme": "^2.5.2",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.2",
-    "redux-generate": "latest",
+    "redux-generate": "^1.0.6",
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.5.0",
     "redux-thunk": "^2.2.0",
@@ -53,5 +53,5 @@
     "enzyme-adapter-react-16": "1.8.0",
     "redux-mock-store": "1.5.3"
   },
-  "gitHead": "8b3d79d734d22ded177da1428fa7d4cdb012cc74"
+  "gitHead": "af3414a9d808b04de9c20db2278cf32bf616600e"
 }
