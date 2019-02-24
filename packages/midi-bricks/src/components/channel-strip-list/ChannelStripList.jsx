@@ -1,4 +1,5 @@
 import React from 'react'
+import { map } from 'lodash'
 import RGL, { WidthProvider } from 'react-grid-layout'
 import Typography from '@material-ui/core/Typography'
 import ChannelStrip from '../channel-strip/ChannelStrip'
@@ -69,12 +70,10 @@ class ChannelStripList extends React.PureComponent {
           layout={sliderList}
           onLayoutChange={isLayoutMode ? this.onLayoutChange : () => {}}
         >
-          {sliderList.map((sliderEntry, idx) => {
+          {map(sliderList, (sliderEntry, idx) => {
+            const { i } = sliderEntry
             return (
-              <div
-                key={sliderEntry.i}
-                onFocus={e => console.log('focus on ', sliderEntry.i)}
-              >
+              <div key={i} onFocus={e => console.log('focus on ', i)}>
                 <SizeMe monitorHeight>
                   {({ size }) => {
                     {

@@ -1,6 +1,5 @@
 import WebMIDI from 'webmidi'
 import { Actions } from './slider-list'
-import { throttle } from 'lodash'
 
 const { initPending, midiMessageArrived, initFailed, initMidiAccess } = Actions
 
@@ -11,7 +10,7 @@ export function initApp() {
     WebMIDI.enable(err => {
       if (err) {
         window.alert('Midi could not be enabled.', err)
-        dispatch(initFailed('bad'))
+        dispatch(initFailed('Midi could not be enabled.'))
       }
       const { inputs = [], outputs = [] } = WebMIDI
 
@@ -22,8 +21,7 @@ export function initApp() {
       if (hasContent(outputs)) {
         dispatch(initMidiAccess({ midiAccess }))
       } else {
-        //alert('sdfa')
-        dispatch(initFailed('bad'))
+        dispatch(initFailed('No Midi Output available.'))
       }
       const {
         sliders: { sliderList },
@@ -66,11 +64,11 @@ export function initApp() {
             hasContent(ccChannels) &&
             hasContent(ccArr)
           ) {
-            console.log('add cc listener ', name, ' ', ccArr)
+            console.log('Add cc listener ', name, ' ', ccArr)
             input.addListener(
               'controlchange',
               ccChannels,
-              throttle(({ value, channel, controller: { number } }) => {
+              ({ value, channel, controller: { number } }) => {
                 if (ccArr.includes(number)) {
                   const obj = {
                     isNoteOn: undefined,
@@ -81,7 +79,7 @@ export function initApp() {
                   }
                   dispatch(midiMessageArrived(obj))
                 }
-              }, 10)
+              }
             )
           }
           if (
@@ -89,28 +87,24 @@ export function initApp() {
             hasContent(noteChannels) &&
             hasContent(ccArr)
           ) {
-            console.log('add note listener ', name, ' ', ccArr)
-            input.addListener(
-              'noteon',
-              noteChannels,
-              throttle(event => {
-                const {
-                  rawVelocity,
+            console.log('Add note listener ', name, ' ', ccArr)
+            input.addListener('noteon', noteChannels, event => {
+              const {
+                rawVelocity,
+                channel,
+                note: { number },
+              } = event
+              if (ccArr.includes(number)) {
+                const obj = {
+                  isNoteOn: true,
+                  val: rawVelocity,
+                  cC: number,
                   channel,
-                  note: { number },
-                } = event
-                if (ccArr.includes(number)) {
-                  const obj = {
-                    isNoteOn: true,
-                    val: rawVelocity,
-                    cC: number,
-                    channel,
-                    driver: name,
-                  }
-                  dispatch(midiMessageArrived(obj))
+                  driver: name,
                 }
-              })
-            )
+                dispatch(midiMessageArrived(obj))
+              }
+            })
             input.addListener(
               'noteoff',
               noteChannels,
@@ -125,8 +119,7 @@ export function initApp() {
                   }
                   dispatch(midiMessageArrived(obj))
                 }
-              },
-              5
+              }
             )
           }
         })
