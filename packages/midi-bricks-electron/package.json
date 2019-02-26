@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "electron-is-dev": "^1.0.1",
-    "electron-publish": "20.38.5",
+    "electron-publish": "20.39.0",
     "electron-window-state": "^5.0.1"
   },
   "devDependencies": {
