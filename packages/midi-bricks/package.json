@@ -51,7 +51,7 @@
   ],
   "devDependencies": {
     "enzyme": "3.8.0",
-    "enzyme-adapter-react-16": "1.8.0",
+    "enzyme-adapter-react-16": "1.10.0",
     "redux-mock-store": "1.5.3"
   },
   "gitHead": "af3414a9d808b04de9c20db2278cf32bf616600e"
