@@ -15,8 +15,9 @@ const logger = createLogger()
 
 let middleware = null
 if (process.env.NODE_ENV === 'development') {
-  middleware = applyMiddleware(thunk, logger)
-  middleware = composeWithDevTools(middleware)
+  // middleware = applyMiddleware(thunk, logger)
+   middleware = applyMiddleware(thunk)
+  //middleware = composeWithDevTools(middleware)
 } else {
   middleware = applyMiddleware(thunk)
 }

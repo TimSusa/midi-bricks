@@ -515,10 +515,11 @@ export const reducers = {
   },
 
   [ActionTypeSliderList.MIDI_MESSAGE_ARRIVED](state, action) {
+    const { val, cC, channel, driver, isNoteOn } = action.payload
+
     const sliderList = map(state.sliderList, item => {
       const { listenToCc, midiChannelInput, driverNameInput = 'None' } = item
       if (listenToCc && listenToCc.length > 0) {
-        const { val, cC, channel, driver, isNoteOn } = action.payload
         const haveChannelsMatched =
           midiChannelInput === 'all' || channel.toString() === midiChannelInput
         const hasCc = cC && listenToCc.includes(cC.toString())
@@ -530,7 +531,11 @@ export const reducers = {
       }
       return { ...item }
     })
-    return { ...state, sliderList }
+    return {
+      ...state,
+      sliderList,
+      monitorVal: { val, cC, channel, driver, isNoteOn },
+    }
   },
 
   [ActionTypeSliderList.CHANGE_COLORS](state, action) {
@@ -829,17 +834,31 @@ export const sliders = generateReducers([], reducers)
 
 const transformStateByIndex = (sliderList, action, field) => {
   const { idx, val } = action.payload || action
-  const newState = sliderList.map((item, i) => {
-    if (idx === i) {
-      return {
-        ...item,
-        [field]: val,
+  if (typeof idx === 'string') {
+    const newState = sliderList.map(item => {
+      if (idx === item.i) {
+        return {
+          ...item,
+          [field]: val,
+        }
+      } else {
+        return item
       }
-    } else {
-      return item
-    }
-  })
-  return newState
+    })
+    return newState
+  } else {
+    const newState = sliderList.map((item, i) => {
+      if (idx === i) {
+        return {
+          ...item,
+          [field]: val,
+        }
+      } else {
+        return item
+      }
+    })
+    return newState
+  }
 }
 
 const transformState = (sliderList, action, field) => {

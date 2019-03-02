@@ -6,6 +6,7 @@ const TypeViewSettings = [
   'TOGGLE_LAYOUT_MODE',
   'TOGGLE_COMPACT_MODE',
   'TOGGLE_SETTINGS_MODE',
+  'TOGGLE_MIDI_LEARN_MODE',
   'TOGGLE_SETTINGS_DIALOG_MODE',
   'TOGGLE_AUTO_ARRANGE_MODE',
   'CHANGE_THEME',
@@ -15,7 +16,8 @@ const TypeViewSettings = [
   'SWAP_FOOTER_PAGES',
   'CHANGE_FOOTER_PAGE',
   'SET_AVAILABLE_DRIVERS',
-  'SET_FOOTER_BUTTON_FOCUS'
+  'SET_FOOTER_BUTTON_FOCUS',
+  'SET_LAST_FOCUSED_INDEX'
 ]
 
 export const ActionTypeViewSettings = createActionTypes(TypeViewSettings)

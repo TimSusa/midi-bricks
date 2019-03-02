@@ -15,6 +15,7 @@ const initState = {
   isLayoutMode: false,
   isCompactHorz: true,
   isSettingsMode: false,
+  isMidiLearnMode: false,
   isAutoArrangeMode: false,
   isChangedTheme: false,
   pageType: PAGE_TYPES.HOME_MODE,
@@ -52,6 +53,16 @@ export const reducers = {
       isLiveMode: castedVal,
       isLayoutMode: false,
       isSettingsMode: false,
+      isMidiLearnMode: false
+    })
+  },
+
+  [ActionTypeViewSettings.TOGGLE_MIDI_LEARN_MODE](state = initState, action) {
+    const castedVal = !!state.isMidiLearnMode
+    return Object.assign({}, state, {
+      isMidiLearnMode: !castedVal,
+      isLayoutMode: false,
+      isSettingsMode: false,
     })
   },
 
@@ -59,6 +70,7 @@ export const reducers = {
     const castedVal = !!state.isLayoutMode
     return Object.assign({}, state, {
       isLayoutMode: !castedVal,
+      isMidiLearnMode: false
     })
   },
 
@@ -66,6 +78,7 @@ export const reducers = {
     const castedVal = !!state.isCompactHorz
     return Object.assign({}, state, {
       isCompactHorz: !castedVal,
+      isMidiLearnMode: false
     })
   },
 
@@ -73,6 +86,7 @@ export const reducers = {
     const castedVal = !!state.isSettingsMode
     return Object.assign({}, state, {
       isSettingsMode: !castedVal,
+      isMidiLearnMode: false
     })
   },
 
@@ -80,6 +94,7 @@ export const reducers = {
     const castedVal = !!state.isAutoArrangeMode
     return Object.assign({}, state, {
       isAutoArrangeMode: !castedVal,
+      isMidiLearnMode: false
     })
   },
 
@@ -87,6 +102,7 @@ export const reducers = {
     const castedVal = !!state.isChangedTheme
     return Object.assign({}, state, {
       isChangedTheme: !castedVal,
+      isMidiLearnMode: false
     })
   },
 
@@ -179,6 +195,15 @@ export const reducers = {
     })
   },
 
+  
+
+  [ActionTypeViewSettings.SET_LAST_FOCUSED_INDEX](state = initState, action) {
+    const { i } = action.payload
+    return Object.assign({}, state, {
+      lastFocusedIdx: i,
+    })
+  },
+
   [ActionTypeViewSettings.SWAP_FOOTER_PAGES](state = initState, action) {
     const { srcIdx, offset } = action.payload
     const srcItem = state.footerPages[srcIdx]
@@ -209,18 +234,16 @@ export const reducers = {
     state = initState,
     action
   ) {
-    const { idx, isSettingsDialogMode } = action.payload
+    const { i, isSettingsDialogMode } = action.payload
 
     if (isSettingsDialogMode) {
       return Object.assign({}, state, {
         isSettingsDialogMode,
-        lastFocusedIdx: idx,
       })
     }
 
     return Object.assign({}, state, {
       isSettingsDialogMode: false,
-      lastFocusedIdx: idx,
     })
   },
 

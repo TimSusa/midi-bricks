@@ -81,6 +81,7 @@ class App extends React.PureComponent {
         })
     )
     this.props.initApp()
+    window.location.reload()
     this.props.actions.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })
   }
 

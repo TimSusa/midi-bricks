@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import MidiSlider from '../midi-elements/MidiSlider'
 import MidiButtons from '../midi-elements/midi-buttons/MidiButtons'
@@ -14,6 +14,7 @@ import { Label } from '../midi-elements/Label'
 const sliderThumbHeight = 30
 
 const ChannelStrip = props => {
+  
   const {
     sliderEntry,
     sliderEntry: {
@@ -30,13 +31,14 @@ const ChannelStrip = props => {
     classes,
     size,
     isDisabled,
+    isMidiLearnMode
   } = props
   const tmpH = (size && size.height) || 0
   const tmpW = (size && size.width) || 0
   const isButton = type !== STRIP_TYPE.SLIDER && type !== STRIP_TYPE.LABEL
   return (
     <div className={classes.root}>
-      {type === STRIP_TYPE.SLIDER && (
+      {type === STRIP_TYPE.SLIDER && !isMidiLearnMode && (
         <div className={classes.sliderChannelWrapper}>
           <Label
             fontSize={fontSize}
@@ -159,7 +161,7 @@ const calcHeight = (tmpH, props) => {
 
 const styles = theme => ({
   root: {
-    userSelect: 'none',
+    userSelect: 'none'
   },
   iconColor: {
     color: theme.palette.primary.contrastText,

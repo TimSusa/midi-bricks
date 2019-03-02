@@ -16,7 +16,7 @@ const MidiSettingsDialogButton = props => {
   const isOpen = !!(
     isSettingsDialogMode &&
     lastFocusedIdx !== undefined &&
-    lastFocusedIdx === idx
+    lastFocusedIdx === sliderEntry.i
   )
 
   return (

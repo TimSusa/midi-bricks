@@ -33,6 +33,7 @@ class ChannelStripList extends React.PureComponent {
       classes,
       actions,
       sliderList,
+      monitorVal,
       viewSettings: {
         isLayoutMode = true,
         isCompactHorz = true,
@@ -40,6 +41,7 @@ class ChannelStripList extends React.PureComponent {
         isSettingsMode = true,
         isSettingsDialogMode = false,
         isLiveMode = false,
+        isMidiLearnMode = false,
         lastFocusedIdx,
       },
     } = this.props
@@ -72,53 +74,72 @@ class ChannelStripList extends React.PureComponent {
         >
           {map(sliderList, (sliderEntry, idx) => {
             const { i } = sliderEntry
+            const isFocused = i === lastFocusedIdx
+            const isRealMidiLearn =
+              isMidiLearnMode && !isLayoutMode && !isSettingsMode
+
             return (
-              <div key={i} onFocus={e => console.log('focus on ', i)}>
+              <div
+              onClick={actions.setLastFocusedIndex.bind(this, { i })}
+                key={i}
+                style={{
+                  boxShadow:
+                    (isMidiLearnMode || isSettingsMode) &&
+                    isFocused &&
+                    '0 0 3px 3px rgb(24, 154, 157)',
+                }}
+              >
+                {isMidiLearnMode && isFocused && (
+                  <div >
+                    <Typography>{`Driver: ${monitorVal.driver}`}</Typography>
+                    <Typography>{`CC: ${monitorVal.cC}`}</Typography>
+                    <Typography>{`Channel: ${monitorVal.channel}`}</Typography>
+                  </div>
+                )}
                 <SizeMe monitorHeight>
                   {({ size }) => {
-                    {
-                      const settingsStyle = {
-                        position: 'absolute',
-                        right: -12,
-                        top: -16,
-                        cursor: 'pointer',
-                      }
-                      return (
-                        <div
-                          style={{
-                            height: '100%',
-                            borderRadius: 5,
-                            background: isLayoutMode
-                              ? 'azure'
-                              : isSettingsMode
-                              ? 'beige'
-                              : 'transparent',
-                          }}
-                        >
-                          <ChannelStrip
-                            size={size}
-                            sliderEntry={sliderEntry}
-                            idx={idx}
-                            isDisabled={isLayoutMode}
-                          />
-                          {isSettingsMode && !isLayoutMode ? (
-                            <span className="settings" style={settingsStyle}>
-                              <MidiSettingsDialogButton
-                                toggleSettings={
-                                  actions.toggleSettingsDialogMode
-                                }
-                                lastFocusedIdx={lastFocusedIdx}
-                                isSettingsDialogMode={isSettingsDialogMode}
-                                sliderEntry={sliderEntry}
-                                idx={idx}
-                              />
-                            </span>
-                          ) : (
-                            <div />
-                          )}
-                        </div>
-                      )
-                    }
+                    return (
+                      <div
+                        style={{
+                          height: '100%',
+                          borderRadius: 5,
+                          background: isLayoutMode
+                            ? 'azure'
+                            : isSettingsMode
+                            ? 'beige'
+                            : isMidiLearnMode
+                            ? 'cyan'
+                            : 'transparent',
+                        }}
+                      >
+                        <ChannelStrip
+                          size={size}
+                          sliderEntry={sliderEntry}
+                          idx={idx}
+                          isDisabled={isLayoutMode}
+                          isMidiLearnMode={isMidiLearnMode}
+                        />
+                        {!isMidiLearnMode && isSettingsMode && !isLayoutMode && (
+                          <span
+                            className="settings"
+                            style={{
+                              position: 'absolute',
+                              right: -12,
+                              top: -16,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            <MidiSettingsDialogButton
+                              toggleSettings={actions.toggleSettingsDialogMode}
+                              lastFocusedIdx={lastFocusedIdx}
+                              isSettingsDialogMode={isSettingsDialogMode}
+                              sliderEntry={sliderEntry}
+                              idx={idx}
+                            />
+                          </span>
+                        )}
+                      </div>
+                    )
                   }}
                 </SizeMe>
               </div>
@@ -221,10 +242,14 @@ const styles = theme => ({
   },
 })
 
-function mapStateToProps({ viewSettings, sliders: { sliderList } }) {
+function mapStateToProps({
+  viewSettings,
+  sliders: { sliderList, monitorVal },
+}) {
   return {
     viewSettings,
     sliderList,
+    monitorVal,
   }
 }
 

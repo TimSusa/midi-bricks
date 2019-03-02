@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { initApp } from '../../actions/init'
 import { Actions as MidiSlidersAction } from '../../actions/slider-list.js'
 import { Actions as ViewSettingsAction } from '../../actions/view-settings'
 import IconButton from '@material-ui/core/IconButton'
@@ -19,8 +20,13 @@ const ViewMenu = props => {
       isSettingsMode = false,
       isCompactHorz = true,
       isLiveMode = false,
+      isMidiLearnMode = false,
+      lastFocusedIdx = '',
     },
     actions,
+    initMidiLearn,
+    initApp,
+    monitorVal,
   } = props
 
   const [ancEl, setAncEl] = useState(null)
@@ -160,6 +166,29 @@ const ViewMenu = props => {
             label="Live  - p"
           />
         </MenuItem>
+        <MenuItem>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isMidiLearnMode}
+                onChange={toggleMidiLearnMode.bind(
+                  this,
+                  actions.toggleMidiLearnMode,
+                  setAncEl,
+                  isMidiLearnMode,
+                  initMidiLearn,
+                  initApp,
+                  actions,
+                  monitorVal,
+                  lastFocusedIdx
+                )}
+                value={isMidiLearnMode}
+                color="secondary"
+              />
+            }
+            label="Midi Learn  - m"
+          />
+        </MenuItem>
       </Menu>
     </React.Fragment>
   )
@@ -203,9 +232,44 @@ const toggleSettingsMode = (toggleSettingsMode, setAncEl) => {
   handleClose(setAncEl)
 }
 
-function mapStateToProps({ viewSettings }) {
+const toggleMidiLearnMode = (
+  toggleMidiLearnMode,
+  setAncEl,
+  isMidiLearn,
+  initMidiLearn,
+  initApp,
+  actions,
+  monitorVal,
+  lastFocusedIdx
+) => {
+  if (isMidiLearn) {
+    if (!monitorVal) return
+    actions.selectMidiDriverInput({
+      driverNameInput: monitorVal.driver,
+      i: lastFocusedIdx,
+    })
+    actions.selectMidiChannelInput({
+      val: `${monitorVal.channel}`,
+      idx: lastFocusedIdx,
+    })
+    actions.addMidiCcListener({
+      val: [`${monitorVal.cC}`],
+      idx: lastFocusedIdx,
+    })
+    initApp()
+    window.location.reload()
+
+  } else {
+    initApp('all')
+  }
+  toggleMidiLearnMode()
+  handleClose(setAncEl)
+}
+
+function mapStateToProps({ viewSettings, sliders: { monitorVal } }) {
   return {
     viewSettings,
+    monitorVal,
   }
 }
 
@@ -215,6 +279,7 @@ function mapDispatchToProps(dispatch) {
       { ...MidiSlidersAction, ...ViewSettingsAction },
       dispatch
     ),
+    initApp: bindActionCreators(initApp, dispatch),
   }
 }
 

@@ -68,6 +68,7 @@ class GlobalSettingsPage extends React.PureComponent {
                 lastSavedVal,
                 midiChannelInput,
                 listenToCc,
+                i
               } = sliderEntry
 
               let rowStyle = {
@@ -79,7 +80,7 @@ class GlobalSettingsPage extends React.PureComponent {
                 rowStyle.background = 'aliceblue'
               }
 
-              if (isSettingsDialogMode && idx === lastFocusedIdx) {
+              if (isSettingsDialogMode && i === lastFocusedIdx) {
                 return (
                   <MidiSettingsDialog
                     key={`glb-settings-${idx}`}
