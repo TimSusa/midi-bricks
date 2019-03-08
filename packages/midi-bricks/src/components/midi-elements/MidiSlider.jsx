@@ -111,6 +111,7 @@ class MidiSlider extends Component {
   heightToVal(e) {
     const parentRect = this.selfRef.current.getBoundingClientRect()
     const tmpY = e.clientY - parentRect.y
+    if (isNaN(tmpY)) return
     const thumb = this.props.sliderThumbHeight / 2
     const tmpThumb = tmpY - thumb
     const tmpYy = tmpThumb < 0 ? 0 : tmpThumb
@@ -121,9 +122,6 @@ class MidiSlider extends Component {
       this.props.height
     if (isNaN(val)) return
     return val
-    // > this.props.sliderEntry.minVal
-    //   ? val
-    //   : this.props.sliderEntry.minVal
   }
 }
 

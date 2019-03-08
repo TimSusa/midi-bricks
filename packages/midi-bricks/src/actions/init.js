@@ -5,27 +5,23 @@ const { initPending, midiMessageArrived, initFailed, initMidiAccess } = Actions
 
 export function initApp(mode) {
   return function(dispatch, getState) {
-
     return new Promise((resolve, reject) => {
-      WebMIDI.disable()    
+      WebMIDI.disable()
+
       dispatch(initPending('start'))
-  
+
       WebMIDI.enable(err => {
         if (err) {
           window.alert('Midi could not be enabled.', err)
           reject(dispatch(initFailed('Midi could not be enabled.')))
         }
         const { inputs = [], outputs = [] } = WebMIDI
-  
+
         const midiAccess = {
           inputs,
           outputs,
         }
-        if (hasContent(outputs)) {
-          resolve(dispatch(initMidiAccess({ midiAccess })))
-        } else {
-          reject(dispatch(initFailed('No Midi Output available.')))
-        }
+
         const {
           sliders: { sliderList },
           viewSettings: {
@@ -51,7 +47,7 @@ export function initApp(mode) {
             sliderList &&
               sliderList.forEach(entry => {
                 const { driverNameInput = '', listenToCc = [] } = entry
-  
+
                 if (name === driverNameInput) {
                   listenToCc.forEach(listen => {
                     if (!ccArr.includes(listen)) {
@@ -60,8 +56,8 @@ export function initApp(mode) {
                   })
                 }
               })
-  
             input.removeListener()
+            setTimeout( me => me, 10)
             if (
               Array.isArray(ccChannels) &&
               hasContent(ccChannels) &&
@@ -69,7 +65,7 @@ export function initApp(mode) {
               mode !== 'all'
             ) {
               console.log('Add cc listener ', name, ' ', ccArr)
-              //input.removeListener('controlchange')
+              input.removeListener('controlchange')
               input.addListener(
                 'controlchange',
                 ccChannels,
@@ -82,13 +78,12 @@ export function initApp(mode) {
                     driver: name,
                   }
                   if (ccArr.includes(number)) {
-                    //console.log('cc not all')
                     dispatch(midiMessageArrived(obj))
                   }
                 }
               )
             } else {
-              //input.removeListener('controlchange')
+              input.removeListener('controlchange')
               input.addListener(
                 'controlchange',
                 ccChannels,
@@ -112,6 +107,7 @@ export function initApp(mode) {
               mode !== 'all'
             ) {
               console.log('Add note listener ', name, ' ', ccArr)
+              input.removeListener('noteon')
               input.addListener('noteon', noteChannels, event => {
                 const {
                   rawVelocity,
@@ -126,10 +122,10 @@ export function initApp(mode) {
                   driver: name,
                 }
                 if (ccArr.includes(number)) {
-                  //console.log('noteon not all')
                   dispatch(midiMessageArrived(obj))
                 }
               })
+              input.removeListener('noteoff')
               input.addListener('noteoff', noteChannels, event => {
                 const {
                   rawVelocity,
@@ -144,11 +140,11 @@ export function initApp(mode) {
                   driver: name,
                 }
                 if (ccArr.includes(number)) {
-                  //console.log('noteoff not all')
                   dispatch(midiMessageArrived(obj))
                 }
               })
             } else {
+              input.removeListener('noteon')
               input.addListener('noteon', noteChannels, event => {
                 const {
                   rawVelocity,
@@ -165,6 +161,7 @@ export function initApp(mode) {
                 console.log('noteon all')
                 dispatch(midiMessageArrived(obj))
               })
+              input.removeListener('noteoff')
               input.addListener('noteoff', noteChannels, event => {
                 const {
                   rawVelocity,
@@ -183,11 +180,13 @@ export function initApp(mode) {
               })
             }
           })
-
-
+        if (hasContent(outputs)) {
+          resolve(dispatch(initMidiAccess({ midiAccess })))
+        } else {
+          reject(dispatch(initFailed('No Midi Output available.')))
+        }
       })
     })
-
   }
 }
 

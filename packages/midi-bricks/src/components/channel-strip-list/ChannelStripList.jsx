@@ -81,13 +81,12 @@ class ChannelStripList extends React.PureComponent {
                 style={
                   (isMidiLearnMode || isSettingsMode) &&
                   isFocused && {
-                    overflow: 'hidden',
                     boxShadow: '0 0 3px 3px rgb(24, 154, 157)',
                   }
                 }
               >
                 {isMidiLearnMode && isFocused && (
-                  <div>
+                    <div>
                     <Typography
                       className={classes.midiLearnTypo}
                     >{`Driver: ${driver}`}</Typography>
