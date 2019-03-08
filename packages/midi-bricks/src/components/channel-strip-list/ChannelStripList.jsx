@@ -32,7 +32,7 @@ class ChannelStripList extends React.PureComponent {
       classes,
       actions,
       sliderList,
-      monitorVal,
+      monitorVal: { driver = 'None', cC = 'None', channel = 'None' } = {},
       viewSettings: {
         isLayoutMode = true,
         isCompactHorz = true,
@@ -88,15 +88,15 @@ class ChannelStripList extends React.PureComponent {
               >
                 {isMidiLearnMode && isFocused && (
                   <div>
-                    <Typography className={classes.midiLearnTypo}>{`Driver: ${
-                      monitorVal.driver
-                    }`}</Typography>
-                    <Typography className={classes.midiLearnTypo}>{`CC: ${
-                      monitorVal.cC
-                    }`}</Typography>
-                    <Typography className={classes.midiLearnTypo}>{`Channel: ${
-                      monitorVal.channel
-                    }`}</Typography>
+                    <Typography
+                      className={classes.midiLearnTypo}
+                    >{`Driver: ${driver}`}</Typography>
+                    <Typography
+                      className={classes.midiLearnTypo}
+                    >{`CC: ${cC}`}</Typography>
+                    <Typography
+                      className={classes.midiLearnTypo}
+                    >{`Channel: ${channel}`}</Typography>
                   </div>
                 )}
                 <SizeMe monitorHeight>

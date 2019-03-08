@@ -11,12 +11,18 @@ import MidiDriversSettingsPage from './MidiDriversSettingsPage'
 import { PAGE_TYPES } from '../reducers/view-settings'
 
 class Home extends React.PureComponent {
-
   async componentWillMount() {
     // track driver changes after browser reload
     await this.props.initApp()
+    
+    // Start at last set page
+    const {
+      viewSettings: { lastFocusedFooterButtonIdx },
+    } = this.props
+    const elem = document.getElementById(`page-${lastFocusedFooterButtonIdx}`)
+    elem && elem.scrollIntoView({ block: 'start' })
   }
-  
+
   render() {
     const {
       viewSettings: {
