@@ -170,7 +170,6 @@ class ChannelStripList extends React.PureComponent {
   }
 
   handleKeyPress = e => {
-    console.log(e.keyCode)
 
     // e: midi driver settings
     if (e.keyCode === 101) {

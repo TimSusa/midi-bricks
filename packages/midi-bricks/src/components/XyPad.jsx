@@ -214,12 +214,10 @@ class Pad extends Component {
   }
 
   handlePointerStart = e => {
-    console.log('pointer start', e)
     this.onPointerMove = this.handlePointerMove
     this.selfRef.setPointerCapture(e.pointerId)
   }
   handlePointerEnd = e => {
-    console.log('pointer end', e)
     this.onPointerMove = null
     this.selfRef.releasePointerCapture(e.pointerId)
 
@@ -233,7 +231,6 @@ class Pad extends Component {
     const y = tmpYy > this.props.height - 0 ? this.props.height - 0 : tmpYy
     const val = ((this.props.height - y) * 127) / (this.props.height + 0)
 
-    console.log('hadlepointermove ', val)
     this.setState({ x, y })
     this.props.sendOutFromChildren(valX, val)
   }
@@ -250,7 +247,6 @@ class Pad extends Component {
     const y = tmpYy > this.props.height - 0 ? this.props.height - 0 : tmpYy
     const val = ((this.props.height - y) * 127) / (this.props.height + 0)
 
-    console.log('hadlepointermove ', val)
     this.setState({ x, y })
     this.props.sendOutFromChildren(valX, val)
   }

@@ -214,7 +214,6 @@ export const reducers = {
     // Handle multi CC
     const tmp = newStateTmp[idx]
     const { yMidiCc, yMidiChannel, yDriverName, label } = tmp
-    console.log({ yMidiCc, yMidiChannel, yDriverName, label })
     sendControlChanges({
       midiCC: yMidiCc,
       midiChannel: yMidiChannel,

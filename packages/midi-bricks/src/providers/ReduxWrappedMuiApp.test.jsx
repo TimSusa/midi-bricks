@@ -30,7 +30,6 @@ describe.skip('<ReduxWrappedMuiApp />', () => {
   test('should work', () => {
     const wrapper = mount(<ReduxWrappedMuiApp store={store} children={<Footer/>}/>)
     const found = wrapper.find('FooterButton')
-    console.log('SFa ', wrapper.html())
   })
   
 })
