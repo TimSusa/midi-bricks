@@ -57,7 +57,6 @@ export function initApp(mode) {
                 }
               })
             input.removeListener()
-            setTimeout( me => me, 10)
             if (
               Array.isArray(ccChannels) &&
               hasContent(ccChannels) &&
