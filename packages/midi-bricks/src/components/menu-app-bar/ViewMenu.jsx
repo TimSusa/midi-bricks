@@ -46,7 +46,7 @@ const ViewMenu = props => {
       </IconButton>
       <Menu
         id="menu-appbar"
-        ancEl={ancEl}
+        anchorEl={ancEl}
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'right',
@@ -232,7 +232,7 @@ const toggleSettingsMode = (toggleSettingsMode, setAncEl) => {
   handleClose(setAncEl)
 }
 
-const toggleMidiLearnMode = (
+const toggleMidiLearnMode = async (
   toggleMidiLearnMode,
   setAncEl,
   isMidiLearn,
@@ -256,11 +256,11 @@ const toggleMidiLearnMode = (
       val: [`${monitorVal.cC}`],
       idx: lastFocusedIdx,
     })
-    initApp()
+    await initApp()
     window.location.reload()
 
   } else {
-    initApp('all')
+    await initApp('all')
   }
   toggleMidiLearnMode()
   handleClose(setAncEl)

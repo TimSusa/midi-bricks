@@ -164,6 +164,7 @@ const styles = theme => ({
   },
   resetButton: {
     marginLeft: 16,
+    padding: 8
   },
 })
 

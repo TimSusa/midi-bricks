@@ -234,7 +234,7 @@ export const reducers = {
     state = initState,
     action
   ) {
-    const { i, isSettingsDialogMode } = action.payload
+    const { isSettingsDialogMode } = action.payload
 
     if (isSettingsDialogMode) {
       return Object.assign({}, state, {

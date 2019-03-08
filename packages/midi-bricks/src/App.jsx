@@ -51,7 +51,7 @@ class App extends React.PureComponent {
     )
   }
 
-  onFileChange = (e, results) => {
+  onFileChange = async (e, results) => {
     this.props.actions.deleteFooterPages()
     this.props.actions.loadFile(results)
 
@@ -80,7 +80,7 @@ class App extends React.PureComponent {
           sliderList: parsedJson.sliders.sliderList,
         })
     )
-    this.props.initApp()
+    await this.props.initApp()
     window.location.reload()
     this.props.actions.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })
   }

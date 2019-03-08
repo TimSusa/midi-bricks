@@ -7,7 +7,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 import { Actions as ViewSettingsActions } from '../../actions/view-settings.js'
-import { initApp } from '../../actions/init.js'
 import MidiSettingsDialogButton from '../midi-settings-dialog/MidiSettingsDialogButton'
 import { withStyles } from '@material-ui/core/styles'
 import { SizeMe } from 'react-sizeme'
@@ -75,25 +74,29 @@ class ChannelStripList extends React.PureComponent {
           {map(sliderList, (sliderEntry, idx) => {
             const { i } = sliderEntry
             const isFocused = i === lastFocusedIdx
-            const isRealMidiLearn =
-              isMidiLearnMode && !isLayoutMode && !isSettingsMode
-
             return (
               <div
-              onClick={actions.setLastFocusedIndex.bind(this, { i })}
+                onClick={actions.setLastFocusedIndex.bind(this, { i })}
                 key={i}
-                style={{
-                  boxShadow:
-                    (isMidiLearnMode || isSettingsMode) &&
-                    isFocused &&
-                    '0 0 3px 3px rgb(24, 154, 157)',
-                }}
+                style={
+                  (isMidiLearnMode || isSettingsMode) &&
+                  isFocused && {
+                    overflow: 'hidden',
+                    boxShadow: '0 0 3px 3px rgb(24, 154, 157)',
+                  }
+                }
               >
                 {isMidiLearnMode && isFocused && (
-                  <div >
-                    <Typography>{`Driver: ${monitorVal.driver}`}</Typography>
-                    <Typography>{`CC: ${monitorVal.cC}`}</Typography>
-                    <Typography>{`Channel: ${monitorVal.channel}`}</Typography>
+                  <div>
+                    <Typography className={classes.midiLearnTypo}>{`Driver: ${
+                      monitorVal.driver
+                    }`}</Typography>
+                    <Typography className={classes.midiLearnTypo}>{`CC: ${
+                      monitorVal.cC
+                    }`}</Typography>
+                    <Typography className={classes.midiLearnTypo}>{`Channel: ${
+                      monitorVal.channel
+                    }`}</Typography>
                   </div>
                 )}
                 <SizeMe monitorHeight>
@@ -240,6 +243,10 @@ const styles = theme => ({
     display: 'flex',
     // overflowX: 'scroll'
   },
+  midiLearnTypo: {
+    color: theme.palette.primary.contrastText,
+    fontWeight: 600,
+  },
 })
 
 function mapStateToProps({
@@ -259,7 +266,6 @@ function mapDispatchToProps(dispatch) {
       { ...MidiSliderActions, ...ViewSettingsActions },
       dispatch
     ),
-    initApp: bindActionCreators(initApp, dispatch),
   }
 }
 

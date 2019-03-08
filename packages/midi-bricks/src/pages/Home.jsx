@@ -3,19 +3,20 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { initApp } from '../actions/init.js'
-import {Actions as MidiSliderActions} from '../actions/slider-list.js'
-import {Actions as ViewStuff}  from '../actions/view-settings.js'
+import { Actions as MidiSliderActions } from '../actions/slider-list.js'
+import { Actions as ViewStuff } from '../actions/view-settings.js'
 import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
 import GlobalSettingsPage from './GlobalSettingsPage.jsx'
 import MidiDriversSettingsPage from './MidiDriversSettingsPage'
 import { PAGE_TYPES } from '../reducers/view-settings'
 
 class Home extends React.PureComponent {
-  constructor(props) {
-    super(props)
+
+  async componentWillMount() {
     // track driver changes after browser reload
-    this.props.initApp()
+    await this.props.initApp()
   }
+  
   render() {
     const {
       viewSettings: {

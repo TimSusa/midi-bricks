@@ -94,9 +94,9 @@ const suggestionsMidiCc = Array.apply(null, { length: 128 })
     return { label: `${item}` }
   })
 
-const handleAddCCListener = (actions, initApp, e) => {
+const handleAddCCListener = async (actions, initApp, e) => {
   actions.addMidiCcListener(e)
-  initApp()
+  await initApp()
 }
 
 function mapDispatchToProps(dispatch) {

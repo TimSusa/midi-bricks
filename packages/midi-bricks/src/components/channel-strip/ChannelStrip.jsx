@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import MidiSlider from '../midi-elements/MidiSlider'
 import MidiButtons from '../midi-elements/midi-buttons/MidiButtons'
@@ -9,8 +9,6 @@ import MidiSliderHorz from '../midi-elements/MidiSliderHorz'
 import XyPad from '../XyPad'
 import { Label } from '../midi-elements/Label'
 
-// const topLabelRef = React.createRef()
-// const bottomLabelRef = null//React.createRef()
 const sliderThumbHeight = 30
 
 const ChannelStrip = props => {
@@ -82,7 +80,6 @@ const ChannelStrip = props => {
             labelStyle={props.classes.label}
             colorFont={colorFont}
             {...props}
-            //ref={topLabelRef}
           >
             {label}
           </Label>
