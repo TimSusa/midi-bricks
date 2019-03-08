@@ -86,7 +86,7 @@ class ChannelStripList extends React.PureComponent {
                 }
               >
                 {isMidiLearnMode && isFocused && (
-                    <div>
+                  <div>
                     <Typography
                       className={classes.midiLearnTypo}
                     >{`Driver: ${driver}`}</Typography>
@@ -170,6 +170,14 @@ class ChannelStripList extends React.PureComponent {
   }
 
   handleKeyPress = e => {
+    console.log(e.keyCode)
+
+    // e: midi driver settings
+    if (e.keyCode === 101) {
+      e.preventDefault()
+      !this.props.viewSettings.isMidiLearnMode && this.props.actions.toggleMidiLearnMode()
+    }
+
     // m: midi driver settings
     if (e.keyCode === 109) {
       e.preventDefault()

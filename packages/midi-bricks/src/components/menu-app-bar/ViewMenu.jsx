@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import ViewSettingsIcon from '@material-ui/icons/Settings'
+import MidiLearnIcon from '@material-ui/icons/SettingsInputSvideo'
 import { Tooltip, FormControlLabel, Switch } from '@material-ui/core'
 
 const ViewMenu = props => {
@@ -34,16 +35,39 @@ const ViewMenu = props => {
 
   return (
     <React.Fragment>
-      <IconButton
-        aria-owns={isOpen ? 'menu-appbar' : null}
+      {!isMidiLearnMode ? (
+        <IconButton
+          aria-owns={isOpen ? 'menu-appbar' : null}
+          aria-haspopup="true"
+          onClick={({ currentTarget }) => setAncEl(currentTarget)}
+          color="inherit"
+        >
+          <Tooltip title="View Settings">
+            <ViewSettingsIcon />
+          </Tooltip>
+        </IconButton>
+      ) : (
+        <IconButton
         aria-haspopup="true"
-        onClick={({ currentTarget }) => setAncEl(currentTarget)}
+        onClick={toggleMidiLearnMode.bind(
+          this,
+          actions.toggleMidiLearnMode,
+          setAncEl,
+          isMidiLearnMode,
+          initMidiLearn,
+          initApp,
+          actions,
+          monitorVal,
+          lastFocusedIdx
+        )}
         color="inherit"
       >
-        <Tooltip title="View Settings">
-          <ViewSettingsIcon />
+        <Tooltip title="Save and Quit MIDI-Learn Mode">
+          <MidiLearnIcon />
         </Tooltip>
       </IconButton>
+      )
+      }
       <Menu
         id="menu-appbar"
         anchorEl={ancEl}
@@ -94,7 +118,29 @@ const ViewMenu = props => {
             />
           </MenuItem>
         )}
-
+        <MenuItem>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isMidiLearnMode}
+                onChange={toggleMidiLearnMode.bind(
+                  this,
+                  actions.toggleMidiLearnMode,
+                  setAncEl,
+                  isMidiLearnMode,
+                  initMidiLearn,
+                  initApp,
+                  actions,
+                  monitorVal,
+                  lastFocusedIdx
+                )}
+                value={isMidiLearnMode}
+                color="secondary"
+              />
+            }
+            label="Midi Learn  - e"
+          />
+        </MenuItem>
         <MenuItem>
           <FormControlLabel
             control={
@@ -166,29 +212,6 @@ const ViewMenu = props => {
             label="Live  - p"
           />
         </MenuItem>
-        <MenuItem>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={isMidiLearnMode}
-                onChange={toggleMidiLearnMode.bind(
-                  this,
-                  actions.toggleMidiLearnMode,
-                  setAncEl,
-                  isMidiLearnMode,
-                  initMidiLearn,
-                  initApp,
-                  actions,
-                  monitorVal,
-                  lastFocusedIdx
-                )}
-                value={isMidiLearnMode}
-                color="secondary"
-              />
-            }
-            label="Midi Learn  - m"
-          />
-        </MenuItem>
       </Menu>
     </React.Fragment>
   )
@@ -258,7 +281,6 @@ const toggleMidiLearnMode = async (
     })
     await initApp()
     window.location.reload()
-
   } else {
     await initApp('all')
   }
