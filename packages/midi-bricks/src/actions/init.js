@@ -37,6 +37,7 @@ export function initApp(mode) {
         } = getState()
         inputs &&
           Array.isArray(inputs) &&
+          WebMIDI.removeListener()
           inputs.forEach(input => {
             const { name } = input
             const { ccChannels, noteChannels } = availableInputs[name] || {
