@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography'
 import ChannelStrip from '../channel-strip/ChannelStrip'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { initApp } from '../../actions/init'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 import { Actions as ViewSettingsActions } from '../../actions/view-settings.js'
 import MidiSettingsDialogButton from '../midi-settings-dialog/MidiSettingsDialogButton'
@@ -86,7 +87,7 @@ class ChannelStripList extends React.PureComponent {
                 }
               >
                 {isMidiLearnMode && isFocused && (
-                  <div>
+                  <>
                     <Typography
                       className={classes.midiLearnTypo}
                     >{`Driver: ${driver}`}</Typography>
@@ -96,7 +97,7 @@ class ChannelStripList extends React.PureComponent {
                     <Typography
                       className={classes.midiLearnTypo}
                     >{`Channel: ${channel}`}</Typography>
-                  </div>
+                  </>
                 )}
                 <SizeMe monitorHeight>
                   {({ size }) => {
@@ -169,12 +170,19 @@ class ChannelStripList extends React.PureComponent {
     }
   }
 
-  handleKeyPress = e => {
-
+  handleKeyPress = async e => {
     // e: midi driver settings
     if (e.keyCode === 101) {
+      const {
+        viewSettings: { isMidiLearnMode },
+        actions,
+      } = this.props
+      if (!isMidiLearnMode) {
+        await initApp('all')
       e.preventDefault()
-      !this.props.viewSettings.isMidiLearnMode && this.props.actions.toggleMidiLearnMode()
+
+        actions.toggleMidiLearnMode(true)
+      } 
     }
 
     // m: midi driver settings
@@ -272,6 +280,7 @@ function mapDispatchToProps(dispatch) {
       { ...MidiSliderActions, ...ViewSettingsActions },
       dispatch
     ),
+    initApp: bindActionCreators(initApp, dispatch),
   }
 }
 

@@ -7,7 +7,6 @@ export function initApp(mode) {
   return function(dispatch, getState) {
     return new Promise((resolve, reject) => {
       WebMIDI.disable()
-
       dispatch(initPending('start'))
 
       WebMIDI.enable(err => {
@@ -16,12 +15,6 @@ export function initApp(mode) {
           reject(dispatch(initFailed('Midi could not be enabled.')))
         }
         const { inputs = [], outputs = [] } = WebMIDI
-
-        const midiAccess = {
-          inputs,
-          outputs,
-        }
-
         const {
           sliders: { sliderList },
           viewSettings: {
@@ -35,88 +28,42 @@ export function initApp(mode) {
             },
           },
         } = getState()
-        inputs &&
-          Array.isArray(inputs) &&
-          WebMIDI.removeListener()
-          inputs.forEach(input => {
-            const { name } = input
-            const { ccChannels, noteChannels } = availableInputs[name] || {
-              ccChannels: [],
-              noteChannels: [],
-            }
-            let ccArr = []
-            sliderList &&
-              sliderList.forEach(entry => {
-                const { driverNameInput = '', listenToCc = [] } = entry
+        inputs && Array.isArray(inputs) && WebMIDI.removeListener()
+        inputs.forEach(input => {
+          const { name } = input
+          const { ccChannels, noteChannels } = availableInputs[name] || {
+            ccChannels: [],
+            noteChannels: [],
+          }
+          let ccArr = []
+          sliderList &&
+            sliderList.forEach(entry => {
+              const { driverNameInput = '', listenToCc = [] } = entry
 
-                if (name === driverNameInput) {
-                  listenToCc.forEach(listen => {
-                    if (!ccArr.includes(listen)) {
-                      ccArr.push(parseInt(listen, 10))
-                    }
-                  })
-                }
-              })
-            input.removeListener()
-            if (
-              Array.isArray(ccChannels) &&
-              hasContent(ccChannels) &&
-              hasContent(ccArr) &&
-              mode !== 'all'
-            ) {
-              console.log('Add cc listener ', name, ' ', ccArr)
-              input.removeListener('controlchange')
-              input.addListener(
-                'controlchange',
-                ccChannels,
-                ({ value, channel, controller: { number } }) => {
-                  const obj = {
-                    isNoteOn: undefined,
-                    val: value,
-                    cC: number,
-                    channel,
-                    driver: name,
+              if (name === driverNameInput) {
+                listenToCc.forEach(listen => {
+                  if (!ccArr.includes(listen)) {
+                    ccArr.push(parseInt(listen, 10))
                   }
-                  if (ccArr.includes(number)) {
-                    dispatch(midiMessageArrived(obj))
-                  }
-                }
-              )
-            } else {
-              input.removeListener('controlchange')
-              input.addListener(
-                'controlchange',
-                ccChannels,
-                ({ value, channel, controller: { number } }) => {
-                  const obj = {
-                    isNoteOn: undefined,
-                    val: value,
-                    cC: number,
-                    channel,
-                    driver: name,
-                  }
-                  console.log('cc all')
-                  dispatch(midiMessageArrived(obj))
-                }
-              )
-            }
-            if (
-              Array.isArray(noteChannels) &&
-              hasContent(noteChannels) &&
-              hasContent(ccArr) &&
-              mode !== 'all'
-            ) {
-              console.log('Add note listener ', name, ' ', ccArr)
-              input.removeListener('noteon')
-              input.addListener('noteon', noteChannels, event => {
-                const {
-                  rawVelocity,
-                  channel,
-                  note: { number },
-                } = event
+                })
+              }
+            })
+          input.removeListener()
+          if (
+            Array.isArray(ccChannels) &&
+            hasContent(ccChannels) &&
+            hasContent(ccArr) &&
+            mode !== 'all'
+          ) {
+            console.log('Add cc listener ', name, ' ', ccArr)
+            input.removeListener('controlchange')
+            input.addListener(
+              'controlchange',
+              ccChannels,
+              ({ value, channel, controller: { number } }) => {
                 const obj = {
-                  isNoteOn: true,
-                  val: rawVelocity,
+                  isNoteOn: undefined,
+                  val: value,
                   cC: number,
                   channel,
                   driver: name,
@@ -124,63 +71,111 @@ export function initApp(mode) {
                 if (ccArr.includes(number)) {
                   dispatch(midiMessageArrived(obj))
                 }
-              })
-              input.removeListener('noteoff')
-              input.addListener('noteoff', noteChannels, event => {
-                const {
-                  rawVelocity,
-                  channel,
-                  note: { number },
-                } = event
+              }
+            )
+          } else {
+            input.removeListener('controlchange')
+            console.log('cc all')
+            input.addListener(
+              'controlchange',
+              ccChannels,
+              ({ value, channel, controller: { number } }) => {
                 const obj = {
-                  isNoteOn: false,
-                  val: rawVelocity,
+                  isNoteOn: undefined,
+                  val: value,
                   cC: number,
                   channel,
                   driver: name,
                 }
-                if (ccArr.includes(number)) {
-                  dispatch(midiMessageArrived(obj))
-                }
-              })
-            } else {
-              input.removeListener('noteon')
-              input.addListener('noteon', noteChannels, event => {
-                const {
-                  rawVelocity,
-                  channel,
-                  note: { number },
-                } = event
-                const obj = {
-                  isNoteOn: true,
-                  val: rawVelocity,
-                  cC: number,
-                  channel,
-                  driver: name,
-                }
-                console.log('noteon all')
                 dispatch(midiMessageArrived(obj))
-              })
-              input.removeListener('noteoff')
-              input.addListener('noteoff', noteChannels, event => {
-                const {
-                  rawVelocity,
-                  channel,
-                  note: { number },
-                } = event
-                const obj = {
-                  isNoteOn: false,
-                  val: rawVelocity,
-                  cC: number,
-                  channel,
-                  driver: name,
-                }
-                console.log('noteoff all')
+              }
+            )
+          }
+          if (
+            Array.isArray(noteChannels) &&
+            hasContent(noteChannels) &&
+            hasContent(ccArr) &&
+            mode !== 'all'
+          ) {
+            console.log('Add note listener ', name, ' ', ccArr)
+            input.removeListener('noteon')
+            input.addListener('noteon', noteChannels, event => {
+              const {
+                rawVelocity,
+                channel,
+                note: { number },
+              } = event
+              const obj = {
+                isNoteOn: true,
+                val: rawVelocity,
+                cC: number,
+                channel,
+                driver: name,
+              }
+              if (ccArr.includes(number)) {
                 dispatch(midiMessageArrived(obj))
-              })
-            }
-          })
-        if (hasContent(outputs)) {
+              }
+            })
+            input.removeListener('noteoff')
+            input.addListener('noteoff', noteChannels, event => {
+              const {
+                rawVelocity,
+                channel,
+                note: { number },
+              } = event
+              const obj = {
+                isNoteOn: false,
+                val: rawVelocity,
+                cC: number,
+                channel,
+                driver: name,
+              }
+              if (ccArr.includes(number)) {
+                dispatch(midiMessageArrived(obj))
+              }
+            })
+          } else {
+            input.removeListener('noteon')
+            console.log('noteon all')
+            input.addListener('noteon', noteChannels, event => {
+              const {
+                rawVelocity,
+                channel,
+                note: { number },
+              } = event
+              const obj = {
+                isNoteOn: true,
+                val: rawVelocity,
+                cC: number,
+                channel,
+                driver: name,
+              }
+              dispatch(midiMessageArrived(obj))
+            })
+            input.removeListener('noteoff')
+            console.log('noteoff all')
+            input.addListener('noteoff', noteChannels, event => {
+              const {
+                rawVelocity,
+                channel,
+                note: { number },
+              } = event
+              const obj = {
+                isNoteOn: false,
+                val: rawVelocity,
+                cC: number,
+                channel,
+                driver: name,
+              }
+              dispatch(midiMessageArrived(obj))
+            })
+          }
+        })
+        if (hasContent(outputs) || hasContent(inputs)) {
+          const midiAccess = {
+            inputs,
+            outputs,
+          }
           resolve(dispatch(initMidiAccess({ midiAccess })))
         } else {
           reject(dispatch(initFailed('No Midi Output available.')))

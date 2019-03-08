@@ -138,7 +138,7 @@ const ViewMenu = props => {
                 color="secondary"
               />
             }
-            label="Midi Learn  - e"
+            label="Midi Learn  - "
           />
         </MenuItem>
         <MenuItem>
