@@ -55,6 +55,16 @@ const MenuAppBar = props => {
           <Typography variant="h6" color="inherit" className={classes.flex}>
             MIDI Bricks
           </Typography>
+          {isMidiLearnMode && (
+            <Typography className={classes.typoColorStyle}>
+              MIDI Learn Mode Running...
+            </Typography>
+          )}
+                    {isLayoutMode && (
+            <Typography className={classes.typoColorStyle}>
+              Layout Mode Running...
+            </Typography>
+          )}
           <IconButton
             onClick={actions.toggleCompactMode}
             className={classes.menuButton}
@@ -103,11 +113,7 @@ const MenuAppBar = props => {
               {presetName || ''}
             </Typography>
           )}
-          {isMidiLearnMode && (
-            <Typography className={classes.typoColorStyle}>
-              MIDI Learn Mode Running...
-            </Typography>
-          )}
+
           {pageType === PAGE_TYPES.GLOBAL_MODE && (
             <React.Fragment>
               <Button
@@ -165,7 +171,8 @@ const styles = theme => ({
   },
   typoColorStyle: {
     color: theme.palette.primary.contrastText,
-    fontWeight: 600
+    fontWeight: 600,
+    flex: 1,
   },
   flex: {
     flex: 1,

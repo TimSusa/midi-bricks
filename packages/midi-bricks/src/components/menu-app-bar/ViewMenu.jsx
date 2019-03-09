@@ -62,7 +62,7 @@ const ViewMenu = props => {
         )}
         color="inherit"
       >
-        <Tooltip title="Save and Quit MIDI-Learn Mode">
+        <Tooltip title="Save and finalize MIDI-Learn Mode">
           <MidiLearnIcon />
         </Tooltip>
       </IconButton>

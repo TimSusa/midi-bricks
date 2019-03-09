@@ -7,7 +7,7 @@ export function MIDIMonitorLabel({
   midiInfo: { driver = 'None', cC = 'None', channel = 'None' },
 }) {
   return (
-    <div style={{border: '1px solid grey'}}>
+    <div style={{border: '1px solid grey', borderRadus: 3}}>
       <Typography className={midiLearnTypo}>{`Driver: ${driver}`}</Typography>
       <Typography className={midiLearnTypo}>{`CC: ${cC}`}</Typography>
       <Typography className={midiLearnTypo}>{`Channel: ${channel}`}</Typography>
