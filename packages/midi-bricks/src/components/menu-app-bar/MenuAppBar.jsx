@@ -32,6 +32,7 @@ const MenuAppBar = props => {
       isLayoutMode,
       isCompactHorz = true,
       isAutoArrangeMode = true,
+      isMidiLearnMode = false,
     },
   } = props
 
@@ -98,7 +99,14 @@ const MenuAppBar = props => {
 
           {isLayoutMode && <AddMenu />}
           {pageType === PAGE_TYPES.GLOBAL_MODE && (
-            <Typography>{presetName || ''}</Typography>
+            <Typography className={classes.typoColorStyle}>
+              {presetName || ''}
+            </Typography>
+          )}
+          {isMidiLearnMode && (
+            <Typography className={classes.typoColorStyle}>
+              MIDI Learn Mode Running...
+            </Typography>
           )}
           {pageType === PAGE_TYPES.GLOBAL_MODE && (
             <React.Fragment>
@@ -155,6 +163,10 @@ const styles = theme => ({
     background: theme.palette.appBar.background,
     fontWeight: 600,
   },
+  typoColorStyle: {
+    color: theme.palette.primary.contrastText,
+    fontWeight: 600
+  },
   flex: {
     flex: 1,
   },
@@ -164,7 +176,7 @@ const styles = theme => ({
   },
   resetButton: {
     marginLeft: 16,
-    padding: 8
+    padding: 8,
   },
 })
 

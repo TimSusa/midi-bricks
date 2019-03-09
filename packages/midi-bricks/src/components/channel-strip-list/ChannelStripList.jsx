@@ -1,3 +1,4 @@
+import { MIDIMonitorLabel } from '../MIDIMonitorLabel'
 import React from 'react'
 import { map } from 'lodash'
 import RGL, { WidthProvider } from 'react-grid-layout'
@@ -82,23 +83,13 @@ class ChannelStripList extends React.PureComponent {
                 style={
                   (isMidiLearnMode || isSettingsMode) &&
                   isFocused && {
-                    boxShadow: '0 0 3px 3px rgb(24, 154, 157)',
+                    overflow: isMidiLearnMode && 'hidden',
+                    boxShadow: isSettingsMode
+                      ? '0 0 3px 3px rgb(24, 154, 157)'
+                      : '0 0 3px 3px rgb(212, 28, 138)',
                   }
                 }
               >
-                {isMidiLearnMode && isFocused && (
-                  <>
-                    <Typography
-                      className={classes.midiLearnTypo}
-                    >{`Driver: ${driver}`}</Typography>
-                    <Typography
-                      className={classes.midiLearnTypo}
-                    >{`CC: ${cC}`}</Typography>
-                    <Typography
-                      className={classes.midiLearnTypo}
-                    >{`Channel: ${channel}`}</Typography>
-                  </>
-                )}
                 <SizeMe monitorHeight>
                   {({ size }) => {
                     return (
@@ -115,6 +106,24 @@ class ChannelStripList extends React.PureComponent {
                             : 'transparent',
                         }}
                       >
+                                      {isMidiLearnMode && isFocused && (
+                  <MIDIMonitorLabel
+                    isSettings={false}
+                    midiInfo={{ driver, cC, channel }}
+                    midiLearnTypo={classes.midiLearnTypo}
+                  />
+                )}
+                {isSettingsMode && isFocused && (
+                  <MIDIMonitorLabel
+                    isSettings={true}
+                    midiInfo={{
+                      driver: sliderEntry.driverNameInput,
+                      cC: sliderEntry.listenToCc.join(', '),
+                      channel: sliderEntry.midiChannelInput,
+                    }}
+                    midiLearnTypo={classes.midiLearnTypo}
+                  />
+                )}
                         <ChannelStrip
                           size={size}
                           sliderEntry={sliderEntry}
@@ -179,10 +188,10 @@ class ChannelStripList extends React.PureComponent {
       } = this.props
       if (!isMidiLearnMode) {
         await initApp('all')
-      e.preventDefault()
+        e.preventDefault()
 
         actions.toggleMidiLearnMode(true)
-      } 
+      }
     }
 
     // m: midi driver settings
@@ -259,7 +268,8 @@ const styles = theme => ({
   },
   midiLearnTypo: {
     color: theme.palette.primary.contrastText,
-    fontWeight: 600,
+    fontSize: 12,
+    fontWeight: 400,
   },
 })
 
