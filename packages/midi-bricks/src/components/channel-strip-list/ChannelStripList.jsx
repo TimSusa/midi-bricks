@@ -78,7 +78,7 @@ class ChannelStripList extends React.PureComponent {
             const isFocused = i === lastFocusedIdx
             return (
               <div
-                onClick={actions.setLastFocusedIndex.bind(this, { i })}
+                onDoubleClick={actions.setLastFocusedIndex.bind(this, { i })}
                 key={i}
                 style={
                   (isMidiLearnMode || isSettingsMode) &&
@@ -190,7 +190,6 @@ class ChannelStripList extends React.PureComponent {
       if (!isMidiLearnMode) {
         await initApp('all')
         e.preventDefault()
-
         actions.toggleMidiLearnMode(true)
       }
     }

@@ -70,6 +70,20 @@ const DrawerList = props => {
           </ListItemIcon>
           <ListItemText primary="Drivers" />
         </ListItem>
+
+        <ListItem
+          button
+          onClick={() =>
+            togglePage({
+              pageType: PAGE_TYPES.VIEW_SETTINGS_MODE,
+            })
+          }
+        >
+          <ListItemIcon>
+            <IconDriverSettings />
+          </ListItemIcon>
+          <ListItemText primary="View Settings" />
+        </ListItem>
       </List>
       <Divider />
       <List>

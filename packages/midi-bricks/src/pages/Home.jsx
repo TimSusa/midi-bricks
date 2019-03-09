@@ -8,13 +8,14 @@ import { Actions as ViewStuff } from '../actions/view-settings.js'
 import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
 import GlobalSettingsPage from './GlobalSettingsPage.jsx'
 import MidiDriversSettingsPage from './MidiDriversSettingsPage'
+import GlobalViewSettingsPage from './GlobalViewSettings'
 import { PAGE_TYPES } from '../reducers/view-settings'
 
 class Home extends React.PureComponent {
   async componentWillMount() {
     // track driver changes after browser reload
     await this.props.initApp()
-    
+
     // Start at last set page
     const {
       viewSettings: { lastFocusedFooterButtonIdx },
@@ -47,6 +48,8 @@ class Home extends React.PureComponent {
       return <GlobalSettingsPage />
     } else if (pageType === PAGE_TYPES.MIDI_DRIVER_MODE) {
       return <MidiDriversSettingsPage />
+    } else if (pageType === PAGE_TYPES.VIEW_SETTINGS_MODE) {
+      return <GlobalViewSettingsPage />
     } else if (pageType === PAGE_TYPES.HOME_MODE) {
       return (
         <div
