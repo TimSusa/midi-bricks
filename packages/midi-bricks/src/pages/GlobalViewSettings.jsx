@@ -1,11 +1,12 @@
 import React from 'react'
 import DriverExpansionPanel from '../components/DriverExpansionPanel'
-import MidiDriverTable from '../components/MidiDriverTable'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {Actions as MidiSliderActions} from '../actions/slider-list.js'
-import {Actions as ViewStuff}  from '../actions/view-settings.js'
+import { Actions as MidiSliderActions } from '../actions/slider-list.js'
+import { Actions as ViewStuff } from '../actions/view-settings.js'
 import { initApp } from '../actions/init.js'
+import { MinMaxValInput } from '../components/midi-settings/elements/MinMaxValInput'
+import { FormControlLabel, Switch, Tooltip } from '@material-ui/core'
 
 class GlobalViewSettings extends React.PureComponent {
   constructor(props) {
@@ -18,29 +19,115 @@ class GlobalViewSettings extends React.PureComponent {
   }
   render() {
     const {
+      actions,
       midi: {
         midiAccess: { inputs, outputs } = { inputs: [], outputs: [] },
       } = {},
       viewSettings: {
         availableDrivers: { inputs: availableInputs, outputs: avalableOutputs },
+        columns = 18,
+        rowHeight = 40,
+        isAutoSize = false,
+        marginX = 8,
+        marginY = 8,
+        paddingX = 8,
+        paddingY = 8,
       },
     } = this.props
-    const { isScndPanelExpanded } = this.state
+    const { isScndPanelExpanded } = this
+    console.log(this.props)
     return (
       <React.Fragment>
         <DriverExpansionPanel
           label="View Settings"
           expanded={this.state.isScndPanelExpanded}
-          noPadding={true}
+          noPadding={false}
           onChange={e =>
             this.setState({
               isScndPanelExpanded: !isScndPanelExpanded,
             })
           }
         >
-  me tooo
-        </DriverExpansionPanel>
+          <FormControlLabel
+            control={
+              <Tooltip title="If true, the container height swells and contracts to fit contents">
+                <Switch
+                  checked={isAutoSize}
+                  onChange={e => actions.toggleAutosize({})}
+                  value={isAutoSize}
+                  color="secondary"
+                />
+              </Tooltip>
+            }
+            label="Auto Size"
+          />
 
+          <MinMaxValInput
+            label="Columns"
+            name="columns"
+            toolTip="Number of columns in this layout."
+            value={columns}
+            onChange={e =>
+              actions.setColumns({ columns: parseInt(e.target.value, 10) })
+            }
+          />
+          <MinMaxValInput
+            label="Row Height"
+            name="rowHeight"
+            toolTip="Rows have a static height."
+            value={rowHeight}
+            onChange={e =>
+              actions.setRowHeight({
+                rowHeight: parseInt(e.target.value, 10),
+              })
+            }
+          />
+          <MinMaxValInput
+            label="X Margin"
+            name="xMargin"
+            toolTip="Set margin between items in x-direction."
+            value={marginX}
+            onChange={e =>
+              actions.setXMargin({
+                marginX: parseInt(e.target.value, 10),
+              })
+            }
+          />
+          <MinMaxValInput
+            label="Y Margin"
+            name="yMargin"
+            toolTip="Set margin between items in y-direction."
+            value={marginY}
+            onChange={e =>
+              actions.setYMargin({
+                marginY: parseInt(e.target.value, 10),
+              })
+            }
+          />
+
+          <MinMaxValInput
+            label="X Container Padding"
+            name="xPadding"
+            toolTip="Padding inside the container in y-direction."
+            value={paddingX}
+            onChange={e =>
+              actions.setXPadding({
+                paddingX: parseInt(e.target.value, 10),
+              })
+            }
+          />
+          <MinMaxValInput
+            label="Y Container Padding"
+            name="yPadding"
+            toolTip="Padding inside the container in y-direction."
+            value={paddingY}
+            onChange={e =>
+              actions.setYPadding({
+                paddingY: parseInt(e.target.value, 10),
+              })
+            }
+          />
+        </DriverExpansionPanel>
       </React.Fragment>
     )
   }

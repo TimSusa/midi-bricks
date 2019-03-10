@@ -5,10 +5,17 @@ export const PAGE_TYPES = {
   HOME_MODE: 'HOME_MODE',
   GLOBAL_MODE: 'GLOBAL_MODE',
   MIDI_DRIVER_MODE: 'MIDI_DRIVER_MODE',
-  VIEW_SETTINGS_MODE: 'VIEW_SETTINGS_MODE'
+  VIEW_SETTINGS_MODE: 'VIEW_SETTINGS_MODE',
 }
 
 const initState = {
+  columns: 18,
+  rowHeight: 40,
+  isAutoSize: false,
+  marginX: 8,
+  marginY: 8,
+  paddingX: 8,
+  paddingY: 8,
   footerPages: [],
   lastFocusedFooterButtonIdx: '',
   isLiveMode: false,
@@ -54,7 +61,7 @@ export const reducers = {
       isLiveMode: castedVal,
       isLayoutMode: false,
       isSettingsMode: false,
-      isMidiLearnMode: false
+      isMidiLearnMode: false,
     })
   },
 
@@ -71,7 +78,7 @@ export const reducers = {
     const castedVal = !!state.isLayoutMode
     return Object.assign({}, state, {
       isLayoutMode: !castedVal,
-      isMidiLearnMode: false
+      isMidiLearnMode: false,
     })
   },
 
@@ -79,7 +86,7 @@ export const reducers = {
     const castedVal = !!state.isCompactHorz
     return Object.assign({}, state, {
       isCompactHorz: !castedVal,
-      isMidiLearnMode: false
+      isMidiLearnMode: false,
     })
   },
 
@@ -87,7 +94,7 @@ export const reducers = {
     const castedVal = !!state.isSettingsMode
     return Object.assign({}, state, {
       isSettingsMode: !castedVal,
-      isMidiLearnMode: false
+      isMidiLearnMode: false,
     })
   },
 
@@ -95,7 +102,7 @@ export const reducers = {
     const castedVal = !!state.isAutoArrangeMode
     return Object.assign({}, state, {
       isAutoArrangeMode: !castedVal,
-      isMidiLearnMode: false
+      isMidiLearnMode: false,
     })
   },
 
@@ -103,7 +110,7 @@ export const reducers = {
     const castedVal = !!state.isChangedTheme
     return Object.assign({}, state, {
       isChangedTheme: !castedVal,
-      isMidiLearnMode: false
+      isMidiLearnMode: false,
     })
   },
 
@@ -195,8 +202,6 @@ export const reducers = {
       lastFocusedFooterButtonIdx: i,
     })
   },
-
-  
 
   [ActionTypeViewSettings.SET_LAST_FOCUSED_INDEX](state = initState, action) {
     const { i } = action.payload
@@ -303,6 +308,50 @@ export const reducers = {
       ...state,
       availableDrivers,
     }
+  },
+
+  [ActionTypeViewSettings.SET_ROW_HEIGHT](state = initState, action) {
+    const { rowHeight } = action.payload
+    return Object.assign({}, state, {
+      rowHeight,
+    })
+  },
+  [ActionTypeViewSettings.SET_COLUMNS](state = initState, action) {
+    const { columns } = action.payload
+    return Object.assign({}, state, {
+      columns,
+    })
+  },
+  
+  [ActionTypeViewSettings.TOGGLE_AUTOSIZE](state = initState, action) {
+    const castedVal = !!state.isAutoSize
+    return Object.assign({}, state, {
+      isAutoSize: !castedVal,
+    })
+  },
+  [ActionTypeViewSettings.SET_X_MARGIN](state = initState, action) {
+    const { marginX } = action.payload
+    return Object.assign({}, state, {
+      marginX,
+    })
+  },
+  [ActionTypeViewSettings.SET_Y_MARGIN](state = initState, action) {
+    const { marginY } = action.payload
+    return Object.assign({}, state, {
+      marginY,
+    })
+  },
+  [ActionTypeViewSettings.SET_X_PADDING](state = initState, action) {
+    const { paddingX } = action.payload
+    return Object.assign({}, state, {
+      paddingX,
+    })
+  },
+  [ActionTypeViewSettings.SET_Y_PADDING](state = initState, action) {
+    const { paddingY } = action.payload
+    return Object.assign({}, state, {
+      paddingY,
+    })
   },
 }
 

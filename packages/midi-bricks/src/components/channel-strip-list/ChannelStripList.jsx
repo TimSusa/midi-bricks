@@ -44,6 +44,13 @@ class ChannelStripList extends React.PureComponent {
         isLiveMode = false,
         isMidiLearnMode = false,
         lastFocusedIdx,
+        rowHeight = 40,
+        columns = 18,
+        isAutoSize,
+        marginX = 0,
+        marginY = 0,
+        paddingX = 0,
+        paddingY = 0,
       },
     } = this.props
 
@@ -63,9 +70,14 @@ class ChannelStripList extends React.PureComponent {
     if (sliderList && sliderList.length > 0) {
       return (
         <GridLayout
+          margin={[marginX, marginY]}
+          containerPadding={[paddingX, paddingY]}
+          autoSize={isAutoSize}
           style={{ bottom: 48, top: 8, height: 'calc(100vh - 120px)' }}
-          rowHeight={40}
-          cols={18}
+          rowHeight={rowHeight}
+          cols={columns}
+          useCSSTransforms
+          //isRearrangeable={isAutoArrangeMode}
           preventCollision={!isAutoArrangeMode}
           isDraggable={isLayoutMode}
           isResizable={isLayoutMode}

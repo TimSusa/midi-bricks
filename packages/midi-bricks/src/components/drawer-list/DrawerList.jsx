@@ -9,13 +9,13 @@ import LoadIcon from '@material-ui/icons/InsertDriveFile'
 import SaveIcon from '@material-ui/icons/Save'
 import HomeIcon from '@material-ui/icons/Home'
 import GlobalIcon from '@material-ui/icons/Public'
+import ViewIcon from '@material-ui/icons/ViewCarousel'
 import DeleteIcon from '@material-ui/icons/Delete'
 import IconDriverSettings from '@material-ui/icons/SettingsInputSvideo'
 import React, { useState } from 'react'
 import FileReader from './FileReader'
 import DeleteModal from '../DeleteModal'
 import { PAGE_TYPES } from '../../reducers/view-settings'
-
 const DrawerList = props => {
   const {
     classes,
@@ -80,7 +80,7 @@ const DrawerList = props => {
           }
         >
           <ListItemIcon>
-            <IconDriverSettings />
+            <ViewIcon />
           </ListItemIcon>
           <ListItemText primary="View Settings" />
         </ListItem>

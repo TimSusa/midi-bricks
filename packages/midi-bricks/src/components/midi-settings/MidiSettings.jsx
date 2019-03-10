@@ -148,22 +148,22 @@ const styles = theme => ({
     color: theme.palette.primary.contrastText,
     cursor: 'pointer',
   },
-  input: {
-    color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
-    fontSize: '1rem',
-    fontWeight: 400,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em',
-  },
+  // input: {
+  //   color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
+  //   fontSize: '1rem',
+  //   fontWeight: 400,
+  //   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+  //   lineHeight: '1.375em',
+  // },
   inputInput: {
     margin: theme.spacing.unit,
   },
-  formControl: {
-    margin: theme.spacing.unit,
-  },
-  label: {
-    color: theme.palette.primary.contrastText,
-  },
+  // formControl: {
+  //   margin: theme.spacing.unit,
+  // },
+  // label: {
+  //   color: theme.palette.primary.contrastText,
+  // },
   select: {
     color: theme.palette.primary.contrastText,
     lineHeight: '1.375em',

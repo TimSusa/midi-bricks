@@ -17,7 +17,14 @@ const TypeViewSettings = [
   'CHANGE_FOOTER_PAGE',
   'SET_AVAILABLE_DRIVERS',
   'SET_FOOTER_BUTTON_FOCUS',
-  'SET_LAST_FOCUSED_INDEX'
+  'SET_LAST_FOCUSED_INDEX',
+  'SET_COLUMNS',
+  'SET_ROW_HEIGHT',
+  'TOGGLE_AUTOSIZE',
+  'SET_X_MARGIN',
+  'SET_Y_MARGIN',
+  'SET_X_PADDING',
+  'SET_Y_PADDING'
 ]
 
 export const ActionTypeViewSettings = createActionTypes(TypeViewSettings)
