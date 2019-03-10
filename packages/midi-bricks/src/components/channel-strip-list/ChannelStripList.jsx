@@ -194,17 +194,17 @@ class ChannelStripList extends React.PureComponent {
 
   handleKeyPress = async e => {
     // e: midi driver settings
-    if (e.keyCode === 101) {
-      const {
-        viewSettings: { isMidiLearnMode },
-        actions,
-      } = this.props
-      if (!isMidiLearnMode) {
-        await initApp('all')
-        e.preventDefault()
-        actions.toggleMidiLearnMode(true)
-      }
-    }
+    // if (e.keyCode === 101) {
+    //   const {
+    //     viewSettings: { isMidiLearnMode },
+    //     actions,
+    //   } = this.props
+    //   if (!isMidiLearnMode) {
+    //     await initApp('all')
+    //     e.preventDefault()
+    //     actions.toggleMidiLearnMode(true)
+    //   }
+    // }
 
     // m: midi driver settings
     if (e.keyCode === 109) {

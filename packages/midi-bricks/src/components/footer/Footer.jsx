@@ -8,8 +8,8 @@ import LeftIcon from '@material-ui/icons/KeyboardArrowLeft'
 import RightIcon from '@material-ui/icons/KeyboardArrowRight'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {Actions as ViewSettinsgsAction} from '../../actions/view-settings'
-import {Actions as SliderSettinsgsAction} from '../../actions/slider-list'
+import { Actions as ViewSettinsgsAction } from '../../actions/view-settings'
+import { Actions as SliderSettinsgsAction } from '../../actions/slider-list'
 import { Button, Tooltip } from '@material-ui/core'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 
@@ -27,9 +27,7 @@ const Footer = props => {
   if (pageType !== PAGE_TYPES.HOME_MODE && !isLiveMode) return <div />
 
   return (
-    <div
-      className={classes.root}
-    >
+    <div className={classes.root}>
       {footerPages.map((item, idx) => {
         if (isSettingsMode) {
           return (
@@ -86,7 +84,13 @@ const Footer = props => {
           style={{
             boxShadow: isLiveMode && '0 0 3px 3px rgb(24, 164, 157)',
           }}
-          onClick={handleLiveButtonClick.bind(this, isLiveMode, actions)}
+          onClick={handleLiveButtonClick.bind(
+            this,
+            isLiveMode,
+            actions,
+            lastFocusedFooterButtonIdx,
+            footerPages
+          )}
         >
           Live
         </Button>
@@ -95,14 +99,26 @@ const Footer = props => {
   )
 }
 
-const handleLiveButtonClick = (isLiveMode, actions) => {
+const handleLiveButtonClick = (
+  isLiveMode,
+  actions,
+  lastFocusedFooterButtonIdx,
+  footerPages
+) => {
   if (isLiveMode) {
     actions.goBack()
   } else {
     actions.updateSliderListBackup()
   }
-  actions.setFooterButtonFocus({ i: '' })
+  actions.setFooterButtonFocus({ i: lastFocusedFooterButtonIdx })
+
   actions.toggleLiveMode()
+
+  // Wait befor scrolling into view: This is very bad bad bad...
+  setTimeout(() => {
+    const elem = document.getElementById(`page-${lastFocusedFooterButtonIdx}`)
+    elem.scrollIntoView()
+  }, 1000)
 }
 
 Footer.propTypes = {
@@ -119,8 +135,8 @@ const styles = theme => ({
     width: '100%',
     position: 'fixed',
     margin: 0,
-    padding: 0, 
-    height: 56
+    padding: 0,
+    height: 56,
   },
   button: {
     color: theme.palette.primary.contrastText,
@@ -139,7 +155,7 @@ const styles = theme => ({
   signButton: {
     width: 8,
     padding: 4,
-    margin: 2
+    margin: 2,
   },
   iconColor: {
     color: theme.palette.primary.contrastText,

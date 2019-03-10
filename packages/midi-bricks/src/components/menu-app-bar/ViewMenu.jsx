@@ -280,11 +280,12 @@ const toggleMidiLearnMode = async (
       idx: lastFocusedIdx,
     })
     await initApp()
+    toggleMidiLearnMode()
     window.location.reload()
   } else {
     await initApp('all')
+    toggleMidiLearnMode()
   }
-  toggleMidiLearnMode()
   handleClose(setAncEl)
 }
 
