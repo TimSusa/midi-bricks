@@ -6,6 +6,7 @@ import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 
 
 class XyPad extends Component {
+  animationFrames = []
   state = {
     speedX: 0.0,
     speedY: 0.0,
@@ -16,12 +17,16 @@ class XyPad extends Component {
   }
 
   componentDidMount() {
-    window.requestAnimationFrame(this.update.bind(this))
+    const handle = window.requestAnimationFrame(this.update.bind(this))
+    this.animationFrames.push(handle)
+  }
+  componentWillUnmount(){
+    this.animationFrames.forEach(frame => window.cancelAnimationFrame(frame))
   }
 
   update(datetime) {
-    window.requestAnimationFrame(this.update.bind(this))
-
+    const handle =  window.requestAnimationFrame(this.update.bind(this))
+    this.animationFrames.push(handle)
     const frameTime = datetime - this.previousFrameTime
     this.previousFrameTime = datetime
 

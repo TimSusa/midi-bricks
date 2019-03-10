@@ -21,7 +21,7 @@ const initState = {
   isLiveMode: false,
   isSettingsDialogMode: false,
   isLayoutMode: false,
-  isCompactHorz: true,
+  isCompactHorz: false,
   isSettingsMode: false,
   isMidiLearnMode: false,
   isAutoArrangeMode: false,

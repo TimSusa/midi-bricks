@@ -20,11 +20,7 @@ class GlobalViewSettings extends React.PureComponent {
   render() {
     const {
       actions,
-      midi: {
-        midiAccess: { inputs, outputs } = { inputs: [], outputs: [] },
-      } = {},
       viewSettings: {
-        availableDrivers: { inputs: availableInputs, outputs: avalableOutputs },
         columns = 18,
         rowHeight = 40,
         isAutoSize = false,
