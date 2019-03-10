@@ -48,26 +48,25 @@ const ViewMenu = props => {
         </IconButton>
       ) : (
         <IconButton
-        aria-haspopup="true"
-        onClick={toggleMidiLearnMode.bind(
-          this,
-          actions.toggleMidiLearnMode,
-          setAncEl,
-          isMidiLearnMode,
-          initMidiLearn,
-          initApp,
-          actions,
-          monitorVal,
-          lastFocusedIdx
-        )}
-        color="inherit"
-      >
-        <Tooltip title="Save and finalize MIDI-Learn Mode">
-          <MidiLearnIcon />
-        </Tooltip>
-      </IconButton>
-      )
-      }
+          aria-haspopup="true"
+          onClick={toggleMidiLearnMode.bind(
+            this,
+            actions.toggleMidiLearnMode,
+            setAncEl,
+            isMidiLearnMode,
+            initMidiLearn,
+            initApp,
+            actions,
+            monitorVal,
+            lastFocusedIdx
+          )}
+          color="inherit"
+        >
+          <Tooltip title="Save and finalize MIDI-Learn Mode">
+            <MidiLearnIcon />
+          </Tooltip>
+        </IconButton>
+      )}
       <Menu
         id="menu-appbar"
         anchorEl={ancEl}
@@ -265,6 +264,8 @@ const toggleMidiLearnMode = async (
   monitorVal,
   lastFocusedIdx
 ) => {
+  toggleMidiLearnMode({ isMidiLearnMode: !isMidiLearn })
+
   if (isMidiLearn) {
     if (!monitorVal) return
     actions.selectMidiDriverInput({
@@ -280,13 +281,12 @@ const toggleMidiLearnMode = async (
       idx: lastFocusedIdx,
     })
     await initApp()
-    toggleMidiLearnMode()
+    handleClose(setAncEl)
     window.location.reload()
   } else {
     await initApp('all')
-    toggleMidiLearnMode()
+    handleClose(setAncEl)
   }
-  handleClose(setAncEl)
 }
 
 function mapStateToProps({ viewSettings, sliders: { monitorVal } }) {

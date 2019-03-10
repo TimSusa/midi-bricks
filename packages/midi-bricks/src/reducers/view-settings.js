@@ -67,8 +67,9 @@ export const reducers = {
 
   [ActionTypeViewSettings.TOGGLE_MIDI_LEARN_MODE](state = initState, action) {
     const castedVal = !!state.isMidiLearnMode
+    const {isMidiLearnMode } = action.payload
     return Object.assign({}, state, {
-      isMidiLearnMode: !castedVal,
+      isMidiLearnMode: isMidiLearnMode || !castedVal,
       isLayoutMode: false,
       isSettingsMode: false,
     })
