@@ -32,7 +32,6 @@ const MenuAppBar = props => {
     viewSettings: {
       pageType,
       isLiveMode = false,
-      isSettingsMode = false,
       isLayoutMode = false,
       isCompactHorz = true,
       isAutoArrangeMode = true,
@@ -185,13 +184,14 @@ const MenuAppBar = props => {
           {isLayoutMode && (
             <IconButton
               onClick={() => {
+                actions.goBack()
                 actions.toggleLayoutMode({ isLayoutMode: false })
               }}
               className={classes.menuButton}
               color="inherit"
               aria-label="Menu"
             >
-              <Tooltip title="Finalize.">
+              <Tooltip title="Go Back.">
                 <CancelIcon />
               </Tooltip>
             </IconButton>

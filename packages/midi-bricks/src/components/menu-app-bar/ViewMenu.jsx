@@ -9,7 +9,6 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import ViewSettingsIcon from '@material-ui/icons/Settings'
-import MidiLearnIcon from '@material-ui/icons/SettingsInputSvideo'
 import { Tooltip, FormControlLabel, Switch } from '@material-ui/core'
 
 const ViewMenu = props => {
@@ -22,12 +21,8 @@ const ViewMenu = props => {
       isCompactHorz = true,
       isLiveMode = false,
       isMidiLearnMode = false,
-      lastFocusedIdx = '',
     },
     actions,
-    initMidiLearn,
-    initApp,
-    monitorVal,
   } = props
 
   const [ancEl, setAncEl] = useState(null)
