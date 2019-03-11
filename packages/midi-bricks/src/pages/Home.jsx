@@ -8,7 +8,7 @@ import { Actions as ViewStuff } from '../actions/view-settings.js'
 import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
 import GlobalSettingsPage from './GlobalSettingsPage.jsx'
 import MidiDriversSettingsPage from './MidiDriversSettingsPage'
-import GlobalViewSettingsPage from './GlobalViewSettings'
+import GlobalViewSettingsPage from '../components/GlobalViewSettings'
 import { PAGE_TYPES } from '../reducers/view-settings'
 
 class Home extends React.PureComponent {

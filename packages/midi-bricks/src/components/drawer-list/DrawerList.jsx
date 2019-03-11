@@ -15,6 +15,7 @@ import IconDriverSettings from '@material-ui/icons/SettingsInputSvideo'
 import React, { useState } from 'react'
 import FileReader from './FileReader'
 import DeleteModal from '../DeleteModal'
+import ViewSettingsDialog from '../GlobalViewSettingsDialog'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 const DrawerList = props => {
   const {
@@ -25,6 +26,7 @@ const DrawerList = props => {
     handleResetSliders,
   } = props
   const [open, setOpen] = useState(false)
+  const [isOpenViewSettings, setIsOpenViewSettings] = useState(false)
   return (
     <React.Fragment>
       <div className={classes.drawerHeader} />
@@ -73,16 +75,25 @@ const DrawerList = props => {
 
         <ListItem
           button
-          onClick={() =>
-            togglePage({
-              pageType: PAGE_TYPES.VIEW_SETTINGS_MODE,
-            })
+          onClick={
+            !isOpenViewSettings
+              ? e => {
+                  setIsOpenViewSettings(!isOpenViewSettings)
+                  props.onClose()
+                }
+              : () => {}
           }
         >
           <ListItemIcon>
             <ViewIcon />
           </ListItemIcon>
           <ListItemText primary="View Settings" />
+          <ViewSettingsDialog
+            isOpen={isOpenViewSettings}
+            onClose={e => {
+              setIsOpenViewSettings(!isOpenViewSettings)
+            }}
+          />
         </ListItem>
       </List>
       <Divider />
@@ -103,12 +114,7 @@ const DrawerList = props => {
           </ListItemIcon>
           <ListItemText primary="Save Preset" />
         </ListItem>
-        <ListItem
-          button
-          onClick={() =>
-            setOpen(!open)
-          }
-        >
+        <ListItem button onClick={() => setOpen(!open)}>
           <ListItemIcon>
             <DeleteIcon />
           </ListItemIcon>

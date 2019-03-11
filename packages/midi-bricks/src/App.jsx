@@ -41,6 +41,7 @@ class App extends React.PureComponent {
               handleResetSliders={this.handleResetSliders}
               togglePage={this.togglePage}
               classes={this.props.classes}
+              onClose={this.handleDrawerToggle}
             />
           </Drawer>
           <Home />

@@ -1,11 +1,11 @@
 import React from 'react'
-import DriverExpansionPanel from '../components/DriverExpansionPanel'
+import DriverExpansionPanel from './DriverExpansionPanel'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
 import { initApp } from '../actions/init.js'
-import { MinMaxValInput } from '../components/midi-settings/elements/MinMaxValInput'
+import { MinMaxValInput } from './midi-settings/elements/MinMaxValInput'
 import { FormControlLabel, Switch, Tooltip } from '@material-ui/core'
 
 class GlobalViewSettings extends React.PureComponent {
@@ -31,7 +31,6 @@ class GlobalViewSettings extends React.PureComponent {
       },
     } = this.props
     const { isScndPanelExpanded } = this
-    console.log(this.props)
     return (
       <React.Fragment>
         <DriverExpansionPanel
@@ -49,7 +48,11 @@ class GlobalViewSettings extends React.PureComponent {
               <Tooltip title="If true, the container height swells and contracts to fit contents">
                 <Switch
                   checked={isAutoSize}
-                  onChange={e => actions.toggleAutosize({})}
+                  onChange={e => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    actions.toggleAutosize({})
+                  }}
                   value={isAutoSize}
                   color="secondary"
                 />
