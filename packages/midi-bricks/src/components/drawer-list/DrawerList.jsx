@@ -79,7 +79,6 @@ const DrawerList = props => {
             !isOpenViewSettings
               ? e => {
                   setIsOpenViewSettings(!isOpenViewSettings)
-                  props.onClose()
                 }
               : () => {}
           }
@@ -92,6 +91,7 @@ const DrawerList = props => {
             isOpen={isOpenViewSettings}
             onClose={e => {
               setIsOpenViewSettings(!isOpenViewSettings)
+              props.onClose()
             }}
           />
         </ListItem>

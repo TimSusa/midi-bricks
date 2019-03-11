@@ -16,7 +16,7 @@ const ViewSettingsDialog = props => {
       onKeyDown={handleKeydown.bind(this, onClose)}
       disableBackdropClick
       aria-labelledby="confirmation-dialog-title"
-      //{...other}
+      {...other}
     >
       <DialogTitle id="confirmation-dialog-title">
         <Typography color="secondary" variant="body1">
