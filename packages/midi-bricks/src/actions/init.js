@@ -4,6 +4,7 @@ import { Actions } from './slider-list'
 const { initPending, midiMessageArrived, initFailed, initMidiAccess } = Actions
 
 export function initApp(mode) {
+  console.log('mode ', mode)
   return function(dispatch, getState) {
     return new Promise((resolve, reject) => {
       WebMIDI.disable()
@@ -14,6 +15,8 @@ export function initApp(mode) {
           window.alert('Midi could not be enabled.', err)
           reject(dispatch(initFailed('Midi could not be enabled.')))
         }
+        //WebMIDI.removeListener()
+
         const { inputs = [], outputs = [] } = WebMIDI
         const {
           sliders: { sliderList },
@@ -50,6 +53,7 @@ export function initApp(mode) {
             })
           input.removeListener()
           if (
+            false &&
             Array.isArray(ccChannels) &&
             hasContent(ccChannels) &&
             hasContent(ccArr) &&
@@ -78,7 +82,7 @@ export function initApp(mode) {
             console.log('cc all')
             input.addListener(
               'controlchange',
-              ccChannels,
+              'all',
               ({ value, channel, controller: { number } }) => {
                 const obj = {
                   isNoteOn: undefined,
@@ -92,6 +96,7 @@ export function initApp(mode) {
             )
           }
           if (
+            false &&
             Array.isArray(noteChannels) &&
             hasContent(noteChannels) &&
             hasContent(ccArr) &&
@@ -136,8 +141,8 @@ export function initApp(mode) {
             })
           } else {
             input.removeListener('noteon')
-            console.log('noteon all')
-            input.addListener('noteon', noteChannels, event => {
+            console.log('Add note listener ALL', name, ' ', ccArr)
+            input.addListener('noteon', 'all', event => {
               const {
                 rawVelocity,
                 channel,
@@ -153,8 +158,8 @@ export function initApp(mode) {
               dispatch(midiMessageArrived(obj))
             })
             input.removeListener('noteoff')
-            console.log('noteoff all')
-            input.addListener('noteoff', noteChannels, event => {
+            console.log('Add note off listener ALL', name, ' ', ccArr)
+            input.addListener('noteoff', 'all', event => {
               const {
                 rawVelocity,
                 channel,

@@ -14,6 +14,7 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
 import SwapVertIcon from '@material-ui/icons/SwapVert'
+import MidiLearnIcon from '@material-ui/icons/SettingsInputSvideo'
 import CancelIcon from '@material-ui/icons/Cancel'
 import AutoArrangeModeIcon from '@material-ui/icons/Spellcheck'
 import AutoArrangeModeIconFalse from '@material-ui/icons/TextFormat'
@@ -27,6 +28,7 @@ const MenuAppBar = props => {
     classes,
     actions,
     presetName,
+    monitorVal,
     viewSettings: {
       pageType,
       isLiveMode = false,
@@ -35,6 +37,7 @@ const MenuAppBar = props => {
       isCompactHorz = true,
       isAutoArrangeMode = true,
       isMidiLearnMode = false,
+      lastFocusedIdx,
     },
   } = props
 
@@ -140,18 +143,49 @@ const MenuAppBar = props => {
             <Button
               className={classes.resetButton}
               variant="contained"
-              onClick={() => props.initApp()}
+              onClick={async () => await props.initApp()}
             >
               Detect Driver Changes
             </Button>
           )}
           {![PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
             pageType
-          ) && <ViewMenu />}
-          {(isLayoutMode) && (
+          ) && (
+            <>
+              <ViewMenu />
+              {!isLayoutMode && (
+                <IconButton
+                  aria-haspopup="true"
+                  onClick={toggleMidiLearnMode.bind(
+                    this,
+                    actions.toggleMidiLearnMode,
+                    null,
+                    isMidiLearnMode,
+                    null,
+                    initApp,
+                    actions,
+                    monitorVal,
+                    lastFocusedIdx
+                  )}
+                  color="inherit"
+                >
+                  <Tooltip
+                    title={
+                      isMidiLearnMode
+                        ? 'Save and finalize MIDI-Learn Mode.'
+                        : 'Switch to MIDI Learn Mode.'
+                    }
+                  >
+                    <MidiLearnIcon />
+                  </Tooltip>
+                </IconButton>
+              )}
+            </>
+          )}
+          {isLayoutMode && (
             <IconButton
               onClick={() => {
-                actions.toggleLayoutMode({isLayoutMode: false})
+                actions.toggleLayoutMode({ isLayoutMode: false })
               }}
               className={classes.menuButton}
               color="inherit"
@@ -213,10 +247,14 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-function mapStateToProps({ sliders: { presetName }, viewSettings }) {
+function mapStateToProps({
+  sliders: { presetName, monitorVal },
+  viewSettings,
+}) {
   return {
-    presetName,
     viewSettings,
+    presetName,
+    monitorVal,
   }
 }
 
@@ -226,3 +264,37 @@ export default withStyles(styles)(
     mapDispatchToProps
   )(MenuAppBar)
 )
+
+async function toggleMidiLearnMode(
+  toggleMidiLearn,
+  setAncEl,
+  isMidiLearn,
+  initMidiLearn,
+  initApp,
+  actions,
+  monitorVal,
+  lastFocusedIdx
+) {
+  if (isMidiLearn) {
+    if (!monitorVal) return
+    actions.selectMidiDriverInput({
+      driverNameInput: monitorVal.driver,
+      i: lastFocusedIdx,
+    })
+    actions.selectMidiChannelInput({
+      val: `${monitorVal.channel}`,
+      idx: lastFocusedIdx,
+    })
+    actions.addMidiCcListener({
+      val: [`${monitorVal.cC}`],
+      idx: lastFocusedIdx,
+    })
+    await initApp()
+    //handleClose(setAncEl)
+    //window.location.reload()
+  } else {
+    await initApp('all')
+    //handleClose(setAncEl)
+  }
+  toggleMidiLearn({ isMidiLearnMode: !isMidiLearn })
+}

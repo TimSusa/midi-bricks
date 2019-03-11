@@ -35,35 +35,15 @@ const ViewMenu = props => {
 
   return (
     <React.Fragment>
-      {!isMidiLearnMode ? (
+      {!isMidiLearnMode && (
         <IconButton
           aria-owns={isOpen ? 'menu-appbar' : null}
           aria-haspopup="true"
           onClick={({ currentTarget }) => setAncEl(currentTarget)}
           color="inherit"
         >
-          <Tooltip title="View Settings">
+          <Tooltip title="View Modes">
             <ViewSettingsIcon />
-          </Tooltip>
-        </IconButton>
-      ) : (
-        <IconButton
-          aria-haspopup="true"
-          onClick={toggleMidiLearnMode.bind(
-            this,
-            actions.toggleMidiLearnMode,
-            setAncEl,
-            isMidiLearnMode,
-            initMidiLearn,
-            initApp,
-            actions,
-            monitorVal,
-            lastFocusedIdx
-          )}
-          color="inherit"
-        >
-          <Tooltip title="Save and finalize MIDI-Learn Mode">
-            <MidiLearnIcon />
           </Tooltip>
         </IconButton>
       )}
@@ -137,7 +117,7 @@ const ViewMenu = props => {
                 color="secondary"
               />
             }
-            label="Midi Learn  - "
+            label="Midi Learn"
           />
         </MenuItem>
         <MenuItem>
@@ -264,7 +244,6 @@ const toggleMidiLearnMode = async (
   monitorVal,
   lastFocusedIdx
 ) => {
-  toggleMidiLearnMode({ isMidiLearnMode: !isMidiLearn })
 
   if (isMidiLearn) {
     if (!monitorVal) return
@@ -281,12 +260,11 @@ const toggleMidiLearnMode = async (
       idx: lastFocusedIdx,
     })
     await initApp()
-    handleClose(setAncEl)
-    window.location.reload()
   } else {
     await initApp('all')
-    handleClose(setAncEl)
   }
+  toggleMidiLearnMode({ isMidiLearnMode: !isMidiLearn })
+  handleClose(setAncEl)
 }
 
 function mapStateToProps({ viewSettings, sliders: { monitorVal } }) {
