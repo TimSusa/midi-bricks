@@ -83,7 +83,7 @@ class App extends React.PureComponent {
     )
     await this.props.initApp()
     this.props.actions.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })
-    window.location.reload()
+    // window.location.reload() 
   }
 
   handleSaveFile = () => {
