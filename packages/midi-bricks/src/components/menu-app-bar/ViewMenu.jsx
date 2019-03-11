@@ -101,29 +101,6 @@ const ViewMenu = props => {
           <FormControlLabel
             control={
               <Switch
-                checked={isMidiLearnMode}
-                onChange={toggleMidiLearnMode.bind(
-                  this,
-                  actions.toggleMidiLearnMode,
-                  setAncEl,
-                  isMidiLearnMode,
-                  initMidiLearn,
-                  initApp,
-                  actions,
-                  monitorVal,
-                  lastFocusedIdx
-                )}
-                value={isMidiLearnMode}
-                color="secondary"
-              />
-            }
-            label="Midi Learn"
-          />
-        </MenuItem>
-        <MenuItem>
-          <FormControlLabel
-            control={
-              <Switch
                 checked={isCompactHorz}
                 onChange={toggleCompactMode.bind(
                   this,
@@ -231,39 +208,6 @@ const toggleCompactMode = (toggleCompactMode, setAncEl) => {
 
 const toggleSettingsMode = (toggleSettingsMode, setAncEl) => {
   toggleSettingsMode()
-  handleClose(setAncEl)
-}
-
-const toggleMidiLearnMode = async (
-  toggleMidiLearnMode,
-  setAncEl,
-  isMidiLearn,
-  initMidiLearn,
-  initApp,
-  actions,
-  monitorVal,
-  lastFocusedIdx
-) => {
-
-  if (isMidiLearn) {
-    if (!monitorVal) return
-    actions.selectMidiDriverInput({
-      driverNameInput: monitorVal.driver,
-      i: lastFocusedIdx,
-    })
-    actions.selectMidiChannelInput({
-      val: `${monitorVal.channel}`,
-      idx: lastFocusedIdx,
-    })
-    actions.addMidiCcListener({
-      val: [`${monitorVal.cC}`],
-      idx: lastFocusedIdx,
-    })
-    await initApp()
-  } else {
-    await initApp('all')
-  }
-  toggleMidiLearnMode({ isMidiLearnMode: !isMidiLearn })
   handleClose(setAncEl)
 }
 

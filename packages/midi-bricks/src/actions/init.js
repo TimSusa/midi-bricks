@@ -4,7 +4,6 @@ import { Actions } from './slider-list'
 const { initPending, midiMessageArrived, initFailed, initMidiAccess } = Actions
 
 export function initApp(mode) {
-  console.log('mode ', mode)
   return function(dispatch, getState) {
     return new Promise((resolve, reject) => {
       WebMIDI.disable()
@@ -15,8 +14,6 @@ export function initApp(mode) {
           window.alert('Midi could not be enabled.', err)
           reject(dispatch(initFailed('Midi could not be enabled.')))
         }
-        //WebMIDI.removeListener()
-
         const { inputs = [], outputs = [] } = WebMIDI
         const {
           sliders: { sliderList },

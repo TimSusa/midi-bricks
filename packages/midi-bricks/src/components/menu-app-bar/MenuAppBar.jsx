@@ -172,7 +172,7 @@ const MenuAppBar = props => {
                   <Tooltip
                     title={
                       isMidiLearnMode
-                        ? 'Save and finalize MIDI-Learn Mode.'
+                        ? 'Chose assigned element and finalize MIDI-Learn Mode.'
                         : 'Switch to MIDI Learn Mode.'
                     }
                   >
