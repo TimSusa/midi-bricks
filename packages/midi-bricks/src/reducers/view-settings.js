@@ -67,7 +67,7 @@ export const reducers = {
 
   [ActionTypeViewSettings.TOGGLE_MIDI_LEARN_MODE](state = initState, action) {
     const castedVal = !!state.isMidiLearnMode
-    const {isMidiLearnMode } = action.payload
+    const { isMidiLearnMode } = action.payload || {}
     return Object.assign({}, state, {
       isMidiLearnMode: isMidiLearnMode || !castedVal,
       isLayoutMode: false,
@@ -75,10 +75,11 @@ export const reducers = {
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_LAYOUT_MODE](state = initState, action) {
-    const castedVal = !!state.isLayoutMode
+  [ActionTypeViewSettings.TOGGLE_LAYOUT_MODE](state, action) {
+    const { isLayoutMode: isStateLayoutMode } = state || {}
+    const { isLayoutMode } = action.payload || {}
     return Object.assign({}, state, {
-      isLayoutMode: !castedVal,
+      isLayoutMode: isLayoutMode || !!!isStateLayoutMode,
       isMidiLearnMode: false,
     })
   },
@@ -93,8 +94,9 @@ export const reducers = {
 
   [ActionTypeViewSettings.TOGGLE_SETTINGS_MODE](state = initState, action) {
     const castedVal = !!state.isSettingsMode
+    const { isSettingsMode } = action.payload || {}
     return Object.assign({}, state, {
-      isSettingsMode: !castedVal,
+      isSettingsMode: isSettingsMode || !castedVal,
       isMidiLearnMode: false,
     })
   },
@@ -323,7 +325,7 @@ export const reducers = {
       columns,
     })
   },
-  
+
   [ActionTypeViewSettings.TOGGLE_AUTOSIZE](state = initState, action) {
     const castedVal = !!state.isAutoSize
     return Object.assign({}, state, {

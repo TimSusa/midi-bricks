@@ -14,6 +14,7 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
 import SwapVertIcon from '@material-ui/icons/SwapVert'
+import CancelIcon from '@material-ui/icons/Cancel'
 import AutoArrangeModeIcon from '@material-ui/icons/Spellcheck'
 import AutoArrangeModeIconFalse from '@material-ui/icons/TextFormat'
 import ViewMenu from './ViewMenu'
@@ -29,7 +30,8 @@ const MenuAppBar = props => {
     viewSettings: {
       pageType,
       isLiveMode = false,
-      isLayoutMode,
+      isSettingsMode = false,
+      isLayoutMode = false,
       isCompactHorz = true,
       isAutoArrangeMode = true,
       isMidiLearnMode = false,
@@ -60,7 +62,7 @@ const MenuAppBar = props => {
               MIDI Learn Mode Running...
             </Typography>
           )}
-                    {isLayoutMode && (
+          {isLayoutMode && (
             <Typography className={classes.typoColorStyle}>
               Layout Mode Running...
             </Typography>
@@ -146,6 +148,20 @@ const MenuAppBar = props => {
           {![PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
             pageType
           ) && <ViewMenu />}
+          {(isLayoutMode) && (
+            <IconButton
+              onClick={() => {
+                actions.toggleLayoutMode({isLayoutMode: false})
+              }}
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="Menu"
+            >
+              <Tooltip title="Finalize.">
+                <CancelIcon />
+              </Tooltip>
+            </IconButton>
+          )}
         </Toolbar>
       </AppBar>
       <div
