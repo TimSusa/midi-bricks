@@ -35,7 +35,7 @@
     "chai-roughly": "1.0.0",
     "concurrently": "4.1.0",
     "electron": "4.0.2",
-    "electron-builder": "20.38.5",
+    "electron-builder": "20.39.0",
     "midi-bricks": "^0.12.49",
     "mocha": "5.2.0",
     "spectron": "5.0.0",
