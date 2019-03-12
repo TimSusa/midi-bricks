@@ -9,7 +9,7 @@
     "eslint": "5.6.0",
     "eslint-config-react-app": "3.0.6",
     "eslint-plugin-babel": "5.3.0",
-    "lerna": "3.10.7"
+    "lerna": "3.13.1"
   },
   "scripts": {
     "bootstrap": "lerna bootstrap && cd packages/midi-bricks-electron && yarn && cd ../..",
