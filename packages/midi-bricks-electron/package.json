@@ -37,7 +37,7 @@
     "electron": "4.0.2",
     "electron-builder": "20.38.5",
     "midi-bricks": "^0.12.49",
-    "mocha": "5.2.0",
+    "mocha": "6.0.2",
     "spectron": "5.0.0",
     "wait-for-localhost-cli": "1.1.0"
   },
