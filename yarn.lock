@@ -3382,6 +3382,11 @@ normalize-url@^3.3.0:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
   integrity sha512-U+JJi7duF1o+u2pynbp2zXDW2/PADgC30f0GsHZtRh+HOcXHnw137TrNlyxxRvWW5fjKd3bcLHPxofWuCjaeZg==
 
+now@14.3.0-canary.1:
+  version "14.3.0-canary.1"
+  resolved "https://registry.yarnpkg.com/now/-/now-14.3.0-canary.1.tgz#73782f9faadab0ea3bb2ef3005e043ef8dc439a6"
+  integrity sha512-dEcevm/xJRyVNyizdVV/EwbqOOhTCfS2SoTDj8Jnpf5E9Cc8CP7pBgMv7HusimWSZYZO38IN901PkBZUPNYo0w==
+
 npm-bundled@^1.0.1:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/npm-bundled/-/npm-bundled-1.0.5.tgz#3c1732b7ba936b3a10325aef616467c0ccbcc979"
