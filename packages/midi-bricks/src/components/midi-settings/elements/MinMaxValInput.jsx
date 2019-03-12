@@ -12,9 +12,10 @@ function MinMaxValInputComponent({
   onChange,
   name,
   limitVal = 0,
-  toolTip
+  toolTip,
 }) {
   const form = (
+    <div className={classes.root}>
       <FormControl className={classes.formControl}>
         <InputLabel className={classes.label}>{`${label}  `}</InputLabel>
         <Input
@@ -26,17 +27,15 @@ function MinMaxValInputComponent({
           onChange={onChange}
         />
       </FormControl>
+    </div>
   )
-  const tip = (
-    <Tooltip title={toolTip}>
-    {form}
-    </Tooltip>
-  )
+  const tip = <Tooltip title={toolTip}>{form}</Tooltip>
 
-  return toolTip ? tip: form
+  return toolTip ? tip : form
 }
 
 const styles = theme => ({
+  root: {},
   formControl: {
     margin: theme.spacing.unit,
   },

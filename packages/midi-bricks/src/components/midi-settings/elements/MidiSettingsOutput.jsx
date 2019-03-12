@@ -88,7 +88,6 @@ export const MidiSettingsOutput = props => {
       {[SLIDER, SLIDER_HORZ, XYPAD].includes(type) && (
         <React.Fragment>
           <MinMaxValInput
-            classes={classes}
             label="Maximum Value"
             value={maxVal}
             name={`input-maxval-name-${idx}`}
@@ -101,7 +100,6 @@ export const MidiSettingsOutput = props => {
             }
           />
           <MinMaxValInput
-            classes={classes}
             label="Minimum Value"
             value={minVal}
             name={`input-minval-name-${idx}`}
@@ -122,7 +120,6 @@ export const MidiSettingsOutput = props => {
           ) && (
             <React.Fragment>
               <MinMaxValInput
-                classes={classes}
                 label="Value Button On"
                 value={onVal}
                 name={`input-onval-name-${idx}`}
@@ -135,7 +132,6 @@ export const MidiSettingsOutput = props => {
                 }
               />
               <MinMaxValInput
-                classes={classes}
                 label="Value Button Off"
                 value={offVal}
                 name={`input-offval-name-${idx}`}
