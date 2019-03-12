@@ -127,7 +127,7 @@ const styles = theme => ({
   },
   label: {
     color: theme.palette.primary.contrastText,
-    marginBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing(2),
   },
   input: {
     color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',

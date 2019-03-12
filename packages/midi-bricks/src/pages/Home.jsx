@@ -70,7 +70,7 @@ const styles = theme => ({
     overflowX: 'hidden',
   },
   heading: {
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
   },
   noMidiTypography: {
     textAlign: 'center',

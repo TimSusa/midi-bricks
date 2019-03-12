@@ -7475,10 +7475,10 @@ micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8, mic
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-midi-bricks@^0.12.49:
-  version "0.12.49"
-  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.49.tgz#289178d258a08182ca25e4f6a983c5ba446bdea2"
-  integrity sha512-i99ZQMzGe+GIFPXyTo8e3eK77+C/nB+TiQAC/48JntcmueEMnfvxjN41IOk2jd5ozUvXy3CGA7q3wZExu1E/Ng==
+midi-bricks@^0.12.50:
+  version "0.12.50"
+  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.50.tgz#230c1c5ef802205edad0f47fcd1981cbb3320e85"
+  integrity sha512-uUq4YU1t2EJqTsSR0/EEGuk9hSDqc0z1UGkQL61Gal2ekkR2OtF79Mt0W6G7k3i9f9DlI9tdV+fF/x/DETm7zQ==
   dependencies:
     "@material-ui/core" "^3.9.1"
     "@material-ui/icons" "^3.0.1"
@@ -7486,9 +7486,9 @@ midi-bricks@^0.12.49:
     "@material-ui/styles" "^3.0.0-alpha.9"
     "@material-ui/system" "^3.0.0-alpha.2"
     downshift "^3.2.0"
-    react "16.8.0-alpha.1"
+    react "16.8.4"
     react-color "^2.14.1"
-    react-dom "16.8.0-alpha.1"
+    react-dom "16.8.4"
     react-gamepad "^1.0.3"
     react-grid-layout "^0.16.6"
     react-redux "^6.0.0"
@@ -9479,15 +9479,15 @@ react-dev-utils@^7.0.1:
     strip-ansi "4.0.0"
     text-table "0.2.0"
 
-react-dom@16.8.0-alpha.1:
-  version "16.8.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.8.0-alpha.1.tgz#dab73b8354ba2e498e3127d18e29d4546cea889e"
-  integrity sha512-tZCUM8BpnwUHJmLnUWP9c3vVZxnCqYotj7s4tx7umojG6BKv745KIBtuPTzt0EI0q50GMLEpmT/CPQ8iA61TwQ==
+react-dom@16.8.4:
+  version "16.8.4"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.8.4.tgz#1061a8e01a2b3b0c8160037441c3bf00a0e3bc48"
+  integrity sha512-Ob2wK7XG2tUDt7ps7LtLzGYYB6DXMCLj0G5fO6WeEICtT4/HdpOi7W/xLzZnR6RCG1tYza60nMdqtxzA8FaPJQ==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
-    scheduler "^0.13.0-alpha.1"
+    scheduler "^0.13.4"
 
 react-draggable@3.x, "react-draggable@^2.2.6 || ^3.0.3":
   version "3.1.1"
@@ -9633,15 +9633,15 @@ react-transition-group@^2.2.1:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
-react@16.8.0-alpha.1:
-  version "16.8.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.8.0-alpha.1.tgz#c2b32689f3b466d3ce85a634dd9035f789d2cd97"
-  integrity sha512-vLwwnhM2dXrCsiQmcSxF2UdZVV5xsiXjK5Yetmy8dVqngJhQ3aw3YJhZN/YmyonxwdimH40wVqFQfsl4gSu2RA==
+react@16.8.4:
+  version "16.8.4"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.8.4.tgz#fdf7bd9ae53f03a9c4cd1a371432c206be1c4768"
+  integrity sha512-0GQ6gFXfUH7aZcjGVymlPOASTuSjlQL4ZtVC5YKH+3JL6bBLCVO21DknzmaPlI90LN253ojj02nsapy+j7wIjg==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
-    scheduler "^0.13.0-alpha.1"
+    scheduler "^0.13.4"
 
 reactcss@^1.2.0:
   version "1.2.3"
@@ -10278,10 +10278,10 @@ saxes@^3.1.5:
   dependencies:
     xmlchars "^1.3.1"
 
-scheduler@^0.13.0-alpha.1:
-  version "0.13.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.13.0-alpha.1.tgz#753977fb4fb35d8cdd559868a11e46b640955556"
-  integrity sha512-W0sH0848sVuPKg+I18vTYQyzVtA4X1lrVgSeXK6KnOPUltFdJcY5nkbTkjGUeS/E0x+eBsNYfSdhJtGjT95njw==
+scheduler@^0.13.4:
+  version "0.13.4"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.13.4.tgz#8fef05e7a3580c76c0364d2df5e550e4c9140298"
+  integrity sha512-cvSOlRPxOHs5dAhP9yiS/6IDmVAVxmk33f0CtTJRkmUWcb1Us+t7b1wqdzoC0REw2muC9V5f1L/w5R5uKGaepA==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"

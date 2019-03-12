@@ -267,7 +267,7 @@ const styles = theme => ({
     textAlign: 'left',
   },
   heading: {
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
   },
 })
 

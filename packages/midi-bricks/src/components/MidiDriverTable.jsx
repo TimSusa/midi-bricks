@@ -168,14 +168,14 @@ const channelDummy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 
 const styles = theme => ({
   root: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing(2),
     padding: 0,
   },
   heading: {
     margin: theme.spacing.unit,
   },
   card: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing(2),
     background: 'whitesmoke',
   },
   table: {
