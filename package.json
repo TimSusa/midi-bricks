@@ -22,6 +22,6 @@
     "precommit": "yarn test && cd packages/midi-bricks/ && yarn test && cd .."
   },
   "dependencies": {
-    "now": "14.3.0-canary.1"
+    "now": "14.3.0-canary.9"
   }
 }
