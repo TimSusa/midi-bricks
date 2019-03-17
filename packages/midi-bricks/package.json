@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks",
-  "version": "0.12.54",
+  "version": "0.12.55",
   "private": false,
   "homepage": "https://build-qs1ndqaid.now.sh",
   "main": "./src/index.js",
