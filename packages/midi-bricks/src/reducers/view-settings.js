@@ -26,6 +26,7 @@ const initState = {
   isMidiLearnMode: false,
   isAutoArrangeMode: false,
   isChangedTheme: false,
+  isFullscreenOnLivemode: false,
   pageType: PAGE_TYPES.HOME_MODE,
   availableDrivers: {
     inputs: {
@@ -98,6 +99,14 @@ export const reducers = {
     return Object.assign({}, state, {
       isSettingsMode: isSettingsMode || !castedVal,
       isMidiLearnMode: false,
+    })
+  },
+
+  [ActionTypeViewSettings.SET_FULLSCREEN_ON_LIVEMODE](state = initState, action) {
+    const castedVal = !!state.isFullscreenOnLivemode
+    const { isFullscreenOnLivemode } = action.payload || {}
+    return Object.assign({}, state, {
+      isFullscreenOnLivemode: isFullscreenOnLivemode || !castedVal,
     })
   },
 

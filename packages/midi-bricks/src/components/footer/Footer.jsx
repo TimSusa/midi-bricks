@@ -20,6 +20,7 @@ const Footer = props => {
     lastFocusedFooterButtonIdx,
     isSettingsMode,
     isLiveMode,
+    isFullscreenOnLivemode,
     pageType,
     actions,
   } = props
@@ -89,7 +90,8 @@ const Footer = props => {
             isLiveMode,
             actions,
             lastFocusedFooterButtonIdx,
-            footerPages
+            footerPages,
+            isFullscreenOnLivemode
           )}
         >
           Live
@@ -103,11 +105,14 @@ const handleLiveButtonClick = (
   isLiveMode,
   actions,
   lastFocusedFooterButtonIdx,
-  footerPages
+  footerPages,
+  isFullscreenOnLivemode
 ) => {
   if (isLiveMode) {
+    isFullscreenOnLivemode && document.exitFullscreen()
     actions.goBack()
   } else {
+    isFullscreenOnLivemode && document.body.requestFullscreen()
     actions.updateSliderListBackup()
   }
   actions.setFooterButtonFocus({ i: lastFocusedFooterButtonIdx })
@@ -135,14 +140,14 @@ const styles = theme => ({
     width: '100%',
     position: 'fixed',
     margin: 0,
-    padding: 0,
+    padding: '0 0 0 4px',
     height: 56,
   },
   button: {
     color: theme.palette.primary.contrastText,
     fontWeight: 600,
     padding: 4,
-    marginLeft: 4,
+    marginLeft: 0,
     marginRight: 4,
     textTransform: 'none',
   },
@@ -168,6 +173,7 @@ function mapStateToProps({
     footerPages,
     lastFocusedFooterButtonIdx,
     isSettingsMode,
+    isFullscreenOnLivemode,
     isLiveMode,
     pageType,
   },
@@ -178,6 +184,7 @@ function mapStateToProps({
     isSettingsMode,
     isLiveMode,
     pageType,
+    isFullscreenOnLivemode,
   }
 }
 

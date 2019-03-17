@@ -24,6 +24,7 @@ class GlobalViewSettings extends React.PureComponent {
         columns = 18,
         rowHeight = 40,
         isAutoSize = false,
+        isFullscreenOnLivemode = false,
         marginX = 8,
         marginY = 8,
         paddingX = 8,
@@ -43,6 +44,24 @@ class GlobalViewSettings extends React.PureComponent {
             })
           }
         >
+          <FormControlLabel
+            control={
+              <Tooltip title="Set to fullscreen, when switching to livemode">
+                <Switch
+                  checked={isFullscreenOnLivemode}
+                  onChange={e => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    actions.setFullscreenOnLivemode()
+                  }}
+                  value={isFullscreenOnLivemode}
+                  color="secondary"
+                />
+              </Tooltip>
+            }
+            label="Live Mode Fullscreen"
+          />
+
           <FormControlLabel
             control={
               <Tooltip title="If true, the container height swells and contracts to fit contents">

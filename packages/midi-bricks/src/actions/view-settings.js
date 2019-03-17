@@ -24,7 +24,8 @@ const TypeViewSettings = [
   'SET_X_MARGIN',
   'SET_Y_MARGIN',
   'SET_X_PADDING',
-  'SET_Y_PADDING'
+  'SET_Y_PADDING',
+  'SET_FULLSCREEN_ON_LIVEMODE'
 ]
 
 export const ActionTypeViewSettings = createActionTypes(TypeViewSettings)
