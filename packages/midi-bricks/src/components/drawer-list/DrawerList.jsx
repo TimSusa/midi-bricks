@@ -17,6 +17,7 @@ import FileReader from './FileReader'
 import DeleteModal from '../DeleteModal'
 import ViewSettingsDialog from '../GlobalViewSettingsDialog'
 import { PAGE_TYPES } from '../../reducers/view-settings'
+
 const DrawerList = props => {
   const {
     classes,

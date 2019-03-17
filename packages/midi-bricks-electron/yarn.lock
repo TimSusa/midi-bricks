@@ -3961,7 +3961,7 @@ electron-window-state@5.0.3:
     jsonfile "^4.0.0"
     mkdirp "^0.5.1"
 
-electron@4.1.0:
+electron@4.1.0, electron@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/electron/-/electron-4.1.0.tgz#ecba9c83de271e8ba7637332ece9ed023c6ea3f0"
   integrity sha512-q/yTi9dT5UEFK/s+vOQaHNkTHWiRK9kEBYVJt34nmWc9piW42hXT+nhKUEHHhccMPr3q18gG0iPZqeR+LG76ow==
@@ -7415,10 +7415,10 @@ micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8, mic
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-midi-bricks@^0.12.56:
-  version "0.12.56"
-  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.56.tgz#0e9ca033106050a289963c3806cdd54b0b549022"
-  integrity sha512-HCtDnxwWR5sk6tk4OdBoqAIjUde3mleLyFkEGnzU3lCZ2keksQPjInbJ6cBA458nvJZsB2yH2dCvIRWDMMxzqQ==
+midi-bricks@^0.12.57:
+  version "0.12.57"
+  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.57.tgz#d2ab6dd9da02a0cf6e17cebc2723f73b857182cb"
+  integrity sha512-EGxMxAvHPx8uhYwKbh/jNfCUnqvWVIDmnA043jq1l/eFC+hVVrqc8tEJF6ezlNLO51mvkClFIPN2feFg+PEDNg==
   dependencies:
     "@material-ui/core" "4.0.0-alpha.4"
     "@material-ui/icons" "^3.0.1"
@@ -7426,6 +7426,7 @@ midi-bricks@^0.12.56:
     "@material-ui/styles" "4.0.0-alpha.4"
     "@material-ui/system" "^3.0.0-alpha.2"
     downshift "^3.2.0"
+    electron "^4.1.0"
     react "16.8.4"
     react-color "^2.14.1"
     react-dom "16.8.4"

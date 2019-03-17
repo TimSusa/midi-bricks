@@ -13,7 +13,6 @@
     "@material-ui/styles": "4.0.0-alpha.4",
     "@material-ui/system": "^3.0.0-alpha.2",
     "downshift": "^3.2.0",
-    "electron": "^4.1.0",
     "react": "16.8.4",
     "react-color": "^2.14.1",
     "react-dom": "16.8.4",

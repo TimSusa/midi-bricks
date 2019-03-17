@@ -8,6 +8,8 @@ import { initApp } from '../actions/init.js'
 import { MinMaxValInput } from './midi-settings/elements/MinMaxValInput'
 import { FormControlLabel, Switch, Tooltip } from '@material-ui/core'
 
+const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
+
 class GlobalViewSettings extends React.PureComponent {
   constructor(props) {
     super(props)
@@ -44,23 +46,25 @@ class GlobalViewSettings extends React.PureComponent {
             })
           }
         >
-          <FormControlLabel
-            control={
-              <Tooltip title="Set to fullscreen, when switching to livemode">
-                <Switch
-                  checked={isFullscreenOnLivemode}
-                  onChange={e => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    actions.setFullscreenOnLivemode()
-                  }}
-                  value={isFullscreenOnLivemode}
-                  color="secondary"
-                />
-              </Tooltip>
-            }
-            label="Live Mode Fullscreen"
-          />
+          {isWebMode && (
+            <FormControlLabel
+              control={
+                <Tooltip title="Set to fullscreen, when switching to livemode">
+                  <Switch
+                    checked={isFullscreenOnLivemode}
+                    onChange={e => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      actions.setFullscreenOnLivemode()
+                    }}
+                    value={isFullscreenOnLivemode}
+                    color="secondary"
+                  />
+                </Tooltip>
+              }
+              label="Live Mode Fullscreen"
+            />
+          )}
 
           <FormControlLabel
             control={

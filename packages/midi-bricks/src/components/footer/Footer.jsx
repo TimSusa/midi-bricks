@@ -13,8 +13,6 @@ import { Actions as SliderSettinsgsAction } from '../../actions/slider-list'
 import { Button, Tooltip } from '@material-ui/core'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 
-const ipcRenderer= (process.env.REACT_APP_IS_WEB_MODE === 'false') ? require('electron') : ''
-
 const Footer = props => {
   const {
     classes,
@@ -26,9 +24,9 @@ const Footer = props => {
     pageType,
     actions,
   } = props
+  
   const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
 
-  console.log(process.env, isWebMode)
   if (pageType !== PAGE_TYPES.HOME_MODE && !isLiveMode) return <div />
 
   return (
@@ -115,12 +113,10 @@ const handleLiveButtonClick = (
   isWebMode
 ) => {
   if (isLiveMode) {
-    isWebMode && isFullscreenOnLivemode && document.exitFullscreen()
-    !isWebMode && isFullscreenOnLivemode && ipcRenderer.send('asynchronous-message', 'exit-fullscreen')
+    isFullscreenOnLivemode && document.exitFullscreen()
     actions.goBack()
   } else {
-    isWebMode && isFullscreenOnLivemode && document.body.requestFullscreen()
-    !isWebMode && isFullscreenOnLivemode && ipcRenderer.send('asynchronous-message', 'start-fullscreen')
+    isFullscreenOnLivemode && document.body.requestFullscreen()
     actions.updateSliderListBackup()
   }
   actions.setFooterButtonFocus({ i: lastFocusedFooterButtonIdx })
