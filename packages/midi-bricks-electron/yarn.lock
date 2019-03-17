@@ -7383,10 +7383,10 @@ micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8, mic
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-midi-bricks@^0.12.59:
-  version "0.12.59"
-  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.59.tgz#1a5f2399b78045399103f46fd00b959b87fc608a"
-  integrity sha512-tNa7YNnGM3B4KWpVES++FS9saqS+3PnD7NZhVv0J3R/qGTh2vVwOJm4d0PZDqTxWyxA8wIXcNYgbS4xSCpdnqQ==
+midi-bricks@^0.12.60:
+  version "0.12.60"
+  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.60.tgz#c2faff385fd271c573403524bcf470dcfa1a004a"
+  integrity sha512-qt775a7MyRfTWHhioJj45v1zyIMBx/cel2jWD8RjbrzUi6G5pa1QGFE+7pmZ1PQdhxUPmPFkiXO7cRzn8dwlOw==
   dependencies:
     "@material-ui/core" "4.0.0-alpha.4"
     "@material-ui/icons" "^3.0.1"
@@ -9498,7 +9498,7 @@ react-resizable@1.x:
     prop-types "15.x"
     react-draggable "^2.2.6 || ^3.0.3"
 
-react-scripts@^2.1.3:
+react-scripts@^2.1.3, react-scripts@^2.1.8:
   version "2.1.8"
   resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-2.1.8.tgz#21195bb928b2c0462aa98b2d32edf7d034cff2a9"
   integrity sha512-mDC8fYWCyuB9VROti8OCPdHE79UEchVVZmuS/yaIs47VkvZpgZqUvzghYBswZRchqnW0aARNY8xXrzoFRhhK7A==
