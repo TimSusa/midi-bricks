@@ -2,7 +2,6 @@ import { FooterButton } from './FooterButton'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-//import BottomNavigation from '@material-ui/core/BottomNavigation'
 import IconButton from '@material-ui/core/IconButton'
 import LeftIcon from '@material-ui/icons/KeyboardArrowLeft'
 import RightIcon from '@material-ui/icons/KeyboardArrowRight'
@@ -24,8 +23,6 @@ const Footer = props => {
     pageType,
     actions,
   } = props
-  
-  const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
 
   if (pageType !== PAGE_TYPES.HOME_MODE && !isLiveMode) return <div />
 
@@ -93,8 +90,7 @@ const Footer = props => {
             actions,
             lastFocusedFooterButtonIdx,
             footerPages,
-            isFullscreenOnLivemode,
-            isWebMode
+            isFullscreenOnLivemode
           )}
         >
           Live
@@ -109,14 +105,13 @@ const handleLiveButtonClick = (
   actions,
   lastFocusedFooterButtonIdx,
   footerPages,
-  isFullscreenOnLivemode,
-  isWebMode
+  isFullscreenOnLivemode
 ) => {
   if (isLiveMode) {
-    isFullscreenOnLivemode && document.exitFullscreen()
+    isFullscreenOnLivemode && document && document.exitFullscreen()
     actions.goBack()
   } else {
-    isFullscreenOnLivemode && document.body.requestFullscreen()
+    isFullscreenOnLivemode && document && document.body.requestFullscreen()
     actions.updateSliderListBackup()
   }
   actions.setFooterButtonFocus({ i: lastFocusedFooterButtonIdx })
@@ -126,7 +121,7 @@ const handleLiveButtonClick = (
   // Wait before scrolling into view: This is a very bad bad bad approach...
   setTimeout(() => {
     const elem = document.getElementById(`page-${lastFocusedFooterButtonIdx}`)
-    elem.scrollIntoView()
+    elem && elem.scrollIntoView()
   }, 1000)
 }
 
