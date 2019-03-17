@@ -12,6 +12,8 @@ import { Actions as SliderSettinsgsAction } from '../../actions/slider-list'
 import { Button, Tooltip } from '@material-ui/core'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 
+const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
+
 const Footer = props => {
   const {
     classes,
@@ -23,7 +25,7 @@ const Footer = props => {
     pageType,
     actions,
   } = props
-
+  
   if (pageType !== PAGE_TYPES.HOME_MODE && !isLiveMode) return <div />
 
   return (
@@ -90,7 +92,7 @@ const Footer = props => {
             actions,
             lastFocusedFooterButtonIdx,
             footerPages,
-            isFullscreenOnLivemode
+            isFullscreenOnLivemode,
           )}
         >
           Live
@@ -105,13 +107,13 @@ const handleLiveButtonClick = (
   actions,
   lastFocusedFooterButtonIdx,
   footerPages,
-  isFullscreenOnLivemode
+  isFullscreenOnLivemode,
 ) => {
   if (isLiveMode) {
-    isFullscreenOnLivemode && document && document.exitFullscreen()
+    isWebMode && isFullscreenOnLivemode && document.exitFullscreen()
     actions.goBack()
   } else {
-    isFullscreenOnLivemode && document && document.body.requestFullscreen()
+    isWebMode && isFullscreenOnLivemode && document.body.requestFullscreen()
     actions.updateSliderListBackup()
   }
   actions.setFooterButtonFocus({ i: lastFocusedFooterButtonIdx })
