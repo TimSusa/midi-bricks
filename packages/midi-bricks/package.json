@@ -7,10 +7,10 @@
   "license": "MIT",
   "repository": "https://github.com/TimSusa/midi-bricks-mono/tree/master/packages/midi-bricks",
   "dependencies": {
-    "@material-ui/core": "4.0.0-alpha.3",
+    "@material-ui/core": "4.0.0-alpha.4",
     "@material-ui/icons": "^3.0.1",
-    "@material-ui/lab": "4.0.0-alpha.3",
-    "@material-ui/styles": "4.0.0-alpha.3",
+    "@material-ui/lab": "4.0.0-alpha.4",
+    "@material-ui/styles": "4.0.0-alpha.4",
     "@material-ui/system": "^3.0.0-alpha.2",
     "downshift": "^3.2.0",
     "react": "16.8.4",
