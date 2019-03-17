@@ -13,6 +13,12 @@ import { Actions as SliderSettinsgsAction } from '../../actions/slider-list'
 import { Button, Tooltip } from '@material-ui/core'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 
+let ipcRenderer= null
+
+if (process.env.REACT_APP_IS_WEB_MODE === 'false') {
+  import('electron').then(({ipcRenderer: ipc}) => {ipcRenderer = ipc})
+}
+
 const Footer = props => {
   const {
     classes,
@@ -24,7 +30,9 @@ const Footer = props => {
     pageType,
     actions,
   } = props
+  const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
 
+  console.log(process.env, isWebMode)
   if (pageType !== PAGE_TYPES.HOME_MODE && !isLiveMode) return <div />
 
   return (
@@ -91,7 +99,8 @@ const Footer = props => {
             actions,
             lastFocusedFooterButtonIdx,
             footerPages,
-            isFullscreenOnLivemode
+            isFullscreenOnLivemode,
+            isWebMode
           )}
         >
           Live
@@ -106,13 +115,16 @@ const handleLiveButtonClick = (
   actions,
   lastFocusedFooterButtonIdx,
   footerPages,
-  isFullscreenOnLivemode
+  isFullscreenOnLivemode,
+  isWebMode
 ) => {
   if (isLiveMode) {
-    isFullscreenOnLivemode && document.exitFullscreen()
+    isWebMode && isFullscreenOnLivemode && document.exitFullscreen()
+    !isWebMode && isFullscreenOnLivemode && ipcRenderer.send('asynchronous-message', 'exit-fullscreen')
     actions.goBack()
   } else {
-    isFullscreenOnLivemode && document.body.requestFullscreen()
+    isWebMode && isFullscreenOnLivemode && document.body.requestFullscreen()
+    !isWebMode && isFullscreenOnLivemode && ipcRenderer.send('asynchronous-message', 'start-fullscreen')
     actions.updateSliderListBackup()
   }
   actions.setFooterButtonFocus({ i: lastFocusedFooterButtonIdx })

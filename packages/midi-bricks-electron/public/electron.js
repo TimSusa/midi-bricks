@@ -2,7 +2,7 @@ const { BrowserWindow, app } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev')
 const windowStateKeeper = require('electron-window-state')
-
+const { ipcMain } = require('electron')
 let win
 
 // Prevent Zoom, disrupting touches
@@ -14,6 +14,11 @@ app.on('ready', async () => {
   let mainWindowState = windowStateKeeper({
     defaultWidth: 1000,
     defaultHeight: 800
+  })
+
+  ipcMain.on('asynchronous-message', (event, arg) => {
+    console.log('electron says: ', arg) // prints "ping"
+    //event.sender.send('asynchronous-reply', 'pong')
   })
 
   // Create the window using the state information

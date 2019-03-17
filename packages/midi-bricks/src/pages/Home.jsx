@@ -13,6 +13,7 @@ import { PAGE_TYPES } from '../reducers/view-settings'
 
 class Home extends React.PureComponent {
   async componentWillMount() {
+
     // track driver changes after browser reload
     await this.props.initApp()
 
