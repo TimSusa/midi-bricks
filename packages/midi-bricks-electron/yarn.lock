@@ -901,22 +901,20 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
-"@material-ui/core@4.0.0-alpha.3":
-  version "4.0.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.0.0-alpha.3.tgz#dff4be23a7dbc6979778e04db6a55c2b2428a4e2"
-  integrity sha512-rLtoc3gmUG5GSPjvbC1oIcjq3TqjVqFahlGvg28iDZbIGJLy9/w/Ik8SQFkdT4ab4yYBg4fiklvVDe9CVhSsLw==
+"@material-ui/core@4.0.0-alpha.4":
+  version "4.0.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.0.0-alpha.4.tgz#e7a4bd231fee1d11ed3f58223daa19ff3321858f"
+  integrity sha512-q+qfoYh+i9GEpVdpdBLG1R9IobBSaMbU/k43O3mg+uav7gumamdPvGIMJU70ztYkAZWYYZKZWyhnt1EbJAp5PA==
   dependencies:
     "@babel/runtime" "^7.2.0"
-    "@material-ui/styles" "^4.0.0-alpha.3"
+    "@material-ui/styles" "^4.0.0-alpha.4"
     "@material-ui/system" "^4.0.0-alpha.0"
-    "@material-ui/utils" "^4.0.0-alpha.3"
-    "@types/jss" "^9.5.6"
+    "@material-ui/utils" "^4.0.0-alpha.4"
     "@types/react-transition-group" "^2.0.16"
     clsx "^1.0.2"
     csstype "^2.5.2"
     debounce "^1.1.0"
     deepmerge "^3.0.0"
-    dom-helpers "^3.2.1"
     hoist-non-react-statics "^3.2.1"
     is-plain-object "^2.0.4"
     normalize-scroll-left "^0.1.2"
@@ -934,40 +932,18 @@
     "@babel/runtime" "^7.2.0"
     recompose "0.28.0 - 0.30.0"
 
-"@material-ui/lab@4.0.0-alpha.3":
-  version "4.0.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/@material-ui/lab/-/lab-4.0.0-alpha.3.tgz#4d8eac5308f9eea2cfe2aa7180965cb6a0e4488c"
-  integrity sha512-VQtsagM+E0QBrtFeLO8lNd0F7yRIE1HdLKkAtAKrNnNi89x0lcooIKnGf1RDka9FzeijIuWRO+jBDx2o9A/zUw==
+"@material-ui/lab@4.0.0-alpha.4":
+  version "4.0.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@material-ui/lab/-/lab-4.0.0-alpha.4.tgz#cc8f7b339c27b2ea154ba8fc051f2fedc685b58b"
+  integrity sha512-lAJVGMRhk0ZVoIBc191a+tIveey6dKRtMADneEROPFjfOgDoDqpChT24sUhq782JFAO21R22YlqtDMU5ejHl7Q==
   dependencies:
     "@babel/runtime" "^7.2.0"
-    "@material-ui/utils" "^4.0.0-alpha.3"
+    "@material-ui/utils" "^4.0.0-alpha.4"
     clsx "^1.0.2"
     keycode "^2.1.9"
     prop-types "^15.7.2"
 
-"@material-ui/styles@4.0.0-alpha.3":
-  version "4.0.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/@material-ui/styles/-/styles-4.0.0-alpha.3.tgz#e8dc771af5ce409995ca3bf82e9d6aecfb8b867e"
-  integrity sha512-VBPZWfGPdrRgVqZvO8HOd69DYZiji81dIsTQTJVLedpB6bVrk+LuIPB38oas4y6zGWMB3CCL/uTH/zyD1HVnog==
-  dependencies:
-    "@babel/runtime" "^7.2.0"
-    "@emotion/hash" "^0.7.1"
-    "@material-ui/utils" "^4.0.0-alpha.3"
-    clsx "^1.0.2"
-    deepmerge "^3.0.0"
-    hoist-non-react-statics "^3.2.1"
-    jss "^10.0.0-alpha.12"
-    jss-plugin-camel-case "^10.0.0-alpha.12"
-    jss-plugin-default-unit "^10.0.0-alpha.12"
-    jss-plugin-global "^10.0.0-alpha.12"
-    jss-plugin-nested "^10.0.0-alpha.12"
-    jss-plugin-props-sort "^10.0.0-alpha.12"
-    jss-plugin-rule-value-function "^10.0.0-alpha.12"
-    jss-plugin-vendor-prefixer "^10.0.0-alpha.12"
-    prop-types "^15.7.2"
-    warning "^4.0.1"
-
-"@material-ui/styles@^4.0.0-alpha.3":
+"@material-ui/styles@4.0.0-alpha.4", "@material-ui/styles@^4.0.0-alpha.4":
   version "4.0.0-alpha.4"
   resolved "https://registry.yarnpkg.com/@material-ui/styles/-/styles-4.0.0-alpha.4.tgz#86cf04b8b987d9fa3d2f003da4d61ceee976724e"
   integrity sha512-hNrBcqz3FQjLU73gOxPAvlA6VRWoxTj3z+PJijhVZ4U24JbVFumjS5ZYflT4BqRLBUFEKU0u1c5NimqAEXYm8A==
@@ -1009,7 +985,7 @@
     prop-types "^15.6.0"
     warning "^4.0.1"
 
-"@material-ui/utils@^4.0.0-alpha.3", "@material-ui/utils@^4.0.0-alpha.4":
+"@material-ui/utils@^4.0.0-alpha.4":
   version "4.0.0-alpha.4"
   resolved "https://registry.yarnpkg.com/@material-ui/utils/-/utils-4.0.0-alpha.4.tgz#3966ec0c7fc2d42594092799bf464faf3d6d8633"
   integrity sha512-bS94IM50JL6ujmNv4cOMOcYv9CYkLwCXvkcJ0rXN/EDsx9qHq8Oir7yxEn8iBd8LMi92dDwiCazsln8/eYMBNw==
@@ -1055,14 +1031,6 @@
     "@babel/preset-react" "^7.0.0"
     "@svgr/core" "^2.4.1"
     loader-utils "^1.1.0"
-
-"@types/jss@^9.5.6":
-  version "9.5.8"
-  resolved "https://registry.yarnpkg.com/@types/jss/-/jss-9.5.8.tgz#258391f42211c042fc965508d505cbdc579baa5b"
-  integrity sha512-bBbHvjhm42UKki+wZpR89j73ykSXg99/bhuKuYYePtpma3ZAnmeGnl0WxXiZhPGsIfzKwCUkpPC0jlrVMBfRxA==
-  dependencies:
-    csstype "^2.0.0"
-    indefinite-observable "^1.0.1"
 
 "@types/node@^10.12.18":
   version "10.12.18"
@@ -3398,11 +3366,6 @@ cssstyle@^1.0.0, cssstyle@^1.1.1:
   dependencies:
     cssom "0.3.x"
 
-csstype@^2.0.0:
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.3.tgz#b701e5968245bf9b08d54ac83d00b624e622a9fa"
-  integrity sha512-rINUZXOkcBmoHWEyu7JdHu5JMzkGRoMX4ov9830WNgxf5UYxcBUO0QTKAqeJ5EZfSdlrcJYkC8WwfVW7JYi4yg==
-
 csstype@^2.2.0, csstype@^2.5.2:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.1.tgz#4cfbf637a577497036ebcd7e32647ef19a0b8076"
@@ -3758,7 +3721,7 @@ dom-converter@~0.2:
   dependencies:
     utila "~0.4"
 
-dom-helpers@^3.2.1, dom-helpers@^3.3.1:
+dom-helpers@^3.3.1:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-3.4.0.tgz#e9b369700f959f62ecde5a6babde4bccd9169af8"
   integrity sha512-LnuPJ+dwqKDIyotW1VzmOZ5TONUN7CwkCR5hrgawTUbkBGYdeoNLZo6nNfGkCrjtE1nXXaj7iMMpDa8/d9WoIA==
@@ -5686,13 +5649,6 @@ imurmurhash@^0.1.4:
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
   integrity sha1-khi5srkoojixPcT7a21XbyMUU+o=
 
-indefinite-observable@^1.0.1:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/indefinite-observable/-/indefinite-observable-1.0.2.tgz#0a328793ab2385d4b9dca23eaab4afe6936a73f8"
-  integrity sha512-Mps0898zEduHyPhb7UCgNmfzlqNZknVmaFz5qzr0mm04YQ5FGLhAyK/dJ+NaRxGyR6juQXIxh5Ev0xx+qq0nYA==
-  dependencies:
-    symbol-observable "1.2.0"
-
 indent-string@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/indent-string/-/indent-string-2.1.0.tgz#8e2d48348742121b4a8218b7a137e9a52049dc80"
@@ -7459,15 +7415,15 @@ micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8, mic
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-midi-bricks@^0.12.55:
-  version "0.12.55"
-  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.55.tgz#900972b51a6993a37fcf23dfdc342b439920e3b3"
-  integrity sha512-t8svwGzQw82UDalBb0PEbCz7xjXKefH8Q3sFES5VZOA12RmoWk4O+Px7ZQuGEKFchNM4m4kgxiHR49BlRJbb8w==
+midi-bricks@^0.12.56:
+  version "0.12.56"
+  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.56.tgz#0e9ca033106050a289963c3806cdd54b0b549022"
+  integrity sha512-HCtDnxwWR5sk6tk4OdBoqAIjUde3mleLyFkEGnzU3lCZ2keksQPjInbJ6cBA458nvJZsB2yH2dCvIRWDMMxzqQ==
   dependencies:
-    "@material-ui/core" "4.0.0-alpha.3"
+    "@material-ui/core" "4.0.0-alpha.4"
     "@material-ui/icons" "^3.0.1"
-    "@material-ui/lab" "4.0.0-alpha.3"
-    "@material-ui/styles" "4.0.0-alpha.3"
+    "@material-ui/lab" "4.0.0-alpha.4"
+    "@material-ui/styles" "4.0.0-alpha.4"
     "@material-ui/system" "^3.0.0-alpha.2"
     downshift "^3.2.0"
     react "16.8.4"
@@ -11019,7 +10975,7 @@ svgo@^1.0.0, svgo@^1.0.5:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-symbol-observable@1.2.0, symbol-observable@^1.0.4, symbol-observable@^1.2.0:
+symbol-observable@^1.0.4, symbol-observable@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
   integrity sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==

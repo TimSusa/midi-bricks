@@ -13,11 +13,7 @@ import { Actions as SliderSettinsgsAction } from '../../actions/slider-list'
 import { Button, Tooltip } from '@material-ui/core'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 
-let ipcRenderer= null
-
-if (process.env.REACT_APP_IS_WEB_MODE === 'false') {
-  import('electron').then(({ipcRenderer: ipc}) => {ipcRenderer = ipc})
-}
+const ipcRenderer= (process.env.REACT_APP_IS_WEB_MODE === 'false') ? require('electron') : ''
 
 const Footer = props => {
   const {

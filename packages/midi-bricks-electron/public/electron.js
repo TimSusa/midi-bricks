@@ -1,24 +1,23 @@
-const { BrowserWindow, app } = require('electron')
+const { BrowserWindow, app, ipcMain } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev')
 const windowStateKeeper = require('electron-window-state')
-const { ipcMain } = require('electron')
 let win
 
 // Prevent Zoom, disrupting touches
 !isDev && app.commandLine.appendSwitch('disable-pinch')
 !isDev && app.commandLine.appendSwitch('overscroll-history-navigation=0')
 
+ipcMain.on('asynchronous-message', (event, arg) => {
+  console.log('electron says: ', arg) // prints "ping"
+  //event.sender.send('asynchronous-reply', 'pong')
+})
+
 app.on('ready', async () => {
   // Load the previous state with fallback to defaults
   let mainWindowState = windowStateKeeper({
     defaultWidth: 1000,
     defaultHeight: 800
-  })
-
-  ipcMain.on('asynchronous-message', (event, arg) => {
-    console.log('electron says: ', arg) // prints "ping"
-    //event.sender.send('asynchronous-reply', 'pong')
   })
 
   // Create the window using the state information
