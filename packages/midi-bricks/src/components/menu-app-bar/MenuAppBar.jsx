@@ -125,27 +125,43 @@ const MenuAppBar = props => {
                 variant="contained"
                 onClick={actions.resetValues}
               >
-                Restore Saved Values
+                Reset To Saved Values
               </Button>
               <Button
                 className={classes.resetButton}
                 variant="contained"
                 onClick={actions.triggerAllMidiElements}
               >
-                TRIGGER ALL MIDI
+                Trigger All MIDI
               </Button>
             </React.Fragment>
           )}
           {[PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
             pageType
           ) && (
-            <Button
-              className={classes.resetButton}
-              variant="contained"
-              onClick={async () => await props.initApp()}
-            >
-              Detect Driver Changes
-            </Button>
+            <>
+              <Button
+                className={classes.resetButton}
+                variant="contained"
+                onClick={async () => await props.initApp()}
+              >
+                Detect Driver
+              </Button>
+              <Button
+                className={classes.resetButton}
+                variant="contained"
+                onClick={async () => window.location.reload()}
+              >
+                Reload
+              </Button>
+              <Button
+                className={classes.resetButton}
+                variant="contained"
+                onClick={async () => window.localStorage.clear()}
+              >
+                Clear Cache
+              </Button>
+            </>
           )}
           {![PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
             pageType
@@ -232,8 +248,11 @@ const styles = theme => ({
     marginRight: 20,
   },
   resetButton: {
-    marginLeft: 16,
-    padding: 8,
+    padding: '0 8px 0 8px',
+    marginLeft: '16px',
+    height: '32px',
+    textTransform: 'none',
+    fontSize: '12px',
   },
 })
 

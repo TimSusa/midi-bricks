@@ -7383,10 +7383,10 @@ micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8, mic
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-midi-bricks@^0.12.60:
-  version "0.12.60"
-  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.60.tgz#c2faff385fd271c573403524bcf470dcfa1a004a"
-  integrity sha512-qt775a7MyRfTWHhioJj45v1zyIMBx/cel2jWD8RjbrzUi6G5pa1QGFE+7pmZ1PQdhxUPmPFkiXO7cRzn8dwlOw==
+midi-bricks@^0.12.61:
+  version "0.12.61"
+  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.61.tgz#8448ed5f5987b700c65c9f1d431f51df4601bdb6"
+  integrity sha512-kwBUjoX8rLS4umO4X1fk1Gz1GIWy7BeppznkdarawjhDZk33GoPpucq8VI1Ul6fkeKKEkpv7aY0PqICRIr5B/A==
   dependencies:
     "@material-ui/core" "4.0.0-alpha.4"
     "@material-ui/icons" "^3.0.1"
@@ -7400,7 +7400,6 @@ midi-bricks@^0.12.60:
     react-gamepad "^1.0.3"
     react-grid-layout "^0.16.6"
     react-redux "^6.0.0"
-    react-scripts "^2.1.3"
     react-sizeme "^2.5.2"
     redux "^4.0.1"
     redux-devtools-extension "^2.13.2"
@@ -9498,7 +9497,7 @@ react-resizable@1.x:
     prop-types "15.x"
     react-draggable "^2.2.6 || ^3.0.3"
 
-react-scripts@^2.1.3, react-scripts@^2.1.8:
+react-scripts@^2.1.8:
   version "2.1.8"
   resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-2.1.8.tgz#21195bb928b2c0462aa98b2d32edf7d034cff2a9"
   integrity sha512-mDC8fYWCyuB9VROti8OCPdHE79UEchVVZmuS/yaIs47VkvZpgZqUvzghYBswZRchqnW0aARNY8xXrzoFRhhK7A==
