@@ -54,6 +54,7 @@ class App extends React.PureComponent {
 
   onFileChange = async (e, results) => {
     this.props.actions.deleteFooterPages()
+    window.localStorage.clear()
     this.props.actions.loadFile(results)
 
     // Prepare foooterpages flush
