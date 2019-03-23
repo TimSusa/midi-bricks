@@ -7795,10 +7795,10 @@ normalize-url@^3.0.0, normalize-url@^3.3.0:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
   integrity sha512-U+JJi7duF1o+u2pynbp2zXDW2/PADgC30f0GsHZtRh+HOcXHnw137TrNlyxxRvWW5fjKd3bcLHPxofWuCjaeZg==
 
-now@14.3.0-canary.9:
-  version "14.3.0-canary.9"
-  resolved "https://registry.yarnpkg.com/now/-/now-14.3.0-canary.9.tgz#77a10c02c1e56af986ef691cb5fb948b79e8b29b"
-  integrity sha512-xLWu+d4lDWOeoCpmyrtG2OUbdgTG20rr77JrNKwVDTBrI/+4X8UL/u87ooAOvx3fR3zM0IB/Pk27erH+kdC0RQ==
+now@14.3.0-canary.17:
+  version "14.3.0-canary.17"
+  resolved "https://registry.yarnpkg.com/now/-/now-14.3.0-canary.17.tgz#765a97f976f9eff63c22aba34b370ecf0bca749b"
+  integrity sha512-W8WOgBWYgSvovSdxjcLL+dT9YnCfUuhB1bPzkUUadiBP8DZtGBEUjW0jTYw7a/TJYaY0nt3vejzQfLzfrHgLvw==
 
 npm-bundled@^1.0.1:
   version "1.0.6"

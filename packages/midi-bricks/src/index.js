@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 /*eslint-disable-next-line */
 import ReduxWrappedMuiApp from './providers/ReduxWrappedMuiApp'
 
+
 const rootEl = document.getElementById('root')
 ReactDOM.render(<ReduxWrappedMuiApp />, rootEl)
 /*eslint-disable-next-line */
