@@ -6,7 +6,7 @@
   "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
   "devDependencies": {
     "lerna": "3.13.1",
-    "now": "14.3.0-canary.17",
+    "now": "14.3.0-canary.27",
     "react-scripts": "^2.1.8"
   },
   "scripts": {
