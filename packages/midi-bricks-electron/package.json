@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks-electron",
-  "version": "0.12.65",
+  "version": "0.12.66",
   "main": "./build/electron.js",
   "homepage": ".",
   "repository": "https://github.com/TimSusa/midi-bricks-mono/tree/master/packages/midi-bricks-electron",
@@ -36,7 +36,7 @@
     "concurrently": "4.1.0",
     "electron": "4.1.0",
     "electron-builder": "20.38.5",
-    "midi-bricks": "^0.12.65",
+    "midi-bricks": "^0.12.66",
     "mocha": "6.0.2",
     "react-scripts": "^2.1.8",
     "spectron": "5.0.0",
