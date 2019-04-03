@@ -75,7 +75,7 @@ const styles = theme => ({
   },
   noMidiTypography: {
     textAlign: 'center',
-    paddingTop: theme.spacing.unit * 4,
+    paddingTop: theme.spacing(4),
   },
 })
 

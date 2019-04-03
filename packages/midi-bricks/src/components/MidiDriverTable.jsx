@@ -172,7 +172,7 @@ const styles = theme => ({
     padding: 0,
   },
   heading: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   card: {
     margin: theme.spacing(2),
@@ -188,10 +188,10 @@ const styles = theme => ({
     background: theme.palette.primary,
   },
   topLabel: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   label: {
-    marginLeft: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
   },
 })
 

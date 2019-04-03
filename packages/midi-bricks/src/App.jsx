@@ -138,7 +138,7 @@ const styles = theme => ({
   content: {
     backgroundColor: theme.palette.background.default,
     width: '100%',
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
   },
 })
 

@@ -48,14 +48,14 @@ function DriverExpansionPanel({
 
 const styles = theme => ({
   root: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     padding: 0,
   },
   summary: {
     margin: 0,
   },
   heading: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   details: {
     flexDirection: 'column',

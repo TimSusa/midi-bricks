@@ -37,7 +37,7 @@ function MinMaxValInputComponent({
 const styles = theme => ({
   root: {},
   formControl: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   input: {
     color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',

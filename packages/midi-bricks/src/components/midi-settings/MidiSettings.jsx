@@ -133,15 +133,15 @@ const styles = theme => ({
     flexDirection: 'column',
   },
   // expPanel: {
-  //   margin: theme.spacing.unit,
-  //   minHeight: theme.spacing.unit * 8,
+  //   margin: theme.spacing(1),
+  //   minHeight: theme.spacing(8),
   // },
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     background: theme.palette.button.background,
   },
   // heading: {
-  //   margin: theme.spacing.unit,
+  //   margin: theme.spacing(1),
   //   color: theme.palette.primary.contrastText,
   // },
   iconColor: {
@@ -156,10 +156,10 @@ const styles = theme => ({
   //   lineHeight: '1.375em',
   // },
   inputInput: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   // formControl: {
-  //   margin: theme.spacing.unit,
+  //   margin: theme.spacing(1),
   // },
   // label: {
   //   color: theme.palette.primary.contrastText,

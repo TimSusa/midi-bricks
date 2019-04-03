@@ -123,7 +123,7 @@ const suggestionsMidiCc = Array.apply(null, { length: 120 })
 
 const styles = theme => ({
   formControl: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   label: {
     color: theme.palette.primary.contrastText,
