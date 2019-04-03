@@ -69,22 +69,19 @@ class App extends React.PureComponent {
       inputs: { None: { ccChannels: [], noteChannels: [] } },
       outputs: { None: { ccChannels: [], noteChannels: [] } },
     }
-
-    this.setState(
-      state => ({ isMobileOpen: !this.state.isMobileOpen }),
-      () =>
-        parsedJson.sliders.sliderList &&
-        this.props.actions.updateViewSettings({
-          viewSettings: {
-            ...parsedJson.viewSettings,
-            availableDrivers: drivers,
-          },
-          sliderList: parsedJson.sliders.sliderList,
-        })
-    )
+    parsedJson.sliders.sliderList &&
+    this.props.actions.updateViewSettings({
+      viewSettings: {
+        ...parsedJson.viewSettings,
+        availableDrivers: drivers,
+      },
+      sliderList: parsedJson.sliders.sliderList,
+    })
     await this.props.initApp()
     this.props.actions.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })
-    // window.location.reload() 
+    this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen })    )
+
+    window.location.reload() 
   }
 
   handleSaveFile = () => {
