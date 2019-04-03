@@ -28,7 +28,8 @@ app.on('ready', async () => {
     'height': mainWindowState.height,
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    icon: __dirname + '/icon.icns'
   })
 
   // Let us register listeners on the window, so we can update the state

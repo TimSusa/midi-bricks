@@ -1,4 +1,5 @@
 import WebMIDI from 'webmidi'
+import { debounce } from 'lodash'
 import { Actions } from './slider-list'
 
 const { initPending, midiMessageArrived, initFailed, initMidiAccess } = Actions
@@ -61,7 +62,7 @@ export function initApp(mode) {
             input.addListener(
               'controlchange',
               ccChannels,
-              ({ value, channel, controller: { number } }) => {
+              debounce(({ value, channel, controller: { number } }) => {
                 const obj = {
                   isNoteOn: undefined,
                   val: value,
@@ -72,7 +73,7 @@ export function initApp(mode) {
                 if (ccArr.includes(number)) {
                   dispatch(midiMessageArrived(obj))
                 }
-              }
+              }, 5)
             )
           } else {
             input.removeListener('controlchange')
@@ -80,7 +81,7 @@ export function initApp(mode) {
             input.addListener(
               'controlchange',
               'all',
-              ({ value, channel, controller: { number } }) => {
+              debounce(({ value, channel, controller: { number } }) => {
                 const obj = {
                   isNoteOn: undefined,
                   val: value,
@@ -89,7 +90,7 @@ export function initApp(mode) {
                   driver: name,
                 }
                 dispatch(midiMessageArrived(obj))
-              }
+              }, 5)
             )
           }
           if (
@@ -101,76 +102,92 @@ export function initApp(mode) {
           ) {
             console.log('Add note listener ', name, ' ', ccArr)
             input.removeListener('noteon')
-            input.addListener('noteon', noteChannels, event => {
-              const {
-                rawVelocity,
-                channel,
-                note: { number },
-              } = event
-              const obj = {
-                isNoteOn: true,
-                val: rawVelocity,
-                cC: number,
-                channel,
-                driver: name,
-              }
-              if (ccArr.includes(number)) {
-                dispatch(midiMessageArrived(obj))
-              }
-            })
+            input.addListener(
+              'noteon',
+              noteChannels,
+              debounce(event => {
+                const {
+                  rawVelocity,
+                  channel,
+                  note: { number },
+                } = event
+                const obj = {
+                  isNoteOn: true,
+                  val: rawVelocity,
+                  cC: number,
+                  channel,
+                  driver: name,
+                }
+                if (ccArr.includes(number)) {
+                  dispatch(midiMessageArrived(obj))
+                }
+              }, 5)
+            )
             input.removeListener('noteoff')
-            input.addListener('noteoff', noteChannels, event => {
-              const {
-                rawVelocity,
-                channel,
-                note: { number },
-              } = event
-              const obj = {
-                isNoteOn: false,
-                val: rawVelocity,
-                cC: number,
-                channel,
-                driver: name,
-              }
-              if (ccArr.includes(number)) {
-                dispatch(midiMessageArrived(obj))
-              }
-            })
+            input.addListener(
+              'noteoff',
+              noteChannels,
+              debounce(event => {
+                const {
+                  rawVelocity,
+                  channel,
+                  note: { number },
+                } = event
+                const obj = {
+                  isNoteOn: false,
+                  val: rawVelocity,
+                  cC: number,
+                  channel,
+                  driver: name,
+                }
+                if (ccArr.includes(number)) {
+                  dispatch(midiMessageArrived(obj))
+                }
+              }, 5)
+            )
           } else {
             input.removeListener('noteon')
             console.log('Add note listener ALL', name, ' ', ccArr)
-            input.addListener('noteon', 'all', event => {
-              const {
-                rawVelocity,
-                channel,
-                note: { number },
-              } = event
-              const obj = {
-                isNoteOn: true,
-                val: rawVelocity,
-                cC: number,
-                channel,
-                driver: name,
-              }
-              dispatch(midiMessageArrived(obj))
-            })
+            input.addListener(
+              'noteon',
+              'all',
+              debounce(event => {
+                const {
+                  rawVelocity,
+                  channel,
+                  note: { number },
+                } = event
+                const obj = {
+                  isNoteOn: true,
+                  val: rawVelocity,
+                  cC: number,
+                  channel,
+                  driver: name,
+                }
+                dispatch(midiMessageArrived(obj))
+              }, 5)
+            )
             input.removeListener('noteoff')
             console.log('Add note off listener ALL', name, ' ', ccArr)
-            input.addListener('noteoff', 'all', event => {
-              const {
-                rawVelocity,
-                channel,
-                note: { number },
-              } = event
-              const obj = {
-                isNoteOn: false,
-                val: rawVelocity,
-                cC: number,
-                channel,
-                driver: name,
-              }
-              dispatch(midiMessageArrived(obj))
-            })
+            input.addListener(
+              'noteoff',
+              'all',
+              debounce(event => {
+                const {
+                  rawVelocity,
+                  channel,
+                  note: { number },
+                } = event
+                const obj = {
+                  isNoteOn: false,
+                  val: rawVelocity,
+                  cC: number,
+                  channel,
+                  driver: name,
+                }
+                dispatch(midiMessageArrived(obj))
+              }, 5)
+            )
           }
         })
         if (hasContent(outputs) || hasContent(inputs)) {
