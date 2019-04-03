@@ -19,7 +19,7 @@ app.on('ready', async () => {
     defaultWidth: 1000,
     defaultHeight: 800
   })
-
+  console.log('sdf a', __dirname)
   // Create the window using the state information
   win = new BrowserWindow({
     'x': mainWindowState.x,
@@ -29,7 +29,7 @@ app.on('ready', async () => {
     webPreferences: {
       nodeIntegration: true
     },
-    icon: __dirname + '/icon.icns'
+    icon: path.join(__dirname, 'icons/512x512.png')
   })
 
   // Let us register listeners on the window, so we can update the state
