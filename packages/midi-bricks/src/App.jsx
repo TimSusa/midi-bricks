@@ -81,7 +81,8 @@ class App extends React.PureComponent {
     this.props.actions.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })
     this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen })    )
 
-    window.location.reload() 
+    // lets try to get rid of this!
+    // window.location.reload() 
   }
 
   handleSaveFile = () => {
