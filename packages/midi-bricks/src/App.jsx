@@ -154,20 +154,22 @@ async function onFileChange(actions, initApp, setIsMobileOpen, e, results) {
   setIsMobileOpen(false)
 }
 
-function handleSaveFile(props, setIsMobileOpen) {
-  const { viewSettings, sliders } = props
-  props.actions.saveFile({
+function handleSaveFile(
+  { viewSettings, sliders, actions: { saveFile } },
+  setIsMobileOpen
+) {
+  saveFile({
     viewSettings,
     sliders,
   })
   setIsMobileOpen(false)
 }
 
-function togglePage(props, pageType) {
-  props.actions.togglePage(pageType)
+function togglePage({ actions: { togglePage } }, pageType) {
+  togglePage(pageType)
 }
 
-function handleResetSliders(props, setIsMobileOpen) {
-  props.actions.deleteAll()
+function handleResetSliders({ actions: { deleteAll } }, setIsMobileOpen) {
+  deleteAll()
   setIsMobileOpen(false)
 }
