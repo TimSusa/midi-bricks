@@ -6,31 +6,6 @@
   "main": "./src/index.js",
   "license": "MIT",
   "repository": "https://github.com/TimSusa/midi-bricks-mono/tree/master/packages/midi-bricks",
-  "dependencies": {
-    "@material-ui/core": "4.0.0-alpha.6",
-    "@material-ui/icons": "^3.0.1",
-    "@material-ui/lab": "4.0.0-alpha.6",
-    "@material-ui/styles": "4.0.0-alpha.6",
-    "@material-ui/system": "^3.0.0-alpha.2",
-    "downshift": "^3.2.0",
-    "react": "16.8.6",
-    "react-color": "^2.14.1",
-    "react-dom": "16.8.6",
-    "react-gamepad": "^1.0.3",
-    "react-grid-layout": "^0.16.6",
-    "react-redux": "^6.0.0",
-    "react-sizeme": "^2.5.2",
-    "redux": "^4.0.1",
-    "redux-devtools-extension": "^2.13.2",
-    "redux-generate": "^2.0.0",
-    "redux-logger": "^3.0.6",
-    "redux-persist": "^5.5.0",
-    "redux-thunk": "^2.2.0",
-    "source-map-explorer": "^1.6.0",
-    "tonal": "^2.1.2",
-    "typeface-roboto": "0.0.54",
-    "webmidi": "^2.3.1"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -48,11 +23,5 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "devDependencies": {
-    "enzyme": "3.8.0",
-    "enzyme-adapter-react-16": "1.11.2",
-    "react-scripts": "^2.1.8",
-    "redux-mock-store": "1.5.3"
-  },
   "gitHead": "08f676d145fc0f5753ea7de2f1fe768ceb5edcca"
 }

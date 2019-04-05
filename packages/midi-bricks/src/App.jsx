@@ -1,7 +1,6 @@
 import { Drawer, withStyles } from '@material-ui/core'
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
-
 import Home from './pages/Home'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSlidersAction } from './actions/slider-list.js'
@@ -13,135 +12,12 @@ import DrawerList from './components/drawer-list/DrawerList'
 import Footer from './components/footer/Footer'
 import { PAGE_TYPES } from './reducers/view-settings'
 
-class App extends React.PureComponent {
-  state = {
-    isMobileOpen: false,
-  }
-
-  render() {
-    return (
-      <div className={this.props.classes.root}>
-        <div className={this.props.classes.appBar}>
-          <MenuAppBar handleDrawerToggle={this.handleDrawerToggle} />
-          <Drawer
-            variant="temporary"
-            anchor={'left'}
-            open={this.state.isMobileOpen}
-            classes={{
-              paper: this.props.classes.drawerPaper,
-            }}
-            onClose={this.handleDrawerToggle}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            <DrawerList
-              onFileChange={this.onFileChange}
-              handleSaveFile={this.handleSaveFile}
-              handleResetSliders={this.handleResetSliders}
-              togglePage={this.togglePage}
-              classes={this.props.classes}
-              onClose={this.handleDrawerToggle}
-            />
-          </Drawer>
-          <Home />
-
-          {!window.location.href.endsWith('global') && <Footer />}
-        </div>
-      </div>
-    )
-  }
-
-  onFileChange = async (e, results) => {
-    this.props.actions.deleteFooterPages()
-    window.localStorage.clear()
-    this.props.actions.loadFile(results)
-
-    // Prepare foooterpages flush
-    const files = results[0]
-    const content = files[0].target.result
-    const parsedJson = JSON.parse(content)
-
-    const {
-      viewSettings: { availableDrivers },
-    } = parsedJson
-    const drivers = availableDrivers || {
-      inputs: { None: { ccChannels: [], noteChannels: [] } },
-      outputs: { None: { ccChannels: [], noteChannels: [] } },
-    }
-    parsedJson.sliders.sliderList &&
-    this.props.actions.updateViewSettings({
-      viewSettings: {
-        ...parsedJson.viewSettings,
-        availableDrivers: drivers,
-      },
-      sliderList: parsedJson.sliders.sliderList,
-    })
-    await this.props.initApp()
-    this.props.actions.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })
-    this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen })    )
-
-    // lets try to get rid of this!
-    // window.location.reload() 
-  }
-
-  handleSaveFile = () => {
-    const { viewSettings, sliders } = this.props
-    this.props.actions.saveFile({ viewSettings, sliders })
-    this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen }))
-  }
-
-  togglePage = pageType => {
-    this.props.actions.togglePage(pageType)
-  }
-
-  handleResetSliders = () => {
-    this.props.actions.deleteAll()
-
-    this.setState(
-      state => ({ isMobileOpen: !this.state.isMobileOpen }),
-      () => this.props.actions.deleteFooterPages()
-    )
-  }
-
-  handleDrawerToggle = () => {
-    this.setState({ isMobileOpen: !this.state.isMobileOpen })
-  }
-}
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-    height: '100%',
-    zIndex: 1,
-  },
-  appFrame: {
-    position: 'relative',
-    display: 'flex',
-    width: '100%',
-    height: '100%',
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    position: 'absolute',
-    right: 0,
-    left: 0,
-    margin: 0,
-  },
-  navIconHide: {},
-  drawerHeader: {
-    ...theme.mixins.toolbar,
-  },
-  drawerPaper: {
-    width: 250,
-    backgroundColor: 'white',
-  },
-  content: {
-    backgroundColor: theme.palette.background.default,
-    width: '100%',
-    marginTop: theme.spacing(1),
-  },
-})
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(App)
+)
 
 function mapStateToProps({ viewSettings, sliders }) {
   return {
@@ -159,9 +35,139 @@ function mapDispatchToProps(dispatch) {
     initApp: bindActionCreators(initApp, dispatch),
   }
 }
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(App)
-)
+
+function App(props) {
+  const { actions, initApp } = props
+  const [isMobileOpen, setIsMobileOpen] = useState(false)
+  return (
+    <div className={props.classes.root}>
+      <div className={props.classes.appBar}>
+        <MenuAppBar handleDrawerToggle={() => setIsMobileOpen(!isMobileOpen)} />
+        <Drawer
+          variant="temporary"
+          anchor={'left'}
+          open={isMobileOpen}
+          classes={{
+            paper: props.classes.drawerPaper,
+          }}
+          onClose={() => setIsMobileOpen(!isMobileOpen)}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+        >
+          <DrawerList
+            onFileChange={onFileChange.bind(
+              this,
+              actions,
+              initApp,
+              setIsMobileOpen
+            )}
+            handleSaveFile={handleSaveFile.bind(this, props, setIsMobileOpen)}
+            handleResetSliders={handleResetSliders.bind(
+              this,
+              props,
+              setIsMobileOpen
+            )}
+            togglePage={togglePage.bind(this, props)}
+            classes={props.classes}
+            onClose={() => setIsMobileOpen(!isMobileOpen)}
+          />
+        </Drawer>
+        <Home />
+
+        {!window.location.href.endsWith('global') && <Footer />}
+      </div>
+    </div>
+  )
+}
+
+function styles(theme) {
+  return {
+    root: {
+      width: '100%',
+      height: '100%',
+      zIndex: 1,
+    },
+    appFrame: {
+      position: 'relative',
+      display: 'flex',
+      width: '100%',
+      height: '100%',
+    },
+    appBar: {
+      zIndex: theme.zIndex.drawer + 1,
+      position: 'absolute',
+      right: 0,
+      left: 0,
+      margin: 0,
+    },
+    navIconHide: {},
+    drawerHeader: {
+      ...theme.mixins.toolbar,
+    },
+    drawerPaper: {
+      width: 250,
+      backgroundColor: 'white',
+    },
+    content: {
+      backgroundColor: theme.palette.background.default,
+      width: '100%',
+      marginTop: theme.spacing(1),
+    },
+  }
+}
+
+async function onFileChange(actions, initApp, setIsMobileOpen, e, results) {
+  actions.deleteFooterPages()
+  window.localStorage.clear()
+  actions.loadFile(results) // Prepare foooterpages flush
+
+  const files = results[0]
+  const content = files[0].target.result
+  const parsedJson = JSON.parse(content)
+  const {
+    viewSettings: { availableDrivers },
+  } = parsedJson
+  const drivers = availableDrivers || {
+    inputs: {
+      None: {
+        ccChannels: [],
+        noteChannels: [],
+      },
+    },
+    outputs: {
+      None: {
+        ccChannels: [],
+        noteChannels: [],
+      },
+    },
+  }
+  parsedJson.sliders.sliderList &&
+    actions.updateViewSettings({
+      viewSettings: { ...parsedJson.viewSettings, availableDrivers: drivers },
+      sliderList: parsedJson.sliders.sliderList,
+    })
+  await initApp()
+  actions.togglePage({
+    pageType: PAGE_TYPES.GLOBAL_MODE,
+  })
+  setIsMobileOpen(false)
+}
+
+function handleSaveFile(props, setIsMobileOpen) {
+  const { viewSettings, sliders } = props
+  props.actions.saveFile({
+    viewSettings,
+    sliders,
+  })
+  setIsMobileOpen(false)
+}
+
+function togglePage(props, pageType) {
+  props.actions.togglePage(pageType)
+}
+
+function handleResetSliders(props, setIsMobileOpen) {
+  props.actions.deleteAll()
+  setIsMobileOpen(false)
+}

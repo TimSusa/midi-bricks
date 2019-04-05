@@ -38,7 +38,6 @@
     "electron-builder": "20.38.5",
     "midi-bricks": "^0.12.67",
     "mocha": "6.0.2",
-    "react-scripts": "^2.1.8",
     "spectron": "5.0.0",
     "wait-for-localhost-cli": "1.1.0"
   },
