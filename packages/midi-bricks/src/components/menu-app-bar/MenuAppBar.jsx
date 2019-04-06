@@ -23,7 +23,35 @@ import AddMenu from './AddMenu'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 import { Tooltip } from '@material-ui/core'
 
-const MenuAppBar = props => {
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(MenuAppBar)
+)
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(
+      { ...MidiSlidersAction, ...ViewSettingsAction },
+      dispatch
+    ),
+    initApp: bindActionCreators(initApp, dispatch),
+  }
+}
+
+function mapStateToProps({
+  sliders: { presetName, monitorVal },
+  viewSettings,
+}) {
+  return {
+    viewSettings,
+    presetName,
+    monitorVal,
+  }
+}
+
+function MenuAppBar(props) {
   const {
     classes,
     actions,
@@ -227,62 +255,36 @@ MenuAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  appBar: {
-    background: theme.palette.appBar.background,
-    fontWeight: 600,
-  },
-  typoColorStyle: {
-    color: theme.palette.primary.contrastText,
-    fontWeight: 600,
-    flex: 1,
-  },
-  flex: {
-    flex: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-  resetButton: {
-    padding: '0 8px 0 8px',
-    marginLeft: '16px',
-    height: '32px',
-    textTransform: 'none',
-    fontSize: '12px',
-  },
-})
-
-function mapDispatchToProps(dispatch) {
+function styles(theme) {
   return {
-    actions: bindActionCreators(
-      { ...MidiSlidersAction, ...ViewSettingsAction },
-      dispatch
-    ),
-    initApp: bindActionCreators(initApp, dispatch),
+    root: {
+      flexGrow: 1,
+    },
+    appBar: {
+      background: theme.palette.appBar.background,
+      fontWeight: 600,
+    },
+    typoColorStyle: {
+      color: theme.palette.primary.contrastText,
+      fontWeight: 600,
+      flex: 1,
+    },
+    flex: {
+      flex: 1,
+    },
+    menuButton: {
+      marginLeft: -12,
+      marginRight: 20,
+    },
+    resetButton: {
+      padding: '0 8px 0 8px',
+      marginLeft: '16px',
+      height: '32px',
+      textTransform: 'none',
+      fontSize: '12px',
+    },
   }
 }
-
-function mapStateToProps({
-  sliders: { presetName, monitorVal },
-  viewSettings,
-}) {
-  return {
-    viewSettings,
-    presetName,
-    monitorVal,
-  }
-}
-
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(MenuAppBar)
-)
 
 async function toggleMidiLearnMode(
   toggleMidiLearn,
@@ -296,6 +298,19 @@ async function toggleMidiLearnMode(
 ) {
   if (isMidiLearn) {
     if (!monitorVal) return
+    actions.selectMidiDriver({
+      driverName: monitorVal.driver,
+      i: lastFocusedIdx,
+    })
+    
+    actions.selectMidiChannel({
+      val: `${monitorVal.channel}`,
+      idx: lastFocusedIdx,
+    })
+    actions.selectCc({
+      val: [`${monitorVal.cC}`],
+      idx: lastFocusedIdx,
+    })
     actions.selectMidiDriverInput({
       driverNameInput: monitorVal.driver,
       i: lastFocusedIdx,
@@ -304,13 +319,14 @@ async function toggleMidiLearnMode(
       val: `${monitorVal.channel}`,
       idx: lastFocusedIdx,
     })
+
     actions.addMidiCcListener({
       val: [`${monitorVal.cC}`],
       idx: lastFocusedIdx,
     })
+
     await initApp()
     //handleClose(setAncEl)
-    //window.location.reload()
   } else {
     await initApp('all')
     //handleClose(setAncEl)
