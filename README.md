@@ -3,7 +3,7 @@
 Mono-repo for midi-bricks, its electron app and deployment. See more under packages
 
 ## web-demo
-https://build-m3ay6b06w.now.sh/
+https://midi-bricks.timsusa.now.sh
 
 ## install
 
