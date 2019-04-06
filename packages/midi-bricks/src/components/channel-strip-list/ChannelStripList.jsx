@@ -177,7 +177,7 @@ class ChannelStripList extends React.PureComponent {
         <Typography variant="h4" className={classes.noMidiTypography}>
           <br />
           <br />
-          At first, please add a page.
+          Hey guys, I suggest to add a page at first.
           <br />
           <br />
           You can do this with the button at the right top in the AppBar → ↑

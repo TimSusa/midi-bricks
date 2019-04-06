@@ -14,6 +14,8 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
 import SwapVertIcon from '@material-ui/icons/SwapVert'
+import CheckIcon from '@material-ui/icons/CheckCircle'
+
 import MidiLearnIcon from '@material-ui/icons/SettingsInputSvideo'
 import CancelIcon from '@material-ui/icons/Cancel'
 import AutoArrangeModeIcon from '@material-ui/icons/Spellcheck'
@@ -193,10 +195,10 @@ function MenuAppBar(props) {
           )}
           {![PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
             pageType
-          ) && (
+          ) && !isLayoutMode && (
             <>
               <ViewMenu />
-              {!isLayoutMode && (
+              { (
                 <IconButton
                   aria-haspopup="true"
                   onClick={toggleMidiLearnMode.bind(
@@ -225,6 +227,20 @@ function MenuAppBar(props) {
               )}
             </>
           )}
+                    {isLayoutMode && (
+            <IconButton
+              onClick={() => {
+                actions.toggleLayoutMode({ isLayoutMode: false })
+              }}
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="Menu"
+            >
+              <Tooltip title="Commit changes and exit layout-mode.">
+                <CheckIcon />
+              </Tooltip>
+            </IconButton>
+          )}
           {isLayoutMode && (
             <IconButton
               onClick={() => {
@@ -235,7 +251,7 @@ function MenuAppBar(props) {
               color="inherit"
               aria-label="Menu"
             >
-              <Tooltip title="Go Back.">
+              <Tooltip title="Throw away changes and go back.">
                 <CancelIcon />
               </Tooltip>
             </IconButton>
@@ -273,8 +289,8 @@ function styles(theme) {
       flex: 1,
     },
     menuButton: {
-      marginLeft: -12,
-      marginRight: 20,
+      marginLeft: 0,
+      marginRight: 0,
     },
     resetButton: {
       padding: '0 8px 0 8px',
