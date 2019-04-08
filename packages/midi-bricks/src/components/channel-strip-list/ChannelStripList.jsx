@@ -126,7 +126,7 @@ class ChannelStripList extends React.PureComponent {
                             midiLearnTypo={classes.midiLearnTypo}
                           />
                         )}
-                        {isSettingsMode && isFocused && (
+                        {/* {isSettingsMode && isFocused && (
                           <MIDIMonitorLabel
                             isSettings={true}
                             midiInfo={{
@@ -136,7 +136,7 @@ class ChannelStripList extends React.PureComponent {
                             }}
                             midiLearnTypo={classes.midiLearnTypo}
                           />
-                        )}
+                        )} */}
                         <ChannelStrip
                           size={size}
                           sliderEntry={sliderEntry}

@@ -17,10 +17,11 @@ import SwapVertIcon from '@material-ui/icons/SwapVert'
 import CheckIcon from '@material-ui/icons/CheckCircle'
 
 import MidiLearnIcon from '@material-ui/icons/SettingsInputSvideo'
+import LayoutIcon from '@material-ui/icons/ViewQuilt'
 import CancelIcon from '@material-ui/icons/Cancel'
 import AutoArrangeModeIcon from '@material-ui/icons/Spellcheck'
 import AutoArrangeModeIconFalse from '@material-ui/icons/TextFormat'
-import ViewMenu from './ViewMenu'
+import ViewSettingsIcon from '@material-ui/icons/Settings'
 import AddMenu from './AddMenu'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 import { Tooltip } from '@material-ui/core'
@@ -66,6 +67,7 @@ function MenuAppBar(props) {
       isCompactHorz = true,
       isAutoArrangeMode = true,
       isMidiLearnMode = false,
+      isSettingsMode = false,
       lastFocusedIdx,
     },
   } = props
@@ -195,10 +197,31 @@ function MenuAppBar(props) {
           )}
           {![PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
             pageType
-          ) && !isLayoutMode && (
-            <>
-              <ViewMenu />
-              { (
+          ) &&
+            !isLayoutMode && (
+              <>
+                {!isMidiLearnMode && (
+                  <IconButton
+                    aria-haspopup="true"
+                    onClick={e => actions.toggleSettingsMode()}
+                    color="inherit"
+                  >
+                    <Tooltip title="Switch to Settings Mode.">
+                      <ViewSettingsIcon />
+                    </Tooltip>
+                  </IconButton>
+                )}
+                {!isMidiLearnMode && (
+                  <IconButton
+                    aria-haspopup="true"
+                    onClick={e => actions.toggleLayoutMode()}
+                    color="inherit"
+                  >
+                    <Tooltip title="Switch to Layout Mode.">
+                      <LayoutIcon />
+                    </Tooltip>
+                  </IconButton>
+                )}
                 <IconButton
                   aria-haspopup="true"
                   onClick={toggleMidiLearnMode.bind(
@@ -221,13 +244,36 @@ function MenuAppBar(props) {
                         : 'Switch to MIDI Learn Mode.'
                     }
                   >
-                    <MidiLearnIcon />
+                    {!isMidiLearnMode ? <MidiLearnIcon /> : <CheckIcon />}
                   </Tooltip>
                 </IconButton>
-              )}
-            </>
-          )}
-                    {isLayoutMode && (
+
+                {isMidiLearnMode && (
+                  <IconButton
+                    aria-haspopup="true"
+                    onClick={cancelMidiLeanMode.bind(
+                      this,
+                      actions.toggleMidiLearnMode,
+                      null,
+                      isMidiLearnMode,
+                      null,
+                      initApp,
+                      actions,
+                      monitorVal,
+                      lastFocusedIdx
+                    )}
+                    color="inherit"
+                  >
+                    <Tooltip
+                      title={'Cancel MIDI Learn mode. Throw away changes.'}
+                    >
+                      <CancelIcon />
+                    </Tooltip>
+                  </IconButton>
+                )}
+              </>
+            )}
+          {isLayoutMode && (
             <IconButton
               onClick={() => {
                 actions.toggleLayoutMode({ isLayoutMode: false })
@@ -318,7 +364,7 @@ async function toggleMidiLearnMode(
       driverName: monitorVal.driver,
       i: lastFocusedIdx,
     })
-    
+
     actions.selectMidiChannel({
       val: `${monitorVal.channel}`,
       idx: lastFocusedIdx,
@@ -347,5 +393,20 @@ async function toggleMidiLearnMode(
     await initApp('all')
     //handleClose(setAncEl)
   }
+  toggleMidiLearn({ isMidiLearnMode: !isMidiLearn })
+}
+
+async function cancelMidiLeanMode(
+  toggleMidiLearn,
+  setAncEl,
+  isMidiLearn,
+  initMidiLearn,
+  initApp,
+  actions,
+  monitorVal,
+  lastFocusedIdx
+) {
+  await initApp('all')
+
   toggleMidiLearn({ isMidiLearnMode: !isMidiLearn })
 }

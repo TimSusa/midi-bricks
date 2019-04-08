@@ -2171,10 +2171,10 @@ micromatch@^3.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-midi-bricks@^0.12.71:
-  version "0.12.71"
-  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.71.tgz#9b0af327a1fc848c63cfa3de5d594efcedc06b5d"
-  integrity sha512-eJQ/7CRKwEeCby4LdXrYhRfwa6Sx+q6ZGtUT+eP/ucvZOkp+6rbs7dCW6Arn5HerrgVgjxrcHVyJ7/O1LQolBQ==
+midi-bricks@^0.12.72:
+  version "0.12.72"
+  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.72.tgz#880974c2efede6b8ea4a45c5d33b2f427d55c9b1"
+  integrity sha512-3T+PkPfydR3g82I07iFf9utOQmfkxg/0IP6Ov3OH+C2ppOrUMu3XQ2KRA2md43H0EOavW1P3mwM/ZR9+h7RbRQ==
 
 mime-db@~1.38.0:
   version "1.38.0"

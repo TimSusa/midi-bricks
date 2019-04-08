@@ -26,6 +26,7 @@ class GlobalViewSettings extends React.PureComponent {
         columns = 18,
         rowHeight = 40,
         isAutoSize = false,
+        isChangedTheme = false,
         isFullscreenOnLivemode = false,
         marginX = 8,
         marginY = 8,
@@ -65,6 +66,24 @@ class GlobalViewSettings extends React.PureComponent {
               label="Live Mode Fullscreen"
             />
           )}
+
+          <FormControlLabel
+            control={
+              <Tooltip title="Toggle Theme">
+                <Switch
+                  checked={isChangedTheme}
+                  onChange={e => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    actions.changeTheme({})
+                  }}
+                  value={isChangedTheme}
+                  color="secondary"
+                />
+              </Tooltip>
+            }
+            label="Toggle Theme"
+          />
 
           <FormControlLabel
             control={
