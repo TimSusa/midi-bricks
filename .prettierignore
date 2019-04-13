@@ -1,0 +1,10 @@
+dist
+.next
+**/*.ts
+node_modules
+packages/midi-bricks-electron/node_modules
+packages/midi-bricks/node_modules
+packages/midi-bricks-doc/node_modules
+packages/midi-bricks/build
+packages/midi-bricks-electron/dist
+packages/midi-bricks-electron/build

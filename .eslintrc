@@ -7,8 +7,7 @@
   "extends": [
     "react-app",
     "eslint:recommended",
-    "plugin:react/recommended",
-    "standard"
+    "plugin:react/recommended"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
@@ -111,7 +110,7 @@
     },
     "import/parser": "babel-eslint",
     "import/resolve": {
-      "moduleDirectory": ["node_modules", "packages/midi-bricks/src"]
+      "moduleDirectory": ["node_modules", "packages/midi-bricks/src", "packages/midi-bricks-electron/public"]
     }
   }
 }
