@@ -13,16 +13,17 @@ import { PAGE_TYPES } from '../reducers/view-settings'
 
 class Home extends React.PureComponent {
   async componentWillMount() {
-
     // track driver changes after browser reload
     await this.props.initApp()
 
     // Start at last set page
     const {
-      viewSettings: { lastFocusedFooterButtonIdx },
+      viewSettings: { lastFocusedFooterButtonIdx }
     } = this.props
-    const elem = document.getElementById(`page-${lastFocusedFooterButtonIdx}`)
-    elem && elem.scrollIntoView({ block: 'start' })
+    const element = document.getElementById(
+      `page-${lastFocusedFooterButtonIdx}`
+    )
+    element && element.scrollIntoView({ block: 'start' })
   }
 
   render() {
@@ -31,19 +32,19 @@ class Home extends React.PureComponent {
         isLayoutMode = true,
         isLiveMode = false,
         isSettingsMode = false,
-        pageType = PAGE_TYPES.HOME_MODE,
-      },
+        pageType = PAGE_TYPES.HOME_MODE
+      }
     } = this.props
 
     const preventScrollStyle = isLiveMode
       ? {
-          height: 'calc(100vh - 66px)',
-          overflowY: 'hidden',
-        }
+        height: 'calc(100vh - 66px)',
+        overflowY: 'hidden'
+      }
       : {
-          height: 'calc(100vh - 66px - 64px)',
-          overflowY: 'hidden',
-        }
+        height: 'calc(100vh - 66px - 64px)',
+        overflowY: 'hidden'
+      }
 
     if (pageType === PAGE_TYPES.GLOBAL_MODE) {
       return <GlobalSettingsPage />
@@ -68,35 +69,35 @@ const styles = theme => ({
   root: {
     textAlign: 'center',
     width: '100%',
-    overflowX: 'hidden',
+    overflowX: 'hidden'
   },
   heading: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(2)
   },
   noMidiTypography: {
     textAlign: 'center',
-    paddingTop: theme.spacing(4),
-  },
+    paddingTop: theme.spacing(4)
+  }
 })
 
-function mapStateToProps({ viewSettings, sliders: { isMidiFailed } }) {
+function mapStateToProperties({ viewSettings, sliders: { isMidiFailed } }) {
   return {
     viewSettings,
-    isMidiFailed,
+    isMidiFailed
   }
 }
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProperties(dispatch) {
   return {
     actions: bindActionCreators(
       { ...MidiSliderActions, ...ViewStuff },
       dispatch
     ),
-    initApp: bindActionCreators(initApp, dispatch),
+    initApp: bindActionCreators(initApp, dispatch)
   }
 }
 export default withStyles(styles)(
   connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProperties,
+    mapDispatchToProperties
   )(Home)
 )
