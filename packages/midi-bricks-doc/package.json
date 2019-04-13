@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/TimSusa/midi-bricks-mono/issues"
   },
-  "gitHead": "af3414a9d808b04de9c20db2278cf32bf616600e",
+  "gitHead": "28d088d7e4e41c8b8f6daca22a827191869c13dc",
   "devDependencies": {
     "react-scripts": "^2.1.8"
   }
