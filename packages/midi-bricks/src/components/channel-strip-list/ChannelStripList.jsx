@@ -90,7 +90,17 @@ class ChannelStripList extends React.PureComponent {
             const isFocused = i === lastFocusedIdx
             return (
               <div
-                onDoubleClick={actions.setLastFocusedIndex.bind(this, { i })}
+                onDoubleClick={e => {
+                  actions.setLastFocusedIndex({ i })
+                  e.preventDefault()
+                  e.stopPropagation()
+                }}
+                onClick={e => {
+                  if (isMidiLearnMode) return
+                  actions.setLastFocusedIndex({ i })
+                  e.preventDefault()
+                  e.stopPropagation()
+                }}
                 key={i}
                 style={
                   (isMidiLearnMode || isSettingsMode) &&

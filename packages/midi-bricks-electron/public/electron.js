@@ -1,8 +1,9 @@
 const { BrowserWindow, app, ipcMain } = require("electron");
-require("electron").process;
 const path = require("path");
 const isDev = require("electron-is-dev");
 const windowStateKeeper = require("electron-window-state");
+require("electron").process;
+
 let win;
 
 // Prevent Zoom, disrupting touches
@@ -27,9 +28,22 @@ app.on("activate", function() {
 });
 
 function createWindow() {
+
+  // Extract CLI parameter
+
+  //
+  // Window Coordinates
+  //
   const windowIndex = process.argv.findIndex((item) => item === "--window") + 1;
-  const val = process.argv[windowIndex].split(",");
-  console.log("arguments: ", val);
+  const [xx,yy,w,h] = process.argv[windowIndex].split(",");
+
+  //
+  // Enable Dev Console
+  //
+  const devElem = process.argv.find((item) => item === "--dev");
+  console.log('is Dev mode ?: ', !!devElem || isDev)
+  const isDevCli = !!devElem
+
   // Load the previous state with fallback to defaults
   const mainWindowState = windowStateKeeper({
     defaultWidth: 1000,
@@ -38,10 +52,10 @@ function createWindow() {
 
   const { x, y, width, height } =
     {
-      x: parseInt(val[0], 10),
-      y: parseInt(val[1]),
-      width: parseInt(val[2], 10),
-      height: parseInt(val[3], 10)
+      x: parseInt(xx, 10),
+      y: parseInt(yy, 10),
+      width: parseInt(w, 10),
+      height: parseInt(h, 10)
     } || mainWindowState;
 
   // Create the window using the state information
@@ -61,8 +75,7 @@ function createWindow() {
   // and restore the maximized or full screen state
   mainWindowState.manage(win);
 
-  //isDev && win.webContents.openDevTools();
-  win.webContents.openDevTools();
+  isDev || isDevCli && win.webContents.openDevTools();
 
   win.webContents.session.setPermissionRequestHandler(
     (webContents, permission, callback) => {
@@ -78,9 +91,6 @@ function createWindow() {
 
   console.log("load url");
   win.loadURL(url);
-
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on("closed", function() {

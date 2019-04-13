@@ -8,8 +8,7 @@
     "react-app",
     "eslint:recommended",
     "plugin:react/recommended",
-    "standard",
-    "react-native"
+    "standard"
   ],
   "parser": "babel-eslint",
   "parserOptions": {

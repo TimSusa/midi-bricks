@@ -240,7 +240,7 @@ function MenuAppBar(props) {
                     title={
                       isMidiLearnMode
                         ? 'Chose assigned element and finalize MIDI-Learn Mode.'
-                        : 'Switch to MIDI Learn Mode.'
+                        : 'Switch to MIDI Learn Mode. Please, double-click element for listening to changes.'
                     }
                   >
                     {!isMidiLearnMode ? <MidiLearnIcon /> : <CheckIcon />}
