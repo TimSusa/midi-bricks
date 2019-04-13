@@ -9,8 +9,7 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "standard",
-    "react-native",
-    "airbnb"
+    "react-native"
   ],
   "parser": "babel-eslint",
   "parserOptions": {

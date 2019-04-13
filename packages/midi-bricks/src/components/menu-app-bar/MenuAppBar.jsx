@@ -67,7 +67,6 @@ function MenuAppBar(props) {
       isCompactHorz = true,
       isAutoArrangeMode = true,
       isMidiLearnMode = false,
-      isSettingsMode = false,
       lastFocusedIdx,
     },
   } = props

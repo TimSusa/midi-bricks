@@ -1023,10 +1023,10 @@ electron-window-state@5.0.3:
     jsonfile "^4.0.0"
     mkdirp "^0.5.1"
 
-electron@4.1.3:
-  version "4.1.3"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-4.1.3.tgz#d04e4212da6dc0977faa53fc2b8581d58e8e011d"
-  integrity sha512-oOeuA+BAydrMcKGBu4GEJfgAtaRd189SabE8V9koAH/sUiTHYroWtwRzA6V24JFa/dCJAHNjVD8F4qSMybxzrA==
+electron@4.1.4:
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-4.1.4.tgz#41ba9e041f38c25c62a7db806884410654df058f"
+  integrity sha512-MelOjntJvd33izEjR6H4N/Uii7y535z/b2BuYXJGLNSHL6o1IlyhUQmfiT87kWABayERgeuYERgvsyf956OOFw==
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
@@ -1377,7 +1377,7 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-glob@7.1.3, glob@^7.0.0, glob@~7.1.1:
+glob@7.1.3, glob@^7.0.0, glob@^7.1.3, glob@~7.1.1:
   version "7.1.3"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.3.tgz#3960832d3f1574108342dafd3a67b332c0969df1"
   integrity sha512-vcfuiIxogLV4DlGBHIUOwI0IbrJ8HWPc4MU7HzviGeNho/UJDfi6B5p3sHeWIQ0KGIU0Jpxi5ZHxemQfLkkAwQ==
@@ -2171,10 +2171,10 @@ micromatch@^3.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-midi-bricks@^0.12.72:
-  version "0.12.72"
-  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.72.tgz#880974c2efede6b8ea4a45c5d33b2f427d55c9b1"
-  integrity sha512-3T+PkPfydR3g82I07iFf9utOQmfkxg/0IP6Ov3OH+C2ppOrUMu3XQ2KRA2md43H0EOavW1P3mwM/ZR9+h7RbRQ==
+midi-bricks@^0.12.73:
+  version "0.12.73"
+  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.12.73.tgz#d3fdf972ed311dd5091120bf22e1140939268dc3"
+  integrity sha512-mB9gzj4MrtG7i44wqk1wXuEwDaHNWXO+bGMerUWJER19j6nVlBHK9Qe1gnPV4WkQ1HTjjyhzWUZWwm0al0INsg==
 
 mime-db@~1.38.0:
   version "1.38.0"
@@ -2968,6 +2968,13 @@ rgb2hex@^0.1.9:
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/rgb2hex/-/rgb2hex-0.1.9.tgz#5d3e0e14b0177b568e6f0d5b43e34fbfdb670346"
   integrity sha512-32iuQzhOjyT+cv9aAFRBJ19JgHwzQwbjUhH3Fj2sWW2EEGAW8fpFrDFP5ndoKDxJaLO06x1hE3kyuIFrUQtybQ==
+
+rimraf@^2.6.3:
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"
+  integrity sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==
+  dependencies:
+    glob "^7.1.3"
 
 run-async@^2.2.0:
   version "2.3.0"
