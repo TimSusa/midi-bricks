@@ -42,10 +42,10 @@
     "redux-mock-store": "1.5.3"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap && cd packages/midi-bricks-electron && yarn && cd ../..",
-    "publish": "lerna publish",
+    "bootstrap": "lerna clean && lerna bootstrap && cd packages/midi-bricks-electron && yarn && cd ../.. && lerna link && yarn build",
+    "publish": "lerna publish && yarn deploy",
     "deploy": "cd packages/midi-bricks/ && yarn deploy && cd ..",
-    "lint": "eslint -c .eslintrc .",
+    "lint": "eslint . -c .eslintrc",
     "build": "yarn build:midi-bricks && yarn build:midi-bricks-electron",
     "build:midi-bricks": "cd packages/midi-bricks && yarn build && cd ..",
     "build:midi-bricks-electron": "cd packages/midi-bricks-electron && yarn && yarn build && cd ..",

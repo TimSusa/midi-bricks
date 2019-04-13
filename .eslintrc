@@ -4,11 +4,7 @@
     "node": true,
     "es6": true
   },
-  "extends": [
-    "react-app",
-    "eslint:recommended",
-    "plugin:react/recommended"
-  ],
+  "extends": ["react-app", "eslint:recommended", "plugin:react/recommended"],
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
@@ -48,12 +44,12 @@
     "unicorn/prefer-includes": "error",
     "unicorn/prefer-node-append": "error",
     "unicorn/prefer-node-remove": "error",
-    "unicorn/prefer-query-selector": "error",
+    "unicorn/prefer-query-selector": "warn",
     "unicorn/prefer-spread": "error",
     "unicorn/prefer-starts-ends-with": "error",
     "unicorn/prefer-text-content": "error",
     "unicorn/prefer-type-error": "error",
-    "unicorn/prevent-abbreviations": "error",
+    "unicorn/prevent-abbreviations": "off",
     "unicorn/regex-shorthand": "error",
     "unicorn/throw-new-error": "error",
     "linebreak-style": ["error", "unix"],
@@ -110,7 +106,11 @@
     },
     "import/parser": "babel-eslint",
     "import/resolve": {
-      "moduleDirectory": ["node_modules", "packages/midi-bricks/src", "packages/midi-bricks-electron/public"]
+      "moduleDirectory": [
+        "node_modules",
+        "packages/midi-bricks/src",
+        "packages/midi-bricks-electron/public"
+      ]
     }
   }
 }

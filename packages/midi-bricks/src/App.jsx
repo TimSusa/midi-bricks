@@ -22,7 +22,7 @@ export default withStyles(styles)(
 function mapStateToProps({ viewSettings, sliders }) {
   return {
     viewSettings,
-    sliders,
+    sliders
   }
 }
 
@@ -32,7 +32,7 @@ function mapDispatchToProps(dispatch) {
       { ...MidiSlidersAction, ...ViewActions },
       dispatch
     ),
-    initApp: bindActionCreators(initApp, dispatch),
+    initApp: bindActionCreators(initApp, dispatch)
   }
 }
 
@@ -44,15 +44,15 @@ function App(props) {
       <div className={props.classes.appBar}>
         <MenuAppBar handleDrawerToggle={() => setIsMobileOpen(!isMobileOpen)} />
         <Drawer
-          variant="temporary"
+          variant='temporary'
           anchor={'left'}
           open={isMobileOpen}
           classes={{
-            paper: props.classes.drawerPaper,
+            paper: props.classes.drawerPaper
           }}
           onClose={() => setIsMobileOpen(!isMobileOpen)}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true // Better open performance on mobile.
           }}
         >
           <DrawerList
@@ -86,34 +86,34 @@ function styles(theme) {
     root: {
       width: '100%',
       height: '100%',
-      zIndex: 1,
+      zIndex: 1
     },
     appFrame: {
       position: 'relative',
       display: 'flex',
       width: '100%',
-      height: '100%',
+      height: '100%'
     },
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
       position: 'absolute',
       right: 0,
       left: 0,
-      margin: 0,
+      margin: 0
     },
     navIconHide: {},
     drawerHeader: {
-      ...theme.mixins.toolbar,
+      ...theme.mixins.toolbar
     },
     drawerPaper: {
       width: 250,
-      backgroundColor: 'white',
+      backgroundColor: 'white'
     },
     content: {
       backgroundColor: theme.palette.background.default,
       width: '100%',
-      marginTop: theme.spacing(1),
-    },
+      marginTop: theme.spacing(1)
+    }
   }
 }
 
@@ -126,30 +126,30 @@ async function onFileChange(actions, initApp, setIsMobileOpen, e, results) {
   const content = files[0].target.result
   const parsedJson = JSON.parse(content)
   const {
-    viewSettings: { availableDrivers },
+    viewSettings: { availableDrivers }
   } = parsedJson
   const drivers = availableDrivers || {
     inputs: {
       None: {
         ccChannels: [],
-        noteChannels: [],
-      },
+        noteChannels: []
+      }
     },
     outputs: {
       None: {
         ccChannels: [],
-        noteChannels: [],
-      },
-    },
+        noteChannels: []
+      }
+    }
   }
   parsedJson.sliders.sliderList &&
     actions.updateViewSettings({
       viewSettings: { ...parsedJson.viewSettings, availableDrivers: drivers },
-      sliderList: parsedJson.sliders.sliderList,
+      sliderList: parsedJson.sliders.sliderList
     })
   await initApp()
   actions.togglePage({
-    pageType: PAGE_TYPES.GLOBAL_MODE,
+    pageType: PAGE_TYPES.GLOBAL_MODE
   })
   setIsMobileOpen(false)
 }
@@ -160,7 +160,7 @@ function handleSaveFile(
 ) {
   saveFile({
     viewSettings,
-    sliders,
+    sliders
   })
   setIsMobileOpen(false)
 }

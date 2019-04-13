@@ -65,7 +65,7 @@ class Home extends React.PureComponent {
   }
 }
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     textAlign: 'center',
     width: '100%',
