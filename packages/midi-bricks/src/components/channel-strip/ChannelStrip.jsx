@@ -1,5 +1,6 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/styles'
 import MidiSlider from '../midi-elements/MidiSlider'
 import MidiButtons from '../midi-elements/midi-buttons/MidiButtons'
 import StripLabel from '../midi-elements/StripLabel'
@@ -10,9 +11,10 @@ import XyPad from '../XyPad'
 import { Label } from '../midi-elements/Label'
 
 const sliderThumbHeight = 30
+const useStyles = makeStyles(styles, { useTheme: true })
 
-const ChannelStrip = props => {
-  
+function ChannelStrip(props) {
+  const classes = useStyles()
   const {
     sliderEntry,
     sliderEntry: {
@@ -23,10 +25,9 @@ const ChannelStrip = props => {
       fontWeight,
       colors: { colorFont },
       isValueHidden,
-      lastSavedVal,
+      lastSavedVal
     },
     idx,
-    classes,
     size,
     isDisabled,
     isMidiLearnMode
@@ -77,7 +78,7 @@ const ChannelStrip = props => {
           <Label
             fontSize={fontSize}
             fontWeight={fontWeight}
-            labelStyle={props.classes.label}
+            labelStyle={classes.label}
             colorFont={colorFont}
             {...props}
           >
@@ -145,7 +146,16 @@ const ChannelStrip = props => {
   )
 }
 
-const calcHeight = (tmpH, props) => {
+ChannelStrip.propTypes = {
+  classes: PropTypes.object,
+  idx: PropTypes.number,
+  isDisabled: PropTypes.bool,
+  isMidiLearnMode: PropTypes.any,
+  size: PropTypes.object,
+  sliderEntry: PropTypes.object
+}
+
+function calcHeight(tmpH, props) {
   const fact = props.sliderEntry.isValueHidden ? 1 : 2
   const marge = props.sliderEntry.isValueHidden ? 8 : 16
   return (
@@ -156,36 +166,38 @@ const calcHeight = (tmpH, props) => {
   )
 }
 
-const styles = theme => ({
-  root: {
-    userSelect: 'none'
-  },
-  iconColor: {
-    color: theme.palette.primary.contrastText,
-    cursor: 'pointer',
-  },
-  sliderChannelWrapper: {
-    position: 'relative',
-  },
-  label: {
-    color: theme.palette.primary.contrastText,
-    textAlign: 'center',
-    fontWeight: 400,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: 1,
-    whiteSpace: 'nowrap',
-    marginBottom: 8,
-  },
-  bottomLabel: {
-    position: 'fixed',
-    bottom: 0,
-    width: '100%',
-    color: theme.palette.primary.contrastText,
-    textAlign: 'center',
-    fontWeight: 400,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: 1,
-  },
-})
+function styles(theme) {
+  return {
+    root: {
+      userSelect: 'none'
+    },
+    iconColor: {
+      color: theme.palette.primary.contrastText,
+      cursor: 'pointer'
+    },
+    sliderChannelWrapper: {
+      position: 'relative'
+    },
+    label: {
+      color: theme.palette.primary.contrastText,
+      textAlign: 'center',
+      fontWeight: 400,
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      lineHeight: 1,
+      whiteSpace: 'nowrap',
+      marginBottom: 8
+    },
+    bottomLabel: {
+      position: 'fixed',
+      bottom: 0,
+      width: '100%',
+      color: theme.palette.primary.contrastText,
+      textAlign: 'center',
+      fontWeight: 400,
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      lineHeight: 1
+    }
+  }
+}
 
-export default withStyles(styles)(ChannelStrip)
+export default ChannelStrip
