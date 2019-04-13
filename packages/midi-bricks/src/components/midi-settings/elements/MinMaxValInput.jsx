@@ -34,6 +34,9 @@ function MinMaxValInputComponent({
   return toolTip ? tip : form
 }
 
+
+MinMaxValInputComponent.displayName = 'MinMaxValInputComponent'
+
 const styles = theme => ({
   root: {},
   formControl: {

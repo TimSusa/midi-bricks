@@ -4,13 +4,13 @@ import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { STRIP_TYPE } from '../../reducers/slider-list.js'
 
-const StripLabel = props => {
+function StripLabel(props) {
   const {
     sliderEntry: { isNoteOn, colors, fontSize, fontWeight, type, label },
     classes,
     height,
     width,
-    isChangedTheme,
+    isChangedTheme
   } = props
 
   if (type !== STRIP_TYPE.LABEL) {
@@ -30,8 +30,8 @@ const StripLabel = props => {
   return (
     <div style={labelStyle} className={classes.labelWrap}>
       <Typography
-        variant="h5"
-        align="center"
+        variant='h5'
+        align='center'
         style={fontColorStyle}
         className={classes.label}
       >
@@ -41,23 +41,27 @@ const StripLabel = props => {
   )
 }
 
-const styles = theme => ({
-  labelWrap: {
-    borderRadius: 3,
-    height: '100%',
-    background: theme.palette.button.background,
-  },
-  label: {
-    margin: 0,
-    padding: 0,
-    width: '100%',
-    fontWeight: 600,
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-  },
-})
+StripLabel.displayName = StripLabel.muiName = 'StripLabel'
+
+function styles (theme) {
+  return {
+    labelWrap: {
+      borderRadius: 3,
+      height: '100%',
+      background: theme.palette.button.background
+    },
+    label: {
+      margin: 0,
+      padding: 0,
+      width: '100%',
+      fontWeight: 600,
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)'
+    }
+  }
+}
 
 function getLabelStyles(
   isChangedTheme,
@@ -81,7 +85,7 @@ function getLabelStyles(
   const labelStyle = {
     height: (height || 0) - 0,
     width: (width || 0) - 0,
-    background: isNoteOn ? colorActivated : color,
+    background: isNoteOn ? colorActivated : color
   }
   // label active font colors
   const bColAct = colors && colors.colorFontActive && colors.colorFontActive
@@ -92,14 +96,14 @@ function getLabelStyles(
   const fontColorStyle = {
     color: !isNoteOn ? colorFont : colorFontActive,
     fontSize: tmpFontSize,
-    fontWeight: tmpFontWeight,
+    fontWeight: tmpFontWeight
   }
   return { labelStyle, fontColorStyle }
 }
 
 function mapStateToProps({ viewSettings: { isChangedTheme } }) {
   return {
-    isChangedTheme,
+    isChangedTheme
   }
 }
 

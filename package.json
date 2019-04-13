@@ -37,15 +37,16 @@
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-unicorn": "^8.0.1",
     "lerna": "3.13.1",
-    "now": "15.0.2",
+    "now": "15.0.4",
     "react-scripts": "^2.1.8",
     "redux-mock-store": "1.5.3"
   },
   "scripts": {
-    "bootstrap": "lerna clean && lerna bootstrap && cd packages/midi-bricks-electron && yarn && cd ../.. && lerna link && yarn build",
+    "bootstrap": "yarn && lerna bootstrap && cd packages/midi-bricks-electron && yarn && cd ../.. && lerna link && yarn build",
     "publish": "lerna publish && yarn deploy",
     "deploy": "cd packages/midi-bricks/ && yarn deploy && cd ..",
     "lint": "eslint . -c .eslintrc",
+    "clean": "lerna clean",
     "build": "yarn build:midi-bricks && yarn build:midi-bricks-electron",
     "build:midi-bricks": "cd packages/midi-bricks && yarn build && cd ..",
     "build:midi-bricks-electron": "cd packages/midi-bricks-electron && yarn && yarn build && cd ..",

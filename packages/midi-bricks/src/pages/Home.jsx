@@ -1,5 +1,7 @@
-import { withStyles } from '@material-ui/core'
-import React from 'react'
+import { makeStyles } from '@material-ui/styles'
+
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { initApp } from '../actions/init.js'
@@ -11,74 +13,89 @@ import MidiDriversSettingsPage from './MidiDriversSettingsPage'
 import GlobalViewSettingsPage from '../components/GlobalViewSettings'
 import { PAGE_TYPES } from '../reducers/view-settings'
 
-class Home extends React.PureComponent {
-  async componentWillMount() {
-    // track driver changes after browser reload
-    await this.props.initApp()
+const useStyles = makeStyles(
+  (theme) => ({
+    root: {
+      textAlign: 'center',
+      width: '100%',
+      overflowX: 'hidden'
+    },
+    heading: {
+      marginTop: theme.spacing(2)
+    },
+    noMidiTypography: {
+      textAlign: 'center',
+      paddingTop: theme.spacing(4)
+    }
+  }),
+  { useTheme: true }
+)
 
-    // Start at last set page
+function Home(props) {
+  useEffect(() => {
+    async function initAsync() {
+      await props.initApp()
+    }
+    if (props.viewSettings.pageType !== PAGE_TYPES.HOME_MODE){return}
+    initAsync()
     const {
       viewSettings: { lastFocusedFooterButtonIdx }
-    } = this.props
-    const element = document.getElementById(
-      `page-${lastFocusedFooterButtonIdx}`
-    )
-    element && element.scrollIntoView({ block: 'start' })
-  }
-
-  render() {
-    const {
-      viewSettings: {
-        isLayoutMode = true,
-        isLiveMode = false,
-        isSettingsMode = false,
-        pageType = PAGE_TYPES.HOME_MODE
-      }
-    } = this.props
-
-    const preventScrollStyle = isLiveMode
-      ? {
-        height: 'calc(100vh - 66px)',
-        overflowY: 'hidden'
-      }
-      : {
-        height: 'calc(100vh - 66px - 64px)',
-        overflowY: 'hidden'
-      }
-
-    if (pageType === PAGE_TYPES.GLOBAL_MODE) {
-      return <GlobalSettingsPage />
-    } else if (pageType === PAGE_TYPES.MIDI_DRIVER_MODE) {
-      return <MidiDriversSettingsPage />
-    } else if (pageType === PAGE_TYPES.VIEW_SETTINGS_MODE) {
-      return <GlobalViewSettingsPage />
-    } else if (pageType === PAGE_TYPES.HOME_MODE) {
-      return (
-        <div
-          className={this.props.classes.root}
-          style={isLayoutMode || isSettingsMode ? {} : preventScrollStyle}
-        >
-          <ChannelStripList />
-        </div>
+    } = props
+    const timeOut = setTimeout(() => {
+      const element = document.getElementById(
+        `page-${lastFocusedFooterButtonIdx}`
       )
+      element && element.scrollIntoView({ block: 'start' })
+    }, 500)
+
+    return () => {
+      clearTimeout(timeOut)
     }
+  }, [props.viewSettings.pageType])
+
+  const classes = useStyles()
+
+  const {
+    viewSettings: {
+      isLayoutMode = true,
+      isLiveMode = false,
+      isSettingsMode = false,
+      pageType = PAGE_TYPES.HOME_MODE
+    }
+  } = props
+  const preventScrollStyle = isLiveMode
+    ? {
+      height: 'calc(100vh - 66px)',
+      overflowY: 'hidden'
+    }
+    : {
+      height: 'calc(100vh - 66px - 64px)',
+      overflowY: 'hidden'
+    }
+
+  if (pageType === PAGE_TYPES.GLOBAL_MODE) {
+    return <GlobalSettingsPage />
+  } else if (pageType === PAGE_TYPES.MIDI_DRIVER_MODE) {
+    return <MidiDriversSettingsPage />
+  } else if (pageType === PAGE_TYPES.VIEW_SETTINGS_MODE) {
+    return <GlobalViewSettingsPage />
+  } else if (pageType === PAGE_TYPES.HOME_MODE) {
+    return (
+      <div
+        className={classes.root}
+        style={isLayoutMode || isSettingsMode ? {} : preventScrollStyle}
+      >
+        <ChannelStripList />
+      </div>
+    )
   }
 }
 
-const styles = (theme) => ({
-  root: {
-    textAlign: 'center',
-    width: '100%',
-    overflowX: 'hidden'
-  },
-  heading: {
-    marginTop: theme.spacing(2)
-  },
-  noMidiTypography: {
-    textAlign: 'center',
-    paddingTop: theme.spacing(4)
-  }
-})
+Home.propTypes = {
+  classes: PropTypes.object,
+  viewSettings: PropTypes.object,
+  initApp: PropTypes.func
+}
 
 function mapStateToProperties({ viewSettings, sliders: { isMidiFailed } }) {
   return {
@@ -95,9 +112,8 @@ function mapDispatchToProperties(dispatch) {
     initApp: bindActionCreators(initApp, dispatch)
   }
 }
-export default withStyles(styles)(
-  connect(
-    mapStateToProperties,
-    mapDispatchToProperties
-  )(Home)
-)
+
+export default connect(
+  mapStateToProperties,
+  mapDispatchToProperties
+)(Home)

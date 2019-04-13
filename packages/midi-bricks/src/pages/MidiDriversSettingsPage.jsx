@@ -8,6 +8,8 @@ import {Actions as ViewStuff}  from '../actions/view-settings.js'
 import { initApp } from '../actions/init.js'
 
 class MidiDriversSettingsPage extends React.PureComponent {
+  static displayName =  'MidiDriversSettingsPage'
+
   constructor(props) {
     super(props)
     this.props.actions.toggleLiveMode({ isLiveMode: false })

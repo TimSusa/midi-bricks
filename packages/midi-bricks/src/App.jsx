@@ -1,5 +1,6 @@
-import { Drawer, withStyles } from '@material-ui/core'
+import { Drawer } from '@material-ui/core'
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Home from './pages/Home'
 import { bindActionCreators } from 'redux'
@@ -12,77 +13,23 @@ import DrawerList from './components/drawer-list/DrawerList'
 import Footer from './components/footer/Footer'
 import { PAGE_TYPES } from './reducers/view-settings'
 
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(App)
-)
+import { makeStyles } from '@material-ui/styles'
 
-function mapStateToProps({ viewSettings, sliders }) {
-  return {
-    viewSettings,
-    sliders
-  }
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
+
+App.displayName = 'App'
+
+App.propTypes = {
+  actions: PropTypes.object,
+  classes: PropTypes.object,
+  initApp: PropTypes.func
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(
-      { ...MidiSlidersAction, ...ViewActions },
-      dispatch
-    ),
-    initApp: bindActionCreators(initApp, dispatch)
-  }
-}
-
-function App(props) {
-  const { actions, initApp } = props
-  const [isMobileOpen, setIsMobileOpen] = useState(false)
-  return (
-    <div className={props.classes.root}>
-      <div className={props.classes.appBar}>
-        <MenuAppBar handleDrawerToggle={() => setIsMobileOpen(!isMobileOpen)} />
-        <Drawer
-          variant='temporary'
-          anchor={'left'}
-          open={isMobileOpen}
-          classes={{
-            paper: props.classes.drawerPaper
-          }}
-          onClose={() => setIsMobileOpen(!isMobileOpen)}
-          ModalProps={{
-            keepMounted: true // Better open performance on mobile.
-          }}
-        >
-          <DrawerList
-            onFileChange={onFileChange.bind(
-              this,
-              actions,
-              initApp,
-              setIsMobileOpen
-            )}
-            handleSaveFile={handleSaveFile.bind(this, props, setIsMobileOpen)}
-            handleResetSliders={handleResetSliders.bind(
-              this,
-              props,
-              setIsMobileOpen
-            )}
-            togglePage={togglePage.bind(this, props)}
-            classes={props.classes}
-            onClose={() => setIsMobileOpen(!isMobileOpen)}
-          />
-        </Drawer>
-        <Home />
-
-        {!window.location.href.endsWith('global') && <Footer />}
-      </div>
-    </div>
-  )
-}
-
-function styles(theme) {
-  return {
+const useStyles = makeStyles(
+  (theme) => ({
     root: {
       width: '100%',
       height: '100%',
@@ -114,7 +61,56 @@ function styles(theme) {
       width: '100%',
       marginTop: theme.spacing(1)
     }
-  }
+  }),
+  { withTheme: true }
+)
+function App(props) {
+  const {
+    actions = {},
+    initApp = () => {},
+    classes = useStyles()
+  } = props
+  const [isMobileOpen, setIsMobileOpen] = useState(false)
+  return (
+    <div className={classes.root}>
+      <div className={classes.appBar}>
+        <MenuAppBar handleDrawerToggle={() => setIsMobileOpen(!isMobileOpen)} />
+        <Drawer
+          variant='temporary'
+          anchor={'left'}
+          open={isMobileOpen}
+          classes={{
+            paper: classes.drawerPaper
+          }}
+          onClose={() => setIsMobileOpen(!isMobileOpen)}
+          ModalProps={{
+            keepMounted: true // Better open performance on mobile.
+          }}
+        >
+          <DrawerList
+            onFileChange={onFileChange.bind(
+              this,
+              actions,
+              initApp,
+              setIsMobileOpen
+            )}
+            handleSaveFile={handleSaveFile.bind(this, props, setIsMobileOpen)}
+            handleResetSliders={handleResetSliders.bind(
+              this,
+              props,
+              setIsMobileOpen
+            )}
+            togglePage={togglePage.bind(this, props)}
+            classes={classes}
+            onClose={() => setIsMobileOpen(!isMobileOpen)}
+          />
+        </Drawer>
+        <Home />
+
+        {!window.location.href.endsWith('global') && <Footer />}
+      </div>
+    </div>
+  )
 }
 
 async function onFileChange(actions, initApp, setIsMobileOpen, e, results) {
@@ -172,4 +168,21 @@ function togglePage({ actions: { togglePage } }, pageType) {
 function handleResetSliders({ actions: { deleteAll } }, setIsMobileOpen) {
   deleteAll()
   setIsMobileOpen(false)
+}
+
+function mapStateToProps({ viewSettings, sliders }) {
+  return {
+    viewSettings,
+    sliders
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(
+      { ...MidiSlidersAction, ...ViewActions },
+      dispatch
+    ),
+    initApp: bindActionCreators(initApp, dispatch)
+  }
 }
