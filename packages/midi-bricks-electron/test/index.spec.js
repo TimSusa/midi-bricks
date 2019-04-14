@@ -1,4 +1,4 @@
-const assert = require('assert')
+//const assert = require('assert')
 const expect = require('chai').expect
 const path = require('path')
 const base = path.join(__dirname, '..')
@@ -10,20 +10,20 @@ const settingsButtonSelector = 'button[title="Switch to Settings Mode."]'
 const layoutButtonSelector = 'button[title="Switch to Layout Mode."]'
 const layoutCommitButtonSelector =
   'button[title="Commit changes and exit layout-mode."]'
-const layoutExitButtonSelector =
-  'button[title="Throw away changes and go back."]'
-//const layoutGravitySelector =
+// const layoutExitButtonSelector =
+//   'button[title="Throw away changes and go back."]'
 const addElementMenuSelector = 'button[title="Add Element"]'
 const addPageSelector = 'li*=Add Page'
 const addVerticalSliderSelector = 'li*=Add Vertical Slider'
 const addHorzSliderSelector = 'li*=Add Horizontal Slider'
-const addButtonSelector = 'li*=Add Button'
-const addButtonCcSelector = 'li*=Add Button CC'
-const addButtonProgramChangeSelector = 'li*=Add Button Program Change'
-const addLabelSelector = 'li*=Add Label'
-const addXyPadSelector = 'li*=Add X/Y Pad'
+// const addButtonSelector = 'li*=Add Button'
+// const addButtonCcSelector = 'li*=Add Button CC'
+// const addButtonProgramChangeSelector = 'li*=Add Button Program Change'
+// const addLabelSelector = 'li*=Add Label'
+// const addXyPadSelector = 'li*=Add X/Y Pad'
 
 describe('E2E Tests for MIDI-Bricks will get started...', function() {
+  // eslint-disable-next-line babel/no-invalid-this
   helpers.setupTimeout(this)
 
   var app = null
@@ -201,17 +201,17 @@ async function commitElement(client) {
   isCommitBtnThere && (await client.click(layoutCommitButtonSelector))
   return client
 }
-function logAll(client) {
-  client.getMainProcessLogs().then(function(logs) {
-    logs.forEach(function(log) {
-      console.log(log)
-    })
-  })
-  client.getRenderProcessLogs().then(function(logs) {
-    logs.forEach(function(log) {
-      console.log(log.message)
-      console.log(log.source)
-      console.log(log.level)
-    })
-  })
-}
+// function logAll(client) {
+//   client.getMainProcessLogs().then(function(logs) {
+//     logs.forEach(function(log) {
+//       console.log(log)
+//     })
+//   })
+//   client.getRenderProcessLogs().then(function(logs) {
+//     logs.forEach(function(log) {
+//       console.log(log.message)
+//       console.log(log.source)
+//       console.log(log.level)
+//     })
+//   })
+// }

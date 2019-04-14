@@ -124,21 +124,21 @@ export const reducers = {
     })
     let newEntry = i
       ? {
-          ...tmpState,
-          label: tmpState.label,
-          i: newDate,
-          midiCC: [caclCCThresh],
-          x: x + 1,
-          y: y + 1,
-        }
+        ...tmpState,
+        label: tmpState.label,
+        i: newDate,
+        midiCC: [caclCCThresh],
+        x: x + 1,
+        y: y + 1,
+      }
       : {
-          ...list[idx],
-          label: list[idx].label,
-          i: newDate,
-          midiCC: [caclCCThresh || 60],
-          x: x + 1,
-          y: y + 1,
-        }
+        ...list[idx],
+        label: list[idx].label,
+        i: newDate,
+        midiCC: [caclCCThresh || 60],
+        x: x + 1,
+        y: y + 1,
+      }
 
     newArr.splice(idx, 0, newEntry)
 
@@ -810,14 +810,14 @@ export const reducers = {
       const tmpItem = state.sliderList.find(tmpI => tmpI.i === item.i)
       return tmpItem
         ? {
-            ...item,
-            val: tmpItem.val,
-            isNoteOn: tmpItem.isNoteOn,
-            onVal: tmpItem.onVal,
-            offVal: tmpItem.offVal,
-            lastSavedVal: tmpItem.lastSavedVal,
-            fontSize: tmpItem.fontSize,
-          }
+          ...item,
+          val: tmpItem.val,
+          isNoteOn: tmpItem.isNoteOn,
+          onVal: tmpItem.onVal,
+          offVal: tmpItem.offVal,
+          lastSavedVal: tmpItem.lastSavedVal,
+          fontSize: tmpItem.fontSize,
+        }
         : item
     })
 

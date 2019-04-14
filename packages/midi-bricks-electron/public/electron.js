@@ -61,7 +61,14 @@ function createWindow() {
     },
     icon: path.join(__dirname, 'icons/310x310.png'),
     title: 'MIDI Bricks',
+    frame: true,
+    titleBarStyle: 'hidden',
+    skipTaskbar: true,
+    toolbar: false,
+    transparent: true
   })
+
+  win.setMenu(null)
 
   // Let us register listeners on the window, so we can update the state
   // automatically (the listeners will be removed when the window is closed)

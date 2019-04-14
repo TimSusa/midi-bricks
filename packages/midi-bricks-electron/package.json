@@ -50,7 +50,7 @@
     "not op_mini all"
   ],
   "scripts": {
-    "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron . --window 10,10,900,800\"",
+    "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
     "build": "react-scripts build && build --mac --win",
     "test": "react-scripts test --colors",
     "test-e2e-ci": "concurrently \"BROWSER=none react-scripts start\" \" CI=true mocha --colors\"",

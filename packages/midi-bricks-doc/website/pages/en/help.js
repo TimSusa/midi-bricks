@@ -5,19 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const React = require('react');
+const React = require('react')
 
-const CompLibrary = require('../../core/CompLibrary.js');
+const CompLibrary = require('../../core/CompLibrary.js')
 
-const Container = CompLibrary.Container;
-const GridBlock = CompLibrary.GridBlock;
+const Container = CompLibrary.Container
+const GridBlock = CompLibrary.GridBlock
 
 function Help(props) {
-  const {config: siteConfig, language = ''} = props;
-  const {baseUrl, docsUrl} = siteConfig;
-  const docsPart = `${docsUrl ? `${docsUrl}/` : ''}`;
-  const langPart = `${language ? `${language}/` : ''}`;
-  const docUrl = doc => `${baseUrl}${docsPart}${langPart}${doc}`;
+  const {config: siteConfig, language = ''} = props
+  const {baseUrl, docsUrl} = siteConfig
+  const docsPart = `${docsUrl ? `${docsUrl}/` : ''}`
+  const langPart = `${language ? `${language}/` : ''}`
+  const docUrl = doc => `${baseUrl}${docsPart}${langPart}${doc}`
 
   const supportLinks = [
     {
@@ -31,10 +31,10 @@ function Help(props) {
       title: 'Tim Join the community',
     },
     {
-      content: "Find out what's new with this project",
+      content: 'Find out what\'s new with this project',
       title: 'Tim Stay up to date',
     },
-  ];
+  ]
 
   return (
     <div className="docMainWrapper wrapper">
@@ -48,7 +48,7 @@ function Help(props) {
         </div>
       </Container>
     </div>
-  );
+  )
 }
 
-module.exports = Help;
+module.exports = Help

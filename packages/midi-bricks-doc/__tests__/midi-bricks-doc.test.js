@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const midiBricksDoc = require('..');
+const midiBricksDoc = require('..')
 
 describe('midi-bricks-doc', () => {
-    it('needs tests');
-});
+  it('needs tests')
+})

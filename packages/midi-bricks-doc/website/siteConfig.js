@@ -18,7 +18,7 @@ const users = [
     infoLink: 'https://www.facebook.com',
     pinned: true,
   },
-];
+]
 
 const siteConfig = {
   title: 'Test Site Tim', // Title for your website.
@@ -45,7 +45,7 @@ const siteConfig = {
   ],
 
   // If you have users set above, you add it here:
- // users,
+  // users,
 
   /* path to images for header/footer */
   headerIcon: 'img/docusaurus.svg',
@@ -101,6 +101,6 @@ const siteConfig = {
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
   //   repoUrl: 'https://github.com/facebook/test-site',
-};
+}
 
-module.exports = siteConfig;
+module.exports = siteConfig
