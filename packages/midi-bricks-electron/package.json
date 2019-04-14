@@ -38,6 +38,7 @@
     "electron-builder": "20.38.5",
     "midi-bricks": "^0.14.3",
     "mocha": "6.0.2",
+    "react-scripts": "^2.1.8",
     "rimraf": "^2.6.3",
     "spectron": "5.0.0",
     "wait-for-localhost-cli": "1.1.0"
@@ -51,8 +52,9 @@
   "scripts": {
     "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron . --window 10,10,900,800\"",
     "build": "react-scripts build && build --mac --win",
-    "test": "react-scripts test",
-    "test-e2e": "CI=true mocha",
+    "test": "react-scripts test --colors",
+    "test-e2e-ci": "concurrently \"BROWSER=none react-scripts start\" \" CI=true mocha --colors\"",
+    "test-e2e": "CI=true mocha --colors",
     "postinstall": "electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
     "clean": "rimraf build && rimraf dist && rimraf src && cp -R node_modules/midi-bricks/src src"
   },

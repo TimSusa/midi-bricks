@@ -43,9 +43,12 @@
     "react-scripts": "^2.1.8",
     "redux-mock-store": "1.5.3"
   },
+  "resolutions": {
+    "react-scripts": "^2.1.8"
+  },
   "scripts": {
     "bootstrap": "yarn && lerna bootstrap && cd packages/midi-bricks-electron && yarn && cd ../.. && lerna link && yarn build",
-    "publish": "lerna publish && yarn deploy",
+    "publish": "yarn test && lerna publish && yarn deploy",
     "deploy": "cd packages/midi-bricks/ && yarn deploy && cd ..",
     "lint": "eslint . -c .eslintrc",
     "clean": "lerna clean",

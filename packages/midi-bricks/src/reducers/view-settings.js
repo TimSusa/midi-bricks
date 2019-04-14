@@ -80,7 +80,7 @@ export const reducers = {
     const { isLayoutMode: isStateLayoutMode } = state || {}
     const { isLayoutMode } = action.payload || {}
     return Object.assign({}, state, {
-      isLayoutMode: isLayoutMode || !!!isStateLayoutMode,
+      isLayoutMode: isLayoutMode || !isStateLayoutMode,
       isMidiLearnMode: false
     })
   },
@@ -252,7 +252,7 @@ export const reducers = {
     })
   },
   [ActionTypeViewSettings.TOGGLE_SETTINGS_DIALOG_MODE](state, action) {
-    const { isSettingsDialogMode } = action.payload
+    const { isSettingsDialogMode = false } = action.payload
 
     return Object.assign({}, state, {
       isSettingsDialogMode
@@ -393,7 +393,7 @@ function extractPages(list = []) {
       tmp.push(item)
     }
   })
-  if (tmp.length < 1) {
+  if (tmp.length === 0) {
     console.warn('list was empty!')
   }
   return tmp
@@ -436,8 +436,8 @@ function getChannels(
         noteChannel === 'all'
           ? chDummy
           : !oldNoteChannels.includes(noteChannel)
-          ? [...oldNoteChannels, noteChannel]
-          : oldNoteChannels
+            ? [...oldNoteChannels, noteChannel]
+            : oldNoteChannels
       channels = getObjFromNoteChannels(old, name, noteChannels)
     }
     if (ccChannel) {
@@ -445,8 +445,8 @@ function getChannels(
         ccChannel === 'all'
           ? chDummy
           : !oldCcChannels.includes(ccChannel)
-          ? [...oldCcChannels, ccChannel]
-          : oldCcChannels
+            ? [...oldCcChannels, ccChannel]
+            : oldCcChannels
       channels = getObjFromCcChannels(old, name, ccChannels)
     }
   } else {

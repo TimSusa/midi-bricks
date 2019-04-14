@@ -32,8 +32,10 @@ function MidiDriversSettingsPage(props) {
   useEffect(() => {
     actions.toggleLiveMode({ isLiveMode: false })
   }, [actions])
+
   const [isFirstPanelExpanded, setIsFirstPanelExpanded] = useState(true)
   const [isScndPanelExpanded, setIsScndPanelExpanded] = useState(true)
+  
   return (
     <React.Fragment>
       <DriverExpansionPanel

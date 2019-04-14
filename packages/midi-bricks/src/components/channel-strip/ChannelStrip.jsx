@@ -25,23 +25,17 @@ ChannelStrip.propTypes = {
 
 function ChannelStrip(props) {
   const classes = useStyles()
+  const { sliderEntry, idx, size, isDisabled, isMidiLearnMode } = props
   const {
-    sliderEntry,
-    sliderEntry: {
-      type,
-      label,
-      val,
-      fontSize,
-      fontWeight,
-      colors: { colorFont },
-      isValueHidden,
-      lastSavedVal
-    },
-    idx,
-    size,
-    isDisabled,
-    isMidiLearnMode
-  } = props
+    type,
+    label,
+    val,
+    fontSize,
+    fontWeight,
+    colors: { colorFont },
+    isValueHidden,
+    lastSavedVal
+  } = sliderEntry
   const tmpH = (size && size.height) || 0
   const tmpW = (size && size.width) || 0
   const isButton = type !== STRIP_TYPE.SLIDER && type !== STRIP_TYPE.LABEL

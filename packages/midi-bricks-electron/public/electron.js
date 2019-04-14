@@ -59,7 +59,8 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true
     },
-    icon: path.join(__dirname, 'icons/512x512.png')
+    icon: path.join(__dirname, 'icons/512x512.png'),
+    title: 'MIDI Bricks',
   })
 
   // Let us register listeners on the window, so we can update the state

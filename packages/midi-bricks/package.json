@@ -10,7 +10,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "deploy": "react-scripts build && cp now.json build/ && cd build && now --name midi-bricks && cd ..",
-    "test": "CI=true react-scripts test",
+    "test": "CI=true react-scripts test --colors",
     "analyze": "source-map-explorer build/static/js/main.*",
     "precommit": "yarn test"
   },
