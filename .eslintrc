@@ -80,7 +80,7 @@
     "jsx-a11y/interactive-supports-focus": 1,
     "max-len": 0,
     "new-cap": [
-      2,
+      0,
       {
         "capIsNewExceptions": ["List", "Map", "Set"]
       }

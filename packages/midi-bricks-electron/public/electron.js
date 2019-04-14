@@ -59,16 +59,15 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true
     },
-    icon: path.join(__dirname, 'icons/310x310.png'),
+    icon: path.join(__dirname, 'icons', '310x310.png'),
     title: 'MIDI Bricks',
-    frame: true,
-    titleBarStyle: 'hidden',
-    skipTaskbar: true,
-    toolbar: false,
-    transparent: true
+    //frame: false,
+    //titleBarStyle: 'hidden',
+    //skipTaskbar: false,
+    //toolbar: false
   })
 
-  win.setMenu(null)
+  //win.setMenu(null)
 
   // Let us register listeners on the window, so we can update the state
   // automatically (the listeners will be removed when the window is closed)

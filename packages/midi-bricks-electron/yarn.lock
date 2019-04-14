@@ -7078,10 +7078,10 @@ micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8, mic
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-midi-bricks@^0.14.4:
-  version "0.14.4"
-  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.14.4.tgz#52223b2afc243017e259e193f7ad4bf60885b5ad"
-  integrity sha512-061Y8UPzlfmAvrlNDtl+bF0/S93y9FsZZIsaLA99cehnWDLsF3WYCPRB6rqjXBcgNwcMEbOcAxe9IfmkdFp+Iw==
+midi-bricks@^0.14.5:
+  version "0.14.5"
+  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-0.14.5.tgz#f117fe7f3b8da95a79757c0d19b58c674c88a7ea"
+  integrity sha512-rDs8iTj2Pk2rLUaI6HIsfRVrSGea6beK4tKZcefmrIwSBK267C6GDQNCxnAM7Y+ODyKZ9Pgif9+HPzPBL0lfEQ==
 
 miller-rabin@^4.0.0:
   version "4.0.1"
