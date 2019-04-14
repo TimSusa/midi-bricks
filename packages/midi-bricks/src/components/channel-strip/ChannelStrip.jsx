@@ -9,9 +9,19 @@ import MidiPage from '../midi-elements/MidiPage'
 import MidiSliderHorz from '../midi-elements/MidiSliderHorz'
 import XyPad from '../XyPad'
 import { Label } from '../midi-elements/Label'
+export default ChannelStrip
 
 const sliderThumbHeight = 30
 const useStyles = makeStyles(styles, { useTheme: true })
+
+ChannelStrip.propTypes = {
+  classes: PropTypes.object,
+  idx: PropTypes.number,
+  isDisabled: PropTypes.bool,
+  isMidiLearnMode: PropTypes.any,
+  size: PropTypes.object,
+  sliderEntry: PropTypes.object
+}
 
 function ChannelStrip(props) {
   const classes = useStyles()
@@ -146,15 +156,6 @@ function ChannelStrip(props) {
   )
 }
 
-ChannelStrip.propTypes = {
-  classes: PropTypes.object,
-  idx: PropTypes.number,
-  isDisabled: PropTypes.bool,
-  isMidiLearnMode: PropTypes.any,
-  size: PropTypes.object,
-  sliderEntry: PropTypes.object
-}
-
 function calcHeight(tmpH, props) {
   const fact = props.sliderEntry.isValueHidden ? 1 : 2
   const marge = props.sliderEntry.isValueHidden ? 8 : 16
@@ -199,5 +200,3 @@ function styles(theme) {
     }
   }
 }
-
-export default ChannelStrip

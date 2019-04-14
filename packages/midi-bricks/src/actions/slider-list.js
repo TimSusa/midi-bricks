@@ -42,7 +42,7 @@ const typeSliderList = [
   'GO_BACK',
   'UPDATE_SLIDER_LIST_BACKUP',
   'TRIGGER_ALL_MIDI_ELEMENTS',
-  'EXTRACT_PAGE',
+  'EXTRACT_PAGE'
 ]
 
 export const ActionTypeSliderList = createActionTypes(typeSliderList)
