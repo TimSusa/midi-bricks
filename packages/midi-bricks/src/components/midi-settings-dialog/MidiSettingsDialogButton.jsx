@@ -1,49 +1,45 @@
 import React from 'react'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import { withStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/styles'
 import MidiSettingsDialog from './MidiSettingsDialog'
 
-const MidiSettingsDialogButton = props => {
-  const {
-    classes,
-    sliderEntry,
-    idx,
-    isSettingsDialogMode,
-    lastFocusedIdx,
-  } = props
+const useStyles = makeStyles(styles, { useTheme: true })
 
-  const isOpen = !!(
-    isSettingsDialogMode &&
-    lastFocusedIdx !== undefined &&
-    lastFocusedIdx === sliderEntry.i
-  )
+MidiSettingsDialogButton.propTypes = {
+  isOpen: PropTypes.bool,
+  idx: PropTypes.number,
+  sliderEntry: PropTypes.object,
+  toggleSettings: PropTypes.func
+}
+
+export default function MidiSettingsDialogButton(props) {
+  const { isOpen, toggleSettings, sliderEntry, idx } = props
+  const classes = useStyles()
 
   return (
     <div className={classes.root}>
       {!isOpen ? (
         <ExpandMoreIcon
           className={classes.iconColor}
-          onClick={props.toggleSettings.bind(this, {
-            idx,
-            isSettingsDialogMode: true,
+          onClick={toggleSettings.bind(this, {
+            isSettingsDialogMode: true
           })}
         />
       ) : (
         <ExpandLessIcon
           className={classes.iconColor}
-          onClick={props.toggleSettings.bind(this, {
-            idx,
-            isSettingsDialogMode: false,
+          onClick={toggleSettings.bind(this, {
+            isSettingsDialogMode: false
           })}
         />
       )}
       {isOpen ? (
         <MidiSettingsDialog
           open={isOpen}
-          onClose={props.toggleSettings.bind(this, {
-            idx,
-            isSettingsDialogMode: false,
+          onClose={toggleSettings.bind(this, {
+            isSettingsDialogMode: false
           })}
           sliderEntry={sliderEntry}
           idx={idx}
@@ -54,15 +50,16 @@ const MidiSettingsDialogButton = props => {
     </div>
   )
 }
-const styles = theme => ({
-  root: {},
-  iconColor: {
-    color: theme.palette.primary.contrastText,
-    width: 16,
-  },
-  icon: {
-    width: 5,
-  },
-})
 
-export default withStyles(styles)(MidiSettingsDialogButton)
+function styles(theme) {
+  return {
+    root: {},
+    iconColor: {
+      color: theme.palette.primary.contrastText,
+      width: 16
+    },
+    icon: {
+      width: 5
+    }
+  }
+}

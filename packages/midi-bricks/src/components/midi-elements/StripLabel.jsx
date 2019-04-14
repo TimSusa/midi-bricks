@@ -1,16 +1,27 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/styles'
 import { connect } from 'react-redux'
 import { STRIP_TYPE } from '../../reducers/slider-list.js'
 
+const useStyles = makeStyles(styles, { useTheme: true })
+
+
+StripLabel.propTypes = {
+  height: PropTypes.number,
+  isChangedTheme: PropTypes.bool,
+  width: PropTypes.number,
+  sliderEntry: PropTypes.object
+}
+
 function StripLabel(props) {
+  const classes = useStyles()
   const {
     sliderEntry: { isNoteOn, colors, fontSize, fontWeight, type, label },
-    classes,
-    height,
-    width,
-    isChangedTheme
+    height = '',
+    width = '',
+    isChangedTheme = false
   } = props
 
   if (type !== STRIP_TYPE.LABEL) {
@@ -41,9 +52,8 @@ function StripLabel(props) {
   )
 }
 
-StripLabel.displayName = StripLabel.muiName = 'StripLabel'
 
-function styles (theme) {
+function styles(theme) {
   return {
     labelWrap: {
       borderRadius: 3,
@@ -107,9 +117,7 @@ function mapStateToProps({ viewSettings: { isChangedTheme } }) {
   }
 }
 
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    null
-  )(StripLabel)
-)
+export default connect(
+  mapStateToProps,
+  null
+)(StripLabel)

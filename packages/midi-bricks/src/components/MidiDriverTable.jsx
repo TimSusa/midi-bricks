@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  withStyles,
   Table,
   TableBody,
   TableRow,
@@ -8,34 +7,47 @@ import {
   TableHead,
   Checkbox,
   Card,
-  Typography,
+  Typography
 } from '@material-ui/core'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/styles'
+
+const useStyles = makeStyles(styles, { useTheme: true })
+const channelDummy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+
+MidiDriverTable.propTypes = {
+  available: PropTypes.object,
+  handleCheckboxClickCc: PropTypes.func,
+  handleCheckboxClickNote: PropTypes.func,
+  labelPostfix: PropTypes.string,
+  name: PropTypes.string
+}
 
 function MidiDriverTable(props) {
+  const classes = useStyles()
   const {
-    classes,
     labelPostfix,
     available,
     name,
     handleCheckboxClickNote,
-    handleCheckboxClickCc,
+    handleCheckboxClickCc
   } = props
   return (
     <Card className={classes.card}>
       <Typography
-        variant="body2"
-        color="secondary"
+        variant='body2'
+        color='secondary'
         className={classes.topLabel}
       >
         {`${name} (${labelPostfix})`}
       </Typography>
-      <Table color="primary" padding="none" className={classes.table}>
+      <Table color='primary' padding='none' className={classes.table}>
         <TableHead>
           <TableRow>
             <TableCell>
               <Typography
-                variant="caption"
-                color="secondary"
+                variant='caption'
+                color='secondary'
                 className={classes.label}
               >
                 {'   '}
@@ -44,8 +56,8 @@ function MidiDriverTable(props) {
 
             <TableCell>
               <Typography
-                variant="caption"
-                color="secondary"
+                variant='caption'
+                color='secondary'
                 className={classes.label}
               >
                 {' All'}
@@ -54,8 +66,8 @@ function MidiDriverTable(props) {
             {channelDummy.map((item, idx) => (
               <TableCell key={`input-midi-head-${idx}`}>
                 <Typography
-                  variant="caption"
-                  color="secondary"
+                  variant='caption'
+                  color='secondary'
                   className={classes.label}
                 >
                   Ch {idx + 1}
@@ -68,8 +80,8 @@ function MidiDriverTable(props) {
           <TableRow>
             <TableCell>
               <Typography
-                variant="body2"
-                color="secondary"
+                variant='body2'
+                color='secondary'
                 className={classes.label}
               >
                 Note
@@ -109,8 +121,8 @@ function MidiDriverTable(props) {
           <TableRow>
             <TableCell>
               <Typography
-                variant="body2"
-                color="secondary"
+                variant='body2'
+                color='secondary'
                 className={classes.label}
               >
                 CC
@@ -152,47 +164,50 @@ function MidiDriverTable(props) {
     </Card>
   )
 }
-const isCheckedNote = (availableDrivers, name, val) => {
+
+function isCheckedNote(availableDrivers, name, val) {
   if (!availableDrivers) return false
   const { noteChannels = [] } = availableDrivers[name] || { noteChannels: [] }
   const isCheckedNote = noteChannels.includes(val)
   return isCheckedNote
 }
-const isCheckedCc = (availableDrivers, name, val) => {
+
+function isCheckedCc(availableDrivers, name, val) {
   if (!availableDrivers) return false
   const { ccChannels = [] } = availableDrivers[name] || { ccChannels: [] }
   const isCheckedCc = ccChannels.includes(val)
   return isCheckedCc
 }
-const channelDummy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 
-const styles = theme => ({
-  root: {
-    margin: theme.spacing(2),
-    padding: 0,
-  },
-  heading: {
-    margin: theme.spacing(1),
-  },
-  card: {
-    margin: theme.spacing(2),
-    background: 'whitesmoke',
-  },
-  table: {
-    textAlign: 'left',
-    background: '#fafafa',
-    // width: '100%',
-    // margin: '8px, 0, 8px, 0'
-  },
-  tableCell: {
-    background: theme.palette.primary,
-  },
-  topLabel: {
-    margin: theme.spacing(1),
-  },
-  label: {
-    marginLeft: theme.spacing(1),
-  },
-})
+function styles(theme) {
+  return {
+    root: {
+      margin: theme.spacing(2),
+      padding: 0
+    },
+    heading: {
+      margin: theme.spacing(1)
+    },
+    card: {
+      margin: theme.spacing(2),
+      background: 'whitesmoke'
+    },
+    table: {
+      textAlign: 'left',
+      background: '#fafafa'
+      // width: '100%',
+      // margin: '8px, 0, 8px, 0'
+    },
+    tableCell: {
+      background: theme.palette.primary
+    },
+    topLabel: {
+      margin: theme.spacing(1)
+    },
+    label: {
+      marginLeft: theme.spacing(1)
+    }
+  }
+}
 
-export default withStyles(styles)(MidiDriverTable)
+export default MidiDriverTable

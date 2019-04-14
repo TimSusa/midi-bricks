@@ -4,58 +4,68 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSlidersAction } from '../../actions/slider-list.js'
 import { Actions as ViewSettinsgsAction } from '../../actions/view-settings'
-import IconButton from '@material-ui/core/IconButton'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import AddIcon from '@material-ui/icons/Add'
 import { STRIP_TYPE } from '../../reducers/slider-list'
-import { Tooltip } from '@material-ui/core'
+import { Tooltip, IconButton } from '@material-ui/core'
 
-const AddMenu = props => {
-  const [ancEl, setAncEl] = useState(null)
-  const open = Boolean(ancEl)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddMenu)
+
+AddMenu.propTypes = {
+  actions: PropTypes.object.isRequired,
+  sliderList: PropTypes.array
+}
+
+function AddMenu(props) {
+  const [anchorEl, setAnchorEl] = useState(null)
+  const open = Boolean(anchorEl)
   const { sliderList, actions } = props
   return (
     <React.Fragment>
-      <IconButton
-        aria-owns={open ? 'menu-appbar-add' : null}
-        aria-haspopup="true"
-        onClick={handleMenu.bind(this, setAncEl)}
-        color="inherit"
-      >
-        <Tooltip title="Add Element">
+      <Tooltip title='Add Element'>
+        <IconButton
+          aria-owns={anchorEl ? 'menu-appbar-add' : null}
+          aria-haspopup='true'
+          onClick={handleMenu.bind(this, setAnchorEl)}
+          color='inherit'
+        >
           <AddIcon />
-        </Tooltip>
-      </IconButton>
+        </IconButton>
+      </Tooltip>
+
       <Menu
-        id="menu-appbar-add"
-        anchorEl={ancEl}
+        id='menu-appbar-add'
+        anchorEl={anchorEl}
         anchorOrigin={{
           vertical: 'top',
-          horizontal: 'right',
+          horizontal: 'right'
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'right',
+          horizontal: 'right'
         }}
         open={open}
-        onClose={handleClose.bind(this, setAncEl)}
+        onClose={handleClose.bind(this, setAnchorEl)}
       >
         <MenuItem
-          onClick={handleAddPage.bind(this, props, setAncEl, sliderList)}
+          onClick={handleAddPage.bind(this, props, setAnchorEl, sliderList)}
         >
           Add Page
         </MenuItem>
 
         <MenuItem
-          onClick={handleAddSlider.bind(this, setAncEl, actions.addSlider)}
+          onClick={handleAddSlider.bind(this, setAnchorEl, actions.addSlider)}
         >
           Add Vertical Slider
         </MenuItem>
         <MenuItem
           onClick={handleAddSliderHorz.bind(
             this,
-            setAncEl,
+            setAnchorEl,
             actions.addSliderHorz
           )}
         >
@@ -64,7 +74,7 @@ const AddMenu = props => {
         <MenuItem
           onClick={handleAddButton.bind(
             this,
-            setAncEl,
+            setAnchorEl,
             actions.addButton,
             STRIP_TYPE.BUTTON
           )}
@@ -74,7 +84,7 @@ const AddMenu = props => {
         <MenuItem
           onClick={handleAddButton.bind(
             this,
-            setAncEl,
+            setAnchorEl,
             actions.addButton,
             STRIP_TYPE.BUTTON_CC
           )}
@@ -84,7 +94,7 @@ const AddMenu = props => {
         <MenuItem
           onClick={handleAddButton.bind(
             this,
-            setAncEl,
+            setAnchorEl,
             actions.addButton,
             STRIP_TYPE.BUTTON_PROGRAM_CHANGE
           )}
@@ -92,12 +102,12 @@ const AddMenu = props => {
           Add Button Program Change
         </MenuItem>
         <MenuItem
-          onClick={handleAddLabel.bind(this, setAncEl, actions.addLabel)}
+          onClick={handleAddLabel.bind(this, setAnchorEl, actions.addLabel)}
         >
           Add Label
         </MenuItem>
         <MenuItem
-          onClick={handleAddXyPad.bind(this, setAncEl, actions.addXypad)}
+          onClick={handleAddXyPad.bind(this, setAnchorEl, actions.addXypad)}
         >
           Add X/Y Pad
         </MenuItem>
@@ -106,69 +116,61 @@ const AddMenu = props => {
   )
 }
 
-const handleMenu = (setAncEl, event) => {
-  setAncEl(event.currentTarget)
+function handleMenu(setAnchorEl, event) {
+  setAnchorEl(event.currentTarget)
 }
 
-const handleClose = setAncEl => {
-  setAncEl(null)
+function handleClose(setAnchorEl, event) {
+  setAnchorEl(null)
 }
 
-const handleAddButton = (setAncEl, addButton, type) => {
+function handleAddButton(setAnchorEl, addButton, type) {
   addButton({ type })
-  handleClose(setAncEl)
+  handleClose(setAnchorEl)
 }
 
-const handleAddSlider = (setAncEl, addSlider) => {
+function handleAddSlider(setAnchorEl, addSlider) {
   addSlider()
-  handleClose(setAncEl)
+  handleClose(setAnchorEl)
 }
-const handleAddSliderHorz = (setAncEl, addSliderHorz) => {
+function handleAddSliderHorz(setAnchorEl, addSliderHorz) {
   addSliderHorz()
-  handleClose(setAncEl)
+  handleClose(setAnchorEl)
 }
 
-const handleAddLabel = (setAncEl, addLabel) => {
+function handleAddLabel(setAnchorEl, addLabel) {
   addLabel()
-  handleClose(setAncEl)
+  handleClose(setAnchorEl)
 }
 
-const handleAddXyPad = (setAncEl, addXypad) => {
+function handleAddXyPad(setAnchorEl, addXypad) {
   addXypad()
-  handleClose(setAncEl)
+  handleClose(setAnchorEl)
 }
 
-const handleAddPage = (props, setAncEl, sliderList) => {
+function handleAddPage(props, setAnchorEl, sliderList) {
   const { actions, viewSettings } = props
   actions.addPage()
-  setAncEl(null)
+  setAnchorEl(null)
   window.requestAnimationFrame(() =>
     actions.updateViewSettings({
       sliderList,
-      viewSettings,
+      viewSettings
     })
   )
 }
 
-AddMenu.propTypes = {
-  actions: PropTypes.object.isRequired,
-}
-
 function mapStateToProps({ sliders: { sliderList } }) {
   return {
-    sliderList,
+    sliderList
   }
 }
+
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
       { ...MidiSlidersAction, ...ViewSettinsgsAction },
       dispatch
-    ),
+    )
   }
 }
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AddMenu)

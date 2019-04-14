@@ -5,7 +5,7 @@ export const PAGE_TYPES = {
   HOME_MODE: 'HOME_MODE',
   GLOBAL_MODE: 'GLOBAL_MODE',
   MIDI_DRIVER_MODE: 'MIDI_DRIVER_MODE',
-  VIEW_SETTINGS_MODE: 'VIEW_SETTINGS_MODE',
+  VIEW_SETTINGS_MODE: 'VIEW_SETTINGS_MODE'
 }
 
 const initState = {
@@ -32,22 +32,22 @@ const initState = {
     inputs: {
       None: {
         ccChannels: [],
-        noteChannels: [],
-      },
+        noteChannels: []
+      }
     },
     outputs: {
       None: {
         ccChannels: [],
-        noteChannels: [],
-      },
-    },
-  },
+        noteChannels: []
+      }
+    }
+  }
 }
 export const reducers = {
   [ActionTypeViewSettings.TOGGLE_PAGE](state = initState, action) {
     const { pageType } = action.payload
     return Object.assign({}, state, {
-      pageType,
+      pageType
     })
   },
 
@@ -62,7 +62,7 @@ export const reducers = {
       isLiveMode: castedVal,
       isLayoutMode: false,
       isSettingsMode: false,
-      isMidiLearnMode: false,
+      isMidiLearnMode: false
     })
   },
 
@@ -72,7 +72,7 @@ export const reducers = {
     return Object.assign({}, state, {
       isMidiLearnMode: isMidiLearnMode || !castedVal,
       isLayoutMode: false,
-      isSettingsMode: false,
+      isSettingsMode: false
     })
   },
 
@@ -81,7 +81,7 @@ export const reducers = {
     const { isLayoutMode } = action.payload || {}
     return Object.assign({}, state, {
       isLayoutMode: isLayoutMode || !!!isStateLayoutMode,
-      isMidiLearnMode: false,
+      isMidiLearnMode: false
     })
   },
 
@@ -89,24 +89,27 @@ export const reducers = {
     const castedVal = !!state.isCompactHorz
     return Object.assign({}, state, {
       isCompactHorz: !castedVal,
-      isMidiLearnMode: false,
+      isMidiLearnMode: false
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_SETTINGS_MODE](state = initState, action) {
+  [ActionTypeViewSettings.TOGGLE_SETTINGS_MODE](state, action) {
     const castedVal = !!state.isSettingsMode
     const { isSettingsMode } = action.payload || {}
     return Object.assign({}, state, {
       isSettingsMode: isSettingsMode || !castedVal,
-      isMidiLearnMode: false,
+      isMidiLearnMode: false
     })
   },
 
-  [ActionTypeViewSettings.SET_FULLSCREEN_ON_LIVEMODE](state = initState, action) {
+  [ActionTypeViewSettings.SET_FULLSCREEN_ON_LIVEMODE](
+    state = initState,
+    action
+  ) {
     const castedVal = !!state.isFullscreenOnLivemode
     const { isFullscreenOnLivemode } = action.payload || {}
     return Object.assign({}, state, {
-      isFullscreenOnLivemode: isFullscreenOnLivemode || !castedVal,
+      isFullscreenOnLivemode: isFullscreenOnLivemode || !castedVal
     })
   },
 
@@ -114,7 +117,7 @@ export const reducers = {
     const castedVal = !!state.isAutoArrangeMode
     return Object.assign({}, state, {
       isAutoArrangeMode: !castedVal,
-      isMidiLearnMode: false,
+      isMidiLearnMode: false
     })
   },
 
@@ -122,14 +125,14 @@ export const reducers = {
     const castedVal = !!state.isChangedTheme
     return Object.assign({}, state, {
       isChangedTheme: !castedVal,
-      isMidiLearnMode: false,
+      isMidiLearnMode: false
     })
   },
 
   [ActionTypeViewSettings.UPDATE_VIEW_SETTINGS](state = initState, action) {
     const {
       sliderList,
-      viewSettings: { availableDrivers } = {},
+      viewSettings: { availableDrivers } = {}
     } = action.payload
 
     const extractedPages = extractPages(sliderList)
@@ -137,10 +140,10 @@ export const reducers = {
     let newItemToTake = null
 
     oldPages &&
-      oldPages.forEach(oldItem => {
+      oldPages.forEach((oldItem) => {
         if (!oldItem) return
         extractedPages &&
-          extractedPages.forEach(newItem => {
+          extractedPages.forEach((newItem) => {
             if (!newItem) return
             if (oldItem.i !== newItem.i) {
               newItemToTake = newItem
@@ -151,11 +154,11 @@ export const reducers = {
     let footerState = null
     if (newItemToTake) {
       footerState = Object.assign({}, state, {
-        footerPages: [...newPages, newItemToTake],
+        footerPages: [...newPages, newItemToTake]
       })
     } else {
       footerState = Object.assign({}, state, {
-        footerPages: newPages,
+        footerPages: newPages
       })
     }
     if (availableDrivers) {
@@ -167,22 +170,22 @@ export const reducers = {
 
   [ActionTypeViewSettings.DELETE_PAGE_FROM_FOOTER](state = initState, action) {
     const { i } = action.payload
-    const footerPages = state.footerPages.filter(item => item.i !== i)
+    const footerPages = state.footerPages.filter((item) => item.i !== i)
     return Object.assign({}, state, {
-      footerPages,
+      footerPages
     })
   },
 
   [ActionTypeViewSettings.DELETE_FOOTER_PAGES](state = initState, action) {
     return Object.assign({}, state, {
-      footerPages: [],
+      footerPages: []
     })
   },
 
   [ActionTypeViewSettings.CHANGE_FOOTER_PAGE](state = initState, action) {
     const { i, label, colorFont, color } = action.payload
 
-    const tmpArr = state.footerPages.map(item => {
+    const tmpArr = state.footerPages.map((item) => {
       if (label) {
         if (item.i === i) {
           return Object.assign({}, item, { label })
@@ -196,7 +199,7 @@ export const reducers = {
       if (colorFont) {
         if (item.i === i) {
           return Object.assign({}, item, {
-            colors: { ...item.colors, colorFont },
+            colors: { ...item.colors, colorFont }
           })
         }
       }
@@ -204,21 +207,21 @@ export const reducers = {
     })
 
     return Object.assign({}, state, {
-      footerPages: tmpArr,
+      footerPages: tmpArr
     })
   },
 
   [ActionTypeViewSettings.SET_FOOTER_BUTTON_FOCUS](state = initState, action) {
     const { i } = action.payload
     return Object.assign({}, state, {
-      lastFocusedFooterButtonIdx: i,
+      lastFocusedFooterButtonIdx: i
     })
   },
 
   [ActionTypeViewSettings.SET_LAST_FOCUSED_INDEX](state = initState, action) {
     const { i } = action.payload
     return Object.assign({}, state, {
-      lastFocusedIdx: i,
+      lastFocusedIdx: i
     })
   },
 
@@ -245,29 +248,20 @@ export const reducers = {
     })
 
     return Object.assign({}, state, {
-      footerPages: newArray,
+      footerPages: newArray
     })
   },
-  [ActionTypeViewSettings.TOGGLE_SETTINGS_DIALOG_MODE](
-    state = initState,
-    action
-  ) {
+  [ActionTypeViewSettings.TOGGLE_SETTINGS_DIALOG_MODE](state, action) {
     const { isSettingsDialogMode } = action.payload
 
-    if (isSettingsDialogMode) {
-      return Object.assign({}, state, {
-        isSettingsDialogMode,
-      })
-    }
-
     return Object.assign({}, state, {
-      isSettingsDialogMode: false,
+      isSettingsDialogMode
     })
   },
 
   [ActionTypeViewSettings.SET_AVAILABLE_DRIVERS](state = initState, action) {
     const {
-      availableDrivers: { inputs: oldIn, outputs: oldOut },
+      availableDrivers: { inputs: oldIn, outputs: oldOut }
     } = state
     const { input, output } = action.payload
 
@@ -276,7 +270,7 @@ export const reducers = {
       const { name, noteChannel, ccChannel, isChecked } = input
       const {
         noteChannels: oldNoteChannels,
-        ccChannels: oldCcChannels,
+        ccChannels: oldCcChannels
       } = oldIn[name] || { noteChannels: [], ccChannels: [] }
       let inputs = getChannels(
         noteChannel,
@@ -290,7 +284,7 @@ export const reducers = {
 
       availableDrivers = {
         ...availableDrivers,
-        inputs,
+        inputs
       }
     }
 
@@ -298,7 +292,7 @@ export const reducers = {
       const { name, noteChannel, ccChannel, isChecked } = output
       const {
         noteChannels: oldNoteChannels,
-        ccChannels: oldCcChannels,
+        ccChannels: oldCcChannels
       } = oldOut[name] || { noteChannels: [], ccChannels: [] }
       let outputs = getChannels(
         noteChannel,
@@ -312,59 +306,59 @@ export const reducers = {
 
       availableDrivers = {
         ...availableDrivers,
-        outputs,
+        outputs
       }
     }
 
     return {
       ...state,
-      availableDrivers,
+      availableDrivers
     }
   },
 
   [ActionTypeViewSettings.SET_ROW_HEIGHT](state = initState, action) {
     const { rowHeight } = action.payload
     return Object.assign({}, state, {
-      rowHeight,
+      rowHeight
     })
   },
   [ActionTypeViewSettings.SET_COLUMNS](state = initState, action) {
     const { columns } = action.payload
     return Object.assign({}, state, {
-      columns,
+      columns
     })
   },
 
   [ActionTypeViewSettings.TOGGLE_AUTOSIZE](state = initState, action) {
     const castedVal = !!state.isAutoSize
     return Object.assign({}, state, {
-      isAutoSize: !castedVal,
+      isAutoSize: !castedVal
     })
   },
   [ActionTypeViewSettings.SET_X_MARGIN](state = initState, action) {
     const { marginX } = action.payload
     return Object.assign({}, state, {
-      marginX,
+      marginX
     })
   },
   [ActionTypeViewSettings.SET_Y_MARGIN](state = initState, action) {
     const { marginY } = action.payload
     return Object.assign({}, state, {
-      marginY,
+      marginY
     })
   },
   [ActionTypeViewSettings.SET_X_PADDING](state = initState, action) {
     const { paddingX } = action.payload
     return Object.assign({}, state, {
-      paddingX,
+      paddingX
     })
   },
   [ActionTypeViewSettings.SET_Y_PADDING](state = initState, action) {
     const { paddingY } = action.payload
     return Object.assign({}, state, {
-      paddingY,
+      paddingY
     })
-  },
+  }
 }
 
 export const viewSettings = generateReducers(initState, reducers)
@@ -385,14 +379,16 @@ const chDummy = [
   '13',
   '14',
   '15',
-  '16',
+  '16'
 ]
 
-const hasAll = (arr = []) => arr.length === chDummy.length
+function hasAll(arr = []) {
+  return arr.length === chDummy.length
+}
 
-const extractPages = (list = []) => {
+function extractPages(list = []) {
   let tmp = []
-  list.forEach(item => {
+  list.forEach((item) => {
     if (item.type === 'PAGE') {
       tmp.push(item)
     }
@@ -408,8 +404,8 @@ function getObjFromNoteChannels(obj, name, noteChannels) {
     ...obj,
     [name]: {
       ...obj[name],
-      noteChannels,
-    },
+      noteChannels
+    }
   }
 }
 function getObjFromCcChannels(obj, name, ccChannels) {
@@ -417,8 +413,8 @@ function getObjFromCcChannels(obj, name, ccChannels) {
     ...obj,
     [name]: {
       ...obj[name],
-      ccChannels,
-    },
+      ccChannels
+    }
   }
 }
 
@@ -457,13 +453,13 @@ function getChannels(
     if (noteChannel) {
       noteChannels = hasAll(oldNoteChannels)
         ? []
-        : oldNoteChannels.filter(item => item !== noteChannel)
+        : oldNoteChannels.filter((item) => item !== noteChannel)
       channels = getObjFromNoteChannels(old, name, noteChannels)
     }
     if (ccChannel) {
       ccChannels = hasAll(oldCcChannels)
         ? []
-        : oldCcChannels.filter(item => item !== ccChannel)
+        : oldCcChannels.filter((item) => item !== ccChannel)
       channels = getObjFromCcChannels(old, name, ccChannels)
     }
   }

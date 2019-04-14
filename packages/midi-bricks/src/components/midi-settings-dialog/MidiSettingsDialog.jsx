@@ -8,29 +8,25 @@ import Dialog from '@material-ui/core/Dialog'
 import MidiSettings from '../midi-settings/MidiSettings'
 import { Typography } from '@material-ui/core'
 
-const MidiSettingsDialog = props => {
+function MidiSettingsDialog(props) {
   const { sliderEntry, idx, onClose, ...other } = props
   return (
     <Dialog
       onKeyDown={handleKeydown.bind(this, onClose)}
       disableBackdropClick
-      aria-labelledby="confirmation-dialog-title"
+      aria-labelledby='confirmation-dialog-title'
       {...other}
     >
-      <DialogTitle id="confirmation-dialog-title">
-        <Typography color="secondary" variant="body1">
+      <DialogTitle id='confirmation-dialog-title'>
+        <Typography color='secondary' variant='body1'>
           Settings
         </Typography>
       </DialogTitle>
       <DialogContent>
-        <MidiSettings
-          sliderEntry={sliderEntry}
-          idx={idx}
-          onClose={props.onClose}
-        />
+        <MidiSettings sliderEntry={sliderEntry} idx={idx} onClose={onClose} />
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.onClose} color="secondary">
+        <Button onClick={onClose} color='secondary'>
           Close
         </Button>
       </DialogActions>
@@ -38,7 +34,7 @@ const MidiSettingsDialog = props => {
   )
 }
 
-const handleKeydown = (onClose, e) => {
+function handleKeydown(onClose, e) {
   // Enter key will close dialog
   if (e.keyCode === 13) {
     onClose()
@@ -47,8 +43,10 @@ const handleKeydown = (onClose, e) => {
 }
 
 MidiSettingsDialog.propTypes = {
+  idx: PropTypes.any,
   onClose: PropTypes.func,
-  value: PropTypes.string,
+  sliderEntry: PropTypes.any,
+  value: PropTypes.string
 }
 
 export default MidiSettingsDialog

@@ -31,12 +31,20 @@ const useStyles = makeStyles(
   { useTheme: true }
 )
 
+
+Home.propTypes = {
+  classes: PropTypes.object,
+  viewSettings: PropTypes.object,
+  initApp: PropTypes.func
+}
+
 function Home(props) {
   useEffect(() => {
     async function initAsync() {
       await props.initApp()
     }
     if (props.viewSettings.pageType !== PAGE_TYPES.HOME_MODE){return}
+    console.log('Re-Init MIDI')
     initAsync()
     const {
       viewSettings: { lastFocusedFooterButtonIdx }
@@ -45,10 +53,12 @@ function Home(props) {
       const element = document.getElementById(
         `page-${lastFocusedFooterButtonIdx}`
       )
+      console.log('scroll and set timeout')
       element && element.scrollIntoView({ block: 'start' })
     }, 500)
 
     return () => {
+      console.log('clear timeout ', timeOut)
       clearTimeout(timeOut)
     }
   }, [props.viewSettings.pageType])
@@ -91,11 +101,6 @@ function Home(props) {
   }
 }
 
-Home.propTypes = {
-  classes: PropTypes.object,
-  viewSettings: PropTypes.object,
-  initApp: PropTypes.func
-}
 
 function mapStateToProperties({ viewSettings, sliders: { isMidiFailed } }) {
   return {

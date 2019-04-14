@@ -1,22 +1,25 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/styles'
 import {
-  withStyles,
   Typography,
   ExpansionPanel,
   ExpansionPanelSummary,
-  ExpansionPanelDetails,
+  ExpansionPanelDetails
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+
+const useStyles = makeStyles(styles, { useTheme: true })
 
 function DriverExpansionPanel({
   children,
   isEmpty = false,
-  classes,
   expanded,
-  onChange,
-  label,
-  noPadding = false,
+  onChange=()=>{},
+  label='',
+  noPadding = false
 }) {
+  const classes = useStyles()
   return (
     <ExpansionPanel
       className={classes.root}
@@ -29,9 +32,9 @@ function DriverExpansionPanel({
       >
         <Typography
           className={classes.heading}
-          color="secondary"
+          color='secondary'
           style={{ color: isEmpty && 'lightgrey' }}
-          variant="body1"
+          variant='body1'
         >
           {label}
         </Typography>
@@ -46,21 +49,32 @@ function DriverExpansionPanel({
   )
 }
 
-const styles = theme => ({
-  root: {
-    margin: theme.spacing(1),
-    padding: 0,
-  },
-  summary: {
-    margin: 0,
-  },
-  heading: {
-    margin: theme.spacing(1),
-  },
-  details: {
-    flexDirection: 'column',
-    margin: 0,
-  },
-})
+DriverExpansionPanel.propTypes = {
+  children: PropTypes.any,
+  expanded: PropTypes.bool,
+  isEmpty: PropTypes.bool,
+  label: PropTypes.string,
+  noPadding: PropTypes.bool,
+  onChange: PropTypes.func
+}
 
-export default withStyles(styles)(DriverExpansionPanel)
+function styles(theme) {
+  return {
+    root: {
+      margin: theme.spacing(1),
+      padding: 0
+    },
+    summary: {
+      margin: 0
+    },
+    heading: {
+      margin: theme.spacing(1)
+    },
+    details: {
+      flexDirection: 'column',
+      margin: 0
+    }
+  }
+}
+
+export default DriverExpansionPanel

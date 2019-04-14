@@ -1,7 +1,7 @@
 import { FooterButton } from './FooterButton'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
 import IconButton from '@material-ui/core/IconButton'
 import LeftIcon from '@material-ui/icons/KeyboardArrowLeft'
 import RightIcon from '@material-ui/icons/KeyboardArrowRight'
@@ -14,18 +14,31 @@ import { PAGE_TYPES } from '../../reducers/view-settings'
 
 const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
 
-const Footer = props => {
+const useStyles = makeStyles(styles, { useTheme: true })
+
+
+Footer.propTypes = {
+  actions: PropTypes.object,
+  footerPages: PropTypes.array,
+  isFullscreenOnLivemode: PropTypes.bool,
+  isLiveMode: PropTypes.bool,
+  isSettingsMode: PropTypes.bool,
+  lastFocusedFooterButtonIdx: PropTypes.string,
+  pageType: PropTypes.string
+}
+
+function Footer(props) {
+  const classes = useStyles()
   const {
-    classes,
     footerPages = [],
-    lastFocusedFooterButtonIdx,
-    isSettingsMode,
-    isLiveMode,
-    isFullscreenOnLivemode,
-    pageType,
-    actions,
+    lastFocusedFooterButtonIdx = '',
+    isSettingsMode = false,
+    isLiveMode = false,
+    isFullscreenOnLivemode = false,
+    pageType = '',
+    actions = {}
   } = props
-  
+
   if (pageType !== PAGE_TYPES.HOME_MODE && !isLiveMode) return <div />
 
   return (
@@ -37,11 +50,11 @@ const Footer = props => {
               <IconButton
                 onClick={actions.swapFooterPages.bind(this, {
                   srcIdx: idx,
-                  offset: -1,
+                  offset: -1
                 })}
                 className={classes.signButton}
-                color="inherit"
-                aria-label="Menu"
+                color='inherit'
+                aria-label='Menu'
               >
                 <LeftIcon className={classes.iconColor} />
               </IconButton>
@@ -57,11 +70,11 @@ const Footer = props => {
               <IconButton
                 onClick={actions.swapFooterPages.bind(this, {
                   srcIdx: idx,
-                  offset: 1,
+                  offset: 1
                 })}
                 className={classes.signButton}
-                color="inherit"
-                aria-label="Menu"
+                color='inherit'
+                aria-label='Menu'
               >
                 <RightIcon className={classes.iconColor} />
               </IconButton>
@@ -80,11 +93,11 @@ const Footer = props => {
           />
         )
       })}
-      <Tooltip title="Toggle Live Mode">
+      <Tooltip title='Toggle Live Mode'>
         <Button
           className={classes.liveButton}
           style={{
-            boxShadow: isLiveMode && '0 0 3px 3px rgb(24, 164, 157)',
+            boxShadow: isLiveMode && '0 0 3px 3px rgb(24, 164, 157)'
           }}
           onClick={handleLiveButtonClick.bind(
             this,
@@ -92,7 +105,7 @@ const Footer = props => {
             actions,
             lastFocusedFooterButtonIdx,
             footerPages,
-            isFullscreenOnLivemode,
+            isFullscreenOnLivemode
           )}
         >
           Live
@@ -102,13 +115,13 @@ const Footer = props => {
   )
 }
 
-const handleLiveButtonClick = (
+function handleLiveButtonClick(
   isLiveMode,
   actions,
   lastFocusedFooterButtonIdx,
   footerPages,
-  isFullscreenOnLivemode,
-) => {
+  isFullscreenOnLivemode
+) {
   if (isLiveMode) {
     isWebMode && isFullscreenOnLivemode && document.exitFullscreen()
     actions.goBack()
@@ -127,47 +140,46 @@ const handleLiveButtonClick = (
   }, 1000)
 }
 
-Footer.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
 
-const styles = theme => ({
-  root: {
-    background: theme.palette.appBar.background,
-    display: 'flex',
-    alignItems: 'center',
-    // justifyContent: 'space-evenly',
-    bottom: 0,
-    width: '100%',
-    position: 'fixed',
-    margin: 0,
-    padding: '0 0 0 4px',
-    height: 56,
-  },
-  button: {
-    color: theme.palette.primary.contrastText,
-    fontWeight: 600,
-    padding: 4,
-    marginLeft: 0,
-    marginRight: 4,
-    textTransform: 'none',
-  },
-  liveButton: {
-    marginLeft: 'auto',
-    marginRight: 8,
-    fontWeight: 600,
-    color: theme.palette.primary.contrastText,
-  },
-  signButton: {
-    width: 8,
-    padding: 4,
-    margin: 2,
-  },
-  iconColor: {
-    color: theme.palette.primary.contrastText,
-    cursor: 'pointer',
-  },
-})
+function styles(theme) {
+  return {
+    root: {
+      background: theme.palette.appBar.background,
+      display: 'flex',
+      alignItems: 'center',
+      // justifyContent: 'space-evenly',
+      bottom: 0,
+      width: '100%',
+      position: 'fixed',
+      margin: 0,
+      padding: '0 0 0 4px',
+      height: 56
+    },
+    button: {
+      color: theme.palette.primary.contrastText,
+      fontWeight: 600,
+      padding: 4,
+      marginLeft: 0,
+      marginRight: 4,
+      textTransform: 'none'
+    },
+    liveButton: {
+      marginLeft: 'auto',
+      marginRight: 8,
+      fontWeight: 600,
+      color: theme.palette.primary.contrastText
+    },
+    signButton: {
+      width: 8,
+      padding: 4,
+      margin: 2
+    },
+    iconColor: {
+      color: theme.palette.primary.contrastText,
+      cursor: 'pointer'
+    }
+  }
+}
 
 function mapStateToProps({
   viewSettings: {
@@ -176,8 +188,8 @@ function mapStateToProps({
     isSettingsMode,
     isFullscreenOnLivemode,
     isLiveMode,
-    pageType,
-  },
+    pageType
+  }
 }) {
   return {
     footerPages,
@@ -185,7 +197,7 @@ function mapStateToProps({
     isSettingsMode,
     isLiveMode,
     pageType,
-    isFullscreenOnLivemode,
+    isFullscreenOnLivemode
   }
 }
 
@@ -194,12 +206,10 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(
       { ...ViewSettinsgsAction, ...SliderSettinsgsAction },
       dispatch
-    ),
+    )
   }
 }
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Footer)
-)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Footer)

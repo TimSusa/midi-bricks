@@ -3,7 +3,8 @@ import Button from '@material-ui/core/Button'
 import MenuItem from '@material-ui/core/MenuItem'
 import Tooltip from '@material-ui/core/Tooltip'
 import CopyIcon from '@material-ui/icons/NoteAdd'
-import { withStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/styles'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
@@ -21,16 +22,27 @@ import { STRIP_TYPE } from '../../reducers/slider-list'
 
 const { BUTTON, BUTTON_TOGGLE } = STRIP_TYPE
 
-const MidiSettings = props => {
+const useStyles = makeStyles(styles, { useTheme: true })
+
+MidiSettings.propTypes = {
+  actions: PropTypes.object,
+  idx: PropTypes.number,
+  inputs: PropTypes.object,
+  onClose: PropTypes.func,
+  outputs: PropTypes.object,
+  sliderEntry: PropTypes.object
+}
+
+function MidiSettings(props) {
+  const classes = useStyles()
   const {
     actions,
     inputs = {},
     outputs = {},
-    sliderEntry,
+    sliderEntry = {},
     sliderEntry: { i, label, type },
     idx,
-    classes,
-    onClose,
+    onClose = () => {}
   } = props
 
   const isOutputsEmpty = isAllEmpty(outputs)
@@ -95,7 +107,7 @@ const MidiSettings = props => {
               />
             )}
           </DriverExpansionPanel>
-          <DriverExpansionPanel label="View" isEmpty={false}>
+          <DriverExpansionPanel label='View' isEmpty={false}>
             <MidiSettingsView
               sliderEntry={sliderEntry}
               classes={classes}
@@ -105,10 +117,10 @@ const MidiSettings = props => {
         </React.Fragment>
       ) : null}
 
-      <Tooltip title="Clone">
+      <Tooltip title='Clone'>
         <Button
           className={classes.button}
-          variant="contained"
+          variant='contained'
           onClick={actions.clone.bind(this, sliderEntry)}
         >
           <CopyIcon className={classes.iconColor} />
@@ -127,52 +139,56 @@ const MidiSettings = props => {
   )
 }
 
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  // expPanel: {
-  //   margin: theme.spacing(1),
-  //   minHeight: theme.spacing(8),
-  // },
-  button: {
-    margin: theme.spacing(1),
-    background: theme.palette.button.background,
-  },
-  // heading: {
-  //   margin: theme.spacing(1),
-  //   color: theme.palette.primary.contrastText,
-  // },
-  iconColor: {
-    color: theme.palette.primary.contrastText,
-    cursor: 'pointer',
-  },
-  // input: {
-  //   color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
-  //   fontSize: '1rem',
-  //   fontWeight: 400,
-  //   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-  //   lineHeight: '1.375em',
-  // },
-  inputInput: {
-    margin: theme.spacing(1),
-  },
-  // formControl: {
-  //   margin: theme.spacing(1),
-  // },
-  // label: {
-  //   color: theme.palette.primary.contrastText,
-  // },
-  select: {
-    color: theme.palette.primary.contrastText,
-    lineHeight: '1.375em',
-  },
-})
+function styles(theme) {
+  return {
+    root: {
+      display: 'flex',
+      flexDirection: 'column'
+    },
+    // expPanel: {
+    //   margin: theme.spacing(1),
+    //   minHeight: theme.spacing(8),
+    // },
+    button: {
+      margin: theme.spacing(1),
+      background: theme.palette.button.background
+    },
+    // heading: {
+    //   margin: theme.spacing(1),
+    //   color: theme.palette.primary.contrastText,
+    // },
+    iconColor: {
+      color: theme.palette.primary.contrastText,
+      cursor: 'pointer'
+    },
+    // input: {
+    //   color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
+    //   fontSize: '1rem',
+    //   fontWeight: 400,
+    //   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    //   lineHeight: '1.375em',
+    // },
+    inputInput: {
+      margin: theme.spacing(1)
+    },
+    // formControl: {
+    //   margin: theme.spacing(1),
+    // },
+    // label: {
+    //   color: theme.palette.primary.contrastText,
+    // },
+    select: {
+      color: theme.palette.primary.contrastText,
+      lineHeight: '1.375em'
+    }
+  }
+}
 
-const hasContent = arr => Array.isArray(arr) && arr.length > 0
+function hasContent(arr) {
+  return Array.isArray(arr) && arr.length > 0
+}
 
-const isAllEmpty = obj => {
+function isAllEmpty(obj) {
   let ret = true
   Object.keys(obj).forEach((name, idx) => {
     const { ccChannels, noteChannels } = obj[name]
@@ -183,7 +199,7 @@ const isAllEmpty = obj => {
   return ret
 }
 
-export const renderMidiChannelSelection = ({ inputs, outputs }, name, type) => {
+export function renderMidiChannelSelection({ inputs, outputs }, name, type) {
   const puts = inputs || outputs
   const { ccChannels, noteChannels } = puts[name] || 'None'
   let channels = ccChannels || []
@@ -196,7 +212,7 @@ export const renderMidiChannelSelection = ({ inputs, outputs }, name, type) => {
   return channels.map((name, idx) => getItem(name, idx))
 }
 
-export const renderDriverSelection = ({ inputs, outputs }) => {
+export function renderDriverSelection({ inputs, outputs }) {
   let ret = []
   const puts = inputs || outputs
   Object.keys(puts).forEach((name, idx) => {
@@ -214,35 +230,35 @@ export const renderDriverSelection = ({ inputs, outputs }) => {
   return ret
 }
 
-const getItem = (name, idx) => (
-  <MenuItem key={`input-channel-${idx}`} value={name}>
-    {name}
-  </MenuItem>
-)
+function getItem(name, idx) {
+  return (
+    <MenuItem key={`input-channel-${idx}`} value={name}>
+      {name}
+    </MenuItem>
+  )
+}
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
       { ...MidiSliderActions, ...ViewActions },
       dispatch
-    ),
+    )
   }
 }
 
 function mapStateToProps({
   viewSettings: { availableDrivers: { inputs = {}, outputs = {} } = {} },
-  sliders: { sliderList },
+  sliders: { sliderList }
 }) {
   return {
     sliderList,
     inputs,
-    outputs,
+    outputs
   }
 }
 
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(MidiSettings)
-)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MidiSettings)

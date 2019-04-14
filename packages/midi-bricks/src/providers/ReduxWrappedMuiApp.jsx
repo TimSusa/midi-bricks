@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import MuiWrappedApp from './MuiWrappedApp'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
@@ -23,7 +24,7 @@ if (process.env.NODE_ENV === 'development') {
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -31,19 +32,24 @@ export const store = createStore(persistedReducer, {}, middleware)
 
 let persistor = persistStore(store)
 
-export const ReduxWrappedMuiApp = props => {
+ReduxWrappedMuiApp.propTypes = {
+  children: PropTypes.any,
+  propsStore: PropTypes.any
+}
+
+export function ReduxWrappedMuiApp(props) {
   const { store: propsStore, children } = props
   return (
     <Provider store={propsStore || store}>
       {children ? (
-        <MuiWrappedApp children={children} />
+        <MuiWrappedApp {...props}>{children}</MuiWrappedApp>
       ) : (
         <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
-          <MuiWrappedApp />
+          <MuiWrappedApp {...props}/>
         </PersistGate>
       )}
     </Provider>
   )
 }
-
+ReduxWrappedMuiApp.displayName = 'ReduxWrappedMuiApp'
 export default ReduxWrappedMuiApp

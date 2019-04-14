@@ -77,7 +77,7 @@ export function initApp(mode) {
             )
           } else {
             input.removeListener('controlchange')
-            console.log('cc all')
+            //console.log('cc all')
             input.addListener(
               'controlchange',
               'all',
@@ -147,7 +147,7 @@ export function initApp(mode) {
             )
           } else {
             input.removeListener('noteon')
-            console.log('Add note listener ALL', name, ' ', ccArr)
+            //console.log('Add note listener ALL', name, ' ', ccArr)
             input.addListener(
               'noteon',
               'all',
@@ -168,7 +168,7 @@ export function initApp(mode) {
               }, 5)
             )
             input.removeListener('noteoff')
-            console.log('Add note off listener ALL', name, ' ', ccArr)
+            //console.log('Add note off listener ALL', name, ' ', ccArr)
             input.addListener(
               'noteoff',
               'all',

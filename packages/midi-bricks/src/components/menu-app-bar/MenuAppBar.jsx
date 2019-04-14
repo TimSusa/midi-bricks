@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/styles'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as ViewSettingsAction } from '../../actions/view-settings'
 import { Actions as MidiSlidersAction } from '../../actions/slider-list.js'
 import { initApp } from '../../actions/init'
-import { withStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button'
@@ -26,39 +26,27 @@ import AddMenu from './AddMenu'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 import { Tooltip } from '@material-ui/core'
 
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(MenuAppBar)
-)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MenuAppBar)
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(
-      { ...MidiSlidersAction, ...ViewSettingsAction },
-      dispatch
-    ),
-    initApp: bindActionCreators(initApp, dispatch),
-  }
-}
+const useStyles = makeStyles(styles, { useTheme: true })
 
-function mapStateToProps({
-  sliders: { presetName, monitorVal },
-  viewSettings,
-}) {
-  return {
-    viewSettings,
-    presetName,
-    monitorVal,
-  }
+MenuAppBar.propTypes = {
+  actions: PropTypes.object,
+  viewSettings: PropTypes.object,
+  handleDrawerToggle: PropTypes.func,
+  initApp: PropTypes.func,
+  monitorVal: PropTypes.object,
+  presetName: PropTypes.string
 }
 
 function MenuAppBar(props) {
+  const classes = useStyles()
   const {
-    classes,
-    actions,
-    presetName,
+    actions = {},
+    presetName = '',
     monitorVal,
     viewSettings: {
       pageType,
@@ -67,8 +55,8 @@ function MenuAppBar(props) {
       isCompactHorz = true,
       isAutoArrangeMode = true,
       isMidiLearnMode = false,
-      lastFocusedIdx,
-    },
+      lastFocusedIdx
+    }
   } = props
 
   if (isLiveMode) {
@@ -77,17 +65,17 @@ function MenuAppBar(props) {
 
   return (
     <div className={classes.root}>
-      <AppBar className={classes.appBar} position="fixed">
+      <AppBar className={classes.appBar} position='fixed'>
         <Toolbar>
           <IconButton
             onClick={props.handleDrawerToggle}
             className={classes.menuButton}
-            color="inherit"
-            aria-label="Menu"
+            color='inherit'
+            aria-label='Menu'
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit" className={classes.flex}>
+          <Typography variant='h6' color='inherit' className={classes.flex}>
             MIDI Bricks
           </Typography>
           {isMidiLearnMode && (
@@ -103,16 +91,19 @@ function MenuAppBar(props) {
           <IconButton
             onClick={actions.toggleCompactMode}
             className={classes.menuButton}
-            color="inherit"
-            aria-label="Menu"
+            color='inherit'
+            aria-label='Menu'
           >
             {isLayoutMode ? (
               isCompactHorz ? (
-                <Tooltip title="Gravity horizontal">
+                <Tooltip
+                  disableHoverListener={false}
+                  title='Gravity horizontal'
+                >
                   <SwapHorizIcon />
                 </Tooltip>
               ) : (
-                <Tooltip title="Gravity vertical">
+                <Tooltip disableHoverListener={false} title='Gravity vertical'>
                   <SwapVertIcon />
                 </Tooltip>
               )
@@ -124,16 +115,16 @@ function MenuAppBar(props) {
           <IconButton
             onClick={actions.toggleAutoArrangeMode}
             className={classes.menuButton}
-            color="inherit"
-            aria-label="Menu"
+            color='inherit'
+            aria-label='Menu'
           >
             {isLayoutMode ? (
               isAutoArrangeMode ? (
-                <Tooltip title="Automatic Gravity">
+                <Tooltip disableHoverListener={false} title='Automatic Gravity'>
                   <AutoArrangeModeIcon />
                 </Tooltip>
               ) : (
-                <Tooltip title="Static Gravity">
+                <Tooltip disableHoverListener={false} title='Static Gravity'>
                   <AutoArrangeModeIconFalse />
                 </Tooltip>
               )
@@ -153,14 +144,14 @@ function MenuAppBar(props) {
             <React.Fragment>
               <Button
                 className={classes.resetButton}
-                variant="contained"
+                variant='contained'
                 onClick={actions.resetValues}
               >
                 Reset To Saved Values
               </Button>
               <Button
                 className={classes.resetButton}
-                variant="contained"
+                variant='contained'
                 onClick={actions.triggerAllMidiElements}
               >
                 Trigger All MIDI
@@ -173,21 +164,21 @@ function MenuAppBar(props) {
             <>
               <Button
                 className={classes.resetButton}
-                variant="contained"
+                variant='contained'
                 onClick={async () => await props.initApp()}
               >
                 Detect Driver
               </Button>
               <Button
                 className={classes.resetButton}
-                variant="contained"
+                variant='contained'
                 onClick={async () => window.location.reload()}
               >
                 Reload
               </Button>
               <Button
                 className={classes.resetButton}
-                variant="contained"
+                variant='contained'
                 onClick={async () => window.localStorage.clear()}
               >
                 Clear Cache
@@ -200,57 +191,42 @@ function MenuAppBar(props) {
             !isLayoutMode && (
               <>
                 {!isMidiLearnMode && (
-                  <IconButton
-                    aria-haspopup="true"
-                    onClick={e => actions.toggleSettingsMode()}
-                    color="inherit"
+                  <Tooltip
+                    disableHoverListener={false}
+                    title='Switch to Settings Mode.'
                   >
-                    <Tooltip title="Switch to Settings Mode.">
+                    <IconButton
+                      onClick={(e) => actions.toggleSettingsMode()}
+                      color='inherit'
+                    >
                       <ViewSettingsIcon />
-                    </Tooltip>
-                  </IconButton>
+                    </IconButton>
+                  </Tooltip>
                 )}
                 {!isMidiLearnMode && (
-                  <IconButton
-                    aria-haspopup="true"
-                    onClick={e => actions.toggleLayoutMode()}
-                    color="inherit"
-                  >
-                    <Tooltip title="Switch to Layout Mode.">
-                      <LayoutIcon />
-                    </Tooltip>
-                  </IconButton>
-                )}
-                <IconButton
-                  aria-haspopup="true"
-                  onClick={toggleMidiLearnMode.bind(
-                    this,
-                    actions.toggleMidiLearnMode,
-                    null,
-                    isMidiLearnMode,
-                    null,
-                    initApp,
-                    actions,
-                    monitorVal,
-                    lastFocusedIdx
-                  )}
-                  color="inherit"
-                >
                   <Tooltip
-                    title={
-                      isMidiLearnMode
-                        ? 'Chose assigned element and finalize MIDI-Learn Mode.'
-                        : 'Switch to MIDI Learn Mode. Please, double-click element for listening to changes.'
-                    }
+                    disableHoverListener={false}
+                    title='Switch to Layout Mode.'
                   >
-                    {!isMidiLearnMode ? <MidiLearnIcon /> : <CheckIcon />}
+                    <IconButton
+                      onClick={(e) => actions.toggleLayoutMode()}
+                      color='inherit'
+                    >
+                      <LayoutIcon />
+                    </IconButton>
                   </Tooltip>
-                </IconButton>
+                )}
 
-                {isMidiLearnMode && (
+                <Tooltip
+                  disableHoverListener={false}
+                  title={
+                    isMidiLearnMode
+                      ? 'Chose assigned element and finalize MIDI-Learn Mode.'
+                      : 'Switch to MIDI Learn Mode. Please, double-click element for listening to changes.'
+                  }
+                >
                   <IconButton
-                    aria-haspopup="true"
-                    onClick={cancelMidiLeanMode.bind(
+                    onClick={toggleMidiLearnMode.bind(
                       this,
                       actions.toggleMidiLearnMode,
                       null,
@@ -261,89 +237,111 @@ function MenuAppBar(props) {
                       monitorVal,
                       lastFocusedIdx
                     )}
-                    color="inherit"
+                    color='inherit'
                   >
-                    <Tooltip
-                      title={'Cancel MIDI Learn mode. Throw away changes.'}
+                    {!isMidiLearnMode ? <MidiLearnIcon /> : <CheckIcon />}
+                  </IconButton>
+                </Tooltip>
+
+                {isMidiLearnMode && (
+                  <Tooltip
+                    disableHoverListener={false}
+                    title={'Cancel MIDI Learn mode. Throw away changes.'}
+                  >
+                    <IconButton
+                      onClick={cancelMidiLeanMode.bind(
+                        this,
+                        actions.toggleMidiLearnMode,
+                        null,
+                        isMidiLearnMode,
+                        null,
+                        initApp,
+                        actions,
+                        monitorVal,
+                        lastFocusedIdx
+                      )}
+                      color='inherit'
                     >
                       <CancelIcon />
-                    </Tooltip>
-                  </IconButton>
+                    </IconButton>
+                  </Tooltip>
                 )}
               </>
-            )}
-          {isLayoutMode && (
-            <IconButton
-              onClick={() => {
-                actions.toggleLayoutMode({ isLayoutMode: false })
-              }}
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="Menu"
-            >
-              <Tooltip title="Commit changes and exit layout-mode.">
-                <CheckIcon />
-              </Tooltip>
-            </IconButton>
           )}
           {isLayoutMode && (
-            <IconButton
-              onClick={() => {
-                actions.goBack()
-                actions.toggleLayoutMode({ isLayoutMode: false })
-              }}
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="Menu"
+            <Tooltip
+              disableHoverListener={false}
+              title='Commit changes and exit layout-mode.'
             >
-              <Tooltip title="Throw away changes and go back.">
+              <IconButton
+                onClick={() => {
+                  actions.toggleLayoutMode({ isLayoutMode: false })
+                }}
+                className={classes.menuButton}
+                color='inherit'
+                aria-label='Menu'
+              >
+                <CheckIcon />
+              </IconButton>
+            </Tooltip>
+          )}
+          {isLayoutMode && (
+            <Tooltip
+              disableHoverListener={false}
+              title='Throw away changes and go back.'
+            >
+              <IconButton
+                onClick={() => {
+                  actions.goBack()
+                  actions.toggleLayoutMode({ isLayoutMode: false })
+                }}
+                className={classes.menuButton}
+                color='inherit'
+                aria-label='Menu'
+              >
                 <CancelIcon />
-              </Tooltip>
-            </IconButton>
+              </IconButton>
+            </Tooltip>
           )}
         </Toolbar>
       </AppBar>
       <div
         style={{
-          height: 64,
+          height: 64
         }}
       />
     </div>
   )
 }
 
-MenuAppBar.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
-
 function styles(theme) {
   return {
     root: {
-      flexGrow: 1,
+      flexGrow: 1
     },
     appBar: {
       background: theme.palette.appBar.background,
-      fontWeight: 600,
+      fontWeight: 600
     },
     typoColorStyle: {
       color: theme.palette.primary.contrastText,
       fontWeight: 600,
-      flex: 1,
+      flex: 1
     },
     flex: {
-      flex: 1,
+      flex: 1
     },
     menuButton: {
       marginLeft: 0,
-      marginRight: 0,
+      marginRight: 0
     },
     resetButton: {
       padding: '0 8px 0 8px',
       marginLeft: '16px',
       height: '32px',
       textTransform: 'none',
-      fontSize: '12px',
-    },
+      fontSize: '12px'
+    }
   }
 }
 
@@ -361,29 +359,29 @@ async function toggleMidiLearnMode(
     if (!monitorVal) return
     actions.selectMidiDriver({
       driverName: monitorVal.driver,
-      i: lastFocusedIdx,
+      i: lastFocusedIdx
     })
 
     actions.selectMidiChannel({
       val: `${monitorVal.channel}`,
-      idx: lastFocusedIdx,
+      idx: lastFocusedIdx
     })
     actions.selectCc({
       val: [`${monitorVal.cC}`],
-      idx: lastFocusedIdx,
+      idx: lastFocusedIdx
     })
     actions.selectMidiDriverInput({
       driverNameInput: monitorVal.driver,
-      i: lastFocusedIdx,
+      i: lastFocusedIdx
     })
     actions.selectMidiChannelInput({
       val: `${monitorVal.channel}`,
-      idx: lastFocusedIdx,
+      idx: lastFocusedIdx
     })
 
     actions.addMidiCcListener({
       val: [`${monitorVal.cC}`],
-      idx: lastFocusedIdx,
+      idx: lastFocusedIdx
     })
 
     await initApp()
@@ -408,4 +406,25 @@ async function cancelMidiLeanMode(
   await initApp('all')
 
   toggleMidiLearn({ isMidiLearnMode: !isMidiLearn })
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(
+      { ...MidiSlidersAction, ...ViewSettingsAction },
+      dispatch
+    ),
+    initApp: bindActionCreators(initApp, dispatch)
+  }
+}
+
+function mapStateToProps({
+  sliders: { presetName, monitorVal },
+  viewSettings
+}) {
+  return {
+    viewSettings,
+    presetName,
+    monitorVal
+  }
 }

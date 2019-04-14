@@ -1,18 +1,31 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/styles'
 import { connect } from 'react-redux'
 import { STRIP_TYPE } from '../../reducers/slider-list.js'
 
-const MidiPage = props => {
+export default connect(
+  mapStateToProps,
+  null
+)(MidiPage)
+
+const useStyles = makeStyles(styles, { useTheme: true })
+
+
+MidiPage.propTypes = {
+  height: PropTypes.number,
+  isChangedTheme: PropTypes.bool,
+  width: PropTypes.number
+}
+
+function MidiPage(props) {
   const {
     sliderEntry: { colors, isNoteOn, label, type, i, fontSize, fontWeight },
-    classes,
     height,
     width,
-    isChangedTheme,
+    isChangedTheme
   } = props
-
   const { labelStyle, fontColorStyle } = getLabelStyles(
     isChangedTheme,
     colors,
@@ -22,13 +35,14 @@ const MidiPage = props => {
     fontSize,
     fontWeight
   )
+  const classes = useStyles()
 
   if (type === STRIP_TYPE.PAGE) {
     return (
       <div id={`page-${i}`} style={labelStyle} className={classes.labelWrap}>
         <Typography
-          variant="h5"
-          align="center"
+          variant='h5'
+          align='center'
           style={fontColorStyle}
           className={classes.label}
         >
@@ -40,35 +54,32 @@ const MidiPage = props => {
     return <div />
   }
 }
-const styles = theme => ({
-  labelWrap: {
-    borderRadius: 3,
-    height: '100%',
-    background: theme.palette.button.background,
-  },
-  label: {
-    margin: 0,
-    padding: 0,
-    fontWeight: 600,
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-  },
-})
 
-function mapStateToProps({ viewSettings: { isChangedTheme } }) {
+
+function styles(theme) {
   return {
-    isChangedTheme,
+    labelWrap: {
+      borderRadius: 3,
+      height: '100%',
+      background: theme.palette.button.background
+    },
+    label: {
+      margin: 0,
+      padding: 0,
+      fontWeight: 600,
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)'
+    }
   }
 }
 
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    null
-  )(MidiPage)
-)
+function mapStateToProps({ viewSettings: { isChangedTheme } }) {
+  return {
+    isChangedTheme
+  }
+}
 
 function getLabelStyles(
   isChangedTheme,
@@ -90,7 +101,7 @@ function getLabelStyles(
   const labelStyle = {
     height: (height || 0) - 0,
     width: (width || 0) - 0,
-    background: isNoteOn ? colorActivated : color,
+    background: isNoteOn ? colorActivated : color
   }
   const bColAct = colors && colors.colorFontActive && colors.colorFontActive
   const colorFontActive = bColAct || '#BEBEBE' // button font size
@@ -99,7 +110,7 @@ function getLabelStyles(
   const fontColorStyle = {
     color: !isNoteOn ? colorFont : colorFontActive,
     fontSize: tmpFontSize,
-    fontWeight: tmpFontWeight,
+    fontWeight: tmpFontWeight
   }
   return { labelStyle, fontColorStyle }
 }

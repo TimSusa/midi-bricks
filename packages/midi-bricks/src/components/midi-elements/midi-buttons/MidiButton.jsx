@@ -1,17 +1,30 @@
 import React from 'react'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/styles'
 
-const MidiButton = props => {
+const useStyles = makeStyles(styles, { useTheme: true })
+
+
+MidiButton.propTypes = {
+  buttonStyle: PropTypes.object,
+  fontColorStyle: PropTypes.object,
+  idx: PropTypes.number,
+  label: PropTypes.string,
+  onChangeEnd: PropTypes.func,
+  onChangeStart: PropTypes.func
+}
+
+function MidiButton(props) {
+  const classes = useStyles()
   const {
-    classes,
-    buttonStyle,
+    buttonStyle = {},
     onChangeStart = () => {},
     onChangeEnd = () => {},
-    fontColorStyle,
-    label,
-    idx,
+    fontColorStyle = {},
+    label = '',
+    idx
   } = props
   return (
     <Button
@@ -20,22 +33,24 @@ const MidiButton = props => {
       style={buttonStyle}
       onContextMenu={preventCtxMenu}
       classes={{
-        root: classes.button,
+        root: classes.button
       }}
-      variant="contained"
+      variant='contained'
       onMouseDown={
         !isTouchDevice()
           ? onChangeStart.bind(this, idx)
-          : e => e.preventDefault()
+          : (e) => e.preventDefault()
       }
       onMouseUp={
-        !isTouchDevice() ? onChangeEnd.bind(this, idx) : e => e.preventDefault()
+        !isTouchDevice()
+          ? onChangeEnd.bind(this, idx)
+          : (e) => e.preventDefault()
       }
       onTouchStart={onChangeStart.bind(this, idx)}
       onTouchEnd={onChangeEnd.bind(this, idx)}
     >
       <Typography
-        variant="body1"
+        variant='body1'
         style={fontColorStyle}
         className={classes.label}
       >
@@ -47,39 +62,41 @@ const MidiButton = props => {
 
 // For touch-devices, we do not want
 // context menu being shown on touch events
-const preventCtxMenu = e => {
+function preventCtxMenu(e) {
   e.preventDefault()
   e.stopPropagation()
   return false
 }
 
-const isTouchDevice = () => {
+function isTouchDevice() {
   const hasToch = 'ontouchstart' in window || navigator.maxTouchPoints // works on most browsers // works on IE10/11 and Surface
   return !!hasToch
 }
 
-const styles = theme => ({
-  label: {
-    width: '100%',
-    margin: 0,
-    padding: 0,
-    fontWeight: 600,
-  },
-  group: {},
-  iconColor: {
-    color: theme.palette.primary.contrastText,
-    width: 18,
-    margin: 0,
-    padding: 0,
-  },
-  button: {
-    margin: 0,
-    padding: 0,
-    width: '100%',
-    background: theme.palette.button.background,
-    textTransform: 'none',
-    transition: 'unset',
-  },
-})
+function styles(theme) {
+  return {
+    label: {
+      width: '100%',
+      margin: 0,
+      padding: 0,
+      fontWeight: 600
+    },
+    group: {},
+    iconColor: {
+      color: theme.palette.primary.contrastText,
+      width: 18,
+      margin: 0,
+      padding: 0
+    },
+    button: {
+      margin: 0,
+      padding: 0,
+      width: '100%',
+      background: theme.palette.button.background,
+      textTransform: 'none',
+      transition: 'unset'
+    }
+  }
+}
 
-export default withStyles(styles)(MidiButton)
+export default MidiButton

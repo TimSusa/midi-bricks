@@ -16,8 +16,10 @@
     "ecmaVersion": 9,
     "sourceType": "module"
   },
-  "plugins": ["react", "babel", "unicorn"],
+  "plugins": ["react", "babel", "unicorn", "react-hooks"],
   "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "unicorn/catch-error-name": "error",
     "unicorn/custom-error-definition": "off",
     "unicorn/error-message": "error",
@@ -84,7 +86,7 @@
       }
     ],
     "no-alert": 1,
-    "no-console": 2,
+    "no-console": 1,
     "no-unused-vars": 2,
     "no-use-before-define": [
       "error",

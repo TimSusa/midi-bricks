@@ -10,28 +10,28 @@ import Select from '@material-ui/core/Select'
 import MidiSuggestedInput from './MidiSuggestedInput'
 import {
   renderDriverSelection,
-  renderMidiChannelSelection,
+  renderMidiChannelSelection
 } from '../MidiSettings'
 
-const MidiSettingsInput = props => {
+const MidiSettingsInput = (props) => {
   const {
     sliderEntry: {
       i,
       type,
       driverNameInput = 'None',
       midiChannelInput,
-      listenToCc,
+      listenToCc
     },
     idx,
     inputs,
     classes,
     initApp,
-    actions,
+    actions
   } = props
   return (
     <React.Fragment>
       <FormControl>
-        <InputLabel className={classes.label} htmlFor="cc">
+        <InputLabel className={classes.label} htmlFor='cc'>
           Listen to CC
         </InputLabel>
         <MidiSuggestedInput
@@ -42,42 +42,42 @@ const MidiSettingsInput = props => {
         />
       </FormControl>
       <FormControl className={classes.formControl}>
-        <InputLabel className={classes.label} htmlFor="midi-driver">
+        <InputLabel className={classes.label} htmlFor='midi-driver'>
           Driver
         </InputLabel>
         <Select
           className={classes.select}
-          onChange={e =>
+          onChange={(e) =>
             actions.selectMidiDriverInput({
               i,
-              driverNameInput: e.target.value,
+              driverNameInput: e.target.value
             })
           }
           value={driverNameInput}
         >
           {renderDriverSelection({
-            inputs,
+            inputs
           })}
         </Select>
       </FormControl>
 
       <FormControl className={classes.formControl}>
-        <InputLabel className={classes.label} htmlFor="input-ch-input">
+        <InputLabel className={classes.label} htmlFor='input-ch-input'>
           Input Channel{' '}
         </InputLabel>
         <Select
           className={classes.select}
-          onChange={e =>
+          onChange={(e) =>
             actions.selectMidiChannelInput({
               idx,
-              val: e.target.value,
+              val: e.target.value
             })
           }
           value={midiChannelInput || 'None'}
         >
           {renderMidiChannelSelection(
             {
-              inputs,
+              inputs
             },
             driverNameInput,
             type
@@ -88,13 +88,15 @@ const MidiSettingsInput = props => {
   )
 }
 
-const suggestionsMidiCc = Array.apply(null, { length: 128 })
-  .map(Number.call, Number)
-  .map(item => {
-    return { label: `${item}` }
-  })
+function suggestionsMidiCc() {
+  return Array.apply(null, { length: 128 })
+    .map(Number.call, Number)
+    .map((item) => {
+      return { label: `${item}` }
+    })
+}
 
-const handleAddCCListener = async (actions, initApp, e) => {
+async function handleAddCCListener(actions, initApp, e) {
   actions.addMidiCcListener(e)
   await initApp()
 }
@@ -105,7 +107,7 @@ function mapDispatchToProps(dispatch) {
       { ...MidiSliderActions, ...ViewActions },
       dispatch
     ),
-    initApp: bindActionCreators(initApp, dispatch),
+    initApp: bindActionCreators(initApp, dispatch)
   }
 }
 

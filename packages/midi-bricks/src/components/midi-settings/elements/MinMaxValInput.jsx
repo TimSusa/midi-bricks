@@ -2,26 +2,41 @@ import React from 'react'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
-import { withStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/styles'
 import { Tooltip } from '@material-ui/core'
 
-function MinMaxValInputComponent({
+const useStyles = makeStyles(styles, { useTheme: true })
+
+MinMaxValInput.propTypes = {
+  label: PropTypes.string,
+  limitVal: PropTypes.number,
+  name: PropTypes.string,
+  onChange: PropTypes.func,
+  toolTip: PropTypes.string,
+  value: PropTypes.number
+}
+
+MinMaxValInput.displayName = 'MinMaxValInputComponent'
+
+export function MinMaxValInput({
   label,
   value,
-  classes,
-  onChange,
+  onChange = () => {},
   name,
   limitVal = 0,
-  toolTip,
+  toolTip
 }) {
+  const classes = useStyles()
+
   const form = (
     <div className={classes.root}>
       <FormControl className={classes.formControl}>
         <InputLabel className={classes.label}>{`${label}  `}</InputLabel>
         <Input
           className={classes.input}
-          id="number"
-          type="number"
+          id='number'
+          type='number'
           name={name}
           value={(value && value) || limitVal}
           onChange={onChange}
@@ -34,24 +49,21 @@ function MinMaxValInputComponent({
   return toolTip ? tip : form
 }
 
-
-MinMaxValInputComponent.displayName = 'MinMaxValInputComponent'
-
-const styles = theme => ({
-  root: {},
-  formControl: {
-    margin: theme.spacing(1),
-  },
-  input: {
-    color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
-    fontSize: '1rem',
-    fontWeight: 400,
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    lineHeight: '1.375em',
-  },
-  label: {
-    color: theme.palette.primary.contrastText,
-  },
-})
-
-export const MinMaxValInput = withStyles(styles)(MinMaxValInputComponent)
+function styles(theme) {
+  return {
+    root: {},
+    formControl: {
+      margin: theme.spacing(1)
+    },
+    input: {
+      color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
+      fontSize: '1rem',
+      fontWeight: 400,
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      lineHeight: '1.375em'
+    },
+    label: {
+      color: theme.palette.primary.contrastText
+    }
+  }
+}

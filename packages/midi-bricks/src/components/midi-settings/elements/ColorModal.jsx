@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../../actions/slider-list.js'
 import { Actions as ViewSettingsActions } from '../../../actions/view-settings.js'
-import { withStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/styles'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -15,153 +16,177 @@ import { SketchPicker } from 'react-color'
 
 import { debounce } from 'lodash'
 
+export default connect(
+  null,
+  mapDispatchToProps
+)(ColorModal)
+
 const DEF_VAL = {
   rgb: {
     a: 0.76,
     b: 51,
     g: 46,
-    r: 0.51,
-  },
+    r: 0.51
+  }
 }
 
-class ColorModal extends React.PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = {
-      open: false,
-      color: { ...this.convertRgba(this.props.color) } || DEF_VAL,
-    }
-  }
+const useStyles = makeStyles(styles, { useTheme: true })
 
-  render() {
-    const { classes, i, title = '' } = this.props
-    return (
-      <div>
-        <Tooltip title={'Change Color: ' + title}>
-          <Button
-            className={classes.button}
-            variant="contained"
-            onClick={this.handleClickOpen}
-          >
-            <Typography variant="caption" className={classes.label}>
-              {title}
-            </Typography>
-          </Button>
-        </Tooltip>
+ColorModal.propTypes = {
+  actions: PropTypes.any,
+  fieldName: PropTypes.any,
+  i: PropTypes.string,
+  onClose: PropTypes.func,
+  color: PropTypes.string,
+  title: PropTypes.string
+}
 
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+function ColorModal(props) {
+  // constructor(props) {
+  //   super(props)
+  //   state = {
+  //     open: false,
+  //     color: { ...convertRgba(props.color) } || DEF_VAL,
+  //   }
+  // }
+
+  const classes = useStyles()
+
+  const {
+    actions,
+    fieldName,
+    i = '',
+    title = '',
+    color: propColor = {},
+    onClose = () => {}
+  } = props
+
+  const [open, setOpen] = useState(false)
+  const [color, setColor] = useState({ ...convertRgba(propColor) } || DEF_VAL)
+
+  return (
+    <div>
+      <Tooltip title={'Change Color: ' + title}>
+        <Button
+          className={classes.button}
+          variant='contained'
+          onClick={handleClickOpen}
         >
-          <DialogContent>
-            <DialogContentText
-              className={classes.iconColor}
-              id="alert-dialog-description"
-              color="secondary"
-            >
-              Please, choose your color.
-            </DialogContentText>
-            <SketchPicker
-              color={this.state.color.rgb}
-              onChange={this.handleColorChange.bind(this, i)}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button
-              className={classes.iconColor}
-              onClick={this.handleClose}
-              color="primary"
-              autoFocus
-            >
-              OK
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    )
-  }
+          <Typography variant='caption' className={classes.label}>
+            {title}
+          </Typography>
+        </Button>
+      </Tooltip>
 
-  handleColorChange = debounce((i, c) => {
-    this.setState({ color: c })
+      <Dialog
+        open={open}
+        onClose={handleClose.bind(this, setOpen, onClose)}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogContent>
+          <DialogContentText
+            className={classes.iconColor}
+            id='alert-dialog-description'
+            color='secondary'
+          >
+            Please, choose your color.
+          </DialogContentText>
+          <SketchPicker
+            color={color.rgb}
+            onChange={handleColorChange.bind(
+              this,
+              i,
+              setColor,
+              actions,
+              fieldName
+            )}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            className={classes.iconColor}
+            onClick={handleClose.bind(this, setOpen, onClose)}
+            color='primary'
+            autoFocus
+          >
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  )
+}
+
+function handleColorChange(i, setColor, actions, fieldName, c) {
+  return debounce((i, c) => {
+    setColor(c)
 
     // Change output into a format,
     // which directly can be used as css style for color
     const rgba = `rgba(${c.rgb.r}, ${c.rgb.g}, ${c.rgb.b}, ${c.rgb.a})`
-    this.props.actions.changeColors({
+    actions.changeColors({
       i,
-      [this.props.fieldName]: rgba,
+      [fieldName]: rgba
     })
-    this.props.actions.changeFooterPage({
+    actions.changeFooterPage({
       i,
-      [this.props.fieldName]: rgba,
+      [fieldName]: rgba
     })
   }, 50)
-
-  handleClickOpen = () => {
-    this.setState({ open: true })
-  }
-
-  handleCloseCancel = e => {
-    this.setState({ open: false })
-    e.preventDefault()
-  }
-
-  handleClose = () => {
-    this.setState({ open: false })
-    this.props.onClose && this.props.onClose()
-  }
-
-  // Since the color picker is using an object as
-  // rgba input, we have to parste the rgba(1,1,1,1) string
-  // to that silly format
-  convertRgba = rgba => {
-    const convStrToArray = rgba => rgba.substr(5, rgba.length - 6).split(', ')
-
-    const convert = rgba => {
-      const array = convStrToArray(rgba)
-      return {
-        rgb: {
-          a: parseFloat(array[3]),
-          b: parseInt(array[2], 10),
-          g: parseInt(array[1], 10),
-          r: parseInt(array[0], 10),
-        },
-      }
-    }
-    let tmpVal = typeof rgba === 'string' ? convert(rgba) : DEF_VAL
-    return tmpVal
-  }
+}
+function handleClickOpen(setOpen) {
+  setOpen(true)
 }
 
-const styles = theme => ({
-  button: {
-    margin: '8px 0 8px 0',
-    width: '100%',
-    background: theme.palette.button.background,
-  },
-  iconColor: {
-    color: theme.palette.primary.contrastText,
-    cursor: 'pointer',
-  },
-  label: {
-    color: theme.palette.primary.contrastText,
-  },
-})
+function handleClose(setOpen, onClose) {
+  setOpen(false)
+  onClose && onClose()
+}
+
+// Since the color picker is using an object as
+// rgba input, we have to parste the rgba(1,1,1,1) string
+// to that silly format
+function convertRgba(rgba) {
+  const convStrToArray = (rgba) => rgba.substr(5, rgba.length - 6).split(', ')
+
+  const convert = (rgba) => {
+    const array = convStrToArray(rgba)
+    return {
+      rgb: {
+        a: parseFloat(array[3]),
+        b: parseInt(array[2], 10),
+        g: parseInt(array[1], 10),
+        r: parseInt(array[0], 10)
+      }
+    }
+  }
+  let tmpVal = typeof rgba === 'string' ? convert(rgba) : DEF_VAL
+  return tmpVal
+}
+
+function styles(theme) {
+  return {
+    button: {
+      margin: '8px 0 8px 0',
+      width: '100%',
+      background: theme.palette.button.background
+    },
+    iconColor: {
+      color: theme.palette.primary.contrastText,
+      cursor: 'pointer'
+    },
+    label: {
+      color: theme.palette.primary.contrastText
+    }
+  }
+}
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
       { ...MidiSliderActions, ...ViewSettingsActions },
       dispatch
-    ),
+    )
   }
 }
-
-export default withStyles(styles)(
-  connect(
-    null,
-    mapDispatchToProps
-  )(ColorModal)
-)

@@ -17,9 +17,13 @@ import { PAGE_TYPES } from '../../reducers/view-settings'
 require('react-grid-layout/css/styles.css')
 require('react-resizable/css/styles.css')
 
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChannelStripList)
+
 // eslint-disable-next-line new-cap
 const GridLayout = WidthProvider(RGL)
-
 const useStyles = makeStyles(styles, { useTheme: true })
 
 function ChannelStripList(props) {
@@ -29,12 +33,13 @@ function ChannelStripList(props) {
     sliderList = [],
     monitorVal: { driver = 'None', cC = 'None', channel = 'None' } = {},
     viewSettings: {
+      pageType,
       isLayoutMode = true,
-      isCompactHorz = true,
+      isCompactHorz = false,
       isAutoArrangeMode = true,
       isSettingsMode = true,
       isSettingsDialogMode = false,
-      isLiveMode = false,
+      // isLiveMode = false,
       isMidiLearnMode = false,
       lastFocusedIdx,
       rowHeight = 40,
@@ -47,39 +52,23 @@ function ChannelStripList(props) {
     }
   } = props
 
+  let elem = document.body
+
   useEffect(() => {
-    let hasListener = false
+    const keypressRef = (e) => handleKeyPress(actions, isLayoutMode, e)
 
     // Protect dialog mode from global listeners
-    if (isSettingsDialogMode || isLiveMode) {
-      if (hasListener) {
-        document.body.removeEventListener(
-          'keypress',
-          handleKeyPress.bind(this, actions, isLayoutMode)
-        )
-        hasListener = false
-      }
-    } else {
-      if (!hasListener) {
-        document.body.addEventListener(
-          'keypress',
-          handleKeyPress.bind(this, actions, isLayoutMode)
-        )
-        hasListener = true
-      }
+    if (!isSettingsDialogMode) {
+      console.log('Add Keypress Listener')
+      elem.addEventListener('keypress', keypressRef)
     }
 
     // clean up
     return () => {
-      if (hasListener) {
-        document.body.removeEventListener(
-          'keypress',
-          handleKeyPress.bind(this, actions, isLayoutMode)
-        )
-        hasListener = false
-      }
+      console.log('clean up -> Remove Keypress Listener ')
+      elem.removeEventListener('keypress', keypressRef)
     }
-  }, [props.viewSettings.isSettingsDialogMode, props.viewSettings.isLiveMode])
+  }, [isSettingsDialogMode, actions, isLayoutMode, elem, pageType])
 
   if (sliderList && sliderList.length > 0) {
     return (
@@ -113,12 +102,15 @@ function ChannelStripList(props) {
                 e.preventDefault()
                 e.stopPropagation()
               }}
-              onClick={(e) => {
-                if (isMidiLearnMode) return
-                actions.setLastFocusedIndex({ i })
-                e.preventDefault()
-                e.stopPropagation()
-              }}
+              onClick={
+                isSettingsMode
+                  ? (e) => {
+                    actions.setLastFocusedIndex({ i })
+                    e.preventDefault()
+                    e.stopPropagation()
+                  }
+                  : () => {}
+              }
               key={i}
               style={
                 (isMidiLearnMode || isSettingsMode) &&
@@ -183,9 +175,14 @@ function ChannelStripList(props) {
                           }}
                         >
                           <MidiSettingsDialogButton
-                            toggleSettings={actions.toggleSettingsDialogMode}
-                            lastFocusedIdx={lastFocusedIdx}
-                            isSettingsDialogMode={isSettingsDialogMode}
+                            isOpen={
+                              !!(
+                                isSettingsDialogMode &&
+                                lastFocusedIdx !== undefined &&
+                                isFocused
+                              )
+                            }
+                            toggleSettings={toggleSettings.bind(this, actions)}
                             sliderEntry={sliderEntry}
                             idx={idx}
                           />
@@ -320,6 +317,10 @@ function styles(theme) {
   }
 }
 
+function toggleSettings(actions, { isSettingsDialogMode }) {
+  actions.toggleSettingsDialogMode({ isSettingsDialogMode })
+}
+
 function mapStateToProps({
   viewSettings,
   sliders: { sliderList, monitorVal }
@@ -340,8 +341,3 @@ function mapDispatchToProps(dispatch) {
     initApp: bindActionCreators(initApp, dispatch)
   }
 }
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChannelStripList)
