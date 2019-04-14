@@ -150,17 +150,16 @@ describe('E2E Tests for MIDI-Bricks will get started...', function() {
 
     const isCmt = await isSelectorVisible(client, layoutCommitButtonSelector)
     expect(isCmt).to.be.true
-    // isCmt && await client.element(layoutCommitButtonSelector)
-    // isCmt && await client.click(layoutCommitButtonSelector)
     await commitElement(client)
 
     await client.click(settingsButtonSelector)
     await switchToLayoutMode(client)
     await openAddMenu(client)
     await addElement(client, addHorzSliderSelector)
-    await client.element(settingsButtonSelector)
+    await winInit(app)
     const isCmt2 = await isSelectorVisible(client, layoutCommitButtonSelector)
     expect(isCmt2).to.be.true
+
     return app
   })
 })

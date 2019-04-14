@@ -59,7 +59,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true
     },
-    icon: path.join(__dirname, 'icons/512x512.png'),
+    icon: path.join(__dirname, 'icons/310x310.png'),
     title: 'MIDI Bricks',
   })
 
