@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { initApp } from '../../../actions/init.js'
@@ -13,7 +14,22 @@ import {
   renderMidiChannelSelection
 } from '../MidiSettings'
 
-const MidiSettingsInput = (props) => {
+export default connect(
+  null,
+  mapDispatchToProps
+)(MidiSettingsInput)
+
+MidiSettingsInput.propTypes = {
+  sliderEntry: PropTypes.object,
+  actions: PropTypes.object,
+  classes: PropTypes.object,
+  idx: PropTypes.number,
+  initApp: PropTypes.func,
+  inputs: PropTypes.object
+}
+
+function MidiSettingsInput(props) {
+  
   const {
     sliderEntry: {
       i,
@@ -28,6 +44,7 @@ const MidiSettingsInput = (props) => {
     initApp,
     actions
   } = props
+
   return (
     <React.Fragment>
       <FormControl>
@@ -35,7 +52,7 @@ const MidiSettingsInput = (props) => {
           Listen to CC
         </InputLabel>
         <MidiSuggestedInput
-          suggestions={suggestionsMidiCc}
+          suggestions={suggestionsMidiCc()}
           startVal={listenToCc || []}
           idx={idx}
           handleChange={handleAddCCListener.bind(this, actions, initApp)}
@@ -63,7 +80,7 @@ const MidiSettingsInput = (props) => {
 
       <FormControl className={classes.formControl}>
         <InputLabel className={classes.label} htmlFor='input-ch-input'>
-          Input Channel{' '}
+          Input Channel
         </InputLabel>
         <Select
           className={classes.select}
@@ -110,8 +127,3 @@ function mapDispatchToProps(dispatch) {
     initApp: bindActionCreators(initApp, dispatch)
   }
 }
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(MidiSettingsInput)

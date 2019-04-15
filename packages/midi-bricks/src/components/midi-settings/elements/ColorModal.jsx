@@ -70,7 +70,7 @@ function ColorModal(props) {
         <Button
           className={classes.button}
           variant='contained'
-          onClick={handleClickOpen}
+          onClick={handleClickOpen.bind(this, setOpen)}
         >
           <Typography variant='caption' className={classes.label}>
             {title}
@@ -118,23 +118,22 @@ function ColorModal(props) {
   )
 }
 
-function handleColorChange(i, setColor, actions, fieldName, c) {
-  return debounce((i, c) => {
-    setColor(c)
+const handleColorChange = debounce((i, setColor, actions, fieldName, c) => {
+  setColor(c)
 
-    // Change output into a format,
-    // which directly can be used as css style for color
-    const rgba = `rgba(${c.rgb.r}, ${c.rgb.g}, ${c.rgb.b}, ${c.rgb.a})`
-    actions.changeColors({
-      i,
-      [fieldName]: rgba
-    })
-    actions.changeFooterPage({
-      i,
-      [fieldName]: rgba
-    })
-  }, 50)
-}
+  // Change output into a format,
+  // which directly can be used as css style for color
+  const rgba = `rgba(${c.rgb.r}, ${c.rgb.g}, ${c.rgb.b}, ${c.rgb.a})`
+  actions.changeColors({
+    i,
+    [fieldName]: rgba
+  })
+  actions.changeFooterPage({
+    i,
+    [fieldName]: rgba
+  })
+}, 50)
+
 function handleClickOpen(setOpen) {
   setOpen(true)
 }

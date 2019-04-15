@@ -103,7 +103,7 @@ function ChannelStripList(props) {
                 e.stopPropagation()
               }}
               onClick={
-                isSettingsMode
+                isSettingsMode && !isSettingsDialogMode
                   ? (e) => {
                     actions.setLastFocusedIndex({ i })
                     e.preventDefault()
@@ -131,9 +131,9 @@ function ChannelStripList(props) {
                         height: '100%',
                         borderRadius: 3,
                         background: isLayoutMode
-                          ? 'azure'
+                          ? '#f0ffff87'
                           : isSettingsMode
-                            ? 'beige'
+                            ? '#f5f5dcb3'
                             : isMidiLearnMode
                               ? '#cfcfcf'
                               : 'transparent'

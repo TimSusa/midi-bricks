@@ -15,7 +15,7 @@ MidiSuggestedInput.propTypes = {
   actions: PropTypes.object,
   idx: PropTypes.number,
   startVal: PropTypes.array,
-  suggestions: PropTypes.func
+  suggestions: PropTypes.array
 }
 
 function MidiSuggestedInput(props) {
@@ -143,7 +143,7 @@ function handleChange(
   item
 ) {
   let freshItem = [...selectedItem]
-  if (freshItem.indexOf(item) === -1) {
+  if (!freshItem.includes(item)) {
     freshItem = [...freshItem, item]
     action && action.handleChange && action.handleChange({ idx, val: selectedItem })
   }
@@ -170,7 +170,7 @@ function handleDelete(
 function getSuggestions(suggestions, inputValue) {
   return suggestions.filter((suggestion) => {
     const keep =
-      suggestion.label.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1
+      suggestion.label.toLowerCase().includes(inputValue.toLowerCase())
 
     return keep
   })
@@ -216,7 +216,7 @@ function renderSuggestion({
   selectedItem
 }) {
   const isHighlighted = highlightedIndex === index
-  const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1
+  const isSelected = selectedItem || ''.includes(suggestion.label)
 
   return (
     <MenuItem
