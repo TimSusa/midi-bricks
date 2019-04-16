@@ -64,12 +64,10 @@ const useStyles = makeStyles(
   }),
   { withTheme: true }
 )
+
 function App(props) {
-  const {
-    actions = {},
-    initApp = () => {},
-    classes = useStyles()
-  } = props
+  const classes = useStyles()
+  const { actions = {}, initApp = () => {} } = props
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   return (
     <div className={classes.root}>
@@ -165,7 +163,11 @@ function togglePage({ actions: { togglePage } }, pageType) {
   togglePage(pageType)
 }
 
-function handleResetSliders({ actions: { deleteAll } }, setIsMobileOpen) {
+function handleResetSliders(
+  { actions: { deleteAll, deleteFooterPages } },
+  setIsMobileOpen
+) {
+  deleteFooterPages()
   deleteAll()
   setIsMobileOpen(false)
 }

@@ -17,8 +17,18 @@ import FileReader from './FileReader'
 import DeleteModal from '../DeleteModal'
 import ViewSettingsDialog from '../GlobalViewSettingsDialog'
 import { PAGE_TYPES } from '../../reducers/view-settings'
+import { PropTypes } from 'prop-types'
 
-const DrawerList = props => {
+DrawerList.propTypes = {
+  classes: PropTypes.object,
+  handleResetSliders: PropTypes.func,
+  handleSaveFile: PropTypes.func,
+  onClose: PropTypes.func,
+  onFileChange: PropTypes.func,
+  togglePage: PropTypes.func
+}
+
+function DrawerList (props) {
   const {
     classes,
     togglePage,
@@ -79,8 +89,8 @@ const DrawerList = props => {
           onClick={
             !isOpenViewSettings
               ? e => {
-                  setIsOpenViewSettings(!isOpenViewSettings)
-                }
+                setIsOpenViewSettings(!isOpenViewSettings)
+              }
               : () => {}
           }
         >
@@ -135,4 +145,6 @@ const DrawerList = props => {
     </React.Fragment>
   )
 }
+
+
 export default DrawerList
