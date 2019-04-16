@@ -15,7 +15,8 @@ MidiSuggestedInput.propTypes = {
   actions: PropTypes.object,
   idx: PropTypes.number,
   startVal: PropTypes.array,
-  suggestions: PropTypes.array
+  suggestions: PropTypes.array,
+  handleChange: PropTypes.func
 }
 
 function MidiSuggestedInput(props) {
@@ -23,7 +24,12 @@ function MidiSuggestedInput(props) {
   //   inputValue: '',
   //   selectedItem: this.props.startVal || [],
   // }
-  const { actions, idx, suggestions, startVal = [] } = props
+  const {
+    handleChange: handleChangeRedux,
+    idx,
+    suggestions,
+    startVal = []
+  } = props
 
   const [inputValue, setInputValue] = useState('')
   const [selectedItem, setSelectedItem] = useState(startVal)
@@ -36,7 +42,7 @@ function MidiSuggestedInput(props) {
         this,
         idx,
         selectedItem,
-        actions,
+        handleChangeRedux,
         setInputValue,
         setSelectedItem
       )}
@@ -65,7 +71,7 @@ function MidiSuggestedInput(props) {
                     this,
                     idx,
                     selectedItem,
-                    handleChange,
+                    handleChangeRedux,
                     setInputValue,
                     setSelectedItem,
                     item
@@ -121,8 +127,8 @@ function renderInput(inputProps) {
 
 function handleKeyDown(inputValue, selectedItem, setSelectedItem, event) {
   if (
-    selectedItem.length &&
-    !inputValue.length &&
+    Array.isArray(selectedItem) &&
+    !Array.isArray(inputValue) &&
     keycode(event) === 'backspace'
   ) {
     const freshItem = [...selectedItem]
@@ -137,40 +143,42 @@ function handleInputChange(setInputValue, event) {
 function handleChange(
   idx,
   selectedItem,
-  action,
+  handleChangeRedux,
   setInputValue,
   setSelectedItem,
   item
 ) {
-  let freshItem = [...selectedItem]
-  if (!freshItem.includes(item)) {
-    freshItem = [...freshItem, item]
-    action && action.handleChange && action.handleChange({ idx, val: selectedItem })
+  if (Array.isArray(selectedItem) && !selectedItem.includes(item)) {
+    var val = [...selectedItem, item]
+    handleChangeRedux({ idx, val })
+    setSelectedItem(val)
+  } else {
+    setSelectedItem(selectedItem)
   }
   setInputValue('')
-  setSelectedItem(freshItem)
 }
 
 function handleDelete(
   idx,
   selectedItem,
-  handleChange,
+  handleChangeRedux,
   setInputValue,
   setSelectedItem,
   item
 ) {
-  return function() {
-    let freshSelectedItem = [...selectedItem]
-    freshSelectedItem.splice(freshSelectedItem.indexOf(item), 1)
-    handleChange && handleChange({ idx, val: selectedItem })
-    return { selectedItem }
-  }
+  let freshSelectedItem = [...selectedItem]
+  freshSelectedItem.splice(freshSelectedItem.indexOf(item), 1)
+  handleChangeRedux({ idx, val: freshSelectedItem })
+  setSelectedItem(freshSelectedItem)
+  setInputValue('')
+  return { selectedItem }
 }
 
 function getSuggestions(suggestions, inputValue) {
   return suggestions.filter((suggestion) => {
-    const keep =
-      suggestion.label.toLowerCase().includes(inputValue.toLowerCase())
+    const keep = suggestion.label
+      .toLowerCase()
+      .includes(inputValue.toLowerCase())
 
     return keep
   })

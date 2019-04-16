@@ -21,6 +21,22 @@ export default connect(
   mapDispatchToProps
 )(ColorModal)
 
+const handleColorChange = debounce((i, setColor, actions, fieldName, c) => {
+  setColor(c)
+
+  // Change output into a format,
+  // which directly can be used as css style for color
+  const rgba = `rgba(${c.rgb.r}, ${c.rgb.g}, ${c.rgb.b}, ${c.rgb.a})`
+  actions.changeColors({
+    i,
+    [fieldName]: rgba
+  })
+  actions.changeFooterPage({
+    i,
+    [fieldName]: rgba
+  })
+}, 50)
+
 const DEF_VAL = {
   rgb: {
     a: 0.76,
@@ -117,22 +133,6 @@ function ColorModal(props) {
     </div>
   )
 }
-
-const handleColorChange = debounce((i, setColor, actions, fieldName, c) => {
-  setColor(c)
-
-  // Change output into a format,
-  // which directly can be used as css style for color
-  const rgba = `rgba(${c.rgb.r}, ${c.rgb.g}, ${c.rgb.b}, ${c.rgb.a})`
-  actions.changeColors({
-    i,
-    [fieldName]: rgba
-  })
-  actions.changeFooterPage({
-    i,
-    [fieldName]: rgba
-  })
-}, 50)
 
 function handleClickOpen(setOpen) {
   setOpen(true)
