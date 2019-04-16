@@ -1,5 +1,4 @@
 # Midi-Bricks-Mono-Repository
-
 This is a mono-repository for midi-bricks, its electron app and deployment. 
 
 ## Live-Web-Demo
@@ -12,26 +11,25 @@ In order to get information about building an executable
 for your OS please be refered to the midi-bricks-electron folder.
 
 ## Bootstrapping the Monorepo:
-
 ```
 yarn && yarn bootstrap
 ```
 
-# Core App
+
+# Midi-Bricks-Webapp
 The midi-bricks folder poses the core source, which is a standalone webapp.
-Furthermore, this one ist deployed to the great guys from https://zeit.co/now. 
+Furthermore, it is deployed to the great guys from https://zeit.co/now. 
 
-## Midi-Bricks-Webapp: Start Development
-
+## Start Development
 ```
 yarn dev:midi-bricks
 ```
 
-## Midi-Bricks-Webapp: Build for Production
-
+## Build for Production
 ```
 yarn build:midi-bricks
 ```
+
 
 # Electron App
 The core web app will be copied into the electron ecosystem. 
@@ -39,18 +37,18 @@ Further code for configuration, especially ```electron.js```,
 can be found in its public folder. 
 
 
-## Midi-Bricks-Electron-App: Start Development
+## Start Development
 ```
 yarn dev:midi-bricks-electron
 ```
 
-## Midi-bricks-electron-app build
-
+## Build for MacOSX and Win
 ```
 yarn build:midi-bricks-electron
 ```
 
-## Contributing
+
+# Contributing
 Please consider to create a PR with or without any issue. 
 I will get back to you, asap.
 
