@@ -28,6 +28,9 @@ DrawerList.propTypes = {
   togglePage: PropTypes.func
 }
 
+export default DrawerList
+
+
 function DrawerList (props) {
   const {
     classes,
@@ -109,7 +112,7 @@ function DrawerList (props) {
       </List>
       <Divider />
       <List>
-        <FileReader as="binary" onChange={onFileChange}>
+        <FileReader as="binary" onChange={handleFileChange.bind(this, onFileChange)}>
           <ListItem button>
             <ListItemIcon>
               <LoadIcon />
@@ -146,5 +149,13 @@ function DrawerList (props) {
   )
 }
 
+function handleFileChange(onFileChange, _, results){
+  if (!Array.isArray(results)) {
+    throw new TypeError('No file selected')
+  }
+  const contentRaw = results[0][0].target.result
+  const content = JSON.parse(contentRaw)
+  const presetName = results[0][1].name
 
-export default DrawerList
+  onFileChange({content, presetName})
+}

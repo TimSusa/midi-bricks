@@ -14,6 +14,8 @@ import MidiSettingsDialogButton from '../midi-settings-dialog/MidiSettingsDialog
 import { makeStyles } from '@material-ui/styles'
 import { SizeMe } from 'react-sizeme'
 import { PAGE_TYPES } from '../../reducers/view-settings'
+import { Button } from '@material-ui/core'
+import { preset } from '../../utils/midi-bricks-preset-apc-40.js'
 require('react-grid-layout/css/styles.css')
 require('react-resizable/css/styles.css')
 
@@ -103,7 +105,7 @@ function ChannelStripList(props) {
                 e.stopPropagation()
               }}
               onClick={
-                isSettingsMode && !isSettingsDialogMode && (lastFocusedIdx !== i)
+                isSettingsMode && !isSettingsDialogMode && lastFocusedIdx !== i
                   ? (e) => {
                     actions.setLastFocusedIndex({ i })
                     e.preventDefault()
@@ -202,9 +204,20 @@ function ChannelStripList(props) {
       <Typography variant='h4' className={classes.noMidiTypography}>
         <br />
         <br />
-        Hey guys, I suggest to add a page at first.
+        Dear user, 
+        I suggest for you to load an example preset.
         <br />
         <br />
+        <Button
+          onClick={() =>
+            props.actions.loadFile({ content: preset, presetName: 'APC-40 Preset' })
+          }
+        >
+          LOAD EXAMPLE PRESET
+        </Button>
+        <br />
+        <br />
+        Otherwise, feel free to play arround and add a page or buttons.
         You can do this with the button at the right top in the AppBar → ↑
       </Typography>
     )

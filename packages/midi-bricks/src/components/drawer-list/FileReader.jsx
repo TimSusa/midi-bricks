@@ -19,19 +19,19 @@ export default class FileInput extends React.PureComponent {
     const { as, children, style, ...props } = this.props
     const hiddenInputStyle = children
       ? {
-          // If user passes in children, display children and hide input.
-          position: 'absolute',
-          // top: '-9999px',
-          display: 'none',
-        }
+        // If user passes in children, display children and hide input.
+        position: 'absolute',
+        // top: '-9999px',
+        display: 'none'
+      }
       : {}
 
     return (
       <div onClick={this.triggerInput} style={style}>
         <input
           {...props}
-          type="file"
-          ref={c => {
+          type='file'
+          ref={(c) => {
             this._reactFileReaderInput = c
           }}
           onChange={this.handleChange}
@@ -45,21 +45,21 @@ export default class FileInput extends React.PureComponent {
     )
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     const files = Array.prototype.slice.call(e.target.files) // Convert into Array
     const readAs = (this.props.as || 'url').toLowerCase()
 
     // Build Promise List, each promise resolved by FileReader.onload.
     Promise.all(
       files.map(
-        file =>
+        (file) =>
           new Promise((resolve, reject) => {
             let reader = new window.FileReader()
 
-            reader.onload = result => {
+            reader.addEventListener('load', (result) => {
               // Resolve both the FileReader result and its original file.
               resolve([result, file])
-            }
+            })
 
             // Read the file with format based on this.props.as.
             switch (readAs) {
@@ -83,7 +83,7 @@ export default class FileInput extends React.PureComponent {
             }
           })
       )
-    ).then(zippedResults => {
+    ).then((zippedResults) => {
       // Run the callback after all files have been read.
       this.props.onChange(e, zippedResults)
     })

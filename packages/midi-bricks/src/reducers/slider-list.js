@@ -454,17 +454,11 @@ export const reducers = {
     return { ...state }
   },
   [ActionTypeSliderList.LOAD_FILE](state, action) {
-    const files = action.payload[0]
-    if (!Array.isArray(files)) {
-      throw new TypeError('No file selected')
-    }
-    const content = files[0].target.result
-    const presetName = files[1].name
-    const parsedJson = JSON.parse(content)
+    const {payload: {presetName, content}} = action
     const tmp =
-      (parsedJson.sliderList && parsedJson.sliderList) ||
-      (parsedJson.sliders.sliderList && parsedJson.sliders.sliderList) ||
-      parsedJson
+      (content.sliderList && content.sliderList) ||
+      (content.sliders.sliderList && content.sliders.sliderList) ||
+      content
 
     // If somebody loads an old preset, add standard values
     const sliderList = tmp.map((item) => {

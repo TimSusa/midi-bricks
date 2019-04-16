@@ -111,17 +111,17 @@ function App(props) {
   )
 }
 
-async function onFileChange(actions, initApp, setIsMobileOpen, e, results) {
+async function onFileChange(actions, initApp, setIsMobileOpen, { presetName, content }, e) {
   actions.deleteFooterPages()
   window.localStorage.clear()
-  actions.loadFile(results) // Prepare foooterpages flush
 
-  const files = results[0]
-  const content = files[0].target.result
-  const parsedJson = JSON.parse(content)
+  actions.loadFile({ presetName, content }) // Prepare foooterpages flush
+
   const {
-    viewSettings: { availableDrivers }
-  } = parsedJson
+    viewSettings,
+    viewSettings: { availableDrivers },
+    sliders: { sliderList }
+  } = content
   const drivers = availableDrivers || {
     inputs: {
       None: {
@@ -136,10 +136,10 @@ async function onFileChange(actions, initApp, setIsMobileOpen, e, results) {
       }
     }
   }
-  parsedJson.sliders.sliderList &&
+  sliderList &&
     actions.updateViewSettings({
-      viewSettings: { ...parsedJson.viewSettings, availableDrivers: drivers },
-      sliderList: parsedJson.sliders.sliderList
+      viewSettings: { ...viewSettings, availableDrivers: drivers },
+      sliderList: sliderList
     })
   await initApp()
   actions.togglePage({
