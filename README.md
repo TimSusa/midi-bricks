@@ -6,7 +6,7 @@ This is a mono-repository for midi-bricks, its electron app and deployment.
 https://midi-bricks.timsusa.now.sh
 
 ## More Help
-More help can be found in echt sub project folder´s README.md, 
+More help can be found in each sub project folder´s README.md, 
 which you can find under packages/. 
 In order to get information about building an executable
 for your OS please be refered to the midi-bricks-electron folder.
