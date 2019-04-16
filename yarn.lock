@@ -1522,10 +1522,10 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
-"@material-ui/core@4.0.0-alpha.6":
-  version "4.0.0-alpha.6"
-  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.0.0-alpha.6.tgz#8f7893fe6e20035c2e502a3693cc1c10f884f93b"
-  integrity sha512-X2tHOJDzuG7/TYBhmd7C+OysUpJPP0oMXKJ4MJlFwsWTAqxL2sXRIcaQVDPzgUEn34ApL4Xham3qYHGAjpCPeg==
+"@material-ui/core@4.0.0-alpha.7":
+  version "4.0.0-alpha.7"
+  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.0.0-alpha.7.tgz#fb592ba6ad8d4262aa15e9d8b3be47ef6074177b"
+  integrity sha512-bGvJfCEQaCkQ3BUuNcOVSKZgRKQJNEPw08GIT1+8ZA8Mnw03hTypZNr17l/8Yr2gnUfq4BzB0N1XCjYQrGPHkA==
   dependencies:
     "@babel/runtime" "^7.2.0"
     "@material-ui/styles" "^4.0.0-alpha.6"
@@ -1564,7 +1564,29 @@
     keycode "^2.1.9"
     prop-types "^15.7.2"
 
-"@material-ui/styles@4.0.0-alpha.6", "@material-ui/styles@^4.0.0-alpha.6":
+"@material-ui/styles@4.0.0-alpha.7":
+  version "4.0.0-alpha.7"
+  resolved "https://registry.yarnpkg.com/@material-ui/styles/-/styles-4.0.0-alpha.7.tgz#5da99095247f27ddc2345af841f335b77700778e"
+  integrity sha512-1uSPjof9AhIAXxgNJa9hYPI3+ZJfxf5w0+vamcvM+EjIuZO19fk43azI5of9skS1Yn1ddUaE/DqEF6JTfWIdZg==
+  dependencies:
+    "@babel/runtime" "^7.2.0"
+    "@emotion/hash" "^0.7.1"
+    "@material-ui/utils" "^4.0.0-alpha.4"
+    clsx "^1.0.2"
+    deepmerge "^3.0.0"
+    hoist-non-react-statics "^3.2.1"
+    jss "^10.0.0-alpha.16"
+    jss-plugin-camel-case "^10.0.0-alpha.16"
+    jss-plugin-default-unit "^10.0.0-alpha.16"
+    jss-plugin-global "^10.0.0-alpha.16"
+    jss-plugin-nested "^10.0.0-alpha.16"
+    jss-plugin-props-sort "^10.0.0-alpha.16"
+    jss-plugin-rule-value-function "^10.0.0-alpha.16"
+    jss-plugin-vendor-prefixer "^10.0.0-alpha.16"
+    prop-types "^15.7.2"
+    warning "^4.0.1"
+
+"@material-ui/styles@^4.0.0-alpha.6":
   version "4.0.0-alpha.6"
   resolved "https://registry.yarnpkg.com/@material-ui/styles/-/styles-4.0.0-alpha.6.tgz#f6ec3655865bbb9a8439cb70f620e0260b32508e"
   integrity sha512-h6BDQb/F212xNwAjq6FCyJji6GLd5NJH8JdzO1/ZAE3LWMS3EH0Fs65pKMb1oq6daLCksSsB3UFwAU0cd6uLwQ==
