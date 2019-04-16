@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Typography, MenuItem } from '@material-ui/core'
 import InputLabel from '@material-ui/core/InputLabel'
 import Checkbox from '@material-ui/core/Checkbox'
@@ -15,14 +16,20 @@ const {
   BUTTON_TOGGLE,
   BUTTON_TOGGLE_CC,
   SLIDER,
-  SLIDER_HORZ,
+  SLIDER_HORZ
 } = STRIP_TYPE
 
-export const MidiSettingsView = props => {
+MidiSettingsView.propTypes = {
+  actions: PropTypes.object,
+  classes: PropTypes.object,
+  sliderEntry: PropTypes.object
+}
+
+export function MidiSettingsView(props) {
   const {
     classes,
     sliderEntry: { i, type, colors, fontSize, fontWeight, isValueHidden },
-    actions,
+    actions
   } = props
   return (
     <React.Fragment>
@@ -31,7 +38,7 @@ export const MidiSettingsView = props => {
           type
         ) && (
           <React.Fragment>
-            <InputLabel className={classes.label} htmlFor="button-type">
+            <InputLabel className={classes.label} htmlFor='button-type'>
               Type
             </InputLabel>
             <Select
@@ -45,9 +52,9 @@ export const MidiSettingsView = props => {
         )}
 
         <ColorModal
-          title="Background"
+          title='Background'
           i={i}
-          fieldName="color"
+          fieldName='color'
           color={colors.color}
         />
         <ColorModal
@@ -57,42 +64,42 @@ export const MidiSettingsView = props => {
               : 'Activated State'
           }
           i={i}
-          fieldName="colorActive"
+          fieldName='colorActive'
           color={colors.colorActive}
         />
         <ColorModal
-          title="Font-Color"
+          title='Font-Color'
           i={i}
-          fieldName="colorFont"
+          fieldName='colorFont'
           color={colors.colorFont}
         />
 
         {![SLIDER, SLIDER_HORZ].includes(type) ? (
           <ColorModal
-            title="Activated Font-Color"
+            title='Activated Font-Color'
             i={i}
-            fieldName="colorFontActive"
+            fieldName='colorFontActive'
             color={colors.colorFontActive}
           />
         ) : null}
       </FormControl>
 
       <FormControl>
-        <Typography className={classes.label} htmlFor="fontsize">
+        <Typography className={classes.label} htmlFor='fontsize'>
           {'Font Size:  ' + (fontSize || 16) + 'px'}
         </Typography>
         <input
-          type="range"
+          type='range'
           min={8}
           max={54}
           value={fontSize || 16}
           onChange={handleFontsizeChange.bind(this, i, actions)}
         />
-        <Typography className={classes.label} htmlFor="fontWeight">
+        <Typography className={classes.label} htmlFor='fontWeight'>
           {'Font Weight:  ' + (fontWeight || 500)}
         </Typography>
         <input
-          type="range"
+          type='range'
           min={100}
           max={900}
           step={100}
@@ -108,11 +115,11 @@ export const MidiSettingsView = props => {
                 className={classes.iconColor}
                 checked={isValueHidden && isValueHidden}
                 onChange={actions.toggleHideValue.bind(this, {
-                  i,
+                  i
                 })}
               />
             }
-            label="Hide Value"
+            label='Hide Value'
           />
         </FormControl>
       )}
@@ -120,7 +127,7 @@ export const MidiSettingsView = props => {
   )
 }
 
-const renderButtonTypeSelection = type => {
+function renderButtonTypeSelection(type) {
   const isCC = type.endsWith('_CC')
   if (isCC) {
     return [BUTTON_CC, BUTTON_TOGGLE_CC].map((item, btnIdx) => {
@@ -141,23 +148,23 @@ const renderButtonTypeSelection = type => {
   }
 }
 
-const handleButtonTypeChange = (i, actions, e) => {
+function handleButtonTypeChange(i, actions, e) {
   actions.changeButtonType({
     i,
-    val: e.target.value,
+    val: e.target.value
   })
 }
 
-const handleFontsizeChange = (i, actions, e) => {
+function handleFontsizeChange(i, actions, e) {
   actions.changeFontSize({
     i,
-    fontSize: e.target.value,
+    fontSize: e.target.value
   })
 }
 
-const handleFontweightChange = (i, actions, e) => {
+function handleFontweightChange(i, actions, e) {
   actions.changeFontWeight({
     i,
-    fontWeight: e.target.value,
+    fontWeight: e.target.value
   })
 }

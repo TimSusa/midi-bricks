@@ -1,25 +1,35 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
+
+MidiSettingsLabelInput.propTypes = {
+  actions: PropTypes.object,
+  classes: PropTypes.object,
+  i: PropTypes.string,
+  idx: PropTypes.number,
+  label: PropTypes.string,
+  type: PropTypes.string
+}
 
 export function MidiSettingsLabelInput({
   idx,
   label,
   i,
   classes,
-  actions, 
+  actions,
   type
 }) {
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel className={classes.label} htmlFor="label">
+      <InputLabel className={classes.label} htmlFor='label'>
         Label
       </InputLabel>
       <Input
         className={classes.input}
-        id="label"
-        type="label"
+        id='label'
+        type='label'
         name={`input-label-name-${idx}`}
         value={label}
         onChange={handleLabelChange.bind(this, i, idx, actions, type)}
@@ -29,18 +39,17 @@ export function MidiSettingsLabelInput({
   )
 }
 
-
-const handleLabelChange = (i, idx, actions, type, e) => {
+function handleLabelChange(i, idx, actions, type, e) {
   e.preventDefault()
   e.stopPropagation()
   actions.changeLabel({
     idx,
-    val: e.target.value,
+    val: e.target.value
   })
   if (type === 'PAGE') {
     actions.changeFooterPage({
       i,
-      label: e.target.value,
+      label: e.target.value
     })
   }
 }

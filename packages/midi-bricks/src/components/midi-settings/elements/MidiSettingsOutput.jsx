@@ -1,12 +1,13 @@
 import { MinMaxValInput } from './MinMaxValInput'
 import React from 'react'
+import PropTypes from 'prop-types'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import InputNoteOrCc from './InputNoteOrCc'
 import {
   renderDriverSelection,
-  renderMidiChannelSelection,
+  renderMidiChannelSelection
 } from '../MidiSettings'
 
 import { STRIP_TYPE } from '../../../reducers/slider-list'
@@ -18,10 +19,19 @@ const {
   BUTTON_TOGGLE_CC,
   SLIDER,
   SLIDER_HORZ,
-  XYPAD,
+  XYPAD
 } = STRIP_TYPE
 
-export const MidiSettingsOutput = props => {
+MidiSettingsOutput.propTypes = {
+  sliderEntry: PropTypes.object,
+  actions: PropTypes.object,
+  classes: PropTypes.object,
+  idx: PropTypes.number,
+  initApp: PropTypes.func,
+  outputs: PropTypes.object
+}
+
+export function MidiSettingsOutput(props) {
   const {
     classes,
     actions,
@@ -34,51 +44,52 @@ export const MidiSettingsOutput = props => {
       offVal,
       driverName = 'None',
       midiChannel,
-      midiCC,
+      midiCC
     },
     idx,
-    outputs,
+    outputs
   } = props
+
   return (
     <React.Fragment>
       <InputNoteOrCc midiCC={midiCC} type={type} idx={idx} />
       <FormControl className={classes.formControl}>
-        <InputLabel className={classes.label} htmlFor="midi-driver">
+        <InputLabel className={classes.label} htmlFor='midi-driver'>
           Driver
         </InputLabel>
         <Select
           className={classes.select}
-          onChange={e =>
+          onChange={(e) =>
             actions.selectMidiDriver({
               i,
-              driverName: e.target.value,
+              driverName: e.target.value
             })
           }
           value={driverName || 'None'}
         >
           {renderDriverSelection({
-            outputs,
+            outputs
           })}
         </Select>
       </FormControl>
 
       <FormControl className={classes.formControl}>
-        <InputLabel className={classes.label} htmlFor="output-cc-input">
+        <InputLabel className={classes.label} htmlFor='output-cc-input'>
           Channel
         </InputLabel>
         <Select
           className={classes.select}
-          onChange={e =>
+          onChange={(e) =>
             actions.selectMidiChannel({
               idx,
-              val: e.target.value,
+              val: e.target.value
             })
           }
           value={midiChannel || 'None'}
         >
           {renderMidiChannelSelection(
             {
-              outputs,
+              outputs
             },
             driverName,
             type
@@ -88,26 +99,26 @@ export const MidiSettingsOutput = props => {
       {[SLIDER, SLIDER_HORZ, XYPAD].includes(type) && (
         <React.Fragment>
           <MinMaxValInput
-            label="Maximum Value"
+            label='Maximum Value'
             value={maxVal}
             name={`input-maxval-name-${idx}`}
             limitVal={127}
-            onChange={e =>
+            onChange={(e) =>
               actions.setMaxVal({
                 idx,
-                val: e.target.value,
+                val: e.target.value
               })
             }
           />
           <MinMaxValInput
-            label="Minimum Value"
+            label='Minimum Value'
             value={minVal}
             name={`input-minval-name-${idx}`}
             limitVal={0}
-            onChange={e =>
+            onChange={(e) =>
               actions.setMinVal({
                 idx,
-                val: e.target.value,
+                val: e.target.value
               })
             }
           />
@@ -120,26 +131,26 @@ export const MidiSettingsOutput = props => {
           ) && (
             <React.Fragment>
               <MinMaxValInput
-                label="Value Button On"
+                label='Value Button On'
                 value={onVal}
                 name={`input-onval-name-${idx}`}
                 limitVal={127}
-                onChange={e =>
+                onChange={(e) =>
                   actions.setOnVal({
                     idx,
-                    val: e.target.value,
+                    val: e.target.value
                   })
                 }
               />
               <MinMaxValInput
-                label="Value Button Off"
+                label='Value Button Off'
                 value={offVal}
                 name={`input-offval-name-${idx}`}
                 limitVal={0}
-                onChange={e =>
+                onChange={(e) =>
                   actions.setOffVal({
                     idx,
-                    val: e.target.value,
+                    val: e.target.value
                   })
                 }
               />

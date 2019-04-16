@@ -13,6 +13,7 @@ import {
   renderDriverSelection,
   renderMidiChannelSelection
 } from '../MidiSettings'
+import { suggestionsMidiCc } from './suggestions'
 
 export default connect(
   null,
@@ -29,7 +30,6 @@ MidiSettingsInput.propTypes = {
 }
 
 function MidiSettingsInput(props) {
-  
   const {
     sliderEntry: {
       i,
@@ -103,14 +103,6 @@ function MidiSettingsInput(props) {
       </FormControl>
     </React.Fragment>
   )
-}
-
-function suggestionsMidiCc() {
-  return Array.apply(null, { length: 128 })
-    .map(Number.call, Number)
-    .map((item) => {
-      return { label: `${item}` }
-    })
 }
 
 async function handleAddCCListener(actions, initApp, e) {

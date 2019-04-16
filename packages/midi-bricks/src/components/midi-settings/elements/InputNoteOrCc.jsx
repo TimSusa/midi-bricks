@@ -11,7 +11,7 @@ import MidiSuggestedInput from './MidiSuggestedInput'
 import { fromMidi } from '../../../utils/fromMidi'
 import { midi } from 'tonal'
 import { Input } from '@material-ui/core'
-
+import { suggestionsMidiNoteCC, suggestionsMidiCc } from './suggestions'
 const useStyles = makeStyles(styles, { useTheme: true })
 
 InputNoteOrCc.propTypes = {
@@ -48,8 +48,8 @@ function InputNoteOrCc(props) {
           CC
         </InputLabel>
         <MidiSuggestedInput
-          suggestions={suggestionsMidiCc}
-          startVal={midiCC}
+          suggestions={suggestionsMidiCc()}
+          startVal={midiCC || []}
           idx={idx}
           handleChange={selectCc}
         />
@@ -62,8 +62,8 @@ function InputNoteOrCc(props) {
           CC
         </InputLabel>
         <MidiSuggestedInput
-          suggestions={suggestionsMidiCc}
-          startVal={yMidiCc}
+          suggestions={suggestionsMidiCc()}
+          startVal={yMidiCc || []}
           idx={idx}
           handleChange={selectCcY.bind(this, props)}
         />
@@ -102,8 +102,6 @@ function InputNoteOrCc(props) {
   }
 }
 
-
-
 function handleProgramChange(idx, selectCc, e) {
   selectCc({
     idx,
@@ -121,23 +119,6 @@ function suggestionsMidiNote() {
     })
 }
 
-function suggestionsMidiNoteCC() {
-  return Array.apply(null, { length: 128 })
-    .map(Number.call, Number)
-    .map((item) => {
-      return {
-        label: `${item}`
-      }
-    })
-}
-
-function suggestionsMidiCc() {
-  return Array.apply(null, { length: 120 })
-    .map(Number.call, Number)
-    .map((item) => {
-      return { label: `${item}` }
-    })
-}
 function styles(theme) {
   return {
     formControl: {

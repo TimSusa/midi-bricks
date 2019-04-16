@@ -20,15 +20,11 @@ MidiSuggestedInput.propTypes = {
 }
 
 function MidiSuggestedInput(props) {
-  // state = {
-  //   inputValue: '',
-  //   selectedItem: this.props.startVal || [],
-  // }
   const {
     handleChange: handleChangeRedux,
     idx,
     suggestions,
-    startVal = []
+    startVal
   } = props
 
   const [inputValue, setInputValue] = useState('')
