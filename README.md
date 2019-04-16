@@ -18,7 +18,7 @@ yarn && yarn bootstrap
 ```
 
 # Core App
-The core sources are stemming from midi-bricks folder, which is a standalone webapp.
+The midi-bricks folder poses the core source, which is a standalone webapp.
 Furthermore, this one ist deployed to the great guys from https://zeit.co/now. 
 
 ## Midi-Bricks-Webapp: Start Development
