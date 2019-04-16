@@ -32,7 +32,7 @@ function MidiSuggestedInput(props) {
   } = props
 
   const [inputValue, setInputValue] = useState('')
-  const [selectedItem, setSelectedItem] = useState(startVal)
+  const [selectedItem, setSelectedItem] = useState(startVal || [])
   const classes = useStyles()
 
   return (
@@ -175,6 +175,7 @@ function handleDelete(
 }
 
 function getSuggestions(suggestions, inputValue) {
+  if (inputValue === undefined) return
   return suggestions.filter((suggestion) => {
     const keep = suggestion.label
       .toLowerCase()

@@ -16,7 +16,7 @@ Simple sliders or buttons, which send MIDI Messages to the MIDI-Device you wish.
 - You have keyboard shortcuts available for: 'change to layout mode', 'show settings', 'compact vertical', 'Disable auto-arrange-mode'
 
 # Web Demo:
-https://build.timsusa.now.sh/
+https://midi-bricks.timsusa.now.sh
 
 # Run
 ```
