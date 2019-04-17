@@ -10,3 +10,4 @@ packages/*/build
 .github
 package-lock.json
 */**/__mocks__
+*/**/midi-bricks-preset*
