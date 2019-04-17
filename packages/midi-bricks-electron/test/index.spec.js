@@ -16,11 +16,11 @@ const addElementMenuSelector = 'button[title="Add Element"]'
 const addPageSelector = 'li*=Add Page'
 const addVerticalSliderSelector = 'li*=Add Vertical Slider'
 const addHorzSliderSelector = 'li*=Add Horizontal Slider'
-// const addButtonSelector = 'li*=Add Button'
-// const addButtonCcSelector = 'li*=Add Button CC'
-// const addButtonProgramChangeSelector = 'li*=Add Button Program Change'
-// const addLabelSelector = 'li*=Add Label'
-// const addXyPadSelector = 'li*=Add X/Y Pad'
+const addButtonSelector = 'li*=Add Button'
+const addButtonCcSelector = 'li*=Add Button CC'
+const addButtonProgramChangeSelector = 'li*=Add Button Program Change'
+const addLabelSelector = 'li*=Add Label'
+const addXyPadSelector = 'li*=Add X/Y Pad'
 
 describe('E2E Tests for MIDI-Bricks will get started...', function() {
   // eslint-disable-next-line babel/no-invalid-this
@@ -157,8 +157,45 @@ describe('E2E Tests for MIDI-Bricks will get started...', function() {
     await openAddMenu(client)
     await addElement(client, addHorzSliderSelector)
     await winInit(app)
+
     const isCmt2 = await isSelectorVisible(client, layoutCommitButtonSelector)
     expect(isCmt2).to.be.true
+    await commitElement(client)
+
+    await client.click(settingsButtonSelector)
+    await switchToLayoutMode(client)
+    await openAddMenu(client)
+    await addElement(client, addButtonSelector)
+    await winInit(app)
+    await commitElement(client)
+
+    await client.click(settingsButtonSelector)
+    await switchToLayoutMode(client)
+    await openAddMenu(client)
+    await addElement(client, addButtonCcSelector)
+    await winInit(app)
+    await commitElement(client)
+    
+    await client.click(settingsButtonSelector)
+    await switchToLayoutMode(client)
+    await openAddMenu(client)
+    await addElement(client, addButtonProgramChangeSelector)
+    await winInit(app)
+    await commitElement(client)
+
+    await client.click(settingsButtonSelector)
+    await switchToLayoutMode(client)
+    await openAddMenu(client)
+    await addElement(client, addXyPadSelector)
+    await winInit(app)
+    await commitElement(client)
+
+    await client.click(settingsButtonSelector)
+    await switchToLayoutMode(client)
+    await openAddMenu(client)
+    await addElement(client, addLabelSelector)
+    await winInit(app)
+    await commitElement(client)
 
     return app
   })

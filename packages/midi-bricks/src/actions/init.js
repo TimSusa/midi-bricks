@@ -12,6 +12,7 @@ export function initApp(mode) {
 
       WebMIDI.enable((err) => {
         if (err) {
+          // eslint-disable-next-line no-alert
           window.alert('Midi could not be enabled.', err)
           reject(dispatch(initFailed('Midi could not be enabled.')))
         }
@@ -51,13 +52,13 @@ export function initApp(mode) {
             })
           input.removeListener()
           if (
+            // eslint-disable-next-line no-constant-condition
             false &&
             Array.isArray(ccChannels) &&
             hasContent(ccChannels) &&
             hasContent(ccArr) &&
             mode !== 'all'
           ) {
-            console.log('Add cc listener', name, ' ', ccArr)
             input.removeListener('controlchange')
             input.addListener(
               'controlchange',
@@ -94,13 +95,14 @@ export function initApp(mode) {
             )
           }
           if (
+            // eslint-disable-next-line no-constant-condition
             false &&
             Array.isArray(noteChannels) &&
             hasContent(noteChannels) &&
             hasContent(ccArr) &&
             mode !== 'all'
           ) {
-            console.log('Add note listener', name, ' ', ccArr)
+            ('Add note listener', name, ' ', ccArr)
             input.removeListener('noteon')
             input.addListener(
               'noteon',
