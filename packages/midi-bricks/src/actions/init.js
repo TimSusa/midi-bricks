@@ -102,7 +102,8 @@ export function initApp(mode) {
             hasContent(ccArr) &&
             mode !== 'all'
           ) {
-            ('Add note listener', name, ' ', ccArr)
+            // eslint-disable-next-line no-console
+            console.log('Add note listener', name, ' ', ccArr)
             input.removeListener('noteon')
             input.addListener(
               'noteon',
