@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks-mono",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "private": false,
   "license": "MIT",
   "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
@@ -48,7 +48,7 @@
   },
   "scripts": {
     "bootstrap": "yarn && lerna bootstrap && cd packages/midi-bricks-electron && yarn && cd ../.. && lerna link && yarn build && yarn lint && yarn test",
-    "publish": "yarn test && lerna publish && yarn deploy",
+    "publish": "yarn test:midi-bricks && lerna publish && yarn deploy",
     "deploy": "cd packages/midi-bricks/ && yarn deploy && cd ..",
     "lint": "eslint . -c .eslintrc",
     "clean": "lerna clean",
