@@ -37,7 +37,7 @@
     "electron": "4.1.4",
     "electron-builder": "20.38.5",
     "midi-bricks": "^1.0.7",
-    "mocha": "6.0.2",
+    "mocha": "6.1.4",
     "react-scripts": "^2.1.8",
     "rimraf": "^2.6.3",
     "spectron": "5.0.0",
