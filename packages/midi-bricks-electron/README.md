@@ -48,3 +48,9 @@ You can use either the auto-mode, which starts all jobs automatically. Howevery,
 ```
 cd packages/midi-bricks-electron && yarn dev && yarn test-e2e
 ```
+
+## Support on Beerpay
+Hey dude! Help me out for a couple of :beers:!
+
+[![Beerpay](https://beerpay.io/TimSusa/midi-bricks-mono/badge.svg)](https://beerpay.io/TimSusa/midi-bricks-mono)
+[![Beerpay](https://beerpay.io/TimSusa/midi-bricks-mono/make-wish.svg)](https://beerpay.io/TimSusa/midi-bricks-mono)
