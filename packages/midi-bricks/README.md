@@ -34,3 +34,6 @@ This application only works with Chrome Browsers. If browser will ask you for pe
 
 # Thanks
 Thanks to the people, who made react, redux, material-ui and big thanks to my friend Henrik Wenz (https://github.com/HaNdTriX), who made electron functionality available. And nice big greetz to my friend Alec Troniq (http://alec-troniq.com/), who gave me the right hints, to build up all this stuff, using this for his live performances.
+
+[![Beerpay](https://beerpay.io/TimSusa/midi-bricks-mono/badge.svg)](https://beerpay.io/TimSusa/midi-bricks-mono)
+[![Beerpay](https://beerpay.io/TimSusa/midi-bricks-mono/make-wish.svg)](https://beerpay.io/TimSusa/midi-bricks-mono)
