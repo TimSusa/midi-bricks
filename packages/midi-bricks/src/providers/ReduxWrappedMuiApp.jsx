@@ -34,7 +34,7 @@ let persistor = persistStore(store)
 
 ReduxWrappedMuiApp.propTypes = {
   children: PropTypes.any,
-  propsStore: PropTypes.any
+  store: PropTypes.any
 }
 
 export function ReduxWrappedMuiApp(props) {

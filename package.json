@@ -10,7 +10,7 @@
     "@material-ui/lab": "4.0.0-alpha.8",
     "@material-ui/styles": "4.0.0-alpha.8",
     "@material-ui/system": "3.0.0-alpha.2",
-    "downshift": "3.2.7",
+    "downshift": "3.2.8",
     "react": "16.8.6",
     "react-color": "2.17.1",
     "react-dom": "16.8.6",
