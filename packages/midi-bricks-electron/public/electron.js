@@ -1,8 +1,12 @@
 const { BrowserWindow, app } = require('electron')
 const path = require('path')
+const fs = require('fs')
 const isDev = require('electron-is-dev')
 const windowStateKeeper = require('electron-window-state')
 require('electron').process
+
+// In main process.
+const { ipcMain, dialog } = require('electron')
 
 let win
 
@@ -67,6 +71,7 @@ function createWindow() {
     //toolbar: false
   })
 
+
   //win.setMenu(null)
 
   // Let us register listeners on the window, so we can update the state
@@ -84,6 +89,30 @@ function createWindow() {
     }
   )
 
+  ipcMain.on('asynchronous-message', (event, arg) => {
+    console.log('asynchronous-message-arrived', arg) 
+    if (arg === 'open-file-dialog') {
+      dialog.showOpenDialog(
+        { 
+          properties: ['openFile', 'openDirectory', 'multiSelections'],   
+          filters: [
+            { name: 'Custom File Type', extensions: ['js'] },
+          ]
+        }, (ob) => {
+          fs.readFile(ob[0], {}, (err, data) => {
+            const stuff = {content: JSON.parse(data), presetName: ob[0]}
+            event.sender.send('open-file-dialog-reply', stuff)
+          })
+        })
+    }
+  })
+  
+  ipcMain.on('synchronous-message', (event, arg) => {
+    console.log('sync-message arrived:', arg, event) // prints "ping"
+    //event.returnValue = 'one more timex electrons'
+  })
+
+  
   const url = isDev
     ? 'http://localhost:3000/'
     : `file://${path.join(__dirname, '../build/index.html')}`

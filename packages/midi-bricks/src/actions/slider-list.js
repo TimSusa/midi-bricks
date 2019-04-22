@@ -2,6 +2,7 @@ import { generateActions, createActionTypes } from 'redux-generate'
 
 const typeSliderList = [
   'INIT_MIDI_ACCESS',
+  'IPC_MESSAGE_ARRIVED',
   'RESET_VALUES',
   'INIT_PENDING',
   'INIT_FAILED',

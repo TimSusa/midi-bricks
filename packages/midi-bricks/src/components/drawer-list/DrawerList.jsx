@@ -3,7 +3,7 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemIcon,
+  ListItemIcon
 } from '@material-ui/core'
 import LoadIcon from '@material-ui/icons/InsertDriveFile'
 import SaveIcon from '@material-ui/icons/Save'
@@ -18,6 +18,7 @@ import DeleteModal from '../DeleteModal'
 import ViewSettingsDialog from '../GlobalViewSettingsDialog'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 import { PropTypes } from 'prop-types'
+import {addIpcFileListenerOnce, openIpcFileDialog} from './../../utils/ipc-renderer'
 
 DrawerList.propTypes = {
   classes: PropTypes.object,
@@ -30,14 +31,13 @@ DrawerList.propTypes = {
 
 export default DrawerList
 
-
-function DrawerList (props) {
+function DrawerList(props) {
   const {
     classes,
     togglePage,
     onFileChange,
     handleSaveFile,
-    handleResetSliders,
+    handleResetSliders
   } = props
   const [open, setOpen] = useState(false)
   const [isOpenViewSettings, setIsOpenViewSettings] = useState(false)
@@ -50,48 +50,48 @@ function DrawerList (props) {
           button
           onClick={() =>
             togglePage({
-              pageType: PAGE_TYPES.HOME_MODE,
+              pageType: PAGE_TYPES.HOME_MODE
             })
           }
         >
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
-          <ListItemText primary="Main" />
+          <ListItemText primary='Main' />
         </ListItem>
         <ListItem
           button
           onClick={() =>
             togglePage({
-              pageType: PAGE_TYPES.GLOBAL_MODE,
+              pageType: PAGE_TYPES.GLOBAL_MODE
             })
           }
         >
           <ListItemIcon>
             <GlobalIcon />
           </ListItemIcon>
-          <ListItemText primary="Controllers" />
+          <ListItemText primary='Controllers' />
         </ListItem>
 
         <ListItem
           button
           onClick={() =>
             togglePage({
-              pageType: PAGE_TYPES.MIDI_DRIVER_MODE,
+              pageType: PAGE_TYPES.MIDI_DRIVER_MODE
             })
           }
         >
           <ListItemIcon>
             <IconDriverSettings />
           </ListItemIcon>
-          <ListItemText primary="Drivers" />
+          <ListItemText primary='Drivers' />
         </ListItem>
 
         <ListItem
           button
           onClick={
             !isOpenViewSettings
-              ? e => {
+              ? (e) => {
                 setIsOpenViewSettings(!isOpenViewSettings)
               }
               : () => {}
@@ -100,10 +100,10 @@ function DrawerList (props) {
           <ListItemIcon>
             <ViewIcon />
           </ListItemIcon>
-          <ListItemText primary="View Settings" />
+          <ListItemText primary='View Settings' />
           <ViewSettingsDialog
             isOpen={isOpenViewSettings}
-            onClose={e => {
+            onClose={(e) => {
               setIsOpenViewSettings(!isOpenViewSettings)
               props.onClose()
             }}
@@ -112,32 +112,48 @@ function DrawerList (props) {
       </List>
       <Divider />
       <List>
-        <FileReader as="binary" onChange={handleFileChange.bind(this, onFileChange)}>
-          <ListItem button>
+        {process.env.REACT_APP_IS_WEB_MODE === 'true' ? (
+          <FileReader
+            as='binary'
+            onChange={handleFileChangeWebMode.bind(this, onFileChange)}
+          >
+            <ListItem button>
+              <ListItemIcon>
+                <LoadIcon />
+              </ListItemIcon>
+              <ListItemText primary='Load Preset' />
+            </ListItem>
+          </FileReader>
+        ) : (
+          <ListItem button onClick={(e) => {
+            // on Electron App we use ipc for file loading from main process
+            addIpcFileListenerOnce(onFileChange)
+            openIpcFileDialog()
+          }}>
             <ListItemIcon>
               <LoadIcon />
             </ListItemIcon>
-            <ListItemText primary="Load Preset" />
+            <ListItemText primary='Load Preset' />
           </ListItem>
-        </FileReader>
+        )}
       </List>
       <List>
         <ListItem button onClick={handleSaveFile}>
           <ListItemIcon>
             <SaveIcon />
           </ListItemIcon>
-          <ListItemText primary="Save Preset" />
+          <ListItemText primary='Save Preset' />
         </ListItem>
         <ListItem button onClick={() => setOpen(!open)}>
           <ListItemIcon>
             <DeleteIcon />
           </ListItemIcon>
-          <ListItemText primary="Delete All" />
+          <ListItemText primary='Delete All' />
           <DeleteModal
             isOpen={open}
             asButton={false}
             sliderEntry={{
-              i: 'me',
+              i: 'me'
             }}
             onAction={handleResetSliders}
             onClose={setOpen}
@@ -149,7 +165,7 @@ function DrawerList (props) {
   )
 }
 
-function handleFileChange(onFileChange, _, results){
+function handleFileChangeWebMode(onFileChange, _, results) {
   if (!Array.isArray(results)) {
     throw new TypeError('No file selected')
   }
@@ -157,5 +173,5 @@ function handleFileChange(onFileChange, _, results){
   const content = JSON.parse(contentRaw)
   const presetName = results[0][1].name
 
-  onFileChange({content, presetName})
+  onFileChange({ content, presetName })
 }

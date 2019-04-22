@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom' 
 import ReduxWrappedMuiApp from './providers/ReduxWrappedMuiApp'
 
-
 const rootEl = document.querySelector('#root')
 ReactDOM.render(<ReduxWrappedMuiApp />, rootEl)
 if (module.hot) {

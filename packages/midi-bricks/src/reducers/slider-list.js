@@ -524,6 +524,12 @@ export const reducers = {
     }
   },
 
+  [ActionTypeSliderList.IPC_MESSAGE_ARRIVED](state, action) {
+    //const { val, cC, channel, driver, isNoteOn } = action.payload
+    console.log('IPC_MESSAGE_ARRIVED', action.payload)
+    return state
+  },
+
   [ActionTypeSliderList.CHANGE_COLORS](state, action) {
     // Extract color fields from payload
     let fields = {}
