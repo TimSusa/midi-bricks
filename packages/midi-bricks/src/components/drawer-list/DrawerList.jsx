@@ -15,7 +15,7 @@ import React, { useState } from 'react'
 import DeleteModal from '../DeleteModal'
 import ViewSettingsDialog from '../GlobalViewSettingsDialog'
 import { ListItemLoadFileOnElectron } from './ListItemLoadFileOnElectron'
-import { ListItemSaveFileOnElectron} from './ListItemSaveFileOnElectron'
+import { ListItemSaveFileOnElectron } from './ListItemSaveFileOnElectron'
 import { ListItemLoadFileOnWeb } from './ListItemLoadFileOnWeb'
 import { PAGE_TYPES } from '../../reducers/view-settings'
 import { PropTypes } from 'prop-types'
@@ -26,10 +26,12 @@ DrawerList.propTypes = {
   handleSaveFile: PropTypes.func,
   onClose: PropTypes.func,
   onFileChange: PropTypes.func,
-  togglePage: PropTypes.func
+  togglePage: PropTypes.func,
+  version: PropTypes.string
 }
 
 export default DrawerList
+
 
 function DrawerList(props) {
   const {
@@ -37,7 +39,8 @@ function DrawerList(props) {
     togglePage,
     onFileChange,
     handleSaveFile,
-    handleResetSliders
+    handleResetSliders,
+    version
   } = props
   const [open, setOpen] = useState(false)
   const [isOpenViewSettings, setIsOpenViewSettings] = useState(false)
@@ -144,6 +147,11 @@ function DrawerList(props) {
             onClose={setOpen}
           />
         </ListItem>
+        {process.env.REACT_APP_IS_WEB_MODE === 'false' && (
+          <ListItem>
+            <ListItemText primary={`Version: ${version}`} />
+          </ListItem>
+        )}
       </List>
       <Divider />
     </React.Fragment>

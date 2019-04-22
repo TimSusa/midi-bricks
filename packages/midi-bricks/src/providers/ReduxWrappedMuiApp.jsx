@@ -37,6 +37,10 @@ ReduxWrappedMuiApp.propTypes = {
   store: PropTypes.any
 }
 
+
+
+
+
 export function ReduxWrappedMuiApp(props) {
   const { store: propsStore, children } = props
   return (

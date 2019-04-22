@@ -30,6 +30,19 @@ export function openFileDialogSync(){
   return sendSyncMsgGetResult('open-file-dialog')
 }
 
+export function requestVersion(){
+  sendAsyncMsg('get-version', {})
+}
+
+export function listenToVersion(cb){
+  ipcRenderer.once('get-version-reply', (event, payload) => {
+    // mostly this will trigger onFileLoad
+    console.log('get-version-reply', payload)
+
+    cb(payload)
+  })
+}
+
 function sendAsyncMsg(msg, payload){
   ipcRenderer.send(msg, payload)
 }

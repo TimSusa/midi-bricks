@@ -14,6 +14,7 @@ import Footer from './components/footer/Footer'
 import { PAGE_TYPES } from './reducers/view-settings'
 
 import { makeStyles } from '@material-ui/styles'
+import { requestVersion, listenToVersion } from './utils/ipc-renderer'
 
 export default connect(
   mapStateToProps,
@@ -28,15 +29,22 @@ App.propTypes = {
   initApp: PropTypes.func
 }
 
-const useStyles = makeStyles(
-  styles,
-  { withTheme: true }
-)
+const useStyles = makeStyles(styles, { withTheme: true })
 
 function App(props) {
   const classes = useStyles()
   const { actions = {}, initApp = () => {} } = props
   const [isMobileOpen, setIsMobileOpen] = useState(false)
+  const [appVersion, setAppVersion] = useState('')
+
+  React.useEffect(() => {
+    if (process.env.REACT_APP_IS_WEB_MODE === 'false') {
+      requestVersion()
+      listenToVersion((res) => {
+        setAppVersion(res.version)
+      })
+    }
+  }, [])
   return (
     <div className={classes.root}>
       <div className={classes.appBar}>
@@ -69,6 +77,7 @@ function App(props) {
             togglePage={togglePage.bind(this, props)}
             classes={classes}
             onClose={() => setIsMobileOpen(!isMobileOpen)}
+            version={appVersion}
           />
         </Drawer>
         <Home />
@@ -79,7 +88,13 @@ function App(props) {
   )
 }
 
-async function onFileChange(actions, initApp, setIsMobileOpen, { presetName, content }, e) {
+async function onFileChange(
+  actions,
+  initApp,
+  setIsMobileOpen,
+  { presetName, content },
+  e
+) {
   actions.deleteFooterPages()
   window.localStorage.clear()
 
@@ -157,7 +172,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-function styles(theme){
+function styles(theme) {
   return {
     root: {
       width: '100%',

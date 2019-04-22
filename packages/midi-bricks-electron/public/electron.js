@@ -32,6 +32,7 @@ app.on('activate', function() {
 })
 
 function createWindow() {
+  
   // Extract CLI parameter: Window Coordinates
   const windowIndex = process.argv.findIndex((item) => item === '--window') + 1
   const [xx, yy, w, h] = process.argv[windowIndex].split(',')
@@ -88,6 +89,8 @@ function createWindow() {
       callback(true)
     }
   )
+
+  // Register IPC
   ipcMain.on('open-file-dialog', (event, arg) => {
     dialog.showOpenDialog(
       {
@@ -149,6 +152,23 @@ function createWindow() {
     )
   })
 
+  ipcMain.on('get-version', (event, payload) => {
+
+    fs.readFile('./package.json', 'utf8', function(err, data) {
+      if (err) {
+        return console.log(err)
+      }
+      var result = JSON.parse(data)
+      const version = result.version
+      process.env.VERSION = version
+      console.log('version', version)
+      event.sender.send('get-version-reply', {
+        version
+      })
+    })
+    
+  })
+
   const url = isDev
     ? 'http://localhost:3000/'
     : `file://${path.join(__dirname, '../build/index.html')}`
@@ -163,3 +183,5 @@ function createWindow() {
     win = null
   })
 }
+
+
