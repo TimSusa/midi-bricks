@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks-electron",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "main": "./build/electron.js",
   "homepage": ".",
   "repository": "https://github.com/TimSusa/midi-bricks-mono/tree/master/packages/midi-bricks-electron",
