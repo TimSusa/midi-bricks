@@ -422,6 +422,7 @@ export const reducers = {
   },
 
   [ActionTypeSliderList.SAVE_FILE](state, action) {
+    // This is actuall only envolved in web app mode, not in electron mode
     const {
       viewSettings,
       sliders: { sliderList = [], presetName }
@@ -462,43 +463,43 @@ export const reducers = {
     const {
       payload: {
         presetName,
-        content: { sliders: { sliderList = [] } = {} } = {}
+        content: { sliders: { sliderList: sliderListOld = [] } = {} } = {}
       } = {}
     } = action
 
-    const decoratedSliderList =
-      (Array.isArray(sliderList) &&
-      sliderList.map((item) => {
-        const {
-          val = 0,
-          onVal = 127,
-          offVal = 0,
-          minVal = 0,
-          maxVal = 127,
-          driverName = 'None',
-          driverNameInput = 'None'
-        } = item
+    const sliderList =
+      (Array.isArray(sliderListOld) &&
+        sliderListOld.map((item) => {
+          const {
+            val = 0,
+            onVal = 127,
+            offVal = 0,
+            minVal = 0,
+            maxVal = 127,
+            driverName = 'None',
+            driverNameInput = 'None'
+          } = item
 
-        return {
-          ...item,
-          lastSavedVal: val,
-          onVal,
-          offVal,
-          minVal,
-          maxVal,
-          midi: undefined,
-          outputId: undefined,
-          driverName,
-          driverNameInput
-        }
-      })) ||
+          return {
+            ...item,
+            lastSavedVal: val,
+            onVal,
+            offVal,
+            minVal,
+            maxVal,
+            midi: undefined,
+            outputId: undefined,
+            driverName,
+            driverNameInput
+          }
+        })) ||
       []
 
     return {
       ...state,
-      sliderList: decoratedSliderList || [],
+      sliderList,
       presetName,
-      sliderListBackup: decoratedSliderList || []
+      sliderListBackup: sliderList
     }
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER](state, action) {

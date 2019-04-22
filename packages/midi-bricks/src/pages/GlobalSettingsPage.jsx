@@ -193,10 +193,13 @@ function GlobalSettingsPage(props) {
                 <Tooltip title={title + channelTooltipTitle} key={`glb-${idx}`}>
                   <TableRow
                     style={rowStyle}
-                    onClick={actions.toggleSettingsDialogMode.bind(this, {
-                      idx,
-                      isSettingsDialogMode: true
-                    })}
+                    onClick={(e) => {
+                      actions.setLastFocusedIndex({ i })
+                      actions.toggleSettingsDialogMode({
+                        idx,
+                        isSettingsDialogMode: true
+                      })
+                    }}
                   >
                     <TableCell>{label || '-'}</TableCell>
                     <TableCell>{type}</TableCell>
