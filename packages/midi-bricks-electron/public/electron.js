@@ -88,40 +88,65 @@ function createWindow() {
       callback(true)
     }
   )
-
-  ipcMain.on('asynchronous-message', (event, arg) => {
-    console.log('asynchronous-message-arrived', arg)
-    if (arg === 'open-file-dialog') {
-      dialog.showOpenDialog(
-        {
-          properties: ['openFile'],
-          filters: [
-            {
-              name: 'javascript',
-              extensions: ['js']
-            },
-            {
-              name: 'json',
-              extensions: ['json']
-            }
-          ]
-        },
-        (ob) => {
-          if (ob === undefined) {
-            return
+  ipcMain.on('open-file-dialog', (event, arg) => {
+    dialog.showOpenDialog(
+      {
+        properties: ['openFile'],
+        filters: [
+          {
+            name: 'javascript',
+            extensions: ['js']
+          },
+          {
+            name: 'json',
+            extensions: ['json']
           }
-          fs.readFile(ob[0], {}, (err, data) => {
-            const stuff = { content: JSON.parse(data), presetName: ob[0] }
-            event.sender.send('open-file-dialog-reply', stuff)
-          })
+        ]
+      },
+      (filenames) => {
+        if (filenames === undefined) {
+          return
         }
-      )
-    }
+        fs.readFile(filenames[0], {}, (err, data) => {
+          const stuff = { content: JSON.parse(data), presetName: filenames[0] }
+          event.sender.send('open-file-dialog-reply', stuff)
+        })
+      }
+    )
   })
 
-  ipcMain.on('synchronous-message', (event, arg) => {
-    console.log('sync-message arrived:', arg, event) // prints "ping"
-    //event.returnValue = 'one more timex electrons'
+  ipcMain.on('save-file-dialog', (event, arg) => {
+    dialog.showSaveDialog(
+      {
+        properties: ['openFile'],
+        defaultPath: app.getAppPath(),
+        filters: [
+          {
+            name: 'javascript',
+            extensions: ['js']
+          },
+          {
+            name: 'json',
+            extensions: ['json']
+          }
+        ]
+      },
+      (filename, bookmark) => {
+        if (filename === undefined) {
+          return
+        }
+        const json = JSON.stringify(arg)
+        fs.writeFile(filename, json, 'utf8', (err, data) => {
+          if (err) {
+            throw new Error(err)
+          }
+        })
+        event.sender.send('save-file-dialog-reply', {
+          presetName: filename,
+          content: arg
+        })
+      }
+    )
   })
 
   const url = isDev

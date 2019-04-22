@@ -173,7 +173,12 @@ export const reducers = {
     return { ...state, sliderList, sliderListBackup: state.sliderList }
   },
   [ActionTypeSliderList.DELETE_ALL](state, action) {
-    return { ...state, sliderList: [], sliderListBackup: state.sliderList }
+    return {
+      ...state,
+      sliderList: [],
+      presetName: '',
+      sliderListBackup: state.sliderList
+    }
   },
 
   [ActionTypeSliderList.HANDLE_SLIDER_CHANGE](state, action) {
@@ -454,7 +459,9 @@ export const reducers = {
     return { ...state }
   },
   [ActionTypeSliderList.LOAD_FILE](state, action) {
-    const {payload: {presetName, content}} = action
+    const {
+      payload: { presetName, content }
+    } = action
     const tmp =
       (content.sliderList && content.sliderList) ||
       (content.sliders.sliderList && content.sliders.sliderList) ||
@@ -522,12 +529,6 @@ export const reducers = {
       sliderList,
       monitorVal: { val, cC, channel, driver, isNoteOn }
     }
-  },
-
-  [ActionTypeSliderList.IPC_MESSAGE_ARRIVED](state, action) {
-    //const { val, cC, channel, driver, isNoteOn } = action.payload
-    console.log('IPC_MESSAGE_ARRIVED', action.payload)
-    return state
   },
 
   [ActionTypeSliderList.CHANGE_COLORS](state, action) {

@@ -29,39 +29,7 @@ App.propTypes = {
 }
 
 const useStyles = makeStyles(
-  (theme) => ({
-    root: {
-      width: '100%',
-      height: '100%',
-      zIndex: 1
-    },
-    appFrame: {
-      position: 'relative',
-      display: 'flex',
-      width: '100%',
-      height: '100%'
-    },
-    appBar: {
-      zIndex: theme.zIndex.drawer + 1,
-      position: 'absolute',
-      right: 0,
-      left: 0,
-      margin: 0
-    },
-    navIconHide: {},
-    drawerHeader: {
-      ...theme.mixins.toolbar
-    },
-    drawerPaper: {
-      width: 250,
-      backgroundColor: 'white'
-    },
-    content: {
-      backgroundColor: theme.palette.background.default,
-      width: '100%',
-      marginTop: theme.spacing(1)
-    }
-  }),
+  styles,
   { withTheme: true }
 )
 
@@ -186,5 +154,41 @@ function mapDispatchToProps(dispatch) {
       dispatch
     ),
     initApp: bindActionCreators(initApp, dispatch)
+  }
+}
+
+function styles(theme){
+  return {
+    root: {
+      width: '100%',
+      height: '100%',
+      zIndex: 1
+    },
+    appFrame: {
+      position: 'relative',
+      display: 'flex',
+      width: '100%',
+      height: '100%'
+    },
+    appBar: {
+      zIndex: theme.zIndex.drawer + 1,
+      position: 'absolute',
+      right: 0,
+      left: 0,
+      margin: 0
+    },
+    navIconHide: {},
+    drawerHeader: {
+      ...theme.mixins.toolbar
+    },
+    drawerPaper: {
+      width: 250,
+      backgroundColor: 'white'
+    },
+    content: {
+      backgroundColor: theme.palette.background.default,
+      width: '100%',
+      marginTop: theme.spacing(1)
+    }
   }
 }
