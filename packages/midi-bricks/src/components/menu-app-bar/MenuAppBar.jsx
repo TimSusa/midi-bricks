@@ -88,50 +88,62 @@ function MenuAppBar(props) {
               Layout Mode Running...
             </Typography>
           )}
-          <IconButton
-            onClick={actions.toggleCompactMode}
-            className={classes.menuButton}
-            color='inherit'
-            aria-label='Menu'
-          >
-            {isLayoutMode ? (
-              isCompactHorz ? (
-                <Tooltip
-                  disableHoverListener={false}
-                  title='Gravity horizontal'
+
+          {isLayoutMode ? (
+            isCompactHorz ? (
+              <Tooltip disableHoverListener={false} title='Gravity horizontal'>
+                <IconButton
+                  onClick={actions.toggleCompactMode}
+                  className={classes.menuButton}
+                  color='inherit'
+                  aria-label='Menu'
                 >
                   <SwapHorizIcon />
-                </Tooltip>
-              ) : (
-                <Tooltip disableHoverListener={false} title='Gravity vertical'>
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <Tooltip disableHoverListener={false} title='Gravity vertical'>
+                <IconButton
+                  onClick={actions.toggleCompactMode}
+                  className={classes.menuButton}
+                  color='inherit'
+                  aria-label='Menu'
+                >
                   <SwapVertIcon />
-                </Tooltip>
-              )
-            ) : (
-              <div />
-            )}
-          </IconButton>
+                </IconButton>
+              </Tooltip>
+            )
+          ) : (
+            <div />
+          )}
 
-          <IconButton
-            onClick={actions.toggleAutoArrangeMode}
-            className={classes.menuButton}
-            color='inherit'
-            aria-label='Menu'
-          >
-            {isLayoutMode ? (
-              isAutoArrangeMode ? (
-                <Tooltip disableHoverListener={false} title='Automatic Gravity'>
+          {isLayoutMode ? (
+            isAutoArrangeMode ? (
+              <Tooltip disableHoverListener={false} title='Automatic Gravity'>
+                <IconButton
+                  onClick={actions.toggleAutoArrangeMode}
+                  className={classes.menuButton}
+                  color='inherit'
+                  aria-label='Menu'
+                >
                   <AutoArrangeModeIcon />
-                </Tooltip>
-              ) : (
-                <Tooltip disableHoverListener={false} title='Static Gravity'>
-                  <AutoArrangeModeIconFalse />
-                </Tooltip>
-              )
+                </IconButton>
+              </Tooltip>
             ) : (
-              <div />
-            )}
-          </IconButton>
+              <Tooltip disableHoverListener={false} title='Static Gravity'>
+                <IconButton
+                  onClick={actions.toggleAutoArrangeMode}
+                  className={classes.menuButton}
+                  color='inherit'
+                  aria-label='Menu'
+                >
+                  <AutoArrangeModeIconFalse />
+                </IconButton>
+              </Tooltip>
+            )
+          ) : (
+            <div />
+          )}
 
           {isLayoutMode && <AddMenu />}
           {pageType === PAGE_TYPES.GLOBAL_MODE && (
