@@ -341,7 +341,8 @@ function styles(theme) {
       height: 32,
       textTransform: 'none',
       fontSize: '12px',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      color: theme.palette.primary.contrastText
     }
   }
 }
