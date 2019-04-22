@@ -60,8 +60,8 @@ describe('E2E Tests for MIDI-Bricks will get started...', function() {
     return helpers.stopApplication(app)
   })
 
-  it('Check for right window adjustment', function() {
-    winInit(app)
+  it('Check for right window adjustment', async function() {
+    await winInit(app)
       .browserWindow.isMinimized()
       .should.eventually.be.false.browserWindow.isDevToolsOpened()
       .should.eventually.be.true.browserWindow.isVisible()
@@ -72,20 +72,6 @@ describe('E2E Tests for MIDI-Bricks will get started...', function() {
       .browserWindow.getBounds()
       .should.eventually.have.property('height')
       .and.be.above(0)
-
-    return app
-  })
-
-  it('Page Title should be MIDI Bricks', function() {
-    app.client.browserWindow.getTitle().should.eventually.equal('MIDI Bricks')
-
-    return app
-  })
-
-  it.skip('Open Drawer Menu Left', function() {
-    app.client.click('button[aria-label="Menu"]')
-    //.element('span*=Load Preset')
-    //.isVisible()
 
     return app
   })
@@ -109,14 +95,58 @@ describe('E2E Tests for MIDI-Bricks will get started...', function() {
     return app
   })
 
+  it('Page Title should be MIDI Bricks + Open Drawer Menu and check some page elements', async function() {
+    const { client } = app
+
+    const burgerMenuSelector = 'button[aria-label="Menu"]'
+    const viewSettingsSelector = 'span*=Views Settings'
+    const closeViewSettingsSelector = 'span*=Close'
+    await client.browserWindow.getTitle().should.eventually.equal('MIDI Bricks')
+
+    await isSelectorVisible(client, burgerMenuSelector)
+
+    await client
+      .click(burgerMenuSelector)
+      .click('span*=Main')
+      .click('span*=Controllers')
+      .click('span*=Drivers')
+
+    await isSelectorVisible(client, viewSettingsSelector)
+    await client.click(
+      viewSettingsSelector
+    )
+
+    await isSelectorVisible(client, closeViewSettingsSelector)
+    await client.click(
+      closeViewSettingsSelector
+    )
+
+    return app
+  })
+
+  it('Open Drawer Menu Left and delete all elements', async function() {
+    await app.client
+      .click('button[aria-label="Menu"]')
+      .click('span*=Delete All')
+      .click('span*=Yes, Delete')
+
+    return app
+  })
+
   it('Layout-Mode: Test Menu-App-Bar Logic', async function() {
     const { client } = app
     let isMen = await isSelectorVisible(client, menuBarSelector)
     // No menu bar there? Just again click it
     !isMen && (await app.client.click(liveButtonSelector))
-    isMen = await isSelectorVisible(client, menuBarSelector).should.not.eventually.equal(null)
+    isMen = await isSelectorVisible(
+      client,
+      menuBarSelector
+    ).should.not.eventually.equal(null)
 
-    await isSelectorVisible(client, menuBarSelector).should.not.eventually.equal(null)
+    await isSelectorVisible(
+      client,
+      menuBarSelector
+    ).should.not.eventually.equal(null)
 
     // // Add Page
     await switchToLayoutMode(client)
@@ -142,7 +172,11 @@ describe('E2E Tests for MIDI-Bricks will get started...', function() {
     await addElementAndCheckIfCommitted(app, winInit, addButtonCcSelector)
 
     // Add Program Change Button
-    await addElementAndCheckIfCommitted(app, winInit, addButtonProgramChangeSelector)
+    await addElementAndCheckIfCommitted(
+      app,
+      winInit,
+      addButtonProgramChangeSelector
+    )
 
     // Add XY Pad
     await addElementAndCheckIfCommitted(app, winInit, addXyPadSelector)
@@ -168,7 +202,8 @@ async function addElementAndCheckIfCommitted(app, winInit, selector) {
 async function isSelectorVisible(client, selector) {
   const { type } = await client.element(selector)
   const isVisible = type !== 'NoSuchElement'
-
+  // eslint-disable-next-line no-console
+  !isVisible && console.warn('Selector', selector, 'cannot be found!')
   return isVisible
 }
 
@@ -210,7 +245,7 @@ async function commitElement(client, selector) {
     )
   }
   isCommitBtnThere &&
-    (console.log('succeeded committing selector:', selector) ||
+    (console.log('Succeeded committing selector:', selector) ||
       (await client.click(layoutCommitButtonSelector)))
   return client
 }

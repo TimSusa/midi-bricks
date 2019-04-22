@@ -8,19 +8,28 @@ import Dialog from '@material-ui/core/Dialog'
 import GlobalViewSettings from './GlobalViewSettings'
 import { Typography } from '@material-ui/core'
 
-const ViewSettingsDialog = props => {
+export default GlobalViewSettingsDialog
+
+GlobalViewSettingsDialog.propTypes = {
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
+  sliderEntry: PropTypes.object,
+  value: PropTypes.string
+}
+
+function GlobalViewSettingsDialog(props) {
   const { isOpen = true, sliderEntry, onClose, ...other } = props
   return (
     <Dialog
       open={isOpen}
       onKeyDown={handleKeydown.bind(this, onClose)}
       disableBackdropClick
-      aria-labelledby="confirmation-dialog-title"
+      aria-labelledby='confirmation-dialog-title'
       {...other}
     >
-      <DialogTitle id="confirmation-dialog-title">
-        <Typography color="secondary" variant="body1">
-          View Settings
+      <DialogTitle id='confirmation-dialog-title'>
+        <Typography color='secondary' variant='body1'>
+          Global-View-Settings
         </Typography>
       </DialogTitle>
       <DialogContent>
@@ -28,10 +37,10 @@ const ViewSettingsDialog = props => {
       </DialogContent>
       <DialogActions>
         <Button
-          onClick={e => {
+          onClick={(e) => {
             props.onClose()
           }}
-          color="secondary"
+          color='secondary'
         >
           Close
         </Button>
@@ -40,17 +49,10 @@ const ViewSettingsDialog = props => {
   )
 }
 
-const handleKeydown = (onClose, e) => {
+function handleKeydown(onClose, e) {
   // Enter key will close dialog
   if (e.keyCode === 13) {
     onClose()
     e.preventDefault()
   }
 }
-
-ViewSettingsDialog.propTypes = {
-  onClose: PropTypes.func,
-  value: PropTypes.string,
-}
-
-export default ViewSettingsDialog

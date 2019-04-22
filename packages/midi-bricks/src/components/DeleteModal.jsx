@@ -84,7 +84,7 @@ export function DeleteModalComponent(props) {
             color='secondary'
             autoFocus
           >
-            Yes, Delete!
+            Yes, Delete
           </Button>
         </DialogActions>
       </Dialog>
