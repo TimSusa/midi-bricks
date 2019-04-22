@@ -337,10 +337,11 @@ function styles(theme) {
     },
     resetButton: {
       padding: '0 8px 0 8px',
-      marginLeft: '16px',
-      height: '32px',
+      marginLeft: theme.spacing(2),
+      height: 32,
       textTransform: 'none',
-      fontSize: '12px'
+      fontSize: '12px',
+      overflow: 'hidden'
     }
   }
 }
