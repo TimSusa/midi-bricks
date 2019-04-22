@@ -460,39 +460,46 @@ export const reducers = {
   },
   [ActionTypeSliderList.LOAD_FILE](state, action) {
     const {
-      payload: { presetName, content }
+      payload: {
+        presetName,
+        content: { sliders: { sliderList = [] } = {} } = {}
+      } = {}
     } = action
-    const tmp =
-      (content.sliderList && content.sliderList) ||
-      (content.sliders.sliderList && content.sliders.sliderList) ||
-      content
 
-    // If somebody loads an old preset, add standard values
-    const sliderList = tmp.map((item) => {
-      const {
-        val = 0,
-        onVal = 127,
-        offVal = 0,
-        minVal = 0,
-        maxVal = 127,
-        driverName = 'None',
-        driverNameInput = 'None'
-      } = item
+    const decoratedSliderList =
+      (Array.isArray(sliderList) &&
+      sliderList.map((item) => {
+        const {
+          val = 0,
+          onVal = 127,
+          offVal = 0,
+          minVal = 0,
+          maxVal = 127,
+          driverName = 'None',
+          driverNameInput = 'None'
+        } = item
 
-      return {
-        ...item,
-        lastSavedVal: val,
-        onVal,
-        offVal,
-        minVal,
-        maxVal,
-        midi: undefined,
-        outputId: undefined,
-        driverName,
-        driverNameInput
-      }
-    })
-    return { ...state, sliderList, presetName, sliderListBackup: sliderList }
+        return {
+          ...item,
+          lastSavedVal: val,
+          onVal,
+          offVal,
+          minVal,
+          maxVal,
+          midi: undefined,
+          outputId: undefined,
+          driverName,
+          driverNameInput
+        }
+      })) ||
+      []
+
+    return {
+      ...state,
+      sliderList: decoratedSliderList || [],
+      presetName,
+      sliderListBackup: decoratedSliderList || []
+    }
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER](state, action) {
     const { listOrder } = action.payload
