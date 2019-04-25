@@ -39,7 +39,7 @@
     "eslint-plugin-react-hooks": "1.6.0",
     "eslint-plugin-unicorn": "8.0.2",
     "lerna": "3.13.3",
-    "now": "15.0.6",
+    "now": "15.0.8",
     "react-scripts": "2.1.8",
     "redux-mock-store": "1.5.3"
   },
