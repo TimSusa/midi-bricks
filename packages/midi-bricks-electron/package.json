@@ -19,14 +19,14 @@
     "asarUnpack": true,
     "win": {
       "target": "nsis",
-      "icon": "build/icon.ico",
+      "icon": "build/icons/icon.ico",
       "publish": [
         "github"
       ]
     },
     "mac": {
       "category": "your.app.category.type",
-      "icon": "build/icon.icns",
+      "icon": "build/icons/icon.icns",
       "publish": [
         "github"
       ]
