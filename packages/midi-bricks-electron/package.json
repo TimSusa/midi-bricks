@@ -70,7 +70,7 @@
     "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
     "build": "react-scripts build && electron-builder --mac --win",
     "pack": "electron-builder --dir --mac --win",
-    "release": "GH_TOKEN=4c554ba9019bdd55e1e10b6bd6f03de250858116 build",
+    "release": "GH_TOKEN=50a2ad49a33878270ec403b031c098c2acca0c46 build",
     "test": "react-scripts test --colors",
     "test-e2e-ci": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && CI=true mocha --colors\"",
     "test-e2e": "CI=true mocha --colors",
@@ -79,3 +79,4 @@
   },
   "gitHead": "aafdf0d3ef42b4bd010ada5d7fa3603505bf57df"
 }
+

@@ -23,6 +23,6 @@
   },
   "gitHead": "7a8cfbeaa7eeb21f5a28e53626ce8552eee114b6",
   "devDependencies": {
-    "react-scripts": "2.1.8"
+    "react-scripts": "3.0.0"
   }
 }
