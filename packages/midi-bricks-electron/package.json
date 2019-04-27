@@ -1,7 +1,7 @@
 {
   "name": "midi-bricks-electron",
   "productName": "MIDI Brikx",
-  "version": "1.1.13",
+  "version": "1.1.14",
   "main": "./build/electron.js",
   "homepage": ".",
   "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
@@ -70,14 +70,14 @@
   ],
   "scripts": {
     "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
-    "build": "react-scripts build",
-    "pack": "build --mac --win --dir",
-    "publish": "GH_TOKEN=b46ba43be0bc07738c8575bfe8222dc14887f87a build --mac --win -p always",
+    "build": "react-scripts build && build .env --mac --win",
+    "pack": "build .env --mac --win --dir",
+    "publish": "build .env --mac --win -p always",
     "test": "react-scripts test --colors",
     "test-e2e-ci": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && CI=true mocha --colors\"",
     "test-e2e": "CI=true mocha --colors",
     "postinstall": "electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
     "clean": "rimraf build && rimraf dist && rimraf src && cp -R node_modules/midi-bricks/src src"
   },
-  "gitHead": "7a8cfbeaa7eeb21f5a28e53626ce8552eee114b6"
+  "gitHead": "aafdf0d3ef42b4bd010ada5d7fa3603505bf57df"
 }
