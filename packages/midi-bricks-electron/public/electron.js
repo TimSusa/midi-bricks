@@ -24,19 +24,19 @@ let win = null
 !isDev && app.commandLine.appendSwitch('overscroll-history-navigation=0')
 
 autoUpdater.on('checking-for-update', () => {
-  console.log('Checking for update...')
+  log.info('Checking for update...')
   sendStatusToWindow('Checking for update...')
 })
 autoUpdater.on('update-available', (info) => {
-  console.log('Checking for update...')
+  log.info('Checking for update...')
   sendStatusToWindow('Update available.')
 })
 autoUpdater.on('update-not-available', (info) => {
-  console.log('update-not-available')
+  log.info('update-not-available')
   sendStatusToWindow('Update not available.')
 })
 autoUpdater.on('error', (err) => {
-  console.error('error..')
+  log.error('error..')
   sendStatusToWindow('Error in auto-updater. ' + err)
 })
 autoUpdater.on('download-progress', (progressObj) => {
@@ -47,7 +47,7 @@ autoUpdater.on('download-progress', (progressObj) => {
   sendStatusToWindow(log_message)
 })
 autoUpdater.on('update-downloaded', (info) => {
-  console.log('update-not-available')
+  log.info('update-not-available')
   sendStatusToWindow('Update downloaded')
 })
 
@@ -58,7 +58,7 @@ if (!gotTheLock) {
 } else {
   app.on('second-instance', (event, commandLine, workingDirectory) => {
     // Someone tried to run a second instance, we should focus our window.
-    console.log('S omeone tried to run a second instance, we should focus our window.')
+    log.info('S omeone tried to run a second instance, we should focus our window.')
     if (win) {
       if (win.isMinimized()) win.restore()
       win.focus()
@@ -108,7 +108,7 @@ function createWindow() {
     } || mainWindowState
 
   // const pathToIcon = './icons/icon_512@1x.png'
-  // console.log('patchx exists?', path.exists(pathToIcon))
+  // log.info('patchx exists?', path.exists(pathToIcon))
   // Create the window using the state information
   win = new BrowserWindow({
     x,

@@ -1,7 +1,7 @@
 {
   "name": "midi-bricks-electron",
   "productName": "MIDI Brikx",
-  "version": "1.1.32",
+  "version": "v1.1.32",
   "main": "./build/electron.js",
   "homepage": ".",
   "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
@@ -18,7 +18,7 @@
     "asar": true,
     "asarUnpack": true,
     "win": {
-      "target": "nsis-web",
+      "target": "nsis",
       "icon": "build/icon.ico",
       "publish": [
         "github"
@@ -72,7 +72,7 @@
     "build:app": "electron-builder --mac --win",
     "build:web": "react-scripts build",
     "pack": "electron-builder --dir --mac --win",
-    "release": "build -p all",
+    "release": "build -p always",
     "test": "react-scripts test --colors",
     "test-e2e-ci": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && CI=true mocha --colors\"",
     "test-e2e": "CI=true mocha --colors",
