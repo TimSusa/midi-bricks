@@ -121,6 +121,7 @@ function createWindow() {
     //toolbar: false
   })
   //win.setMenu(null)
+  sendStatusToWindow('Was los Digga?')
 
   // Let us register listeners on the window, so we can update the state
   // automatically (the listeners will be removed when the window is closed)
@@ -138,7 +139,6 @@ function createWindow() {
     }
   )
 
-  sendStatusToWindow('Was los Digga?')
 
   // Register IPC
   ipcMain.on('open-file-dialog', (event, arg) => {
@@ -220,13 +220,14 @@ function createWindow() {
 
 function sendStatusToWindow(text) {
   log.info(text)
-  let myNotification = new Notification('Nachricht: ', {
+  //let myNotification = 
+  return new Notification('Nachricht: ', {
     body: text
   })
   
-  myNotification.addEventListener('click', () => {
-    log.info('Notification clicked')
-  })
+  // myNotification.addEventListener('click', () => {
+  //   log.info('Notification clicked')
+  // })
   // win.webContents.send('message', text)
 }
 
