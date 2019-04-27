@@ -90,7 +90,8 @@ async function onFileChange(
   actions.deleteFooterPages()
   window.localStorage.clear()
 
-  actions.loadFile({ presetName, content }) // Prepare foooterpages flush
+  // Prepare foooterpages flush
+  actions.loadFile({ presetName, content }) 
 
   const {
     viewSettings,
