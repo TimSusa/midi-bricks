@@ -120,7 +120,7 @@ function createWindow() {
     //skipTaskbar: false,
     //toolbar: false
   })
-  //win.setMenu(null)
+  win.setMenu(null)
 
   // Let us register listeners on the window, so we can update the state
   // automatically (the listeners will be removed when the window is closed)
