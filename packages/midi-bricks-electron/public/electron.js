@@ -7,12 +7,54 @@ require('electron').process
 
 // In main process.
 const { ipcMain, dialog } = require('electron')
+const log = require('electron-log')
+const { autoUpdater } = require('electron-updater')
+//-------------------------------------------------------------------
+// Logging
+//
+// THIS SECTION IS NOT REQUIRED
+//
+// This logging setup is not required for auto-updates to work,
+// but it sure makes debugging easier :)
+//-------------------------------------------------------------------
+autoUpdater.logger = log
+autoUpdater.logger.transports.file.level = 'info'
+log.info('App starting...')
 
 let win = null
 
 // Prevent Zoom, disrupting touches
 !isDev && app.commandLine.appendSwitch('disable-pinch')
 !isDev && app.commandLine.appendSwitch('overscroll-history-navigation=0')
+
+autoUpdater.on('checking-for-update', () => {
+  console.log('Checking for update...')
+  sendStatusToWindow('Checking for update...')
+})
+autoUpdater.on('update-available', (info) => {
+  sendStatusToWindow('Update available.')
+})
+autoUpdater.on('update-not-available', (info) => {
+  sendStatusToWindow('Update not available.')
+})
+autoUpdater.on('error', (err) => {
+  sendStatusToWindow('Error in auto-updater. ' + err)
+})
+autoUpdater.on('download-progress', (progressObj) => {
+  let log_message = 'Download speed: ' + progressObj.bytesPerSecond
+  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%'
+  log_message =
+    log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')'
+  sendStatusToWindow(log_message)
+})
+autoUpdater.on('update-downloaded', (info) => {
+  sendStatusToWindow('Update downloaded')
+})
+
+function sendStatusToWindow(text) {
+  log.info(text)
+  win.webContents.send('message', text)
+}
 
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -32,7 +74,8 @@ app.on('activate', function() {
 })
 
 function createWindow() {
-  
+  autoUpdater.checkForUpdatesAndNotify()
+
   // Extract CLI parameter: Window Coordinates
   const windowIndex = process.argv.findIndex((item) => item === '--window') + 1
   const [xx, yy, w, h] = process.argv[windowIndex].split(',')
@@ -55,6 +98,8 @@ function createWindow() {
       height: parseInt(h, 10)
     } || mainWindowState
 
+  // const pathToIcon = './icons/icon_512@1x.png'
+  // console.log('patchx exists?', path.exists(pathToIcon))
   // Create the window using the state information
   win = new BrowserWindow({
     x,
@@ -64,10 +109,9 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true
     },
-    icon: path.join(__dirname, 'icons/310x310.png'),
     title: 'MIDI Bricks',
     vibrancy: 'dark'
-    //frame: false,
+    // frame: false,
     //titleBarStyle: 'hidden',
     //skipTaskbar: false,
     //toolbar: false
@@ -81,7 +125,8 @@ function createWindow() {
   mainWindowState.manage(win)
 
   // Check for develper console
-  isDevelopmentCli && win.webContents.openDevTools()
+  // isDevelopmentCli && win.webContents.openDevTools()
+  win.webContents.openDevTools()
 
   win.webContents.session.setPermissionRequestHandler(
     (webContents, permission, callback) => {
@@ -158,7 +203,7 @@ function createWindow() {
 
   win.loadURL(url)
 
-  // Emitted when the window is closed.
+  //  Emitted when the window is closed.
   win.on('closed', function() {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
@@ -166,5 +211,3 @@ function createWindow() {
     win = null
   })
 }
-
-

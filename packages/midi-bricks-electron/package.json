@@ -1,32 +1,51 @@
 {
   "name": "midi-bricks-electron",
-  "version": "1.0.13",
+  "productName": "MIDI Brikx",
+  "version": "1.1.0",
   "main": "./build/electron.js",
   "homepage": ".",
-  "repository": "https://github.com/TimSusa/midi-bricks-mono/tree/master/packages/midi-bricks-electron",
+  "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
   "description": "Midi Bricks for all!",
   "author": "TimSusa <timmsusa@googlemail.com>",
+  "copyright": "Copyright © year ${author}",
   "license": "MIT",
   "files": [
     "public",
     "build"
   ],
   "build": {
-    "appId": "tim.susa.midi-bricks.de",
+    "appId": "com.electron.midi-bricks-electron",
+    "asar": true,
+    "asarUnpack": true,
     "mac": {
-      "category": "your.app.category.type"
+      "category": "your.app.category.type",
+      "icon": "build/icon.icns",
+      "publish": [
+        "github"
+      ]
     },
     "win": {
       "target": "nsis",
-      "icon": "build/icon.ico"
+      "icon": "build/icon.ico",
+      "publish": [
+        "github"
+      ]
     },
     "files": [
       "build/**/*"
-    ]
+    ],
+    "publish": {
+      "provider": "github",
+      "token": "a96ae57a42e26ebfed2302c722a4bd14b7398953",
+      "publishAutoUpdate": true,
+      "releaseType": "release"
+    }
   },
   "dependencies": {
     "electron-is-dev": "^1.0.1",
+    "electron-log": "^3.0.5",
     "electron-publish": "20.39.0",
+    "electron-updater": "^4.0.6",
     "electron-window-state": "5.0.3"
   },
   "devDependencies": {
@@ -38,7 +57,7 @@
     "electron-builder": "20.39.0",
     "midi-bricks": "^1.0.13",
     "mocha": "6.0.2",
-    "react-scripts": "2.1.8",
+    "react-scripts": "3.0.0",
     "rimraf": "2.6.3",
     "spectron": "5.0.0",
     "wait-for-localhost-cli": "1.1.0"
@@ -51,7 +70,8 @@
   ],
   "scripts": {
     "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
-    "build": "react-scripts build && build --mac --win",
+    "build": "react-scripts build && GH_TOKEN=a96ae57a42e26ebfed2302c722a4bd14b7398953 build --mac --win -p always",
+    "pack": "build --mac --win --dir ",
     "test": "react-scripts test --colors",
     "test-e2e-ci": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && CI=true mocha --colors\"",
     "test-e2e": "CI=true mocha --colors",
