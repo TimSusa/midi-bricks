@@ -25,7 +25,7 @@
       ]
     },
     "win": {
-      "target": "nsis",
+      "target": "nsis-web",
       "icon": "build/icon.ico",
       "publish": [
         "github"

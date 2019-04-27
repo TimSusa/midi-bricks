@@ -31,12 +31,15 @@ autoUpdater.on('checking-for-update', () => {
   sendStatusToWindow('Checking for update...')
 })
 autoUpdater.on('update-available', (info) => {
+  console.log('Checking for update...')
   sendStatusToWindow('Update available.')
 })
 autoUpdater.on('update-not-available', (info) => {
+  console.log('update-not-available')
   sendStatusToWindow('Update not available.')
 })
 autoUpdater.on('error', (err) => {
+  console.error('error...')
   sendStatusToWindow('Error in auto-updater. ' + err)
 })
 autoUpdater.on('download-progress', (progressObj) => {
@@ -47,6 +50,7 @@ autoUpdater.on('download-progress', (progressObj) => {
   sendStatusToWindow(log_message)
 })
 autoUpdater.on('update-downloaded', (info) => {
+  console.log('update-not-available')
   sendStatusToWindow('Update downloaded')
 })
 
@@ -124,8 +128,6 @@ function createWindow() {
     //skipTaskbar: false,
     //toolbar: false
   })
-  log.info('fuck')
-  win.webContents.send('message', 'fuck')
   //win.setMenu(null)
 
   // Let us register listeners on the window, so we can update the state
@@ -226,5 +228,5 @@ function createWindow() {
 
 function sendStatusToWindow(text) {
   log.info(text)
-  win.webContents.send('message', text)
+  // win.webContents.send('message', text)
 }
