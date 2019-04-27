@@ -50,7 +50,7 @@ function App(props) {
           }}
           onClose={() => setIsMobileOpen(!isMobileOpen)}
           ModalProps={{
-            keepMounted: true // Better open performance on mobile.
+            keepMounted: true // Better open performance on mobile .
           }}
         >
           <DrawerList
