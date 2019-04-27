@@ -1,4 +1,4 @@
-const { BrowserWindow, app } = require('electron')
+const { BrowserWindow, app, Notification } = require('electron')
 const path = require('path')
 const fs = require('fs')
 const isDev = require('electron-is-dev')
@@ -138,7 +138,7 @@ function createWindow() {
     }
   )
 
-
+  sendStatusToWindow('Was los Digga?')
 
   // Register IPC
   ipcMain.on('open-file-dialog', (event, arg) => {
@@ -220,12 +220,12 @@ function createWindow() {
 
 function sendStatusToWindow(text) {
   log.info(text)
-  let myNotification = new Notification('Title', {
+  let myNotification = new Notification('Nachricht: ', {
     body: text
   })
   
   myNotification.addEventListener('click', () => {
-    console.log('Notification clicked')
+    log.info('Notification clicked')
   })
   // win.webContents.send('message', text)
 }
