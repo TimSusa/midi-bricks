@@ -70,7 +70,7 @@
     "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
     "build": "react-scripts build && electron-builder --mac --win",
     "pack": "electron-builder --dir --mac --win",
-    "release": "build",
+    "release": "GH_TOKEN=4d0dc3983b4bc6e4ba7235849828d938a498cd55 build",
     "test": "react-scripts test --colors",
     "test-e2e-ci": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && CI=true mocha --colors\"",
     "test-e2e": "CI=true mocha --colors",
