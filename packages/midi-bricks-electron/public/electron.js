@@ -24,19 +24,15 @@ let win = null
 !isDev && app.commandLine.appendSwitch('overscroll-history-navigation=0')
 
 autoUpdater.on('checking-for-update', () => {
-  log.info('Checking for update...')
   sendStatusToWindow('Checking for update...')
 })
 autoUpdater.on('update-available', (info) => {
-  log.info('Checking for update...')
-  sendStatusToWindow('Update available.')
+  sendStatusToWindow('Update available.' + info)
 })
 autoUpdater.on('update-not-available', (info) => {
-  log.info('update-not-available')
   sendStatusToWindow('Update not available.')
 })
 autoUpdater.on('error', (err) => {
-  log.error('error..')
   sendStatusToWindow('Error in auto-updater. ' + err)
 })
 autoUpdater.on('download-progress', (progressObj) => {
@@ -47,7 +43,6 @@ autoUpdater.on('download-progress', (progressObj) => {
   sendStatusToWindow(log_message)
 })
 autoUpdater.on('update-downloaded', (info) => {
-  log.info('update-not-available')
   sendStatusToWindow('Update downloaded')
 })
 

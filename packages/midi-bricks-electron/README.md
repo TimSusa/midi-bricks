@@ -47,6 +47,13 @@ You can use this file to add custom api tokens for example.
 ``` 
     yarn build
 ``` 
+
+## Logging
+
+- on Linux: ~/.config/<app name>/log.log
+- on macOS: ~/Library/Logs/<app name>/log.log
+- on Windows: %USERPROFILE%\AppData\Roaming\<app name>\log.log
+
 ## E2E Tests
 You can use either the auto-mode, which starts all jobs automatically. Howevery, issues arose, so you can just start the CI-Mode via:
 
