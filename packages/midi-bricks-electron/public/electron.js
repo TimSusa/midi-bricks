@@ -10,15 +10,12 @@ const { ipcMain, dialog } = require('electron')
 const log = require('electron-log')
 const { autoUpdater } = require('electron-updater')
 
-//-------------------------------------------------------------------
 // Logging
-//
 // This logging setup is not required for auto-updates to work,
 // but it sure makes debugging easier :)
-//-------------------------------------------------------------------
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
-log.info('App starting...')
+log.info('App starting...tim')
 
 let win = null
 
@@ -39,7 +36,7 @@ autoUpdater.on('update-not-available', (info) => {
   sendStatusToWindow('Update not available.')
 })
 autoUpdater.on('error', (err) => {
-  console.error('error...')
+  console.error('error..')
   sendStatusToWindow('Error in auto-updater. ' + err)
 })
 autoUpdater.on('download-progress', (progressObj) => {
@@ -61,7 +58,7 @@ if (!gotTheLock) {
 } else {
   app.on('second-instance', (event, commandLine, workingDirectory) => {
     // Someone tried to run a second instance, we should focus our window.
-    console.log('Someone tried to run a second instance, we should focus our window.')
+    console.log('S omeone tried to run a second instance, we should focus our window.')
     if (win) {
       if (win.isMinimized()) win.restore()
       win.focus()
@@ -136,8 +133,8 @@ function createWindow() {
   mainWindowState.manage(win)
 
   // Check for develper console
-  // isDevelopmentCli && win.webContents.openDevTools()
-  win.webContents.openDevTools()
+  isDevelopmentCli && win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 
   win.webContents.session.setPermissionRequestHandler(
     (webContents, permission, callback) => {

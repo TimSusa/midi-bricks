@@ -17,16 +17,16 @@
     "appId": "com.electron.midi-bricks-electron",
     "asar": true,
     "asarUnpack": true,
-    "mac": {
-      "category": "your.app.category.type",
-      "icon": "build/icon.icns",
+    "win": {
+      "target": "nsis-web",
+      "icon": "build/icon.ico",
       "publish": [
         "github"
       ]
     },
-    "win": {
-      "target": "nsis-web",
-      "icon": "build/icon.ico",
+    "mac": {
+      "category": "your.app.category.type",
+      "icon": "build/icon.icns",
       "publish": [
         "github"
       ]
@@ -58,7 +58,8 @@
     "react-scripts": "3.0.0",
     "rimraf": "2.6.3",
     "spectron": "5.0.0",
-    "wait-for-localhost-cli": "1.1.0"
+    "wait-for-localhost-cli": "1.1.0",
+    "watch": "^1.0.2"
   },
   "browserslist": [
     ">0.2%",
@@ -67,8 +68,11 @@
     "not op_mini all"
   ],
   "scripts": {
-    "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
-    "build": "react-scripts build && electron-builder --mac --win",
+    "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\" \"yarn dev-watch\"",
+    "dev-watch": "watch 'pkill electron && wait-for-localhost 3000 && electron .' ./public",
+    "build": "yarn build:web && yarn build:app",
+    "build:app": "electron-builder --mac --win",
+    "build:web": "react-scripts build",
     "pack": "electron-builder --dir --mac --win",
     "release": "build",
     "test": "react-scripts test --colors",

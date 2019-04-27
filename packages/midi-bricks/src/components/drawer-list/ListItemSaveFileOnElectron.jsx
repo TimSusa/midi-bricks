@@ -17,7 +17,7 @@ export const ListItemSaveFileOnElectron = connect(
 ListItemSaveFileOnElectronComp.propTypes = {
   onFileChange: PropTypes.func,
   viewSettings: PropTypes.object,
-  sliders: PropTypes.object
+  sliders: PropTypes.array
 }
 
 // At Electron App we use ipc for file loading from main process
