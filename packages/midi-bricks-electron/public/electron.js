@@ -152,23 +152,6 @@ function createWindow() {
     )
   })
 
-  ipcMain.on('get-version', (event, payload) => {
-
-    fs.readFile('./package.json', 'utf8', function(err, data) {
-      if (err) {
-        return console.log(err)
-      }
-      var result = JSON.parse(data)
-      const version = result.version
-      process.env.VERSION = version
-      console.log('version', version)
-      event.sender.send('get-version-reply', {
-        version
-      })
-    })
-    
-  })
-
   const url = isDev
     ? 'http://localhost:3000/'
     : `file://${path.join(__dirname, '../build/index.html')}`
