@@ -3935,10 +3935,10 @@ electron-window-state@5.0.3:
     jsonfile "^4.0.0"
     mkdirp "^0.5.1"
 
-electron@4.1.4:
-  version "4.1.4"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-4.1.4.tgz#41ba9e041f38c25c62a7db806884410654df058f"
-  integrity sha512-MelOjntJvd33izEjR6H4N/Uii7y535z/b2BuYXJGLNSHL6o1IlyhUQmfiT87kWABayERgeuYERgvsyf956OOFw==
+electron@4.1.5:
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-4.1.5.tgz#d1873147d5be36ab0c8bb9db3a54297a82ee8fef"
+  integrity sha512-0VZzUd4vZaUeSLdxJI/XMrMnPN7AROjPFZOiNgZZkYRUUEjGHfaSAbCJyxuXtii52KGhzGL0JgW0q5QmQ3ykKQ==
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
@@ -7049,11 +7049,6 @@ micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8:
     regex-not "^1.0.0"
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
-
-midi-bricks@^1.0.13:
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-1.0.13.tgz#0b0bfa78a3d4faedf02fd37ead832297bc2a983e"
-  integrity sha512-5Jt4D1l4RSwzjyaD/xUWaV+Q+dZH26xkKmTCSE3mRzJlLUrJHjUr/KeBHqzh+CAPET2XfmUeVutkVu2k53vlUg==
 
 miller-rabin@^4.0.0:
   version "4.0.1"
