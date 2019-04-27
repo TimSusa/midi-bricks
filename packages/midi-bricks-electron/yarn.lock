@@ -7062,11 +7062,6 @@ micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-midi-bricks@^1.1.26:
-  version "1.1.26"
-  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-1.1.26.tgz#54cf30717f3df15686c8281552970b5caed857a5"
-  integrity sha512-6wqoTvOzZg0GhWj6ohGEB67HF7AFRd97D0kfDZqLzuawNRfViQ9sdViayDW0tELLeNKAl9bhwyAK+xYdxlFjhg==
-
 miller-rabin@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/miller-rabin/-/miller-rabin-4.0.1.tgz#f080351c865b0dc562a8462966daa53543c78a4d"
@@ -11065,7 +11060,7 @@ walker@^1.0.7, walker@~1.0.5:
   dependencies:
     makeerror "1.0.x"
 
-watch@^1.0.2:
+watch@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/watch/-/watch-1.0.2.tgz#340a717bde765726fa0aa07d721e0147a551df0c"
   integrity sha1-NApxe952Vyb6CqB9ch4BR6VR3ww=

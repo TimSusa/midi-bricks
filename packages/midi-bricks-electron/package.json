@@ -59,7 +59,7 @@
     "rimraf": "2.6.3",
     "spectron": "5.0.0",
     "wait-for-localhost-cli": "1.1.0",
-    "watch": "^1.0.2"
+    "watch": "1.0.2"
   },
   "browserslist": [
     ">0.2%",
