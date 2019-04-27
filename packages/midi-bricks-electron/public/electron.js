@@ -121,7 +121,6 @@ function createWindow() {
     //toolbar: false
   })
   //win.setMenu(null)
-  sendStatusToWindow('Was los Digga?')
 
   // Let us register listeners on the window, so we can update the state
   // automatically (the listeners will be removed when the window is closed)
@@ -139,6 +138,7 @@ function createWindow() {
     }
   )
 
+  sendStatusToWindow('Was los Digga?')
 
   // Register IPC
   ipcMain.on('open-file-dialog', (event, arg) => {
