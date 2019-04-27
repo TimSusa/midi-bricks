@@ -3,7 +3,7 @@
 Special thanks to https://github.com/HaNdTriX for establishing this!
 
 # Download 
-Mac: https://drive.google.com/open?id=19D6T4Td05QMgwBXm7jxQDA2fkzrjAQaw
+Mac: https://github.com/TimSusa/midi-bricks-mono/releases/tag/1.1.25
 
 Win: https://drive.google.com/open?id=1KzzS7MhAz9ErCxirokNhpX61-Aj_ixtN
 
@@ -29,6 +29,11 @@ You can edit the alias file, which can be found at your desktop and is generated
 ``` 
 midi-bricks.exe --window 100,200,300,400 --dev
 ``` 
+
+## Prepare
+Copy the .env.sample file to .env
+This file is used to read out environment variables and it is already added to .gitignore.
+You can use this file to add custom api tokens for example.
 
 ## Install
 ``` 

@@ -18,6 +18,11 @@ Simple sliders or buttons, which send MIDI Messages to the MIDI-Device you wish.
 # Web Demo:
 https://midi-bricks.timsusa.now.sh
 
+## Prepare
+Copy the .env.sample file to .env
+This file is used to read out environment variables and it is already added to .gitignore.
+You can use this file to add custom api tokens for example.
+
 # Run
 ```
 yarn
