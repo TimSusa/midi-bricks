@@ -53,7 +53,7 @@
     "concurrently": "4.1.0",
     "electron": "4.1.4",
     "electron-builder": "20.39.0",
-    "midi-bricks": "^1.0.13",
+    "midi-bricks": "^1.1.14",
     "mocha": "6.0.2",
     "react-scripts": "3.0.0",
     "rimraf": "2.6.3",
@@ -79,4 +79,3 @@
   },
   "gitHead": "aafdf0d3ef42b4bd010ada5d7fa3603505bf57df"
 }
-
