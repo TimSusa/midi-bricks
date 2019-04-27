@@ -63,10 +63,6 @@ if (!gotTheLock) {
       win.focus()
     }
   })
-
-  // Create myWindow, load the rest of the app, etc...
-  app.on('ready', () => {
-  })
 }
 
 // initialization and is ready to create browser windows.
@@ -94,8 +90,7 @@ function createWindow() {
   const [xx, yy, w, h] = process.argv[windowIndex].split(',')
 
   // Extract CLI parameter: Enable Dev Console
-  const isDevelopmentCli =
-    isDev || !!process.argv.find((item) => item === '--dev')
+  const isDevelopmentCli = isDev || !!process.argv.find((item) => item === '--dev')
 
   // Load the previous state with fallback to defaults
   const mainWindowState = windowStateKeeper({
@@ -129,7 +124,8 @@ function createWindow() {
     //skipTaskbar: false,
     //toolbar: false
   })
-
+  log.info('fuck')
+  win.webContents.send('message', 'fuck')
   //win.setMenu(null)
 
   // Let us register listeners on the window, so we can update the state
@@ -148,8 +144,7 @@ function createWindow() {
     }
   )
 
-  log.info('fuck')
-  win.webContents.send('message', 'fuck')
+
 
   // Register IPC
   ipcMain.on('open-file-dialog', (event, arg) => {
