@@ -71,7 +71,7 @@
   "scripts": {
     "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
     "build": "react-scripts build",
-    "pack": "build --mac --win --dir ",
+    "pack": "build --mac --win --dir",
     "publish": "GH_TOKEN=b46ba43be0bc07738c8575bfe8222dc14887f87a build --mac --win -p always",
     "test": "react-scripts test --colors",
     "test-e2e-ci": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && CI=true mocha --colors\"",

@@ -51,9 +51,22 @@ autoUpdater.on('update-downloaded', (info) => {
   sendStatusToWindow('Update downloaded')
 })
 
-function sendStatusToWindow(text) {
-  log.info(text)
-  win.webContents.send('message', text)
+// ENSURE ONE WINDOW
+const gotTheLock = app.requestSingleInstanceLock()
+if (!gotTheLock) {
+  app.quit()
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (win) {
+      if (win.isMinimized()) win.restore()
+      win.focus()
+    }
+  })
+
+  // Create myWindow, load the rest of the app, etc...
+  app.on('ready', () => {
+  })
 }
 
 // initialization and is ready to create browser windows.
@@ -210,4 +223,10 @@ function createWindow() {
     // when you should delete the corresponding element.
     win = null
   })
+}
+
+
+function sendStatusToWindow(text) {
+  log.info(text)
+  win.webContents.send('message', text)
 }
