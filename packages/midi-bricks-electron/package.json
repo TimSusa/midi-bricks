@@ -68,16 +68,17 @@
   ],
   "scripts": {
     "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
-    "build": "yarn build:web && yarn build:app",
+    "build": "yarn clean:dist && yarn build:web && yarn build:app",
     "build:app": "electron-builder --mac --win",
     "build:web": "react-scripts build",
-    "pack": "electron-builder --dir --mac --win",
+    "pack": "yarn clean:dist && electron-builder --dir --mac --win",
     "release": "build --win --mac -p always",
     "test": "react-scripts test --colors",
     "test-e2e-ci": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && CI=true mocha --colors\"",
     "test-e2e": "CI=true mocha --colors",
     "postinstall": "electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
-    "clean": "rimraf build && rimraf dist && rimraf src && cp -R node_modules/midi-bricks/src src"
+    "clean": "yarn clean:dist && rimraf src && cp -R node_modules/midi-bricks/src src",
+    "clean:dist": "rimraf build && rimraf dist"
   },
   "gitHead": "aafdf0d3ef42b4bd010ada5d7fa3603505bf57df"
 }
