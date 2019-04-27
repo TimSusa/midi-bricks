@@ -9,42 +9,18 @@ require('electron').process
 const { ipcMain, dialog } = require('electron')
 const log = require('electron-log')
 const { autoUpdater } = require('electron-updater')
-
 // Logging
 // This logging setup is not required for auto-updates to work,
 // but it sure makes debugging easier :)
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
-log.info('App starting...tim')
 
 let win = null
+let notification = null
 
 // Prevent Zoom, disrupting touches
 !isDev && app.commandLine.appendSwitch('disable-pinch')
 !isDev && app.commandLine.appendSwitch('overscroll-history-navigation=0')
-
-autoUpdater.on('checking-for-update', () => {
-  sendStatusToWindow('Checking for update...')
-})
-autoUpdater.on('update-available', (info) => {
-  sendStatusToWindow('Update available.' + info)
-})
-autoUpdater.on('update-not-available', (info) => {
-  sendStatusToWindow('Update not available.')
-})
-autoUpdater.on('error', (err) => {
-  sendStatusToWindow('Error in auto-updater. ' + err)
-})
-autoUpdater.on('download-progress', (progressObj) => {
-  let log_message = 'Download speed: ' + progressObj.bytesPerSecond
-  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%'
-  log_message =
-    log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')'
-  sendStatusToWindow(log_message)
-})
-autoUpdater.on('update-downloaded', (info) => {
-  sendStatusToWindow('Update downloaded')
-})
 
 // ENSURE ONE WINDOW
 const gotTheLock = app.requestSingleInstanceLock()
@@ -138,7 +114,6 @@ function createWindow() {
     }
   )
 
-  sendStatusToWindow('Was los Digga?')
 
   // Register IPC
   ipcMain.on('open-file-dialog', (event, arg) => {
@@ -202,14 +177,40 @@ function createWindow() {
     )
   })
 
+  autoUpdater.on('checking-for-update', () => {
+    sendStatusToWindow('Checking for update...')
+  })
+  autoUpdater.on('update-available', (info) => {
+    sendStatusToWindow('Update available.' + info)
+  })
+  autoUpdater.on('update-not-available', (info) => {
+    sendStatusToWindow('Update not available.')
+  })
+  autoUpdater.on('error', (err) => {
+    sendStatusToWindow('Error in auto-updater. ' + err)
+  })
+  autoUpdater.on('download-progress', (progressObj) => {
+    let log_message = 'Download speed: ' + progressObj.bytesPerSecond
+    log_message = log_message + ' - Downloaded ' + progressObj.percent + '%'
+    log_message =
+      log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')'
+    sendStatusToWindow(log_message)
+  })
+  autoUpdater.on('update-downloaded', (info) => {
+    sendStatusToWindow('Update downloaded')
+  })
+
   const url = isDev
     ? 'http://localhost:3000/'
     : `file://${path.join(__dirname, '../build/index.html')}`
 
   win.loadURL(url)
 
+  sendStatusToWindow('Was los Digga??')
+
   //  Emitted when the window is closed.
   win.on('closed', function() {
+    sendStatusToWindow('Chiao!!')
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
@@ -217,17 +218,29 @@ function createWindow() {
   })
 }
 
-
 function sendStatusToWindow(text) {
   log.info(text)
-  //let myNotification = 
-  return new Notification('Nachricht: ', {
-    body: text
+  if (!Notification.isSupported()) {
+    log.warn('notifcations are not supported on this OS')
+    return
+  }
+  notification = new Notification({
+    title: text,
+    subtitle: text,
+    body: text || 'txt is not there'
   })
-  
-  // myNotification.addEventListener('click', () => {
-  //   log.info('Notification clicked')
-  // })
-  // win.webContents.send('message', text)
+
+  eventListen(notification)
+  notification.show()
+
+  //notification.close()
+
+  //removeEventListener('click', notification)
 }
 
+function eventListen(notification){
+  return notification.once('click', () => {
+    log.info('Notification clicked')
+    notification.close()
+  })
+}
