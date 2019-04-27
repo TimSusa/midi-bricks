@@ -3797,7 +3797,7 @@ ejs@~2.5.6:
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.5.9.tgz#7ba254582a560d267437109a68354112475b0ce5"
   integrity sha512-GJCAeDBKfREgkBtgrYSf9hQy9kTb3helv0zGdzqhM7iAkW8FA/ZF97VQDbwFiwIT8MQLLOe5VlPZOEvZAqtUAQ==
 
-electron-builder@^20.40.2:
+electron-builder@20.40.2:
   version "20.40.2"
   resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-20.40.2.tgz#434751bbb57be17513eb501848a52d2573a307bb"
   integrity sha512-hnnBzyLXna+WpmT4MIoWVdRli43q09yqKOgzPJj0KrOoJZ7TIoY1aYSPvSg8VL5rSuTgdAWGL4rYd9zcq3YXMQ==
@@ -7029,11 +7029,6 @@ micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8:
     regex-not "^1.0.0"
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
-
-midi-bricks@^1.1.31:
-  version "1.1.31"
-  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-1.1.31.tgz#efefa575112ebf91965c40de58f67fdb63d3b397"
-  integrity sha512-io4ql9fGTVC2cd7MRtfvHXYgYLlNpKf6cF4TrK+64vIRDZsTWBbZxIqfkdigI0kqsYP0jFH8b0O4tanQtxDD2w==
 
 miller-rabin@^4.0.0:
   version "4.0.1"
