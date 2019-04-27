@@ -224,7 +224,9 @@ function sendStatusToWindow(text) {
     title: text,
     subtitle: text,
     body: text || 'txt is not there',
-    silent: true
+    silent: true,
+    sound: '',
+    icon: './icons/icon_128@2x.png'
   })
 
   eventListen(notification)
