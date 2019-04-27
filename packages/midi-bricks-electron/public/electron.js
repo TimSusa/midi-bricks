@@ -9,10 +9,9 @@ require('electron').process
 const { ipcMain, dialog } = require('electron')
 const log = require('electron-log')
 const { autoUpdater } = require('electron-updater')
+
 //-------------------------------------------------------------------
 // Logging
-//
-// THIS SECTION IS NOT REQUIRED
 //
 // This logging setup is not required for auto-updates to work,
 // but it sure makes debugging easier :)
@@ -148,6 +147,9 @@ function createWindow() {
       callback(true)
     }
   )
+
+  log.info('fuck')
+  win.webContents.send('message', 'fuck')
 
   // Register IPC
   ipcMain.on('open-file-dialog', (event, arg) => {

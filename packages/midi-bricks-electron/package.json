@@ -36,9 +36,7 @@
     ],
     "publish": {
       "provider": "github",
-      "token": "b46ba43be0bc07738c8575bfe8222dc14887f87a",
-      "publishAutoUpdate": true,
-      "releaseType": "release"
+      "publishAutoUpdate": true
     }
   },
   "dependencies": {
@@ -70,9 +68,9 @@
   ],
   "scripts": {
     "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
-    "build": "react-scripts build && build .env --mac --win",
-    "pack": "build .env --mac --win --dir",
-    "publish": "build .env --mac --win -p always",
+    "build": "react-scripts build && electron-builder --mac --win",
+    "pack": "electron-builder --dir --mac --win",
+    "release": "GH_TOKEN=4c554ba9019bdd55e1e10b6bd6f03de250858116 build",
     "test": "react-scripts test --colors",
     "test-e2e-ci": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && CI=true mocha --colors\"",
     "test-e2e": "CI=true mocha --colors",
