@@ -46,7 +46,7 @@ const DEF_VAL = {
   }
 }
 
-const useStyles = makeStyles(styles, { useTheme: true })
+
 
 ColorModal.propTypes = {
   actions: PropTypes.any,
@@ -66,7 +66,7 @@ function ColorModal(props) {
   //   }
   // }
 
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
 
   const {
     actions,

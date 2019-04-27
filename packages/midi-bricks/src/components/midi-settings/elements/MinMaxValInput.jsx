@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 import { Tooltip } from '@material-ui/core'
 
-const useStyles = makeStyles(styles, { useTheme: true })
+
 
 MinMaxValInput.propTypes = {
   label: PropTypes.string,
@@ -27,7 +27,7 @@ export function MinMaxValInput({
   limitVal = 0,
   toolTip
 }) {
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
 
   const form = (
     <div className={classes.root}>

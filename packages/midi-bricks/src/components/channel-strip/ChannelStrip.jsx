@@ -12,7 +12,7 @@ import { Label } from '../midi-elements/Label'
 export default ChannelStrip
 
 const sliderThumbHeight = 30
-const useStyles = makeStyles(styles, { useTheme: true })
+
 
 ChannelStrip.propTypes = {
   classes: PropTypes.object,
@@ -24,7 +24,7 @@ ChannelStrip.propTypes = {
 }
 
 function ChannelStrip(props) {
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
   const { sliderEntry, idx, size, isDisabled, isMidiLearnMode } = props
   const {
     type,

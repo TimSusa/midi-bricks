@@ -26,10 +26,9 @@ export default connect(
 
 // eslint-disable-next-line new-cap
 const GridLayout = WidthProvider(RGL)
-const useStyles = makeStyles(styles, { useTheme: true })
 
 function ChannelStripList(props) {
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
   const {
     actions = {},
     sliderList = [],

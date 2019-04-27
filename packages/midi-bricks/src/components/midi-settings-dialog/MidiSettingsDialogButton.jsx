@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 import MidiSettingsDialog from './MidiSettingsDialog'
 
-const useStyles = makeStyles(styles, { useTheme: true })
+
 
 MidiSettingsDialogButton.propTypes = {
   isOpen: PropTypes.bool,
@@ -16,7 +16,7 @@ MidiSettingsDialogButton.propTypes = {
 
 export default function MidiSettingsDialogButton(props) {
   const { isOpen, toggleSettings, sliderEntry, idx } = props
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
 
   return (
     <div className={classes.root}>

@@ -12,7 +12,7 @@ import {
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 
-const useStyles = makeStyles(styles, { useTheme: true })
+
 const channelDummy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 
 MidiDriverTable.propTypes = {
@@ -24,7 +24,7 @@ MidiDriverTable.propTypes = {
 }
 
 function MidiDriverTable(props) {
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
   const {
     labelPostfix,
     available,

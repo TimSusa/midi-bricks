@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper'
 import MenuItem from '@material-ui/core/MenuItem'
 import Chip from '@material-ui/core/Chip'
 
-const useStyles = makeStyles(styles, { useTheme: true })
+
 
 MidiSuggestedInput.propTypes = {
   actions: PropTypes.object,
@@ -29,7 +29,7 @@ function MidiSuggestedInput(props) {
 
   const [inputValue, setInputValue] = useState('')
   const [selectedItem, setSelectedItem] = useState(startVal || [])
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
 
   return (
     <Downshift

@@ -32,7 +32,6 @@ DrawerList.propTypes = {
 
 export default DrawerList
 
-
 function DrawerList(props) {
   const {
     classes,
@@ -95,8 +94,8 @@ function DrawerList(props) {
           onClick={
             !isOpenViewSettings
               ? (e) => {
-                setIsOpenViewSettings(!isOpenViewSettings)
-              }
+                  setIsOpenViewSettings(!isOpenViewSettings)
+                }
               : () => {}
           }
         >
@@ -147,11 +146,9 @@ function DrawerList(props) {
             onClose={setOpen}
           />
         </ListItem>
-        {process.env.REACT_APP_IS_WEB_MODE === 'false' && (
-          <ListItem>
-            <ListItemText primary={`Version: ${version}`} />
-          </ListItem>
-        )}
+        <ListItem>
+          <ListItemText primary={`Version: ${version}`} />
+        </ListItem>
       </List>
       <Divider />
     </React.Fragment>

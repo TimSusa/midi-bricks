@@ -10,7 +10,7 @@ export default connect(
   null
 )(MidiPage)
 
-const useStyles = makeStyles(styles, { useTheme: true })
+
 
 
 MidiPage.propTypes = {
@@ -35,7 +35,7 @@ function MidiPage(props) {
     fontSize,
     fontWeight
   )
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
 
   if (type === STRIP_TYPE.PAGE) {
     return (

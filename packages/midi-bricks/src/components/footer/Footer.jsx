@@ -14,8 +14,10 @@ import { PAGE_TYPES } from '../../reducers/view-settings'
 
 const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
 
-const useStyles = makeStyles(styles, { useTheme: true })
-
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Footer)
 
 Footer.propTypes = {
   actions: PropTypes.object,
@@ -28,7 +30,7 @@ Footer.propTypes = {
 }
 
 function Footer(props) {
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
   const {
     footerPages = [],
     lastFocusedFooterButtonIdx = '',
@@ -134,10 +136,12 @@ function handleLiveButtonClick(
   actions.toggleLiveMode()
 
   // Wait before scrolling into view: This is a very bad bad bad approach...
-  setTimeout(() => {
-    const elem = document.getElementById(`page-${lastFocusedFooterButtonIdx}`)
+  let timerId = setTimeout(() => {
+    const selector = `[id="page-${lastFocusedFooterButtonIdx}"]`
+    const elem = document.querySelector(selector)
     elem && elem.scrollIntoView()
   }, 1000)
+  clearTimeout(timerId)
 }
 
 
@@ -209,7 +213,4 @@ function mapDispatchToProps(dispatch) {
     )
   }
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Footer)
+

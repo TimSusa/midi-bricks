@@ -18,7 +18,7 @@ export default connect(
   mapDispatchToProps
 )(DeleteModalComponent)
 
-const useStyles = makeStyles(styles, { useTheme: true })
+
 
 DeleteModalComponent.propTypes = {
   actions: PropTypes.object,
@@ -30,7 +30,7 @@ DeleteModalComponent.propTypes = {
 }
 
 export function DeleteModalComponent(props) {
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
   const {
     sliderEntry = {},
     asButton = false,

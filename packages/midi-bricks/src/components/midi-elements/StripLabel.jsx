@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/styles'
 import { connect } from 'react-redux'
 import { STRIP_TYPE } from '../../reducers/slider-list.js'
 
-const useStyles = makeStyles(styles, { useTheme: true })
+
 
 
 StripLabel.propTypes = {
@@ -16,7 +16,7 @@ StripLabel.propTypes = {
 }
 
 function StripLabel(props) {
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
   const {
     sliderEntry: { isNoteOn, colors, fontSize, fontWeight, type, label },
     height = '',

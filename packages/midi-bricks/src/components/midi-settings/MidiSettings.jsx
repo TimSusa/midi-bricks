@@ -22,7 +22,7 @@ import { STRIP_TYPE } from '../../reducers/slider-list'
 
 const { BUTTON, BUTTON_TOGGLE } = STRIP_TYPE
 
-const useStyles = makeStyles(styles, { useTheme: true })
+
 
 MidiSettings.propTypes = {
   actions: PropTypes.object,
@@ -34,7 +34,7 @@ MidiSettings.propTypes = {
 }
 
 function MidiSettings(props) {
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
   const {
     actions,
     inputs = {},

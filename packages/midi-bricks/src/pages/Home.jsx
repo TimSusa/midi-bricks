@@ -13,24 +13,10 @@ import MidiDriversSettingsPage from './MidiDriversSettingsPage'
 import GlobalViewSettingsPage from '../components/GlobalViewSettings'
 import { PAGE_TYPES } from '../reducers/view-settings'
 
-const useStyles = makeStyles(
-  (theme) => ({
-    root: {
-      textAlign: 'center',
-      width: '100%',
-      overflowX: 'hidden'
-    },
-    heading: {
-      marginTop: theme.spacing(2)
-    },
-    noMidiTypography: {
-      textAlign: 'center',
-      paddingTop: theme.spacing(4)
-    }
-  }),
-  { useTheme: true }
-)
-
+export default connect(
+  mapStateToProperties,
+  mapDispatchToProperties
+)(Home)
 
 Home.propTypes = {
   classes: PropTypes.object,
@@ -39,40 +25,41 @@ Home.propTypes = {
 }
 
 function Home(props) {
-  useEffect(() => {
-    async function initAsync() {
-      await props.initApp()
-    }
-    if (props.viewSettings.pageType !== PAGE_TYPES.HOME_MODE){return}
-    console.log('Re-Init MIDI')
-    initAsync()
-    const {
-      viewSettings: { lastFocusedFooterButtonIdx }
-    } = props
-    const timeOut = setTimeout(() => {
-      const element = document.getElementById(
-        `page-${lastFocusedFooterButtonIdx}`
-      )
-      console.log('scroll and set timeout')
-      element && element.scrollIntoView({ block: 'start' })
-    }, 500)
-
-    return () => {
-      console.log('clear timeout ', timeOut)
-      clearTimeout(timeOut)
-    }
-  }, [props.viewSettings.pageType])
-
-  const classes = useStyles()
+  const classes = makeStyles(styles, { useTheme: true })()
 
   const {
     viewSettings: {
       isLayoutMode = true,
       isLiveMode = false,
       isSettingsMode = false,
-      pageType = PAGE_TYPES.HOME_MODE
+      pageType = PAGE_TYPES.HOME_MODE,
+      lastFocusedFooterButtonIdx
     }
   } = props
+
+  useEffect(() => {
+    async function initAsync() {
+      await props.initApp()
+    }
+
+    if (pageType !== PAGE_TYPES.HOME_MODE) {
+      return
+    }
+    console.log('Re-Init MIDI')
+    initAsync()
+    const timeOut = setTimeout(() => {
+      const selector = `[id="page-${lastFocusedFooterButtonIdx}"]`
+      const element = document.querySelector(selector)
+      console.log('scroll and set timeout')
+      element && element.scrollIntoView({ block: 'start' })
+    }, 500)
+
+    return () => {
+      console.log('clear timeout', timeOut)
+      clearTimeout(timeOut)
+    }
+  }, [classes, lastFocusedFooterButtonIdx, pageType, props])
+
   const preventScrollStyle = isLiveMode
     ? {
       height: 'calc(100vh - 66px)',
@@ -101,7 +88,6 @@ function Home(props) {
   }
 }
 
-
 function mapStateToProperties({ viewSettings, sliders: { isMidiFailed } }) {
   return {
     viewSettings,
@@ -118,7 +104,19 @@ function mapDispatchToProperties(dispatch) {
   }
 }
 
-export default connect(
-  mapStateToProperties,
-  mapDispatchToProperties
-)(Home)
+function styles(theme) {
+  return {
+    root: {
+      textAlign: 'center',
+      width: '100%',
+      overflowX: 'hidden'
+    },
+    heading: {
+      marginTop: theme.spacing(2)
+    },
+    noMidiTypography: {
+      textAlign: 'center',
+      paddingTop: theme.spacing(4)
+    }
+  }
+}

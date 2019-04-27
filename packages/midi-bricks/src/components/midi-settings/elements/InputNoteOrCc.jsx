@@ -12,7 +12,7 @@ import { fromMidi } from '../../../utils/fromMidi'
 import { midi } from 'tonal'
 import { Input } from '@material-ui/core'
 import { suggestionsMidiNoteCC, suggestionsMidiCc } from './suggestions'
-const useStyles = makeStyles(styles, { useTheme: true })
+
 
 InputNoteOrCc.propTypes = {
   idx: PropTypes.number,
@@ -22,7 +22,7 @@ InputNoteOrCc.propTypes = {
 }
 
 function InputNoteOrCc(props) {
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
   const {
     midiCC,
     yMidiCc,

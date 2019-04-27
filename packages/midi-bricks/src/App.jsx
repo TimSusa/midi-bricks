@@ -1,5 +1,5 @@
 import { Drawer } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Home from './pages/Home'
@@ -12,9 +12,7 @@ import MenuAppBar from './components/menu-app-bar/MenuAppBar'
 import DrawerList from './components/drawer-list/DrawerList'
 import Footer from './components/footer/Footer'
 import { PAGE_TYPES } from './reducers/view-settings'
-
 import { makeStyles } from '@material-ui/styles'
-import { requestVersion, listenToVersion } from './utils/ipc-renderer'
 
 export default connect(
   mapStateToProps,
@@ -29,22 +27,16 @@ App.propTypes = {
   initApp: PropTypes.func
 }
 
-const useStyles = makeStyles(styles, { withTheme: true })
-
 function App(props) {
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
   const { actions = {}, initApp = () => {} } = props
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [appVersion, setAppVersion] = useState('')
 
-  React.useEffect(() => {
-    if (process.env.REACT_APP_IS_WEB_MODE === 'false') {
-      requestVersion()
-      listenToVersion((res) => {
-        setAppVersion(res.version)
-      })
-    }
+  useEffect(() => {
+    setAppVersion(process.env.REACT_APP_VERSION || 'unknown')
   }, [])
+
   return (
     <div className={classes.root}>
       <div className={classes.appBar}>

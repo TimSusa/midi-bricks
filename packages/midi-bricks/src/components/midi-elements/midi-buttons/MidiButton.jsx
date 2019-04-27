@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 
-const useStyles = makeStyles(styles, { useTheme: true })
+
 
 
 MidiButton.propTypes = {
@@ -17,7 +17,7 @@ MidiButton.propTypes = {
 }
 
 function MidiButton(props) {
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
   const {
     buttonStyle = {},
     onChangeStart = () => {},

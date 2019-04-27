@@ -24,7 +24,7 @@ export default connect(
   mapDispatchToProps
 )(GlobalSettingsPage)
 
-const useStyles = makeStyles(styles, { useTheme: true })
+
 
 GlobalSettingsPage.propTypes = {
   actions: PropTypes.object,
@@ -36,7 +36,7 @@ GlobalSettingsPage.propTypes = {
 }
 
 function GlobalSettingsPage(props) {
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
   const {
     isMidiFailed,
     actions,

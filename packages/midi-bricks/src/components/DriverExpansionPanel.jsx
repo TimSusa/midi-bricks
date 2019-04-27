@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
-const useStyles = makeStyles(styles, { useTheme: true })
+
 
 function DriverExpansionPanel({
   children,
@@ -19,7 +19,7 @@ function DriverExpansionPanel({
   label='',
   noPadding = false
 }) {
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
   return (
     <ExpansionPanel
       className={classes.root}

@@ -31,7 +31,7 @@ export default connect(
   mapDispatchToProps
 )(MenuAppBar)
 
-const useStyles = makeStyles(styles, { useTheme: true })
+
 
 MenuAppBar.propTypes = {
   actions: PropTypes.object,
@@ -43,7 +43,7 @@ MenuAppBar.propTypes = {
 }
 
 function MenuAppBar(props) {
-  const classes = useStyles()
+  const classes = makeStyles(styles, { withTheme: true })()
   const {
     actions = {},
     presetName = '',
