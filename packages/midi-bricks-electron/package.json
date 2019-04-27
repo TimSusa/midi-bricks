@@ -55,8 +55,8 @@
     "test": "react-scripts test --colors",
     "test-e2e-ci": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && CI=true mocha --colors\"",
     "test-e2e": "CI=true mocha --colors",
-    "postinstall": "electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src && cp -f ./package.json ./public/",
-    "clean": "rimraf build && rimraf dist && rimraf src && cp -R node_modules/midi-bricks/src src && cp -f ./package.json ./public/"
+    "postinstall": "electron-builder install-app-deps && rimraf src && cp -R node_modules/midi-bricks/src src",
+    "clean": "rimraf build && rimraf dist && rimraf src && cp -R node_modules/midi-bricks/src src"
   },
   "gitHead": "7a8cfbeaa7eeb21f5a28e53626ce8552eee114b6"
 }

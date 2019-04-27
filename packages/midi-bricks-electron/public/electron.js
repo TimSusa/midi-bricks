@@ -8,7 +8,7 @@ require('electron').process
 // In main process.
 const { ipcMain, dialog } = require('electron')
 
-let win
+let win = null
 
 // Prevent Zoom, disrupting touches
 !isDev && app.commandLine.appendSwitch('disable-pinch')
