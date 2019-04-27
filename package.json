@@ -47,6 +47,7 @@
   "scripts": {
     "bootstrap": "yarn && lerna bootstrap && cd packages/midi-bricks-electron && yarn && cd ../.. && lerna link && yarn build && yarn lint && yarn test",
     "publish": "yarn test:midi-bricks && lerna publish && yarn deploy",
+    "publish:midi-bricks-electron": "cd packages/midi-bricks-electron/ && yarn publish",
     "deploy": "cd packages/midi-bricks/ && yarn deploy && cd ..",
     "lint": "eslint . -c .eslintrc",
     "clean": "lerna clean",
