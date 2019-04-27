@@ -1,17 +1,12 @@
-const { BrowserWindow, app, Notification } = require('electron')
+const { BrowserWindow, app, Notification, ipcMain, dialog } = require('electron')
 const path = require('path')
 const fs = require('fs')
 const isDev = require('electron-is-dev')
 const windowStateKeeper = require('electron-window-state')
-require('electron').process
-
-// In main process.
-const { ipcMain, dialog } = require('electron')
 const log = require('electron-log')
 const { autoUpdater } = require('electron-updater')
-// Logging
-// This logging setup is not required for auto-updates to work,
-// but it sure makes debugging easier :)
+require('electron').process
+
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
 
@@ -55,6 +50,7 @@ app.on('activate', function() {
 })
 
 function createWindow() {
+  log.info('Ready!')
   autoUpdater.checkForUpdatesAndNotify()
 
   // Extract CLI parameter: Window Coordinates
@@ -227,7 +223,8 @@ function sendStatusToWindow(text) {
   notification = new Notification({
     title: text,
     subtitle: text,
-    body: text || 'txt is not there'
+    body: text || 'txt is not there',
+    silent: true
   })
 
   eventListen(notification)
@@ -235,7 +232,7 @@ function sendStatusToWindow(text) {
 
   //notification.close()
 
-  //removeEventListener('click', notification)
+  // tim removeEventListener('click', notification)
 }
 
 function eventListen(notification){

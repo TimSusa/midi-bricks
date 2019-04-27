@@ -46,7 +46,7 @@
     "react-scripts": "3.0.0"
   },
   "scripts": {
-    "bootstrap": "yarn && lerna bootstrap && cd packages/midi-bricks-electron && yarn && yarn pack && cd ../.. && lerna link && yarn lint && yarn test",
+    "bootstrap": "yarn clean && lerna bootstrap && cd packages/midi-bricks-electron && yarn && yarn pack && cd ../.. && lerna link && yarn lint && yarn test",
     "publish": "yarn test:midi-bricks && lerna publish && yarn deploy && yarn publish:midi-bricks-electron",
     "publish:midi-bricks-electron": "cd packages/midi-bricks-electron/ && yarn release && cd .. && cd ..",
     "deploy": "cd packages/midi-bricks/ && yarn deploy && cd ..",
