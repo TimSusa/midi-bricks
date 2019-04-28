@@ -18,4 +18,5 @@ jobs:
       - run: yarn build:midi-bricks
       - run: yarn test:midi-bricks
       - run: yarn deploy:midi-bricks-ci
+      - run: yarn deploy:midi-bricks-doc
       
