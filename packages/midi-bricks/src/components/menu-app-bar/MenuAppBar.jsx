@@ -76,7 +76,7 @@ function MenuAppBar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant='h6' color='inherit' className={classes.flex}>
-            MIDI Bricks
+            MIDI Brikqxs
           </Typography>
           {isMidiLearnMode && (
             <Typography className={classes.typoColorStyle}>

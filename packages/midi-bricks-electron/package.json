@@ -75,9 +75,9 @@
     "not op_mini all"
   ],
   "scripts": {
-    "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && yarn cp-src-electron\"  \"wait-for-localhost 3000 && electron .\"",
+    "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && yarn cp-src && yarn cp-src-electron\"  \"wait-for-localhost 3000 && electron .\"",
     "build": "yarn clean:dist && yarn build:web && yarn build:app",
-    "build:app": "electron-builder --mac --win --linux",
+    "build:app": "yarn cp-src-electron && electron-builder --mac --win --linux",
     "build:web": "yarn cp-src && react-scripts build",
     "pack": "yarn clean:dist && electron-builder --dir --mac --win --linux",
     "release": "build --win --mac --linux -p always",
@@ -88,7 +88,7 @@
     "cp-src": "cp -R node_modules/midi-bricks/src src",
     "cp-src-electron": "cp -rf ./public/*.js ./build",
     "clean": "yarn clean:dist && rimraf src",
-    "clean:dist": "rimraf build && rimraf dist"
+    "clean:dist": "rimraf dist"
   },
   "gitHead": "aafdf0d3ef42b4bd010ada5d7fa3603505bf57df"
 }
