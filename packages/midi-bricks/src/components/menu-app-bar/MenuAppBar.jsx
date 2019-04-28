@@ -345,7 +345,7 @@ function styles(theme) {
     },
     menuButton: {
       marginLeft: 0,
-      marginRight: 0
+      marginRight: theme.spacing(2)
     },
     resetButton: {
       padding: '0 8px 0 8px',

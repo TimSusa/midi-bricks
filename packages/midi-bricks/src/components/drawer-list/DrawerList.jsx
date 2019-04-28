@@ -10,6 +10,7 @@ import HomeIcon from '@material-ui/icons/Home'
 import GlobalIcon from '@material-ui/icons/Public'
 import ViewIcon from '@material-ui/icons/ViewCarousel'
 import DeleteIcon from '@material-ui/icons/Delete'
+import VersionIcon from '@material-ui/icons/FormatListNumberedRtl'
 import IconDriverSettings from '@material-ui/icons/SettingsInputSvideo'
 import React, { useState } from 'react'
 import DeleteModal from '../DeleteModal'
@@ -94,8 +95,8 @@ function DrawerList(props) {
           onClick={
             !isOpenViewSettings
               ? (e) => {
-                  setIsOpenViewSettings(!isOpenViewSettings)
-                }
+                setIsOpenViewSettings(!isOpenViewSettings)
+              }
               : () => {}
           }
         >
@@ -147,7 +148,10 @@ function DrawerList(props) {
           />
         </ListItem>
         <ListItem>
-          <ListItemText primary={`Version: ${version}`} />
+          <ListItemIcon>
+            <VersionIcon />
+          </ListItemIcon>
+          <ListItemText primary={`${version}`} />
         </ListItem>
       </List>
       <Divider />
