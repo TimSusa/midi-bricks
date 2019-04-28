@@ -56,7 +56,7 @@ function updateCallback(thing) {
 }
 
 function createWindow() {
-  log.info('App started...')
+  log.info('App started... go!')
 
   // Extract CLI parameter: Window Coordinates
   const windowIndex = process.argv.findIndex((item) => item === '--window') + 1

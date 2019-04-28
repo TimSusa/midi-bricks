@@ -27,7 +27,6 @@ App.propTypes = {
   initApp: PropTypes.func
 }
 
-console.log('I like this app, soo cooool!')
 function App(props) {
   const classes = makeStyles(styles, { withTheme: true })()
   const { actions = {}, initApp = () => {} } = props

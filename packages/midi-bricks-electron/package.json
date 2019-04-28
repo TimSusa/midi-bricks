@@ -75,16 +75,18 @@
     "not op_mini all"
   ],
   "scripts": {
-    "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && cp -rf ./public/*.js ./build\"  \"wait-for-localhost 3000 && electron .\"",
+    "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && yarn cp-src-electron\"  \"wait-for-localhost 3000 && electron .\"",
     "build": "yarn clean:dist && yarn build:web && yarn build:app",
     "build:app": "electron-builder --mac --win --linux",
-    "build:web": "react-scripts build",
+    "build:web": "yarn cp-src && react-scripts build",
     "pack": "yarn clean:dist && electron-builder --dir --mac --win --linux",
     "release": "build --win --mac --linux -p always",
     "test": "react-scripts test --colors",
     "test-e2e-ci": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && CI=true mocha --colors\"",
     "test-e2e": "CI=true mocha --colors",
-    "postinstall": "yarn clean && electron-builder install-app-deps && cp -R node_modules/midi-bricks/src src",
+    "postinstall": "yarn clean && electron-builder install-app-deps && yarn cp-src",
+    "cp-src": "cp -R node_modules/midi-bricks/src src",
+    "cp-src-electron": "cp -rf ./public/*.js ./build",
     "clean": "yarn clean:dist && rimraf src",
     "clean:dist": "rimraf build && rimraf dist"
   },
