@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
     <channel>
-        <title>Test Site Tim Blog</title>
+        <title>Test Site Tim, soo cooool! Blog</title>
         <link>https://timsusa.github.io/midi-bricks-mono/blog</link>
-        <description>The best place to stay up-to-date with the latest Test Site Tim news and events.</description>
+        <description>The best place to stay up-to-date with the latest Test Site Tim, soo cooool! news and events.</description>
         <lastBuildDate>Tue, 24 Oct 2017 06:00:00 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>Feed for Node.js</generator>
         <image>
-            <title>Test Site Tim Blog</title>
+            <title>Test Site Tim, soo cooool! Blog</title>
             <url>https://timsusa.github.io/midi-bricks-mono/img/docusaurus.svg</url>
             <link>https://timsusa.github.io/midi-bricks-mono/blog</link>
         </image>
