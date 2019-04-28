@@ -3797,7 +3797,7 @@ ejs@~2.5.6:
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.5.9.tgz#7ba254582a560d267437109a68354112475b0ce5"
   integrity sha512-GJCAeDBKfREgkBtgrYSf9hQy9kTb3helv0zGdzqhM7iAkW8FA/ZF97VQDbwFiwIT8MQLLOe5VlPZOEvZAqtUAQ==
 
-electron-builder@^20.40.2:
+electron-builder@20.40.2:
   version "20.40.2"
   resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-20.40.2.tgz#434751bbb57be17513eb501848a52d2573a307bb"
   integrity sha512-hnnBzyLXna+WpmT4MIoWVdRli43q09yqKOgzPJj0KrOoJZ7TIoY1aYSPvSg8VL5rSuTgdAWGL4rYd9zcq3YXMQ==

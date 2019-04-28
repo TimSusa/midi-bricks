@@ -4,11 +4,11 @@ const fs = require('fs')
 const isDev = require('electron-is-dev')
 const windowStateKeeper = require('electron-window-state')
 const log = require('electron-log')
-const { autoUpdater } = require('electron-updater')
+//const { autoUpdater } = require('electron-updater')
+const { checkForUpdates } = require('./update')
 require('electron').process
 
-autoUpdater.logger = log
-autoUpdater.logger.transports.file.level = 'info'
+
 
 let win = null
 let notification = null
@@ -49,9 +49,16 @@ app.on('activate', function() {
   if (win === null) createWindow()
 })
 
+let updateObject = {}
+function updateCallback(thing) {
+  updateObject = thing
+  console.log('updateObject', updateObject)
+}
+
 function createWindow() {
   log.info('Ready!')
-  autoUpdater.checkForUpdatesAndNotify()
+  //autoUpdater.checkForUpdatesAndNotify()
+  checkForUpdates(thing =>updateCallback(thing))
 
   // Extract CLI parameter: Window Coordinates
   const windowIndex = process.argv.findIndex((item) => item === '--window') + 1
@@ -173,28 +180,29 @@ function createWindow() {
     )
   })
 
-  autoUpdater.on('checking-for-update', () => {
-    sendStatusToWindow('Checking for update...')
-  })
-  autoUpdater.on('update-available', (info) => {
-    sendStatusToWindow('Update available.' + info)
-  })
-  autoUpdater.on('update-not-available', (info) => {
-    sendStatusToWindow('Update not available.')
-  })
-  autoUpdater.on('error', (err) => {
-    sendStatusToWindow('Error in auto-updater. ' + err)
-  })
-  autoUpdater.on('download-progress', (progressObj) => {
-    let log_message = 'Download speed: ' + progressObj.bytesPerSecond
-    log_message = log_message + ' - Downloaded ' + progressObj.percent + '%'
-    log_message =
-      log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')'
-    sendStatusToWindow(log_message)
-  })
-  autoUpdater.on('update-downloaded', (info) => {
-    sendStatusToWindow('Update downloaded')
-  })
+  // autoUpdater.on('checking-for-update', () => {
+  //   sendStatusToWindow('Checking for update...')
+  // })
+  // autoUpdater.on('update-available', (info) => {
+  //   sendStatusToWindow('Update available.' + info)
+  // })
+  // autoUpdater.on('update-not-available', (info) => {
+  //   sendStatusToWindow('Update not available.')
+  // })
+  // autoUpdater.on('error', (err) => {
+  //   sendStatusToWindow('Error in auto-updater. ' + err)
+  // })
+  // autoUpdater.on('download-progress', (progressObj) => {
+  //   const mBitPerSec = progressObj.bytesPerSecond
+  //   let log_message = 'Download speed: ' + mBitPerSec
+  //   log_message = log_message + ' - Downloaded ' + progressObj.percent + '%'
+  //   log_message =
+  //     log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')'
+  //   sendStatusToWindow(log_message)
+  // })
+  // autoUpdater.on('update-downloaded', (info) => {
+  //   sendStatusToWindow('Update downloaded')
+  // })
 
   const url = isDev
     ? 'http://localhost:3000/'

@@ -8,10 +8,13 @@
  * 2. require `updater.js` for menu implementation, and set `checkForUpdates` callback from `updater` for the click property of `Check Updates...` MenuItem.
  */
 const { dialog } = require('electron')
+const log = require('electron-log')
 const { autoUpdater } = require('electron-updater')
 
 let updater
 autoUpdater.autoDownload = false
+autoUpdater.logger = log
+autoUpdater.logger.transports.file.level = 'info'
 
 autoUpdater.on('error', (error) => {
   dialog.showErrorBox('Error: ', error == null ? 'unknown' : (error.stack || error).toString())
@@ -34,6 +37,15 @@ autoUpdater.on('update-available', () => {
   })
 })
 
+// autoUpdater.on('download-progress', (progressObj) => {
+//   const mBitPerSec = progressObj.bytesPerSecond
+//   let log_message = 'Download speed: ' + mBitPerSec
+//   log_message = log_message + ' - Downloaded ' + progressObj.percent + '%'
+//   log_message =
+//       log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')'
+//   sendStatusToWindow(log_message)
+// })
+
 autoUpdater.on('update-not-available', () => {
   dialog.showMessageBox({
     title: 'No Updates',
@@ -43,7 +55,8 @@ autoUpdater.on('update-not-available', () => {
   updater = null
 })
 
-autoUpdater.on('update-downloaded', () => {
+autoUpdater.on('update-downloaded', (tmp) => {
+  log.info('downloaded: ', tmp || 'no param was given')
   dialog.showMessageBox({
     title: 'Install Updates',
     message: 'Updates downloaded, application will be quit for update...'
@@ -53,8 +66,8 @@ autoUpdater.on('update-downloaded', () => {
 })
 
 // export this to MenuItem click callback
-function checkForUpdates (menuItem, focusedWindow, event) {
-  updater = menuItem
+function checkForUpdates (clickCallback, focusedWindow, event) {
+  updater = clickCallback
   updater.enabled = false
   autoUpdater.checkForUpdates()
 }
