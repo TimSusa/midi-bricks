@@ -17,5 +17,5 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: yarn build:midi-bricks
       - run: yarn test:midi-bricks
-      - run: yarn deploy
+      - run: yarn deploy:midi-bricks
       
