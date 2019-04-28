@@ -1,4 +1,12 @@
-[logo]: https://github.com/TimSusa/raw/master/midi-bricks-logo.png "MIDI Brick Logo"
+
+Inline-style: 
+![alt text](https://github.com/TimSusa/midi-bricks-mono/raw/master/midi-bricks-logo.png "Logo Title Text 1")
+
+
+Reference-style: 
+![alt text][logo]
+
+[logo]: https://github.com/TimSusa/midi-bricks-mono/raw/master/midi-bricks-logo.png
 
 # Midi-Bricks-Mono-Repository
 This is a mono-repository for midi-bricks, its electron app and deployment. 
