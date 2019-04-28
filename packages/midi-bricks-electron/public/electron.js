@@ -56,9 +56,7 @@ function updateCallback(thing) {
 }
 
 function createWindow() {
-  log.info('Ready!')
-  //autoUpdater.checkForUpdatesAndNotify()
-  checkForUpdates(thing =>updateCallback(thing))
+  log.info('App started...')
 
   // Extract CLI parameter: Window Coordinates
   const windowIndex = process.argv.findIndex((item) => item === '--window') + 1
@@ -66,6 +64,12 @@ function createWindow() {
 
   // Extract CLI parameter: Enable Dev Console
   const isDevelopmentCli = isDev || !!process.argv.find((item) => item === '--dev')
+
+  const isAllowedToUpdate = !!process.argv.find((item) => item === '--noUpdate') || true
+  //autoUpdater.checkForUpdatesAndNotify()
+  !isAllowedToUpdate && log.warn('Updates were disabled!')
+  isAllowedToUpdate && checkForUpdates(thing =>updateCallback(thing))
+
 
   // Load the previous state with fallback to defaults
   const mainWindowState = windowStateKeeper({
