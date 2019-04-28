@@ -21,7 +21,7 @@ const users = [
 ]
 
 const siteConfig = {
-  title: 'Test Site Tim', // Title for your website.
+  title: 'Test Site Tim, soo cooool!', // Title for your website.
   tagline: 'A website for testing',
   url: 'https://timsusa.github.io', // Your website URL
   baseUrl: '/midi-bricks-mono/', // Base URL for your project */
