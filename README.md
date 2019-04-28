@@ -1,8 +1,6 @@
 
-  
-
 <p align="center">
-  <img width="350" src="midi-bricks-logo.png">
+  <img width="250" src="midi-bricks-logo.png">
 </p>
 
 # Midi-Bricks-Mono-Repository
