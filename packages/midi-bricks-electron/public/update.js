@@ -59,7 +59,7 @@ autoUpdater.on('update-downloaded', (tmp) => {
   log.info('downloaded version: ', tmp.version || 'no vers was given')
   dialog.showMessageBox({
     title: 'Install Updates',
-    message: 'Updates Downloaded to Version: ' + tmp.version || 'no vers was given'
+    message: 'The App has to be closed to get installed to Version: ' + tmp.version || 'no vers was given'
   }, () => {
     setImmediate(() => autoUpdater.quitAndInstall())
   })
