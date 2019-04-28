@@ -10,10 +10,10 @@ jobs:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
-      - run: npm install
+      - run: yarn bootstrap
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      - run: npm install --save-dev electron-chromedriver
-      - run: npm test
+      - run: yarn add -W --dev electron-chromedriver
+      - run: yarn test
