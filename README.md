@@ -1,5 +1,9 @@
 
-<img src="midi-bricks-logo.png" alt="drawing" style="width: 100px;"/>
+  
+
+<p align="center">
+  <img width="350" src="midi-bricks-logo.png">
+</p>
 
 # Midi-Bricks-Mono-Repository
 This is a mono-repository for midi-bricks, its electron app and deployment. 
