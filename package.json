@@ -47,11 +47,11 @@
   },
   "scripts": {
     "bootstrap": "yarn run info && lerna bootstrap && lerna link && yarn pack && cd ../.. ",
-    "publish": "yarn test:midi-bricks && lerna publish && yarn deploy:midi-bricks && yarn publish:midi-bricks-electron",
+    "publish": "lerna publish && yarn publish:midi-bricks-electron",
     "publish:midi-bricks-electron": "cd packages/midi-bricks-electron/ && yarn release && cd .. && cd ..",
     "deploy:midi-bricks": "cd packages/midi-bricks/ && yarn deploy && cd .. && cd ..",
     "deploy:midi-bricks-ci": "cd packages/midi-bricks/ && yarn deploy-ci && cd .. && cd ..",
-    "deploy:midi-bricks-doc": "cd packages/midi-bricks-doc/ && yarn deploy && cd .. && cd ..",
+    "deploy:midi-bricks-doc": "cd packages/midi-bricks-doc/ && yarn && yarn deploy && cd .. && cd ..",
     "deploy": "cd packages/midi-bricks/ && yarn deploy && cd .. && cd ..",
     "lint": "eslint . -c .eslintrc",
     "clean": "lerna clean",
