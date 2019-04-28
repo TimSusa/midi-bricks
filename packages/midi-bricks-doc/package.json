@@ -18,7 +18,7 @@
   "scripts": {
     "start": "cd website && yarn start && cd ..",
     "build": "cd website && yarn build && cd ..",
-    "deploy": "cd website && yarn build && GIT_USER=timsusa CURRENT_BRANCH=master USE_SSH=true yarn run publish-gh-pages && cd ..",
+    "deploy": "cd website && yarn build && GIT_USER=$USER CURRENT_BRANCH=master USE_SSH=true yarn run publish-gh-pages && cd ..",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {

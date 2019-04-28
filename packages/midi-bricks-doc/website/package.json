@@ -1,4 +1,5 @@
 {
+  "license": "ISC",
   "scripts": {
     "examples": "docusaurus-examples",
     "start": "docusaurus-start",
@@ -7,7 +8,7 @@
     "write-translations": "docusaurus-write-translations",
     "version": "docusaurus-version",
     "rename-version": "docusaurus-rename-version",
-    "deploy": "GIT_USER=timsusa && CURRENT_BRANCH=master && USE_SSH=true && yarn run publish-gh-pages"
+    "deploy": "GIT_USER=$USER && CURRENT_BRANCH=master && USE_SSH=true && yarn run publish-gh-pages"
   },
   "devDependencies": {
     "docusaurus": "1.8.3"

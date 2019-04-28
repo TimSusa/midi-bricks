@@ -2,7 +2,7 @@
 # Midi-Bricks
 Simple sliders or buttons, which send MIDI Messages to the MIDI-Device you wish. The main feature is, that you are able to select a MIDI driver for each different unit. Furthermore, you can drag and drop, resize your elements as free as you like. Just build your own MIDI controller touch layout.
 
-# Feature Set:
+## Feature Set:
 - Your are free to touch more than one slider or button at the same time
 - You are free to drag/drop or resize every slider, button or label
 - You are free to select any midi driver for every slider or button
@@ -15,8 +15,11 @@ Simple sliders or buttons, which send MIDI Messages to the MIDI-Device you wish.
 - You can listen for midi notes for every slider or button, which will change activated/not activated state color
 - You have keyboard shortcuts available for: 'change to layout mode', 'show settings', 'compact vertical', 'Disable auto-arrange-mode'
 
-# Web Demo:
+## Web Demo:
 https://midi-bricks.timsusa.now.sh
+
+## Official Webpage and Documentation
+https://timsusa.github.io/midi-bricks-mono/
 
 ## Prepare
 Copy the .env.sample file to .env

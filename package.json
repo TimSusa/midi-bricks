@@ -59,10 +59,12 @@
     "build": "yarn build:midi-bricks && yarn build:midi-bricks-electron",
     "build:midi-bricks": "cd packages/midi-bricks && yarn build && cd ..",
     "build:midi-bricks-electron": "cd packages/midi-bricks-electron && yarn && yarn build && cd ..",
+    "build:midi-bricks-doc": "cd packages/midi-bricks-doc && yarn && yarn build && cd ..",
     "test:midi-bricks": "cd packages/midi-bricks && yarn test && cd ..",
     "test:midi-bricks-electron": "cd packages/midi-bricks-electron && yarn test-e2e && cd ..",
     "dev:midi-bricks": "cd packages/midi-bricks && yarn start && cd ..",
     "dev:midi-bricks-electron": "cd packages/midi-bricks-electron && yarn dev && cd ..",
+    "dev:midi-bricks-doc": "cd packages/midi-bricks-doc && yarn start && cd ..",
     "precommit": "yarn test && cd packages/midi-bricks/ && yarn test && cd ..",
     "info": "uname -a"
   }

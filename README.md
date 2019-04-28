@@ -4,6 +4,9 @@ This is a mono-repository for midi-bricks, its electron app and deployment.
 ## Live-Web-Demo
 https://midi-bricks.timsusa.now.sh
 
+## Official Webpage and Documentation
+https://timsusa.github.io/midi-bricks-mono/
+
 ## More Help
 More help can be found in each sub project folder´s README.md, 
 which you can find under packages/. 

@@ -22,7 +22,7 @@ const users = [
 
 const siteConfig = {
   title: 'MIDI Bricks', // Title for your website.
-  tagline: 'Official Documentation',
+  tagline: '...easily create your own MIDI Controller...',
   url: 'https://timsusa.github.io', // Your website URL
   baseUrl: '/midi-bricks-mono/', // Base URL for your project */
   // For github.io type URLs, you would set the url and baseUrl like:
@@ -54,7 +54,7 @@ const siteConfig = {
 
   /* Colors for website */
   colors: {
-    primaryColor: '#2E8555',
+    primaryColor: '#9e9e9e',
     secondaryColor: '#205C3B',
   },
 

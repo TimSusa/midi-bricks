@@ -1,8 +1,11 @@
-# midi-bricks-electron
+# MIDI Bricks Electron Application
+This application could be started and created for Mac, Win and Linux. 
+Please be referred to instructions below.
 
-Special thanks to https://github.com/HaNdTriX for establishing this!
+## Official Webpage and Documentation
+https://timsusa.github.io/midi-bricks-mono/
 
-# Download 
+## Download 
 Mac: https://github.com/TimSusa/midi-bricks-mono/releases/tag/1.1.25
 
 Win: https://drive.google.com/open?id=1KzzS7MhAz9ErCxirokNhpX61-Aj_ixtN
@@ -60,6 +63,9 @@ You can use either the auto-mode, which starts all jobs automatically. Howevery,
 ```
 cd packages/midi-bricks-electron && yarn dev && yarn test-e2e
 ```
+
+# Thanks
+Thanks to the people, who made react, redux, material-ui and big thanks to my friend Henrik Wenz (https://github.com/HaNdTriX), who made electron functionality available. And nice big greetz to my friend Alec Troniq (http://alec-troniq.com/), who gave me the right hints, to build up all this stuff, using this for his live performances.
 
 ## Support on Beerpay
 Hey dude! Help me out for a couple of :beers:!
