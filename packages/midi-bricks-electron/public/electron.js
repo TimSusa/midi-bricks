@@ -201,12 +201,11 @@ function createWindow() {
     : `file://${path.join(__dirname, '../build/index.html')}`
 
   win.loadURL(url)
-
-  sendStatusToWindow('Was los Digga??')
+  sendStatusToWindow(`Starting with version: ${process.env.npm_package_version}` || 'Was los Digga??')
 
   //  Emitted when the window is closed.
   win.on('closed', function() {
-    sendStatusToWindow('Chiao!!')
+    sendStatusToWindow(`Gracefully shutting down with version: ${process.env.npm_package_version}`,  'Chiao!!')
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
@@ -221,8 +220,8 @@ function sendStatusToWindow(text) {
     return
   }
   notification = new Notification({
-    title: text,
-    subtitle: text,
+    // title: text,
+    // subtitle: text,
     body: text || 'txt is not there',
     silent: true,
     sound: '',

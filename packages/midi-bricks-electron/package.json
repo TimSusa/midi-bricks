@@ -31,6 +31,14 @@
         "github"
       ]
     },
+    "linux": {
+      "target": "deb",
+      "category": "midi.touch.device",
+      "icon": "build/icons/icon.icns",
+      "publish": [
+        "github"
+      ]
+    },
     "files": [
       "build/**/*"
     ],
@@ -69,9 +77,9 @@
   "scripts": {
     "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && cp -rf ./public/electron.js ./build\"  \"wait-for-localhost 3000 && electron .\"",
     "build": "yarn clean:dist && yarn build:web && yarn build:app",
-    "build:app": "electron-builder --mac --win",
+    "build:app": "electron-builder --mac --win --linux",
     "build:web": "react-scripts build",
-    "pack": "yarn clean:dist && electron-builder --dir --mac --win",
+    "pack": "yarn clean:dist && electron-builder --dir --mac --win --linux",
     "release": "build --win --mac -p always",
     "test": "react-scripts test --colors",
     "test-e2e-ci": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && CI=true mocha --colors\"",
