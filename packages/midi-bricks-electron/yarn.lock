@@ -2345,7 +2345,7 @@ buffer@^5.1.0:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
 
-builder-util-runtime@8.2.1, builder-util-runtime@^8.2.0, builder-util-runtime@^8.2.1:
+builder-util-runtime@8.2.1, builder-util-runtime@^8.2.1:
   version "8.2.1"
   resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-8.2.1.tgz#2d16be6cb040b3654d84b76487256158e60b6e3b"
   integrity sha512-2TkeTcI9bDlK5azRZSJJNxhAgW1DK+JY3jHK0UWPxgJcan4GZSVDNNO3sXntNxrp+JAdPHMF14rzNd/G53lvqw==
@@ -2365,7 +2365,7 @@ builder-util-runtime@~8.1.0:
     fs-extra-p "^7.0.0"
     sax "^1.2.4"
 
-builder-util@9.7.1, builder-util@~9.7.0, builder-util@~9.7.1:
+builder-util@9.7.1, builder-util@~9.7.1:
   version "9.7.1"
   resolved "https://registry.yarnpkg.com/builder-util/-/builder-util-9.7.1.tgz#31234b48ac574eb1cd4b4eaa982c0480571eae7a"
   integrity sha512-txpzYIeuHFjrOQWPTJDvhJYisIVGJdSG9ppccE+y7agT0YNhBlVHGnd8+HgFTajYE34xzB5zf1/zxiiDqSKSpA==
@@ -3861,20 +3861,7 @@ electron-osx-sign@0.4.11:
     minimist "^1.2.0"
     plist "^3.0.1"
 
-electron-publish@20.39.0:
-  version "20.39.0"
-  resolved "https://registry.yarnpkg.com/electron-publish/-/electron-publish-20.39.0.tgz#a945d871b469b4160933d4e027612710b653f006"
-  integrity sha512-PWrGUru994CSmtsA56GnjyLB3EnIS3zyEmrW0hDXtwuctZLGMnrxjK/7WEORYkgTQ/GufD5b/8T05Q2Kr42nqQ==
-  dependencies:
-    bluebird-lst "^1.0.7"
-    builder-util "~9.7.0"
-    builder-util-runtime "^8.2.0"
-    chalk "^2.4.2"
-    fs-extra-p "^7.0.1"
-    lazy-val "^1.0.4"
-    mime "^2.4.0"
-
-electron-publish@20.40.0:
+electron-publish@20.40.0, electron-publish@^20.40.0:
   version "20.40.0"
   resolved "https://registry.yarnpkg.com/electron-publish/-/electron-publish-20.40.0.tgz#156eacd9b8bab563a3f8723e9b45214915a9681d"
   integrity sha512-mkjtsIgftRszuT/8do8TszmddokDnu254OyTeL8nE780o/A8t68oXHZzvlTJ4AQ8uBOYrA87JDO/BFCWjnVArA==
@@ -7030,10 +7017,10 @@ micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-midi-bricks@^1.1.59:
-  version "1.1.59"
-  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-1.1.59.tgz#7c79f69029f47358d23d54614568604f8987aace"
-  integrity sha512-2iSnP2Ltfuq1GZq9wGtHfE8ZFZe9F0SwEctG/gG2/CZ48Pu6bgwzIZ5qG0W2NOO5ox0GdfPN/88xkoivxy2RcA==
+midi-bricks@^1.1.60:
+  version "1.1.60"
+  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-1.1.60.tgz#0ff82207b0d7f3a10a6b6e1d06bcb4f4de1f8452"
+  integrity sha512-FIbi/wpL0EKVNM/oSpy9Io3Thps/qJLSqHZj7daBL343o6FtA0y02PgdOk0hMaAEwpYs5aX1GUjEbDi7Xl0Bfw==
 
 miller-rabin@^4.0.0:
   version "4.0.1"
@@ -7060,7 +7047,7 @@ mime@1.4.1:
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.4.1.tgz#121f9ebc49e3766f311a76e1fa1c8003c4b03aa6"
   integrity sha512-KI1+qOZu5DcW6wayYHSzR/tXKCDC5Om4s1z2QJjDULzLcmf3DvzS7oluY4HCTrc+9FiKmWUgeNLg7W3uIQvxtQ==
 
-mime@^2.0.3, mime@^2.3.1, mime@^2.4.0, mime@^2.4.1:
+mime@^2.0.3, mime@^2.3.1, mime@^2.4.1:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/mime/-/mime-2.4.2.tgz#ce5229a5e99ffc313abac806b482c10e7ba6ac78"
   integrity sha512-zJBfZDkwRu+j3Pdd2aHsR5GfH2jIWhmL1ZzBoc+X+3JEti2hbArWcyJ+1laC1D2/U/W1a/+Cegj0/OnEU2ybjg==
