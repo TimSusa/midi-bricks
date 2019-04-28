@@ -46,20 +46,20 @@ autoUpdater.on('update-available', () => {
 //   sendStatusToWindow(log_message)
 // })
 
-autoUpdater.on('update-not-available', () => {
-  dialog.showMessageBox({
-    title: 'No Updates',
-    message: 'Current version is up-to-date.'
-  })
-  updater.enabled = true
-  updater = null
-})
+// autoUpdater.on('update-not-available', () => {
+//   dialog.showMessageBox({
+//     title: 'No Updates',
+//     message: 'Current version is up-to-date.'
+//   })
+//   updater.enabled = true
+//   updater = null
+// })
 
 autoUpdater.on('update-downloaded', (tmp) => {
-  log.info('downloaded: ', tmp || 'no param was givens')
+  log.info('downloaded version: ', tmp.version || 'no vers was given')
   dialog.showMessageBox({
     title: 'Install Updates',
-    message: 'Updates downloaded, application will be quit for update...'
+    message: 'Updates Downloaded to Version: ' + tmp.version || 'no vers was given'
   }, () => {
     setImmediate(() => autoUpdater.quitAndInstall())
   })

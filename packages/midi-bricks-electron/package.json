@@ -75,7 +75,7 @@
     "not op_mini all"
   ],
   "scripts": {
-    "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && cp -rf ./public/electron.js ./build\"  \"wait-for-localhost 3000 && electron .\"",
+    "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && cp -rf ./public/*.js ./build\"  \"wait-for-localhost 3000 && electron .\"",
     "build": "yarn clean:dist && yarn build:web && yarn build:app",
     "build:app": "electron-builder --mac --win --linux",
     "build:web": "react-scripts build",
