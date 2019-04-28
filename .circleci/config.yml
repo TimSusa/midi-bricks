@@ -3,7 +3,6 @@ jobs:
   build:
     docker:
       - image: circleci/node:10.15.3-browsers-legacy
-      - image: electronuserland/builder:wine-chrome
     working_directory: ~/repo
     steps:
       - checkout
@@ -16,5 +15,7 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      - run: yarn build
-      - run: yarn test
+      - run: yarn build:midi-bricks
+      - run: yarn test:midi-bricks
+      - run: yarn deploy
+      
