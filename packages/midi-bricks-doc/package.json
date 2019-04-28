@@ -24,6 +24,7 @@
   },
   "gitHead": "7a8cfbeaa7eeb21f5a28e53626ce8552eee114b6",
   "devDependencies": {
-    "react-scripts": "3.0.0"
+    "react-scripts": "3.0.0",
+    "docusaurus": "1.8.3"
   }
 }
