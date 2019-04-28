@@ -61,7 +61,7 @@
     "concurrently": "4.1.0",
     "electron": "5.0.0",
     "electron-builder": "20.40.2",
-    "midi-bricks": "^1.51.1",
+    "midi-bricks": "^1.1.59",
     "mocha": "6.0.2",
     "react-scripts": "3.0.0",
     "rimraf": "2.6.3",
