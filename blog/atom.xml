@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://timsusa.github.io/midi-bricks-mono/blog</id>
-    <title>Test Site Tim, soo cooool! Blog</title>
+    <title>MIDI Bricks Blog</title>
     <updated>2017-10-24T06:00:00Z</updated>
     <generator>Feed for Node.js</generator>
     <link rel="alternate" href="https://timsusa.github.io/midi-bricks-mono/blog"/>
-    <subtitle>The best place to stay up-to-date with the latest Test Site Tim, soo cooool! news and events.</subtitle>
+    <subtitle>The best place to stay up-to-date with the latest MIDI Bricks news and events.</subtitle>
     <logo>https://timsusa.github.io/midi-bricks-mono/img/docusaurus.svg</logo>
     <rights>Copyright © 2019 Tim Susa</rights>
     <entry>
