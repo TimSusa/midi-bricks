@@ -56,7 +56,7 @@ autoUpdater.on('update-not-available', () => {
 })
 
 autoUpdater.on('update-downloaded', (tmp) => {
-  log.info('downloaded: ', tmp || 'no param was given')
+  log.info('downloaded: ', tmp || 'no param was givens')
   dialog.showMessageBox({
     title: 'Install Updates',
     message: 'Updates downloaded, application will be quit for update...'
