@@ -65,7 +65,7 @@ function createWindow() {
   // Extract CLI parameter: Enable Dev Console
   const isDevelopmentCli = isDev || !!process.argv.find((item) => item === '--dev')
 
-  const isDissallowedToUpdateCli = !!process.argv.find((item) => item === '--noUpdate')
+  const isDissallowedToUpdateCli = !!process.argv.find((item) => item === '--noupdate')
   const isAllowedToUpdate = (isDissallowedToUpdateCli !== true) || true
   //autoUpdater.checkForUpdatesAndNotify()
   !isAllowedToUpdate && log.warn('Updates were disabled!')
