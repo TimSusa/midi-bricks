@@ -75,7 +75,7 @@
     "not op_mini all"
   ],
   "scripts": {
-    "dev": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && yarn cp-src && yarn cp-src-electron\"  \"wait-for-localhost 3000 && electron .\"",
+    "dev": "concurrently \"yarn cp-src && yarn cp-src-electron && BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron . --noUpdate --dev\"",
     "build": "yarn clean:dist && yarn build:web && yarn build:app",
     "build:app": "yarn cp-src-electron && electron-builder --mac --win --linux",
     "build:web": "yarn cp-src && react-scripts build",

@@ -65,12 +65,12 @@ function createWindow() {
   // Extract CLI parameter: Enable Dev Console
   const isDevelopmentCli = isDev || !!process.argv.find((item) => item === '--dev')
 
-  const isDissallowedToUpdateCli = !!process.argv.find((item) => item === '--noupdate')
-  const isAllowedToUpdate = (isDissallowedToUpdateCli !== true) || true
+  const isDissallowedToUpdateCli = !!process.argv.find((item) => item === '--noUpdate')
+  const isAllowedToUpdate = (isDissallowedToUpdateCli !== true) ? true : false
   //autoUpdater.checkForUpdatesAndNotify()
-  !isAllowedToUpdate && log.warn('Updates were disabled!')
+  !isAllowedToUpdate && log.warn('Updates were disabled! ')
   isAllowedToUpdate && checkForUpdates(thing =>updateCallback(thing))
-
+  log.warn(process.argv, isAllowedToUpdate)
 
   // Load the previous state with fallback to defaults
   const mainWindowState = windowStateKeeper({
@@ -214,7 +214,7 @@ function createWindow() {
     : `file://${path.join(__dirname, '../build/index.html')}`
 
   win.loadURL(url)
-  isAllowedToUpdate && sendStatusToWindow('Software-Updates are enabled.')
+  isAllowedToUpdate && sendStatusToWindow('Software-Updates are enabled.', process.env)
 
   //  Emitted when the window is closed.
   win.on('closed', function() {
