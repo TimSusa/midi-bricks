@@ -36,7 +36,7 @@ app.on('activate', function() {
 let updateObject = {}
 function updateCallback(thing) {
   updateObject = thing
-  log.info('updateObject', updateObject)
+  log.info('updateObject:', updateObject)
 }
 
 function createWindow() {
@@ -165,7 +165,7 @@ function createWindow() {
     : `file://${path.join(__dirname, '../build/index.html')}`
 
   win.loadURL(url)
-  isAllowedToUpdate && sendStatusToWindow('Software-Updates are enabled.', process.env)
+  isAllowedToUpdate && sendStatusToWindow('Software-Updates are enabled.')
 
   //  Emitted when the window is closed.
   win.on('closed', function() {
