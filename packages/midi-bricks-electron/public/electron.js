@@ -4,7 +4,6 @@ const fs = require('fs')
 const isDev = require('electron-is-dev')
 const windowStateKeeper = require('electron-window-state')
 const log = require('electron-log')
-//const { autoUpdater } = require('electron-updater')
 const { checkForUpdates } = require('./update')
 require('electron').process
 
@@ -16,21 +15,6 @@ let notification = null
 // Prevent Zoom, disrupting touches
 !isDev && app.commandLine.appendSwitch('disable-pinch')
 !isDev && app.commandLine.appendSwitch('overscroll-history-navigation=0')
-
-// ENSURE ONE WINDOW
-const gotTheLock = app.requestSingleInstanceLock()
-if (!gotTheLock) {
-  app.quit()
-} else {
-  app.on('second-instance', (event, commandLine, workingDirectory) => {
-    // Someone tried to run a second instance, we should focus our window.
-    log.info('Someone tried to run a second instance, we should focus our window.')
-    if (win) {
-      if (win.isMinimized()) win.restore()
-      win.focus()
-    }
-  })
-}
 
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -52,7 +36,7 @@ app.on('activate', function() {
 let updateObject = {}
 function updateCallback(thing) {
   updateObject = thing
-  console.log('updateObject', updateObject)
+  log.info('updateObject', updateObject)
 }
 
 function createWindow() {
@@ -67,10 +51,8 @@ function createWindow() {
 
   const isDissallowedToUpdateCli = !!process.argv.find((item) => item === '--noUpdate')
   const isAllowedToUpdate = (isDissallowedToUpdateCli !== true) ? true : false
-  //autoUpdater.checkForUpdatesAndNotify()
   !isAllowedToUpdate && log.warn('Updates were disabled! ')
   isAllowedToUpdate && checkForUpdates(thing =>updateCallback(thing))
-  log.warn(process.argv, isAllowedToUpdate)
 
   // Load the previous state with fallback to defaults
   const mainWindowState = windowStateKeeper({
@@ -86,8 +68,6 @@ function createWindow() {
       height: parseInt(h, 10)
     } || mainWindowState
 
-  // const pathToIcon = './icons/icon_512@1x.png'
-  // log.info('patchx exists?', path.exists(pathToIcon))
   // Create the window using the state information
   win = new BrowserWindow({
     x,
@@ -99,10 +79,6 @@ function createWindow() {
     },
     title: 'MIDI Bricks',
     vibrancy: 'dark'
-    // frame: false,
-    //titleBarStyle: 'hidden',
-    //skipTaskbar: false,
-    //toolbar: false
   })
   win.setMenu(null)
 
@@ -113,7 +89,6 @@ function createWindow() {
 
   // Check for develper console
   isDevelopmentCli && win.webContents.openDevTools()
-  // win.webContents.openDevTools()
 
   win.webContents.session.setPermissionRequestHandler(
     (webContents, permission, callback) => {
@@ -185,30 +160,6 @@ function createWindow() {
     )
   })
 
-  // autoUpdater.on('checking-for-update', () => {
-  //   sendStatusToWindow('Checking for update...')
-  // })
-  // autoUpdater.on('update-available', (info) => {
-  //   sendStatusToWindow('Update available.' + info)
-  // })
-  // autoUpdater.on('update-not-available', (info) => {
-  //   sendStatusToWindow('Update not available.')
-  // })
-  // autoUpdater.on('error', (err) => {
-  //   sendStatusToWindow('Error in auto-updater. ' + err)
-  // })
-  // autoUpdater.on('download-progress', (progressObj) => {
-  //   const mBitPerSec = progressObj.bytesPerSecond
-  //   let log_message = 'Download speed: ' + mBitPerSec
-  //   log_message = log_message + ' - Downloaded ' + progressObj.percent + '%'
-  //   log_message =
-  //     log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')'
-  //   sendStatusToWindow(log_message)
-  // })
-  // autoUpdater.on('update-downloaded', (info) => {
-  //   sendStatusToWindow('Update downloaded')
-  // })
-
   const url = isDev
     ? 'http://localhost:3000/'
     : `file://${path.join(__dirname, '../build/index.html')}`
@@ -243,7 +194,6 @@ function sendStatusToWindow(text) {
 
   eventListen(notification)
   notification.show()
-
   //notification.close()
 }
 
