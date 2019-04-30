@@ -8,3 +8,4 @@ packages/*/build
 .vscode
 .github
 package-lock.json
+.DS_Store
