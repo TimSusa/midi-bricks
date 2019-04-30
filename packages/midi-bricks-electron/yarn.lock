@@ -7017,11 +7017,6 @@ micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-midi-bricks@^1.1.60:
-  version "1.1.60"
-  resolved "https://registry.yarnpkg.com/midi-bricks/-/midi-bricks-1.1.60.tgz#0ff82207b0d7f3a10a6b6e1d06bcb4f4de1f8452"
-  integrity sha512-FIbi/wpL0EKVNM/oSpy9Io3Thps/qJLSqHZj7daBL343o6FtA0y02PgdOk0hMaAEwpYs5aX1GUjEbDi7Xl0Bfw==
-
 miller-rabin@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/miller-rabin/-/miller-rabin-4.0.1.tgz#f080351c865b0dc562a8462966daa53543c78a4d"
