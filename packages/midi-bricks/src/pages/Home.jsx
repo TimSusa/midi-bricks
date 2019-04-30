@@ -29,9 +29,7 @@ function Home(props) {
 
   const {
     viewSettings: {
-      isLayoutMode = true,
       isLiveMode = false,
-      isSettingsMode = false,
       pageType = PAGE_TYPES.HOME_MODE,
       lastFocusedFooterButtonIdx
     }
@@ -80,7 +78,7 @@ function Home(props) {
     return (
       <div
         className={classes.root}
-        style={isLayoutMode || isSettingsMode ? {} : preventScrollStyle}
+        style={isLiveMode ? preventScrollStyle : {}}
       >
         <ChannelStripList />
       </div>
