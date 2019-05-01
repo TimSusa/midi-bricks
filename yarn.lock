@@ -4811,7 +4811,7 @@ electron@5.0.0:
     electron-download "^4.1.0"
     extract-zip "^1.0.3"
 
-element-resize-detector@^1.1.12:
+element-resize-detector@^1.1.15:
   version "1.1.15"
   resolved "https://registry.yarnpkg.com/element-resize-detector/-/element-resize-detector-1.1.15.tgz#48eba1a2eaa26969a4c998d972171128c971d8d2"
   integrity sha512-16/5avDegXlUxytGgaumhjyQoM6hpp5j3+L79sYq5hlXfTNRy5WMMuTVWkZU3egp/CokCmTmvf18P3KeB57Iog==
@@ -10962,16 +10962,16 @@ react-scripts@3.0.0:
   optionalDependencies:
     fsevents "2.0.6"
 
-react-sizeme@2.5.2:
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/react-sizeme/-/react-sizeme-2.5.2.tgz#e7041390cfb895ed15d896aa91d76e147e3b70b5"
-  integrity sha512-hYvcncV1FxVzPm2EhVwlOLf7Tk+k/ttO6rI7bfKUL/aL1gYzrY3DXJsdZ6nFaFgGSU/i8KC6gCoptOhBbRJpXQ==
+react-sizeme@2.6.4:
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/react-sizeme/-/react-sizeme-2.6.4.tgz#2fe7ceffdb02c3a62d75e1192c6702e9197d0b18"
+  integrity sha512-PyHiJWox23X6qCAmPMhApBrF+Y531oqQrdB9dNUULIROiBFlXikaNQ61ZhmRcWP8yDvtQvKkzl1XGrxtDN4nUQ==
   dependencies:
-    element-resize-detector "^1.1.12"
-    invariant "^2.2.2"
+    element-resize-detector "^1.1.15"
+    invariant "^2.2.4"
     lodash.debounce "^4.0.8"
     lodash.throttle "^4.1.1"
-    shallowequal "^1.0.2"
+    shallowequal "^1.1.0"
 
 react-test-renderer@^16.0.0-0:
   version "16.8.6"
@@ -11912,7 +11912,7 @@ shallow-clone@^1.0.0:
     kind-of "^5.0.0"
     mixin-object "^2.0.1"
 
-shallowequal@^1.0.2:
+shallowequal@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/shallowequal/-/shallowequal-1.1.0.tgz#188d521de95b9087404fd4dcb68b13df0ae4e7f8"
   integrity sha512-y0m1JoUZSlPAjXVtPPW70aZWfIL/dSP7AFkRnniLCrK/8MDKog3TySTBmckD+RObVxH0v4Tox67+F14PdED2oQ==

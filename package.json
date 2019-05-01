@@ -17,7 +17,7 @@
     "react-gamepad": "1.0.3",
     "react-grid-layout": "0.16.6",
     "react-redux": "7.0.1",
-    "react-sizeme": "2.5.2",
+    "react-sizeme": "2.6.4",
     "redux": "4.0.1",
     "redux-generate": "2.0.0",
     "redux-persist": "5.10.0",
