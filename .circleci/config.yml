@@ -1,25 +1,66 @@
 version: 2
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: electronuserland/builder:wine
+    - image: mono
 jobs:
-  build:
-    docker:
-      - image: circleci/node:10.15.3-browsers-legacy
-    working_directory: ~/repo
+  test:
+    <<: *defaults  
     steps:
       - checkout
+      
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
+      - run: yarn
       - run: yarn bootstrap
+      - run:
+          name: Run linter and tests 
+          command: yarn lint && yarn test:midi-bricks
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
+      - run:
+          name: Publish packages
+          command: yarn publish-retry
+      - run:
+          name: Deploy Release to github
+          command: yarn deploy:midi-bricks-electron-ci
+      - run:
+          name: Fullfil release
+          command: yarn release-ci
+
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      - run: yarn build:midi-bricks
-      - run: yarn test:midi-bricks
-      - run: yarn deploy:midi-bricks-ci
-      - run: yarn publish-ci
-      - run: yarn deploy:midi-bricks-electron
-      - run: yarn release-ci
 
-      
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+  
+workflows:
+  version: 2
+  test-deploy:
+    jobs:
+      - test:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+          # filters:
+          #   tags:
+          #     only: /^v.*/
+      - deploy:
+          requires:
+            - test
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+
