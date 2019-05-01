@@ -1,4 +1,4 @@
-version: 2.1
+version: 2
 
 defaults: &defaults
   working_directory: ~/repo
@@ -46,7 +46,7 @@ jobs:
           paths: .
 
 workflows:
-  version: 2.1
+  version: 2
   test-deploy:
     jobs:
       - deploy:
