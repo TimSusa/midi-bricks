@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks-mono",
-  "version": "1.1.75",
+  "version": "1.1.76",
   "private": false,
   "license": "MIT",
   "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
@@ -60,8 +60,8 @@
     "build:midi-bricks": "cd packages/midi-bricks && yarn build && cd ..",
     "build:midi-bricks-doc": "cd packages/midi-bricks-doc && yarn && yarn build && cd ..",
     "build:midi-bricks-electron": "cd packages/midi-bricks-electron && yarn && yarn build && cd ..",
-    "publish": "lerna publish && yarn build && yarn deploy",
-    "publish-ci": "lerna publish -c --yes prepatch",
+    "publish": "lerna publish && yarn deploy",
+    "publish-ci": "lerna publish --yes",
     "publish-retry": "lerna publish --force-publish $(ls packages/)",
     "deploy": "yarn deploy:midi-bricks-doc && yarn deploy:midi-bricks && yarn deploy:midi-bricks-electron",
     "deploy:midi-bricks": "cd packages/midi-bricks/ && yarn deploy && cd .. && cd ..",
