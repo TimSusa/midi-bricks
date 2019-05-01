@@ -1,4 +1,4 @@
-version: 2.1
+version: 2.0
 
 defaults: &defaults
   working_directory: ~/repo
@@ -19,16 +19,7 @@ jobs:
       - run: yarn bootstrap
       - run:
           name: Run linter and tests 
-          command: yarn lint && yarn test:midi-bricks
-
-      - save_cache:
-          name: Save Yarn Package Cache
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
-      - persist_to_workspace:
-          root: ~/repo
-          paths: .
+          command: yarn lint && yarn test:midi-bricks && git status
 
       - run:
           name: Authenticate with registry
@@ -42,7 +33,14 @@ jobs:
       - run:
           name: Fullfil release
           command: yarn release-ci
-
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
 
 workflows:
   test-deploy:
