@@ -47,6 +47,7 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap && lerna link",
+    "bootstrap-ci": "lerna bootstrap --hoist && lerna link",
     "dev:midi-bricks": "cd packages/midi-bricks && yarn start && cd ../..",
     "dev:midi-bricks-doc": "cd packages/midi-bricks-doc && yarn start && cd ../..",
     "dev:midi-bricks-electron": "cd packages/midi-bricks-electron && yarn dev && cd ../..",
@@ -60,12 +61,16 @@
     "build:midi-bricks-doc": "cd packages/midi-bricks-doc && yarn && yarn build && cd ..",
     "build:midi-bricks-electron": "cd packages/midi-bricks-electron && yarn && yarn build && cd ..",
     "publish": "lerna publish && yarn build && yarn deploy",
+    "publish-ci": "lerna publish -c --yes --repo-version grep -Po '(?<=\"version\":s\")[^\"]*' package.json",
+    "publish-retry": "lerna publish --force-publish $(ls packages/)",
     "deploy": "yarn deploy:midi-bricks-doc && yarn deploy:midi-bricks && yarn deploy:midi-bricks-electron",
     "deploy:midi-bricks": "cd packages/midi-bricks/ && yarn deploy && cd .. && cd ..",
     "deploy:midi-bricks-ci": "cd packages/midi-bricks/ && yarn deploy-ci && cd .. && cd ..",
     "deploy:midi-bricks-doc": "cd packages/midi-bricks-doc/ && yarn && yarn deploy && cd .. && cd ..",
     "deploy:midi-bricks-electron": "cd packages/midi-bricks-electron/ && yarn release && cd .. && cd ..",
     "precommit": "yarn test && cd packages/midi-bricks/ && yarn test && cd ..",
-    "info-ci": "uname -a"
+    "info-ci": "uname -a",
+    "pre-release-ci": "release pre --pre --previous-tag $(git describe --abbrev=0) --show-url",
+    "release-ci":"release --overwrite --publish --show-url"
   }
 }

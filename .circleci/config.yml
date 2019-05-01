@@ -10,7 +10,7 @@ jobs:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
-      - run: yarn bootstrap
+      - run: yarn bootstrap-ci
       - save_cache:
           paths:
             - node_modules
@@ -18,4 +18,9 @@ jobs:
       - run: yarn build:midi-bricks
       - run: yarn test:midi-bricks
       - run: yarn deploy:midi-bricks-ci
+      - run: yarn pre-release-ci
+      - run: yarn publish-ci
+      - run: yarn deploy:midi-bricks-electron
+      - run: yarn release-ci
+
       

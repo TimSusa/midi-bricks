@@ -1,13 +1,19 @@
-const { BrowserWindow, app, Notification, ipcMain, dialog } = require('electron')
+const {
+  BrowserWindow,
+  app,
+  Notification,
+  ipcMain,
+  dialog
+} = require('electron')
 const path = require('path')
 const fs = require('fs')
 const isDev = require('electron-is-dev')
 const windowStateKeeper = require('electron-window-state')
 const log = require('electron-log')
 const { checkForUpdates } = require('./update')
+const util = require('util')
+const readFile = util.promisify(fs.readFile)
 require('electron').process
-
-
 
 let win = null
 let notification = null
@@ -47,12 +53,15 @@ function createWindow() {
   const [xx, yy, w, h] = process.argv[windowIndex].split(',')
 
   // Extract CLI parameter: Enable Dev Console
-  const isDevelopmentCli = isDev || !!process.argv.find((item) => item === '--dev')
+  const isDevelopmentCli =
+    isDev || !!process.argv.find((item) => item === '--dev')
 
-  const isDissallowedToUpdateCli = !!process.argv.find((item) => item === '--noUpdate')
-  const isAllowedToUpdate = (isDissallowedToUpdateCli !== true) ? true : false
+  const isDissallowedToUpdateCli = !!process.argv.find(
+    (item) => item === '--noUpdate'
+  )
+  const isAllowedToUpdate = isDissallowedToUpdateCli !== true ? true : false
   !isAllowedToUpdate && log.warn('Updates were disabled! ')
-  isAllowedToUpdate && checkForUpdates(thing =>updateCallback(thing))
+  isAllowedToUpdate && checkForUpdates((thing) => updateCallback(thing))
 
   // Load the previous state with fallback to defaults
   const mainWindowState = windowStateKeeper({
@@ -97,68 +106,10 @@ function createWindow() {
     }
   )
 
-
   // Register IPC
-  ipcMain.on('open-file-dialog', (event, arg) => {
-    dialog.showOpenDialog(
-      {
-        properties: ['openFile'],
-        filters: [
-          {
-            name: 'javascript',
-            extensions: ['js']
-          },
-          {
-            name: 'json',
-            extensions: ['json']
-          }
-        ]
-      },
-      (filenames) => {
-        if (filenames === undefined) {
-          return
-        }
-        fs.readFile(filenames[0], {}, (err, data) => {
-          const stuff = { content: JSON.parse(data), presetName: filenames[0] }
-          event.sender.send('open-file-dialog-reply', stuff)
-        })
-      }
-    )
-  })
+  ipcMain.on('open-file-dialog', onOpenFileDialog)
 
-  ipcMain.on('save-file-dialog', (event, arg) => {
-    dialog.showSaveDialog(
-      {
-        properties: ['openFile'],
-        defaultPath: app.getAppPath(),
-        filters: [
-          {
-            name: 'javascript',
-            extensions: ['js']
-          },
-          {
-            name: 'json',
-            extensions: ['json']
-          }
-        ]
-      },
-      (filename, bookmark) => {
-        if (filename === undefined) {
-          return
-        }
-        const json = JSON.stringify(arg)
-        fs.writeFile(filename, json, 'utf8', (err, data) => {
-          if (err) {
-            throw new Error(err)
-          }
-        })
-        event.sender.send('save-file-dialog-reply', {
-          presetName: filename,
-          content: arg
-        })
-      }
-    )
-  })
+  ipcMain.on('save-file-dialog', onSaveFileDialog)
 
   const url = isDev
     ? 'http://localhost:3000/'
@@ -197,9 +148,81 @@ function sendStatusToWindow(text) {
   //notification.close()
 }
 
-function eventListen(notification){
+function eventListen(notification) {
   return notification.once('click', () => {
     log.info('Notification clicked')
     notification.close()
   })
+}
+
+function onSaveFileDialog(event, arg) {
+  dialog.showSaveDialog(
+    {
+      properties: ['openFile'],
+      defaultPath: app.getAppPath(),
+      filters: [
+        {
+          name: 'javascript',
+          extensions: ['js']
+        },
+        {
+          name: 'json',
+          extensions: ['json']
+        }
+      ]
+    },
+    (filename, bookmark) => {
+      if (filename === undefined) {
+        return
+      }
+      const json = JSON.stringify(arg)
+      fs.writeFile(filename, json, 'utf8', (err, data) => {
+        if (err) {
+          throw new Error(err)
+        }
+      })
+      event.sender.send('save-file-dialog-reply', {
+        presetName: filename,
+        content: arg
+      })
+    }
+  )
+}
+
+function onOpenFileDialog(event, arg) {
+  dialog.showOpenDialog(
+    {
+      properties: ['openFile'],
+      filters: [
+        {
+          name: 'javascript',
+          extensions: ['js']
+        },
+        {
+          name: 'json',
+          extensions: ['json']
+        }
+      ]
+    },
+    (filenames) => {
+      Array.isArray(filenames) &&
+        readFile(filenames[0], {}).then(
+          (data) => {
+            const stuff = {
+              content: JSON.parse(data),
+              presetName: filenames[0]
+            }
+            event.sender.send('open-file-dialog-reply', stuff)
+            log.info(
+              'Object loaded: ',
+              stuff.content.viewSettings || 'nothing found'
+            )
+            return data
+          },
+          (err) => {
+            new Error(err)
+          }
+        )
+    }
+  )
 }
