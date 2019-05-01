@@ -46,7 +46,7 @@ jobs:
           paths: .
 
 workflows:
-  version: 2.
+  version: 2.1
   test-deploy:
     jobs:
       - deploy:
