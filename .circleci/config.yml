@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 defaults: &defaults
   working_directory: ~/repo
@@ -6,23 +6,33 @@ defaults: &defaults
     - image: electronuserland/builder:wine
     - image: mono
 jobs:
-  test:
+  deploy:
     <<: *defaults  
     steps:
       - checkout
       
       - restore_cache:
+          name: Restore Yarn Package Cache
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-      - run: yarn
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run: yarn --pure-lockfile
       - run: yarn bootstrap
       - run:
           name: Run linter and tests 
           command: yarn lint && yarn test:midi-bricks
+
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+
       - run:
           name: Authenticate with registry
-          command: echo "registry \"//registry.npmjs.org/:_authToken=$NPM_TOKEN\"" > ~/repo/.yarnrc
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
       - run:
           name: Publish packages
           command: yarn publish-retry
@@ -33,31 +43,11 @@ jobs:
           name: Fullfil release
           command: yarn release-ci
 
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
 
-      - persist_to_workspace:
-          root: ~/repo
-          paths: .
-  
 workflows:
-  version: 2
   test-deploy:
     jobs:
-      - test:
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
-          # filters:
-          #   tags:
-          #     only: /^v.*/
       - deploy:
-          requires:
-            - test
           filters:
             tags:
               only: /^v.*/

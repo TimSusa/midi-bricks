@@ -9,3 +9,5 @@ packages/*/build
 .github
 package-lock.json
 .DS_Store
+.npmrc
+.yarnrc

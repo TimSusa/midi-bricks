@@ -26,7 +26,7 @@ function AddMenu(props) {
   const { sliderList, actions } = props
   return (
     <React.Fragment>
-      <Tooltip title='Add Element'>
+      <Tooltip title='Add Elements'>
         <IconButton
           aria-owns={anchorEl ? 'menu-appbar-add' : null}
           aria-haspopup='true'

@@ -24,3 +24,6 @@ yarn-error.log*
 /src
 package-lock.json
 .env
+.DS_Store
+.npmrc
+.yarnrc
