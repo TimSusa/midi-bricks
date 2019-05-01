@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks-mono",
-  "version": "1.1.76",
+  "version": "1.1.77",
   "private": false,
   "license": "MIT",
   "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
@@ -48,7 +48,6 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap && lerna link",
-    "bootstrap-ci": "lerna bootstrap --hoist && lerna link",
     "dev:midi-bricks": "cd packages/midi-bricks && yarn start && cd ../..",
     "dev:midi-bricks-doc": "cd packages/midi-bricks-doc && yarn start && cd ../..",
     "dev:midi-bricks-electron": "cd packages/midi-bricks-electron && yarn dev && cd ../..",
@@ -71,7 +70,7 @@
     "deploy:midi-bricks-electron": "cd packages/midi-bricks-electron/ && yarn release && cd .. && cd ..",
     "precommit": "yarn test && cd packages/midi-bricks/ && yarn test && cd ..",
     "info-ci": "uname -a",
-    "pre-release-ci": "release patch -t $(git describe --abbrev=0) --show-url --overwrite",
-    "release-ci": "release --overwrite --publish --show-url"
+    "pre-release-ci": "release prepatch -t $(git describe --abbrev=0) --show-url --overwrite",
+    "release-ci": "release patch -t $(git describe --abbrev=0) --show-url --overwrite --publish"
   }
 }
