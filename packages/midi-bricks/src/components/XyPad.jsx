@@ -8,8 +8,8 @@ import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 class XyPad extends Component {
   animationFrames = []
   state = {
-    speedX: 0.0,
-    speedY: 0.0,
+    speedX: 0,
+    speedY: 0,
     x: this.props.x || 0,
     y: this.props.y || 0,
     connected: false,
@@ -201,8 +201,8 @@ class Pad extends Component {
             this.props.pressedButtons.length > 0
               ? 'pink'
               : this.props.isConnected
-              ? 'aliceblue'
-              : 'red',
+                ? 'aliceblue'
+                : 'red',
           opacity: 0.7,
         }}
       >
