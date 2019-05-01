@@ -38,8 +38,8 @@
     "lerna": "3.13.4",
     "now": "15.0.10",
     "react-scripts": "3.0.0",
-    "redux-devtools-extension": "^2.13.8",
-    "redux-logger": "^3.0.6",
+    "redux-devtools-extension": "2.13.8",
+    "redux-logger": "3.0.6",
     "redux-mock-store": "1.5.3"
   },
   "resolutions": {
