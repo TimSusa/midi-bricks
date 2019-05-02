@@ -12,6 +12,7 @@ ListItemLoadFileOnElectron.propTypes = {
 }
 
 // At Electron App we use ipc for file loading from main process
+// This is the last working version
 export function ListItemLoadFileOnElectron({ onFileChange }) {
   return (
     <ListItem
