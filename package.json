@@ -72,6 +72,9 @@
     "precommit": "yarn test && cd packages/midi-bricks/ && yarn test && cd ..",
     "info-ci": "uname -a",
     "pre-release-ci": "release prepatch -t $(git describe --abbrev=0) --show-url --overwrite",
-    "release-ci": "git push origin $(git describe --abbrev=0)"
+    "release-ci": "git push origin $(git describe --abbrev=0)",
+    "postversion": "yarn publish --tag=next",
+    "postpublish": "git push origin --all; git push origin --tags",
+    "preversion": "yarn lint && yarn test:midi-bricks"
   }
 }
