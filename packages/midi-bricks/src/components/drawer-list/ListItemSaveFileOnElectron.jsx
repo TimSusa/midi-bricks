@@ -21,7 +21,7 @@ ListItemSaveFileOnElectronComp.propTypes = {
 }
 
 // At Electron App we use ipc for file loading from main process
-export function ListItemSaveFileOnElectronComp({ onFileChange, viewSettings, sliders }) {
+export function ListItemSaveFileOnElectronComp({ onFileChange, viewSettings, sliders={} }) {
   return (
     <ListItem
       button

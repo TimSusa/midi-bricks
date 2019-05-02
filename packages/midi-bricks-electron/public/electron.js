@@ -10,7 +10,7 @@ const fs = require('fs')
 const isDev = require('electron-is-dev')
 const windowStateKeeper = require('electron-window-state')
 const log = require('electron-log')
-const { checkForUpdates } = require('./update')
+//const { checkForUpdates } = require('./update')
 const util = require('util')
 const readFile = util.promisify(fs.readFile)
 require('electron').process
@@ -19,14 +19,12 @@ let win = null
 let appSettings = {
   isDevConsoleEnabled: isDev,
   windowCoords: [0, 0, 300, 400],
-  isAllowedToUpdate: false
+  isAllowedToUpdate: true
 }
 log.info(app.getPath('userData'))
 
 const persistedAppSettingsFileName =
   app.getPath('userData') + '/midi-bricks-persisted-app-settings.json'
-
-
 
 let notification = null
 
@@ -71,13 +69,16 @@ function createWindow() {
       !!process.argv.find((item) => item === '--dev')) ||
     appSettings.isDevConsoleEnabled
 
-  log.info('isDevelopmentCli: ', appSettings.isDevConsoleEnabled)
-  const isDissallowedToUpdateCli = !!process.argv.find(
+  isDevelopmentCli && log.info('isDevelopmentCli is enabled! ')
+  const isAllowedToUpdateCli = process.argv.find(
     (item) => item === '--noUpdate'
   )
-  const isAllowedToUpdate = isDissallowedToUpdateCli !== true ? true : false
+  const isAllowedToUpdate =
+    appSettings.isAllowedToUpdate != undefined
+      ? appSettings.isAllowedToUpdate
+      : isAllowedToUpdateCli
   !isAllowedToUpdate && log.warn('Updates were disabled! ')
-  isAllowedToUpdate && checkForUpdates((thing) => updateCallback(thing))
+  appSettings.isAllowedToUpdate && require('./update').checkForUpdates((thing) => updateCallback(thing))
 
   // Load the previous state with fallback to defaults
   const mainWindowState = windowStateKeeper({
@@ -103,7 +104,7 @@ function createWindow() {
       nodeIntegration: true
     },
     title: 'MIDI Bricks',
-    vibrancy: 'dark',
+    vibrancy: 'dark'
     // titlebarAppearsTransparent: true
   })
   win.setMenu(null)

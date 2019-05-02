@@ -25,7 +25,7 @@ function GlobalViewSettings(props) {
   const {
     actions,
     viewSettings: {
-      electronAppSettings: { isDevConsoleEnabled = false } = {},
+      electronAppSettings: { isDevConsoleEnabled = false, isAllowedToUpdate = true } = {},
       columns = 18,
       rowHeight = 40,
       isAutoSize = false,
@@ -72,25 +72,49 @@ function GlobalViewSettings(props) {
           />
         )}
 
-        <FormControlLabel
-          control={
-            <Tooltip title='Show developer console from startup'>
-              <Switch
-                checked={isDevConsoleEnabled || false}
-                onChange={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  actions.setElectronAppSettings({
-                    isDevConsoleEnabled: !isDevConsoleEnabled
-                  })
-                }}
-                value={isDevConsoleEnabled || false}
-                color='secondary'
-              />
-            </Tooltip>
-          }
-          label='Show Dev Console'
-        />
+        {!isWebMode && (
+          <FormControlLabel
+            control={
+              <Tooltip title='Show developer console from startup. Keep in mind, that this settings comes into play after saving a preset.'>
+                <Switch
+                  checked={isDevConsoleEnabled}
+                  onChange={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    actions.setElectronAppSettings({
+                      isDevConsoleEnabled: !isDevConsoleEnabled
+                    })
+                  }}
+                  value={isDevConsoleEnabled}
+                  color='secondary'
+                />
+              </Tooltip>
+            }
+            label='Show Dev Console'
+          />
+        )}
+
+        {!isWebMode && (
+          <FormControlLabel
+            control={
+              <Tooltip title='You can disable the check for updates here. Keep in mind, that this settings comes into play after saving a preset.'>
+                <Switch
+                  checked={isAllowedToUpdate}
+                  onChange={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    actions.setElectronAppSettings({
+                      isAllowedToUpdate: !isAllowedToUpdate
+                    })
+                  }}
+                  value={isAllowedToUpdate}
+                  color='secondary'
+                />
+              </Tooltip>
+            }
+            label='Check for updates'
+          />
+        )}
 
         <FormControlLabel
           control={

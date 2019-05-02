@@ -44,6 +44,7 @@ const initState = {
   },
   electronAppSettings: {
     isDevConsoleEnabled: true,
+    isAllowedToUpdate: true,
     windowCoords: [0, 0, 600, 800]
   }
 }
@@ -368,10 +369,11 @@ export const reducers = {
     state = initState,
     action
   ) {
-    const { isDevConsoleEnabled, windowCoords } = action.payload
+    const { isDevConsoleEnabled, isAllowedToUpdate, windowCoords } = action.payload
     const electronAppSettings = {
-      isDevConsoleEnabled: isDevConsoleEnabled !== undefined ? isDevConsoleEnabled : initState.electronAppSettings,
-      windowCoords: Array.isArray(windowCoords) ? windowCoords : initState.electronAppSettings.windowCoords
+      isDevConsoleEnabled: isDevConsoleEnabled !== undefined ? isDevConsoleEnabled : state.electronAppSettings.isDevConsoleEnabled,
+      isAllowedToUpdate: isAllowedToUpdate !== undefined ? isAllowedToUpdate : state.electronAppSettings.isAllowedToUpdate,
+      windowCoords: Array.isArray(windowCoords) ? windowCoords : state.electronAppSettings.windowCoords
     }
     return { ...state, electronAppSettings }
   }
