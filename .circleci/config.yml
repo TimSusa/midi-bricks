@@ -33,9 +33,9 @@ jobs:
       # - run:
       #     name: Deploy Release to github
       #     command: yarn deploy:midi-bricks-electron-ci
-      - run:
-          name: Fullfil release
-          command: yarn release-ci
+      # - run:
+      #     name: Fullfil release
+      #     command: yarn release-ci
       - save_cache:
           name: Save Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}

@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks-electron",
-  "productName": "MIDI Brikx",
+  "productName": "MIDI-Brikx",
   "version": "1.1.80",
   "main": "./build/electron.js",
   "homepage": ".",
