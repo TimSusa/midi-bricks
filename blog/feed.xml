@@ -4,7 +4,7 @@
         <title>MIDI Bricks Blog</title>
         <link>https://timsusa.github.io/midi-bricks-mono/blog</link>
         <description>The best place to stay up-to-date with the latest MIDI Bricks news and events.</description>
-        <lastBuildDate>Tue, 24 Oct 2017 06:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 01 Jan 1970 00:00:00 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>Feed for Node.js</generator>
         <image>
@@ -13,6 +13,13 @@
             <link>https://timsusa.github.io/midi-bricks-mono/blog</link>
         </image>
         <copyright>Copyright © 2019 Tim Susa</copyright>
+        <item>
+            <title><![CDATA[Never forget about manifest.json]]></title>
+            <link>https://timsusa.github.io/midi-bricks-mono/blog/2019/05/003/blog-post.html</link>
+            <guid>https://timsusa.github.io/midi-bricks-mono/blog/2019/05/003/blog-post.html</guid>
+            <pubDate>Thu, 01 Jan 1970 00:00:00 GMT</pubDate>
+            <description><![CDATA[<p>Suddenly we had poor performance for sliders. Getting back to manifest.json with display standalone saved our day.</p> ]]></description>
+        </item>
         <item>
             <title><![CDATA[New Version 1.0.0]]></title>
             <link>https://timsusa.github.io/midi-bricks-mono/blog/2017/10/24/new-version-1.0.0.html</link>

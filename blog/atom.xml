@@ -2,12 +2,24 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://timsusa.github.io/midi-bricks-mono/blog</id>
     <title>MIDI Bricks Blog</title>
-    <updated>2017-10-24T06:00:00Z</updated>
+    <updated>1970-01-01T00:00:00Z</updated>
     <generator>Feed for Node.js</generator>
     <link rel="alternate" href="https://timsusa.github.io/midi-bricks-mono/blog"/>
     <subtitle>The best place to stay up-to-date with the latest MIDI Bricks news and events.</subtitle>
     <logo>https://timsusa.github.io/midi-bricks-mono/img/docusaurus.svg</logo>
     <rights>Copyright © 2019 Tim Susa</rights>
+    <entry>
+        <title type="html"><![CDATA[Never forget about manifest.json]]></title>
+        <id>https://timsusa.github.io/midi-bricks-mono/blog/2019/05/003/blog-post.html</id>
+        <link href="https://timsusa.github.io/midi-bricks-mono/blog/2019/05/003/blog-post.html">
+        </link>
+        <updated>1970-01-01T00:00:00Z</updated>
+        <summary type="html"><![CDATA[<p>Suddenly we had poor performance for sliders. Getting back to manifest.json with display standalone saved our day.</p> ]]></summary>
+        <author>
+            <name>Tim Susa</name>
+            <uri>http://twitter.com/timsusa</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[New Version 1.0.0]]></title>
         <id>https://timsusa.github.io/midi-bricks-mono/blog/2017/10/24/new-version-1.0.0.html</id>
