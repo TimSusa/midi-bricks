@@ -16,7 +16,8 @@ const readFile = util.promisify(fs.readFile)
 require('electron').process
 
 let win = null
-let appSettings = {
+let appSettings = null
+let appInitSettings = {
   isDevConsoleEnabled: isDev,
   windowCoords: [0, 0, 300, 400],
   isAllowedToUpdate: true
@@ -40,6 +41,7 @@ app.on('ready', createWindow)
 app.on('window-all-closed', function() {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
+  appSettings = null
   if (process.platform !== 'darwin') app.quit()
 })
 
@@ -55,8 +57,8 @@ function updateCallback(thing) {
   log.info('updateObject:', updateObject)
 }
 
-function createWindow() {
-  readoutPersistedAppsettings(appSettings)
+async function createWindow() {
+  appSettings = await readoutPersistedAppsettings(appSettings)
   log.info('App started... ! ', appSettings)
 
   // Extract CLI parameter: Window Coordinates
@@ -284,12 +286,12 @@ function onOpenFileDialog(event, arg) {
   )
 }
 
-async function readoutPersistedAppsettings(appSettings) {
+async function readoutPersistedAppsettings(appSettings=appInitSettings) {
   try {
     // Try to read out persisted app-settings:
-    const data = JSON.parse(await readFile(persistedAppSettingsFileName))
+    const res = await readFile(persistedAppSettingsFileName)
+    const data = JSON.parse(res)
     appSettings = data
-    log.info('found app settings: ', data)
     return data
   } catch (error) {
     log.warn('App Settings Warning: ', error, 'Try to create settings-file')
@@ -302,6 +304,7 @@ async function readoutPersistedAppsettings(appSettings) {
         if (err) {
           throw new Error(err)
         }
+        return appSettings
       }
     )
   }
