@@ -7018,9 +7018,9 @@ micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8:
     to-regex "^3.0.2"
 
 midi-bricks@^1.1.82:
-  version "1.51.1"
-  resolved "https://registry.npmjs.org/midi-bricks/-/midi-bricks-1.51.1.tgz#b8f8437bd8f3f43ba5c9f05dd340f94272ee5b12"
-  integrity sha512-fXacH5pDZG47fAi8TyZxxIFFtSsw6brl3JyUV+mhyDZTZFWalpovPq1EJ6BY+bQu60muDiOdZIMvgShTgpXTug==
+  version "1.1.82"
+  resolved "https://registry.npmjs.org/midi-bricks/-/midi-bricks-1.1.82.tgz#1479bc24bb1e1d4abbd02ad1b1b61413a7709578"
+  integrity sha512-CpLyU5EEhDceaIfbGkayf7FJkIiebCoJ6Ahv+N6bsatxK07q5at83R2zsT+laEylQFwLtVydITcIlZEEWNXm0w==
 
 miller-rabin@^4.0.0:
   version "4.0.1"
