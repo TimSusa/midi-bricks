@@ -61,10 +61,6 @@ async function createWindow() {
   appSettings = await readoutPersistedAppsettings(appSettings)
   log.info('App started... ! ', appSettings)
 
-  // Extract CLI parameter: Window Coordinates
-  const windowIndex = process.argv.findIndex((item) => item === '--window') + 1
-  const [xx, yy, w, h] = process.argv[windowIndex].split(',')
-
   // Extract CLI parameter: Enable Dev Console
   const isDevelopmentCli =
     (process.argv.find((item) => item === '--dev') !== undefined &&
@@ -80,7 +76,8 @@ async function createWindow() {
       ? appSettings.isAllowedToUpdate
       : isAllowedToUpdateCli
   !isAllowedToUpdate && log.warn('Updates were disabled! ')
-  appSettings.isAllowedToUpdate && require('./update').checkForUpdates((thing) => updateCallback(thing))
+  appSettings.isAllowedToUpdate &&
+    require('./update').checkForUpdates((thing) => updateCallback(thing))
 
   // Load the previous state with fallback to defaults
   const mainWindowState = windowStateKeeper({
@@ -88,14 +85,19 @@ async function createWindow() {
     defaultHeight: 800
   })
 
+  // Extract CLI parameter: Window Coordinates
+  const windowIndex = process.argv.findIndex((item) => item === '--window') + 1
+  const [xx, yy, w, h] = process.argv[windowIndex].split(',')
+
+  const [xSet, ySet, widthSet, heightSet] = appSettings.windowCoords
   const { x, y, width, height } =
     {
-      x: parseInt(xx, 10),
-      y: parseInt(yy, 10),
-      width: parseInt(w, 10),
-      height: parseInt(h, 10)
+      x: parseInt((yy && w && h && xx) || xSet, 10),
+      y: parseInt(yy || ySet, 10),
+      width: parseInt(w || widthSet, 10),
+      height: parseInt(h || heightSet, 10)
     } || mainWindowState
-
+  log.info('sdfaf ', {  x, y, width, height})
   // Create the window using the state information
   win = new BrowserWindow({
     x,
@@ -202,44 +204,7 @@ function onSaveFileDialog(event, arg) {
         }
       })
 
-      const {
-        viewSettings: {
-          electronAppSettings: {
-            isDevConsoleEnabled,
-            isAllowedToUpdate,
-            windowCoords
-          }
-        }
-      } = arg
-      log.info(
-        'will write file with: ',
-        isDevConsoleEnabled,
-        isAllowedToUpdate,
-        windowCoords
-      )
-      const freshContent = {
-        isAllowedToUpdate,
-        isDevConsoleEnabled,
-        windowCoords
-      }
-      const jsonRefreshed = JSON.stringify(freshContent)
-      fs.writeFile(
-        persistedAppSettingsFileName,
-        jsonRefreshed,
-        'utf8',
-        (err, data) => {
-          if (err) {
-            throw new Error(err)
-          }
-        }
-      )
-      appSettings = freshContent
-      log.info(
-        'App Settings written: ',
-        jsonRefreshed,
-        ' to: ',
-        persistedAppSettingsFileName
-      )
+      appSettings = persistAppSettings(arg)
       event.sender.send('save-file-dialog-reply', {
         presetName: filename,
         content: arg
@@ -267,10 +232,12 @@ function onOpenFileDialog(event, arg) {
       Array.isArray(filenames) &&
         readFile(filenames[0], {}).then(
           (data) => {
+            const arg = JSON.parse(data)
             const stuff = {
-              content: JSON.parse(data),
+              content: arg,
               presetName: filenames[0]
             }
+            appSettings = persistAppSettings(arg)
             event.sender.send('open-file-dialog-reply', stuff)
             log.info(
               'Object loaded: ',
@@ -286,7 +253,7 @@ function onOpenFileDialog(event, arg) {
   )
 }
 
-async function readoutPersistedAppsettings(appSettings=appInitSettings) {
+async function readoutPersistedAppsettings(appSettings = appInitSettings) {
   try {
     // Try to read out persisted app-settings:
     const res = await readFile(persistedAppSettingsFileName)
@@ -308,4 +275,46 @@ async function readoutPersistedAppsettings(appSettings=appInitSettings) {
       }
     )
   }
+}
+
+function persistAppSettings(arg) {
+  const {
+    viewSettings: {
+      electronAppSettings: {
+        isDevConsoleEnabled,
+        isAllowedToUpdate,
+        windowCoords
+      }
+    }
+  } = arg
+  log.info(
+    'will write file with: ',
+    isDevConsoleEnabled,
+    isAllowedToUpdate,
+    windowCoords
+  )
+  const freshContent = {
+    isAllowedToUpdate,
+    isDevConsoleEnabled,
+    windowCoords
+  }
+  const jsonRefreshed = JSON.stringify(freshContent)
+  fs.writeFile(
+    persistedAppSettingsFileName,
+    jsonRefreshed,
+    'utf8',
+    (err, data) => {
+      if (err) {
+        throw new Error(err)
+      }
+    }
+  )
+  log.info(
+    'App Settings written: ',
+    jsonRefreshed,
+    ' to: ',
+    persistedAppSettingsFileName
+  )
+
+  return freshContent
 }

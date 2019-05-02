@@ -6,7 +6,7 @@ import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
 import { initApp } from '../actions/init.js'
 import { MinMaxValInput } from './midi-settings/elements/MinMaxValInput'
-import { FormControlLabel, Switch, Tooltip } from '@material-ui/core'
+import { FormControlLabel, Switch, Tooltip, Input } from '@material-ui/core'
 import { PropTypes } from 'prop-types'
 
 export default connect(
@@ -25,7 +25,11 @@ function GlobalViewSettings(props) {
   const {
     actions,
     viewSettings: {
-      electronAppSettings: { isDevConsoleEnabled = false, isAllowedToUpdate = true } = {},
+      electronAppSettings: {
+        isDevConsoleEnabled = false,
+        isAllowedToUpdate = true,
+        windowCoords = []
+      } = {},
       columns = 18,
       rowHeight = 40,
       isAutoSize = false,
@@ -113,6 +117,29 @@ function GlobalViewSettings(props) {
               </Tooltip>
             }
             label='Check for updates'
+          />
+        )}
+        {!isWebMode && (
+          <FormControlLabel
+            control={
+              <Tooltip title='Change Window position. Keep in mind, that this settings comes into play after saving a preset.'>
+                <Input
+                  id='app-window-coords'
+                  type='string'
+                  value={Array.isArray(windowCoords) ? windowCoords.join(',') : '100,100,600,800'}
+                  onChange={e => {
+                    e.preventDefault()
+                    const val = e.target.value
+                    const windowCoords = (val || '100,100,600,800').split(',').map(val => parseInt(val,10))
+
+                    Array.isArray(windowCoords) && actions.setElectronAppSettings({
+                      windowCoords
+                    })
+                  }}
+                />
+              </Tooltip>
+            }
+            label='Initial Window-Size'
           />
         )}
 
