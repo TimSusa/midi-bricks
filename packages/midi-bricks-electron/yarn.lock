@@ -3861,7 +3861,7 @@ electron-osx-sign@0.4.11:
     minimist "^1.2.0"
     plist "^3.0.1"
 
-electron-publish@20.40.0, electron-publish@^20.40.0:
+electron-publish@20.40.0:
   version "20.40.0"
   resolved "https://registry.yarnpkg.com/electron-publish/-/electron-publish-20.40.0.tgz#156eacd9b8bab563a3f8723e9b45214915a9681d"
   integrity sha512-mkjtsIgftRszuT/8do8TszmddokDnu254OyTeL8nE780o/A8t68oXHZzvlTJ4AQ8uBOYrA87JDO/BFCWjnVArA==
@@ -7016,11 +7016,6 @@ micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8:
     regex-not "^1.0.0"
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
-
-midi-bricks@^1.1.82:
-  version "1.1.82"
-  resolved "https://registry.npmjs.org/midi-bricks/-/midi-bricks-1.1.82.tgz#1479bc24bb1e1d4abbd02ad1b1b61413a7709578"
-  integrity sha512-CpLyU5EEhDceaIfbGkayf7FJkIiebCoJ6Ahv+N6bsatxK07q5at83R2zsT+laEylQFwLtVydITcIlZEEWNXm0w==
 
 miller-rabin@^4.0.0:
   version "4.0.1"
