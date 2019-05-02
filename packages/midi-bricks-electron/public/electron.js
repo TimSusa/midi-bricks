@@ -16,6 +16,18 @@ const readFile = util.promisify(fs.readFile)
 require('electron').process
 
 let win = null
+let appSettings = {
+  isDevConsoleEnabled: isDev,
+  windowCoords: [0, 0, 300, 400],
+  isAllowedToUpdate: false
+}
+log.info(app.getPath('userData'))
+
+const persistedAppSettingsFileName =
+  app.getPath('userData') + '/midi-bricks-persisted-app-settings.json'
+
+
+
 let notification = null
 
 // Prevent Zoom, disrupting touches
@@ -46,7 +58,8 @@ function updateCallback(thing) {
 }
 
 function createWindow() {
-  log.info('App started... !')
+  readoutPersistedAppsettings(appSettings)
+  log.info('App started... ! ', appSettings)
 
   // Extract CLI parameter: Window Coordinates
   const windowIndex = process.argv.findIndex((item) => item === '--window') + 1
@@ -54,8 +67,11 @@ function createWindow() {
 
   // Extract CLI parameter: Enable Dev Console
   const isDevelopmentCli =
-    isDev || !!process.argv.find((item) => item === '--dev')
+    (process.argv.find((item) => item === '--dev') !== undefined &&
+      !!process.argv.find((item) => item === '--dev')) ||
+    appSettings.isDevConsoleEnabled
 
+  log.info('isDevelopmentCli: ', appSettings.isDevConsoleEnabled)
   const isDissallowedToUpdateCli = !!process.argv.find(
     (item) => item === '--noUpdate'
   )
@@ -87,7 +103,8 @@ function createWindow() {
       nodeIntegration: true
     },
     title: 'MIDI Bricks',
-    vibrancy: 'dark'
+    vibrancy: 'dark',
+    // titlebarAppearsTransparent: true
   })
   win.setMenu(null)
 
@@ -108,7 +125,6 @@ function createWindow() {
 
   // Register IPC
   ipcMain.on('open-file-dialog', onOpenFileDialog)
-
   ipcMain.on('save-file-dialog', onSaveFileDialog)
 
   const url = isDev
@@ -140,7 +156,7 @@ function sendStatusToWindow(text) {
     body: text || 'txt is not there',
     silent: true,
     sound: '',
-    icon: './icons/icon_128@2x.png'
+    icon: './icons/icon-128x128.png'
   })
 
   eventListen(notification)
@@ -159,15 +175,15 @@ function onSaveFileDialog(event, arg) {
   dialog.showSaveDialog(
     {
       properties: ['openFile'],
-      defaultPath: app.getAppPath(),
+      defaultPath: app.getPath('userData'),
       filters: [
-        {
-          name: 'javascript',
-          extensions: ['js']
-        },
         {
           name: 'json',
           extensions: ['json']
+        },
+        {
+          name: 'javascript',
+          extensions: ['js']
         }
       ]
     },
@@ -176,11 +192,51 @@ function onSaveFileDialog(event, arg) {
         return
       }
       const json = JSON.stringify(arg)
+
       fs.writeFile(filename, json, 'utf8', (err, data) => {
         if (err) {
           throw new Error(err)
         }
       })
+
+      const {
+        viewSettings: {
+          electronAppSettings: {
+            isDevConsoleEnabled,
+            isAllowedToUpdate,
+            windowCoords
+          }
+        }
+      } = arg
+      log.info(
+        'will write file with: ',
+        isDevConsoleEnabled,
+        isAllowedToUpdate,
+        windowCoords
+      )
+      const freshContent = {
+        isAllowedToUpdate,
+        isDevConsoleEnabled,
+        windowCoords
+      }
+      const jsonRefreshed = JSON.stringify(freshContent)
+      fs.writeFile(
+        persistedAppSettingsFileName,
+        jsonRefreshed,
+        'utf8',
+        (err, data) => {
+          if (err) {
+            throw new Error(err)
+          }
+        }
+      )
+      appSettings = freshContent
+      log.info(
+        'App Settings written: ',
+        jsonRefreshed,
+        ' to: ',
+        persistedAppSettingsFileName
+      )
       event.sender.send('save-file-dialog-reply', {
         presetName: filename,
         content: arg
@@ -225,4 +281,27 @@ function onOpenFileDialog(event, arg) {
         )
     }
   )
+}
+
+async function readoutPersistedAppsettings(appSettings) {
+  try {
+    // Try to read out persisted app-settings:
+    const data = JSON.parse(await readFile(persistedAppSettingsFileName))
+    appSettings = data
+    log.info('found app settings: ', data)
+    return data
+  } catch (error) {
+    log.warn('App Settings Warning: ', error, 'Try to create settings-file')
+    const persJson = JSON.stringify(appSettings)
+    fs.writeFile(
+      persistedAppSettingsFileName,
+      persJson,
+      'utf8',
+      (err, data) => {
+        if (err) {
+          throw new Error(err)
+        }
+      }
+    )
+  }
 }

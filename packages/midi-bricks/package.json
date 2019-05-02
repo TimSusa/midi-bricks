@@ -8,9 +8,9 @@
   "repository": "https://github.com/TimSusa/midi-bricks-mono/tree/master/packages/midi-bricks",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "deploy": "react-scripts build && cp now.json build/ && cd build && now --name midi-bricks && cd ..",
-    "deploy-ci": "react-scripts build && cp now.json build/ && cd build && now  --token=$ZEIT_TOKEN --name midi-bricks && cd ..",
+    "build": "REACT_APP_IS_WEB_MODE=true && react-scripts build",
+    "deploy": "REACT_APP_IS_WEB_MODE && react-scripts build && cp now.json build/ && cd build && now --name midi-bricks && cd ..",
+    "deploy-ci": "REACT_APP_IS_WEB_MODE && react-scripts build && cp now.json build/ && cd build && now  --token=$ZEIT_TOKEN --name midi-bricks && cd ..",
     "test": "CI=true react-scripts test --colors",
     "analyze": "source-map-explorer build/static/js/main.*",
     "precommit": "yarn test"

@@ -7,7 +7,7 @@ import { Actions as ViewStuff } from '../actions/view-settings.js'
 import { initApp } from '../actions/init.js'
 import { MinMaxValInput } from './midi-settings/elements/MinMaxValInput'
 import { FormControlLabel, Switch, Tooltip } from '@material-ui/core'
-import {PropTypes } from 'prop-types'
+import { PropTypes } from 'prop-types'
 
 export default connect(
   mapStateToProps,
@@ -25,6 +25,7 @@ function GlobalViewSettings(props) {
   const {
     actions,
     viewSettings: {
+      electronAppSettings: { isDevConsoleEnabled = false } = {},
       columns = 18,
       rowHeight = 40,
       isAutoSize = false,
@@ -49,9 +50,7 @@ function GlobalViewSettings(props) {
         label='Global-View-Settings'
         expanded={isScndPanelExpanded}
         noPadding={false}
-        onChange={(e) =>
-          setIsScndPanelExpanded(!isScndPanelExpanded)
-        }
+        onChange={(e) => setIsScndPanelExpanded(!isScndPanelExpanded)}
       >
         {isWebMode && (
           <FormControlLabel
@@ -72,6 +71,26 @@ function GlobalViewSettings(props) {
             label='Live Mode Fullscreen'
           />
         )}
+
+        <FormControlLabel
+          control={
+            <Tooltip title='Show developer console from startup'>
+              <Switch
+                checked={isDevConsoleEnabled || false}
+                onChange={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  actions.setElectronAppSettings({
+                    isDevConsoleEnabled: !isDevConsoleEnabled
+                  })
+                }}
+                value={isDevConsoleEnabled || false}
+                color='secondary'
+              />
+            </Tooltip>
+          }
+          label='Show Dev Console'
+        />
 
         <FormControlLabel
           control={
@@ -200,4 +219,3 @@ function mapStateToProps({
     sliderListBackup
   }
 }
-

@@ -25,7 +25,8 @@ const TypeViewSettings = [
   'SET_Y_MARGIN',
   'SET_X_PADDING',
   'SET_Y_PADDING',
-  'SET_FULLSCREEN_ON_LIVEMODE'
+  'SET_FULLSCREEN_ON_LIVEMODE',
+  'SET_ELECTRON_APP_SETTINGS'
 ]
 
 export const ActionTypeViewSettings = createActionTypes(TypeViewSettings)

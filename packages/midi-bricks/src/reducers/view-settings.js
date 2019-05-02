@@ -41,6 +41,10 @@ const initState = {
         noteChannels: []
       }
     }
+  },
+  electronAppSettings: {
+    isDevConsoleEnabled: true,
+    windowCoords: [0, 0, 600, 800]
   }
 }
 export const reducers = {
@@ -358,6 +362,18 @@ export const reducers = {
     return Object.assign({}, state, {
       paddingY
     })
+  },
+
+  [ActionTypeViewSettings.SET_ELECTRON_APP_SETTINGS](
+    state = initState,
+    action
+  ) {
+    const { isDevConsoleEnabled, windowCoords } = action.payload
+    const electronAppSettings = {
+      isDevConsoleEnabled: isDevConsoleEnabled !== undefined ? isDevConsoleEnabled : initState.electronAppSettings,
+      windowCoords: Array.isArray(windowCoords) ? windowCoords : initState.electronAppSettings.windowCoords
+    }
+    return { ...state, electronAppSettings }
   }
 }
 

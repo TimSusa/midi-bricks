@@ -17,13 +17,15 @@ autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
 
 autoUpdater.on('error', (error) => {
+  log.error(error)
   dialog.showErrorBox(
     'Error: ',
     error == null ? 'unknown' : (error.stack || error).toString()
   )
 })
 
-autoUpdater.on('update-available', () => {
+autoUpdater.on('update-available', (evt) => {
+  log.info('update-available: ', evt.version || 'no version found')
   dialog.showMessageBox(
     {
       type: 'info',
@@ -43,7 +45,7 @@ autoUpdater.on('update-available', () => {
 })
 
 autoUpdater.on('download-progress', (progressObj) => {
-  const mBitPerSec = parseInt(progressObj.bytesPerSecond / (1024 * 1024), 10)
+  const mBitPerSec = progressObj.bytesPerSecond / (1024 * 1024)
   const progressInPercent = parseInt(progressObj.percent, 10)
   let logMsg = 'Download speed: ' + mBitPerSec
   logMsg = logMsg + ' - Downloaded ' + progressInPercent + '%'
