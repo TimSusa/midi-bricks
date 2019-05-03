@@ -116,7 +116,7 @@ function GlobalViewSettings(props) {
                 />
               </Tooltip>
             }
-            label='Check for updates'
+            label='Initial Update Check'
           />
         )}
         {!isWebMode && (
@@ -131,7 +131,6 @@ function GlobalViewSettings(props) {
                     e.preventDefault()
                     const val = e.target.value
                     const windowCoords = (val || '100,100,600,800').split(',').map(val => parseInt(val,10))
-
                     Array.isArray(windowCoords) && actions.setElectronAppSettings({
                       windowCoords
                     })
@@ -139,7 +138,7 @@ function GlobalViewSettings(props) {
                 />
               </Tooltip>
             }
-            label='Initial Window-Size'
+            label='Initial Window Size'
           />
         )}
 
