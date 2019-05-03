@@ -96,5 +96,5 @@
     "clean": "yarn clean:dist && rimraf src",
     "clean:dist": "rimraf dist && rimraf build && mkdir build"
   },
-  "gitHead": "4b8dad31997bf3f5da3fce67f06d199954cc3969"
+  "gitHead": "7feb6a5a0e2e04cd57349bfabf4657ff417db63c"
 }
