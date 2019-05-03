@@ -138,6 +138,7 @@ export const reducers = {
   [ActionTypeViewSettings.UPDATE_VIEW_SETTINGS](state = initState, action) {
     const {
       sliderList,
+      viewSettings,
       viewSettings: { availableDrivers } = {}
     } = action.payload
 
@@ -159,11 +160,11 @@ export const reducers = {
     const newPages = oldPages && oldPages.length > 0 ? oldPages : extractedPages
     let footerState = null
     if (newItemToTake) {
-      footerState = Object.assign({}, state, {
+      footerState = Object.assign({}, state, viewSettings, {
         footerPages: [...newPages, newItemToTake]
       })
     } else {
-      footerState = Object.assign({}, state, {
+      footerState = Object.assign({}, state, viewSettings, {
         footerPages: newPages
       })
     }

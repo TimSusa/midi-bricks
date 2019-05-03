@@ -186,12 +186,8 @@ function onSaveFileDialog(event, arg) {
       defaultPath: app.getPath('userData'),
       filters: [
         {
-          name: 'json',
-          extensions: ['json']
-        },
-        {
-          name: 'javascript',
-          extensions: ['js']
+          name: 'midi-bricks-preset',
+          extensions: ['json', 'js']
         }
       ]
     },
@@ -222,12 +218,8 @@ function onOpenFileDialog(event, arg) {
       properties: ['openFile'],
       filters: [
         {
-          name: 'javascript',
-          extensions: ['js']
-        },
-        {
-          name: 'json',
-          extensions: ['json']
+          name: 'midi-bricks-preset',
+          extensions: ['json', 'js']
         }
       ]
     },
@@ -243,8 +235,7 @@ function onOpenFileDialog(event, arg) {
             appSettings = persistAppSettings(arg)
             event.sender.send('open-file-dialog-reply', stuff)
             log.info(
-              'Object loaded: ',
-              stuff.content.viewSettings || 'nothing found'
+              'Object loaded: '              
             )
             return data
           },
