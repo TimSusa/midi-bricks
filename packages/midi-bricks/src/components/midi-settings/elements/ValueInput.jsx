@@ -13,7 +13,7 @@ ValueInput.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   toolTip: PropTypes.string,
-  value: PropTypes.number,
+  value: PropTypes.string,
   isDisabled: PropTypes.bool
 }
 

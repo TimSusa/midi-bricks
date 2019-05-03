@@ -27,7 +27,6 @@ App.propTypes = {
   initApp: PropTypes.func
 }
 
-console.log('we have a new app in here')
 function App(props) {
   const classes = makeStyles(styles, { withTheme: true })()
   const { actions = {}, initApp = () => {} } = props
@@ -91,8 +90,8 @@ async function onFileChange(
   actions.deleteFooterPages()
   window.localStorage.clear()
 
-  // Prepare foooterpages flush
-  actions.loadFile({ presetName, content }) 
+  // will load content to slider-list-reducer
+  actions.loadFile({ presetName, content })
 
   const {
     viewSettings,
@@ -113,10 +112,15 @@ async function onFileChange(
       }
     }
   }
-  sliderList &&
-    actions.updateViewSettings({
+
+  // Will load content to view-settings-reducer
+  sliderList && Array.isArray(sliderList)
+    ? actions.updateViewSettings({
       viewSettings: { ...viewSettings, availableDrivers: drivers },
       sliderList: sliderList
+    })
+    : actions.updateViewSettings({
+      viewSettings: { ...viewSettings, availableDrivers: drivers }
     })
   await initApp()
   actions.togglePage({

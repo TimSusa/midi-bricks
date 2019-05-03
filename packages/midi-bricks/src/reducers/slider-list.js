@@ -465,7 +465,7 @@ export const reducers = {
     const {
       payload: {
         presetName,
-        content: { viewSettings, sliders: { sliderList: sliderListOld = [] } = {} } = {}
+        content: { sliders: { sliderList: sliderListOld = [] } = {} } = {}
       } = {}
     } = action
 
@@ -502,9 +502,6 @@ export const reducers = {
       sliderList,
       presetName,
       sliderListBackup: sliderList,
-      viewSettings: {
-        ...viewSettings
-      }
     }
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER](state, action) {
