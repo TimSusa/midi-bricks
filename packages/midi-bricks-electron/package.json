@@ -1,7 +1,7 @@
 {
   "name": "midi-bricks-electron",
   "productName": "MIDI-Brikx",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "main": "./build/electron.js",
   "homepage": ".",
   "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
@@ -96,5 +96,5 @@
     "clean": "yarn clean:dist && rimraf src",
     "clean:dist": "rimraf dist && rimraf build && mkdir build"
   },
-  "gitHead": "7feb6a5a0e2e04cd57349bfabf4657ff417db63c"
+  "gitHead": "30ed23d0f5442cc731f59d020d31331893cdfcd8"
 }
