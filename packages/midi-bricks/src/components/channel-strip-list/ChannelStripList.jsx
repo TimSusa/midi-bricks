@@ -43,13 +43,13 @@ function ChannelStripList(props) {
       // isLiveMode = false,
       isMidiLearnMode = false,
       lastFocusedIdx,
-      rowHeight = 40,
-      columns = 18,
+      rowHeight,
+      columns,
       isAutoSize,
-      marginX = 0,
-      marginY = 0,
-      paddingX = 0,
-      paddingY = 0
+      marginX,
+      marginY,
+      paddingX,
+      paddingY
     }
   } = props
 

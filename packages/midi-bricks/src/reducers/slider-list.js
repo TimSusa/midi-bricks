@@ -433,6 +433,8 @@ export const reducers = {
       ...entry,
       midi: undefined
     }))
+
+
     const filteredFooterpageList = viewSettings.footerPages.map((item) => ({
       ...item,
       midi: undefined
@@ -463,7 +465,7 @@ export const reducers = {
     const {
       payload: {
         presetName,
-        content: { sliders: { sliderList: sliderListOld = [] } = {} } = {}
+        content: { viewSettings, sliders: { sliderList: sliderListOld = [] } = {} } = {}
       } = {}
     } = action
 
@@ -499,7 +501,10 @@ export const reducers = {
       ...state,
       sliderList,
       presetName,
-      sliderListBackup: sliderList
+      sliderListBackup: sliderList,
+      viewSettings: {
+        ...viewSettings
+      }
     }
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER](state, action) {
