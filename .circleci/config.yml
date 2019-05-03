@@ -20,22 +20,21 @@ jobs:
       - run:
           name: Run linter and tests 
           command: yarn lint && yarn test:midi-bricks && git status
-
       - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
       - run:
           name: Publish packages
           command: yarn publish-ci
-      - run:
-          name: Build midi-bricks-electron-ci
-          command: yarn build:midi-bricks-electron-ci
-      - run:
-          name: Deploy Release to github
-          command: yarn deploy:midi-bricks-electron-ci
-      - run:
-          name: Fullfil release
-          command: yarn release-ci
+      # - run:
+      #     name: Build midi-bricks-electron-ci
+      #     command: yarn build:midi-bricks-electron-ci
+      # - run:
+      #     name: Deploy Release to github
+      #     command: yarn deploy:midi-bricks-electron-ci
+      # - run:
+      #     name: Fullfil release
+      #     command: yarn release-ci
       - save_cache:
           name: Save Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}

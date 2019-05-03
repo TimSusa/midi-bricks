@@ -25,8 +25,8 @@ function setUp({ isAutoDownload, isAllowedPrerelease, isAllowedDowngrade }) {
     isAllowedDowngrade
   })
   autoUpdater.autoDownload = isAutoDownload
-  autoUpdater.allowPrerelease = isAllowedPrerelease 
-  autoUpdater.allowDowngrade = isAllowedDowngrade 
+  autoUpdater.allowPrerelease = isAllowedPrerelease
+  autoUpdater.allowDowngrade = isAllowedDowngrade
   autoUpdater.logger = log
   autoUpdater.logger.transports.file.level = 'info'
   log.info('checkForUpdates')
@@ -43,7 +43,7 @@ function checkForUpdates(clickCallback, focusedWindow, event) {
   // startAutoUpdater()
 }
 
-function startAutoUpdater(autoUpdater){
+function startAutoUpdater(autoUpdater) {
   autoUpdater.on('error', (error) => {
     log.error(error)
     dialog.showErrorBox(
@@ -51,7 +51,7 @@ function startAutoUpdater(autoUpdater){
       error == null ? 'unknown' : (error.stack || error).toString()
     )
   })
-  
+
   autoUpdater.on('update-available', (evt) => {
     log.info('update-available: ', evt.version || 'no version found')
     dialog.showMessageBox(
@@ -71,7 +71,7 @@ function startAutoUpdater(autoUpdater){
       }
     )
   })
-  
+
   autoUpdater.on('download-progress', (progressObj) => {
     const mBitPerSec = progressObj.bytesPerSecond / (1024 * 1024)
     const progressInPercent = parseInt(progressObj.percent, 10)
@@ -84,11 +84,11 @@ function startAutoUpdater(autoUpdater){
       '/' +
       parseInt(progressObj.total, 10) +
       ')'
-  
+
     log.info(logMsg)
     // sendStatusToWindow(logMsg)
   })
-  
+
   // autoUpdater.on('update-not-available', () => {
   //   dialog.showMessageBox({
   //     title: 'No Updates',
@@ -97,7 +97,7 @@ function startAutoUpdater(autoUpdater){
   //   updater.enabled = true
   //   updater = null
   // })
-  
+
   autoUpdater.on('update-downloaded', (tmp) => {
     log.info('downloaded version: ', tmp.version || 'no vers was given')
     dialog.showMessageBox(

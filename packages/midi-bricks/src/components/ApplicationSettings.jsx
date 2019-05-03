@@ -109,7 +109,7 @@ function ApplicationSettings(props) {
                 />
               </Tooltip>
             }
-            label='Automatic Download'
+            label='Automatic Download (experimental)'
           />
         )}
 
@@ -135,7 +135,7 @@ function ApplicationSettings(props) {
                 />
               </Tooltip>
             }
-            label='Rollback Update'
+            label='Rollback Update (experimental)'
           />
         )}
       </DriverExpansionPanel>

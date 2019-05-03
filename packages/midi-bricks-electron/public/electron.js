@@ -55,11 +55,11 @@ app.on('activate', function() {
   if (win === null) createWindow()
 })
 
-let updateObject = {}
-function updateCallback(thing) {
-  updateObject = thing
-  log.info('updateCallback:', updateObject)
-}
+// let updateObject = {}
+// function updateCallback(thing) {
+//   updateObject = thing
+//   log.info('updateCallback:', updateObject)
+// }
 
 async function createWindow() {
   appSettings = (await readoutPersistedAppsettings(appSettings)) || {}
