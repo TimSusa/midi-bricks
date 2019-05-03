@@ -17,6 +17,9 @@
     "appId": "com.electron.midi-bricks-electron",
     "asar": true,
     "asarUnpack": true,
+    "releaseInfo": {
+      "releaseNotesFile": "../../CHANGELOG.md"
+    },
     "win": {
       "target": "nsis",
       "icon": "build/icons/icon.ico",
