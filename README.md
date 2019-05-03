@@ -60,6 +60,9 @@ yarn build:midi-bricks-electron
 Please consider to create a PR with or without any issue. 
 I will get back to you, asap.
 
+# Versioning
+https://github.com/conventional-changelog/standard-version
+
 ## Support on Beerpay
 Hey dude! Help me out for a couple of :beers:!
 
