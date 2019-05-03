@@ -45,6 +45,9 @@ const initState = {
   electronAppSettings: {
     isDevConsoleEnabled: true,
     isAllowedToUpdate: true,
+    isAutoDownload: false,
+    isAllowedPrerelease: false,
+    isAllowedDowngrade: false,
     isWindowSizeLocked: true,
     windowCoords: [0, 0, 600, 800]
   }
@@ -371,11 +374,14 @@ export const reducers = {
     state = initState,
     action
   ) {
-    const { isDevConsoleEnabled, isAllowedToUpdate, isWindowSizeLocked, windowCoords } = action.payload
+    const { isDevConsoleEnabled, isAllowedToUpdate, isAutoDownload, isAllowedPrerelease, isAllowedDowngrade, isWindowSizeLocked, windowCoords } = action.payload
     const electronAppSettings = {
       isDevConsoleEnabled: isDevConsoleEnabled !== undefined ? isDevConsoleEnabled : state.electronAppSettings.isDevConsoleEnabled,
       isAllowedToUpdate: isAllowedToUpdate !== undefined ? isAllowedToUpdate : state.electronAppSettings.isAllowedToUpdate,
-      isWindowSizeLocked: isWindowSizeLocked !== undefined ? isWindowSizeLocked : state.electronAppSettings.isWindowSizeLocked,
+      isAutoDownload: isAutoDownload !== undefined ? isAutoDownload : state.electronAppSettings.isAutoDownload,
+      isAllowedPrerelease: isAllowedPrerelease !== undefined ? isAllowedPrerelease : state.electronAppSettings.isAllowedPrerelease,
+      isAllowedDowngrade: isAllowedDowngrade !== undefined ? isAllowedDowngrade : state.electronAppSettings.isAllowedDowngrade,
+      isWindowSizeLocked: isWindowSizeLocked !== undefined ? isWindowSizeLocked : state.electronAppSettings.isWindowSizeLoisAllwedcked,
       windowCoords: Array.isArray(windowCoords) ? windowCoords : state.electronAppSettings.windowCoords
     }
     return { ...state, electronAppSettings }

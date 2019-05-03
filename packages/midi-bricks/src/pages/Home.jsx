@@ -10,7 +10,7 @@ import { Actions as ViewStuff } from '../actions/view-settings.js'
 import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
 import GlobalSettingsPage from './GlobalSettingsPage.jsx'
 import MidiDriversSettingsPage from './MidiDriversSettingsPage'
-import GlobalViewSettingsPage from '../components/GlobalViewSettings'
+import ApplicationSettingsPage from '../components/ApplicationSettings'
 import { PAGE_TYPES } from '../reducers/view-settings'
 
 export default connect(
@@ -73,7 +73,7 @@ function Home(props) {
   } else if (pageType === PAGE_TYPES.MIDI_DRIVER_MODE) {
     return <MidiDriversSettingsPage />
   } else if (pageType === PAGE_TYPES.VIEW_SETTINGS_MODE) {
-    return <GlobalViewSettingsPage />
+    return <ApplicationSettingsPage />
   } else if (pageType === PAGE_TYPES.HOME_MODE) {
     return (
       <div

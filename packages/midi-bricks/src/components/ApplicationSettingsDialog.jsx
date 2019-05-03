@@ -5,19 +5,19 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import Dialog from '@material-ui/core/Dialog'
-import GlobalViewSettings from './GlobalViewSettings'
+import ApplicationSettings from './ApplicationSettings'
 import { Typography } from '@material-ui/core'
 
-export default GlobalViewSettingsDialog
+export default ApplicationSettingsDialog
 
-GlobalViewSettingsDialog.propTypes = {
+ApplicationSettingsDialog.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   sliderEntry: PropTypes.object,
   value: PropTypes.string
 }
 
-function GlobalViewSettingsDialog(props) {
+function ApplicationSettingsDialog(props) {
   const { isOpen = true, sliderEntry, onClose, ...other } = props
   return (
     <Dialog
@@ -29,11 +29,11 @@ function GlobalViewSettingsDialog(props) {
     >
       <DialogTitle id='confirmation-dialog-title'>
         <Typography color='secondary' variant='body1'>
-          Global-View-Settings
+          Application Settings
         </Typography>
       </DialogTitle>
       <DialogContent>
-        <GlobalViewSettings />
+        <ApplicationSettings />
       </DialogContent>
       <DialogActions>
         <Button
