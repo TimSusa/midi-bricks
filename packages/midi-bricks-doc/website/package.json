@@ -11,6 +11,6 @@
     "deploy": "GIT_USER=$USER && CURRENT_BRANCH=master && USE_SSH=true && yarn run publish-gh-pages"
   },
   "devDependencies": {
-    "docusaurus": "1.8.3"
+    "docusaurus": "1.9.0"
   }
 }
