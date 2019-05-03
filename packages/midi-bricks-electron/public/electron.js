@@ -21,7 +21,10 @@ let appInitSettings = {
   isDevConsoleEnabled: isDev,
   isWindowSizeLocked: true,
   windowCoords: [0, 0, 300, 400],
-  isAllowedToUpdate: true
+  isAllowedToUpdate: true,
+  isAutoDownload: false,
+  isAllowedPrerelease: false,
+  isAllowedDowngrade: false
 }
 log.info(app.getPath('userData'))
 
@@ -52,11 +55,11 @@ app.on('activate', function() {
   if (win === null) createWindow()
 })
 
-let updateObject = {}
-function updateCallback(thing) {
-  updateObject = thing
-  log.info('updateCallback:', updateObject)
-}
+// let updateObject = {}
+// function updateCallback(thing) {
+//   updateObject = thing
+//   log.info('updateCallback:', updateObject)
+// }
 
 async function createWindow() {
   appSettings = (await readoutPersistedAppsettings(appSettings)) || {}
@@ -68,19 +71,32 @@ async function createWindow() {
       !!process.argv.find((item) => item === '--dev')) ||
     appSettings.isDevConsoleEnabled
 
+  // Extract CLI parameter: Enable Auto Update
   isDevelopmentCli && log.info('isDevelopmentCli is enabled! ')
   const isAllowedToUpdateCli = process.argv.find(
     (item) => item === '--noUpdate'
   )
 
-  // Extract CLI parameter: Enable Auto Update
   const isAllowedToUpdate =
     appSettings.isAllowedToUpdate != undefined
       ? appSettings.isAllowedToUpdate
       : isAllowedToUpdateCli
   !isAllowedToUpdate && log.warn('Updates were disabled! ')
-  isAllowedToUpdate &&
-    require('./update').checkForUpdates((thing) => updateCallback(thing))
+
+  if (isAllowedToUpdate) {
+    const {
+      isAutoDownload = appInitSettings.isAutoDownload,
+      isAllowedPrerelease = appInitSettings.isAllowedPrerelease,
+      isAllowedDowngrade = appInitSettings.isAllowedDowngrade
+    } = appSettings
+
+    require('./update').setUp({
+      isAutoDownload,
+      isAllowedPrerelease,
+      isAllowedDowngrade
+    })
+    // require('./update').checkForUpdates((thing) => updateCallback(thing))
+  }
 
   // Load the previous state with fallback to defaults
   const mainWindowState = windowStateKeeper({
@@ -140,7 +156,7 @@ async function createWindow() {
     : `file://${path.join(__dirname, '../build/index.html')}`
 
   win.loadURL(url)
-  isAllowedToUpdate && sendStatusToWindow('Software-Updates are enabled.')
+  isAllowedToUpdate && sendStatusToWindow('Software-Updates enabled.')
 
   //  Emitted when the window is closed.
   win.on('closed', function() {
@@ -161,7 +177,7 @@ function sendStatusToWindow(title, subtitle, text) {
   notification = new Notification({
     title: title || 'txt is not there',
     // subtitle: text,
-    body: text ,
+    body: text,
     silent: true,
     sound: '',
     icon: './icons/icon-128x128.png'
@@ -234,9 +250,7 @@ function onOpenFileDialog(event, arg) {
             }
             appSettings = persistAppSettings(arg)
             event.sender.send('open-file-dialog-reply', stuff)
-            log.info(
-              'Object loaded: '              
-            )
+            log.info('Object loaded: ')
             return data
           },
           (err) => {
@@ -250,7 +264,7 @@ function onOpenFileDialog(event, arg) {
 function onSetAppSettings(event, arg) {
   appSettings = persistAppSettings({
     viewSettings: {
-      electronAppSettings: {...appSettings, ...arg}
+      electronAppSettings: { ...appSettings, ...arg }
     }
   })
 }
@@ -284,6 +298,9 @@ function persistAppSettings(arg) {
       electronAppSettings: {
         isDevConsoleEnabled,
         isAllowedToUpdate,
+        isAutoDownload,
+        isAllowedDowngrade,
+        isAllowedPrerelease,
         isWindowSizeLocked,
         windowCoords
       }
@@ -291,15 +308,22 @@ function persistAppSettings(arg) {
   } = arg || {}
 
   const freshContent = {
-    isAllowedToUpdate: (isAllowedToUpdate !== undefined) ? isAllowedToUpdate : undefined,
-    isDevConsoleEnabled: (isDevConsoleEnabled !== undefined) ? isDevConsoleEnabled : undefined,
-    isWindowSizeLocked: isWindowSizeLocked !== undefined ? isWindowSizeLocked : undefined,
+    isAllowedToUpdate:
+      isAllowedToUpdate !== undefined ? isAllowedToUpdate : undefined,
+    isAutoDownload: isAutoDownload !== undefined ? isAutoDownload : undefined,
+    isAllowedDowngrade:
+      isAllowedDowngrade !== undefined ? isAllowedDowngrade : undefined,
+    isAllowedPrerelease:
+      isAllowedPrerelease !== undefined ? isAllowedPrerelease : undefined,
+    isDevConsoleEnabled:
+      isDevConsoleEnabled !== undefined ? isDevConsoleEnabled : undefined,
+    isWindowSizeLocked:
+      isWindowSizeLocked !== undefined ? isWindowSizeLocked : undefined,
     windowCoords: Array.isArray(windowCoords) ? windowCoords : undefined
   }
 
-
   const jsonRefreshed = JSON.stringify(freshContent)
-  sendStatusToWindow('App Settings persisted: ', jsonRefreshed)
+  sendStatusToWindow('App Settings persisted.')
 
   fs.writeFile(
     persistedAppSettingsFileName,
