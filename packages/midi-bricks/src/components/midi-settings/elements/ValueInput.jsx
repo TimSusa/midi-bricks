@@ -9,7 +9,6 @@ import { Tooltip } from '@material-ui/core'
 
 ValueInput.propTypes = {
   label: PropTypes.string,
-  limitVal: PropTypes.number,
   name: PropTypes.string,
   onChange: PropTypes.func,
   toolTip: PropTypes.string,
