@@ -19,6 +19,7 @@ let win = null
 let appSettings = null
 let appInitSettings = {
   isDevConsoleEnabled: isDev,
+  isWindowSizeLocked: true,
   windowCoords: [0, 0, 300, 400],
   isAllowedToUpdate: true
 }
@@ -54,7 +55,7 @@ app.on('activate', function() {
 let updateObject = {}
 function updateCallback(thing) {
   updateObject = thing
-  log.info('updateObject:', updateObject)
+  log.info('updateCallback:', updateObject)
 }
 
 async function createWindow() {
@@ -292,6 +293,7 @@ function persistAppSettings(arg) {
       electronAppSettings: {
         isDevConsoleEnabled,
         isAllowedToUpdate,
+        isWindowSizeLocked,
         windowCoords
       }
     }
@@ -300,6 +302,7 @@ function persistAppSettings(arg) {
   const freshContent = {
     isAllowedToUpdate: (isAllowedToUpdate !== undefined) ? isAllowedToUpdate : undefined,
     isDevConsoleEnabled: (isDevConsoleEnabled !== undefined) ? isDevConsoleEnabled : undefined,
+    isWindowSizeLocked: isWindowSizeLocked !== undefined ? isWindowSizeLocked : undefined,
     windowCoords: Array.isArray(windowCoords) ? windowCoords : undefined
   }
 

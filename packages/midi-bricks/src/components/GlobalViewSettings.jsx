@@ -6,9 +6,11 @@ import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
 import { initApp } from '../actions/init.js'
 import { MinMaxValInput } from './midi-settings/elements/MinMaxValInput'
-import { FormControlLabel, Switch, Tooltip, Input } from '@material-ui/core'
+import { ValueInput } from './midi-settings/elements/ValueInput'
+import { FormControlLabel, Switch, Tooltip } from '@material-ui/core'
 import { PropTypes } from 'prop-types'
 import { sendAppSettings } from './../utils/ipc-renderer'
+import LockIcon from '@material-ui/icons/Lock'
 
 export default connect(
   mapStateToProps,
@@ -29,7 +31,8 @@ function GlobalViewSettings(props) {
       electronAppSettings: {
         isDevConsoleEnabled = false,
         isAllowedToUpdate = true,
-        windowCoords = []
+        isWindowSizeLocked = true,
+        windowCoords = [69, 69, 690, 690]
       } = {},
       columns = 18,
       rowHeight = 40,
@@ -80,7 +83,7 @@ function GlobalViewSettings(props) {
         {!isWebMode && (
           <FormControlLabel
             control={
-              <Tooltip title='Show developer console from startup. Keep in mind, that this settings comes into play after saving a preset.'>
+              <Tooltip title='Show developer console from startup. Keep in mind, that this settings comes into play after restart.'>
                 <Switch
                   checked={isDevConsoleEnabled}
                   onChange={(e) => {
@@ -104,7 +107,7 @@ function GlobalViewSettings(props) {
         {!isWebMode && (
           <FormControlLabel
             control={
-              <Tooltip title='You can disable the check for updates here. Keep in mind, that this settings comes into play after saving a preset.'>
+              <Tooltip title='You can disable the check for updates here. Keep in mind, that this settings comes into play after restart.'>
                 <Switch
                   checked={isAllowedToUpdate}
                   onChange={(e) => {
@@ -125,33 +128,58 @@ function GlobalViewSettings(props) {
           />
         )}
         {!isWebMode && (
-          <FormControlLabel
-            control={
-              <Tooltip title='Change Window position. Keep in mind, that this settings comes into play after saving a preset.'>
-                <Input
-                  id='app-window-coords'
-                  type='string'
-                  value={
-                    Array.isArray(windowCoords)
-                      ? windowCoords.join(',')
-                      : '100,100,600,800'
-                  }
-                  onChange={(e) => {
-                    e.preventDefault()
-                    const val = e.target.value
-                    const windowCoords = (val || '100,100,600,800')
-                      .split(',')
-                      .map((val) => parseInt(val, 10))
-                    Array.isArray(windowCoords) &&
-                      actions.setElectronAppSettings({
-                        windowCoords
-                      })
-                  }}
-                />
-              </Tooltip>
-            }
-            label='Initial Window Size'
-          />
+          <>
+            <FormControlLabel
+              icon={<LockIcon />}
+              control={
+                <Tooltip title='Lock startup window position and size, so changes will not be saved immediately.'>
+                  <Switch
+                    checked={isWindowSizeLocked}
+                    onChange={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      const payload = {
+                        isWindowSizeLocked: !isWindowSizeLocked
+                      }
+                      sendAppSettings(payload)
+                      actions.setElectronAppSettings(payload)
+                    }}
+                    value={isWindowSizeLocked}
+                    color='secondary'
+                  />
+                </Tooltip>
+              }
+              label='Lock Initial Window Pos/Size'
+            />
+            <ValueInput
+              isDisabled={isWindowSizeLocked}
+              icon={<LockIcon />}
+              label='Change Window Size'
+              name='app-window-coords'
+              value={
+                Array.isArray(windowCoords)
+                  ? windowCoords.join(',')
+                  : '100,100,600,800'
+              }
+              onChange={(e) => {
+                e.preventDefault()
+                const val = e.target.value
+                const windowCoords = (val || '100,100,600,800')
+                  .split(',')
+                  .map((val) => parseInt(val, 10))
+                Array.isArray(windowCoords) &&
+                  actions.setElectronAppSettings({
+                    windowCoords
+                  })
+
+                !isWindowSizeLocked &&
+                  Array.isArray(windowCoords) &&
+                  sendAppSettings({
+                    windowCoords
+                  })
+              }}
+            />
+          </>
         )}
 
         <FormControlLabel
