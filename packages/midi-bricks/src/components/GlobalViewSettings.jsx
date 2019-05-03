@@ -8,6 +8,7 @@ import { initApp } from '../actions/init.js'
 import { MinMaxValInput } from './midi-settings/elements/MinMaxValInput'
 import { FormControlLabel, Switch, Tooltip, Input } from '@material-ui/core'
 import { PropTypes } from 'prop-types'
+import { sendAppSettings } from './../utils/ipc-renderer'
 
 export default connect(
   mapStateToProps,
@@ -85,9 +86,11 @@ function GlobalViewSettings(props) {
                   onChange={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
-                    actions.setElectronAppSettings({
+                    const payload = {
                       isDevConsoleEnabled: !isDevConsoleEnabled
-                    })
+                    }
+                    actions.setElectronAppSettings(payload)
+                    sendAppSettings(payload)
                   }}
                   value={isDevConsoleEnabled}
                   color='secondary'
@@ -107,9 +110,11 @@ function GlobalViewSettings(props) {
                   onChange={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
-                    actions.setElectronAppSettings({
+                    const payload = {
                       isAllowedToUpdate: !isAllowedToUpdate
-                    })
+                    }
+                    sendAppSettings(payload)
+                    actions.setElectronAppSettings(payload)
                   }}
                   value={isAllowedToUpdate}
                   color='secondary'
@@ -126,14 +131,21 @@ function GlobalViewSettings(props) {
                 <Input
                   id='app-window-coords'
                   type='string'
-                  value={Array.isArray(windowCoords) ? windowCoords.join(',') : '100,100,600,800'}
-                  onChange={e => {
+                  value={
+                    Array.isArray(windowCoords)
+                      ? windowCoords.join(',')
+                      : '100,100,600,800'
+                  }
+                  onChange={(e) => {
                     e.preventDefault()
                     const val = e.target.value
-                    const windowCoords = (val || '100,100,600,800').split(',').map(val => parseInt(val,10))
-                    Array.isArray(windowCoords) && actions.setElectronAppSettings({
-                      windowCoords
-                    })
+                    const windowCoords = (val || '100,100,600,800')
+                      .split(',')
+                      .map((val) => parseInt(val, 10))
+                    Array.isArray(windowCoords) &&
+                      actions.setElectronAppSettings({
+                        windowCoords
+                      })
                   }}
                 />
               </Tooltip>

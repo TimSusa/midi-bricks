@@ -71,6 +71,8 @@ async function createWindow() {
   const isAllowedToUpdateCli = process.argv.find(
     (item) => item === '--noUpdate'
   )
+
+  // Extract CLI parameter: Enable Auto Update
   const isAllowedToUpdate =
     appSettings.isAllowedToUpdate != undefined
       ? appSettings.isAllowedToUpdate
@@ -130,6 +132,7 @@ async function createWindow() {
   // Register IPC
   ipcMain.on('open-file-dialog', onOpenFileDialog)
   ipcMain.on('save-file-dialog', onSaveFileDialog)
+  ipcMain.on('send-app-settings', onSetAppSettings)
 
   const url = isDev
     ? 'http://localhost:3000/'
@@ -148,16 +151,16 @@ async function createWindow() {
   })
 }
 
-function sendStatusToWindow(text) {
-  log.info(text)
+function sendStatusToWindow(title, subtitle, text) {
+  log.info(title)
   if (!Notification.isSupported()) {
     log.warn('notifcations are not supported on this OS')
     return
   }
   notification = new Notification({
-    // title: text,
+    title: title || 'txt is not there',
     // subtitle: text,
-    body: text || 'txt is not there',
+    body: text ,
     silent: true,
     sound: '',
     icon: './icons/icon-128x128.png'
@@ -252,6 +255,13 @@ function onOpenFileDialog(event, arg) {
   )
 }
 
+function onSetAppSettings(event, arg) {
+  appSettings = persistAppSettings({
+    viewSettings: {
+      electronAppSettings: {...appSettings, ...arg}
+    }
+  })
+}
 async function readoutPersistedAppsettings(appSettings = appInitSettings) {
   try {
     // Try to read out persisted app-settings:
@@ -280,24 +290,23 @@ function persistAppSettings(arg) {
   const {
     viewSettings: {
       electronAppSettings: {
-        isDevConsoleEnabled=false,
-        isAllowedToUpdate=false,
-        windowCoords=[]
+        isDevConsoleEnabled,
+        isAllowedToUpdate,
+        windowCoords
       }
     }
   } = arg || {}
-  log.info(
-    'will write file with: ',
-    isDevConsoleEnabled,
-    isAllowedToUpdate,
-    windowCoords
-  )
+
   const freshContent = {
-    isAllowedToUpdate,
-    isDevConsoleEnabled,
-    windowCoords
+    isAllowedToUpdate: (isAllowedToUpdate !== undefined) ? isAllowedToUpdate : undefined,
+    isDevConsoleEnabled: (isDevConsoleEnabled !== undefined) ? isDevConsoleEnabled : undefined,
+    windowCoords: Array.isArray(windowCoords) ? windowCoords : undefined
   }
+
+
   const jsonRefreshed = JSON.stringify(freshContent)
+  sendStatusToWindow('App Settings persisted: ', jsonRefreshed)
+
   fs.writeFile(
     persistedAppSettingsFileName,
     jsonRefreshed,
