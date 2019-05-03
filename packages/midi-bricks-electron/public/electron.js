@@ -58,7 +58,7 @@ function updateCallback(thing) {
 }
 
 async function createWindow() {
-  appSettings = await readoutPersistedAppsettings(appSettings)
+  appSettings = (await readoutPersistedAppsettings(appSettings)) || {}
   log.info('App started... ! ', appSettings)
 
   // Extract CLI parameter: Enable Dev Console
@@ -76,7 +76,7 @@ async function createWindow() {
       ? appSettings.isAllowedToUpdate
       : isAllowedToUpdateCli
   !isAllowedToUpdate && log.warn('Updates were disabled! ')
-  appSettings.isAllowedToUpdate &&
+  isAllowedToUpdate &&
     require('./update').checkForUpdates((thing) => updateCallback(thing))
 
   // Load the previous state with fallback to defaults
@@ -97,7 +97,6 @@ async function createWindow() {
       width: parseInt(w || widthSet, 10),
       height: parseInt(h || heightSet, 10)
     } || mainWindowState
-  log.info('sdfaf ', {  x, y, width, height})
   // Create the window using the state information
   win = new BrowserWindow({
     x,
@@ -281,12 +280,12 @@ function persistAppSettings(arg) {
   const {
     viewSettings: {
       electronAppSettings: {
-        isDevConsoleEnabled,
-        isAllowedToUpdate,
-        windowCoords
+        isDevConsoleEnabled=false,
+        isAllowedToUpdate=false,
+        windowCoords=[]
       }
     }
-  } = arg
+  } = arg || {}
   log.info(
     'will write file with: ',
     isDevConsoleEnabled,
