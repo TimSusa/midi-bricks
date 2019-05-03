@@ -64,7 +64,7 @@
     "electron": "5.0.0",
     "electron-builder": "20.40.2",
     "electron-publish": "^20.40.0",
-    "midi-bricks": "^1.1.88",
+    "midi-bricks": "^1.1.90",
     "mocha": "6.0.2",
     "react-scripts": "3.0.0",
     "rimraf": "2.6.3",
@@ -96,5 +96,5 @@
     "clean": "yarn clean:dist && rimraf src",
     "clean:dist": "rimraf dist && rimraf build && mkdir build"
   },
-  "gitHead": "0a46cc7e412c485207a2414475af8c5e1a23fb81"
+  "gitHead": "4b8dad31997bf3f5da3fce67f06d199954cc3969"
 }
