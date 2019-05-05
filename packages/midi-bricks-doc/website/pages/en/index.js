@@ -68,7 +68,9 @@ class HomeSplash extends React.Component {
             <Button href={docUrl('doc1.html')}>Link to doc 1</Button>
             <Button href={docUrl('doc2.html')}>Link to doc 2</Button>
           </PromoSection> */}
-          <img width="80%" src={`${baseUrl}img/midi-briqks-live-view.png`}></img>
+          <br></br>
+          <br></br>
+          <img width="80%" style={{borderRadius: 3}} src={`${baseUrl}img/midi-briqks-live-view.png`}></img>
         </div>
       </SplashContainer>
     )
