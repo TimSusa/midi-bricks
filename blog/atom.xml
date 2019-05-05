@@ -1,84 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://timsusa.github.io/midi-bricks-mono/blog</id>
+    <id>https://facebook.github.io/midi-bricks-mono/blog</id>
     <title>MIDI Briqks Blog</title>
-    <updated>1970-01-01T00:00:00Z</updated>
+    <updated>2019-05-05T06:00:00Z</updated>
     <generator>Feed for Node.js</generator>
-    <link rel="alternate" href="https://timsusa.github.io/midi-bricks-mono/blog"/>
+    <link rel="alternate" href="https://facebook.github.io/midi-bricks-mono/blog"/>
     <subtitle>The best place to stay up-to-date with the latest MIDI Briqks news and events.</subtitle>
-    <logo>https://timsusa.github.io/midi-bricks-mono/img/docusaurus.svg</logo>
+    <logo>https://facebook.github.io/midi-bricks-mono/img/docusaurus.svg</logo>
     <rights>Copyright © 2019 Tim Susa</rights>
     <entry>
-        <title type="html"><![CDATA[Never forget about manifest.json]]></title>
-        <id>https://timsusa.github.io/midi-bricks-mono/blog/2019/05/003/blog-post.html</id>
-        <link href="https://timsusa.github.io/midi-bricks-mono/blog/2019/05/003/blog-post.html">
+        <title type="html"><![CDATA[Launching MIDI Briqks Manpage]]></title>
+        <id>https://facebook.github.io/midi-bricks-mono/blog/2019/05/05/blog-post.html</id>
+        <link href="https://facebook.github.io/midi-bricks-mono/blog/2019/05/05/blog-post.html">
         </link>
-        <updated>1970-01-01T00:00:00Z</updated>
-        <summary type="html"><![CDATA[<p>Suddenly we had poor performance for sliders. Getting back to manifest.json with display standalone saved our day.</p> ]]></summary>
+        <updated>2019-05-05T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<p>Launching MIDI Briqks Manpage</p>
+<p>After a long way through almost every issue, that you can imagine, we are going to launch now the official MIDI Briqks manpage.</p>
+]]></summary>
         <author>
             <name>Tim Susa</name>
-            <uri>http://twitter.com/timsusa</uri>
+            <uri>https://twitter.com/tim_susa</uri>
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[New Version 1.0.0]]></title>
-        <id>https://timsusa.github.io/midi-bricks-mono/blog/2017/10/24/new-version-1.0.0.html</id>
-        <link href="https://timsusa.github.io/midi-bricks-mono/blog/2017/10/24/new-version-1.0.0.html">
+        <title type="html"><![CDATA[Never forget about manifest.json]]></title>
+        <id>https://facebook.github.io/midi-bricks-mono/blog/2019/05/03/blog-post.html</id>
+        <link href="https://facebook.github.io/midi-bricks-mono/blog/2019/05/03/blog-post.html">
         </link>
-        <updated>2017-10-24T06:00:00Z</updated>
-        <summary type="html"><![CDATA[<p>This blog post will test file name parsing issues when periods are present.</p> ]]></summary>
-        <author>
-            <name>Eric Nakagawa</name>
-            <uri>http://twitter.com/ericnakagawa</uri>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Adding RSS Support]]></title>
-        <id>https://timsusa.github.io/midi-bricks-mono/blog/2017/09/26/adding-rss.html</id>
-        <link href="https://timsusa.github.io/midi-bricks-mono/blog/2017/09/26/adding-rss.html">
-        </link>
-        <updated>2017-09-26T06:00:00Z</updated>
-        <summary type="html"><![CDATA[<p>This is a test post.</p> <p>A whole bunch of other information.</p> ]]></summary>
-        <author>
-            <name>Eric Nakagawa</name>
-            <uri>http://twitter.com/ericnakagawa</uri>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Adding tim RSS Support - RSS Truncation Test]]></title>
-        <id>https://timsusa.github.io/midi-bricks-mono/blog/2017/09/25/testing-rss.html</id>
-        <link href="https://timsusa.github.io/midi-bricks-mono/blog/2017/09/25/testing-rss.html">
-        </link>
-        <updated>2017-09-25T06:00:00Z</updated>
-        <summary type="html"><![CDATA[<p>1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890</p>
-<p>This should be truncated.</p>
-]]></summary>
-        <author>
-            <name>Eric Nakagawa</name>
-            <uri>http://twitter.com/ericnakagawa</uri>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Blog post two]]></title>
-        <id>https://timsusa.github.io/midi-bricks-mono/blog/2017/04/10/blog-post-two.html</id>
-        <link href="https://timsusa.github.io/midi-bricks-mono/blog/2017/04/10/blog-post-two.html">
-        </link>
-        <updated>2017-04-10T06:00:00Z</updated>
-        <summary type="html"><![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elementum massa eget nulla aliquet sagittis. Proin odio tortor, vulputate ut odio in, ultrices ultricies augue. Cras ornare ultrices lorem malesuada iaculis. Etiam sit amet libero tempor, pulvinar mauris sed, sollicitudin sapien.</p>
-]]></summary>
-        <author>
-            <name>Blog Author</name>
-            <uri>http://twitter.com/timsusa</uri>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Tims Blog Title]]></title>
-        <id>https://timsusa.github.io/midi-bricks-mono/blog/2016/03/11/blog-post.html</id>
-        <link href="https://timsusa.github.io/midi-bricks-mono/blog/2016/03/11/blog-post.html">
-        </link>
-        <updated>2016-03-11T06:00:00Z</updated>
-        <summary type="html"><![CDATA[<p>GO</p>
-]]></summary>
+        <updated>2019-05-03T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<p>Suddenly we had poor performance for sliders. Getting back to manifest.json with display standalone saved our day.</p> ]]></summary>
         <author>
             <name>Tim Susa</name>
             <uri>http://twitter.com/timsusa</uri>
