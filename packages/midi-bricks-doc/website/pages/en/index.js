@@ -164,6 +164,37 @@ class Index extends React.Component {
       </Block>
     )
 
+    const UsedOpenSourceSoftware = () => (
+      <Block layout="fourColumn">
+        {[
+          {
+            content: 'We like ReactJS, although it is from facebook. WTF who cares? It does an amazing job!',
+            image: `${baseUrl}img/react-logo.svg`,
+            imageAlign: 'top',
+            title: 'ReactJS',
+          },
+          {
+            content: 'Material UI is an open source library exposing a lot of useful GUI Components. Furthermore, theming is possible. We use it for our dark or light theme.',
+            image: `${baseUrl}img/material-ui-logo.svg`,
+            imageAlign: 'top',
+            title: 'Material UI',
+          },
+          {
+            content: 'With Electron we made it possible to offer crossplatform installers for MacOSX, Win and Linux',
+            image: `${baseUrl}img/electronlogo.png`,
+            imageAlign: 'top',
+            title: 'Electron',
+          },
+          {
+            content: 'WebMIDI is a library on top of the native Web-MIDI Interface. It provides comfortable use of the API wihtout getting your head on fire.',
+            image: `${baseUrl}img/webmidi-image.svg`,
+            imageAlign: 'top',
+            title: 'WebMIDI',
+          }
+        ]}
+      </Block>
+    )
+
     const Showcase = () => {
       if ((siteConfig.users || []).length === 0) {
         return null
@@ -200,6 +231,7 @@ class Index extends React.Component {
           <Features />
           <FeatureCallout />
           <LearnHow />
+          <UsedOpenSourceSoftware />
           {/* <TryOut />
           <Description /> */}
           <Showcase />
