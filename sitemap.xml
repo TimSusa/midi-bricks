@@ -5,8 +5,8 @@
 <url> <loc>https://facebook.github.io/midi-bricks-mono/users</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://facebook.github.io/midi-bricks-mono/en/users" /> </url>
 <url> <loc>https://facebook.github.io/midi-bricks-mono/blog/2019/05/05/blog-post</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://facebook.github.io/midi-bricks-mono/blog/2019/05/03/blog-post</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
-<url> <loc>https://facebook.github.io/midi-bricks-mono/docs/doc1</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://facebook.github.io/midi-bricks-mono/docs/doc1" /> </url>
-<url> <loc>https://facebook.github.io/midi-bricks-mono/docs/doc2</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://facebook.github.io/midi-bricks-mono/docs/doc2" /> </url>
-<url> <loc>https://facebook.github.io/midi-bricks-mono/docs/doc3</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://facebook.github.io/midi-bricks-mono/docs/doc3" /> </url>
-<url> <loc>https://facebook.github.io/midi-bricks-mono/docs/doc4</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://facebook.github.io/midi-bricks-mono/docs/doc4" /> </url>
+<url> <loc>https://facebook.github.io/midi-bricks-mono/docs/applicationSettings</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://facebook.github.io/midi-bricks-mono/docs/applicationSettings" /> </url>
+<url> <loc>https://facebook.github.io/midi-bricks-mono/docs/downloadAndInstall</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://facebook.github.io/midi-bricks-mono/docs/downloadAndInstall" /> </url>
+<url> <loc>https://facebook.github.io/midi-bricks-mono/docs/firstLayout</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://facebook.github.io/midi-bricks-mono/docs/firstLayout" /> </url>
+<url> <loc>https://facebook.github.io/midi-bricks-mono/docs/introduction</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://facebook.github.io/midi-bricks-mono/docs/introduction" /> </url>
 </urlset>
