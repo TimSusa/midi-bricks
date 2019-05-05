@@ -23,7 +23,7 @@ const users = [
 const siteConfig = {
   title: 'MIDI Briqks', // Title for your website.
   tagline: '...easily create your own MIDI Touch Controller...',
-  url: 'https://timsusa.github.io', // Your website URL
+  url: 'https://facebook.github.io', // Your website URL
   baseUrl: '/midi-bricks-mono/', // Base URL for your project */
   // For github.io type URLs, you would set the url and baseUrl like:
   //   url: 'https://facebook.github.io',
@@ -55,7 +55,7 @@ const siteConfig = {
   /* Colors for website */
   colors: {
     primaryColor: '#18A49D',
-    secondaryColor: 'rgba(0, 0, 0, 0.87)',
+    secondaryColor: '#333333',
   },
 
   /* Custom fonts for website */
