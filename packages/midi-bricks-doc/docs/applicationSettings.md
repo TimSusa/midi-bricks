@@ -1,16 +1,31 @@
 ---
-id: doc3
+id: applicationSettings
 title: Application Settings
 sidebar_label: Application Settings
 ---
 
-![Global Menu](/midi-bricks-mono/img/global-menu.png)
+![Global Menu](/midi-bricks-mono/img/midi-briqks-normal-view-explained.png)
 
+To get the feeling of a common workflow, please get to know about the main areas of the application.
+In the screen-shot above you can observe marked regions with numbers from one to four, which are explained here furher:
 
-## The Global Menu
+### 1. Global Menu
+You can do global configuration here. Explained in detail below.
+
+### 2. Settings Mode
+Intended for layout elements. You can open the modal, by clicking on the "roof" symbol at the right top corner.
+
+### 3. Layout Mode
+Here you can add elements and position them as you like via drag and drop.
+
+### 4. MIDI Learn Mode
+In this mode you just need to click one of the elements, so that is has a focus. After that you can give it any MIDI Input you want, and the application will configure itself to that information.
+
+## Global Menu
 The app has different areas, which support you to have a comfortable workflow.  
 On the top left burger menu you can open a drawer list with basic functionality.
 
+![Global Menu](/midi-bricks-mono/img/global-menu.png)
 
 ### Main
 Go to the main page 
@@ -47,3 +62,11 @@ Will delete all sliders
 
 ### Version
 Acutal version of the application is shown
+
+
+## Settings Mode
+Is intended to change settings for each element. You can switch to mode, by clicking on the button. A tooltip would help you to find the right decision.
+
+## Layout Mode
+
+## MIDI Learn Mode

@@ -1,5 +1,5 @@
 {
   "docs": {
-    "Help": ["doc1", "doc2", "doc3", "doc4"]
+    "Help": ["introduction", "downloadAndInstall", "applicationSettings", "firstLayout"]
   }
 }

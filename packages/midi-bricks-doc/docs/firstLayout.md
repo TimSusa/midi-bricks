@@ -1,5 +1,5 @@
 ---
-id: doc4
+id: firstLayout
 title: Create your first MIDI Controller Layout
 sidebar_label: Create your first MIDI Controller Layout
 ---

@@ -1,5 +1,5 @@
 ---
-id: doc2
+id: downloadAndInstall
 title: Downloading and Installing the Application
 sidebar_label: Download and Install
 ---

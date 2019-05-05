@@ -37,16 +37,16 @@ class Footer extends React.Component {
           </a>
           <div>
             <h5>Docs</h5>
-            <a href={this.docUrl('doc1', this.props.language)}>
+            <a href={this.docUrl('introduction', this.props.language)}>
               Application Instruction
             </a>
-            <a href={this.docUrl('doc2', this.props.language)}>
+            <a href={this.docUrl('downloadAndInstall', this.props.language)}>
               Download and Install Application
             </a>
-            <a href={this.docUrl('doc3', this.props.language)}>
+            <a href={this.docUrl('applicationSettings', this.props.language)}>
               Application settings
             </a>
-            <a href={this.docUrl('doc4', this.props.language)}>
+            <a href={this.docUrl('firstLayout', this.props.language)}>
               Create your first Touch MIDI Layout
             </a>
           </div>
