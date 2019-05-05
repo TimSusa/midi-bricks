@@ -31,7 +31,7 @@ class HomeSplash extends React.Component {
 
     const Logo = props => (
       <div className="projectLogo">
-        <img src={props.img_src} alt="Project Logo" />
+        {/* <img src={`${baseUrl}img/midi-briqks-live-view.png`} alt="Project Logo" /> */}
       </div>
     )
 
@@ -63,11 +63,12 @@ class HomeSplash extends React.Component {
         <Logo img_src={`${baseUrl}img/docusaurus.svg`} />
         <div className="inner">
           <ProjectTitle siteConfig={siteConfig} />
-          <PromoSection>
+          {/* <PromoSection>
             <Button href="#try">do some stuff by clicking here</Button>
             <Button href={docUrl('doc1.html')}>Link to doc 1</Button>
             <Button href={docUrl('doc2.html')}>Link to doc 2</Button>
-          </PromoSection>
+          </PromoSection> */}
+          <img width="80%" src={`${baseUrl}img/midi-briqks-live-view.png`}></img>
         </div>
       </SplashContainer>
     )
@@ -96,8 +97,9 @@ class Index extends React.Component {
       <div
         className="productShowcaseSection paddingBottom"
         style={{textAlign: 'center'}}>
-        <h2>Feature Callout</h2>
-        <MarkdownBlock>These are features of this project</MarkdownBlock>
+        <h2> <a href="https://github.com/TimSusa/midi-bricks-mono/releases">Try for free and be informed with automatic updates.</a></h2>
+        <MarkdownBlock>MIDI Briqks is for free, because it is open source software. You can even have automatic updates available.</MarkdownBlock>
+        <a href="https://github.com/TimSusa/midi-bricks-mono/releases">Download an actual Release.</a>
       </div>
     )
 
@@ -132,10 +134,10 @@ class Index extends React.Component {
       <Block background="light">
         {[
           {
-            content: 'Talk about learning how to use this',
-            image: `${baseUrl}img/docusaurus.svg`,
+            content: 'Learn how to create your custom Touch MIDI Controller Layout.',
+            image: `${baseUrl}img/midi-briqks-normal-view.png`,
             imageAlign: 'right',
-            title: 'Learn How',
+            title: 'Your first touch controller layout.',
           },
         ]}
       </Block>
@@ -145,16 +147,16 @@ class Index extends React.Component {
       <Block layout="fourColumn">
         {[
           {
-            content: 'This is the content of my feature tim 2',
-            image: `${baseUrl}img/docusaurus.svg`,
+            content: 'Add touch sliders, buttons, labels and position them as you like via drag and drop. You can save your configuration into a file and easily load it. The app is usable even in any offline scenario without any internet connectivity.',
+           // image: `${baseUrl}img/docusaurus.svg`,
             imageAlign: 'top',
-            title: 'Feature One',
+            title: 'Free customizable Touch Controller Layouts',
           },
           {
-            content: 'The content of my second feature',
-            image: `${baseUrl}img/docusaurus.svg`,
+            content: 'Connecting to your MIDI Devices made easy. Just change the controller and the application will learn what is needed. You can even have different MIDI Drivers for input and output or even different drivers for each Button or Slider.',
+          //  image: `${baseUrl}img/docusaurus.svg`,
             imageAlign: 'top',
-            title: 'Feature Two',
+            title: 'MIDI Learn',
           },
         ]}
       </Block>
@@ -196,8 +198,8 @@ class Index extends React.Component {
           <Features />
           <FeatureCallout />
           <LearnHow />
-          <TryOut />
-          <Description />
+          {/* <TryOut />
+          <Description /> */}
           <Showcase />
         </div>
       </div>

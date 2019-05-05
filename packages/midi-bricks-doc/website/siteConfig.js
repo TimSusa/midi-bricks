@@ -21,8 +21,8 @@ const users = [
 ]
 
 const siteConfig = {
-  title: 'MIDI Bricks', // Title for your website.
-  tagline: '...easily create your own MIDI Controller...',
+  title: 'MIDI Briqks', // Title for your website.
+  tagline: '...easily create your own MIDI Touch Controller...',
   url: 'https://timsusa.github.io', // Your website URL
   baseUrl: '/midi-bricks-mono/', // Base URL for your project */
   // For github.io type URLs, you would set the url and baseUrl like:
@@ -39,8 +39,8 @@ const siteConfig = {
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
     {doc: 'doc1', label: 'Docs'},
-    {doc: 'doc4', label: 'API'},
-    {page: 'help', label: 'Help'},
+    //{doc: 'doc4', label: 'API'},
+    //{page: 'help', label: 'Help'},
     {blog: true, label: 'Blog'},
   ],
 
@@ -59,18 +59,18 @@ const siteConfig = {
   },
 
   /* Custom fonts for website */
-  /*
+  
   fonts: {
     myFont: [
-      "Times New Roman",
-      "Serif"
+      "Roboto",
+      "Arial"
     ],
     myOtherFont: [
       "-apple-system",
       "system-ui"
     ]
   },
-  */
+  
 
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
   copyright: `Copyright © ${new Date().getFullYear()} Tim Susa`,
