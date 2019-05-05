@@ -1,11 +1,9 @@
 ---
 id: doc1
-title: Just a few words
-sidebar_label: Just a few words before
+title: Introduction
+sidebar_label: Introduction
 ---
 
-Let us say, we have main documetation in here. You will
-have tutorials available.
 
 ## Just a few words before
 
