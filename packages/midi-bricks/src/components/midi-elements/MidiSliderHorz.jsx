@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 
+const noop = () => {}
+
 class MidiSliderHorz extends Component {
   selfRef = null
   onPointerMove = null
@@ -10,12 +12,13 @@ class MidiSliderHorz extends Component {
     super(props)
     this.selfRef = React.createRef()
     this.state = {
-      isActivated: false,
+      isActivated: false
     }
   }
 
   render() {
     const {
+      isDisabled,
       height,
       sliderThumbHeight,
       width,
@@ -23,26 +26,26 @@ class MidiSliderHorz extends Component {
         colors: { color },
         val,
         maxVal,
-        minVal,
-      },
+        minVal
+      }
     } = this.props
     return (
       <div
-        onContextMenu={e => {
+        onContextMenu={(e) => {
           e.preventDefault()
           e.stopPropagation()
           return false
         }}
         ref={this.selfRef}
-        onPointerDown={this.handlePointerStart}
-        onPointerMove={this.onPointerMove}
-        onPointerUp={this.handlePointerEnd}
+        onPointerDown={isDisabled ? noop : this.handlePointerStart}
+        onPointerMove={isDisabled ? noop : this.onPointerMove}
+        onPointerUp={isDisabled ? noop : this.handlePointerEnd}
         style={{
           height: height + sliderThumbHeight,
           width: width + sliderThumbHeight,
           borderRadius: 3,
           background: color ? color : 'aliceblue',
-          boxShadow: this.state.isActivated && '0 0 3px 3px rgb(24, 164, 157)',
+          boxShadow: this.state.isActivated && '0 0 3px 3px rgb(24, 164, 157)'
         }}
       >
         <div
@@ -51,7 +54,7 @@ class MidiSliderHorz extends Component {
               val,
               width,
               maxVal,
-              minVal,
+              minVal
             })
           )}
         />
@@ -59,7 +62,7 @@ class MidiSliderHorz extends Component {
     )
   }
 
-  handlePointerStart = e => {
+  handlePointerStart = (e) => {
     this.onPointerMove = this.handlePointerMove
     window.requestAnimationFrame(this.onPointerMove)
     this.selfRef.current.setPointerCapture(e.pointerId)
@@ -69,7 +72,7 @@ class MidiSliderHorz extends Component {
     this.setState({ isActivated: true })
   }
 
-  handlePointerEnd = e => {
+  handlePointerEnd = (e) => {
     this.onPointerMove = null
     this.selfRef.current.releasePointerCapture(e.pointerId)
 
@@ -78,20 +81,20 @@ class MidiSliderHorz extends Component {
     this.setState({ isActivated: false })
   }
 
-  handlePointerMove = e => {
+  handlePointerMove = (e) => {
     const val = this.positionToValue(e)
     if (isNaN(val)) return
     this.sendOutFromChildren(val)
   }
 
-  sendOutFromChildren = y => {
+  sendOutFromChildren = (y) => {
     this.props.actions.handleSliderChange({
       idx: this.props.idx,
-      val: parseInt(y, 10),
+      val: parseInt(y, 10)
     })
   }
 
-  getSliderThumbStyle = x => {
+  getSliderThumbStyle = (x) => {
     return {
       position: 'relative',
       cursor: 'pointer',
@@ -103,7 +106,7 @@ class MidiSliderHorz extends Component {
         : 'goldenrod',
       right: Math.round(x) - this.props.width,
       top: 0,
-      boxShadow: this.state.isActivated && '0 0 3px 3px rgb(24, 164, 157)',
+      boxShadow: this.state.isActivated && '0 0 3px 3px rgb(24, 164, 157)'
     }
   }
 
@@ -131,7 +134,7 @@ class MidiSliderHorz extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(MidiSliderActions, dispatch),
+    actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
 

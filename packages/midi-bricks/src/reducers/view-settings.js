@@ -269,10 +269,10 @@ export const reducers = {
     })
   },
 
-  [ActionTypeViewSettings.SET_AVAILABLE_DRIVERS](state = initState, action) {
+  [ActionTypeViewSettings.SET_AVAILABLE_DRIVERS](state, action) {
     const {
       availableDrivers: { inputs: oldIn, outputs: oldOut }
-    } = state
+    } = state || initState
     const { input, output } = action.payload
 
     let availableDrivers = { ...state.availableDrivers }
@@ -374,15 +374,43 @@ export const reducers = {
     state = initState,
     action
   ) {
-    const { isDevConsoleEnabled, isAllowedToUpdate, isAutoDownload, isAllowedPrerelease, isAllowedDowngrade, isWindowSizeLocked, windowCoords } = action.payload
+    const {
+      isDevConsoleEnabled,
+      isAllowedToUpdate,
+      isAutoDownload,
+      isAllowedPrerelease,
+      isAllowedDowngrade,
+      isWindowSizeLocked,
+      windowCoords
+    } = action.payload
     const electronAppSettings = {
-      isDevConsoleEnabled: isDevConsoleEnabled !== undefined ? isDevConsoleEnabled : state.electronAppSettings.isDevConsoleEnabled,
-      isAllowedToUpdate: isAllowedToUpdate !== undefined ? isAllowedToUpdate : state.electronAppSettings.isAllowedToUpdate,
-      isAutoDownload: isAutoDownload !== undefined ? isAutoDownload : state.electronAppSettings.isAutoDownload,
-      isAllowedPrerelease: isAllowedPrerelease !== undefined ? isAllowedPrerelease : state.electronAppSettings.isAllowedPrerelease,
-      isAllowedDowngrade: isAllowedDowngrade !== undefined ? isAllowedDowngrade : state.electronAppSettings.isAllowedDowngrade,
-      isWindowSizeLocked: isWindowSizeLocked !== undefined ? isWindowSizeLocked : state.electronAppSettings.isWindowSizeLoisAllwedcked,
-      windowCoords: Array.isArray(windowCoords) ? windowCoords : state.electronAppSettings.windowCoords
+      isDevConsoleEnabled:
+        isDevConsoleEnabled !== undefined
+          ? isDevConsoleEnabled
+          : state.electronAppSettings.isDevConsoleEnabled,
+      isAllowedToUpdate:
+        isAllowedToUpdate !== undefined
+          ? isAllowedToUpdate
+          : state.electronAppSettings.isAllowedToUpdate,
+      isAutoDownload:
+        isAutoDownload !== undefined
+          ? isAutoDownload
+          : state.electronAppSettings.isAutoDownload,
+      isAllowedPrerelease:
+        isAllowedPrerelease !== undefined
+          ? isAllowedPrerelease
+          : state.electronAppSettings.isAllowedPrerelease,
+      isAllowedDowngrade:
+        isAllowedDowngrade !== undefined
+          ? isAllowedDowngrade
+          : state.electronAppSettings.isAllowedDowngrade,
+      isWindowSizeLocked:
+        isWindowSizeLocked !== undefined
+          ? isWindowSizeLocked
+          : state.electronAppSettings.isWindowSizeLoisAllwedcked,
+      windowCoords: Array.isArray(windowCoords)
+        ? windowCoords
+        : state.electronAppSettings.windowCoords
     }
     return { ...state, electronAppSettings }
   }
