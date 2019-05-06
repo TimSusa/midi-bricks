@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.5](https://github.com/TimSusa/midi-bricks-mono/compare/v1.2.3...v1.2.5) (2019-05-06)
+
+
+### Bug Fixes
+
+* Crash when starting from very first wihtout any persistence file ([617f3c1](https://github.com/TimSusa/midi-bricks-mono/commit/617f3c1))
+* fix_having_single_window_lock ([4830dc6](https://github.com/TimSusa/midi-bricks-mono/commit/4830dc6))
+
+
+
 ## [1.2.3](https://github.com/TimSusa/midi-bricks-mono/compare/v1.2.1...v1.2.3) (2019-05-06)
 
 
