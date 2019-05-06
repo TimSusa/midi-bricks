@@ -23,9 +23,9 @@ jobs:
       - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
-      - run:
-          name: Publish packages
-          command: yarn publish-ci
+      # - run:
+      #     name: Publish packages
+      #     command: yarn publish-ci
       # - run:
       #     name: Build midi-bricks-electron-ci
       #     command: yarn build:midi-bricks-electron-ci
