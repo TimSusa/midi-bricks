@@ -64,7 +64,7 @@
     "electron": "5.0.0",
     "electron-builder": "20.40.2",
     "electron-publish": "20.40.0",
-    "midi-bricks": "^1.2.0",
+    "midi-bricks": "^1.2.1",
     "mocha": "6.0.2",
     "react-scripts": "3.0.0",
     "rimraf": "2.6.3",
