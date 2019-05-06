@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.3](https://github.com/TimSusa/midi-bricks-mono/compare/v1.2.1...v1.2.3) (2019-05-06)
+
+
+### Bug Fixes
+
+* Adding footer entry, when adding a page. ([6b29378](https://github.com/TimSusa/midi-bricks-mono/commit/6b29378))
+
+
+
 ## [1.2.2](https://github.com/TimSusa/midi-bricks-mono/compare/v1.2.1...v1.2.2) (2019-05-03)
 
 
