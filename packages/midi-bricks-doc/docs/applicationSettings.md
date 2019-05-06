@@ -54,7 +54,10 @@ Your are presented with all available input and output MIDI drivers. You can ena
 ### Viewsettings
 Opens a modal, where you can globally set things, that concern global views and update behaviour.
 
-### Load Preset / Save Preset
+### Load Preset
+On click a modal window will be opened, where you can load or save custom presets.
+
+### Save Preset
 On click a modal window will be opened, where you can load or save custom presets.
 
 ### Delete All 
@@ -65,8 +68,24 @@ Acutal version of the application is shown
 
 
 ## Settings Mode
-Is intended to change settings for each element. You can switch to mode, by clicking on the button. A tooltip would help you to find the right decision.
+Is intended to change settings for each element. You can switch to mode, by clicking on the button, which is marked by "2." in the screenshot at the top. Anyhow, a tooltip could help you to find the right decision.
+
+### Open the Dialog
+### Output Drivers
+### Input Drivers
+### View Settings
+
 
 ## Layout Mode
+### Add Pages
+### Add Sliders
+### Add Buttons
+### Add Labels
+
 
 ## MIDI Learn Mode
+In this mode you just need to click one of the elements, so that is has a focus. After that you can give it any MIDI Input you want, and the application will configure itself to that information.
+
+### Focus Element
+### Learn
+### Commit Change

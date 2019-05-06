@@ -70,7 +70,7 @@ class HomeSplash extends React.Component {
           </PromoSection> */}
           <br></br>
           <br></br>
-          <img width="80%" style={{borderRadius: 3}} src={`${baseUrl}img/midi-briqks-live-view.png`}></img>
+          <a href='#learn-how'><img width="80%" style={{borderRadius: 3}} src={`${baseUrl}img/midi-briqks-live-view.png`}></img></a>
         </div>
       </SplashContainer>
     )
@@ -133,11 +133,12 @@ class Index extends React.Component {
     )
 
     const LearnHow = () => (
-      <Block background="light">
+      <Block background="light" id='learn-how'>
         {[
           {
             content: 'Learn how to create your custom Touch MIDI Controller Layout.',
             image: `${baseUrl}img/midi-briqks-normal-view.png`,
+            imageLink: `${baseUrl}docs/introduction`,
             imageAlign: 'right',
             title: 'Your first touch controller layout.',
           },
@@ -170,24 +171,28 @@ class Index extends React.Component {
           {
             content: 'We like ReactJS, although it is from facebook. WTF who cares? It does an amazing job!',
             image: `${baseUrl}img/react-logo.svg`,
+            imageLink: 'https://reactjs.org/',
             imageAlign: 'top',
             title: 'ReactJS',
           },
           {
             content: 'Material UI is an open source library exposing a lot of useful GUI Components. Furthermore, theming is possible. We use it for our dark or light theme.',
             image: `${baseUrl}img/material-ui-logo.svg`,
+            imageLink: 'https://material-ui.com/',
             imageAlign: 'top',
             title: 'Material UI',
           },
           {
             content: 'With Electron we made it possible to offer crossplatform installers for MacOSX, Win and Linux',
             image: `${baseUrl}img/electronlogo.png`,
+            imageLink: 'https://electronjs.org/',
             imageAlign: 'top',
             title: 'Electron',
           },
           {
             content: 'WebMIDI is a library on top of the native Web-MIDI Interface. It provides comfortable use of the API wihtout getting your head on fire.',
             image: `${baseUrl}img/webmidi-image.svg`,
+            imageLink: 'https://github.com/djipco/webmidi',
             imageAlign: 'top',
             title: 'WebMIDI',
           }
