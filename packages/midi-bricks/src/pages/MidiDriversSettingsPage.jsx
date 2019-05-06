@@ -13,7 +13,7 @@ export default connect(
 )(MidiDriversSettingsPage)
 
 MidiDriversSettingsPage.propTypes = {
-  actions: PropTypes.any,
+  actions: PropTypes.object,
   midi: PropTypes.object,
   viewSettings: PropTypes.object
 }
@@ -35,7 +35,7 @@ function MidiDriversSettingsPage(props) {
 
   const [isFirstPanelExpanded, setIsFirstPanelExpanded] = useState(true)
   const [isScndPanelExpanded, setIsScndPanelExpanded] = useState(true)
-  
+  console.log('yorau vg', actions)
   return (
     <React.Fragment>
       <DriverExpansionPanel
@@ -73,6 +73,7 @@ function MidiDriversSettingsPage(props) {
                   actions
                 )}
               />
+              
             </DriverExpansionPanel>
           )
         })}
@@ -128,7 +129,7 @@ function MidiDriversSettingsPage(props) {
 //   }
 // }
 
-function handleCheckboxClickNoteIn(name, isChecked, actions, e) {
+function handleCheckboxClickNoteIn(actions, name, isChecked, e) {
   actions.setAvailableDrivers({
     input: {
       name,
@@ -137,7 +138,7 @@ function handleCheckboxClickNoteIn(name, isChecked, actions, e) {
     }
   })
 }
-function handleCheckboxClickCcIn(name, isChecked, actions, e) {
+function handleCheckboxClickCcIn(actions, name, isChecked, e) {
   actions.setAvailableDrivers({
     input: {
       name,
@@ -146,7 +147,7 @@ function handleCheckboxClickCcIn(name, isChecked, actions, e) {
     }
   })
 }
-function handleCheckboxClickNoteOut(name, isChecked, actions, e) {
+function handleCheckboxClickNoteOut(actions, name, isChecked, e) {
   actions.setAvailableDrivers({
     output: {
       name,
@@ -155,7 +156,7 @@ function handleCheckboxClickNoteOut(name, isChecked, actions, e) {
     }
   })
 }
-function handleCheckboxClickCcOut(name, isChecked, actions, e) {
+function handleCheckboxClickCcOut(actions, name, isChecked, e) {
   actions.setAvailableDrivers({
     output: {
       name,
