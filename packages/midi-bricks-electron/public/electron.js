@@ -44,7 +44,9 @@ if (!gotTheLock) {
 } else {
   app.on('second-instance', (event, commandLine, workingDirectory) => {
     // Someone tried to run a second instance, we should focus our window.
-    log.info('Someone tried to run a second instance, we should focus our window.')
+    log.info(
+      'Someone tried to run a second instance, we should focus our window.'
+    )
     if (win) {
       if (win.isMinimized()) win.restore()
       win.focus()
@@ -52,33 +54,24 @@ if (!gotTheLock) {
   })
 
   // Create myWindow, load the rest of the app, etc...
-  app.on('ready', () => {
+  // initialization and is ready to create browser windows.
+  // Some APIs can only be used after this event occurs.
+  app.on('ready', createWindow)
+
+  // Quit when all windows are closed.
+  app.on('window-all-closed', function() {
+    // On macOS it is common for applications and their menu bar
+    // to stay active until the user quits explicitly with Cmd + Q
+    appSettings = null
+    if (process.platform !== 'darwin') app.quit()
+  })
+
+  app.on('activate', function() {
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (win === null) createWindow()
   })
 }
-
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
-
-// Quit when all windows are closed.
-app.on('window-all-closed', function() {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  appSettings = null
-  if (process.platform !== 'darwin') app.quit()
-})
-
-app.on('activate', function() {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (win === null) createWindow()
-})
-
-// let updateObject = {}
-// function updateCallback(thing) {
-//   updateObject = thing
-//   log.info('updateCallback:', updateObject)
-// }
 
 async function createWindow() {
   appSettings = (await readoutPersistedAppsettings(appSettings)) || {}
@@ -124,7 +117,8 @@ async function createWindow() {
   })
 
   // Extract CLI parameter: Window Coordinates
-  const windowIndex = process.argv.findIndex((item) => item === '--window') + 1
+  const windowIndex =
+    process.argv.findIndex((item) => item === '--window') + 1
   const [xx, yy, w, h] = process.argv[windowIndex].split(',')
 
   const [xSet, ySet, widthSet, heightSet] = appSettings.windowCoords
@@ -363,3 +357,8 @@ function persistAppSettings(arg) {
 
   return freshContent
 }
+// let updateObject = {}
+// function updateCallback(thing) {
+//   updateObject = thing
+//   log.info('updateCallback:', updateObject)
+// }
