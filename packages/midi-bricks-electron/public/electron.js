@@ -13,6 +13,7 @@ const log = require('electron-log')
 //const { checkForUpdates } = require('./update')
 const util = require('util')
 const readFile = util.promisify(fs.readFile)
+const doesFileExist = util.promisify(fs.stat)
 require('electron').process
 
 let win = null
@@ -117,11 +118,10 @@ async function createWindow() {
   })
 
   // Extract CLI parameter: Window Coordinates
-  const windowIndex =
-    process.argv.findIndex((item) => item === '--window') + 1
+  const windowIndex = process.argv.findIndex((item) => item === '--window') + 1
   const [xx, yy, w, h] = process.argv[windowIndex].split(',')
 
-  const [xSet, ySet, widthSet, heightSet] = appSettings.windowCoords
+  const [xSet, ySet, widthSet, heightSet] = appSettings.windowCoords || []
   const { x, y, width, height } =
     {
       x: parseInt((yy && w && h && xx) || xSet, 10),
@@ -226,7 +226,7 @@ function onSaveFileDialog(event, arg) {
       }
       const json = JSON.stringify(arg)
 
-      fs.writeFile(filename, json, 'utf8', (err, data) => {
+      fs.writeFile(filename, json, { flag: 'w' }, (err, data) => {
         if (err) {
           throw new Error(err)
         }
@@ -282,19 +282,23 @@ function onSetAppSettings(event, arg) {
   })
 }
 async function readoutPersistedAppsettings(appSettings = appInitSettings) {
+  // Try to read out persisted app-settings:
   try {
-    // Try to read out persisted app-settings:
-    const res = await readFile(persistedAppSettingsFileName)
-    const data = JSON.parse(res)
-    appSettings = data
-    return data
-  } catch (error) {
-    log.warn('App Settings Warning: ', error, 'Try to create settings-file')
+    const isExisting = await doesFileExist(persistedAppSettingsFileName)
+    if (isExisting) { 
+      const res = await readFile(persistedAppSettingsFileName)
+      const data = JSON.parse(res)
+      appSettings = data
+      return data
+    } 
+  } catch(error){
+    log.warn('App Settings Warning: ', 'Try to create settings-file')
+
     const persJson = JSON.stringify(appSettings)
     fs.writeFile(
       persistedAppSettingsFileName,
       persJson,
-      'utf8',
+      { flag: 'w' },
       (err, data) => {
         if (err) {
           throw new Error(err)
@@ -303,6 +307,8 @@ async function readoutPersistedAppsettings(appSettings = appInitSettings) {
       }
     )
   }
+
+
 }
 
 function persistAppSettings(arg) {
@@ -341,7 +347,7 @@ function persistAppSettings(arg) {
   fs.writeFile(
     persistedAppSettingsFileName,
     jsonRefreshed,
-    'utf8',
+    { flag: 'w' },
     (err, data) => {
       if (err) {
         throw new Error(err)
