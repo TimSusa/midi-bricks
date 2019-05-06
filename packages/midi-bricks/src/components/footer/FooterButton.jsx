@@ -5,37 +5,56 @@ import { PropTypes } from 'prop-types'
 FooterButton.propTypes = {
   actions: PropTypes.object,
   classes: PropTypes.object,
-  isLiveMode: PropTypes.bool,
+  isSettingsMode: PropTypes.bool,
   item: PropTypes.object,
   lastFocusedPage: PropTypes.string
 }
 
 export function FooterButton(props) {
-  const { classes, item, lastFocusedPage, isLiveMode, actions } = props
+  const {
+    classes,
+    item: {
+      id,
+      label,
+      colors: { color, colorFont }
+    },
+    lastFocusedPage,
+    isSettingsMode,
+    actions
+  } = props
 
   return (
     <Button
       className={classes.button}
       style={{
-        boxShadow:
-          item.id === lastFocusedPage && '0 0 3px 3px rgb(24, 164, 157)',
-        background: item.colors.color,
-        color: item.colors.colorFont
+        boxShadow: id === lastFocusedPage && '0 0 3px 3px rgb(24, 164, 157)',
+        background: color,
+        color: colorFont
       }}
-      onClick={handleClick.bind(this, {
-        item,
-        isLiveMode,
-        actions,
-        lastFocusedPage
-      })}
-      value={item.i}
+      onClick={
+        isSettingsMode
+          ? () => {
+            actions.setLastFocusedIndex({ i: id })
+            actions.setLastFocusedPage({ lastFocusedPage: id })
+            actions.toggleSettingsDialogMode({
+              idx: id,
+              isSettingsDialogMode: true
+            })
+          }
+          : handleClick.bind(this, {
+            id,
+            actions,
+            lastFocusedPage
+          })
+      }
+      value={id}
     >
-      {item && item.label}
+      {label && label}
     </Button>
   )
 }
 
-function handleClick({ item, isLiveMode, actions, lastFocusedPage }) {
-  actions.setMidiPage({ lastFocusedPage, focusedPage: item.id })
-  actions.setLastFocusedPage({ lastFocusedPage: item.id })
+function handleClick({ id, actions, lastFocusedPage }) {
+  actions.setMidiPage({ lastFocusedPage, focusedPage: id })
+  actions.setLastFocusedPage({ lastFocusedPage: id })
 }

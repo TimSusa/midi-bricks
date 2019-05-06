@@ -430,7 +430,7 @@ export const reducers = {
     const {
       payload: { pageTarget }
     } = action
-    let pageTargets = [...(state.pageTargets||[]), pageTarget]
+    let pageTargets = [...(state.pageTargets || []), pageTarget]
     return { ...state, pageTargets }
   }
 }

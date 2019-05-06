@@ -11,6 +11,7 @@ import { Actions as ViewSettinsgsAction } from '../../actions/view-settings'
 import { Actions as SliderSettinsgsAction } from '../../actions/slider-list'
 import { Button, Tooltip } from '@material-ui/core'
 import { PAGE_TYPES } from '../../reducers/view-settings'
+import MidiSettingsDialog from '../midi-settings-dialog/MidiSettingsDialog'
 
 const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
 
@@ -26,8 +27,10 @@ Footer.propTypes = {
   isFullscreenOnLivemode: PropTypes.bool,
   isLiveMode: PropTypes.bool,
   isSettingsMode: PropTypes.bool,
+  isSettingsDialogMode: PropTypes.bool,
   lastFocusedFooterButtonIdx: PropTypes.string,
   lastFocusedPage: PropTypes.string,
+  lastFocusedIdx: PropTypes.string,
   pageType: PropTypes.string
 }
 
@@ -38,17 +41,18 @@ function Footer(props) {
     pageTargets = [],
     lastFocusedPage,
     lastFocusedFooterButtonIdx = '',
+    lastFocusedIdx,
     isSettingsMode = false,
+    isSettingsDialogMode,
     isLiveMode = false,
     isFullscreenOnLivemode = false,
     pageType = '',
-    actions = {}
+    actions
   } = props
-
   if (pageType !== PAGE_TYPES.HOME_MODE && !isLiveMode) return <div />
   return (
     <div className={classes.root}>
-      {(pageTargets).map((item, idx) => {
+      {pageTargets.map((item, idx) => {
         if (isSettingsMode) {
           return (
             <div key={`footer-button-${idx}`}>
@@ -66,9 +70,9 @@ function Footer(props) {
 
               <FooterButton
                 classes={classes}
-                lastFocusedFooterButtonIdx={ lastFocusedPage}
+                lastFocusedPage={lastFocusedPage}
                 item={item}
-                isLiveMode={isLiveMode}
+                isSettingsMode={isSettingsMode}
                 actions={actions}
               />
 
@@ -83,18 +87,34 @@ function Footer(props) {
               >
                 <RightIcon className={classes.iconColor} />
               </IconButton>
+
+              <MidiSettingsDialog
+                open={
+                  isSettingsDialogMode && lastFocusedIdx === lastFocusedPage
+                }
+                onClose={() => {
+                  actions.setLastFocusedIndex({ i: '' })
+                  actions.toggleSettingsDialogMode({
+                    idx: '',
+                    isSettingsDialogMode: false
+                  })
+                }}
+                sliderEntry={pageTargets.find(
+                  (item) => item.id === lastFocusedPage
+                )}
+                idx={idx}
+              />
             </div>
           )
         }
-
+        // not in settings mode
         return (
           <FooterButton
             key={`footer-button-${idx}`}
             classes={classes}
-            lastFocusedFooterButtonIdx={lastFocusedFooterButtonIdx}
-            lastFocusedPage = {lastFocusedPage}
+            lastFocusedPage={lastFocusedPage}
             item={item}
-            isLiveMode={isLiveMode}
+            isSettingsMode={isSettingsMode}
             actions={actions}
           />
         )
@@ -193,8 +213,10 @@ function mapStateToProps({
     footerPages,
     pageTargets,
     lastFocusedPage,
+    lastFocusedIdx,
     lastFocusedFooterButtonIdx,
     isSettingsMode,
+    isSettingsDialogMode,
     isFullscreenOnLivemode,
     isLiveMode,
     pageType
@@ -204,8 +226,10 @@ function mapStateToProps({
     footerPages,
     pageTargets,
     lastFocusedPage,
+    lastFocusedIdx,
     lastFocusedFooterButtonIdx,
     isSettingsMode,
+    isSettingsDialogMode,
     isLiveMode,
     pageType,
     isFullscreenOnLivemode
