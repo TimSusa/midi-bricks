@@ -6,12 +6,29 @@ sidebar_label: Create your first MIDI Controller Layout
 
 ## Create your first MIDI Controller Layout
 
-We would like to offer more tutorials in the future. Please hold on for upcoming changes.
+### Switch to Layout Mode
+In order to switch the app to layout mode push the button, which is marked with "2." at the screenshot above on top. If layout mode is enabled, the top menu bar should look like this.
 
-### Create a page
+![Layout Mode Menu Bar](/midi-bricks-mono/img/layout-mode.png)
 
-Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin venenatis lectus dui, vel ultrices ante bibendum hendrerit. Aenean egestas feugiat dui id hendrerit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur in tellus laoreet, eleifend nunc id, viverra leo. Proin vulputate non dolor vel vulputate. Curabitur pretium lobortis felis, sit amet finibus lorem suscipit ut. Sed non mollis risus. Duis sagittis, mi in euismod tincidunt, nunc mauris vestibulum urna, at euismod est elit quis erat. Phasellus accumsan vitae neque eu placerat. In elementum arcu nec tellus imperdiet, eget maximus nulla sodales. Curabitur eu sapien eget nisl sodales fermentum.
+### Open Add Menu
+At next click on the plus symbol. The menu for adding elements should open.
 
-### Create a slider
+![Layout Mode Add Menu](/midi-bricks-mono/img/layout-mode-add-menu.png)
 
-Phasellus pulvinar ex id commodo imperdiet. Praesent odio nibh, sollicitudin sit amet faucibus id, placerat at metus. Donec vitae eros vitae tortor hendrerit finibus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque vitae purus dolor. Duis suscipit ac nulla et finibus. Phasellus ac sem sed dui dictum gravida. Phasellus eleifend vestibulum facilisis. Integer pharetra nec enim vitae mattis. Duis auctor, lectus quis condimentum bibendum, nunc dolor aliquam massa, id bibendum orci velit quis magna. Ut volutpat nulla nunc, sed interdum magna condimentum non. Sed urna metus, scelerisque vitae consectetur a, feugiat quis magna. Donec dignissim ornare nisl, eget tempor risus malesuada quis.
+
+### Add a Slider
+Now click on: "add vertical slider". After that, you should be presented with something like this.
+
+![Layout Mode Add Vertical Slider](/midi-bricks-mono/img/layout-mode-slider-added.png)
+
+Now click the "check-icon" on the right top. A tooltip should be presented with "Commit changes and exit layout mode. 
+
+
+Congratulations! You have added your first slider.
+
+### Customize your Slider
+
+Open Slider Settings with clicking on the mini "roof" symbol at the right top of the slider. A dialog should open:
+
+![Layout Mode Add Slider Settings](/midi-bricks-mono/img/slider-settings.png)

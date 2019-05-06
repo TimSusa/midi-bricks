@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSlidersAction } from '../../actions/slider-list.js'
 import { Actions as ViewSettinsgsAction } from '../../actions/view-settings'
+import { addElement } from '../../actions/add-element'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import AddIcon from '@material-ui/icons/Add'
@@ -16,14 +17,13 @@ export default connect(
 )(AddMenu)
 
 AddMenu.propTypes = {
-  actions: PropTypes.object.isRequired,
-  sliderList: PropTypes.array
+  actions: PropTypes.object.isRequired
 }
 
 function AddMenu(props) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
-  const { sliderList, actions } = props
+  const { actions } = props
   return (
     <React.Fragment>
       <Tooltip title='Add Elements'>
@@ -51,9 +51,7 @@ function AddMenu(props) {
         open={open}
         onClose={handleClose.bind(this, setAnchorEl)}
       >
-        <MenuItem
-          onClick={handleAddPage.bind(this, props, setAnchorEl, sliderList)}
-        >
+        <MenuItem onClick={handleAddPage.bind(this, props, setAnchorEl)}>
           Add Page
         </MenuItem>
 
@@ -148,22 +146,14 @@ function handleAddXyPad(setAnchorEl, addXypad) {
   handleClose(setAnchorEl)
 }
 
-function handleAddPage(props, setAnchorEl, sliderList) {
-  const { actions, viewSettings } = props
-  actions.addPage()
+async function handleAddPage(props, setAnchorEl) {
+  const { addElement } = props
+  await addElement('PAGE')
   setAnchorEl(null)
-  window.requestAnimationFrame(() =>
-    actions.updateViewSettings({
-      sliderList,
-      viewSettings
-    })
-  )
 }
 
-function mapStateToProps({ sliders: { sliderList } }) {
-  return {
-    sliderList
-  }
+function mapStateToProps() {
+  return {}
 }
 
 function mapDispatchToProps(dispatch) {
@@ -171,6 +161,7 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(
       { ...MidiSlidersAction, ...ViewSettinsgsAction },
       dispatch
-    )
+    ),
+    addElement: bindActionCreators(addElement, dispatch)
   }
 }
