@@ -1,17 +1,33 @@
 import React from 'react'
 import { Button } from '@material-ui/core'
+import { PropTypes } from 'prop-types'
 
-export const FooterButton = props => {
-  const { classes, item, lastFocusedFooterButtonIdx, isLiveMode, actions } = props
+FooterButton.propTypes = {
+  actions: PropTypes.object,
+  classes: PropTypes.object,
+  isLiveMode: PropTypes.bool,
+  item: PropTypes.object,
+  lastFocusedPage: PropTypes.string
+}
+
+export function FooterButton(props) {
+  const { classes, item, lastFocusedPage, isLiveMode, actions } = props
+
   return (
     <Button
       className={classes.button}
       style={{
-        boxShadow: item.i === lastFocusedFooterButtonIdx && '0 0 3px 3px rgb(24, 164, 157)',
-        background: item.colors.color, 
+        boxShadow:
+          item.id === lastFocusedPage && '0 0 3px 3px rgb(24, 164, 157)',
+        background: item.colors.color,
         color: item.colors.colorFont
       }}
-      onClick={ handleClick.bind(this, {item, isLiveMode, actions})}
+      onClick={handleClick.bind(this, {
+        item,
+        isLiveMode,
+        actions,
+        lastFocusedPage
+      })}
       value={item.i}
     >
       {item && item.label}
@@ -19,16 +35,7 @@ export const FooterButton = props => {
   )
 }
 
-const handleClick = ({item, isLiveMode, actions}) => {
-  actions.setFooterButtonFocus({i: item.i})
-  if (isLiveMode) {
-    actions.extractPage({ label: item.label })
-  } else {
-    scrollByIndex(item.i);
-  }
-}
-
-function scrollByIndex(i) {
-  const elem = document.getElementById(`page-${i}`);
-  elem.scrollIntoView({ block: 'start' });
+function handleClick({ item, isLiveMode, actions, lastFocusedPage }) {
+  actions.setMidiPage({ lastFocusedPage, focusedPage: item.id })
+  actions.setLastFocusedPage({ lastFocusedPage: item.id })
 }

@@ -31,7 +31,7 @@ function ChannelStripList(props) {
   const classes = makeStyles(styles, { withTheme: true })()
   const {
     actions = {},
-    sliderList = [],
+    sliderList =[],
     monitorVal: { driver = 'None', cC = 'None', channel = 'None' } = {},
     viewSettings: {
       pageType,

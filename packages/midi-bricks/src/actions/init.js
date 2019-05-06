@@ -18,7 +18,7 @@ export function initApp(mode) {
         }
         const { inputs = [], outputs = [] } = WebMIDI
         const {
-          sliders: { sliderList },
+          sliders: { sliderList = [] },
           viewSettings: {
             availableDrivers: { inputs: availableInputs } = {
               inputs: {
@@ -38,7 +38,7 @@ export function initApp(mode) {
             noteChannels: []
           }
           let ccArr = []
-          sliderList &&
+          Array.isArray(sliderList) &&
             sliderList.forEach((entry) => {
               const { driverNameInput = '', listenToCc = [] } = entry
 

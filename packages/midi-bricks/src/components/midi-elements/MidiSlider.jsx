@@ -21,6 +21,7 @@ class MidiSlider extends Component {
       height,
       sliderThumbHeight,
       width,
+      lastFocusedPage,
       sliderEntry: {
         colors: { color },
         val,
@@ -127,11 +128,11 @@ class MidiSlider extends Component {
   }
 }
 
-// function mapStateToProps({ viewSettings: { isSettingsMode } }) {
-//   return {
-//     isSettingsMode,
-//   }
-// }
+function mapStateToProps({ viewSettings: { lastFocusedPage } }) {
+  return {
+    lastFocusedPage
+  }
+}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -140,7 +141,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(MidiSlider)
 

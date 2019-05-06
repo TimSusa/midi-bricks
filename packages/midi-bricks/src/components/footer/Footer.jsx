@@ -22,10 +22,12 @@ export default connect(
 Footer.propTypes = {
   actions: PropTypes.object,
   footerPages: PropTypes.array,
+  pageTargets: PropTypes.array,
   isFullscreenOnLivemode: PropTypes.bool,
   isLiveMode: PropTypes.bool,
   isSettingsMode: PropTypes.bool,
   lastFocusedFooterButtonIdx: PropTypes.string,
+  lastFocusedPage: PropTypes.string,
   pageType: PropTypes.string
 }
 
@@ -33,6 +35,8 @@ function Footer(props) {
   const classes = makeStyles(styles, { withTheme: true })()
   const {
     footerPages = [],
+    pageTargets = [],
+    lastFocusedPage,
     lastFocusedFooterButtonIdx = '',
     isSettingsMode = false,
     isLiveMode = false,
@@ -42,10 +46,9 @@ function Footer(props) {
   } = props
 
   if (pageType !== PAGE_TYPES.HOME_MODE && !isLiveMode) return <div />
-
   return (
     <div className={classes.root}>
-      {footerPages.map((item, idx) => {
+      {(pageTargets).map((item, idx) => {
         if (isSettingsMode) {
           return (
             <div key={`footer-button-${idx}`}>
@@ -63,7 +66,7 @@ function Footer(props) {
 
               <FooterButton
                 classes={classes}
-                lastFocusedFooterButtonIdx={lastFocusedFooterButtonIdx}
+                lastFocusedFooterButtonIdx={ lastFocusedPage}
                 item={item}
                 isLiveMode={isLiveMode}
                 actions={actions}
@@ -89,6 +92,7 @@ function Footer(props) {
             key={`footer-button-${idx}`}
             classes={classes}
             lastFocusedFooterButtonIdx={lastFocusedFooterButtonIdx}
+            lastFocusedPage = {lastFocusedPage}
             item={item}
             isLiveMode={isLiveMode}
             actions={actions}
@@ -144,7 +148,6 @@ function handleLiveButtonClick(
   clearTimeout(timerId)
 }
 
-
 function styles(theme) {
   return {
     root: {
@@ -188,6 +191,8 @@ function styles(theme) {
 function mapStateToProps({
   viewSettings: {
     footerPages,
+    pageTargets,
+    lastFocusedPage,
     lastFocusedFooterButtonIdx,
     isSettingsMode,
     isFullscreenOnLivemode,
@@ -197,6 +202,8 @@ function mapStateToProps({
 }) {
   return {
     footerPages,
+    pageTargets,
+    lastFocusedPage,
     lastFocusedFooterButtonIdx,
     isSettingsMode,
     isLiveMode,
@@ -213,4 +220,3 @@ function mapDispatchToProps(dispatch) {
     )
   }
 }
-

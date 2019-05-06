@@ -16,8 +16,12 @@ const initState = {
   marginY: 8,
   paddingX: 8,
   paddingY: 8,
+  // deprecated in favor of pageTargets
   footerPages: [],
+  // deprecated in favor of lastFocusedPage
   lastFocusedFooterButtonIdx: '',
+  lastFocusedPage: null,
+  pageTargets: [],
   isLiveMode: false,
   isSettingsDialogMode: false,
   isLayoutMode: false,
@@ -413,6 +417,21 @@ export const reducers = {
         : state.electronAppSettings.windowCoords
     }
     return { ...state, electronAppSettings }
+  },
+
+  [ActionTypeViewSettings.SET_LAST_FOCUSED_PAGE](state = initState, action) {
+    const {
+      payload: { lastFocusedPage }
+    } = action
+    return { ...state, lastFocusedPage }
+  },
+
+  [ActionTypeViewSettings.ADD_PAGE_TARGET](state, action) {
+    const {
+      payload: { pageTarget }
+    } = action
+    let pageTargets = [...(state.pageTargets||[]), pageTarget]
+    return { ...state, pageTargets }
   }
 }
 

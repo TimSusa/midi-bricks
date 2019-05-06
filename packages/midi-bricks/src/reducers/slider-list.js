@@ -3,7 +3,8 @@ import { generateReducers } from 'redux-generate'
 import { ActionTypeSliderList } from '../actions/slider-list'
 import { midi } from 'tonal'
 import { fromMidi } from '../utils/fromMidi'
-import { uniqueId, map, groupBy } from 'lodash'
+import { map, groupBy } from 'lodash'
+import { getUniqueId } from '../utils/get-unique-id'
 
 export const STRIP_TYPE = {
   BUTTON: 'BUTTON',
@@ -57,31 +58,16 @@ export const reducers = {
     }
     return { ...state, isMidiFailed: false, midi }
   },
-  [ActionTypeSliderList.ADD_SLIDER](state, action) {
-    const newState = transformAddState(state, action, SLIDER)
-    return newState
-  },
-  [ActionTypeSliderList.ADD_SLIDER_HORZ](state, action) {
-    const newState = transformAddState(state, action, SLIDER_HORZ)
-    return newState
-  },
-  [ActionTypeSliderList.ADD_BUTTON](state, action) {
-    const { type } = action.payload
+
+  
+  [ActionTypeSliderList.ADD_MIDI_ELEMENT](state, action) {
+    const type = action.payload.type
     const newState = transformAddState(state, action, type)
     return newState
   },
 
-  [ActionTypeSliderList.ADD_LABEL](state, action) {
-    const newState = transformAddState(state, action, LABEL)
-    return newState
-  },
   [ActionTypeSliderList.ADD_PAGE](state, action) {
     const newState = transformAddState(state, action, PAGE)
-    return newState
-  },
-
-  [ActionTypeSliderList.ADD_XYPAD](state, action) {
-    const newState = transformAddState(state, action, XYPAD)
     return newState
   },
 
@@ -202,7 +188,10 @@ export const reducers = {
       { payload: { idx: parseInt(idx, 10), val } },
       'val'
     )
-    return { ...state, sliderList }
+    return {
+      ...state,
+      sliderList
+    }
   },
 
   [ActionTypeSliderList.SEND_MIDI_CC_Y](state, action) {
@@ -434,7 +423,6 @@ export const reducers = {
       midi: undefined
     }))
 
-
     const filteredFooterpageList = viewSettings.footerPages.map((item) => ({
       ...item,
       midi: undefined
@@ -501,15 +489,17 @@ export const reducers = {
       ...state,
       sliderList,
       presetName,
-      sliderListBackup: sliderList,
+      sliderListBackup: sliderList
     }
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER](state, action) {
     const { listOrder } = action.payload
-    const sliderList = state.sliderList.map((item, idx) => ({
-      ...item,
-      ...listOrder[idx.toString()]
-    }))
+    const sliderList =
+      state.sliderList.map((item, idx) => ({
+        ...item,
+        ...listOrder[idx.toString()]
+      })) || []
+
     return {
       ...state,
       sliderList,
@@ -809,7 +799,27 @@ export const reducers = {
     return { ...state, sliderList, sliderListBackup: sliderList }
   },
 
+  [ActionTypeSliderList.SET_MIDI_PAGE](state, action) {
+    const { lastFocusedPage, focusedPage } = action.payload
+
+    const sliderList = state.pages[lastFocusedPage].sliderList
+
+    return {
+      ...state,
+      sliderList: focusedPage ? state.pages[focusedPage].sliderList : [],
+      sliderListBackup: sliderList,
+      pages: {
+        ...state.pages,
+        [lastFocusedPage]: {
+          ...state.pages[lastFocusedPage],
+          sliderList: state.sliderList
+        }
+      }
+    }
+  },
+
   [ActionTypeSliderList.EXTRACT_PAGE](state, action) {
+    /// DEPRECATED
     const sliderListBackup = state.sliderListBackup.map((item) => {
       const tmpItem = state.sliderList.find((tmpI) => tmpI.i === item.i)
       return tmpItem
@@ -880,8 +890,12 @@ function transformState(sliderList, action, field) {
 }
 
 function transformAddState(state, action, type) {
-  const list = state.sliderList || []
-
+  let pages = state.pages || {}
+  const list =
+    (action.payload.lastFocusedPage &&
+      pages[action.payload.lastFocusedPage] &&
+      pages[action.payload.lastFocusedPage].sliderList) ||
+    []
   const lastSelectedDriverName =
     (list.length > 0 && list[list.length - 1].driverName) || 'None'
   const newDriverName =
@@ -902,29 +916,40 @@ function transformAddState(state, action, type) {
   let yMaxVal = undefined
 
   if ([BUTTON, BUTTON_TOGGLE].includes(type)) {
-    label = 'Button '
+    label = 'Button ' + addStateLength()
     midiCC = [fromMidi(addMidiCCVal())]
   }
   if ([BUTTON_CC, BUTTON_TOGGLE_CC, BUTTON_PROGRAM_CHANGE].includes(type)) {
-    label = 'CC Button '
+    label = 'CC Button ' + addStateLength()
     midiCC = [addMidiCCVal()]
   }
   if ([SLIDER, SLIDER_HORZ].includes(type)) {
-    label = 'Slider '
+    label = 'Slider ' + addStateLength()
     midiCC = [addMidiCCVal()]
   }
   if ([BUTTON_PROGRAM_CHANGE].includes(type)) {
-    label = 'Program Change'
+    label = 'Program Change' + addStateLength()
     midiCC = [addMidiCCVal()]
   }
   if (type === LABEL) {
-    label = 'Label '
+    label = 'Label ' + addStateLength()
   }
   if (type === PAGE) {
-    label = 'Page '
+    label = 'Page ' + addStateLength()
+
+    pages = action.payload.lastFocusedPage
+      ? {
+        ...pages,
+        [action.payload.lastFocusedPage]: {
+          label,
+          sliderList: [],
+          id: action.payload.lastFocusedPage
+        }
+      }
+      : pages
   }
   if (type === XYPAD) {
-    label = 'X / Y Pad '
+    label = 'X / Y Pad ' + addStateLength()
     yVal = 50
     midiCC = [addMidiCCVal()]
     yDriverName = 'None'
@@ -937,7 +962,7 @@ function transformAddState(state, action, type) {
   }
   const entry = {
     type,
-    label: label + addStateLength(),
+    label,
     val: 50,
     lastSavedVal: 0,
     minVal: 0,
@@ -976,7 +1001,23 @@ function transformAddState(state, action, type) {
     fontWeight: 500,
     isValueHidden: false
   }
-  return { ...state, sliderList: [...list, entry] }
+
+  // set type === PAGE to false to get old mode
+  const addedList = { sliderList: type === PAGE ? [] : [...list, entry] }
+  const page = action.payload.lastFocusedPage
+  return type === PAGE
+    ? {
+      ...state,
+      pages
+    }
+    : {
+      ...state,
+      sliderList: addedList.sliderList,
+      pages: {
+        ...pages,
+        [page]: { ...pages[page], sliderList: addedList.sliderList }
+      }
+    }
 }
 
 function toggleNotesInState(list, idx) {
@@ -991,10 +1032,6 @@ function toggleNotesInState(list, idx) {
       return item
     }
   })
-}
-
-function getUniqueId() {
-  return uniqueId(new Date().getTime() + Math.random().toString(16))
 }
 
 function sendControlChanges({ midiCC, midiChannel, driverName, val, label }) {
