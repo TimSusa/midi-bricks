@@ -192,7 +192,8 @@ export const reducers = {
 
   [ActionTypeViewSettings.DELETE_FOOTER_PAGES](state = initState, action) {
     return Object.assign({}, state, {
-      footerPages: []
+      footerPages: [],
+      pageTargets: []
     })
   },
 
