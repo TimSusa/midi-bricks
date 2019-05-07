@@ -7017,10 +7017,10 @@ micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-midi-bricks@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/midi-bricks/-/midi-bricks-1.2.1.tgz#7706c5e909c4a15452b7f5316e44258a92411773"
-  integrity sha512-u555r71C++P96Fpqkt49pD1/KA22QTc6d/SekNMlZ/u5HolPXCazmPG8X0LhWHmdUKPCakerbSCoFV/UMJxEgw==
+midi-bricks@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.npmjs.org/midi-bricks/-/midi-bricks-1.2.6.tgz#471aec331d1c402332dd63933411c5c7e775b59a"
+  integrity sha512-TvWpnghuqzaYG7dw3n4tMJwKL3mU+iMhT9sdIWk0famu66R39yVMH8mjx/VBSt4kE47KBSOG1gKHlK3GnLevUA==
 
 miller-rabin@^4.0.0:
   version "4.0.1"
