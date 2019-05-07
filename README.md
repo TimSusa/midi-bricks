@@ -3,11 +3,16 @@
   <img width="250" src="midi-bricks-logo.png">
 </p>
 
+
 # Midi-Bricks-Mono-Repository
 This is a mono-repository for midi-bricks, its electron app and deployment. 
 
 ## Live-Web-Demo
 https://midi-bricks.timsusa.now.sh
+
+<p align="center">
+  <img width="250" src="MIDI-bricks-shortcut-d.gif">
+</p>
 
 ## Official Webpage and Documentation
 https://timsusa.github.io/midi-bricks-mono/
