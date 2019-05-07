@@ -109,10 +109,11 @@ class Index extends React.Component {
       <Block id="try">
         {[
           {
-            content: 'Talk about trying this out',
-            image: `${baseUrl}img/docusaurus.svg`,
+            content: 'Add Buttons or sliders, where you can pick colors. Position them where you want',
+            image: `${baseUrl}img/button-config.gif`,
             imageAlign: 'left',
-            title: 'Try it Out',
+            imageLink: `${baseUrl}docs/introduction`,
+            title: 'Rapidly configure your elements.',
           },
         ]}
       </Block>
@@ -122,11 +123,11 @@ class Index extends React.Component {
       <Block background="dark">
         {[
           {
-            content:
-              'This is another description of how this project is useful',
-            image: `${baseUrl}img/docusaurus.svg`,
+            content: 'Build up a slider bay with shortcuts in 5sec',
+            image: `${baseUrl}img/MIDI-bricks-shortcut-d.gif`,
             imageAlign: 'right',
-            title: 'Description',
+            imageLink: `${baseUrl}docs/introduction`,
+            title: 'Be incredibly productive',
           },
         ]}
       </Block>
@@ -236,9 +237,9 @@ class Index extends React.Component {
           <Features />
           <FeatureCallout />
           <LearnHow />
+          <TryOut />
+          <Description />
           <UsedOpenSourceSoftware />
-          {/* <TryOut />
-          <Description /> */}
           <Showcase />
         </div>
       </div>
