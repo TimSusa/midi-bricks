@@ -94,9 +94,9 @@ async function onFileChange(
   actions.loadFile({ presetName, content })
 
   const {
-    viewSettings,
-    viewSettings: { availableDrivers },
-    sliders: { sliderList }
+    viewSettings = {},
+    viewSettings: { availableDrivers } = {},
+    sliders: { sliderList } = {}
   } = content
   const drivers = availableDrivers || {
     inputs: {

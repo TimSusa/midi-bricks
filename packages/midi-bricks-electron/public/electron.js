@@ -322,7 +322,7 @@ function persistAppSettings(arg) {
         isAllowedPrerelease,
         isWindowSizeLocked,
         windowCoords
-      }
+      } = appInitSettings
     }
   } = arg || {}
 
