@@ -50,7 +50,6 @@ function MidiSettings(props) {
 
   const isOutputsEmpty = isAllEmpty(outputs)
   const isInputsEmpty = isAllEmpty(inputs)
-  console.log('tim pagetye', type)
   return (
     <div className={classes.root}>
       <MidiSettingsLabelInput
