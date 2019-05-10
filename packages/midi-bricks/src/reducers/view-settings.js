@@ -143,13 +143,14 @@ export const reducers = {
   },
 
   [ActionTypeViewSettings.UPDATE_VIEW_SETTINGS](state = initState, action) {
+    console.warn('DEPRECATED UPDATE_VIEW_SETTINGS')
     const {
       sliderList,
       viewSettings,
       viewSettings: { availableDrivers } = {}
     } = action.payload
 
-    const extractedPages = extractPages(sliderList)
+    const extractedPages = null//extractPages(sliderList)
     const oldPages = state.footerPages && Object.values(state.footerPages)
     let newItemToTake = null
 

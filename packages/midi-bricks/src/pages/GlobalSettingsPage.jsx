@@ -5,7 +5,8 @@ import {
   TableCell,
   TableHead,
   Tooltip,
-  Paper
+  Paper,
+  Typography
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import React, { useEffect } from 'react'
@@ -18,13 +19,12 @@ import MidiSettingsDialog from '../components/midi-settings-dialog/MidiSettingsD
 import { outputToDriverName } from '../utils/output-to-driver-name.js'
 import { initApp } from '../actions/init.js'
 import { STRIP_TYPE } from '../reducers/slider-list.js'
+import DriverExpansionPanel from '../components/DriverExpansionPanel.jsx'
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(GlobalSettingsPage)
-
-
 
 GlobalSettingsPage.propTypes = {
   actions: PropTypes.object,
@@ -40,7 +40,8 @@ function GlobalSettingsPage(props) {
   const {
     isMidiFailed,
     actions,
-    sliderList = [],
+    //sliderList = [],
+    pages = [],
     sliderListBackup,
     midi: {
       midiAccess: { inputs, outputs }
@@ -48,7 +49,8 @@ function GlobalSettingsPage(props) {
     viewSettings: {
       isSettingsDialogMode,
       lastFocusedIdx,
-      availableDrivers: { outputs: chosenOutputs, inputs: chosenInputs }
+      availableDrivers: { outputs: chosenOutputs, inputs: chosenInputs },
+      pageTargets
     }
   } = props
 
@@ -57,212 +59,222 @@ function GlobalSettingsPage(props) {
   }, [actions])
 
   if (isMidiFailed) return <div />
+  const list = Object.values(pages)
+  return list.map(({ sliderList }, idx) => {
+    const label = pageTargets[idx].label
+    return (
+      <DriverExpansionPanel label={label} isEmpty={false}>
+        <Paper style={{ flexDirection: 'column' }} className={classes.root}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Label</TableCell>
+                <TableCell>Type</TableCell>
+                <TableCell>Output Driver</TableCell>
+                <TableCell>Output Channel</TableCell>
+                <TableCell>Note(s)/CC</TableCell>
+                <TableCell>Current Value</TableCell>
+                <TableCell>Saved Value</TableCell>
+                <TableCell>Input Driver</TableCell>
+                <TableCell>Listeners</TableCell>
+                <TableCell>Input Channel</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {Array.isArray(sliderList) &&
+                sliderList.map((sliderEntry, idx) => {
+                  const {
+                    label,
+                    type,
+                    midiChannel,
+                    midiCC,
+                    val,
+                    lastSavedVal,
+                    midiChannelInput,
+                    listenToCc,
+                    i
+                  } = sliderEntry
 
-  return (
-    <Paper style={{ flexDirection: 'column' }} className={classes.root}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell>Label</TableCell>
-            <TableCell>Type</TableCell>
-            <TableCell>Output Driver</TableCell>
-            <TableCell>Output Channel</TableCell>
-            <TableCell>Note(s)/CC</TableCell>
-            <TableCell>Current Value</TableCell>
-            <TableCell>Saved Value</TableCell>
-            <TableCell>Input Driver</TableCell>
-            <TableCell>Listeners</TableCell>
-            <TableCell>Input Channel</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {Array.isArray(sliderList) &&
-            sliderList.map((sliderEntry, idx) => {
-              const {
-                label,
-                type,
-                midiChannel,
-                midiCC,
-                val,
-                lastSavedVal,
-                midiChannelInput,
-                listenToCc,
-                i
-              } = sliderEntry
+                  let rowStyle = {
+                    background: 'none',
+                    cursor: 'pointer'
+                  }
 
-              let rowStyle = {
-                background: 'none',
-                cursor: 'pointer'
-              }
+                  if (hasChanged(sliderListBackup, sliderEntry)) {
+                    rowStyle.background = 'aliceblue'
+                  }
 
-              if (hasChanged(sliderListBackup, sliderEntry)) {
-                rowStyle.background = 'aliceblue'
-              }
+                  if (isSettingsDialogMode && i === lastFocusedIdx) {
+                    return (
+                      <MidiSettingsDialog
+                        key={`glb-settings-${idx}`}
+                        open
+                        onClose={actions.toggleSettingsDialogMode.bind(this, {
+                          idx,
+                          isSettingsDialogMode: false
+                        })}
+                        sliderEntry={sliderEntry}
+                        idx={idx}
+                      />
+                    )
+                  }
+                  let title = ''
+                  let channelTooltipTitle = ''
 
-              if (isSettingsDialogMode && i === lastFocusedIdx) {
-                return (
-                  <MidiSettingsDialog
-                    key={`glb-settings-${idx}`}
-                    open
-                    onClose={actions.toggleSettingsDialogMode.bind(this, {
-                      idx,
-                      isSettingsDialogMode: false
-                    })}
-                    sliderEntry={sliderEntry}
-                    idx={idx}
-                  />
-                )
-              }
-              let title = ''
-              let channelTooltipTitle = ''
+                  const { driverName, driverNameInput } = outputToDriverName(
+                    { inputs, outputs },
+                    sliderEntry.driverNameInput || 'None',
+                    sliderEntry.driverName || 'None'
+                  )
 
-              const { driverName, driverNameInput } = outputToDriverName(
-                { inputs, outputs },
-                sliderEntry.driverNameInput || 'None',
-                sliderEntry.driverName || 'None'
-              )
+                  const {
+                    title: tooltipTitle,
+                    background
+                  } = createTooltipAndBackground(
+                    sliderEntry.type,
+                    driverNameInput,
+                    driverName
+                  )
 
-              const {
-                title: tooltipTitle,
-                background
-              } = createTooltipAndBackground(
-                sliderEntry.type,
-                driverNameInput,
-                driverName
-              )
+                  if (background) {
+                    rowStyle.background = background
+                  }
 
-              if (background) {
-                rowStyle.background = background
-              }
+                  if (tooltipTitle) {
+                    title = tooltipTitle
+                  }
 
-              if (tooltipTitle) {
-                title = tooltipTitle
-              }
+                  const isBadChosenOutputDriver = isBadChosenDriver(
+                    chosenOutputs,
+                    driverName
+                  )
 
-              const isBadChosenOutputDriver = isBadChosenDriver(
-                chosenOutputs,
-                driverName
-              )
+                  const isBadChosenInputDriver = isBadChosenDriver(
+                    chosenInputs,
+                    driverNameInput
+                  )
 
-              const isBadChosenInputDriver = isBadChosenDriver(
-                chosenInputs,
-                driverNameInput
-              )
+                  const isBadChosenOutputChannel =
+                    !isBadChosenOutputDriver &&
+                    isBadChosenChannel(
+                      chosenOutputs,
+                      midiChannel,
+                      driverName,
+                      type,
+                      true
+                    )
 
-              const isBadChosenOutputChannel =
-                !isBadChosenOutputDriver &&
-                isBadChosenChannel(
-                  chosenOutputs,
-                  midiChannel,
-                  driverName,
-                  type,
-                  true
-                )
+                  const isBadChosenInputChannel =
+                    !isBadChosenInputDriver &&
+                    isBadChosenChannel(
+                      chosenInputs,
+                      midiChannelInput,
+                      driverNameInput,
+                      type,
+                      false
+                    )
 
-              const isBadChosenInputChannel =
-                !isBadChosenInputDriver &&
-                isBadChosenChannel(
-                  chosenInputs,
-                  midiChannelInput,
-                  driverNameInput,
-                  type,
-                  false
-                )
+                  if (isBadChosenOutputDriver) {
+                    title += `Output Driver "${driverName}" is disabled in MIDI Driver Settings. `
+                  } else if (isBadChosenOutputChannel && driverName) {
+                    if (midiChannel) {
+                      channelTooltipTitle = `Output Channel "${midiChannel}" for driver "${driverName}" is disabled in MIDI Driver Settings. `
+                    } else {
+                      channelTooltipTitle = `No Output Channel for driver "${driverName}" was chosen. `
+                    }
+                  }
 
-              if (isBadChosenOutputDriver) {
-                title += `Output Driver "${driverName}" is disabled in MIDI Driver Settings. `
-              } else if (isBadChosenOutputChannel && driverName) {
-                if (midiChannel) {
-                  channelTooltipTitle = `Output Channel "${midiChannel}" for driver "${driverName}" is disabled in MIDI Driver Settings. `
-                } else {
-                  channelTooltipTitle = `No Output Channel for driver "${driverName}" was chosen. `
-                }
-              }
+                  if (isBadChosenInputDriver) {
+                    title += `Input Driver "${driverNameInput}" is disabled in MIDI Driver Settings. `
+                  } else if (isBadChosenInputChannel && driverNameInput) {
+                    if (midiChannelInput) {
+                      channelTooltipTitle += `Input Channel "${midiChannelInput}" for driver "${driverNameInput}" is disabled in MIDI Driver Settings`
+                    } else {
+                      channelTooltipTitle += `No Input Channel for driver "${driverNameInput}" was chosen`
+                    }
+                  }
 
-              if (isBadChosenInputDriver) {
-                title += `Input Driver "${driverNameInput}" is disabled in MIDI Driver Settings. `
-              } else if (isBadChosenInputChannel && driverNameInput) {
-                if (midiChannelInput) {
-                  channelTooltipTitle += `Input Channel "${midiChannelInput}" for driver "${driverNameInput}" is disabled in MIDI Driver Settings`
-                } else {
-                  channelTooltipTitle += `No Input Channel for driver "${driverNameInput}" was chosen`
-                }
-              }
-
-              return (
-                <Tooltip title={title + channelTooltipTitle} key={`glb-${idx}`}>
-                  <TableRow
-                    style={rowStyle}
-                    onClick={(e) => {
-                      actions.setLastFocusedIndex({ i })
-                      actions.toggleSettingsDialogMode({
-                        idx,
-                        isSettingsDialogMode: true
-                      })
-                    }}
-                  >
-                    <TableCell>{label || '-'}</TableCell>
-                    <TableCell>{type}</TableCell>
-                    <TableCell
-                      style={{
-                        color: !driverName && 'grey',
-                        background: isBadChosenOutputDriver && 'pink'
-                      }}
+                  return (
+                    <Tooltip
+                      title={title + channelTooltipTitle}
+                      key={`glb-${idx}`}
                     >
-                      {driverName || sliderEntry.driverName || 'None'}
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        background: isBadChosenOutputChannel && 'pink'
-                      }}
-                    >
-                      {midiChannel}
-                    </TableCell>
-                    <TableCell>
-                      {(midiCC &&
-                        midiCC.length > 0 &&
-                        renderListeners(midiCC)) ||
-                        '-'}
-                    </TableCell>
-                    <TableCell>
-                      {![STRIP_TYPE.PAGE, STRIP_TYPE.LABEL].includes(type)
-                        ? sliderEntry && val
-                        : '-'}
-                    </TableCell>
-                    <TableCell>
-                      {![STRIP_TYPE.PAGE, STRIP_TYPE.LABEL].includes(type)
-                        ? lastSavedVal && (lastSavedVal || '_')
-                        : '-'}
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        color: !driverNameInput && 'grey',
-                        background: isBadChosenInputDriver && 'pink'
-                      }}
-                    >
-                      {driverNameInput || sliderEntry.driverNameInput || 'None'}
-                    </TableCell>
-                    <TableCell>
-                      {(listenToCc &&
-                        listenToCc.length > 0 &&
-                        renderListeners(listenToCc)) ||
-                        '-'}
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        background: isBadChosenInputChannel && 'pink'
-                      }}
-                    >
-                      {midiChannelInput}
-                    </TableCell>
-                  </TableRow>
-                </Tooltip>
-              )
-            })}
-        </TableBody>
-      </Table>
-    </Paper>
-  )
+                      <TableRow
+                        style={rowStyle}
+                        onClick={(e) => {
+                          actions.setLastFocusedIndex({ i })
+                          actions.toggleSettingsDialogMode({
+                            idx,
+                            isSettingsDialogMode: true
+                          })
+                        }}
+                      >
+                        <TableCell>{label || '-'}</TableCell>
+                        <TableCell>{type}</TableCell>
+                        <TableCell
+                          style={{
+                            color: !driverName && 'grey',
+                            background: isBadChosenOutputDriver && 'pink'
+                          }}
+                        >
+                          {driverName || sliderEntry.driverName || 'None'}
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            background: isBadChosenOutputChannel && 'pink'
+                          }}
+                        >
+                          {midiChannel}
+                        </TableCell>
+                        <TableCell>
+                          {(midiCC &&
+                            midiCC.length > 0 &&
+                            renderListeners(midiCC)) ||
+                            '-'}
+                        </TableCell>
+                        <TableCell>
+                          {![STRIP_TYPE.PAGE, STRIP_TYPE.LABEL].includes(type)
+                            ? sliderEntry && val
+                            : '-'}
+                        </TableCell>
+                        <TableCell>
+                          {![STRIP_TYPE.PAGE, STRIP_TYPE.LABEL].includes(type)
+                            ? lastSavedVal && (lastSavedVal || '_')
+                            : '-'}
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            color: !driverNameInput && 'grey',
+                            background: isBadChosenInputDriver && 'pink'
+                          }}
+                        >
+                          {driverNameInput ||
+                            sliderEntry.driverNameInput ||
+                            'None'}
+                        </TableCell>
+                        <TableCell>
+                          {(listenToCc &&
+                            listenToCc.length > 0 &&
+                            renderListeners(listenToCc)) ||
+                            '-'}
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            background: isBadChosenInputChannel && 'pink'
+                          }}
+                        >
+                          {midiChannelInput}
+                        </TableCell>
+                      </TableRow>
+                    </Tooltip>
+                  )
+                })}
+            </TableBody>
+          </Table>
+        </Paper>
+      </DriverExpansionPanel>
+    )
+  })
 }
 
 function renderListeners(tmp) {
@@ -304,10 +316,11 @@ function mapDispatchToProps(dispatch) {
   }
 }
 function mapStateToProps({
-  sliders: { sliderList, midi, sliderListBackup, isMidiFailed },
+  sliders: { pages, sliderList, midi, sliderListBackup, isMidiFailed },
   viewSettings
 }) {
   return {
+    pages,
     sliderList,
     midi,
     isMidiFailed,

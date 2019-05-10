@@ -594,36 +594,36 @@ describe('Test Reducers for slider-list', () => {
     expect(sliders.sliderList[idx]).toEqual(sliderListBackup[idx])
   })
 
-  test('EXTRACT_PAGE', () => {
-    const { EXTRACT_PAGE } = reducers
-    const {
-      sliders,
-      sliders: { sliderList: oldSliderList },
-    } = mockStore
+  // test('EXTRACT_PAGE', () => {
+  //   const { EXTRACT_PAGE } = reducers
+  //   const {
+  //     sliders,
+  //     sliders: { sliderList: oldSliderList },
+  //   } = mockStore
 
-    // Create expected list
-    const idx = oldSliderList.findIndex(item => item.type === 'PAGE')
-    const { label } = oldSliderList[idx]
+  //   // Create expected list
+  //   const idx = oldSliderList.findIndex(item => item.type === 'PAGE')
+  //   const { label } = oldSliderList[idx]
 
-    const endIdx =
-      oldSliderList
-        .map((cur, idx) => {
-          if (idx > 0) {
-            return cur
-          }
-          return undefined
-        })
-        .filter(Boolean)
-        .findIndex(cur => cur.type === 'PAGE') + 1
+  //   const endIdx =
+  //     oldSliderList
+  //       .map((cur, idx) => {
+  //         if (idx > 0) {
+  //           return cur
+  //         }
+  //         return undefined
+  //       })
+  //       .filter(Boolean)
+  //       .findIndex(cur => cur.type === 'PAGE') + 1
 
-    let expectedList = oldSliderList.map(item => item).splice(idx, endIdx)
-    const { sliderList } = EXTRACT_PAGE(sliders, {
-      payload: { label },
-    })
-    expect(sliderList.length < oldSliderList.length).toBe(true)
-    expect(sliderList.length === expectedList.length).toBe(true)
-    expect(sliderList).toEqual(expectedList)
-  })
+  //   let expectedList = oldSliderList.map(item => item).splice(idx, endIdx)
+  //   const { sliderList } = EXTRACT_PAGE(sliders, {
+  //     payload: { label },
+  //   })
+  //   expect(sliderList.length < oldSliderList.length).toBe(true)
+  //   expect(sliderList.length === expectedList.length).toBe(true)
+  //   expect(sliderList).toEqual(expectedList)
+  // })
 
   test('MIDI_MESSAGE_ARRIVED with right driver, cc and channel', () => {
     const { MIDI_MESSAGE_ARRIVED } = reducers
