@@ -40,7 +40,7 @@ function GlobalSettingsPage(props) {
   const {
     isMidiFailed,
     actions,
-    //sliderList = [],
+    sliderList = [],
     pages = [],
     sliderListBackup,
     midi: {
@@ -59,9 +59,10 @@ function GlobalSettingsPage(props) {
   }, [actions])
 
   if (isMidiFailed) return <div />
-  const list = Object.values(pages)
-  return list.map(({ sliderList }, idx) => {
-    const label = pageTargets[idx].label
+  const list = Object.values(pages) || sliderList
+  return list.map((thing, idx) => {
+    const { sliderList } = thing
+    const label = pageTargets[idx]&&pageTargets[idx].label || thing.label
     return (
       <DriverExpansionPanel label={label} isEmpty={false}>
         <Paper style={{ flexDirection: 'column' }} className={classes.root}>

@@ -162,6 +162,7 @@ export const reducers = {
     return {
       ...state,
       sliderList: [],
+      pages: [],
       presetName: '',
       sliderListBackup: state.sliderList
     }
