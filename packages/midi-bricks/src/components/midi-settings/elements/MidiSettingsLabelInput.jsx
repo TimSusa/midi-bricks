@@ -46,9 +46,8 @@ function handleLabelChange(i, idx, actions, type, e) {
     idx,
     val: e.target.value
   })
-  if (type === 'PAGE') {
-    actions.changeFooterPage({
-      i,
+  if (type === undefined) {
+    actions.setPageTargetSettings({
       label: e.target.value
     })
   }

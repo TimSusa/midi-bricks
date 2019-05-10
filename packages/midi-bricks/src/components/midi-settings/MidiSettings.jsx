@@ -23,6 +23,7 @@ import { STRIP_TYPE } from '../../reducers/slider-list'
 const { BUTTON, BUTTON_TOGGLE, PAGE } = STRIP_TYPE
 
 MidiSettings.propTypes = {
+  isSettingsMode: PropTypes.bool,
   actions: PropTypes.object,
   idx: PropTypes.number,
   inputs: PropTypes.object,
@@ -36,6 +37,7 @@ MidiSettings.propTypes = {
 function MidiSettings(props) {
   const classes = makeStyles(styles, { withTheme: true })()
   const {
+    isSettingsMode,
     actions,
     inputs = {},
     outputs = {},
@@ -54,12 +56,12 @@ function MidiSettings(props) {
       <MidiSettingsLabelInput
         classes={classes}
         idx={idx}
-        label={label}
+        label={(type === undefined) ? pageTarget.label : label}
         i={i}
         actions={actions}
         type={type}
       />
-      {type === undefined && (
+      {(type === undefined && isSettingsMode) && (
         <DriverExpansionPanel label='View' isEmpty={false}>
           <MidiSettingsView
             pageTarget={pageTarget}
@@ -258,11 +260,12 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({
-  viewSettings: { pageTargets, lastFocusedPage, availableDrivers: { inputs = {}, outputs = {} } = {} },
+  viewSettings: { isSettingsMode, pageTargets, lastFocusedPage, availableDrivers: { inputs = {}, outputs = {} } = {} },
   sliders: { sliderList }
 }) {
   const pageTarget = pageTargets.find(item => item.id === lastFocusedPage)
   return {
+    isSettingsMode,
     sliderList,
     pageTarget,
     inputs,

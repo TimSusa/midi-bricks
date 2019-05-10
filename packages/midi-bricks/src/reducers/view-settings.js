@@ -332,7 +332,7 @@ export const reducers = {
   },
 
   [ActionTypeViewSettings.SET_PAGE_TARGET_SETTINGS](state = initState, action) {
-    const { color, colorFont } = action.payload
+    const { color, colorFont, label } = action.payload
     let newPageTargets = state.pageTargets
     const idx = newPageTargets.findIndex(
       (item) => item.id === state.lastFocusedPage
@@ -353,6 +353,12 @@ export const reducers = {
           ...newPageTargets[idx].colors,
           colorFont
         }
+      }
+    }
+    if (label) {
+      newPageTargets[idx] = {
+        ...newPageTargets[idx],
+        label
       }
     }
     return { ...state, pageTargets: newPageTargets }
