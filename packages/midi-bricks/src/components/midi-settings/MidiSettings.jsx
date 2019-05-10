@@ -20,9 +20,7 @@ import { DriverEmtpyRedirectButton } from './elements/DriverEmtpyRedirectButton'
 
 import { STRIP_TYPE } from '../../reducers/slider-list'
 
-const { BUTTON, BUTTON_TOGGLE } = STRIP_TYPE
-
-
+const { BUTTON, BUTTON_TOGGLE, PAGE } = STRIP_TYPE
 
 MidiSettings.propTypes = {
   actions: PropTypes.object,
@@ -47,7 +45,7 @@ function MidiSettings(props) {
 
   const isOutputsEmpty = isAllEmpty(outputs)
   const isInputsEmpty = isAllEmpty(inputs)
-
+  console.log('tim pagetye', type)
   return (
     <div className={classes.root}>
       <MidiSettingsLabelInput
@@ -58,8 +56,17 @@ function MidiSettings(props) {
         actions={actions}
         type={type}
       />
-
-      {type !== STRIP_TYPE.PAGE ? (
+      {type === undefined && (
+        <DriverExpansionPanel label='View' isEmpty={false}>
+          <MidiSettingsView
+            sliderEntry={sliderEntry}
+            classes={classes}
+            actions={actions}
+            type={PAGE}
+          />
+        </DriverExpansionPanel>
+      )}
+      {type !== undefined && (
         <DriverExpansionPanel
           label={type === STRIP_TYPE.XYPAD ? 'Outputs X' : 'Outputs'}
           isEmpty={isOutputsEmpty}
@@ -76,8 +83,8 @@ function MidiSettings(props) {
             />
           )}
         </DriverExpansionPanel>
-      ) : null}
-      {type === STRIP_TYPE.XYPAD ? (
+      ) }
+      {type === STRIP_TYPE.XYPAD && (
         <DriverExpansionPanel label={'Outputs Y'} isEmpty={isOutputsEmpty}>
           {isOutputsEmpty ? (
             <DriverEmtpyRedirectButton actions={actions} i={i} />
@@ -91,8 +98,8 @@ function MidiSettings(props) {
             />
           )}
         </DriverExpansionPanel>
-      ) : null}
-      {type !== STRIP_TYPE.XYPAD ? (
+      ) }
+      {type !== undefined ? (
         <React.Fragment>
           {' '}
           <DriverExpansionPanel label={'Inputs'} isEmpty={isInputsEmpty}>

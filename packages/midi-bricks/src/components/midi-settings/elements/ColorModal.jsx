@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../../actions/slider-list.js'
@@ -21,22 +21,6 @@ export default connect(
   mapDispatchToProps
 )(ColorModal)
 
-const handleColorChange = debounce((i, setColor, actions, fieldName, c) => {
-  setColor(c)
-
-  // Change output into a format,
-  // which directly can be used as css style for color
-  const rgba = `rgba(${c.rgb.r}, ${c.rgb.g}, ${c.rgb.b}, ${c.rgb.a})`
-  actions.changeColors({
-    i,
-    [fieldName]: rgba
-  })
-  actions.changeFooterPage({
-    i,
-    [fieldName]: rgba
-  })
-}, 50)
-
 const DEF_VAL = {
   rgb: {
     a: 0.76,
@@ -46,47 +30,48 @@ const DEF_VAL = {
   }
 }
 
-
+const handleColorChange = debounce((onChange, i, actions, fieldName, c) => {
+  // Change output into a format,
+  // which directly can be used as css style for color
+  const rgba = `rgba(${c.rgb.r}, ${c.rgb.g}, ${c.rgb.b}, ${c.rgb.a})`
+  const resp = {
+    i,
+    [fieldName]: rgba
+  }
+  onChange(resp)
+}, 50)
 
 ColorModal.propTypes = {
   actions: PropTypes.any,
   fieldName: PropTypes.any,
   i: PropTypes.string,
   onClose: PropTypes.func,
+  onChange: PropTypes.func,
   color: PropTypes.string,
   title: PropTypes.string
 }
 
 function ColorModal(props) {
-  // constructor(props) {
-  //   super(props)
-  //   state = {
-  //     open: false,
-  //     color: { ...convertRgba(props.color) } || DEF_VAL,
-  //   }
-  // }
-
   const classes = makeStyles(styles, { withTheme: true })()
-
-  const {
+  let {
     actions,
     fieldName,
     i = '',
     title = '',
-    color: propColor = {},
-    onClose = () => {}
+    onClose = () => {},
+    onChange = () => {}
   } = props
 
   const [open, setOpen] = useState(false)
-  const [color, setColor] = useState({ ...convertRgba(propColor) } || DEF_VAL)
 
+  const calcColor = convertRgba(props.color).rgb
   return (
     <div>
       <Tooltip title={'Change Color: ' + title}>
         <Button
           className={classes.button}
           variant='contained'
-          onClick={handleClickOpen.bind(this, setOpen)}
+          onClick={() => setOpen(true)}
         >
           <Typography variant='caption' className={classes.label}>
             {title}
@@ -96,7 +81,10 @@ function ColorModal(props) {
 
       <Dialog
         open={open}
-        onClose={handleClose.bind(this, setOpen, onClose)}
+        onClose={() => {
+          setOpen(false)
+          onClose && onClose()
+        }}
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
@@ -109,11 +97,11 @@ function ColorModal(props) {
             Please, choose your color.
           </DialogContentText>
           <SketchPicker
-            color={color.rgb}
+            color={calcColor}
             onChange={handleColorChange.bind(
               this,
+              onChange,
               i,
-              setColor,
               actions,
               fieldName
             )}
@@ -132,10 +120,6 @@ function ColorModal(props) {
       </Dialog>
     </div>
   )
-}
-
-function handleClickOpen(setOpen) {
-  setOpen(true)
 }
 
 function handleClose(setOpen, onClose) {

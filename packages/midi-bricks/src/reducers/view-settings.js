@@ -192,8 +192,7 @@ export const reducers = {
 
   [ActionTypeViewSettings.DELETE_FOOTER_PAGES](state = initState, action) {
     return Object.assign({}, state, {
-      footerPages: [],
-      pageTargets: []
+      footerPages: []
     })
   },
 
@@ -331,6 +330,18 @@ export const reducers = {
     }
   },
 
+  [ActionTypeViewSettings.SET_PAGE_TARGET_SETTINGS](state = initState, action) {
+    const { color, colorFont } = action.payload
+    let newPageTargets = state.pageTargets
+    const idx = newPageTargets.findIndex(item => item.id === state.lastFocusedPage)
+    newPageTargets[idx] = {...newPageTargets[idx], colors: {
+      color: color && color,
+      colorFont: colorFont & colorFont 
+    }}
+
+    return {...state, pageTargets: newPageTargets}
+  },
+
   [ActionTypeViewSettings.SET_ROW_HEIGHT](state = initState, action) {
     const { rowHeight } = action.payload
     return Object.assign({}, state, {
@@ -419,7 +430,6 @@ export const reducers = {
     }
     return { ...state, electronAppSettings }
   },
-
   [ActionTypeViewSettings.SET_LAST_FOCUSED_PAGE](state = initState, action) {
     const {
       payload: { lastFocusedPage }

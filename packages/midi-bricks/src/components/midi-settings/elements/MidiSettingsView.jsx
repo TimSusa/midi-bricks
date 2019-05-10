@@ -7,7 +7,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import ColorModal from './ColorModal'
-
+import { debounce } from 'lodash'
 import { STRIP_TYPE } from '../../../reducers/slider-list'
 
 const {
@@ -16,21 +16,25 @@ const {
   BUTTON_TOGGLE,
   BUTTON_TOGGLE_CC,
   SLIDER,
-  SLIDER_HORZ
+  SLIDER_HORZ,
+  PAGE
 } = STRIP_TYPE
 
 MidiSettingsView.propTypes = {
   actions: PropTypes.object,
   classes: PropTypes.object,
+  type: PropTypes.string,
   sliderEntry: PropTypes.object
 }
 
 export function MidiSettingsView(props) {
   const {
     classes,
+    type: pageType,
     sliderEntry: { i, type, colors, fontSize, fontWeight, isValueHidden },
     actions
   } = props
+  console.log('midisettingsview', pageType)
   return (
     <React.Fragment>
       <FormControl>
@@ -56,6 +60,7 @@ export function MidiSettingsView(props) {
           i={i}
           fieldName='color'
           color={colors.color}
+          onChange={!pageType ? actions.changeColors : actions.setPageTargetSettings}
         />
         <ColorModal
           title={
@@ -66,12 +71,14 @@ export function MidiSettingsView(props) {
           i={i}
           fieldName='colorActive'
           color={colors.colorActive}
+          onChange={actions.changeColors}
         />
         <ColorModal
           title='Font-Color'
           i={i}
           fieldName='colorFont'
           color={colors.colorFont}
+          onChange={actions.changeColors}
         />
 
         {![SLIDER, SLIDER_HORZ].includes(type) ? (
@@ -80,6 +87,7 @@ export function MidiSettingsView(props) {
             i={i}
             fieldName='colorFontActive'
             color={colors.colorFontActive}
+            onChange={actions.changeColors}
           />
         ) : null}
       </FormControl>
