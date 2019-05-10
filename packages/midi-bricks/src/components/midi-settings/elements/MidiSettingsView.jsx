@@ -24,17 +24,18 @@ MidiSettingsView.propTypes = {
   actions: PropTypes.object,
   classes: PropTypes.object,
   type: PropTypes.string,
-  sliderEntry: PropTypes.object
+  sliderEntry: PropTypes.object,
+  pageTarget: PropTypes.object
 }
 
 export function MidiSettingsView(props) {
   const {
     classes,
     type: pageType,
-    sliderEntry: { i, type, colors, fontSize, fontWeight, isValueHidden },
+    sliderEntry: { i, type, colors, fontSize, fontWeight, isValueHidden } = {},
+    pageTarget = {},
     actions
   } = props
-  console.log('midisettingsview', pageType)
   return (
     <React.Fragment>
       <FormControl>
@@ -59,29 +60,33 @@ export function MidiSettingsView(props) {
           title='Background'
           i={i}
           fieldName='color'
-          color={colors.color}
+          color={!pageType ? colors.color : pageTarget.colors.color}
           onChange={!pageType ? actions.changeColors : actions.setPageTargetSettings}
         />
-        <ColorModal
-          title={
-            [SLIDER, SLIDER_HORZ].includes(type)
-              ? 'Thumb Background'
-              : 'Activated State'
-          }
-          i={i}
-          fieldName='colorActive'
-          color={colors.colorActive}
-          onChange={actions.changeColors}
-        />
+        {
+          !pageType && (
+            <ColorModal
+              title={
+                [SLIDER, SLIDER_HORZ].includes(type)
+                  ? 'Thumb Background'
+                  : 'Activated State'
+              }
+              i={i}
+              fieldName='colorActive'
+              color={colors.colorActive}
+              onChange={actions.changeColors}
+            />
+          )
+        }
         <ColorModal
           title='Font-Color'
           i={i}
           fieldName='colorFont'
-          color={colors.colorFont}
-          onChange={actions.changeColors}
+          color={!pageType ? colors.colorFont : pageTarget.colors.colorFont}
+          onChange={!pageType ? actions.changeColors : actions.setPageTargetSettings}
         />
 
-        {![SLIDER, SLIDER_HORZ].includes(type) ? (
+        {!pageType && ![SLIDER, SLIDER_HORZ].includes(type) ? (
           <ColorModal
             title='Activated Font-Color'
             i={i}
@@ -92,29 +97,31 @@ export function MidiSettingsView(props) {
         ) : null}
       </FormControl>
 
-      <FormControl>
-        <Typography className={classes.label} htmlFor='fontsize'>
-          {'Font Size:  ' + (fontSize || 16) + 'px'}
-        </Typography>
-        <input
-          type='range'
-          min={8}
-          max={54}
-          value={fontSize || 16}
-          onChange={handleFontsizeChange.bind(this, i, actions)}
-        />
-        <Typography className={classes.label} htmlFor='fontWeight'>
-          {'Font Weight:  ' + (fontWeight || 500)}
-        </Typography>
-        <input
-          type='range'
-          min={100}
-          max={900}
-          step={100}
-          value={fontWeight || 500}
-          onChange={handleFontweightChange.bind(this, i, actions)}
-        />
-      </FormControl>
+      {!pageType && (
+        <FormControl>
+          <Typography className={classes.label} htmlFor='fontsize'>
+            {'Font Size:  ' + (fontSize || 16) + 'px'}
+          </Typography>
+          <input
+            type='range'
+            min={8}
+            max={54}
+            value={fontSize || 16}
+            onChange={handleFontsizeChange.bind(this, i, actions)}
+          />
+          <Typography className={classes.label} htmlFor='fontWeight'>
+            {'Font Weight:  ' + (fontWeight || 500)}
+          </Typography>
+          <input
+            type='range'
+            min={100}
+            max={900}
+            step={100}
+            value={fontWeight || 500}
+            onChange={handleFontweightChange.bind(this, i, actions)}
+          />
+        </FormControl>
+      )}
       {[SLIDER, SLIDER_HORZ].includes(type) && (
         <FormControl>
           <FormControlLabel

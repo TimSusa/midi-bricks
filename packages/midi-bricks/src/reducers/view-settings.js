@@ -192,7 +192,8 @@ export const reducers = {
 
   [ActionTypeViewSettings.DELETE_FOOTER_PAGES](state = initState, action) {
     return Object.assign({}, state, {
-      footerPages: []
+      footerPages: [],
+      pageTargets: []
     })
   },
 
@@ -333,13 +334,28 @@ export const reducers = {
   [ActionTypeViewSettings.SET_PAGE_TARGET_SETTINGS](state = initState, action) {
     const { color, colorFont } = action.payload
     let newPageTargets = state.pageTargets
-    const idx = newPageTargets.findIndex(item => item.id === state.lastFocusedPage)
-    newPageTargets[idx] = {...newPageTargets[idx], colors: {
-      color: color && color,
-      colorFont: colorFont & colorFont 
-    }}
-
-    return {...state, pageTargets: newPageTargets}
+    const idx = newPageTargets.findIndex(
+      (item) => item.id === state.lastFocusedPage
+    )
+    if (color) {
+      newPageTargets[idx] = {
+        ...newPageTargets[idx],
+        colors: {
+          ...newPageTargets[idx].colors,
+          color
+        }
+      }
+    }
+    if (colorFont) {
+      newPageTargets[idx] = {
+        ...newPageTargets[idx],
+        colors: {
+          ...newPageTargets[idx].colors,
+          colorFont
+        }
+      }
+    }
+    return { ...state, pageTargets: newPageTargets }
   },
 
   [ActionTypeViewSettings.SET_ROW_HEIGHT](state = initState, action) {

@@ -28,7 +28,9 @@ MidiSettings.propTypes = {
   inputs: PropTypes.object,
   onClose: PropTypes.func,
   outputs: PropTypes.object,
-  sliderEntry: PropTypes.object
+  sliderEntry: PropTypes.object,
+  pageTarget: PropTypes.object,
+
 }
 
 function MidiSettings(props) {
@@ -38,6 +40,7 @@ function MidiSettings(props) {
     inputs = {},
     outputs = {},
     sliderEntry = {},
+    pageTarget = {},
     sliderEntry: { i, label, type },
     idx,
     onClose = () => {}
@@ -59,10 +62,11 @@ function MidiSettings(props) {
       {type === undefined && (
         <DriverExpansionPanel label='View' isEmpty={false}>
           <MidiSettingsView
-            sliderEntry={sliderEntry}
+            pageTarget={pageTarget}
             classes={classes}
             actions={actions}
             type={PAGE}
+
           />
         </DriverExpansionPanel>
       )}
@@ -121,18 +125,17 @@ function MidiSettings(props) {
               actions={actions}
             />
           </DriverExpansionPanel>
+          <Tooltip title='Clone'>
+            <Button
+              className={classes.button}
+              variant='contained'
+              onClick={actions.clone.bind(this, sliderEntry)}
+            >
+              <CopyIcon className={classes.iconColor} />
+            </Button>
+          </Tooltip>
         </React.Fragment>
       ) : null}
-
-      <Tooltip title='Clone'>
-        <Button
-          className={classes.button}
-          variant='contained'
-          onClick={actions.clone.bind(this, sliderEntry)}
-        >
-          <CopyIcon className={classes.iconColor} />
-        </Button>
-      </Tooltip>
 
       <DeleteModal
         asButton
@@ -255,11 +258,13 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({
-  viewSettings: { availableDrivers: { inputs = {}, outputs = {} } = {} },
+  viewSettings: { pageTargets, lastFocusedPage, availableDrivers: { inputs = {}, outputs = {} } = {} },
   sliders: { sliderList }
 }) {
+  const pageTarget = pageTargets.find(item => item.id === lastFocusedPage)
   return {
     sliderList,
+    pageTarget,
     inputs,
     outputs
   }
