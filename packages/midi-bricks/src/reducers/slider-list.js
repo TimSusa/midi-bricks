@@ -419,21 +419,26 @@ export const reducers = {
     } = action.payload
 
     // Clean out older preset fields
-    // const filteredSliderList = sliderList.map((entry) => ({
-    //   ...entry,
-    //   midi: undefined
-    // }))
+    let pages = Object.values(sliders.pages).reduce((acc, item) => {
 
-    // const filteredFooterpageList = viewSettings.footerPages.map((item) => ({
-    //   ...item,
-    //   midi: undefined
-    // }))
+      return {
+        ...acc,
+        [item.id]: {
+          ...item,
+          midi: undefined
+        }
+      }
+    }, {})
+
     const tmpFilterStore = {
       viewSettings,
-      sliders
+      sliders: {
+        ...sliders, 
+        pages
+      }
     }
     const content = JSON.stringify(tmpFilterStore)
-    const fileName = 'midi-bricks-preset.js'
+    const fileName = 'midi-bricks-preset.json'
     const contentType = 'application/json'
     let a = document.createElement('a')
     const file = new window.Blob([content], { type: contentType })
@@ -449,39 +454,10 @@ export const reducers = {
         content: { sliders } = {}  
       } = {}
     } = action
-    // const arr = Array.isArray(pages) && pages[0] || sliderListOld
-    // const sliderList =
-    //   (
-    //     arr.map((item) => {
-    //       const {
-    //         val = 0,
-    //         onVal = 127,
-    //         offVal = 0,
-    //         minVal = 0,
-    //         maxVal = 127,
-    //         driverName = 'None',
-    //         driverNameInput = 'None'
-    //       } = item
-
-    //       return {
-    //         ...item,
-    //         lastSavedVal: val,
-    //         onVal,
-    //         offVal,
-    //         minVal,
-    //         maxVal,
-    //         midi: undefined,
-    //         outputId: undefined,
-    //         driverName,
-    //         driverNameInput
-    //       }
-    //     })) ||
-    //   []
 
     return {
       ...state,
       ...sliders,
-      pages: sliders.pages,
       presetName
       //sliderListBackup: sliderList
     }
