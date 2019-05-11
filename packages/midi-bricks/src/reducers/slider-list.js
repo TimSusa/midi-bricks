@@ -59,7 +59,7 @@ export const reducers = {
     return { ...state, isMidiFailed: false, midi }
   },
 
-  
+
   [ActionTypeSliderList.ADD_MIDI_ELEMENT](state, action) {
     const type = action.payload.type
     const newState = transformAddState(state, action, type)
@@ -433,7 +433,7 @@ export const reducers = {
     const tmpFilterStore = {
       viewSettings,
       sliders: {
-        ...sliders, 
+        ...sliders,
         pages
       }
     }
@@ -451,7 +451,7 @@ export const reducers = {
     const {
       payload: {
         presetName,
-        content: { sliders } = {}  
+        content: { sliders } = {}
       } = {}
     } = action
 
@@ -772,11 +772,11 @@ export const reducers = {
   [ActionTypeSliderList.SET_MIDI_PAGE](state, action) {
     const { lastFocusedPage, focusedPage } = action.payload
 
-    const sliderList = state.pages[lastFocusedPage].sliderList
+    const sliderList = state.pages[lastFocusedPage]&&state.pages[lastFocusedPage].sliderList || state.sliderList
 
     return {
       ...state,
-      sliderList: focusedPage ? state.pages[focusedPage].sliderList : [],
+      sliderList: state.pages[focusedPage]&&focusedPage ? state.pages[focusedPage].sliderList : [],
       sliderListBackup: sliderList,
       pages: {
         ...state.pages,
