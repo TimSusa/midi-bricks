@@ -62,9 +62,9 @@ function GlobalSettingsPage(props) {
   const list = Object.values(pages) || sliderList
   return list.map((thing, idx) => {
     const { sliderList } = thing
-    const label = pageTargets[idx]&&pageTargets[idx].label || thing.label
+    const label = (pageTargets[idx] && pageTargets[idx].label) || thing.label
     return (
-      <DriverExpansionPanel label={label} isEmpty={false}>
+      <DriverExpansionPanel label={label} isEmpty={false} key={`exp-${idx}`}>
         <Paper style={{ flexDirection: 'column' }} className={classes.root}>
           <Table className={classes.table}>
             <TableHead>

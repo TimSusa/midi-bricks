@@ -415,30 +415,22 @@ export const reducers = {
     // This is actuall only envolved in web app mode, not in electron mode
     const {
       viewSettings,
-      sliders: { sliderList = [], presetName }
+      sliders
     } = action.payload
 
     // Clean out older preset fields
-    const filteredSliderList = sliderList.map((entry) => ({
-      ...entry,
-      midi: undefined
-    }))
+    // const filteredSliderList = sliderList.map((entry) => ({
+    //   ...entry,
+    //   midi: undefined
+    // }))
 
-    const filteredFooterpageList = viewSettings.footerPages.map((item) => ({
-      ...item,
-      midi: undefined
-    }))
+    // const filteredFooterpageList = viewSettings.footerPages.map((item) => ({
+    //   ...item,
+    //   midi: undefined
+    // }))
     const tmpFilterStore = {
-      viewSettings: {
-        ...viewSettings,
-        footerPages: filteredFooterpageList
-      },
-      sliders: {
-        sliderList: filteredSliderList,
-        presetName,
-        sliderListBackup: [],
-        midi: undefined
-      }
+      viewSettings,
+      sliders
     }
     const content = JSON.stringify(tmpFilterStore)
     const fileName = 'midi-bricks-preset.js'
@@ -448,49 +440,50 @@ export const reducers = {
     a.href = URL.createObjectURL(file)
     a.download = fileName
     a.click()
-    return { ...state }
+    return state
   },
   [ActionTypeSliderList.LOAD_FILE](state, action) {
     const {
       payload: {
         presetName,
-        content: { sliders: { sliderList: sliderListOld = [] } = {} } = {}
+        content: { sliders } = {}  
       } = {}
     } = action
+    // const arr = Array.isArray(pages) && pages[0] || sliderListOld
+    // const sliderList =
+    //   (
+    //     arr.map((item) => {
+    //       const {
+    //         val = 0,
+    //         onVal = 127,
+    //         offVal = 0,
+    //         minVal = 0,
+    //         maxVal = 127,
+    //         driverName = 'None',
+    //         driverNameInput = 'None'
+    //       } = item
 
-    const sliderList =
-      (Array.isArray(sliderListOld) &&
-        sliderListOld.map((item) => {
-          const {
-            val = 0,
-            onVal = 127,
-            offVal = 0,
-            minVal = 0,
-            maxVal = 127,
-            driverName = 'None',
-            driverNameInput = 'None'
-          } = item
-
-          return {
-            ...item,
-            lastSavedVal: val,
-            onVal,
-            offVal,
-            minVal,
-            maxVal,
-            midi: undefined,
-            outputId: undefined,
-            driverName,
-            driverNameInput
-          }
-        })) ||
-      []
+    //       return {
+    //         ...item,
+    //         lastSavedVal: val,
+    //         onVal,
+    //         offVal,
+    //         minVal,
+    //         maxVal,
+    //         midi: undefined,
+    //         outputId: undefined,
+    //         driverName,
+    //         driverNameInput
+    //       }
+    //     })) ||
+    //   []
 
     return {
       ...state,
-      sliderList,
-      presetName,
-      sliderListBackup: sliderList
+      ...sliders,
+      pages: sliders.pages,
+      presetName
+      //sliderListBackup: sliderList
     }
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER](state, action) {

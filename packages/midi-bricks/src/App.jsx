@@ -87,7 +87,7 @@ async function onFileChange(
   { presetName, content },
   e
 ) {
-  actions.deleteFooterPages()
+  actions.deleteAll()
   window.localStorage.clear()
 
   // will load content to slider-list-reducer
@@ -96,7 +96,7 @@ async function onFileChange(
   const {
     viewSettings = {},
     viewSettings: { availableDrivers } = {},
-    sliders: { sliderList } = {}
+    sliders: { sliderList, pages } = {}
   } = content
   const drivers = availableDrivers || {
     inputs: {
@@ -113,15 +113,21 @@ async function onFileChange(
     }
   }
 
+  // Either will will have pages or sliderList 
+  if (pages) {
+    actions.updateViewSettings({
+      viewSettings: { ...viewSettings, availableDrivers: drivers },
+      pages
+    })
+  } 
   // Will load content to view-settings-reducer
   sliderList && Array.isArray(sliderList)
-    ? actions.updateViewSettings({
+    && actions.updateViewSettings({
       viewSettings: { ...viewSettings, availableDrivers: drivers },
-      sliderList: sliderList
+      sliderList: sliderList,
+      pages
     })
-    : actions.updateViewSettings({
-      viewSettings: { ...viewSettings, availableDrivers: drivers }
-    })
+    
   await initApp()
   actions.togglePage({
     pageType: PAGE_TYPES.GLOBAL_MODE
