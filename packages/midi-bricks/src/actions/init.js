@@ -18,7 +18,7 @@ export function initApp(mode) {
         }
         const { inputs = [], outputs = [] } = WebMIDI
         const {
-          sliders: { sliderList = [] },
+          sliders: { sliderList = [], pages={} },
           viewSettings: {
             availableDrivers: { inputs: availableInputs } = {
               inputs: {
@@ -38,7 +38,9 @@ export function initApp(mode) {
             noteChannels: []
           }
           let ccArr = []
-          Array.isArray(sliderList) &&
+
+          // Either only sliderlist
+          !pages && Array.isArray(sliderList) &&
             sliderList.forEach((entry) => {
               const { driverNameInput = '', listenToCc = [] } = entry
 
@@ -50,6 +52,24 @@ export function initApp(mode) {
                 })
               }
             })
+
+          // Or pages
+          Object.values(pages).map(item => {
+            const {sliderList} = item
+            Array.isArray(sliderList) &&
+            sliderList.forEach((entry) => {
+              const { driverNameInput = '', listenToCc = [] } = entry
+
+              if (name === driverNameInput) {
+                listenToCc.forEach((listen) => {
+                  if (!ccArr.includes(listen)) {
+                    ccArr.push(parseInt(listen, 10))
+                  }
+                })
+              }
+            })
+
+          })
           input.removeListener()
           if (
             // eslint-disable-next-line no-constant-condition

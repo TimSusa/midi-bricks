@@ -13,6 +13,7 @@ const typeSliderList = [
   // 'ADD_BUTTON',
   // 'ADD_LABEL',
   'ADD_PAGE',
+  'SET_MIDI_PAGE',
   // 'ADD_XYPAD',
   'CHANGE_XYPAD_SETTINGS',
   'CHANGE_COLORS',
@@ -42,9 +43,8 @@ const typeSliderList = [
   'TOGGLE_HIDE_VALUE',
   'GO_BACK',
   'UPDATE_SLIDER_LIST_BACKUP',
-  'TRIGGER_ALL_MIDI_ELEMENTS',
+  'TRIGGER_ALL_MIDI_ELEMENTS'
   //'EXTRACT_PAGE',
-  'SET_MIDI_PAGE'
 ]
 
 export const ActionTypeSliderList = createActionTypes(typeSliderList)

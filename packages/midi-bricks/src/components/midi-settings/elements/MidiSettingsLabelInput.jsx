@@ -42,13 +42,15 @@ export function MidiSettingsLabelInput({
 function handleLabelChange(i, idx, actions, type, e) {
   e.preventDefault()
   e.stopPropagation()
-  actions.changeLabel({
-    idx,
-    val: e.target.value
-  })
+
   if (type === undefined) {
     actions.setPageTargetSettings({
       label: e.target.value
+    })
+  } else {
+    actions.changeLabel({
+      i,
+      val: e.target.value
     })
   }
 }
