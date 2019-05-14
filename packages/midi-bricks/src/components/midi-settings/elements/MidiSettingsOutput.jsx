@@ -28,7 +28,8 @@ MidiSettingsOutput.propTypes = {
   classes: PropTypes.object,
   idx: PropTypes.number,
   initApp: PropTypes.func,
-  outputs: PropTypes.object
+  outputs: PropTypes.object,
+  lastFocusedPage: PropTypes.string
 }
 
 export function MidiSettingsOutput(props) {
@@ -47,6 +48,7 @@ export function MidiSettingsOutput(props) {
       midiCC
     },
     idx,
+    lastFocusedPage,
     outputs
   } = props
 
@@ -62,7 +64,8 @@ export function MidiSettingsOutput(props) {
           onChange={(e) =>
             actions.selectMidiDriver({
               i,
-              driverName: e.target.value
+              driverName: e.target.value,
+              lastFocusedPage
             })
           }
           value={driverName || 'None'}

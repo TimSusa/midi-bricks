@@ -31,7 +31,7 @@ MidiSettings.propTypes = {
   outputs: PropTypes.object,
   sliderEntry: PropTypes.object,
   pageTarget: PropTypes.object,
-
+  lastFocusedPage: PropTypes.string
 }
 
 function MidiSettings(props) {
@@ -45,6 +45,7 @@ function MidiSettings(props) {
     pageTarget = {},
     sliderEntry: { i, label, type },
     idx,
+    lastFocusedPage,
     onClose = () => {}
   } = props
 
@@ -85,6 +86,7 @@ function MidiSettings(props) {
               idx={idx}
               outputs={outputs}
               actions={actions}
+              lastFocusedPage={lastFocusedPage}
             />
           )}
         </DriverExpansionPanel>
@@ -100,6 +102,7 @@ function MidiSettings(props) {
               idx={idx}
               outputs={outputs}
               actions={actions}
+              lastFocusedPage={lastFocusedPage}
             />
           )}
         </DriverExpansionPanel>
@@ -259,11 +262,12 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({
-  viewSettings: { isSettingsMode, pageTargets, lastFocusedPage, availableDrivers: { inputs = {}, outputs = {} } = {} },
+  viewSettings: { lastFocusedPage, isSettingsMode, pageTargets, availableDrivers: { inputs = {}, outputs = {} } = {} },
   sliders: { sliderList }
 }) {
   const pageTarget = pageTargets.find(item => item.id === lastFocusedPage)
   return {
+    lastFocusedPage,
     isSettingsMode,
     sliderList,
     pageTarget,

@@ -55,7 +55,8 @@ function MenuAppBar(props) {
       isCompactHorz = true,
       isAutoArrangeMode = true,
       isMidiLearnMode = false,
-      lastFocusedIdx
+      lastFocusedIdx,
+      lastFocusedPage
     }
   } = props
 
@@ -247,7 +248,8 @@ function MenuAppBar(props) {
                       initApp,
                       actions,
                       monitorVal,
-                      lastFocusedIdx
+                      lastFocusedIdx,
+                      lastFocusedPage
                     )}
                     color='inherit'
                   >
@@ -367,13 +369,15 @@ async function toggleMidiLearnMode(
   initApp,
   actions,
   monitorVal,
-  lastFocusedIdx
+  lastFocusedIdx,
+  lastFocusedPage
 ) {
   if (isMidiLearn) {
     if (!monitorVal) return
     actions.selectMidiDriver({
       driverName: monitorVal.driver,
-      i: lastFocusedIdx
+      i: lastFocusedIdx,
+      lastFocusedPage
     })
 
     actions.selectMidiChannel({
@@ -386,7 +390,8 @@ async function toggleMidiLearnMode(
     })
     actions.selectMidiDriverInput({
       driverNameInput: monitorVal.driver,
-      i: lastFocusedIdx
+      i: lastFocusedIdx,
+      lastFocusedPage
     })
     actions.selectMidiChannelInput({
       val: `${monitorVal.channel}`,

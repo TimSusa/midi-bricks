@@ -59,7 +59,6 @@ export const reducers = {
     return { ...state, isMidiFailed: false, midi }
   },
 
-
   [ActionTypeSliderList.ADD_MIDI_ELEMENT](state, action) {
     const type = action.payload.type
     const newState = transformAddState(state, action, type)
@@ -169,30 +168,32 @@ export const reducers = {
   },
 
   [ActionTypeSliderList.HANDLE_SLIDER_CHANGE](state, action) {
-    const { idx, val } = action.payload
-    let newStateTmp = state.sliderList
+    const { i, val, lastFocusedPage } = action.payload
+    let sliderList = state.pages[lastFocusedPage].sliderList
 
     // Set noteOn/noteOff stemming from CC VAl
-    const { type, onVal, offVal } = newStateTmp[idx]
+    const tmp = sliderList.find((item) => item.i === i)
+    const { type, onVal, offVal } = tmp
     if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
       if (val === onVal || val === offVal) {
-        newStateTmp = toggleNotesInState(newStateTmp, idx)
+        sliderList = toggleNotesInState(sliderList, i)
       }
     }
-
+    console.log('Sf', tmp)
     // Handle multi CC
-    const tmp = newStateTmp[idx]
     const { midiCC, midiChannel, driverName, label } = tmp
     sendControlChanges({ midiCC, midiChannel, driverName, val, label })
-    const sliderList = transformStateByIndex(
-      newStateTmp,
-      { payload: { idx: parseInt(idx, 10), val } },
+    const refreshedSliderList = transformState(
+      sliderList,
+      { payload: { i, val } },
       'val'
     )
-    return {
-      ...state,
-      sliderList
-    }
+
+    return updatePagesWithSliderlist(
+      state,
+      refreshedSliderList,
+      lastFocusedPage
+    )
   },
 
   [ActionTypeSliderList.SEND_MIDI_CC_Y](state, action) {
@@ -258,23 +259,23 @@ export const reducers = {
     return { ...state, sliderList: newState }
   },
   [ActionTypeSliderList.SELECT_MIDI_DRIVER](state, action) {
-    const { i, driverName } = action.payload
+    const { i, driverName, lastFocusedPage } = action.payload
     const sliderList = transformState(
       state.sliderList,
       { payload: { i, val: driverName } },
       'driverName'
     )
-    return { ...state, sliderList }
+    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
 
   [ActionTypeSliderList.SELECT_MIDI_DRIVER_INPUT](state, action) {
-    const { i, driverNameInput } = action.payload
+    const { i, driverNameInput, lastFocusedPage } = action.payload
     const sliderList = transformState(
       state.sliderList,
       { payload: { i, val: driverNameInput } },
       'driverNameInput'
     )
-    return { ...state, sliderList }
+    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
 
   [ActionTypeSliderList.SELECT_CC](state, action) {
@@ -413,14 +414,10 @@ export const reducers = {
 
   [ActionTypeSliderList.SAVE_FILE](state, action) {
     // This is actuall only envolved in web app mode, not in electron mode
-    const {
-      viewSettings,
-      sliders
-    } = action.payload
+    const { viewSettings, sliders } = action.payload
 
     // Clean out older preset fields
     let pages = Object.values(sliders.pages).reduce((acc, item) => {
-
       return {
         ...acc,
         [item.id]: {
@@ -448,12 +445,7 @@ export const reducers = {
     return state
   },
   [ActionTypeSliderList.LOAD_FILE](state, action) {
-    const {
-      payload: {
-        presetName,
-        content: { sliders } = {}
-      } = {}
-    } = action
+    const { payload: { presetName, content: { sliders } = {} } = {} } = action
 
     return {
       ...state,
@@ -772,11 +764,17 @@ export const reducers = {
   [ActionTypeSliderList.SET_MIDI_PAGE](state, action) {
     const { lastFocusedPage, focusedPage } = action.payload
 
-    const sliderList = state.pages[lastFocusedPage]&&state.pages[lastFocusedPage].sliderList || state.sliderList
+    const sliderList =
+      (state.pages[lastFocusedPage] &&
+        state.pages[lastFocusedPage].sliderList) ||
+      state.sliderList
 
     return {
       ...state,
-      sliderList: state.pages[focusedPage]&&focusedPage ? state.pages[focusedPage].sliderList : [],
+      sliderList:
+        state.pages[focusedPage] && focusedPage
+          ? state.pages[focusedPage].sliderList
+          : [],
       sliderListBackup: sliderList,
       pages: {
         ...state.pages,
@@ -1092,4 +1090,22 @@ function sortBy(list = [], by) {
     .sort((a, b) => {
       return a[by] - b[by]
     })
+}
+
+function updatePagesWithSliderlist(
+  state = {},
+  refreshedSliderList = [],
+  lastFocusedPage = ''
+) {
+  return {
+    ...state,
+    sliderList: refreshedSliderList,
+    pages: {
+      ...state.pages,
+      [lastFocusedPage]: {
+        ...state.pages[lastFocusedPage],
+        sliderList: refreshedSliderList
+      }
+    }
+  }
 }

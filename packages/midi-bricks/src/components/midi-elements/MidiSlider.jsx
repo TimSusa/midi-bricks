@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 
+import { PropTypes } from 'prop-types'
+
 const noop = () => {}
 class MidiSlider extends Component {
   selfRef = null
@@ -21,7 +23,6 @@ class MidiSlider extends Component {
       height,
       sliderThumbHeight,
       width,
-      lastFocusedPage,
       sliderEntry: {
         colors: { color },
         val,
@@ -90,8 +91,9 @@ class MidiSlider extends Component {
 
   sendOutFromChildren = (y) => {
     this.props.actions.handleSliderChange({
-      idx: this.props.idx,
-      val: parseInt(y, 10)
+      i: this.props.sliderEntry.i,
+      val: parseInt(y, 10),
+      lastFocusedPage: this.props.lastFocusedPage
     })
   }
 
@@ -126,6 +128,16 @@ class MidiSlider extends Component {
     if (isNaN(val)) return
     return val
   }
+}
+
+MidiSlider.propTypes = {
+  actions: PropTypes.object,
+  height: PropTypes.any,
+  isDisabled: PropTypes.bool,
+  lastFocusedPage: PropTypes.string,
+  sliderEntry: PropTypes.object,
+  sliderThumbHeight: PropTypes.any,
+  width: PropTypes.any
 }
 
 function mapStateToProps({ viewSettings: { lastFocusedPage } }) {

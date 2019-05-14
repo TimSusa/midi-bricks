@@ -16,7 +16,7 @@ import {
 import { suggestionsMidiCc } from './suggestions'
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(MidiSettingsInput)
 
@@ -26,7 +26,8 @@ MidiSettingsInput.propTypes = {
   classes: PropTypes.object,
   idx: PropTypes.number,
   initApp: PropTypes.func,
-  inputs: PropTypes.object
+  inputs: PropTypes.object,
+  lastFocusedPage: PropTypes.string
 }
 
 function MidiSettingsInput(props) {
@@ -39,6 +40,7 @@ function MidiSettingsInput(props) {
       listenToCc
     },
     idx,
+    lastFocusedPage,
     inputs,
     classes,
     initApp,
@@ -67,7 +69,8 @@ function MidiSettingsInput(props) {
           onChange={(e) =>
             actions.selectMidiDriverInput({
               i,
-              driverNameInput: e.target.value
+              driverNameInput: e.target.value,
+              lastFocusedPage
             })
           }
           value={driverNameInput}
@@ -108,6 +111,12 @@ function MidiSettingsInput(props) {
 async function handleAddCCListener(actions, initApp, e) {
   actions.addMidiCcListener(e)
   await initApp()
+}
+
+function mapStateToProps({ viewSettings: { lastFocusedPage } }) {
+  return {
+    lastFocusedPage
+  }
 }
 
 function mapDispatchToProps(dispatch) {
