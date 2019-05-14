@@ -160,12 +160,12 @@ function handleLiveButtonClick(
   actions.toggleLiveMode()
 
   // Wait before scrolling into view: This is a very bad bad bad approach...
-  let timerId = setTimeout(() => {
-    const selector = `[id="page-${lastFocusedFooterButtonIdx}"]`
-    const elem = document.querySelector(selector)
-    elem && elem.scrollIntoView()
-  }, 1000)
-  clearTimeout(timerId)
+  // let timerId = setTimeout(() => {
+  //   const selector = `[id="page-${lastFocusedFooterButtonIdx}"]`
+  //   const elem = document.querySelector(selector)
+  //   elem && elem.scrollIntoView()
+  // }, 1000)
+  // clearTimeout(timerId)
 }
 
 function styles(theme) {

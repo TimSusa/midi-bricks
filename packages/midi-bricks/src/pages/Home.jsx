@@ -45,16 +45,14 @@ function Home(props) {
     }
     console.log('Re-Init MIDI')
     initAsync()
-    const timeOut = setTimeout(() => {
-      const selector = `[id="page-${lastFocusedFooterButtonIdx}"]`
-      const element = document.querySelector(selector)
-      console.log('scroll and set timeout')
-      element && element.scrollIntoView({ block: 'start' })
-    }, 500)
+    // const timeOut = setTimeout(() => {
+    //   const selector = `[id="page-${lastFocusedFooterButtonIdx}"]`
+    //   const element = document.querySelector(selector)
+    //   console.log('scroll and set timeout')
+    //   element && element.scrollIntoView({ block: 'start' })
+    // }, 500)
 
     return () => {
-      console.log('clear timeout', timeOut)
-      clearTimeout(timeOut)
     }
   }, [classes, lastFocusedFooterButtonIdx, pageType, props])
 
