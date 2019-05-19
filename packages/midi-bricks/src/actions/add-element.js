@@ -10,27 +10,39 @@ const { setLastFocusedPage, addPageTarget } = viewSettingsActions
 export function addElement(type, payload) {
   return function(dispatch, getState) {
     if (type === PAGE) {
-      const pageId = `page-${getUniqueId()}`
-
-      dispatch(addPage({ lastFocusedPage: pageId }))
-      const { viewSettings } = getState()
-      dispatch(
-        addPageTarget({
-          pageTarget: {
-            id: pageId,
-            label: Array.isArray(viewSettings.pageTargets)
-              ? `Page ${viewSettings.pageTargets.length}`
-              : 'Page',
-            colors: { colorFont: '#123456', color: '#dddddd' }
-          }
-        })
-      )
-      dispatch(setLastFocusedPage({ lastFocusedPage: pageId }))
+      createPage(dispatch, getState)
     } else {
       const {
-        viewSettings: { lastFocusedPage }
+        viewSettings: { lastFocusedPage },
+        sliders: { pages }
       } = getState()
-      dispatch(addMidiElement({ lastFocusedPage, type }))
+      if (!pages) {
+        const np = createPage(dispatch, getState)
+        dispatch(addMidiElement({ lastFocusedPage: np, type }))
+      } else {
+        dispatch(addMidiElement({ lastFocusedPage, type }))
+      }
+      
     }
   }
+}
+
+function createPage(dispatch, getState) {
+  const pageId = `page-${getUniqueId()}`
+
+  dispatch(addPage({ lastFocusedPage: pageId }))
+  const { viewSettings } = getState()
+  dispatch(
+    addPageTarget({
+      pageTarget: {
+        id: pageId,
+        label: Array.isArray(viewSettings.pageTargets)
+          ? `Page ${viewSettings.pageTargets.length+1}`
+          : 'Page',
+        colors: { colorFont: '#123456', color: '#dddddd' }
+      }
+    })
+  )
+  dispatch(setLastFocusedPage({ lastFocusedPage: pageId }))
+  return pageId
 }

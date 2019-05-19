@@ -382,11 +382,13 @@ async function toggleMidiLearnMode(
 
     actions.selectMidiChannel({
       val: `${monitorVal.channel}`,
-      idx: lastFocusedIdx
+      i: lastFocusedIdx,
+      lastFocusedPage
     })
     actions.selectCc({
       val: [`${monitorVal.cC}`],
-      idx: lastFocusedIdx
+      i: lastFocusedIdx,
+      lastFocusedPage
     })
     actions.selectMidiDriverInput({
       driverNameInput: monitorVal.driver,
@@ -395,12 +397,14 @@ async function toggleMidiLearnMode(
     })
     actions.selectMidiChannelInput({
       val: `${monitorVal.channel}`,
-      idx: lastFocusedIdx
+      i: lastFocusedIdx,
+      lastFocusedPage
     })
 
     actions.addMidiCcListener({
       val: [`${monitorVal.cC}`],
-      idx: lastFocusedIdx
+      i: lastFocusedIdx,
+      lastFocusedPage
     })
 
     await initApp()

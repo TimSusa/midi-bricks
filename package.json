@@ -21,6 +21,7 @@
     "redux": "4.0.1",
     "redux-generate": "2.0.0",
     "redux-persist": "5.10.0",
+    "redux-starter-kit": "^0.5.1",
     "redux-thunk": "2.3.0",
     "source-map-explorer": "1.8.0",
     "tonal": "2.2.2",

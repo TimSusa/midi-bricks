@@ -169,19 +169,18 @@ export const reducers = {
 
   [ActionTypeSliderList.HANDLE_SLIDER_CHANGE](state, action) {
     const { i, val, lastFocusedPage } = action.payload
-    let sliderList = state.pages[lastFocusedPage].sliderList
+    let sliderList = state.pages[lastFocusedPage] && state.pages[lastFocusedPage].sliderList
 
     // Set noteOn/noteOff stemming from CC VAl
-    const tmp = sliderList.find((item) => item.i === i)
-    const { type, onVal, offVal } = tmp
+    const tmp = sliderList && sliderList.find((item) => item.i === i)
+    const { type, onVal, offVal } = tmp||{}
     if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
       if (val === onVal || val === offVal) {
         sliderList = toggleNotesInState(sliderList, i)
       }
     }
-    console.log('Sf', tmp)
     // Handle multi CC
-    const { midiCC, midiChannel, driverName, label } = tmp
+    const { midiCC, midiChannel, driverName, label } = tmp ||{}
     sendControlChanges({ midiCC, midiChannel, driverName, val, label })
     const refreshedSliderList = transformState(
       sliderList,
@@ -279,8 +278,14 @@ export const reducers = {
   },
 
   [ActionTypeSliderList.SELECT_CC](state, action) {
-    const sliderList = transformStateByIndex(state.sliderList, action, 'midiCC')
-    return { ...state, sliderList }
+
+    const { i, midiCC, lastFocusedPage } = action.payload
+    const sliderList = transformState(
+      state.sliderList,
+      { payload: { i, val: midiCC } },
+      'midiCC'
+    )
+    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
   [ActionTypeSliderList.ADD_MIDI_CC_LISTENER](state, action) {
     const sliderList = transformStateByIndex(
@@ -844,7 +849,7 @@ function transformStateByIndex(sliderList, action, field) {
 
 function transformState(sliderList, action, field) {
   const { i, val } = action.payload || action
-  const newState = sliderList.map((item) => {
+  const newState = sliderList && sliderList.map((item) => {
     if (item.i === i) {
       return {
         ...item,
@@ -859,10 +864,11 @@ function transformState(sliderList, action, field) {
 
 function transformAddState(state, action, type) {
   let pages = state.pages || {}
+  const lastFocusedPage = action.payload.lastFocusedPage
   const list =
-    (action.payload.lastFocusedPage &&
-      pages[action.payload.lastFocusedPage] &&
-      pages[action.payload.lastFocusedPage].sliderList) ||
+    (lastFocusedPage &&
+      pages[lastFocusedPage] &&
+      pages[lastFocusedPage].sliderList) ||
     []
   const lastSelectedDriverName =
     (list.length > 0 && list[list.length - 1].driverName) || 'None'
@@ -885,7 +891,7 @@ function transformAddState(state, action, type) {
 
   if ([BUTTON, BUTTON_TOGGLE].includes(type)) {
     label = 'Button ' + addStateLength()
-    midiCC = [fromMidi(addMidiCCVal())]
+    midiCC = [fromMidi(addMidiCCVal()+1)]
   }
   if ([BUTTON_CC, BUTTON_TOGGLE_CC, BUTTON_PROGRAM_CHANGE].includes(type)) {
     label = 'CC Button ' + addStateLength()
@@ -905,13 +911,13 @@ function transformAddState(state, action, type) {
   if (type === PAGE) {
     label = 'Page ' + addStateLength()
 
-    pages = action.payload.lastFocusedPage
+    pages = lastFocusedPage !== null
       ? {
         ...pages,
-        [action.payload.lastFocusedPage]: {
+        [lastFocusedPage]: {
           label,
           sliderList: [],
-          id: action.payload.lastFocusedPage
+          id: lastFocusedPage
         }
       }
       : pages
@@ -972,7 +978,7 @@ function transformAddState(state, action, type) {
 
   // set type === PAGE to false to get old mode
   const addedList = { sliderList: type === PAGE ? [] : [...list, entry] }
-  const page = action.payload.lastFocusedPage
+  const page = lastFocusedPage
   return type === PAGE
     ? {
       ...state,
@@ -1095,7 +1101,7 @@ function sortBy(list = [], by) {
 function updatePagesWithSliderlist(
   state = {},
   refreshedSliderList = [],
-  lastFocusedPage = ''
+  lastFocusedPage
 ) {
   return {
     ...state,

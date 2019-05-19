@@ -89,7 +89,7 @@ class MidiSliderHorz extends Component {
 
   sendOutFromChildren = (y) => {
     this.props.actions.handleSliderChange({
-      idx: this.props.idx,
+      i: this.props.sliderEntry.i,
       val: parseInt(y, 10)
     })
   }

@@ -214,11 +214,13 @@ export function initApp(mode) {
           }
         })
         if (hasContent(outputs) || hasContent(inputs)) {
+
           const midiAccess = {
-            inputs,
-            outputs
+            inputs: inputs.values,
+            outputs: outputs.values
           }
-          resolve(dispatch(initMidiAccess({ midiAccess })))
+          resolve(dispatch(initMidiAccess({ midiAccess: null })))
+          return midiAccess
         } else {
           reject(dispatch(initFailed('No Midi Output available.')))
         }

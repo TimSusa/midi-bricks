@@ -15,8 +15,9 @@ import { suggestionsMidiNoteCC, suggestionsMidiCc } from './suggestions'
 
 
 InputNoteOrCc.propTypes = {
-  idx: PropTypes.number,
-  midiCC: PropTypes.array,
+  i: PropTypes.string,
+  lastFocusedPage: PropTypes.string,
+  midiCC: PropTypes.array.isRequired,
   type: PropTypes.string,
   yMidiCc: PropTypes.array
 }
@@ -27,7 +28,8 @@ function InputNoteOrCc(props) {
     midiCC,
     yMidiCc,
     type,
-    idx,
+    i,
+    lastFocusedPage,
     actions: { selectCc = () => {} }
   } = props
   const isCcInput = [
@@ -50,7 +52,8 @@ function InputNoteOrCc(props) {
         <MidiSuggestedInput
           suggestions={suggestionsMidiCc()}
           startVal={midiCC || []}
-          idx={idx}
+          i={i}
+          lastFocusedPage={lastFocusedPage}
           handleChange={selectCc}
         />
       </FormControl>
@@ -64,7 +67,8 @@ function InputNoteOrCc(props) {
         <MidiSuggestedInput
           suggestions={suggestionsMidiCc()}
           startVal={yMidiCc || []}
-          idx={idx}
+          i={i}
+          lastFocusedPage={lastFocusedPage}
           handleChange={selectCcY.bind(this, props)}
         />
       </FormControl>
@@ -79,9 +83,9 @@ function InputNoteOrCc(props) {
           className={classes.input}
           id='number'
           type='number'
-          name={`input-prgChange-name-${idx}`}
+          name={`input-prgChange-name-${i}`}
           value={midiCC[0] || 0}
-          onChange={handleProgramChange.bind(this, idx, selectCc)}
+          onChange={handleProgramChange.bind(this, i, lastFocusedPage, selectCc)}
         />
       </FormControl>
     )
@@ -93,8 +97,9 @@ function InputNoteOrCc(props) {
         </InputLabel>
         <MidiSuggestedInput
           suggestions={[...suggestionsMidiNoteCC(), ...suggestionsMidiNote()]}
-          startVal={midiCC.map((item) => fromMidi(midi(item)))}
-          idx={idx}
+          startVal={Array.isArray(midiCC) && midiCC.map((item) => fromMidi(midi(item))) || []}
+          i={i}
+          lastFocusedPage={lastFocusedPage}
           handleChange={selectCc}
         />
       </FormControl>
@@ -102,10 +107,11 @@ function InputNoteOrCc(props) {
   }
 }
 
-function handleProgramChange(idx, selectCc, e) {
+function handleProgramChange(i, lastFocusedPage, selectCc, e) {
   selectCc({
-    idx,
-    val: [parseInt(e.target.value, 10)]
+    i,
+    val: [parseInt(e.target.value, 10)],
+    lastFocusedPage
   })
 }
 
@@ -138,20 +144,28 @@ function styles(theme) {
   }
 }
 
+function mapStateToProps({viewSettings: {lastFocusedPage}}){
+  return {
+    lastFocusedPage
+  }
+}
+
+
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
 
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(InputNoteOrCc)
 
-function selectCcY(props, e) {
-  props.actions.changeXypadSettings({
-    i: props.i,
+function selectCcY({i, actions}, e) {
+  actions.changeXypadSettings({
+    i,
     yMidiCc: e.val
   })
 }

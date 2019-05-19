@@ -6,10 +6,10 @@ import {
   TableHead,
   Tooltip,
   Paper,
-  Typography
+  
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -43,9 +43,9 @@ function GlobalSettingsPage(props) {
     sliderList = [],
     pages = [],
     sliderListBackup,
-    midi: {
-      midiAccess: { inputs, outputs }
-    },
+    // midi: {
+    //   midiAccess: { inputs, outputs }
+    // },
     viewSettings: {
       isSettingsDialogMode,
       lastFocusedIdx,
@@ -53,9 +53,16 @@ function GlobalSettingsPage(props) {
       pageTargets
     }
   } = props
-
+  let inOutRef = useRef({})
   useEffect(() => {
+    const init = async () => await initApp()
     actions.toggleLiveMode({ isLiveMode: false })
+    const { inputs, outputs } = init() 
+    inOutRef.current = {
+      inputs, outputs
+    }
+    
+  
   }, [actions])
 
   if (isMidiFailed) return <div />
@@ -63,6 +70,7 @@ function GlobalSettingsPage(props) {
   return list.map((thing, idx) => {
     const { sliderList } = thing
     const label = (pageTargets[idx] && pageTargets[idx].label) || thing.label
+    const {inputs, outputs} = inOutRef
     return (
       <DriverExpansionPanel label={label} isEmpty={false} key={`exp-${idx}`}>
         <Paper style={{ flexDirection: 'column' }} className={classes.root}>
