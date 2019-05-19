@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import createSelector from 'selectorator'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
@@ -29,7 +30,7 @@ class MidiSlider extends Component {
         maxVal,
         minVal
       }
-    } = this.props
+    } = this.props.preProps
     return (
       <div
         onContextMenu={(e) => {
@@ -137,12 +138,50 @@ MidiSlider.propTypes = {
   lastFocusedPage: PropTypes.string,
   sliderEntry: PropTypes.object,
   sliderThumbHeight: PropTypes.any,
-  width: PropTypes.any
+  width: PropTypes.any,
+  preProps: PropTypes.object
 }
 
-function mapStateToProps({ viewSettings: { lastFocusedPage } }) {
+const getSliderEntr = (
+  state,
+  {
+    isDisabled,
+    height,
+    sliderThumbHeight,
+    width,
+    sliderEntry: {
+      colors: { color },
+      val,
+      maxVal,
+      minVal
+    }
+  }
+) => ({
+  isDisabled,
+  height,
+  sliderThumbHeight,
+  width,
+  sliderEntry: {
+    colors: { color },
+    val,
+    maxVal,
+    minVal
+  }
+})
+const getSliderEntry = createSelector(
+  [getSliderEntr],
+  (sliderEntry) => sliderEntry
+)
+
+const getLastFocus = ({ viewSettings }) => viewSettings.lastFocusedPage
+const getLastFocusedPage = createSelector(
+  [getLastFocus],
+  (lastFocusedPage) => lastFocusedPage
+)
+function mapStateToProps(state, props) {
   return {
-    lastFocusedPage
+    lastFocusedPage: getLastFocusedPage(state),
+    preProps: getSliderEntry(state, props)
   }
 }
 

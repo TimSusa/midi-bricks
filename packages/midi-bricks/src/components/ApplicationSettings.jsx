@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
-import { initApp } from '../actions/init.js'
 import { MinMaxValInput } from './midi-settings/elements/MinMaxValInput'
 import { ValueInput } from './midi-settings/elements/ValueInput'
 import { FormControlLabel, Switch, Tooltip } from '@material-ui/core'
@@ -355,8 +354,7 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(
       { ...MidiSliderActions, ...ViewStuff },
       dispatch
-    ),
-    initApp: bindActionCreators(initApp, dispatch)
+    )
   }
 }
 

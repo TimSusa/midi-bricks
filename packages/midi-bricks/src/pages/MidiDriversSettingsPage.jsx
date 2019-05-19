@@ -28,14 +28,12 @@ function MidiDriversSettingsPage(props) {
       availableDrivers: { inputs: availableInputs, outputs: avalableOutputs }
     }
   } = props
-
   useEffect(() => {
     actions.toggleLiveMode({ isLiveMode: false })
   }, [actions])
 
   const [isFirstPanelExpanded, setIsFirstPanelExpanded] = useState(true)
   const [isScndPanelExpanded, setIsScndPanelExpanded] = useState(true)
-  console.log('yorau vg', actions)
   return (
     <React.Fragment>
       <DriverExpansionPanel
@@ -44,39 +42,41 @@ function MidiDriversSettingsPage(props) {
         noPadding={true}
         onChange={(e) => setIsScndPanelExpanded(!isScndPanelExpanded)}
       >
-        {outputs.map((output, idx) => {
-          const { ccChannels, noteChannels } = avalableOutputs[output.name] || {
-            ccChannels: [],
-            noteChannels: []
-          }
-          const isNotEmpty =
-            (ccChannels && ccChannels.length > 0) ||
-            (noteChannels && noteChannels.length > 0)
-          return (
-            <DriverExpansionPanel
-              key={`output-midi-${idx}`}
-              label={output.name}
-              isEmpty={!isNotEmpty}
-              noPadding={true}
-            >
-              <MidiDriverTable
-                labelPostfix='Out'
-                idx={idx}
-                available={avalableOutputs}
-                name={output.name}
-                handleCheckboxClickNote={handleCheckboxClickNoteOut.bind(
-                  this,
-                  actions
-                )}
-                handleCheckboxClickCc={handleCheckboxClickCcOut.bind(
-                  this,
-                  actions
-                )}
-              />
-              
-            </DriverExpansionPanel>
-          )
-        })}
+        {outputs &&
+          outputs.map((name, idx) => {
+            const { ccChannels, noteChannels } = avalableOutputs[
+              name
+            ] || {
+              ccChannels: [],
+              noteChannels: []
+            }
+            const isNotEmpty =
+              (ccChannels && ccChannels.length > 0) ||
+              (noteChannels && noteChannels.length > 0)
+            return (
+              <DriverExpansionPanel
+                key={`output-midi-${idx}`}
+                label={name}
+                isEmpty={!isNotEmpty}
+                noPadding={true}
+              >
+                <MidiDriverTable
+                  labelPostfix='Out'
+                  idx={idx}
+                  available={avalableOutputs}
+                  name={name}
+                  handleCheckboxClickNote={handleCheckboxClickNoteOut.bind(
+                    this,
+                    actions
+                  )}
+                  handleCheckboxClickCc={handleCheckboxClickCcOut.bind(
+                    this,
+                    actions
+                  )}
+                />
+              </DriverExpansionPanel>
+            )
+          })}
       </DriverExpansionPanel>
       <DriverExpansionPanel
         label='Input MIDI Driver'
@@ -84,38 +84,41 @@ function MidiDriversSettingsPage(props) {
         noPadding={true}
         onChange={(e) => setIsFirstPanelExpanded(!isFirstPanelExpanded)}
       >
-        {inputs.map((input, idx) => {
-          const { ccChannels, noteChannels } = availableInputs[input.name] || {
-            ccChannels: [],
-            noteChannels: []
-          }
-          const isNotEmpty =
-            (ccChannels && ccChannels.length > 0) ||
-            (noteChannels && noteChannels.length > 0)
-          return (
-            <DriverExpansionPanel
-              key={`input-midi-${idx}`}
-              label={input.name}
-              isEmpty={!isNotEmpty}
-              noPadding={true}
-            >
-              <MidiDriverTable
-                labelPostfix='In'
-                idx={idx}
-                available={availableInputs}
-                name={input.name}
-                handleCheckboxClickNote={handleCheckboxClickNoteIn.bind(
-                  this,
-                  actions
-                )}
-                handleCheckboxClickCc={handleCheckboxClickCcIn.bind(
-                  this,
-                  actions
-                )}
-              />
-            </DriverExpansionPanel>
-          )
-        })}
+        {inputs &&
+          inputs.map((name, idx) => {
+            const { ccChannels, noteChannels } = availableInputs[
+              name
+            ] || {
+              ccChannels: [],
+              noteChannels: []
+            }
+            const isNotEmpty =
+              (ccChannels && ccChannels.length > 0) ||
+              (noteChannels && noteChannels.length > 0)
+            return (
+              <DriverExpansionPanel
+                key={`input-midi-${idx}`}
+                label={name}
+                isEmpty={!isNotEmpty}
+                noPadding={true}
+              >
+                <MidiDriverTable
+                  labelPostfix='In'
+                  idx={idx}
+                  available={availableInputs}
+                  name={name}
+                  handleCheckboxClickNote={handleCheckboxClickNoteIn.bind(
+                    this,
+                    actions
+                  )}
+                  handleCheckboxClickCc={handleCheckboxClickCcIn.bind(
+                    this,
+                    actions
+                  )}
+                />
+              </DriverExpansionPanel>
+            )
+          })}
       </DriverExpansionPanel>
     </React.Fragment>
   )

@@ -6,6 +6,7 @@ import {
 } from 'redux-starter-kit'
 import { persistReducer } from 'redux-persist'
 import { createLogger } from 'redux-logger'
+import thunk from 'redux-thunk'
 import rootReducer from '../reducers'
 
 const persistConfig = {
@@ -23,20 +24,20 @@ const logger = createLogger({
 
 const serializableStateInvariant = createSerializableStateInvariantMiddleware({
   isSerializable(val) {
+    const valType = typeof value
     return (
-      typeof val === 'function' ||
-      typeof val === 'undefined' ||
+      valType === 'undefined' ||
       val === null ||
-      typeof val === 'string' ||
-      typeof val === 'boolean' ||
-      typeof val === 'number' ||
+      valType === 'string' ||
+      valType === 'boolean' ||
+      valType === 'number' ||
       Array.isArray(val) ||
       isPlainObject(val)
     )
   }
 })
 
-const [immutableStateInvariant, thunk, ...rest] = getDefaultMiddleware()
+const [immutableStateInvariant] = getDefaultMiddleware()
 const devMiddleware = [
   immutableStateInvariant,
   thunk,
@@ -53,7 +54,7 @@ export function configureAppStore(preloadedState) {
   })
 
   if (isDev && module.hot) {
-    module.hot.accept('../reducers', () => store.replaceReducer(reducer))
+    module.hot.accept('../reducers', () => store.replaceReducer(rootReducer))
   }
 
   return store

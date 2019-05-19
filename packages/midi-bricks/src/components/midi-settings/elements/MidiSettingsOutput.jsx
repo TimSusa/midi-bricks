@@ -27,7 +27,6 @@ MidiSettingsOutput.propTypes = {
   actions: PropTypes.object,
   classes: PropTypes.object,
   i: PropTypes.string,
-  initApp: PropTypes.func,
   outputs: PropTypes.object,
   lastFocusedPage: PropTypes.string
 }
@@ -84,7 +83,8 @@ export function MidiSettingsOutput(props) {
           onChange={(e) =>
             actions.selectMidiChannel({
               i,
-              val: e.target.value
+              val: parseInt(e.target.value, 10),
+              lastFocusedPage
             })
           }
           value={midiChannel || 'None'}

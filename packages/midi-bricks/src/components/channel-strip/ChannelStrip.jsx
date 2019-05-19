@@ -56,7 +56,7 @@ function ChannelStrip(props) {
             className={classes.sliderWrapper}
             isDisabled={isDisabled}
             sliderEntry={sliderEntry}
-            idx={idx}
+            //idx={idx}
             height={calcHeight(tmpH, props)}
             width={tmpW}
             sliderThumbHeight={sliderThumbHeight}

@@ -145,7 +145,7 @@ export const reducers = {
   [ActionTypeViewSettings.UPDATE_VIEW_SETTINGS](state = initState, action) {
     console.warn('DEPRECATED UPDATE_VIEW_SETTINGS')
     const {
-      sliderList,
+      // sliderList,
       viewSettings,
       viewSettings: { availableDrivers } = {}
     } = action.payload
@@ -494,18 +494,18 @@ function hasAll(arr = []) {
   return arr.length === chDummy.length
 }
 
-function extractPages(list = []) {
-  let tmp = []
-  list.forEach((item) => {
-    if (item.type === 'PAGE') {
-      tmp.push(item)
-    }
-  })
-  if (tmp.length === 0) {
-    console.warn('list was empty!')
-  }
-  return tmp
-}
+// function extractPages(list = []) {
+//   let tmp = []
+//   list.forEach((item) => {
+//     if (item.type === 'PAGE') {
+//       tmp.push(item)
+//     }
+//   })
+//   if (tmp.length === 0) {
+//     console.warn('list was empty!')
+//   }
+//   return tmp
+// }
 
 function getObjFromNoteChannels(obj, name, noteChannels) {
   return {

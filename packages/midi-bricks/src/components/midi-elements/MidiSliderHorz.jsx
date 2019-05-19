@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
+import { PropTypes } from 'prop-types'
 
 const noop = () => {}
 
@@ -90,7 +91,8 @@ class MidiSliderHorz extends Component {
   sendOutFromChildren = (y) => {
     this.props.actions.handleSliderChange({
       i: this.props.sliderEntry.i,
-      val: parseInt(y, 10)
+      val: parseInt(y, 10),
+      lastFocusedPage: this.props.lastFocusedPage
     })
   }
 
@@ -126,11 +128,21 @@ class MidiSliderHorz extends Component {
   }
 }
 
-// function mapStateToProps({ viewSettings: { isSettingsMode } }) {
-//   return {
-//     isSettingsMode,
-//   }
-// }
+MidiSliderHorz.propTypes = {
+  actions: PropTypes.any,
+  height: PropTypes.any,
+  isDisabled: PropTypes.any,
+  lastFocusedPage: PropTypes.any,
+  sliderEntry: PropTypes.any,
+  sliderThumbHeight: PropTypes.any,
+  width: PropTypes.any
+}
+
+function mapStateToProps({ viewSettings: { lastFocusedPage } }) {
+  return {
+    lastFocusedPage,
+  }
+}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -139,7 +151,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(MidiSliderHorz)
 

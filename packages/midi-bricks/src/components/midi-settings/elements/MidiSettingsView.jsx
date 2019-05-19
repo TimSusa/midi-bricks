@@ -7,7 +7,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import ColorModal from './ColorModal'
-import { debounce } from 'lodash'
 import { STRIP_TYPE } from '../../../reducers/slider-list'
 
 const {
@@ -16,8 +15,7 @@ const {
   BUTTON_TOGGLE,
   BUTTON_TOGGLE_CC,
   SLIDER,
-  SLIDER_HORZ,
-  PAGE
+  SLIDER_HORZ
 } = STRIP_TYPE
 
 MidiSettingsView.propTypes = {
@@ -61,29 +59,31 @@ export function MidiSettingsView(props) {
           i={i}
           fieldName='color'
           color={!pageType ? colors.color : pageTarget.colors.color}
-          onChange={!pageType ? actions.changeColors : actions.setPageTargetSettings}
+          onChange={
+            !pageType ? actions.changeColors : actions.setPageTargetSettings
+          }
         />
-        {
-          !pageType && (
-            <ColorModal
-              title={
-                [SLIDER, SLIDER_HORZ].includes(type)
-                  ? 'Thumb Background'
-                  : 'Activated State'
-              }
-              i={i}
-              fieldName='colorActive'
-              color={colors.colorActive}
-              onChange={actions.changeColors}
-            />
-          )
-        }
+        {!pageType && (
+          <ColorModal
+            title={
+              [SLIDER, SLIDER_HORZ].includes(type)
+                ? 'Thumb Background'
+                : 'Activated State'
+            }
+            i={i}
+            fieldName='colorActive'
+            color={colors.colorActive}
+            onChange={actions.changeColors}
+          />
+        )}
         <ColorModal
           title='Font-Color'
           i={i}
           fieldName='colorFont'
           color={!pageType ? colors.colorFont : pageTarget.colors.colorFont}
-          onChange={!pageType ? actions.changeColors : actions.setPageTargetSettings}
+          onChange={
+            !pageType ? actions.changeColors : actions.setPageTargetSettings
+          }
         />
 
         {!pageType && ![SLIDER, SLIDER_HORZ].includes(type) ? (

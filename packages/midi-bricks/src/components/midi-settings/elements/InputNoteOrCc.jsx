@@ -97,7 +97,7 @@ function InputNoteOrCc(props) {
         </InputLabel>
         <MidiSuggestedInput
           suggestions={[...suggestionsMidiNoteCC(), ...suggestionsMidiNote()]}
-          startVal={Array.isArray(midiCC) && midiCC.map((item) => fromMidi(midi(item))) || []}
+          startVal={Array.isArray(midiCC) && midiCC.map((item) => fromMidi(midi(item)))}
           i={i}
           lastFocusedPage={lastFocusedPage}
           handleChange={selectCc}

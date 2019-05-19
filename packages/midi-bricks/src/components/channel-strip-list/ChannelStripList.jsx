@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography'
 import ChannelStrip from '../channel-strip/ChannelStrip'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { initApp } from '../../actions/init'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 import { Actions as ViewSettingsActions } from '../../actions/view-settings.js'
 import MidiSettingsDialogButton from '../midi-settings-dialog/MidiSettingsDialogButton'
@@ -43,6 +42,7 @@ function ChannelStripList(props) {
       // isLiveMode = false,
       isMidiLearnMode = false,
       lastFocusedIdx,
+      lastFocusedPage,
       rowHeight,
       columns,
       isAutoSize,
@@ -349,7 +349,6 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(
       { ...MidiSliderActions, ...ViewSettingsActions },
       dispatch
-    ),
-    initApp: bindActionCreators(initApp, dispatch)
+    )
   }
 }

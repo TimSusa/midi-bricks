@@ -10,10 +10,10 @@ describe('Test Reducers for slider-list', () => {
     expect(isMidiFailed).toBe(true)
   })
 
-  test('INIT_MIDI_ACCESS', () => {
-    const { INIT_MIDI_ACCESS } = reducers
+  test('INIT_MIDI_ACCESS_OK', () => {
+    const { INIT_MIDI_ACCESS_OK } = reducers
     const midiAccess = { someMidi: true }
-    const { isMidiFailed, midi } = INIT_MIDI_ACCESS(
+    const { isMidiFailed, midi } = INIT_MIDI_ACCESS_OK(
       { isMidiFailed: true, midi: null },
       { payload: { midiAccess } }
     )

@@ -2,13 +2,13 @@ import WebMIDI from 'webmidi'
 import { debounce } from 'lodash'
 import { Actions } from './slider-list'
 
-const { initPending, midiMessageArrived, initFailed, initMidiAccess } = Actions
+const { initMidiAccessPending, midiMessageArrived, initFailed, initMidiAccessOk } = Actions
 
 export function initApp(mode) {
   return function(dispatch, getState) {
     return new Promise((resolve, reject) => {
       WebMIDI.disable()
-      dispatch(initPending('start'))
+      dispatch(initMidiAccessPending('start'))
 
       WebMIDI.enable((err) => {
         if (err) {
@@ -54,7 +54,7 @@ export function initApp(mode) {
             })
 
           // Or pages
-          Object.values(pages).map(item => {
+          Object.values(pages).forEach(item => {
             const {sliderList} = item
             Array.isArray(sliderList) &&
             sliderList.forEach((entry) => {
@@ -214,13 +214,12 @@ export function initApp(mode) {
           }
         })
         if (hasContent(outputs) || hasContent(inputs)) {
-
           const midiAccess = {
-            inputs: inputs.values,
-            outputs: outputs.values
+            inputs: inputs.map(e => e.name),
+            outputs: outputs.map(e => e.name)
           }
-          resolve(dispatch(initMidiAccess({ midiAccess: null })))
-          return midiAccess
+          dispatch(initMidiAccessOk({ midiAccess }))
+          resolve(midiAccess)
         } else {
           reject(dispatch(initFailed('No Midi Output available.')))
         }

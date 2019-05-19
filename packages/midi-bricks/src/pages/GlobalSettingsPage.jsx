@@ -9,7 +9,7 @@ import {
   
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -17,7 +17,6 @@ import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
 import MidiSettingsDialog from '../components/midi-settings-dialog/MidiSettingsDialog'
 import { outputToDriverName } from '../utils/output-to-driver-name.js'
-import { initApp } from '../actions/init.js'
 import { STRIP_TYPE } from '../reducers/slider-list.js'
 import DriverExpansionPanel from '../components/DriverExpansionPanel.jsx'
 
@@ -40,12 +39,12 @@ function GlobalSettingsPage(props) {
   const {
     isMidiFailed,
     actions,
-    sliderList = [],
-    pages = [],
+    pages={},
+    midi: {
+      midiAccess: { inputs, outputs },
+    },
     sliderListBackup,
-    // midi: {
-    //   midiAccess: { inputs, outputs }
-    // },
+    sliderList,
     viewSettings: {
       isSettingsDialogMode,
       lastFocusedIdx,
@@ -53,26 +52,18 @@ function GlobalSettingsPage(props) {
       pageTargets
     }
   } = props
-  let inOutRef = useRef({})
   useEffect(() => {
-    const init = async () => await initApp()
     actions.toggleLiveMode({ isLiveMode: false })
-    const { inputs, outputs } = init() 
-    inOutRef.current = {
-      inputs, outputs
-    }
-    
-  
   }, [actions])
 
   if (isMidiFailed) return <div />
-  const list = Object.values(pages) || sliderList
-  return list.map((thing, idx) => {
+  const hasPage = (Object.values(pages).length > 0)
+  const list =  hasPage ? Object.values(pages)  : sliderList
+  return (hasPage ? list : ['OK'] ).map((thing, idx) => {
     const { sliderList } = thing
     const label = (pageTargets[idx] && pageTargets[idx].label) || thing.label
-    const {inputs, outputs} = inOutRef
     return (
-      <DriverExpansionPanel label={label} isEmpty={false} key={`exp-${idx}`}>
+      <DriverExpansionPanel label={label || 'O'} isEmpty={false} key={`exp-${idx}`}>
         <Paper style={{ flexDirection: 'column' }} className={classes.root}>
           <Table className={classes.table}>
             <TableHead>
@@ -213,7 +204,7 @@ function GlobalSettingsPage(props) {
                         onClick={(e) => {
                           actions.setLastFocusedIndex({ i })
                           actions.toggleSettingsDialogMode({
-                            idx,
+                            i,
                             isSettingsDialogMode: true
                           })
                         }}
@@ -321,7 +312,6 @@ function mapDispatchToProps(dispatch) {
       { ...MidiSliderActions, ...ViewStuff },
       dispatch
     ),
-    initApp: bindActionCreators(initApp, dispatch)
   }
 }
 function mapStateToProps({

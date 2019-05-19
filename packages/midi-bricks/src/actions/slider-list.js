@@ -1,9 +1,9 @@
 import { generateActions, createActionTypes } from 'redux-generate'
 
 const typeSliderList = [
-  'INIT_MIDI_ACCESS',
+  'INIT_MIDI_ACCESS_OK',
   'RESET_VALUES',
-  'INIT_PENDING',
+  'INIT_MIDI_ACCESS_PENDING',
   'INIT_FAILED',
   'SELECT_MIDI_DRIVER',
   'SELECT_MIDI_DRIVER_INPUT',

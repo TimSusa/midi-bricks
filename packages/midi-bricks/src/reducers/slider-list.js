@@ -33,15 +33,15 @@ const {
 } = STRIP_TYPE
 
 export const reducers = {
-  [ActionTypeSliderList.INIT_PENDING](state, action) {
+  [ActionTypeSliderList.INIT_MIDI_ACCESS_PENDING](state, action) {
     return state
   },
 
   [ActionTypeSliderList.INIT_FAILED](state, action) {
     const midi = {
       midiAccess: {
-        inputs: [],
-        outputs: []
+        inputs: {},
+        outputs: {}
       }
     }
     return {
@@ -51,11 +51,8 @@ export const reducers = {
     }
   },
 
-  [ActionTypeSliderList.INIT_MIDI_ACCESS](state, action) {
-    const { midiAccess } = action.payload
-    const midi = {
-      midiAccess
-    }
+  [ActionTypeSliderList.INIT_MIDI_ACCESS_OK](state, action) {
+    const midi = action.payload
     return { ...state, isMidiFailed: false, midi }
   },
 
@@ -133,10 +130,14 @@ export const reducers = {
         }
       })
     })
-    return { ...state, sliderList: newArr }
+    return updatePagesWithSliderlist(
+      state,
+      newArr,
+      action.payload.lastFocusedPage
+    )
   },
   [ActionTypeSliderList.CHANGE_BUTTON_TYPE](state, action) {
-    const { i, val } = action.payload
+    const { i, val, lastFocusedPage } = action.payload
     const sliderList = state.sliderList.map((item) => {
       if (item.i === i) {
         return {
@@ -148,14 +149,17 @@ export const reducers = {
         return item
       }
     })
-    return { ...state, sliderList }
+    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
   [ActionTypeSliderList.DELETE](state, action) {
-    const { i: sentIdx } = action.payload
+    const { i: sentIdx, lastFocusedPage } = action.payload
     const sliderList = state.sliderList.filter(
       ({ i }) => sentIdx.toString() !== i
     )
-    return { ...state, sliderList, sliderListBackup: state.sliderList }
+    return {
+      ...updatePagesWithSliderlist(state, sliderList, lastFocusedPage),
+      sliderListBackup: state.sliderList
+    }
   },
   [ActionTypeSliderList.DELETE_ALL](state, action) {
     return {
@@ -169,24 +173,23 @@ export const reducers = {
 
   [ActionTypeSliderList.HANDLE_SLIDER_CHANGE](state, action) {
     const { i, val, lastFocusedPage } = action.payload
-    let sliderList = state.pages[lastFocusedPage] && state.pages[lastFocusedPage].sliderList
+    let sliderList =
+      lastFocusedPage &&
+      state.pages[lastFocusedPage] &&
+      state.pages[lastFocusedPage].sliderList
 
     // Set noteOn/noteOff stemming from CC VAl
     const tmp = sliderList && sliderList.find((item) => item.i === i)
-    const { type, onVal, offVal } = tmp||{}
+    const { type, onVal, offVal } = tmp || {}
     if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
       if (val === onVal || val === offVal) {
         sliderList = toggleNotesInState(sliderList, i)
       }
     }
     // Handle multi CC
-    const { midiCC, midiChannel, driverName, label } = tmp ||{}
+    const { midiCC, midiChannel, driverName, label } = tmp || {}
     sendControlChanges({ midiCC, midiChannel, driverName, val, label })
-    const refreshedSliderList = transformState(
-      sliderList,
-      { payload: { i, val } },
-      'val'
-    )
+    const refreshedSliderList = transformState(sliderList, { i, val }, 'val')
 
     return updatePagesWithSliderlist(
       state,
@@ -196,7 +199,7 @@ export const reducers = {
   },
 
   [ActionTypeSliderList.SEND_MIDI_CC_Y](state, action) {
-    const { idx, yVal } = action.payload
+    const { idx, yVal, lastFocusedPage } = action.payload
     let newStateTmp = state.sliderList
 
     // Handle multi CC
@@ -214,11 +217,11 @@ export const reducers = {
       { payload: { idx: parseInt(idx, 10), val: yVal } },
       'yVal'
     )
-    return { ...state, sliderList }
+    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
 
   [ActionTypeSliderList.TOGGLE_NOTE](state, action) {
-    const idx = action.payload
+    const { i, lastFocusedPage } = action.payload
 
     const {
       onVal = 127,
@@ -228,7 +231,7 @@ export const reducers = {
       driverName,
       isNoteOn,
       label
-    } = state.sliderList[idx] || {}
+    } = state.sliderList.find((e) => e.i === i) || {}
 
     toggleNotes({
       onVal,
@@ -239,8 +242,8 @@ export const reducers = {
       isNoteOn,
       label
     })
-    const sliderList = toggleNotesInState(state.sliderList, idx)
-    return { ...state, sliderList }
+    const sliderList = toggleNotesInState(state.sliderList, i)
+    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
 
   [ActionTypeSliderList.SEND_PROGRAM_CHANGE](state, action) {
@@ -252,16 +255,17 @@ export const reducers = {
     output && output.sendProgramChange(midiCC[0] - 1, midiChannel)
     return state
   },
-
+  
   [ActionTypeSliderList.CHANGE_LABEL](state, action) {
-    const newState = transformStateByIndex(state.sliderList, action, 'label')
-    return { ...state, sliderList: newState }
+    const {i, val, lastFocusedPage} = action.payload
+    const sliderList = transformState(state.sliderList, {i, val}, 'label')
+    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
   [ActionTypeSliderList.SELECT_MIDI_DRIVER](state, action) {
     const { i, driverName, lastFocusedPage } = action.payload
     const sliderList = transformState(
       state.sliderList,
-      { payload: { i, val: driverName } },
+      { i, val: driverName },
       'driverName'
     )
     return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
@@ -271,72 +275,74 @@ export const reducers = {
     const { i, driverNameInput, lastFocusedPage } = action.payload
     const sliderList = transformState(
       state.sliderList,
-      { payload: { i, val: driverNameInput } },
+      { i, val: driverNameInput },
       'driverNameInput'
     )
     return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
 
   [ActionTypeSliderList.SELECT_CC](state, action) {
-
-    const { i, midiCC, lastFocusedPage } = action.payload
-    const sliderList = transformState(
-      state.sliderList,
-      { payload: { i, val: midiCC } },
-      'midiCC'
-    )
+    const { i, val, lastFocusedPage } = action.payload
+    const sliderList = transformState(state.sliderList, { i, val }, 'midiCC')
     return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
   [ActionTypeSliderList.ADD_MIDI_CC_LISTENER](state, action) {
-    const sliderList = transformStateByIndex(
+    const { i, val } = action.payload
+    const sliderList = transformState(
       state.sliderList,
-      action,
+      { i, val },
       'listenToCc'
     )
-    return { ...state, sliderList }
+    return updatePagesWithSliderlist(
+      state,
+      sliderList,
+      action.payload.lastFocusedPage
+    )
   },
   [ActionTypeSliderList.SET_MAX_VAL](state, action) {
-    const { val, idx } = action.payload
+    const { val, i, lastFocusedPage } = action.payload
 
     // Limit to allow number
     // and prevent crash
     const maxVal = parseInt(val, 10)
-    let newAction = null
+    let newAction = {}
     if (maxVal <= 127 && maxVal >= 1) {
-      newAction = { payload: { val, idx } }
+      newAction = { val, i }
     } else if (maxVal > 127) {
-      newAction = { payload: { val: 127, idx } }
+      newAction = { val: 127, i }
     } else {
-      newAction = { payload: { val: 1, idx } }
+      newAction = { val: 1, i }
     }
-    const sliderList = transformStateByIndex(
+    const { i: ii, val: vall } = newAction
+    const sliderList = transformState(
       state.sliderList,
-      newAction,
+      { i: ii, val: vall },
       'maxVal'
     )
-    return { ...state, sliderList }
+    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
 
   [ActionTypeSliderList.SET_MIN_VAL](state, action) {
-    const { val, idx } = action.payload
+    const { val, i, lastFocusedPage } = action.payload
 
     // Limit to allow number
     // and prevent crash
     const minVal = parseInt(val, 10)
     let newAction = null
     if (minVal <= 127 && minVal >= 0) {
-      newAction = { payload: { val, idx } }
+      newAction = { payload: { val, i } }
     } else if (minVal > 127) {
-      newAction = { payload: { val: 127, idx } }
+      newAction = { payload: { val: 127, i } }
     } else {
-      newAction = { payload: { val: 0, idx } }
+      newAction = { payload: { val: 0, i } }
     }
-    const sliderList = transformStateByIndex(
+    const { i: ii, val: vall } = newAction
+    const sliderList = transformState(
       state.sliderList,
-      newAction,
+      { i: ii, val: vall },
       'minVal'
     )
-    return { ...state, sliderList }
+    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
 
   [ActionTypeSliderList.SET_ON_VAL](state, action) {
@@ -379,24 +385,25 @@ export const reducers = {
   },
 
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL](state, action) {
-    const { val, idx } = action.payload
+    const { val, i, lastFocusedPage } = action.payload
 
     // Limit to allow number of midi channels
     // and prevent crash
     let newAction = null
     if (val <= 16 && val >= 1) {
-      newAction = action
+      newAction = { val, i }
     } else if (val > 16) {
-      newAction = { payload: { val: 16, idx } }
+      newAction = { val: 16, i }
     } else {
-      newAction = { payload: { val: 1, idx } }
+      newAction = { val: 1, i }
     }
-    const sliderList = transformStateByIndex(
+    const { i: ii, val: vall } = newAction
+    const sliderList = transformState(
       state.sliderList,
-      newAction,
+      { i: ii, val: vall },
       'midiChannel'
     )
-    return { ...state, sliderList }
+    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
 
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL_INPUT](state, action) {
@@ -847,9 +854,8 @@ function transformStateByIndex(sliderList, action, field) {
   }
 }
 
-function transformState(sliderList, action, field) {
-  const { i, val } = action.payload || action
-  const newState = sliderList && sliderList.map((item) => {
+function transformState(sliderList, { i, val }, field) {
+  return sliderList.map((item) => {
     if (item.i === i) {
       return {
         ...item,
@@ -859,7 +865,6 @@ function transformState(sliderList, action, field) {
       return item
     }
   })
-  return newState
 }
 
 function transformAddState(state, action, type) {
@@ -891,7 +896,7 @@ function transformAddState(state, action, type) {
 
   if ([BUTTON, BUTTON_TOGGLE].includes(type)) {
     label = 'Button ' + addStateLength()
-    midiCC = [fromMidi(addMidiCCVal()+1)]
+    midiCC = [fromMidi(addMidiCCVal() + 1)]
   }
   if ([BUTTON_CC, BUTTON_TOGGLE_CC, BUTTON_PROGRAM_CHANGE].includes(type)) {
     label = 'CC Button ' + addStateLength()
@@ -911,16 +916,17 @@ function transformAddState(state, action, type) {
   if (type === PAGE) {
     label = 'Page ' + addStateLength()
 
-    pages = lastFocusedPage !== null
-      ? {
-        ...pages,
-        [lastFocusedPage]: {
-          label,
-          sliderList: [],
-          id: lastFocusedPage
+    pages =
+      lastFocusedPage !== null
+        ? {
+          ...pages,
+          [lastFocusedPage]: {
+            label,
+            sliderList: [],
+            id: lastFocusedPage
+          }
         }
-      }
-      : pages
+        : pages
   }
   if (type === XYPAD) {
     label = 'X / Y Pad ' + addStateLength()
@@ -994,9 +1000,9 @@ function transformAddState(state, action, type) {
     }
 }
 
-function toggleNotesInState(list, idx) {
-  return list.map((item, i) => {
-    if (idx === i) {
+function toggleNotesInState(list, i) {
+  return list.map((item) => {
+    if (item.i === i) {
       return {
         ...item,
         isNoteOn: !item.isNoteOn,
