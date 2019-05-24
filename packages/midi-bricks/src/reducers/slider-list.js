@@ -835,12 +835,9 @@ export const reducers = {
           : []
 
       draftState.sliderList = sliderList
-      draftState.pages = {
-        ...state.pages,
-        [lastFocusedPage]: {
-          sliderList: state.sliderList,
-          id: lastFocusedPage
-        }
+      draftState.pages[lastFocusedPage] = {
+        sliderList: state.sliderList,
+        id: lastFocusedPage
       }
       return draftState
     })
@@ -885,7 +882,6 @@ export const reducers = {
 }
 
 export const sliders = generateReducers({}, reducers)
-
 
 // DEPRECATED
 function transformStateByIndex(sliderList, action, field) {
@@ -1196,12 +1192,9 @@ function updatePagesWithSliderlist(
 ) {
   return createNextState(state, (draftState) => {
     draftState.sliderList = refreshedSliderList
-    draftState.pages = {
-      ...state.pages,
-      [lastFocusedPage]: {
-        sliderList: refreshedSliderList,
-        id: lastFocusedPage
-      }
+    draftState.pages[lastFocusedPage] = {
+      sliderList: refreshedSliderList,
+      id: lastFocusedPage
     }
     return draftState
   })

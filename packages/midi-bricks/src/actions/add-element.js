@@ -4,7 +4,7 @@ import { getUniqueId } from '../utils/get-unique-id'
 import { STRIP_TYPE } from '../reducers/slider-list'
 
 const { PAGE } = STRIP_TYPE
-const { addPage, addMidiElement } = sliderListActions
+const { addPage, addMidiElement, setMidiPage } = sliderListActions
 const { setLastFocusedPage, addPageTarget } = viewSettingsActions
 
 export function addElement(type, payload) {
@@ -46,5 +46,6 @@ function createPage(dispatch, getState) {
     })
   )
   dispatch(setLastFocusedPage({ lastFocusedPage: pageId }))
+  dispatch(setMidiPage({focusedPage: pageId, lastFocusedPage: viewSettings.lastFocusedPage}))
   return pageId
 }
