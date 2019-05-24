@@ -190,10 +190,11 @@ export const reducers = {
     const sliderList = state.sliderList.filter(
       ({ i }) => sentIdx.toString() !== i
     )
-    return {
-      ...updatePagesWithSliderlist(state, sliderList, lastFocusedPage),
+    const newTmp = {
+      ...state,
       sliderListBackup: state.sliderList
     }
+    return updatePagesWithSliderlist(newTmp, sliderList, lastFocusedPage)
   },
   [ActionTypeSliderList.DELETE_ALL](state, action) {
     return {
@@ -333,11 +334,7 @@ export const reducers = {
       { i, val },
       'listenToCc'
     )
-    return updatePagesWithSliderlist(
-      state,
-      sliderList,
-      lastFocusedPage
-    )
+    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
   [ActionTypeSliderList.SET_MAX_VAL](state, action) {
     const { val, i, lastFocusedPage } = action.payload
@@ -447,21 +444,23 @@ export const reducers = {
   },
 
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL_INPUT](state, action) {
-    const { val, idx } = action.payload
+    const { val, i, lastFocusedPage } = action.payload
 
     // Limit to allow number of midi channels
     // and prevent crash
     let newAction = null
 
     if (val === 'all') {
-      newAction = { payload: { val: 'all', idx } }
+      newAction = { val: 'all', i }
     }
-    const sliderList = transformStateByIndex(
+    const { i: ii, val: vall } = newAction
+    const sliderList = transformState(
       state.sliderList,
-      newAction || action,
+      { i: ii, val: vall },
       'midiChannelInput'
     )
-    return { ...state, sliderList }
+
+    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
 
   [ActionTypeSliderList.SAVE_FILE](state, action) {
@@ -570,7 +569,7 @@ export const reducers = {
     })
 
     // Add color fields to state
-    const sliderList = state.sliderList.map((item, idx) => {
+    const sliderList = state.sliderList.map((item) => {
       if (action.payload.i === item.i) {
         return {
           ...item,
@@ -582,6 +581,7 @@ export const reducers = {
       }
       return item
     })
+
     return { ...state, sliderList }
   },
 
@@ -589,7 +589,7 @@ export const reducers = {
     const { i, fontSize } = action.payload
     const sliderList = transformState(
       state.sliderList,
-      { payload: { i, val: fontSize } },
+      { i, val: fontSize },
       'fontSize'
     )
     // state.sliderList.map((item, idx) => {
@@ -609,7 +609,7 @@ export const reducers = {
 
     const sliderList = transformState(
       state.sliderList,
-      { payload: { i, val: fontWeight } },
+      { i, val: fontWeight },
       'fontWeight'
     )
 
@@ -631,7 +631,7 @@ export const reducers = {
     if (yMidiChannel) {
       const listWithChannels = transformState(
         state.sliderList,
-        { payload: { i, val: yMidiChannel } },
+        { i, val: yMidiChannel },
         'yMidiChannel'
       )
       sliderList = [...sliderList, ...listWithChannels]
@@ -640,7 +640,7 @@ export const reducers = {
     if (yDriverName) {
       sliderList = transformState(
         state.sliderList,
-        { payload: { i, val: yDriverName } },
+        { i, val: yDriverName },
         'yDriverName'
       )
     }
@@ -648,7 +648,7 @@ export const reducers = {
     if (yMidiCc && yMidiCc.length > 0) {
       const listWithMidiCc = transformState(
         state.sliderList,
-        { payload: { i, val: yMidiCc } },
+        { i, val: yMidiCc },
         'yMidiCc'
       )
       sliderList = [...sliderList, ...listWithMidiCc]
@@ -657,7 +657,7 @@ export const reducers = {
     if (yMaxVal) {
       const listWithyMaxVal = transformState(
         state.sliderList,
-        { payload: { i, val: yMaxVal } },
+        { i, val: yMaxVal },
         'yMaxVal'
       )
       sliderList = [...sliderList, ...listWithyMaxVal]
@@ -665,7 +665,7 @@ export const reducers = {
     if (yMinVal) {
       const listWithyMinVal = transformState(
         state.sliderList,
-        { payload: { i, val: yMinVal } },
+        { i, val: yMinVal },
         'yMinVal'
       )
       sliderList = [...sliderList, ...listWithyMinVal]
@@ -826,15 +826,13 @@ export const reducers = {
   },
 
   [ActionTypeSliderList.SET_MIDI_PAGE](state, action) {
-
-
     return createNextState(state, (draftState) => {
       const { lastFocusedPage, focusedPage } = action.payload
 
       const sliderList =
-            focusedPage && state.pages[focusedPage]
-              ? state.pages[focusedPage].sliderList
-              : []
+        focusedPage && state.pages[focusedPage]
+          ? state.pages[focusedPage].sliderList
+          : []
 
       draftState.sliderList = sliderList
       draftState.pages = {
@@ -888,6 +886,8 @@ export const reducers = {
 
 export const sliders = generateReducers({}, reducers)
 
+
+// DEPRECATED
 function transformStateByIndex(sliderList, action, field) {
   const { idx, val } = action.payload || action
   if (typeof idx === 'string') {
@@ -931,7 +931,7 @@ function transformState(sliderList, { i, val }, field) {
 }
 
 function transformAddState(state, action, type) {
-  const {id} = action.payload
+  const { id } = action.payload
   let pages = state.pages || {}
   const oldSliderList = state.sliderList || []
   const { lastFocusedPage } = action.payload
@@ -1053,7 +1053,7 @@ function transformAddState(state, action, type) {
   // set type === PAGE to false to get old mode
   const tmpArrr = !Array.isArray(list) ? [entry] : [...list, entry]
   // const sliderList = type === PAGE ? oldSliderList : tmpArrr
-  const {focusedPage} = action.payload
+  const { focusedPage } = action.payload
   return type === PAGE
     ? {
       ...state,
@@ -1077,7 +1077,9 @@ function transformAddState(state, action, type) {
       sliderList: tmpArrr,
       pages: {
         ...pages,
-        [lastFocusedPage]: lastFocusedPage ? { ...pages[lastFocusedPage], sliderList: tmpArrr, label } : undefined
+        [lastFocusedPage]: lastFocusedPage
+          ? { ...pages[lastFocusedPage], sliderList: tmpArrr, label }
+          : undefined
       }
     }
 }
