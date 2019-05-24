@@ -288,8 +288,8 @@ export const reducers = {
   },
 
   [ActionTypeSliderList.SEND_PROGRAM_CHANGE](state, action) {
-    const { idx } = action.payload
-    const tmp = state.sliderList[idx]
+    const { i } = action.payload
+    const tmp = state.sliderList.find(item => item.i === i)
     const { midiCC, midiChannel, driverName } = tmp
 
     const output = getCheckedMidiOut(driverName)
