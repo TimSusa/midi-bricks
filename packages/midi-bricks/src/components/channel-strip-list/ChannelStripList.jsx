@@ -29,7 +29,7 @@ const GridLayout = WidthProvider(RGL)
 function ChannelStripList(props) {
   const classes = makeStyles(styles, { withTheme: true })()
   const {
-    actions = {},
+    actions,
     sliderList =[],
     monitorVal: { driver = 'None', cC = 'None', channel = 'None' } = {},
     viewSettings: {
@@ -42,7 +42,6 @@ function ChannelStripList(props) {
       // isLiveMode = false,
       isMidiLearnMode = false,
       lastFocusedIdx,
-      lastFocusedPage,
       rowHeight,
       columns,
       isAutoSize,
@@ -69,7 +68,7 @@ function ChannelStripList(props) {
       console.log('clean up -> Remove Keypress Listener ')
       elem.removeEventListener('keypress', keypressRef)
     }
-  }, [isSettingsDialogMode, actions, isLayoutMode, elem, pageType])
+  }, [isSettingsDialogMode, isLayoutMode, elem, pageType, actions])
 
   if (sliderList && sliderList.length > 0) {
     return (

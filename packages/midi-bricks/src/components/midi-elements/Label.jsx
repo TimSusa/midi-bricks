@@ -7,7 +7,7 @@ export const LabelComponent = props => (
   <div
     onClick={() =>
       props.handleSliderChange({
-        idx: props.idx,
+        i: props.i,
         val: props.lastSavedVal || 0,
       })
     }

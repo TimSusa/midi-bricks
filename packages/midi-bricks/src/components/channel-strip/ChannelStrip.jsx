@@ -5,7 +5,6 @@ import MidiSlider from '../midi-elements/MidiSlider'
 import MidiButtons from '../midi-elements/midi-buttons/MidiButtons'
 import StripLabel from '../midi-elements/StripLabel'
 import { STRIP_TYPE } from '../../reducers/slider-list'
-import MidiPage from '../midi-elements/MidiPage'
 import MidiSliderHorz from '../midi-elements/MidiSliderHorz'
 import XyPad from '../XyPad'
 import { Label } from '../midi-elements/Label'
@@ -123,14 +122,6 @@ function ChannelStrip(props) {
       )}
       {type === STRIP_TYPE.LABEL && (
         <StripLabel
-          sliderEntry={sliderEntry}
-          idx={idx}
-          height={tmpH}
-          width={tmpW}
-        />
-      )}
-      {type === STRIP_TYPE.PAGE && (
-        <MidiPage
           sliderEntry={sliderEntry}
           idx={idx}
           height={tmpH}

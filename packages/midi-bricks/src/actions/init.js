@@ -79,7 +79,7 @@ export function initApp(mode) {
             hasContent(ccArr) &&
             mode !== 'all'
           ) {
-            input.removeListener('controlchange')
+            //input.removeListener('controlchange')
             input.addListener(
               'controlchange',
               ccChannels,
@@ -97,7 +97,7 @@ export function initApp(mode) {
               }, 5)
             )
           } else {
-            input.removeListener('controlchange')
+            //input.removeListener('controlchange')
             //console.log('cc all')
             input.addListener(
               'controlchange',

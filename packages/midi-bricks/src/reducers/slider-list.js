@@ -5,6 +5,7 @@ import { midi } from 'tonal'
 import { fromMidi } from '../utils/fromMidi'
 import { map, groupBy } from 'lodash'
 import { getUniqueId } from '../utils/get-unique-id'
+import { createNextState } from 'redux-starter-kit'
 
 export const STRIP_TYPE = {
   BUTTON: 'BUTTON',
@@ -57,14 +58,34 @@ export const reducers = {
   },
 
   [ActionTypeSliderList.ADD_MIDI_ELEMENT](state, action) {
-    const type = action.payload.type
-    const newState = transformAddState(state, action, type)
-    return newState
+    const { type, lastFocusedPage } = action.payload
+    return {
+      ...updatePagesWithSliderlist(state, state.sliderList, lastFocusedPage),
+      ...transformAddState(state, action, type)
+    }
+    // if (!Array.isArray(sliderList)) {
+    //   throw new TypeError('sliderlist comes wihtout array')
+    // }
+    // return updatePagesWithSliderlist(
+    //   state,
+    //   sliderList,
+    //   lastFocusedPage
+    // )
+    //return {state, sliderList, lastFocusedPage}
   },
 
   [ActionTypeSliderList.ADD_PAGE](state, action) {
-    const newState = transformAddState(state, action, PAGE)
-    return newState
+    const { lastFocusedPage } = action.payload
+    //const nextState = createNextState(state, draftState => {
+    //   draftState.sliderList = []
+    //   return draftState
+    // })
+    // console.log('SAF', nextState)
+    // return nextState
+    // if (!Array.isArray(sliderList)) {
+    //   //      throw new TypeError('sliderlist comes wihtout array')
+    // }
+    return updatePagesWithSliderlist(state, state.sliderList, lastFocusedPage)
   },
 
   [ActionTypeSliderList.CLONE](state, action) {
@@ -173,10 +194,7 @@ export const reducers = {
 
   [ActionTypeSliderList.HANDLE_SLIDER_CHANGE](state, action) {
     const { i, val, lastFocusedPage } = action.payload
-    let sliderList =
-      lastFocusedPage &&
-      state.pages[lastFocusedPage] &&
-      state.pages[lastFocusedPage].sliderList
+    let sliderList = state.sliderList
 
     // Set noteOn/noteOff stemming from CC VAl
     const tmp = sliderList && sliderList.find((item) => item.i === i)
@@ -189,13 +207,20 @@ export const reducers = {
     // Handle multi CC
     const { midiCC, midiChannel, driverName, label } = tmp || {}
     sendControlChanges({ midiCC, midiChannel, driverName, val, label })
-    const refreshedSliderList = transformState(sliderList, { i, val }, 'val')
+    const refreshedSliderList = transformState(state.sliderList, { i, val }, 'val')
 
-    return updatePagesWithSliderlist(
-      state,
-      refreshedSliderList,
-      lastFocusedPage
-    )
+    const nextState = createNextState(state, draftState => {
+      draftState.sliderList = refreshedSliderList
+      return draftState
+    })
+    //console.log('SAF', nextState)
+    return nextState
+
+    // return updatePagesWithSliderlist(
+    //   state,
+    //   refreshedSliderList,
+    //   lastFocusedPage
+    // )
   },
 
   [ActionTypeSliderList.SEND_MIDI_CC_Y](state, action) {
@@ -212,7 +237,7 @@ export const reducers = {
       val: yVal,
       label
     })
-    const sliderList = transformStateByIndex(
+    const sliderList = transformState(
       newStateTmp,
       { payload: { idx: parseInt(idx, 10), val: yVal } },
       'yVal'
@@ -255,10 +280,10 @@ export const reducers = {
     output && output.sendProgramChange(midiCC[0] - 1, midiChannel)
     return state
   },
-  
+
   [ActionTypeSliderList.CHANGE_LABEL](state, action) {
-    const {i, val, lastFocusedPage} = action.payload
-    const sliderList = transformState(state.sliderList, {i, val}, 'label')
+    const { i, val, lastFocusedPage } = action.payload
+    const sliderList = transformState(state.sliderList, { i, val }, 'label')
     return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
   [ActionTypeSliderList.SELECT_MIDI_DRIVER](state, action) {
@@ -498,11 +523,19 @@ export const reducers = {
       }
       return { ...item }
     })
-    return {
-      ...state,
-      sliderList,
-      monitorVal: { val, cC, channel, driver, isNoteOn }
-    }
+    // return state
+
+    const nextState = createNextState(state, draftState => {
+      draftState.sliderList = sliderList
+      return draftState
+    })
+    //console.log('SAF', nextState)
+    return nextState
+
+    // return {
+    //   sliderList,
+    //   monitorVal: { val, cC, channel, driver, isNoteOn }
+    // }
   },
 
   [ActionTypeSliderList.CHANGE_COLORS](state, action) {
@@ -779,20 +812,22 @@ export const reducers = {
     const sliderList =
       (state.pages[lastFocusedPage] &&
         state.pages[lastFocusedPage].sliderList) ||
-      state.sliderList
+      []
+    //state.sliderList
+    const nwerLIst =
+      focusedPage && state.pages[focusedPage]
+        ? state.pages[focusedPage].sliderList
+        : []
 
     return {
       ...state,
-      sliderList:
-        state.pages[focusedPage] && focusedPage
-          ? state.pages[focusedPage].sliderList
-          : [],
-      sliderListBackup: sliderList,
+      sliderList: nwerLIst,
+      sliderListBackup: nwerLIst,
       pages: {
         ...state.pages,
         [lastFocusedPage]: {
           ...state.pages[lastFocusedPage],
-          sliderList: state.sliderList
+          sliderList
         }
       }
     }
@@ -823,7 +858,7 @@ export const reducers = {
   }
 }
 
-export const sliders = generateReducers([], reducers)
+export const sliders = generateReducers({}, reducers)
 
 function transformStateByIndex(sliderList, action, field) {
   const { idx, val } = action.payload || action
@@ -869,12 +904,16 @@ function transformState(sliderList, { i, val }, field) {
 
 function transformAddState(state, action, type) {
   let pages = state.pages || {}
-  const lastFocusedPage = action.payload.lastFocusedPage
+  const oldSliderList = state.sliderList || []
+  const { lastFocusedPage } = action.payload
   const list =
     (lastFocusedPage &&
       pages[lastFocusedPage] &&
       pages[lastFocusedPage].sliderList) ||
     []
+
+  console.log({ state, action, type, list })
+
   const lastSelectedDriverName =
     (list.length > 0 && list[list.length - 1].driverName) || 'None'
   const newDriverName =
@@ -922,7 +961,7 @@ function transformAddState(state, action, type) {
           ...pages,
           [lastFocusedPage]: {
             label,
-            sliderList: [],
+            sliderList: [...oldSliderList],
             id: lastFocusedPage
           }
         }
@@ -983,19 +1022,30 @@ function transformAddState(state, action, type) {
   }
 
   // set type === PAGE to false to get old mode
-  const addedList = { sliderList: type === PAGE ? [] : [...list, entry] }
+  const tmpArrr = !Array.isArray(list) ? [entry] : [...list, entry]
+  const sliderList = type === PAGE ? oldSliderList : tmpArrr
+  console.log('tim', sliderList)
   const page = lastFocusedPage
   return type === PAGE
     ? {
       ...state,
-      pages
+      // sliderList: sliderList,
+      pages: {
+        ...pages,
+        [page]: {
+          ...pages[page],
+          sliderList: [...oldSliderList, ...sliderList],
+          label,
+          id: page
+        }
+      }
     }
     : {
       ...state,
-      sliderList: addedList.sliderList,
+      sliderList: [...oldSliderList, ...sliderList],
       pages: {
-        ...pages,
-        [page]: { ...pages[page], sliderList: addedList.sliderList }
+        ...pages
+        //[page]: page ? { ...pages[page], sliderList: sliderList, label } : undefined
       }
     }
 }
@@ -1105,19 +1155,23 @@ function sortBy(list = [], by) {
 }
 
 function updatePagesWithSliderlist(
-  state = {},
+  state = { pages: {} },
   refreshedSliderList = [],
   lastFocusedPage
 ) {
   return {
     ...state,
     sliderList: refreshedSliderList,
-    pages: {
-      ...state.pages,
-      [lastFocusedPage]: {
-        ...state.pages[lastFocusedPage],
-        sliderList: refreshedSliderList
-      }
-    }
+    pages:
+      {
+        ...(state.pages ? state.pages : {}),
+        [lastFocusedPage]: {
+          ...(state.pages && state.pages[lastFocusedPage]
+            ? state.pages[lastFocusedPage]
+            : {}),
+          sliderList: refreshedSliderList,
+          id: lastFocusedPage
+        }
+      } || {}
   }
 }
