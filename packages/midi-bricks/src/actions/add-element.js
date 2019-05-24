@@ -18,11 +18,12 @@ export function addElement(type, payload) {
       } = getState()
       if (!pages) {
         const np = createPage(dispatch, getState)
-        dispatch(addMidiElement({ lastFocusedPage: np, type }))
+        dispatch(
+          addMidiElement({ lastFocusedPage: np, type, id: getUniqueId() })
+        )
       } else {
-        dispatch(addMidiElement({ lastFocusedPage, type }))
+        dispatch(addMidiElement({ lastFocusedPage, type, id: getUniqueId() }))
       }
-      
     }
   }
 }
@@ -30,14 +31,15 @@ export function addElement(type, payload) {
 function createPage(dispatch, getState) {
   const pageId = `page-${getUniqueId()}`
 
-  dispatch(addPage({ lastFocusedPage: pageId }))
   const { viewSettings } = getState()
+  dispatch(addPage({ id: pageId, lastFocusedPage: viewSettings.lastFocusedPage }))
+
   dispatch(
     addPageTarget({
       pageTarget: {
         id: pageId,
         label: Array.isArray(viewSettings.pageTargets)
-          ? `Page ${viewSettings.pageTargets.length+1}`
+          ? `Page ${viewSettings.pageTargets.length + 1}`
           : 'Page',
         colors: { colorFont: '#123456', color: '#dddddd' }
       }
