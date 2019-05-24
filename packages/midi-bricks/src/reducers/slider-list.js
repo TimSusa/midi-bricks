@@ -88,7 +88,7 @@ export const reducers = {
   },
 
   [ActionTypeSliderList.ADD_PAGE](state, action) {
-    const { lastFocusedPage, id } = action.payload
+    const { lastFocusedPage } = action.payload
     //const nextState = createNextState(state, draftState => {
     //   draftState.sliderList = []
     //   return draftState
@@ -1142,6 +1142,7 @@ function getCheckedMidiOut(driverName) {
   return output
 }
 
+// DEPRECATED
 function filterPage(sliderList, label) {
   let newArr = []
   let arr = sortSliderList(sliderList)
