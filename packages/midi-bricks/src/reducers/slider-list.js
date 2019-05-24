@@ -383,42 +383,60 @@ export const reducers = {
   },
 
   [ActionTypeSliderList.SET_ON_VAL](state, action) {
-    const { val, idx } = action.payload
+    const { val, i, lastFocusedPage } = action.payload
     const valInt = parseInt(val, 10)
     let newAction = null
     if (valInt <= 127 && valInt >= 0) {
-      newAction = { payload: { val: valInt, idx } }
+      newAction =  { val: valInt, i } 
     } else if (valInt > 127) {
-      newAction = { payload: { val: 127, idx } }
+      newAction =  { val: 127, i } 
     } else {
-      newAction = { payload: { val: 0, idx } }
+      newAction =  { val: 0, i } 
     }
 
-    const sliderList = transformStateByIndex(
+    const { i: ii, val: vall } = newAction
+    const sliderList = transformState(
       state.sliderList,
-      newAction,
+      { i: ii, val: vall },
       'onVal'
     )
-    return { ...state, sliderList }
+    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
+
+    // const sliderList = transformStateByIndex(
+    //   state.sliderList,
+    //   newAction,
+    //   'onVal'
+    // )
+    // return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.SET_OFF_VAL](state, action) {
-    const { val, idx } = action.payload
+    const { val, i, lastFocusedPage } = action.payload
     const valInt = parseInt(val, 10)
     let newAction = null
     if (valInt <= 127 && valInt >= 0) {
-      newAction = { payload: { val: valInt, idx } }
+      newAction =  { val: valInt, i } 
     } else if (valInt > 127) {
-      newAction = { payload: { val: 127, idx } }
+      newAction =  { val: 127, i } 
     } else {
-      newAction = { payload: { val: 0, idx } }
+      newAction =  { val: 0, i } 
     }
-    const sliderList = transformStateByIndex(
+
+    const { i: ii, val: vall } = newAction
+    const sliderList = transformState(
       state.sliderList,
-      newAction,
+      { i: ii, val: vall },
       'offVal'
     )
-    return { ...state, sliderList }
+    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
+
+
+    // const sliderList = transformStateByIndex(
+    //   state.sliderList,
+    //   newAction,
+    //   'offVal'
+    // )
+    // return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL](state, action) {
