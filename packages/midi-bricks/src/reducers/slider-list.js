@@ -216,14 +216,14 @@ export const reducers = {
       const { type, onVal, offVal } = tmp || {}
       if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
         if (val === onVal || val === offVal) {
-          sliderList = toggleNotesInState(sliderList, i)
+          sliderList = toggleNotesInState(state.sliderList, i)
         }
       }
       // Handle multi CC
       const { midiCC, midiChannel, driverName, label } = tmp || {}
       sendControlChanges({ midiCC, midiChannel, driverName, val, label })
       const refreshedSliderList = transformState(
-        state.sliderList,
+        sliderList,
         { i, val },
         'val'
       )

@@ -10,7 +10,6 @@ import { makeStyles } from '@material-ui/styles'
 MidiButton.propTypes = {
   buttonStyle: PropTypes.object,
   fontColorStyle: PropTypes.object,
-  idx: PropTypes.number,
   label: PropTypes.string,
   onChangeEnd: PropTypes.func,
   onChangeStart: PropTypes.func
@@ -24,7 +23,6 @@ function MidiButton(props) {
     onChangeEnd = () => {},
     fontColorStyle = {},
     label = '',
-    idx
   } = props
   return (
     <Button
@@ -38,16 +36,16 @@ function MidiButton(props) {
       variant='contained'
       onMouseDown={
         !isTouchDevice()
-          ? onChangeStart.bind(this, idx)
+          ? onChangeStart
           : (e) => e.preventDefault()
       }
       onMouseUp={
         !isTouchDevice()
-          ? onChangeEnd.bind(this, idx)
+          ? onChangeEnd
           : (e) => e.preventDefault()
       }
-      onTouchStart={onChangeStart.bind(this, idx)}
-      onTouchEnd={onChangeEnd.bind(this, idx)}
+      onTouchStart={onChangeStart}
+      onTouchEnd={onChangeEnd}
     >
       <Typography
         variant='body1'

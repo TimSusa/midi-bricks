@@ -55,7 +55,6 @@ function ChannelStrip(props) {
             className={classes.sliderWrapper}
             isDisabled={isDisabled}
             sliderEntry={sliderEntry}
-            //idx={idx}
             height={calcHeight(tmpH, props)}
             width={tmpW}
             sliderThumbHeight={sliderThumbHeight}
@@ -115,7 +114,6 @@ function ChannelStrip(props) {
       {isButton && (
         <MidiButtons
           sliderEntry={sliderEntry}
-          idx={idx}
           height={tmpH}
           width={tmpW}
         />

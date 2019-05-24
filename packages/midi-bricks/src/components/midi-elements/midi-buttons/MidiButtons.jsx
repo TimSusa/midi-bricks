@@ -5,28 +5,27 @@ import { Actions as MidiSliderActions } from '../../../actions/slider-list.js'
 import MidiButton from './MidiButton'
 
 import { STRIP_TYPE } from '../../../reducers/slider-list.js'
+import { PropTypes } from 'prop-types'
 
 const {
   BUTTON,
   BUTTON_CC,
   BUTTON_TOGGLE,
   BUTTON_TOGGLE_CC,
-  BUTTON_PROGRAM_CHANGE,
+  BUTTON_PROGRAM_CHANGE
 } = STRIP_TYPE
 
-const noop = () => ({})
+const noop = () => ''
 
 // This component is supposed to configure the button type for rendering
-class MidiButtons extends React.PureComponent {
+class MidiButtons extends React.Component {
   render() {
     const {
-      actions,
       sliderEntry: { type, isNoteOn, label, colors, fontSize, fontWeight },
-      idx,
       height,
       width,
       isChangedTheme,
-      isLayoutMode,
+      isLayoutMode
     } = this.props
 
     const { fontColorStyle, buttonStyle } = getStyles(
@@ -38,104 +37,134 @@ class MidiButtons extends React.PureComponent {
       fontSize,
       fontWeight
     )
+    const { onChangeStart, onChangeEnd } = this.getCb(type, isLayoutMode)
+    return (
+      <MidiButton
+        label={label}
+        onChangeStart={onChangeStart}
+        onChangeEnd={onChangeEnd}
+        fontColorStyle={fontColorStyle}
+        buttonStyle={buttonStyle}
+      />
+    )
+  }
 
+  getCb = (type, isLayoutMode) => {
     if (type === BUTTON) {
-      return (
-        <MidiButton
-          label={label}
-          idx={idx}
-          onChangeStart={!isLayoutMode ? actions.toggleNote : noop}
-          onChangeEnd={!isLayoutMode ? actions.toggleNote : noop}
-          fontColorStyle={fontColorStyle}
-          buttonStyle={buttonStyle}
-        />
-      )
+      return {
+        onChangeStart: !isLayoutMode ? this.handleButtonToggle : noop,
+        onChangeEnd: !isLayoutMode ? this.handleButtonToggle : noop
+      }
     } else if (type === BUTTON_TOGGLE) {
-      return (
-        <MidiButton
-          label={label}
-          idx={idx}
-          onChangeStart={!isLayoutMode ? actions.toggleNote : noop}
-          fontColorStyle={fontColorStyle}
-          buttonStyle={buttonStyle}
-        />
-      )
+      return {
+        onChangeStart: !isLayoutMode ? this.handleButtonToggle : noop,
+        onChangeEnd: noop
+      }
     } else if (type === BUTTON_CC) {
-      return (
-        <MidiButton
-          label={label}
-          idx={idx}
-          onChangeStart={!isLayoutMode ? this.handleButtonCcTriggerOn : noop}
-          onChangeEnd={!isLayoutMode ? this.handleButtonCcTriggerOff : noop}
-          fontColorStyle={fontColorStyle}
-          buttonStyle={buttonStyle}
-        />
-      )
+      return {
+        onChangeStart: !isLayoutMode ? this.handleButtonCcTriggerOn : noop,
+        onChangeEnd: !isLayoutMode ? this.handleButtonCcTriggerOff : noop
+      }
     } else if (type === BUTTON_TOGGLE_CC) {
-      return (
-        <MidiButton
-          label={label}
-          idx={idx}
-          onChangeStart={!isLayoutMode ? this.handleButtonCcToggle : noop}
-          fontColorStyle={fontColorStyle}
-          buttonStyle={buttonStyle}
-        />
-      )
+      return {
+        onChangeStart: !isLayoutMode ? this.handleButtonCcToggle : noop,
+        onChangeEnd: noop
+      }
     } else if (type === BUTTON_PROGRAM_CHANGE) {
-      return (
-        <MidiButton
-          label={label}
-          idx={idx}
-          onChangeStart={!isLayoutMode ? this.handleButtonProgramChange : noop}
-          // onChangeEnd={!isLayoutMode ? this.handleButtonCcTriggerOff : noop}
-          fontColorStyle={fontColorStyle}
-          buttonStyle={buttonStyle}
-        />
-      )
+      return {
+        onChangeStart: !isLayoutMode ? this.handleButtonProgramChange : noop,
+        onChangeEnd: noop
+      }
     } else {
-      return <div />
+      return {
+        onChangeStart: noop,
+        onChangeEnd: noop
+      }
     }
   }
 
-  handleButtonCcTriggerOn = (idx, e) => {
+  handleButtonToggle = (e) => {
+    const {
+      actions,
+      sliderEntry: { i },
+      lastFocusedPage
+    } = this.props
+    actions.toggleNote({ i, lastFocusedPage })
+  }
+
+  handleButtonCcTriggerOn = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    this.props.actions.handleSliderChange({
-      idx,
-      val: this.props.sliderEntry.onVal,
+    const {
+      actions,
+      sliderEntry: { i, onVal },
+      lastFocusedPage
+    } = this.props
+    actions.handleSliderChange({
+      i,
+      lastFocusedPage,
+      val: onVal
     })
   }
 
-  handleButtonCcTriggerOff = (idx, e) => {
+  handleButtonCcTriggerOff = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    this.props.actions.handleSliderChange({
-      idx,
-      val: this.props.sliderEntry.offVal,
+    const {
+      actions,
+      sliderEntry: { i, offVal },
+      lastFocusedPage
+    } = this.props
+    actions.handleSliderChange({
+      i,
+      lastFocusedPage,
+      val: offVal
     })
   }
 
-  handleButtonCcToggle = (idx, e) => {
+  handleButtonCcToggle = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    if (!this.props.sliderEntry.isNoteOn) {
-      this.props.actions.handleSliderChange({
-        idx,
-        val: this.props.sliderEntry.onVal,
+    const {
+      actions,
+      sliderEntry: { i, isNoteOn, onVal, offVal },
+      lastFocusedPage
+    } = this.props
+    if (!isNoteOn) {
+      actions.handleSliderChange({
+        i,
+        lastFocusedPage,
+        val: onVal
       })
     } else {
-      this.props.actions.handleSliderChange({
-        idx,
-        val: this.props.sliderEntry.offVal,
+      actions.handleSliderChange({
+        i,
+        lastFocusedPage,
+        val: offVal
       })
     }
   }
 
-  handleButtonProgramChange = (idx, e) => {
+  handleButtonProgramChange = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    this.props.actions.sendProgramChange({ idx })
+    const {
+      actions,
+      sliderEntry: { i },
+      lastFocusedPage
+    } = this.props
+    actions.sendProgramChange({ i, lastFocusedPage })
   }
+}
+
+MidiButtons.propTypes = {
+  actions: PropTypes.object,
+  height: PropTypes.any,
+  isChangedTheme: PropTypes.bool,
+  isLayoutMode: PropTypes.bool,
+  lastFocusedPage: PropTypes.string,
+  sliderEntry: PropTypes.object,
+  width: PropTypes.any
 }
 
 function getStyles(
@@ -160,7 +189,7 @@ function getStyles(
   const buttonStyle = {
     height: (height || 0) - 0,
     width: (width || 0) - 0,
-    background: isNoteOn ? colorActivated : color,
+    background: isNoteOn ? colorActivated : color
   }
   // button active font colors
   const bColAct = colors && colors.colorFontActive && colors.colorFontActive
@@ -171,20 +200,23 @@ function getStyles(
   const fontColorStyle = {
     color: !isNoteOn ? colorFont : colorFontActive,
     fontSize: tmpFontSize,
-    fontWeight: tmpFontWeight,
+    fontWeight: tmpFontWeight
   }
   return { fontColorStyle, buttonStyle }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(MidiSliderActions, dispatch),
+    actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
-function mapStateToProps({ viewSettings: { isChangedTheme, isLayoutMode } }) {
+function mapStateToProps({
+  viewSettings: { isChangedTheme, isLayoutMode, lastFocusedPage }
+}) {
   return {
     isChangedTheme,
     isLayoutMode,
+    lastFocusedPage
   }
 }
 
