@@ -483,7 +483,7 @@ export const sliders = {
 
   [ActionTypeSliderList.SAVE_FILE](state, action) {
     // This is actuall only envolved in web app mode, not in electron mode
-    const { viewSettings, sliders } = action.payload
+    const { viewSettings, sliders, version } = action.payload
 
     // Clean out older preset fields
     let pages = Object.values(sliders.pages).reduce((acc, item) => {
@@ -497,6 +497,7 @@ export const sliders = {
     }, {})
 
     const tmpFilterStore = {
+      version,
       viewSettings,
       sliders: {
         ...sliders,

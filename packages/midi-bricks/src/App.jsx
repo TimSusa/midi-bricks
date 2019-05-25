@@ -1,5 +1,5 @@
 import { Drawer } from '@material-ui/core'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Home from './pages/Home'
@@ -27,15 +27,17 @@ App.propTypes = {
   initApp: PropTypes.func
 }
 
+const version = process.env.REACT_APP_VERSION || 'unknown'
+
 function App(props) {
   const classes = makeStyles(styles, { withTheme: true })()
   const { actions = {}, initApp = () => {} } = props
   const [isMobileOpen, setIsMobileOpen] = useState(false)
-  const [appVersion, setAppVersion] = useState('')
+  //const [appVersion, setAppVersion] = useState('')
 
-  useEffect(() => {
-    setAppVersion(process.env.REACT_APP_VERSION || 'unknown')
-  }, [])
+  // useEffect(() => {
+  //   setAppVersion(version)
+  // }, [])
 
   return (
     <div className={classes.root}>
@@ -69,7 +71,7 @@ function App(props) {
             togglePage={togglePage.bind(this, props)}
             classes={classes}
             onClose={() => setIsMobileOpen(!isMobileOpen)}
-            version={appVersion}
+            version={version}
           />
         </Drawer>
         <Home />
@@ -94,6 +96,7 @@ async function onFileChange(
   actions.loadFile({ presetName, content })
 
   const {
+    version = '',
     viewSettings = {},
     viewSettings: { availableDrivers } = {},
     sliders: { sliderList, pages } = {}
@@ -116,6 +119,7 @@ async function onFileChange(
   // Either will will have pages or sliderList 
   if (pages) {
     actions.updateViewSettings({
+      version,
       viewSettings: { ...viewSettings, availableDrivers: drivers },
       pages
     })
@@ -123,6 +127,7 @@ async function onFileChange(
   // Will load content to view-settings-reducer
   sliderList && Array.isArray(sliderList)
     && actions.updateViewSettings({
+      version,
       viewSettings: { ...viewSettings, availableDrivers: drivers },
       sliderList: sliderList,
       pages
@@ -141,7 +146,8 @@ function handleSaveFile(
 ) {
   saveFile({
     viewSettings,
-    sliders
+    sliders,
+    version
   })
   setIsMobileOpen(false)
 }

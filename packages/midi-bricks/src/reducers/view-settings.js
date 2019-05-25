@@ -90,7 +90,8 @@ export const viewSettings = {
     const {
       // sliderList,
       viewSettings,
-      viewSettings: { availableDrivers } = {}
+      viewSettings: { availableDrivers } = {},
+      version
     } = action.payload
 
     const extractedPages = null //extractPages(sliderList)
@@ -120,9 +121,9 @@ export const viewSettings = {
       })
     }
     if (availableDrivers) {
-      return { ...footerState, availableDrivers }
+      return { ...footerState, availableDrivers, version }
     } else {
-      return { ...footerState }
+      return { ...footerState, version }
     }
   },
 
