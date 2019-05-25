@@ -200,7 +200,7 @@ export const sliders = {
     return {
       ...state,
       sliderList: [],
-      pages: [],
+      pages: {},
       presetName: '',
       sliderListBackup: state.sliderList
     }
