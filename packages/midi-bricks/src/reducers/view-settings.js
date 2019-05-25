@@ -17,17 +17,9 @@ export const initState = {
   paddingY: 8,
   // deprecated in favor of pageTargets
   footerPages: [],
-  pageTargets: [{
-    colors: {
-      color: '#123456',
-      colorFont: '#dddddd'
-    },
-    id: 'firstPageId',
-    label: 'Page'
-  }],
+
   // deprecated in favor of lastFocusedPage
   lastFocusedFooterButtonIdx: '',
-  lastFocusedPage: 'firstPageId',
   isLiveMode: false,
   isSettingsDialogMode: false,
   isLayoutMode: false,
