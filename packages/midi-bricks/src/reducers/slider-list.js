@@ -550,11 +550,11 @@ export const sliders = {
       const { val, cC, channel, driver, isNoteOn } = action.payload
 
       const sliderList = map(state.sliderList, (item) => {
-        const { listenToCc, midiChannelInput, driverNameInput = 'None' } = item
+        const { listenToCc, midiChannelInput, driverNameInput  } = item
         if (listenToCc && listenToCc.length > 0) {
           const haveChannelsMatched =
             midiChannelInput === 'all' ||
-            channel.toString() === midiChannelInput
+            channel.toString() === midiChannelInput.toString()
           const hasCc = cC && listenToCc.includes(cC.toString())
           if (hasCc && haveChannelsMatched && driverNameInput === driver) {
             return { ...item, val, isNoteOn }
@@ -565,6 +565,7 @@ export const sliders = {
         return { ...item }
       })
       draftState.sliderList = sliderList
+      draftState.monitorVal = { val, cC, channel, driver, isNoteOn }
       return draftState
     })
 
