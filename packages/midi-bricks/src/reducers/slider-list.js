@@ -1,5 +1,5 @@
 import WebMIDI from 'webmidi'
-import { generateReducers } from 'redux-generate'
+
 import { ActionTypeSliderList } from '../actions/slider-list'
 import { midi } from 'tonal'
 import { fromMidi } from '../utils/fromMidi'
@@ -33,7 +33,7 @@ const {
   XYPAD
 } = STRIP_TYPE
 
-export const reducers = {
+export const sliders = {
   [ActionTypeSliderList.INIT_MIDI_ACCESS_PENDING](state, action) {
     return createNextState(state, (draftState) => {
       return state
@@ -899,38 +899,6 @@ export const reducers = {
   }
 }
 
-export const sliders = generateReducers({}, reducers)
-
-// DEPRECATED
-function transformStateByIndex(sliderList, action, field) {
-  const { idx, val } = action.payload || action
-  if (typeof idx === 'string') {
-    const newState = sliderList.map((item) => {
-      if (idx === item.i) {
-        return {
-          ...item,
-          [field]: val
-        }
-      } else {
-        return item
-      }
-    })
-    return newState
-  } else {
-    const newState = sliderList.map((item, i) => {
-      if (idx === i) {
-        return {
-          ...item,
-          [field]: val
-        }
-      } else {
-        return item
-      }
-    })
-    return newState
-  }
-}
-
 function transformState(sliderList, { i, val }, field) {
   return sliderList.map((item) => {
     if (item.i === i) {
@@ -954,8 +922,6 @@ function transformAddState(state, action, type) {
       pages[lastFocusedPage] &&
       pages[lastFocusedPage].sliderList) ||
     []
-
-  console.log({ state, action, type, list })
 
   const lastSelectedDriverName =
     (list.length > 0 && list[list.length - 1].driverName) || 'None'

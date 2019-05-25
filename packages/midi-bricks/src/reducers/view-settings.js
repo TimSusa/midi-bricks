@@ -1,4 +1,3 @@
-import { generateReducers } from 'redux-generate'
 import { ActionTypeViewSettings } from '../actions/view-settings'
 
 export const PAGE_TYPES = {
@@ -8,7 +7,7 @@ export const PAGE_TYPES = {
   VIEW_SETTINGS_MODE: 'VIEW_SETTINGS_MODE'
 }
 
-const initState = {
+export const initState = {
   columns: 18,
   rowHeight: 40,
   isAutoSize: false,
@@ -18,10 +17,17 @@ const initState = {
   paddingY: 8,
   // deprecated in favor of pageTargets
   footerPages: [],
+  pageTargets: [{
+    colors: {
+      color: '#123456',
+      colorFont: '#dddddd'
+    },
+    id: 'firstPageId',
+    label: 'Page'
+  }],
   // deprecated in favor of lastFocusedPage
   lastFocusedFooterButtonIdx: '',
-  lastFocusedPage: null,
-  pageTargets: [],
+  lastFocusedPage: 'firstPageId',
   isLiveMode: false,
   isSettingsDialogMode: false,
   isLayoutMode: false,
@@ -56,7 +62,7 @@ const initState = {
     windowCoords: [0, 0, 600, 800]
   }
 }
-export const reducers = {
+export const viewSettings = {
   [ActionTypeViewSettings.TOGGLE_PAGE](state = initState, action) {
     const { pageType } = action.payload
     return Object.assign({}, state, {
@@ -191,11 +197,11 @@ export const reducers = {
     })
   },
 
-  [ActionTypeViewSettings.DELETE_FOOTER_PAGES](state = initState, action) {
+  [ActionTypeViewSettings.DELETE_FOOTER_PAGES](state, action) {
     return Object.assign({}, state, {
       footerPages: [],
       pageTargets: []
-    })
+    }, initState)
   },
 
   // [ActionTypeViewSettings.CHANGE_FOOTER_PAGE](state = initState, action) {
@@ -469,7 +475,6 @@ export const reducers = {
   }
 }
 
-export const viewSettings = generateReducers(initState, reducers)
 
 const chDummy = [
   '1',

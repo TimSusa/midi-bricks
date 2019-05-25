@@ -103,7 +103,7 @@ function ChannelStripList(props) {
                 e.stopPropagation()
               }}
               onClick={
-                isSettingsMode && !isSettingsDialogMode && lastFocusedIdx !== i
+                !isLayoutMode && isSettingsMode && !isSettingsDialogMode && lastFocusedIdx !== i
                   ? (e) => {
                     actions.setLastFocusedIndex({ i })
                     e.preventDefault()

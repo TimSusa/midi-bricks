@@ -1,9 +1,13 @@
 import { combineReducers } from 'redux'
-
-import * as sliderListReducer from './slider-list'
-import * as viewSettingsReducer from './view-settings'
+import { generateReducers } from 'redux-generate'
+import { sliders}  from './slider-list'
+import {initState, viewSettings}  from './view-settings'
 
 export default combineReducers({
-  ...sliderListReducer,
-  ...viewSettingsReducer,
+  sliders: generateReducers({sliderList: [], pages: {'firstPageId': {
+    sliderList: [],
+    id: 'firstPageId',
+    label: 'Page'
+  }}}, sliders), 
+  viewSettings: generateReducers(initState, viewSettings)
 })

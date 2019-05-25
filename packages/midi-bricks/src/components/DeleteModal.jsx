@@ -104,8 +104,10 @@ function handleCloseCancel(setOpen, e) {
 function handleClose({ i }, onAction, actions, onClose, setOpen) {
   setOpen(false)
   onAction && onAction()
-  actions.delete({ i })
-  actions.deletePageFromFooter({ i })
+  if  (i !== 'me') {
+    actions.delete({ i })
+  }
+  //actions.deletePageFromFooter({ i })
   onClose && onClose(false)
 }
 
