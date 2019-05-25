@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux'
 import { Actions as ViewSettinsgsAction } from '../../actions/view-settings'
 import { Actions as SliderSettinsgsAction } from '../../actions/slider-list'
 import { Button, Tooltip } from '@material-ui/core'
-import { PAGE_TYPES } from '../../reducers/view-settings'
+import { PAGE_TYPES } from '../../reducers'
 import MidiSettingsDialog from '../midi-settings-dialog/MidiSettingsDialog'
 
 const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'

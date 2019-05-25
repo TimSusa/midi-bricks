@@ -12,7 +12,7 @@ import { Actions as ViewSettingsActions } from '../../actions/view-settings.js'
 import MidiSettingsDialogButton from '../midi-settings-dialog/MidiSettingsDialogButton'
 import { makeStyles } from '@material-ui/styles'
 import { SizeMe } from 'react-sizeme'
-import { PAGE_TYPES } from '../../reducers/view-settings'
+import { PAGE_TYPES } from '../../reducers'
 import { Button } from '@material-ui/core'
 import { preset } from '../../utils/midi-bricks-preset-apc-40.js'
 require('react-grid-layout/css/styles.css')

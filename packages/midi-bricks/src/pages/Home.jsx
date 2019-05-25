@@ -11,7 +11,7 @@ import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
 import GlobalSettingsPage from './GlobalSettingsPage.jsx'
 import MidiDriversSettingsPage from './MidiDriversSettingsPage'
 import ApplicationSettingsPage from '../components/ApplicationSettings'
-import { PAGE_TYPES } from '../reducers/view-settings'
+import { PAGE_TYPES } from '../reducers'
 
 export default connect(
   mapStateToProperties,

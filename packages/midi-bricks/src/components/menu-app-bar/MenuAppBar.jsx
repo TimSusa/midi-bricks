@@ -23,7 +23,7 @@ import AutoArrangeModeIcon from '@material-ui/icons/Spellcheck'
 import AutoArrangeModeIconFalse from '@material-ui/icons/TextFormat'
 import ViewSettingsIcon from '@material-ui/icons/Settings'
 import AddMenu from './AddMenu'
-import { PAGE_TYPES } from '../../reducers/view-settings'
+import { PAGE_TYPES } from '../../reducers'
 import { Tooltip } from '@material-ui/core'
 
 export default connect(

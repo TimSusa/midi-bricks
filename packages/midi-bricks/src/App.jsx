@@ -11,7 +11,7 @@ import { initApp } from './actions/init'
 import MenuAppBar from './components/menu-app-bar/MenuAppBar'
 import DrawerList from './components/drawer-list/DrawerList'
 import Footer from './components/footer/Footer'
-import { PAGE_TYPES } from './reducers/view-settings'
+import { PAGE_TYPES } from './reducers'
 import { makeStyles } from '@material-ui/styles'
 
 export default connect(
