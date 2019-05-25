@@ -395,11 +395,11 @@ async function toggleMidiLearnMode(
       i: lastFocusedIdx,
       lastFocusedPage
     })
-    actions.selectMidiChannelInput({
-      val: `${monitorVal.channel}`,
-      i: lastFocusedIdx,
-      lastFocusedPage
-    })
+    // actions.selectMidiChannelInput({
+    //   val: `${monitorVal.channel}`,
+    //   i: lastFocusedIdx,
+    //   lastFocusedPage
+    // })
 
     actions.addMidiCcListener({
       val: [`${monitorVal.cC}`],
