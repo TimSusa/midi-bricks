@@ -25,7 +25,8 @@ class MidiButtons extends React.Component {
       height,
       width,
       isChangedTheme,
-      isLayoutMode
+      isLayoutMode,
+      isDisabled
     } = this.props
 
     const { fontColorStyle, buttonStyle } = getStyles(
@@ -45,6 +46,7 @@ class MidiButtons extends React.Component {
         onChangeEnd={onChangeEnd}
         fontColorStyle={fontColorStyle}
         buttonStyle={buttonStyle}
+        isDisabled={isDisabled}
       />
     )
   }
@@ -162,6 +164,7 @@ MidiButtons.propTypes = {
   height: PropTypes.any,
   isChangedTheme: PropTypes.bool,
   isLayoutMode: PropTypes.bool,
+  isDisabled: PropTypes.bool,
   lastFocusedPage: PropTypes.string,
   sliderEntry: PropTypes.object,
   width: PropTypes.any
@@ -211,11 +214,12 @@ function mapDispatchToProps(dispatch) {
   }
 }
 function mapStateToProps({
-  viewSettings: { isChangedTheme, isLayoutMode, lastFocusedPage }
+  viewSettings: { isChangedTheme, isLayoutMode, isSettingsMode, lastFocusedPage }
 }) {
   return {
     isChangedTheme,
     isLayoutMode,
+    isSettingsMode,
     lastFocusedPage
   }
 }

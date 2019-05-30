@@ -77,6 +77,7 @@ const slidersInitState = {
 export const viewSettingsInitState = {
   ...initState,
   lastFocusedPage: id,
+  lastFocusedIdx: '',
   lastFocusedIdxs: [],
   pageTargets: [
     {

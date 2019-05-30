@@ -187,12 +187,22 @@ export const viewSettings = {
   [ActionTypeViewSettings.SET_LAST_FOCUSED_INDEX](state, action) {
     return createNextState(state, draftState => {
       const { i } = action.payload
-      draftState.lastFocusedIdxs.push(i)
+      draftState.lastFocusedIdx = i
+      if (i !== 'none') {
+        draftState.lastFocusedIdxs.push(i)
+        // Remove duplicates
+        draftState.lastFocusedIdxs = [...new Set(draftState.lastFocusedIdxs)]
+      } else {
+        draftState.lastFocusedIdxs = []
+        draftState.lastFocusedIdxs.length = 0
+      }
+      
       return draftState
     })
 
   },
 
+  // TODO: REPAIR
   [ActionTypeViewSettings.SWAP_FOOTER_PAGES](state, action) {
     const { srcIdx, offset } = action.payload
     const srcItem = state.footerPages[srcIdx]
@@ -220,7 +230,7 @@ export const viewSettings = {
     })
   },
   [ActionTypeViewSettings.TOGGLE_SETTINGS_DIALOG_MODE](state, action) {
-    const { isSettingsDialogMode = false } = action.payload
+    const { isSettingsDialogMode } = action.payload
 
     return Object.assign({}, state, {
       isSettingsDialogMode
@@ -286,35 +296,19 @@ export const viewSettings = {
 
   [ActionTypeViewSettings.SET_PAGE_TARGET_SETTINGS](state, action) {
     const { color, colorFont, label } = action.payload
-    let newPageTargets = state.pageTargets
-    const idx = newPageTargets.findIndex(
-      (item) => item.id === state.lastFocusedPage
-    )
-    if (color) {
-      newPageTargets[idx] = {
-        ...newPageTargets[idx],
-        colors: {
-          ...newPageTargets[idx].colors,
-          color
-        }
+
+    return createNextState(state, draftState => {
+      if (color) {
+        draftState.pageTargets[state.lastFocusedPage].colors.color = color
       }
-    }
-    if (colorFont) {
-      newPageTargets[idx] = {
-        ...newPageTargets[idx],
-        colors: {
-          ...newPageTargets[idx].colors,
-          colorFont
-        }
+      if (colorFont) {
+        draftState.pageTargets[state.lastFocusedPage].colors.colorFont = colorFont
       }
-    }
-    if (label) {
-      newPageTargets[idx] = {
-        ...newPageTargets[idx],
-        label
+      if (label) {
+        draftState.pageTargets[state.lastFocusedPage].label = label
       }
-    }
-    return { ...state, pageTargets: newPageTargets }
+      return draftState
+    })
   },
 
   [ActionTypeViewSettings.SET_ROW_HEIGHT](state, action) {

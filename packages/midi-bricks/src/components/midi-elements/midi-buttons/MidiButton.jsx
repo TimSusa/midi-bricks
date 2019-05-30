@@ -12,7 +12,8 @@ MidiButton.propTypes = {
   fontColorStyle: PropTypes.object,
   label: PropTypes.string,
   onChangeEnd: PropTypes.func,
-  onChangeStart: PropTypes.func
+  onChangeStart: PropTypes.func,
+  isDisabled: PropTypes.bool
 }
 
 function MidiButton(props) {
@@ -23,12 +24,14 @@ function MidiButton(props) {
     onChangeEnd = () => {},
     fontColorStyle = {},
     label = '',
+    isDisabled
   } = props
   return (
     <Button
       disableTouchRipple
       disableFocusRipple
       style={buttonStyle}
+      disabled={isDisabled}
       onContextMenu={preventCtxMenu}
       classes={{
         root: classes.button

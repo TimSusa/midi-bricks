@@ -113,6 +113,7 @@ function ChannelStrip(props) {
       )}
       {isButton && (
         <MidiButtons
+          isDisabled={isDisabled}
           sliderEntry={sliderEntry}
           height={tmpH}
           width={tmpW}
@@ -120,6 +121,7 @@ function ChannelStrip(props) {
       )}
       {type === STRIP_TYPE.LABEL && (
         <StripLabel
+          isDisabled={isDisabled}
           sliderEntry={sliderEntry}
           idx={idx}
           height={tmpH}
@@ -128,6 +130,7 @@ function ChannelStrip(props) {
       )}
       {type === STRIP_TYPE.XYPAD && (
         <XyPad
+          isDisabled={isDisabled}
           classes={classes}
           sliderEntry={sliderEntry}
           idx={idx}

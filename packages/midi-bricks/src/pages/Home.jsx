@@ -31,13 +31,13 @@ function Home(props) {
     viewSettings: {
       isLiveMode = false,
       pageType = PAGE_TYPES.HOME_MODE,
-      lastFocusedFooterButtonIdx
-    }
+    },
+    initApp
   } = props
 
   useEffect(() => {
     async function initAsync() {
-      await props.initApp()
+      await initApp()
     }
 
     if (pageType !== PAGE_TYPES.HOME_MODE) {
@@ -45,16 +45,9 @@ function Home(props) {
     }
     console.log('Re-Init MIDI')
     initAsync()
-    // const timeOut = setTimeout(() => {
-    //   const selector = `[id="page-${lastFocusedFooterButtonIdx}"]`
-    //   const element = document.querySelector(selector)
-    //   console.log('scroll and set timeout')
-    //   element && element.scrollIntoView({ block: 'start' })
-    // }, 500)
-
     return () => {
     }
-  }, [classes, lastFocusedFooterButtonIdx, pageType, props])
+  }, [initApp, pageType])
 
   const preventScrollStyle = isLiveMode
     ? {

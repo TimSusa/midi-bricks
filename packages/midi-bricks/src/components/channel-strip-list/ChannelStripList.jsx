@@ -111,6 +111,7 @@ function ChannelStripList(props) {
                   }
                   : () => {}
               }
+              onBlur={() => actions.setLastFocusedIndex({i: 'none'})}
               key={i}
               style={
                 (isMidiLearnMode || isSettingsMode) &&
@@ -123,7 +124,9 @@ function ChannelStripList(props) {
                 }
               }
             >
-              <SizeMe monitorHeight>
+              <SizeMe 
+                monitorHeight
+              >
                 {({ size }) => {
                   return (
                     <div
@@ -161,7 +164,7 @@ function ChannelStripList(props) {
                         size={size}
                         sliderEntry={sliderEntry}
                         idx={idx}
-                        isDisabled={isLayoutMode}
+                        isDisabled={isLayoutMode || isSettingsMode}
                         isMidiLearnMode={isMidiLearnMode}
                       />
                       {!isMidiLearnMode && isSettingsMode && !isLayoutMode && (
