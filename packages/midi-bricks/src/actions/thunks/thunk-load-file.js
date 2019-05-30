@@ -9,13 +9,14 @@ const { togglePage, updateViewSettings } = viewSettingsActions
 export function thunkLoadFile(content, presetName) {
 
   return async function(dispatch, getState) {
+    const {viewSettings: {lastFocusedPage}} = getState()
     let promArray = []
 
-    promArray.push(dispatch(deleteAll()))
-    window.localStorage.clear()
+    //promArray.push(dispatch(deleteAll()))
+    //window.localStorage.clear()
 
     // will load content to slider-list-reducer
-    promArray.push(dispatch(loadFile({ presetName, content })))
+    promArray.push(dispatch(loadFile({ presetName, content, lastFocusedPage })))
 
     const {
       version = '',
@@ -65,13 +66,13 @@ export function thunkLoadFile(content, presetName) {
         )
       )
     promArray.push(dispatch(initApp()))
-    promArray.push(
-      dispatch(
-        togglePage({
-          pageType: PAGE_TYPES.GLOBAL_MODE
-        })
-      )
-    )
+    // promArray.push(
+    //   dispatch(
+    //     togglePage({
+    //       pageType: PAGE_TYPES.GLOBAL_MODE
+    //     })
+    //   )
+    // )
     return Promise.all(promArray)
   }
 }

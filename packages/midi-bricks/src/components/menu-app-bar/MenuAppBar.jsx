@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import { Actions as ViewSettingsAction } from '../../actions/view-settings'
 import { Actions as MidiSlidersAction } from '../../actions/slider-list.js'
 import { initApp } from '../../actions/init'
+import { thunkCopyToNextPage } from '../../actions/thunks/thunk-copy-to-next-page.js'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button'
@@ -36,6 +37,7 @@ MenuAppBar.propTypes = {
   viewSettings: PropTypes.object,
   handleDrawerToggle: PropTypes.func,
   initApp: PropTypes.func,
+  thunkCopyToNextPage: PropTypes.func,
   monitorVal: PropTypes.object,
   presetName: PropTypes.string
 }
@@ -44,6 +46,7 @@ function MenuAppBar(props) {
   const classes = makeStyles(styles, { withTheme: true })()
   const {
     actions = {},
+    thunkCopyToNextPage,
     presetName = '',
     monitorVal,
     viewSettings: {
@@ -217,7 +220,9 @@ function MenuAppBar(props) {
                     </Tooltip>
                     {Array.isArray(lastFocusedIdxs) &&
                     lastFocusedIdxs.length > 1 ? (
-                        <button>copy to next page</button>
+                        <button
+                          onClick={e => thunkCopyToNextPage()}
+                        >copy to next page</button>
                       ) : (
                         <div />
                       )}
@@ -444,7 +449,8 @@ function mapDispatchToProps(dispatch) {
       { ...MidiSlidersAction, ...ViewSettingsAction },
       dispatch
     ),
-    initApp: bindActionCreators(initApp, dispatch)
+    initApp: bindActionCreators(initApp, dispatch),
+    thunkCopyToNextPage: bindActionCreators(thunkCopyToNextPage, dispatch),
   }
 }
 

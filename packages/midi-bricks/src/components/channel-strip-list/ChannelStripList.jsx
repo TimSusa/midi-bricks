@@ -41,7 +41,7 @@ function ChannelStripList(props) {
       isSettingsDialogMode = false,
       // isLiveMode = false,
       isMidiLearnMode = false,
-      lastFocusedIdxs,
+      lastFocusedIdxs=[],
       rowHeight,
       columns,
       isAutoSize,

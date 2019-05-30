@@ -88,17 +88,49 @@ export const sliders = {
   },
 
   [ActionTypeSliderList.ADD_PAGE](state, action) {
-    const { lastFocusedPage } = action.payload
-    //const nextState = createNextState(state, draftState => {
-    //   draftState.sliderList = []
-    //   return draftState
-    // })
+    const { lastFocusedPage, id } = action.payload
+
+    return createNextState(state, draftState => {
+      draftState.sliderList = []
+      draftState.pages[id] = {
+        sliderList: [],
+        id,
+        label: 'not'
+      }
+      return draftState
+    })
     // console.log('SAF', nextState)
     // return nextState
     // if (!Array.isArray(sliderList)) {
     //   //      throw new TypeError('sliderlist comes wihtout array')
     // }
-    return updatePagesWithSliderlist(state, state.sliderList, lastFocusedPage)
+    //return updatePagesWithSliderlist(state, state.sliderList, id)
+  },
+
+  [ActionTypeSliderList.COPY_TO_NEXT_PAGE](state, action) {
+    const { lastFocusedIdxs, nextPageIdx } = action.payload
+    return createNextState(state, (draftState) => {
+      const entries = Object.keys(state.pages).reduce((acc, cur) => {
+        const foundEntries = state.pages[cur].sliderList.map((item) => {
+          if (lastFocusedIdxs.includes(item.i)) {
+            return item
+          }
+        })
+        if (foundEntries) {
+          return [...acc, ...foundEntries].filter(Boolean)
+        }
+        return acc
+      }, [])
+      draftState.pages[nextPageIdx].sliderList = [
+        ...state.pages[nextPageIdx].sliderList,
+        ...entries
+      ]
+      draftState.sliderList = [
+        ...state.pages[nextPageIdx].sliderList,
+        ...entries
+      ]
+      return draftState
+    })
   },
 
   [ActionTypeSliderList.CLONE](state, action) {
@@ -188,7 +220,7 @@ export const sliders = {
   [ActionTypeSliderList.DELETE](state, action) {
     const { i: sentIdx, lastFocusedPage } = action.payload
     const sliderList = state.sliderList.filter(
-      ({ i }) => sentIdx&&sentIdx.toString() !== i
+      ({ i }) => sentIdx && sentIdx.toString() !== i
     )
     const newTmp = {
       ...state,
@@ -222,11 +254,7 @@ export const sliders = {
       // Handle multi CC
       const { midiCC, midiChannel, driverName, label } = tmp || {}
       sendControlChanges({ midiCC, midiChannel, driverName, val, label })
-      const refreshedSliderList = transformState(
-        sliderList,
-        { i, val },
-        'val'
-      )
+      const refreshedSliderList = transformState(sliderList, { i, val }, 'val')
 
       draftState.sliderList = refreshedSliderList
       return draftState
@@ -289,7 +317,7 @@ export const sliders = {
 
   [ActionTypeSliderList.SEND_PROGRAM_CHANGE](state, action) {
     const { i } = action.payload
-    const tmp = state.sliderList.find(item => item.i === i)
+    const tmp = state.sliderList.find((item) => item.i === i)
     const { midiCC, midiChannel, driverName } = tmp
 
     const output = getCheckedMidiOut(driverName)
@@ -387,11 +415,11 @@ export const sliders = {
     const valInt = parseInt(val, 10)
     let newAction = null
     if (valInt <= 127 && valInt >= 0) {
-      newAction =  { val: valInt, i }
+      newAction = { val: valInt, i }
     } else if (valInt > 127) {
-      newAction =  { val: 127, i }
+      newAction = { val: 127, i }
     } else {
-      newAction =  { val: 0, i }
+      newAction = { val: 0, i }
     }
 
     const { i: ii, val: vall } = newAction
@@ -415,11 +443,11 @@ export const sliders = {
     const valInt = parseInt(val, 10)
     let newAction = null
     if (valInt <= 127 && valInt >= 0) {
-      newAction =  { val: valInt, i }
+      newAction = { val: valInt, i }
     } else if (valInt > 127) {
-      newAction =  { val: 127, i }
+      newAction = { val: 127, i }
     } else {
-      newAction =  { val: 0, i }
+      newAction = { val: 0, i }
     }
 
     const { i: ii, val: vall } = newAction
@@ -429,7 +457,6 @@ export const sliders = {
       'offVal'
     )
     return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
-
 
     // const sliderList = transformStateByIndex(
     //   state.sliderList,
@@ -515,14 +542,49 @@ export const sliders = {
     return state
   },
   [ActionTypeSliderList.LOAD_FILE](state, action) {
-    const { payload: { presetName, content: { sliders } = {} } = {} } = action
 
-    return {
-      ...state,
-      ...sliders,
-      presetName
-      //sliderListBackup: sliderList
-    }
+
+    // return {
+    //   ...state,
+    //   ...sliders,
+    //   presetName
+    //   //sliderListBackup: sliderList
+    // }
+    return createNextState(state, (draftState) => {
+      const {
+        payload: {
+          lastFocusedPage,
+          presetName,
+          content,
+          content: { sliders } = {}
+        } = {}
+      } = action
+
+      // draftState = sliders
+      draftState.sliderList = sliders.sliderList
+      draftState.pages = {
+        ...sliders.pages,
+        [lastFocusedPage]: {
+          ...state.pages[lastFocusedPage],
+          sliderList: sliders.sliderList
+          //...sliders.pages[lastFocusedPage]
+        }
+      }
+      return draftState
+    })
+
+    // return updatePagesWithSliderlist(
+    //   {
+    //     sliders: {
+    //       pages: {
+    //         [lastFocusedPage]: { ...state.pages[lastFocusedPage] }
+    //       },
+    //     },
+    //     ...content
+    //   },
+    //   sliders.sliderList,
+    //   lastFocusedPage
+    // )
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER](state, action) {
     return createNextState(state, (draftState) => {
@@ -551,7 +613,7 @@ export const sliders = {
       const { val, cC, channel, driver, isNoteOn } = action.payload
 
       const sliderList = map(state.sliderList, (item) => {
-        const { listenToCc, midiChannelInput, driverNameInput  } = item
+        const { listenToCc, midiChannelInput, driverNameInput } = item
         if (listenToCc && listenToCc.length > 0) {
           const haveChannelsMatched =
             midiChannelInput === 'all' ||
@@ -855,10 +917,10 @@ export const sliders = {
           : []
 
       draftState.sliderList = sliderList
-      draftState.pages[lastFocusedPage] = {
-        sliderList: state.sliderList,
-        id: lastFocusedPage
-      }
+      // draftState.pages[lastFocusedPage] = {
+      //   sliderList: state.sliderList,
+      //   id: lastFocusedPage
+      // }
       return draftState
     })
 
@@ -1179,6 +1241,7 @@ function updatePagesWithSliderlist(
   return createNextState(state, (draftState) => {
     draftState.sliderList = refreshedSliderList
     draftState.pages[lastFocusedPage] = {
+      ...state.pages,
       sliderList: refreshedSliderList,
       id: lastFocusedPage
     }

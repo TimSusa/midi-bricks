@@ -23,6 +23,7 @@ const typeSliderList = [
   'DELETE',
   'DELETE_ALL',
   'CLONE',
+  'COPY_TO_NEXT_PAGE',
   'CHANGE_LABEL',
   'SELECT_CC',
   'SELECT_MIDI_CHANNEL',

@@ -40,6 +40,6 @@ function createPage(dispatch, getState) {
     ),
     dispatch(setLastFocusedPage({ lastFocusedPage: pageId })),
     dispatch(setLastFocusedIndex({i: 'none'})),
-    dispatch(setMidiPage({focusedPage: pageId, lastFocusedPage: viewSettings.lastFocusedPage}))
+    //dispatch(setMidiPage({focusedPage: pageId, lastFocusedPage: viewSettings.lastFocusedPage}))
   ])
 }
