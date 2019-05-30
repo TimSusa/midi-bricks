@@ -3,7 +3,7 @@ import createSelector from 'selectorator'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
-
+import debounce from 'debounce'
 import { PropTypes } from 'prop-types'
 
 const noop = () => {}
@@ -13,6 +13,7 @@ class MidiSlider extends Component {
   constructor(props) {
     super(props)
     this.selfRef = React.createRef()
+    this.sendOutFromChildren = debounce(this.sendOutFromChildren, 5)
     this.state = {
       isActivated: false
     }
