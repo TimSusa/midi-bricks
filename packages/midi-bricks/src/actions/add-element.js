@@ -5,25 +5,17 @@ import { STRIP_TYPE } from '../reducers/slider-list'
 
 const { PAGE } = STRIP_TYPE
 const { addPage, addMidiElement, setMidiPage } = sliderListActions
-const { setLastFocusedPage, addPageTarget } = viewSettingsActions
+const { setLastFocusedPage, setLastFocusedIndex, addPageTarget } = viewSettingsActions
 
 export function addElement(type, payload) {
-  return function(dispatch, getState) {
+  return async function(dispatch, getState) {
     if (type === PAGE) {
-      createPage(dispatch, getState)
+      await createPage(dispatch, getState)
     } else {
       const {
         viewSettings: { lastFocusedPage },
-        sliders: { pages }
       } = getState()
-      if (!pages) {
-        const np = createPage(dispatch, getState)
-        dispatch(
-          addMidiElement({ lastFocusedPage: np, type, id: getUniqueId() })
-        )
-      } else {
-        dispatch(addMidiElement({ lastFocusedPage, type, id: getUniqueId() }))
-      }
+      await dispatch(addMidiElement({ lastFocusedPage, type, id: getUniqueId() }))
     }
   }
 }
@@ -32,20 +24,22 @@ function createPage(dispatch, getState) {
   const pageId = `page-${getUniqueId()}`
 
   const { viewSettings } = getState()
-  dispatch(addPage({ id: pageId, lastFocusedPage: viewSettings.lastFocusedPage }))
-
-  dispatch(
-    addPageTarget({
-      pageTarget: {
-        id: pageId,
-        label: Array.isArray(viewSettings.pageTargets)
-          ? `Page ${viewSettings.pageTargets.length + 1}`
-          : 'Page',
-        colors: { colorFont: '#123456', color: '#dddddd' }
-      }
-    })
-  )
-  dispatch(setLastFocusedPage({ lastFocusedPage: pageId }))
-  dispatch(setMidiPage({focusedPage: pageId, lastFocusedPage: viewSettings.lastFocusedPage}))
-  return pageId
+  
+  return Promise.all([
+    dispatch(addPage({ id: pageId, lastFocusedPage: viewSettings.lastFocusedPage })),
+    dispatch(
+      addPageTarget({
+        pageTarget: {
+          id: pageId,
+          label: Array.isArray(viewSettings.pageTargets)
+            ? `Page ${viewSettings.pageTargets.length + 1}`
+            : 'Page',
+          colors: { colorFont: '#123456', color: '#dddddd' }
+        }
+      })
+    ),
+    dispatch(setLastFocusedPage({ lastFocusedPage: pageId })),
+    dispatch(setLastFocusedIndex({i: 'none'})),
+    dispatch(setMidiPage({focusedPage: pageId, lastFocusedPage: viewSettings.lastFocusedPage}))
+  ])
 }

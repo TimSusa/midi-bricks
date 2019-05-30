@@ -31,8 +31,6 @@ export default connect(
   mapDispatchToProps
 )(MenuAppBar)
 
-
-
 MenuAppBar.propTypes = {
   actions: PropTypes.object,
   viewSettings: PropTypes.object,
@@ -56,6 +54,7 @@ function MenuAppBar(props) {
       isAutoArrangeMode = true,
       isMidiLearnMode = false,
       lastFocusedIdx,
+      lastFocusedIdxs,
       lastFocusedPage
     }
   } = props
@@ -204,17 +203,25 @@ function MenuAppBar(props) {
             !isLayoutMode && (
               <>
                 {!isMidiLearnMode && (
-                  <Tooltip
-                    disableHoverListener={false}
-                    title='Switch to Settings Mode.'
-                  >
-                    <IconButton
-                      onClick={(e) => actions.toggleSettingsMode()}
-                      color='inherit'
+                  <>
+                    <Tooltip
+                      disableHoverListener={false}
+                      title='Switch to Settings Mode.'
                     >
-                      <ViewSettingsIcon />
-                    </IconButton>
-                  </Tooltip>
+                      <IconButton
+                        onClick={(e) => actions.toggleSettingsMode()}
+                        color='inherit'
+                      >
+                        <ViewSettingsIcon />
+                      </IconButton>
+                    </Tooltip>
+                    {Array.isArray(lastFocusedIdxs) &&
+                    lastFocusedIdxs.length > 1 ? (
+                        <button>copy to next page</button>
+                      ) : (
+                        <div />
+                      )}
+                  </>
                 )}
                 {!isMidiLearnMode && (
                   <Tooltip

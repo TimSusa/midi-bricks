@@ -14,7 +14,7 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DeleteIcon from '@material-ui/icons/Delete'
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(DeleteModalComponent)
 
@@ -37,7 +37,9 @@ export function DeleteModalComponent(props) {
     isOpen = false,
     onAction = () => {},
     actions = {},
-    onClose = () => {}
+    onClose = () => {},
+    pageTargets = [],
+    lastFocusedPage = ''
   } = props
   const [open, setOpen] = useState(false)
   return (
@@ -75,7 +77,8 @@ export function DeleteModalComponent(props) {
           <Button
             onClick={handleClose.bind(
               this,
-              sliderEntry,
+              sliderEntry || pageTargets[lastFocusedPage],
+              lastFocusedPage,
               onAction,
               actions,
               onClose,
@@ -101,14 +104,15 @@ function handleCloseCancel(setOpen, e) {
   e.preventDefault()
 }
 
-function handleClose({ i }, onAction, actions, onClose, setOpen) {
-  setOpen(false)
+function handleClose({ i, id }, lastFocusedPage, onAction, actions, onClose, setOpen) {
   onAction && onAction()
   if  (i !== 'me') {
-    actions.delete({ i })
+    actions.delete({ lastFocusedPage, i: i || id })
   }
   //actions.deletePageFromFooter({ i })
   onClose && onClose(false)
+  setOpen(false)
+
 }
 
 function styles(theme) {
@@ -125,6 +129,9 @@ function styles(theme) {
   }
 }
 
+function mapStateToProps({viewSettings: {pageTargets, lastFocusedPage}}) {
+  return {pageTargets, lastFocusedPage}
+}
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(

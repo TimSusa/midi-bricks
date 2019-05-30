@@ -188,11 +188,11 @@ export const viewSettings = {
     return createNextState(state, draftState => {
       const { i } = action.payload
       draftState.lastFocusedIdx = i
-      if (i !== 'none') {
+      if (i !== 'none' && !i.startsWith('page')) {
         draftState.lastFocusedIdxs.push(i)
         // Remove duplicates
         draftState.lastFocusedIdxs = [...new Set(draftState.lastFocusedIdxs)]
-      } else {
+      } else if (i === 'none') {
         draftState.lastFocusedIdxs = []
         draftState.lastFocusedIdxs.length = 0
       }

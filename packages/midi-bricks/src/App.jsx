@@ -13,6 +13,7 @@ import DrawerList from './components/drawer-list/DrawerList'
 import Footer from './components/footer/Footer'
 import { PAGE_TYPES } from './reducers'
 import { makeStyles } from '@material-ui/styles'
+import { createSelector } from 'reselect'
 
 export default connect(
   mapStateToProps,
@@ -51,9 +52,9 @@ function App(props) {
             paper: classes.drawerPaper
           }}
           onClose={() => setIsMobileOpen(!isMobileOpen)}
-          ModalProps={{
-            keepMounted: true // Better open performance on mobile .
-          }}
+          // ModalProps={{
+          //   keepMounted: true // Better open performance on mobile .
+          // }}
         >
           <DrawerList
             onFileChange={onFileChange.bind(
@@ -76,12 +77,13 @@ function App(props) {
         </Drawer>
         <Home />
 
-        {!window.location.href.endsWith('global') && <Footer />}
+        <Footer />
       </div>
     </div>
   )
 }
 
+// TODO: put that into a thunk, get rid of redux dependecies
 async function onFileChange(
   actions,
   initApp,
@@ -116,23 +118,24 @@ async function onFileChange(
     }
   }
 
-  // Either will will have pages or sliderList 
+  // Either will will have pages or sliderList
   if (pages) {
     actions.updateViewSettings({
       version,
       viewSettings: { ...viewSettings, availableDrivers: drivers },
       pages
     })
-  } 
+  }
   // Will load content to view-settings-reducer
-  sliderList && Array.isArray(sliderList)
-    && actions.updateViewSettings({
+  sliderList &&
+    Array.isArray(sliderList) &&
+    actions.updateViewSettings({
       version,
       viewSettings: { ...viewSettings, availableDrivers: drivers },
       sliderList: sliderList,
       pages
     })
-    
+
   await initApp()
   actions.togglePage({
     pageType: PAGE_TYPES.GLOBAL_MODE
@@ -165,6 +168,8 @@ function handleResetSliders(
   setIsMobileOpen(false)
 }
 
+
+
 function mapStateToProps({ viewSettings, sliders }) {
   return {
     viewSettings,
@@ -173,9 +178,26 @@ function mapStateToProps({ viewSettings, sliders }) {
 }
 
 function mapDispatchToProps(dispatch) {
+  const {
+    updateViewSettings,
+    loadFile,
+    saveFile,
+    togglePage,
+    deleteFooterPages,
+    deleteAll,
+    setIsMobileOpen
+  } = { ...MidiSlidersAction, ...ViewActions }
   return {
     actions: bindActionCreators(
-      { ...MidiSlidersAction, ...ViewActions },
+      {
+        updateViewSettings,
+        loadFile,
+        saveFile,
+        togglePage,
+        deleteFooterPages,
+        deleteAll,
+        setIsMobileOpen
+      },
       dispatch
     ),
     initApp: bindActionCreators(initApp, dispatch)

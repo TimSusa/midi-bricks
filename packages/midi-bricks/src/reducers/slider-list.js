@@ -188,7 +188,7 @@ export const sliders = {
   [ActionTypeSliderList.DELETE](state, action) {
     const { i: sentIdx, lastFocusedPage } = action.payload
     const sliderList = state.sliderList.filter(
-      ({ i }) => sentIdx.toString() !== i
+      ({ i }) => sentIdx&&sentIdx.toString() !== i
     )
     const newTmp = {
       ...state,
@@ -387,11 +387,11 @@ export const sliders = {
     const valInt = parseInt(val, 10)
     let newAction = null
     if (valInt <= 127 && valInt >= 0) {
-      newAction =  { val: valInt, i } 
+      newAction =  { val: valInt, i }
     } else if (valInt > 127) {
-      newAction =  { val: 127, i } 
+      newAction =  { val: 127, i }
     } else {
-      newAction =  { val: 0, i } 
+      newAction =  { val: 0, i }
     }
 
     const { i: ii, val: vall } = newAction
@@ -415,11 +415,11 @@ export const sliders = {
     const valInt = parseInt(val, 10)
     let newAction = null
     if (valInt <= 127 && valInt >= 0) {
-      newAction =  { val: valInt, i } 
+      newAction =  { val: valInt, i }
     } else if (valInt > 127) {
-      newAction =  { val: 127, i } 
+      newAction =  { val: 127, i }
     } else {
-      newAction =  { val: 0, i } 
+      newAction =  { val: 0, i }
     }
 
     const { i: ii, val: vall } = newAction
