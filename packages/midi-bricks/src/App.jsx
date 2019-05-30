@@ -1,44 +1,22 @@
 import { Drawer } from '@material-ui/core'
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import Home from './pages/Home'
-import { bindActionCreators } from 'redux'
-import { Actions as MidiSlidersAction } from './actions/slider-list.js'
-import { Actions as ViewActions } from './actions/view-settings.js'
-import { initApp } from './actions/init'
 
 import MenuAppBar from './components/menu-app-bar/MenuAppBar'
 import DrawerList from './components/drawer-list/DrawerList'
 import Footer from './components/footer/Footer'
-import { PAGE_TYPES } from './reducers'
 import { makeStyles } from '@material-ui/styles'
-import { createSelector } from 'reselect'
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App)
+export default App
 
 App.displayName = 'App'
 
-App.propTypes = {
-  actions: PropTypes.object,
-  classes: PropTypes.object,
-  initApp: PropTypes.func
-}
-
-const version = process.env.REACT_APP_VERSION || 'unknown'
+App.propTypes = {}
 
 function App(props) {
   const classes = makeStyles(styles, { withTheme: true })()
-  const { actions = {}, initApp = () => {} } = props
   const [isMobileOpen, setIsMobileOpen] = useState(false)
-  //const [appVersion, setAppVersion] = useState('')
-
-  // useEffect(() => {
-  //   setAppVersion(version)
-  // }, [])
 
   return (
     <div className={classes.root}>
@@ -52,27 +30,13 @@ function App(props) {
             paper: classes.drawerPaper
           }}
           onClose={() => setIsMobileOpen(!isMobileOpen)}
-          // ModalProps={{
-          //   keepMounted: true // Better open performance on mobile .
-          // }}
         >
           <DrawerList
-            onFileChange={onFileChange.bind(
-              this,
-              actions,
-              initApp,
-              setIsMobileOpen
-            )}
-            handleSaveFile={handleSaveFile.bind(this, props, setIsMobileOpen)}
-            handleResetSliders={handleResetSliders.bind(
-              this,
-              props,
-              setIsMobileOpen
-            )}
-            togglePage={togglePage.bind(this, props)}
+            onFileChange={() => setIsMobileOpen(false)}
+            handleSaveFile={() => setIsMobileOpen(false)}
+            handleResetSliders={() => setIsMobileOpen(false)}
             classes={classes}
             onClose={() => setIsMobileOpen(!isMobileOpen)}
-            version={version}
           />
         </Drawer>
         <Home />
@@ -81,127 +45,6 @@ function App(props) {
       </div>
     </div>
   )
-}
-
-// TODO: put that into a thunk, get rid of redux dependecies
-async function onFileChange(
-  actions,
-  initApp,
-  setIsMobileOpen,
-  { presetName, content },
-  e
-) {
-  actions.deleteAll()
-  window.localStorage.clear()
-
-  // will load content to slider-list-reducer
-  actions.loadFile({ presetName, content })
-
-  const {
-    version = '',
-    viewSettings = {},
-    viewSettings: { availableDrivers } = {},
-    sliders: { sliderList, pages } = {}
-  } = content
-  const drivers = availableDrivers || {
-    inputs: {
-      None: {
-        ccChannels: [],
-        noteChannels: []
-      }
-    },
-    outputs: {
-      None: {
-        ccChannels: [],
-        noteChannels: []
-      }
-    }
-  }
-
-  // Either will will have pages or sliderList
-  if (pages) {
-    actions.updateViewSettings({
-      version,
-      viewSettings: { ...viewSettings, availableDrivers: drivers },
-      pages
-    })
-  }
-  // Will load content to view-settings-reducer
-  sliderList &&
-    Array.isArray(sliderList) &&
-    actions.updateViewSettings({
-      version,
-      viewSettings: { ...viewSettings, availableDrivers: drivers },
-      sliderList: sliderList,
-      pages
-    })
-
-  await initApp()
-  actions.togglePage({
-    pageType: PAGE_TYPES.GLOBAL_MODE
-  })
-  setIsMobileOpen(false)
-}
-
-function handleSaveFile(
-  { viewSettings, sliders, actions: { saveFile } },
-  setIsMobileOpen
-) {
-  saveFile({
-    viewSettings,
-    sliders,
-    version
-  })
-  setIsMobileOpen(false)
-}
-
-function togglePage({ actions: { togglePage } }, pageType) {
-  togglePage(pageType)
-}
-
-function handleResetSliders(
-  { actions: { deleteAll, deleteFooterPages } },
-  setIsMobileOpen
-) {
-  deleteFooterPages()
-  deleteAll()
-  setIsMobileOpen(false)
-}
-
-
-
-function mapStateToProps({ viewSettings, sliders }) {
-  return {
-    viewSettings,
-    sliders
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  const {
-    updateViewSettings,
-    loadFile,
-    saveFile,
-    togglePage,
-    deleteFooterPages,
-    deleteAll,
-    setIsMobileOpen
-  } = { ...MidiSlidersAction, ...ViewActions }
-  return {
-    actions: bindActionCreators(
-      {
-        updateViewSettings,
-        loadFile,
-        saveFile,
-        togglePage,
-        deleteFooterPages,
-        deleteAll,
-        setIsMobileOpen
-      },
-      dispatch
-    ),
-    initApp: bindActionCreators(initApp, dispatch)
-  }
 }
 
 function styles(theme) {

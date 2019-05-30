@@ -1,7 +1,7 @@
-import { Actions as sliderListActions } from './slider-list'
-import { Actions as viewSettingsActions } from './view-settings'
-import { getUniqueId } from '../utils/get-unique-id'
-import { STRIP_TYPE } from '../reducers/slider-list'
+import { Actions as sliderListActions } from '../slider-list'
+import { Actions as viewSettingsActions } from '../view-settings'
+import { getUniqueId } from '../../utils/get-unique-id'
+import { STRIP_TYPE } from '../../reducers/slider-list'
 
 const { PAGE } = STRIP_TYPE
 const { addPage, addMidiElement, setMidiPage } = sliderListActions
