@@ -41,7 +41,7 @@ function ChannelStripList(props) {
       isSettingsDialogMode = false,
       // isLiveMode = false,
       isMidiLearnMode = false,
-      lastFocusedIdx,
+      lastFocusedIdxs,
       rowHeight,
       columns,
       isAutoSize,
@@ -94,7 +94,7 @@ function ChannelStripList(props) {
       >
         {map(sliderList, (sliderEntry, idx) => {
           const { i } = sliderEntry
-          const isFocused = i === lastFocusedIdx
+          const isFocused = lastFocusedIdxs.includes(i)
           return (
             <div
               onDoubleClick={(e) => {
@@ -103,7 +103,7 @@ function ChannelStripList(props) {
                 e.stopPropagation()
               }}
               onClick={
-                !isLayoutMode && isSettingsMode && !isSettingsDialogMode && lastFocusedIdx !== i
+                !isLayoutMode && isSettingsMode && !isSettingsDialogMode && !lastFocusedIdxs.includes(i)
                   ? (e) => {
                     actions.setLastFocusedIndex({ i })
                     e.preventDefault()
@@ -178,7 +178,7 @@ function ChannelStripList(props) {
                             isOpen={
                               !!(
                                 isSettingsDialogMode &&
-                                lastFocusedIdx !== undefined &&
+                                lastFocusedIdxs !== undefined &&
                                 isFocused
                               )
                             }

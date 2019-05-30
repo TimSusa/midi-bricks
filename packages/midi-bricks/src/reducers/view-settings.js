@@ -1,6 +1,7 @@
 import { ActionTypeViewSettings } from '../actions/view-settings'
 
 import { viewSettingsInitState } from '.'
+import { createNextState } from 'redux-starter-kit'
 
 export const viewSettings = {
   [ActionTypeViewSettings.TOGGLE_PAGE](state, action) {
@@ -184,10 +185,12 @@ export const viewSettings = {
   },
 
   [ActionTypeViewSettings.SET_LAST_FOCUSED_INDEX](state, action) {
-    const { i } = action.payload
-    return Object.assign({}, state, {
-      lastFocusedIdx: i
+    return createNextState(state, draftState => {
+      const { i } = action.payload
+      draftState.lastFocusedIdxs.push(i)
+      return draftState
     })
+
   },
 
   [ActionTypeViewSettings.SWAP_FOOTER_PAGES](state, action) {
