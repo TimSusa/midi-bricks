@@ -247,13 +247,11 @@ function mapStateToProps({
     pageTargets = [],
     availableDrivers: { inputs = {}, outputs = {} } = {}
   },
-  //sliders: { sliderList }
 }) {
   const pageTarget = pageTargets.find((item) => item.id === lastFocusedPage)
   return {
     lastFocusedPage,
     isSettingsMode,
-    // sliderList,
     pageTarget,
     inputs,
     outputs

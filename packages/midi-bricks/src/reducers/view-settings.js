@@ -221,20 +221,20 @@ export const viewSettings = {
     })
   },
 
-  // TODO: REPAIR
   [ActionTypeViewSettings.SWAP_FOOTER_PAGES](state, action) {
-    const { srcIdx, offset } = action.payload
-    const srcItem = state.footerPages[srcIdx]
+    const { srcIdx: srcI, offset } = action.payload
+    const srcItem = state.pageTargets.find(item => item.id === srcI)
+    const srcIdx = state.pageTargets.findIndex(item => item.id === srcI)
     const newIdx =
-      srcIdx === 0 && offset === -1 ? state.footerPages.length : srcIdx
+      srcIdx === 0 && offset === -1 ? state.pageTargets.length : srcIdx
     const targetIdx =
-      newIdx === state.footerPages.length - 1 && offset === 1
+      newIdx === state.pageTargets.length - 1 && offset === 1
         ? 0
         : offset + newIdx
-    const otherItem = state.footerPages[targetIdx]
+    const otherItem = state.pageTargets[targetIdx]
 
     let newArray = []
-    state.footerPages.forEach((item, idx) => {
+    state.pageTargets.forEach((item, idx) => {
       if (idx === srcIdx) {
         newArray.push(otherItem)
       } else if (idx === targetIdx) {
@@ -245,7 +245,7 @@ export const viewSettings = {
     })
 
     return Object.assign({}, state, {
-      footerPages: newArray
+      pageTargets: newArray
     })
   },
   [ActionTypeViewSettings.TOGGLE_SETTINGS_DIALOG_MODE](state, action) {
@@ -312,10 +312,6 @@ export const viewSettings = {
       }
     }
 
-    // return {
-    //   ...state,
-    //   availableDrivers
-    // }
     return createNextState(state, (draftState) => {
       draftState.availableDrivers = availableDrivers
       return draftState
