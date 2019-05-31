@@ -15,6 +15,7 @@ MidiSettingsLabelInput.propTypes = {
 export function MidiSettingsLabelInput({
   label,
   i,
+  lastFocusedPage,
   classes,
   actions,
   type
@@ -30,25 +31,27 @@ export function MidiSettingsLabelInput({
         type='label'
         name={`input-label-name-${i}`}
         value={label}
-        onChange={handleLabelChange.bind(this, i, actions, type)}
+        onChange={handleLabelChange.bind(this, lastFocusedPage, i, actions, type)}
         autoFocus
       />
     </FormControl>
   )
 }
 
-function handleLabelChange(i, actions, type, e) {
+function handleLabelChange(lastFocusedPage, i, actions, type, e) {
   e.preventDefault()
   e.stopPropagation()
 
   if (type === undefined) {
     actions.setPageTargetSettings({
-      label: e.target.value
+      label: e.target.value,
+      lastFocusedPage
     })
   } else {
     actions.changeLabel({
       i,
-      val: e.target.value
+      val: e.target.value,
+      lastFocusedPage
     })
   }
 }

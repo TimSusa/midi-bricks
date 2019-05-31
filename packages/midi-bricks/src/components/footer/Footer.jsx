@@ -96,7 +96,8 @@ function Footer(props) {
                   actions.setLastFocusedIndex({ i: '' })
                   actions.toggleSettingsDialogMode({
                     i: '',
-                    isSettingsDialogMode: false
+                    isSettingsDialogMode: false,
+                    lastFocusedPage
                   })
                 }}
                 sliderEntry={pageTargets.find(

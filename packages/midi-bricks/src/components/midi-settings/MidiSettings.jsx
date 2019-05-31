@@ -59,6 +59,7 @@ function MidiSettings(props) {
         classes={classes}
         label={type === undefined ? pageTarget.label : label}
         i={i}
+        lastFocusedPage={lastFocusedPage}
         actions={actions}
         type={type}
       />

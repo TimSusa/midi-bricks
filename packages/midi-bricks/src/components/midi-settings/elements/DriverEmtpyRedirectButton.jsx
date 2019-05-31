@@ -15,6 +15,7 @@ export function DriverEmtpyRedirectButton({
           toggleSettingsDialogMode({
             i,
             isSettingsDialogMode: false,
+            lastFocusedPage: i
           })
           togglePage({
             pageType: PAGE_TYPES.MIDI_DRIVER_MODE,

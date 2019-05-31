@@ -47,6 +47,7 @@ function GlobalSettingsPage(props) {
     sliderList,
     viewSettings: {
       isSettingsDialogMode,
+      lastFocusedPage,
       lastFocusedIdx,
       availableDrivers: { outputs: chosenOutputs, inputs: chosenInputs },
       pageTargets
@@ -111,7 +112,8 @@ function GlobalSettingsPage(props) {
                         open
                         onClose={actions.toggleSettingsDialogMode.bind(this, {
                           i,
-                          isSettingsDialogMode: false
+                          isSettingsDialogMode: false,
+                          lastFocusedPage
                         })}
                         sliderEntry={sliderEntry}
                       />
@@ -204,7 +206,8 @@ function GlobalSettingsPage(props) {
                           actions.setLastFocusedIndex({ i })
                           actions.toggleSettingsDialogMode({
                             i,
-                            isSettingsDialogMode: true
+                            isSettingsDialogMode: true,
+                            lastFocusedPage
                           })
                         }}
                       >

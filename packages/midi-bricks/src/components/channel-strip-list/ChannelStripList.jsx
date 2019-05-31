@@ -30,7 +30,7 @@ function ChannelStripList(props) {
   const classes = makeStyles(styles, { withTheme: true })()
   const {
     actions,
-    sliderList =[],
+    sliderList = [],
     monitorVal: { driver = 'None', cC = 'None', channel = 'None' } = {},
     viewSettings: {
       pageType,
@@ -41,7 +41,8 @@ function ChannelStripList(props) {
       isSettingsDialogMode = false,
       // isLiveMode = false,
       isMidiLearnMode = false,
-      lastFocusedIdxs=[],
+      lastFocusedIdxs = [],
+      lastFocusedPage,
       rowHeight,
       columns,
       isAutoSize,
@@ -103,7 +104,10 @@ function ChannelStripList(props) {
                 e.stopPropagation()
               }}
               onClick={
-                !isLayoutMode && isSettingsMode && !isSettingsDialogMode && !lastFocusedIdxs.includes(i)
+                !isLayoutMode &&
+                isSettingsMode &&
+                !isSettingsDialogMode &&
+                !lastFocusedIdxs.includes(i)
                   ? (e) => {
                     actions.setLastFocusedIndex({ i })
                     e.preventDefault()
@@ -123,9 +127,7 @@ function ChannelStripList(props) {
                 }
               }
             >
-              <SizeMe 
-                monitorHeight
-              >
+              <SizeMe monitorHeight>
                 {({ size }) => {
                   return (
                     <div
@@ -183,7 +185,12 @@ function ChannelStripList(props) {
                                 isFocused
                               )
                             }
-                            toggleSettings={toggleSettings.bind(this, actions)}
+                            toggleSettings={toggleSettings.bind(
+                              this,
+                              lastFocusedPage,
+                              i,
+                              actions
+                            )}
                             sliderEntry={sliderEntry}
                           />
                         </span>
@@ -202,22 +209,24 @@ function ChannelStripList(props) {
       <Typography variant='h4' className={classes.noMidiTypography}>
         <br />
         <br />
-        Dear user, 
-        I suggest for you to load an example preset.
+        Dear user, I suggest for you to load an example preset.
         <br />
         <br />
         <Button
           onClick={() =>
             // TODO: use thunkLoadFile
-            props.actions.loadFile({ content: preset, presetName: 'APC-40 Preset' })
+            props.actions.loadFile({
+              content: preset,
+              presetName: 'APC-40 Preset'
+            })
           }
         >
           LOAD EXAMPLE PRESET
         </Button>
         <br />
         <br />
-        Otherwise, feel free to play arround and add a page or buttons.
-        You can do this with the button at the right top in the AppBar → ↑
+        Otherwise, feel free to play arround and add a page or buttons. You can
+        do this with the button at the right top in the AppBar → ↑
       </Typography>
     )
   }
@@ -329,8 +338,8 @@ function styles(theme) {
   }
 }
 
-function toggleSettings(actions, { isSettingsDialogMode }) {
-  actions.toggleSettingsDialogMode({ isSettingsDialogMode })
+function toggleSettings(lastFocusedPage, i, actions, { isSettingsDialogMode }) {
+  actions.toggleSettingsDialogMode({ i, lastFocusedPage, isSettingsDialogMode })
 }
 
 function mapStateToProps({

@@ -255,10 +255,10 @@ export const viewSettings = {
     })
   },
   [ActionTypeViewSettings.TOGGLE_SETTINGS_DIALOG_MODE](state, action) {
-    const { isSettingsDialogMode, i } = action.payload
+    const { isSettingsDialogMode, i, lastFocusedPage } = action.payload
     return createNextState(state, (draftState) => {
       draftState.isSettingsDialogMode = isSettingsDialogMode
-      draftState.lastFocusedPage = i
+      draftState.lastFocusedPage = lastFocusedPage
       draftState.lastFocusedIdx = i
       return draftState
     })
