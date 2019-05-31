@@ -244,14 +244,25 @@ export const sliders = {
         return draftState
       })
     } else {
-      const sliderList = state.sliderList.filter(
-        ({ i }) => sentIdx && sentIdx.toString() !== i
-      )
-      const newTmp = {
-        ...state,
-        sliderListBackup: state.sliderList
-      }
-      return updatePagesWithSliderlist(newTmp, sliderList, lastFocusedPage)
+
+      return createNextState(state, (draftState) => {
+        const sliderList = state.sliderList.filter(
+          ({ i }) => sentIdx && sentIdx.toString() !== i
+        )
+        // const newTmp = {
+        //   ...state,
+        //   sliderListBackup: state.sliderList
+        // }
+        draftState.sliderList = sliderList
+        draftState.pages[lastFocusedPage] = {
+          ...state.pages[lastFocusedPage],
+          sliderList
+        }
+        return draftState
+      })
+
+
+      // return updatePagesWithSliderlist(newTmp, sliderList, lastFocusedPage)
     }
 
   },

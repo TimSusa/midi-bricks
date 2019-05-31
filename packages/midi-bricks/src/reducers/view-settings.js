@@ -54,11 +54,17 @@ export const viewSettings = {
   },
 
   [ActionTypeViewSettings.TOGGLE_SETTINGS_MODE](state, action) {
-    const castedVal = !!state.isSettingsMode
-    const { isSettingsMode } = action.payload || {}
-    return Object.assign({}, state, {
-      isSettingsMode: isSettingsMode || !castedVal,
-      isMidiLearnMode: false
+
+
+    return createNextState(state, (draftState) => {
+      const castedVal = !!state.isSettingsMode
+      const { isSettingsMode } = action.payload || {}
+
+      draftState.isSettingsMode = isSettingsMode || !castedVal
+      draftState.isMidiLearnMode = false
+      draftState.lastFocusedIdxs = []
+      draftState.lastFocusedIdxs.length = 0
+      return draftState
     })
   },
 
