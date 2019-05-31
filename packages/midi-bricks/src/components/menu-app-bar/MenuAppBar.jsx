@@ -177,7 +177,7 @@ function MenuAppBar(props) {
                       <ViewSettingsIcon />
                     )}
                     {Array.isArray(lastFocusedIdxs) &&
-                    lastFocusedIdxs.length > 1 ? (
+                    lastFocusedIdxs.length > 0 ? (
                       <>
                         {renderAppBarButton(
                           () => thunkCopyToNextPage(),
