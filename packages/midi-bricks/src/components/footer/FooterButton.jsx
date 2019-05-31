@@ -37,7 +37,7 @@ export function FooterButton(props) {
             actions.setLastFocusedIndex({ i: id })
             actions.setLastFocusedPage({ lastFocusedPage: id })
             actions.toggleSettingsDialogMode({
-              idx: id,
+              i: id,
               isSettingsDialogMode: true
             })
           }

@@ -30,7 +30,6 @@ const { BUTTON, BUTTON_TOGGLE, PAGE } = STRIP_TYPE
 MidiSettings.propTypes = {
   isSettingsMode: PropTypes.bool,
   actions: PropTypes.object,
-  idx: PropTypes.number,
   inputs: PropTypes.object,
   onClose: PropTypes.func,
   outputs: PropTypes.object,
@@ -48,11 +47,10 @@ function MidiSettings(props) {
     outputs = {},
     sliderEntry = {},
     pageTarget = {},
-    sliderEntry: { i, label, type },
     lastFocusedPage,
     onClose = () => {}
   } = props
-
+  const { i, label, type } = sliderEntry
   const isOutputsEmpty = isAllEmpty(outputs)
   const isInputsEmpty = isAllEmpty(inputs)
   return (
@@ -249,13 +247,13 @@ function mapStateToProps({
     pageTargets = [],
     availableDrivers: { inputs = {}, outputs = {} } = {}
   },
-  sliders: { sliderList }
+  //sliders: { sliderList }
 }) {
   const pageTarget = pageTargets.find((item) => item.id === lastFocusedPage)
   return {
     lastFocusedPage,
     isSettingsMode,
-    sliderList,
+    // sliderList,
     pageTarget,
     inputs,
     outputs

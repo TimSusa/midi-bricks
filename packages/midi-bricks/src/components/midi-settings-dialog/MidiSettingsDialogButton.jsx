@@ -9,13 +9,12 @@ import MidiSettingsDialog from './MidiSettingsDialog'
 
 MidiSettingsDialogButton.propTypes = {
   isOpen: PropTypes.bool,
-  idx: PropTypes.number,
   sliderEntry: PropTypes.object,
   toggleSettings: PropTypes.func
 }
 
 export default function MidiSettingsDialogButton(props) {
-  const { isOpen, toggleSettings, sliderEntry, idx } = props
+  const { isOpen, toggleSettings, sliderEntry } = props
   const classes = makeStyles(styles, { withTheme: true })()
 
   return (
@@ -42,7 +41,6 @@ export default function MidiSettingsDialogButton(props) {
             isSettingsDialogMode: false
           })}
           sliderEntry={sliderEntry}
-          idx={idx}
         />
       ) : (
         <div />

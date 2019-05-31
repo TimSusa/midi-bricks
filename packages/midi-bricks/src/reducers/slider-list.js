@@ -218,19 +218,47 @@ export const sliders = {
   },
   [ActionTypeSliderList.DELETE](state, action) {
     const { i: sentIdx, lastFocusedPage } = action.payload
-    const sliderList = state.sliderList.filter(
-      ({ i }) => sentIdx && sentIdx.toString() !== i
-    )
-    const newTmp = {
-      ...state,
-      sliderListBackup: state.sliderList
+    const isPage = sentIdx.toString().startsWith('page')
+
+    if (isPage) {
+      return createNextState(state, (draftState) => {
+        let sliderList = []
+        const pages = Object.keys(state.pages).reduce((acc, cur) => {
+          if (cur !== sentIdx.toString()) {
+            sliderList = state.pages[cur].sliderList
+            return {
+              ...acc,
+              [cur]: {
+                ...state.pages[cur]
+              }
+            }
+          } else {
+            return acc
+          }
+        }, {})
+        console.warn('ispage', pages)
+
+        draftState.pages = pages
+        draftState.sliderList = sliderList
+        draftState.sliderListBackup = state.sliderList
+        return draftState
+      })
+    } else {
+      const sliderList = state.sliderList.filter(
+        ({ i }) => sentIdx && sentIdx.toString() !== i
+      )
+      const newTmp = {
+        ...state,
+        sliderListBackup: state.sliderList
+      }
+      return updatePagesWithSliderlist(newTmp, sliderList, lastFocusedPage)
     }
-    return updatePagesWithSliderlist(newTmp, sliderList, lastFocusedPage)
+
   },
   [ActionTypeSliderList.DELETE_ALL](state, action) {
     return createNextState(state, (draftState) => {
       draftState.sliderList = []
-      draftState.pages = {}
+      // draftState.pages = {}
       draftState.pages = initPages([], initId)
       draftState.presetName = ''
       draftState.sliderListBackup = state.sliderList
@@ -1214,34 +1242,13 @@ function updatePagesWithSliderlist(
   return createNextState(state, (draftState) => {
     draftState.sliderList = refreshedSliderList
     draftState.pages[lastFocusedPage] = {
-      //...state.pages,
       sliderList: refreshedSliderList,
       id: lastFocusedPage
     }
     return draftState
   })
-
-  // return {
-  //   ...state,
-  //   sliderList: refreshedSliderList,
-  //   pages:
-  //     {
-  //       ...(state.pages ? state.pages : {}),
-  //       [lastFocusedPage]: {
-  //         ...(state.pages && state.pages[lastFocusedPage]
-  //           ? state.pages[lastFocusedPage]
-  //           : {}),
-  //         sliderList: refreshedSliderList,
-  //         id: lastFocusedPage
-  //       }
-  //     } || {}
-  // }
 }
 
-function id() {
-  const val = `page-${getUniqueId()}`
-  return val
-}
 function initPages(sliderList = [], id) {
   return {
     [id]: {

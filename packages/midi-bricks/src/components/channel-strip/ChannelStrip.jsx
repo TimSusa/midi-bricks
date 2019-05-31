@@ -15,7 +15,6 @@ const sliderThumbHeight = 30
 
 ChannelStrip.propTypes = {
   classes: PropTypes.object,
-  idx: PropTypes.number,
   isDisabled: PropTypes.bool,
   isMidiLearnMode: PropTypes.any,
   size: PropTypes.object,
@@ -24,8 +23,9 @@ ChannelStrip.propTypes = {
 
 function ChannelStrip(props) {
   const classes = makeStyles(styles, { withTheme: true })()
-  const { sliderEntry, idx, size, isDisabled, isMidiLearnMode } = props
+  const { sliderEntry, size, isDisabled, isMidiLearnMode } = props
   const {
+    i,
     type,
     label,
     val,
@@ -62,7 +62,7 @@ function ChannelStrip(props) {
           {!isValueHidden && (
             <Label
               lastSavedVal={lastSavedVal}
-              idx={idx}
+              i={i}
               fontSize={fontSize}
               fontWeight={fontWeight}
               labelStyle={classes.bottomLabel}
@@ -90,7 +90,7 @@ function ChannelStrip(props) {
             className={classes.sliderWrapper}
             isDisabled={isDisabled}
             sliderEntry={sliderEntry}
-            idx={idx}
+            i={i}
             height={calcHeight(tmpH, props)}
             width={tmpW - sliderThumbHeight}
             sliderThumbHeight={sliderThumbHeight}
@@ -98,7 +98,7 @@ function ChannelStrip(props) {
           {!isValueHidden ? (
             <Label
               lastSavedVal={lastSavedVal}
-              idx={idx}
+              i={i}
               fontSize={fontSize}
               fontWeight={fontWeight}
               labelStyle={classes.bottomLabel}
@@ -123,7 +123,6 @@ function ChannelStrip(props) {
         <StripLabel
           isDisabled={isDisabled}
           sliderEntry={sliderEntry}
-          idx={idx}
           height={tmpH}
           width={tmpW}
         />
@@ -133,7 +132,6 @@ function ChannelStrip(props) {
           isDisabled={isDisabled}
           classes={classes}
           sliderEntry={sliderEntry}
-          idx={idx}
           height={tmpH}
           width={tmpW}
         />

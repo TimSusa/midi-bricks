@@ -12,7 +12,7 @@ export function DriverEmtpyRedirectButton({
       <Button
         onClick={() => {
           toggleSettingsDialogMode({
-            idx: i,
+            i: i,
             isSettingsDialogMode: false,
           })
           togglePage({

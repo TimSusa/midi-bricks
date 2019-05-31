@@ -110,11 +110,10 @@ function GlobalSettingsPage(props) {
                         key={`glb-settings-${idx}`}
                         open
                         onClose={actions.toggleSettingsDialogMode.bind(this, {
-                          idx,
+                          i,
                           isSettingsDialogMode: false
                         })}
                         sliderEntry={sliderEntry}
-                        idx={idx}
                       />
                     )
                   }

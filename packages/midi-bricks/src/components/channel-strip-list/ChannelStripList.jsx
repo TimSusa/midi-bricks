@@ -162,7 +162,6 @@ function ChannelStripList(props) {
                       <ChannelStrip
                         size={size}
                         sliderEntry={sliderEntry}
-                        idx={idx}
                         isDisabled={isLayoutMode || isSettingsMode}
                         isMidiLearnMode={isMidiLearnMode}
                       />
@@ -186,7 +185,6 @@ function ChannelStripList(props) {
                             }
                             toggleSettings={toggleSettings.bind(this, actions)}
                             sliderEntry={sliderEntry}
-                            idx={idx}
                           />
                         </span>
                       )}

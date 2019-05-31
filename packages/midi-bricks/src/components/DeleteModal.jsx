@@ -18,8 +18,6 @@ export default connect(
   mapDispatchToProps
 )(DeleteModalComponent)
 
-
-
 DeleteModalComponent.propTypes = {
   actions: PropTypes.object,
   asButton: PropTypes.bool,
@@ -106,14 +104,24 @@ function handleCloseCancel(setOpen, e) {
   e.preventDefault()
 }
 
-function handleClose({ i, id }, lastFocusedPage, onAction, actions, onClose, setOpen) {
+function handleClose(
+  { i, id },
+  lastFocusedPage,
+  onAction,
+  actions,
+  onClose,
+  setOpen
+) {
   onAction && onAction()
-  if  (i !== 'me') {
+  if ((i || id) !== 'me') {
     actions.delete({ lastFocusedPage, i: i || id })
+  }
+  if ((i || id).startsWith('page')) {
+    actions.deletePageFromFooter({ i: i || id })
+    actions.setLastFocusedIndex()
   }
   onClose && onClose(false)
   setOpen(false)
-
 }
 
 function styles(theme) {
@@ -130,8 +138,8 @@ function styles(theme) {
   }
 }
 
-function mapStateToProps({viewSettings: {pageTargets, lastFocusedPage}}) {
-  return {pageTargets, lastFocusedPage}
+function mapStateToProps({ viewSettings: { pageTargets, lastFocusedPage } }) {
+  return { pageTargets, lastFocusedPage }
 }
 function mapDispatchToProps(dispatch) {
   return {

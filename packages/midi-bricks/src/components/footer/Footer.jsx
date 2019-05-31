@@ -52,13 +52,13 @@ function Footer(props) {
   if (pageType !== PAGE_TYPES.HOME_MODE && !isLiveMode) return <div />
   return (
     <div className={classes.root}>
-      {pageTargets.map((item, idx) => {
+      {pageTargets.map((item) => {
         if (isSettingsMode) {
           return (
-            <div key={`footer-button-${idx}`}>
+            <div key={`footer-button-${item.id}`}>
               <IconButton
                 onClick={actions.swapFooterPages.bind(this, {
-                  srcIdx: idx,
+                  srcIdx: item.id,
                   offset: -1
                 })}
                 className={classes.signButton}
@@ -78,7 +78,7 @@ function Footer(props) {
 
               <IconButton
                 onClick={actions.swapFooterPages.bind(this, {
-                  srcIdx: idx,
+                  srcIdx: item.id,
                   offset: 1
                 })}
                 className={classes.signButton}
@@ -95,14 +95,13 @@ function Footer(props) {
                 onClose={() => {
                   actions.setLastFocusedIndex({ i: '' })
                   actions.toggleSettingsDialogMode({
-                    idx: '',
+                    i: '',
                     isSettingsDialogMode: false
                   })
                 }}
                 sliderEntry={pageTargets.find(
                   (item) => item.id === lastFocusedPage
                 )}
-                idx={idx}
               />
             </div>
           )
@@ -110,7 +109,7 @@ function Footer(props) {
         // not in settings mode
         return (
           <FooterButton
-            key={`footer-button-${idx}`}
+            key={`footer-button-${item.id}`}
             classes={classes}
             lastFocusedPage={lastFocusedPage}
             item={item}

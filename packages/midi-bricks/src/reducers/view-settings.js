@@ -91,7 +91,7 @@ export const viewSettings = {
     const {
       // sliderList,
       viewSettings,
-      viewSettings: { availableDrivers } = {},
+      viewSettings: { availableDrivers } = {}
       //version
     } = action.payload
 
@@ -130,14 +130,16 @@ export const viewSettings = {
 
   [ActionTypeViewSettings.DELETE_PAGE_FROM_FOOTER](state, action) {
     const { i } = action.payload
-    const footerPages = state.footerPages.filter((item) => item.i !== i)
-    return Object.assign({}, state, {
-      footerPages
+    const pageTargets = state.pageTargets.filter((item) => item.id !== i)
+
+    return createNextState(state, (draftState) => {
+      draftState.pageTargets = pageTargets
+      return draftState
     })
   },
 
   [ActionTypeViewSettings.DELETE_FOOTER_PAGES](state, action) {
-    return createNextState(state, draftState => {
+    return createNextState(state, (draftState) => {
       draftState.pageTargets = viewSettingsInitState.pageTargets
       draftState.footerPages = []
       draftState.lastFocusedFooterButtonIdx = ''
@@ -188,28 +190,35 @@ export const viewSettings = {
 
   [ActionTypeViewSettings.SET_FOOTER_BUTTON_FOCUS](state, action) {
     const { i } = action.payload
-    return createNextState(state, draftState => {
+    return createNextState(state, (draftState) => {
       draftState.lastFocusedFooterButtonIdx = i
       return draftState
     })
   },
 
   [ActionTypeViewSettings.SET_LAST_FOCUSED_INDEX](state, action) {
-    return createNextState(state, draftState => {
-      const { i } = action.payload
-      draftState.lastFocusedIdx = i
+    return createNextState(state, (draftState) => {
+      const { i='' } = action.payload || {}
+
+      // Multiselection
       if (i !== 'none' && !i.startsWith('page')) {
+        draftState.lastFocusedIdx = i
         draftState.lastFocusedIdxs.push(i)
         // Remove duplicates
         draftState.lastFocusedIdxs = [...new Set(draftState.lastFocusedIdxs)]
+
+        // clear all
       } else if (i === 'none') {
         draftState.lastFocusedIdxs = []
         draftState.lastFocusedIdxs.length = 0
+        draftState.lastFocusedIdx = i
+      } else {
+        draftState.lastFocusedIdx = i
+        draftState.lastFocusedIdxs = []
       }
-      
+
       return draftState
     })
-
   },
 
   // TODO: REPAIR
@@ -240,9 +249,11 @@ export const viewSettings = {
     })
   },
   [ActionTypeViewSettings.TOGGLE_SETTINGS_DIALOG_MODE](state, action) {
-    const { isSettingsDialogMode } = action.payload
-    return createNextState(state, draftState => {
+    const { isSettingsDialogMode, i } = action.payload
+    return createNextState(state, (draftState) => {
       draftState.isSettingsDialogMode = isSettingsDialogMode
+      draftState.lastFocusedPage = i
+      draftState.lastFocusedIdx = i
       return draftState
     })
     // return Object.assign({}, state, {
@@ -305,25 +316,29 @@ export const viewSettings = {
     //   ...state,
     //   availableDrivers
     // }
-    return createNextState(state, draftState => {
+    return createNextState(state, (draftState) => {
       draftState.availableDrivers = availableDrivers
       return draftState
     })
-
   },
 
   [ActionTypeViewSettings.SET_PAGE_TARGET_SETTINGS](state, action) {
     const { color, colorFont, label } = action.payload
 
-    return createNextState(state, draftState => {
+    return createNextState(state, (draftState) => {
+
+      const idx = state.pageTargets.findIndex(item => item.id === state.lastFocusedPage)
+      if (idx < 0) return draftState
       if (color) {
-        draftState.pageTargets[state.lastFocusedPage].colors.color = color
+        draftState.pageTargets[idx].colors.color = color
       }
       if (colorFont) {
-        draftState.pageTargets[state.lastFocusedPage].colors.colorFont = colorFont
+        draftState.pageTargets[
+          idx
+        ].colors.colorFont = colorFont
       }
       if (label) {
-        draftState.pageTargets[state.lastFocusedPage].label = label
+        draftState.pageTargets[idx].label = label
       }
       return draftState
     })
@@ -412,29 +427,26 @@ export const viewSettings = {
         ? windowCoords
         : state.electronAppSettings.windowCoords
     }
-    return createNextState(state, draftState => {
+    return createNextState(state, (draftState) => {
       draftState.electronAppSettings = electronAppSettings
       return draftState
     })
     //return { ...state, electronAppSettings }
   },
   [ActionTypeViewSettings.SET_LAST_FOCUSED_PAGE](state, action) {
-
-    return createNextState(state, draftState => {
+    return createNextState(state, (draftState) => {
       const {
-        payload: { lastFocusedPage }
+        payload: { lastFocusedPage = '' }
       } = action
 
       draftState.lastFocusedPage = lastFocusedPage
       return draftState
     })
     // return { ...state, lastFocusedPage }
-    
   },
 
   [ActionTypeViewSettings.ADD_PAGE_TARGET](state, action) {
-
-    return createNextState(state, draftState => {
+    return createNextState(state, (draftState) => {
       const {
         payload: { pageTarget }
       } = action

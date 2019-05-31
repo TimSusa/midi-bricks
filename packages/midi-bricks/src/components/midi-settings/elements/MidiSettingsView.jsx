@@ -34,6 +34,8 @@ export function MidiSettingsView(props) {
     pageTarget = {},
     actions
   } = props
+  const color = !pageType ? colors.color : pageTarget&& pageTarget.colors && pageTarget.colors.color
+  const colorFont = !pageType ? colors.colorFont : pageTarget&& pageTarget.colors && pageTarget.colors.colorFont
   return (
     <React.Fragment>
       <FormControl>
@@ -58,7 +60,7 @@ export function MidiSettingsView(props) {
           title='Background'
           i={i}
           fieldName='color'
-          color={!pageType ? colors.color : pageTarget.colors.color}
+          color={color}
           onChange={
             !pageType ? actions.changeColors : actions.setPageTargetSettings
           }
@@ -80,7 +82,7 @@ export function MidiSettingsView(props) {
           title='Font-Color'
           i={i}
           fieldName='colorFont'
-          color={!pageType ? colors.colorFont : pageTarget.colors.colorFont}
+          color={colorFont}
           onChange={
             !pageType ? actions.changeColors : actions.setPageTargetSettings
           }
