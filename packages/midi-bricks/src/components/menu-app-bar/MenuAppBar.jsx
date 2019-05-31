@@ -96,7 +96,7 @@ function MenuAppBar(props) {
             isCompactHorz ? (
               <Tooltip disableHoverListener={false} title='Gravity horizontal'>
                 <IconButton
-                  onClick={actions.toggleCompactMode}
+                  onClick={e => actions.toggleCompactMode()}
                   className={classes.menuButton}
                   color='inherit'
                   aria-label='Menu'
@@ -107,7 +107,7 @@ function MenuAppBar(props) {
             ) : (
               <Tooltip disableHoverListener={false} title='Gravity vertical'>
                 <IconButton
-                  onClick={actions.toggleCompactMode}
+                  onClick={e => actions.toggleCompactMode()}
                   className={classes.menuButton}
                   color='inherit'
                   aria-label='Menu'
@@ -124,7 +124,7 @@ function MenuAppBar(props) {
             isAutoArrangeMode ? (
               <Tooltip disableHoverListener={false} title='Automatic Gravity'>
                 <IconButton
-                  onClick={actions.toggleAutoArrangeMode}
+                  onClick={e => actions.toggleAutoArrangeMode()}
                   className={classes.menuButton}
                   color='inherit'
                   aria-label='Menu'
@@ -135,7 +135,7 @@ function MenuAppBar(props) {
             ) : (
               <Tooltip disableHoverListener={false} title='Static Gravity'>
                 <IconButton
-                  onClick={actions.toggleAutoArrangeMode}
+                  onClick={e => actions.toggleAutoArrangeMode()}
                   className={classes.menuButton}
                   color='inherit'
                   aria-label='Menu'
@@ -160,14 +160,14 @@ function MenuAppBar(props) {
               <Button
                 className={classes.resetButton}
                 variant='contained'
-                onClick={actions.resetValues}
+                onClick={e => actions.resetValues()}
               >
                 Reset To Saved Values
               </Button>
               <Button
                 className={classes.resetButton}
                 variant='contained'
-                onClick={actions.triggerAllMidiElements}
+                onClick={e => actions.triggerAllMidiElements()}
               >
                 Trigger All MIDI
               </Button>
@@ -222,7 +222,7 @@ function MenuAppBar(props) {
                     lastFocusedIdxs.length > 1 ? (
                         <button
                           onClick={e => thunkCopyToNextPage()}
-                        >copy to next page</button>
+                        >copy to last page</button>
                       ) : (
                         <div />
                       )}

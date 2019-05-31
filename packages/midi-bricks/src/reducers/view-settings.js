@@ -92,7 +92,7 @@ export const viewSettings = {
       // sliderList,
       viewSettings,
       viewSettings: { availableDrivers } = {},
-      version
+      //version
     } = action.payload
 
     const extractedPages = null //extractPages(sliderList)
@@ -122,9 +122,9 @@ export const viewSettings = {
       })
     }
     if (availableDrivers) {
-      return { ...footerState, availableDrivers, version }
+      return { ...footerState, availableDrivers }
     } else {
-      return { ...footerState, version }
+      return { ...footerState }
     }
   },
 
@@ -137,15 +137,24 @@ export const viewSettings = {
   },
 
   [ActionTypeViewSettings.DELETE_FOOTER_PAGES](state, action) {
-    return Object.assign(
-      {},
-      state,
-      {
-        footerPages: [],
-        pageTargets: []
-      },
-      viewSettingsInitState
-    )
+    return createNextState(state, draftState => {
+      draftState.pageTargets = viewSettingsInitState.pageTargets
+      draftState.footerPages = []
+      draftState.lastFocusedFooterButtonIdx = ''
+      draftState.lastFocusedPage = viewSettingsInitState.lastFocusedPage
+      draftState.isLayoutMode = viewSettingsInitState.isLayoutMode
+      return draftState
+    })
+
+    // return Object.assign(
+    //   {},
+    //   state,
+    //   {
+    //     footerPages: [],
+    //     pageTargets: []
+    //   },
+    //   viewSettingsInitState
+    // )
   },
 
   // [ActionTypeViewSettings.CHANGE_FOOTER_PAGE](state , action) {
@@ -179,8 +188,9 @@ export const viewSettings = {
 
   [ActionTypeViewSettings.SET_FOOTER_BUTTON_FOCUS](state, action) {
     const { i } = action.payload
-    return Object.assign({}, state, {
-      lastFocusedFooterButtonIdx: i
+    return createNextState(state, draftState => {
+      draftState.lastFocusedFooterButtonIdx = i
+      return draftState
     })
   },
 
@@ -231,10 +241,13 @@ export const viewSettings = {
   },
   [ActionTypeViewSettings.TOGGLE_SETTINGS_DIALOG_MODE](state, action) {
     const { isSettingsDialogMode } = action.payload
-
-    return Object.assign({}, state, {
-      isSettingsDialogMode
+    return createNextState(state, draftState => {
+      draftState.isSettingsDialogMode = isSettingsDialogMode
+      return draftState
     })
+    // return Object.assign({}, state, {
+    //   isSettingsDialogMode
+    // })
   },
 
   [ActionTypeViewSettings.SET_AVAILABLE_DRIVERS](state, action) {
@@ -288,10 +301,15 @@ export const viewSettings = {
       }
     }
 
-    return {
-      ...state,
-      availableDrivers
-    }
+    // return {
+    //   ...state,
+    //   availableDrivers
+    // }
+    return createNextState(state, draftState => {
+      draftState.availableDrivers = availableDrivers
+      return draftState
+    })
+
   },
 
   [ActionTypeViewSettings.SET_PAGE_TARGET_SETTINGS](state, action) {
@@ -394,21 +412,40 @@ export const viewSettings = {
         ? windowCoords
         : state.electronAppSettings.windowCoords
     }
-    return { ...state, electronAppSettings }
+    return createNextState(state, draftState => {
+      draftState.electronAppSettings = electronAppSettings
+      return draftState
+    })
+    //return { ...state, electronAppSettings }
   },
   [ActionTypeViewSettings.SET_LAST_FOCUSED_PAGE](state, action) {
-    const {
-      payload: { lastFocusedPage }
-    } = action
-    return { ...state, lastFocusedPage }
+
+    return createNextState(state, draftState => {
+      const {
+        payload: { lastFocusedPage }
+      } = action
+
+      draftState.lastFocusedPage = lastFocusedPage
+      return draftState
+    })
+    // return { ...state, lastFocusedPage }
+    
   },
 
   [ActionTypeViewSettings.ADD_PAGE_TARGET](state, action) {
-    const {
-      payload: { pageTarget }
-    } = action
-    let pageTargets = [...(state.pageTargets || []), pageTarget]
-    return { ...state, pageTargets }
+
+    return createNextState(state, draftState => {
+      const {
+        payload: { pageTarget }
+      } = action
+      //let pageTargets = [...(state.pageTargets || []), pageTarget]
+
+      draftState.pageTargets = state.pageTargets || []
+      draftState.pageTargets.push(pageTarget)
+      draftState.lastFocusedPage = pageTarget.id
+      draftState.lastFocusedIdxs = []
+      return draftState
+    })
   }
 }
 

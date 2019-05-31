@@ -5,41 +5,41 @@ import { STRIP_TYPE } from '../../reducers/slider-list'
 
 const { PAGE } = STRIP_TYPE
 const { addPage, addMidiElement, setMidiPage } = sliderListActions
-const { setLastFocusedPage, setLastFocusedIndex, addPageTarget } = viewSettingsActions
+const { setLastFocusedIndex, addPageTarget } = viewSettingsActions
 
 export function addElement(type, payload) {
   return async function(dispatch, getState) {
+    const {
+      viewSettings: { lastFocusedPage, pageTargets }
+    } = getState()
+
     if (type === PAGE) {
-      await createPage(dispatch, getState)
+      await createPage(dispatch, lastFocusedPage, pageTargets)
     } else {
-      const {
-        viewSettings: { lastFocusedPage },
-      } = getState()
-      await dispatch(addMidiElement({ lastFocusedPage, type, id: getUniqueId() }))
+      await dispatch(
+        addMidiElement({ lastFocusedPage, type, id: getUniqueId() })
+      )
     }
   }
 }
 
-function createPage(dispatch, getState) {
+function createPage(dispatch, lastFocusedPage, pageTargets) {
   const pageId = `page-${getUniqueId()}`
 
-  const { viewSettings } = getState()
-  
   return Promise.all([
-    dispatch(addPage({ id: pageId, lastFocusedPage: viewSettings.lastFocusedPage })),
+    dispatch(setLastFocusedIndex({ i: 'none' })),
     dispatch(
       addPageTarget({
         pageTarget: {
           id: pageId,
-          label: Array.isArray(viewSettings.pageTargets)
-            ? `Page ${viewSettings.pageTargets.length + 1}`
+          label: Array.isArray(pageTargets)
+            ? `Page ${pageTargets.length + 1}`
             : 'Page',
           colors: { colorFont: '#123456', color: '#dddddd' }
         }
       })
     ),
-    dispatch(setLastFocusedPage({ lastFocusedPage: pageId })),
-    dispatch(setLastFocusedIndex({i: 'none'})),
-    //dispatch(setMidiPage({focusedPage: pageId, lastFocusedPage: viewSettings.lastFocusedPage}))
+    dispatch(addPage({ id: pageId, lastFocusedPage })),
+    dispatch(setMidiPage({ focusedPage: pageId }))
   ])
 }

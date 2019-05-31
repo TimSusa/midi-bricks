@@ -1,8 +1,7 @@
 import { combineReducers } from 'redux'
 import { generateReducers } from 'redux-generate'
-import { sliders } from './slider-list'
+import { sliders, initId } from './slider-list'
 import { viewSettings } from './view-settings'
-import { getUniqueId } from '../utils/get-unique-id'
 
 export const PAGE_TYPES = {
   HOME_MODE: 'HOME_MODE',
@@ -11,7 +10,6 @@ export const PAGE_TYPES = {
   VIEW_SETTINGS_MODE: 'VIEW_SETTINGS_MODE'
 }
 
-const id = `page-${getUniqueId()}`
 
 const initState = {
   columns: 18,
@@ -62,9 +60,9 @@ const initState = {
 }
 
 const pages = {
-  [id]: {
+  [initId]: {
     sliderList: [],
-    id,
+    initId,
     label: 'Page 1'
   }
 }
@@ -76,7 +74,7 @@ const slidersInitState = {
 
 export const viewSettingsInitState = {
   ...initState,
-  lastFocusedPage: id,
+  lastFocusedPage: initId,
   lastFocusedIdx: '',
   lastFocusedIdxs: [],
   pageTargets: [
@@ -85,8 +83,8 @@ export const viewSettingsInitState = {
         color: '#123456',
         colorFont: '#dddddd'
       },
-      id: id,
-      label: pages[id].label
+      id: initId,
+      label: pages[initId].label
     }
   ]
 }

@@ -7,6 +7,8 @@ import { map, groupBy } from 'lodash'
 import { getUniqueId } from '../utils/get-unique-id'
 import { createNextState } from 'redux-starter-kit'
 
+export const initId = `page-${getUniqueId()}`
+
 export const STRIP_TYPE = {
   BUTTON: 'BUTTON',
   BUTTON_TOGGLE: 'BUTTON_TOGGLE',
@@ -90,21 +92,15 @@ export const sliders = {
   [ActionTypeSliderList.ADD_PAGE](state, action) {
     const { lastFocusedPage, id } = action.payload
 
-    return createNextState(state, draftState => {
+    return createNextState(state, (draftState) => {
       draftState.sliderList = []
       draftState.pages[id] = {
         sliderList: [],
         id,
-        label: 'not'
+        label: `Page ${Object.keys(state.pages).length + 1}`
       }
       return draftState
     })
-    // console.log('SAF', nextState)
-    // return nextState
-    // if (!Array.isArray(sliderList)) {
-    //   //      throw new TypeError('sliderlist comes wihtout array')
-    // }
-    //return updatePagesWithSliderlist(state, state.sliderList, id)
   },
 
   [ActionTypeSliderList.COPY_TO_NEXT_PAGE](state, action) {
@@ -113,7 +109,10 @@ export const sliders = {
       const entries = Object.keys(state.pages).reduce((acc, cur) => {
         const foundEntries = state.pages[cur].sliderList.map((item) => {
           if (lastFocusedIdxs.includes(item.i)) {
-            return item
+            return {
+              ...item,
+              i: getUniqueId()
+            }
           }
         })
         if (foundEntries) {
@@ -229,13 +228,14 @@ export const sliders = {
     return updatePagesWithSliderlist(newTmp, sliderList, lastFocusedPage)
   },
   [ActionTypeSliderList.DELETE_ALL](state, action) {
-    return {
-      ...state,
-      sliderList: [],
-      pages: {},
-      presetName: '',
-      sliderListBackup: state.sliderList
-    }
+    return createNextState(state, (draftState) => {
+      draftState.sliderList = []
+      draftState.pages = {}
+      draftState.pages = initPages([], initId)
+      draftState.presetName = ''
+      draftState.sliderListBackup = state.sliderList
+      return draftState
+    })
   },
 
   [ActionTypeSliderList.HANDLE_SLIDER_CHANGE](state, action) {
@@ -542,8 +542,6 @@ export const sliders = {
     return state
   },
   [ActionTypeSliderList.LOAD_FILE](state, action) {
-
-
     // return {
     //   ...state,
     //   ...sliders,
@@ -553,23 +551,15 @@ export const sliders = {
     return createNextState(state, (draftState) => {
       const {
         payload: {
-          lastFocusedPage,
-          presetName,
-          content,
-          content: { sliders } = {}
+          // lastFocusedPage,
+          // presetName,
+          content: { sliders: { sliderList, pages } } = {}
         } = {}
       } = action
 
-      // draftState = sliders
-      draftState.sliderList = sliders.sliderList
-      draftState.pages = {
-        ...sliders.pages,
-        [lastFocusedPage]: {
-          ...state.pages[lastFocusedPage],
-          sliderList: sliders.sliderList
-          //...sliders.pages[lastFocusedPage]
-        }
-      }
+      draftState.pages = pages || initPages(sliderList, initId)
+      //draftState.pages[id].sliderList = sliderList
+      draftState.sliderList = sliderList
       return draftState
     })
 
@@ -909,33 +899,16 @@ export const sliders = {
 
   [ActionTypeSliderList.SET_MIDI_PAGE](state, action) {
     return createNextState(state, (draftState) => {
-      const { lastFocusedPage, focusedPage } = action.payload
+      const { focusedPage } = action.payload
 
       const sliderList =
         focusedPage && state.pages[focusedPage]
           ? state.pages[focusedPage].sliderList
           : []
-
       draftState.sliderList = sliderList
-      // draftState.pages[lastFocusedPage] = {
-      //   sliderList: state.sliderList,
-      //   id: lastFocusedPage
-      // }
       return draftState
     })
 
-    // return {
-    //   ...state,
-    //   sliderList: nwerLIst,
-    //   sliderListBackup: nwerLIst,
-    //   pages: {
-    //     ...state.pages,
-    //     [lastFocusedPage]: {
-    //       ...state.pages[lastFocusedPage],
-    //       sliderList
-    //     }
-    //   }
-    // }
   },
 
   [ActionTypeSliderList.EXTRACT_PAGE](state, action) {
@@ -1241,7 +1214,7 @@ function updatePagesWithSliderlist(
   return createNextState(state, (draftState) => {
     draftState.sliderList = refreshedSliderList
     draftState.pages[lastFocusedPage] = {
-      ...state.pages,
+      //...state.pages,
       sliderList: refreshedSliderList,
       id: lastFocusedPage
     }
@@ -1263,4 +1236,18 @@ function updatePagesWithSliderlist(
   //       }
   //     } || {}
   // }
+}
+
+function id() {
+  const val = `page-${getUniqueId()}`
+  return val
+}
+function initPages(sliderList = [], id) {
+  return {
+    [id]: {
+      sliderList,
+      id,
+      label: 'Page 1'
+    }
+  }
 }

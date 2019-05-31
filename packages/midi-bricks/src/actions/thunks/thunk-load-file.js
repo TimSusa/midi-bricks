@@ -1,29 +1,31 @@
 import { Actions as sliderListActions } from '../slider-list'
 import { Actions as viewSettingsActions } from '../view-settings'
 import { initApp } from '../init'
-import { PAGE_TYPES } from '../../reducers'
+
+import { initId } from '../../reducers/slider-list'
 
 const { loadFile, deleteAll } = sliderListActions
-const { togglePage, updateViewSettings } = viewSettingsActions
+const { updateViewSettings, setLastFocusedPage } = viewSettingsActions
 
 export function thunkLoadFile(content, presetName) {
-
   return async function(dispatch, getState) {
-    const {viewSettings: {lastFocusedPage}} = getState()
     let promArray = []
 
-    //promArray.push(dispatch(deleteAll()))
-    //window.localStorage.clear()
+    promArray.push(dispatch(deleteAll()))
+    window.localStorage.clear()
 
-    // will load content to slider-list-reducer
-    promArray.push(dispatch(loadFile({ presetName, content, lastFocusedPage })))
 
     const {
-      version = '',
       viewSettings = {},
       viewSettings: { availableDrivers } = {},
       sliders: { sliderList, pages } = {}
     } = content
+    promArray.push(
+      dispatch(loadFile({ presetName, content, lastFocusedPage: initId }))
+    )
+
+    promArray.push(dispatch(setLastFocusedPage({ lastFocusedPage: initId })))
+
     const drivers = availableDrivers || {
       inputs: {
         None: {
@@ -44,7 +46,7 @@ export function thunkLoadFile(content, presetName) {
       promArray.push(
         dispatch(
           updateViewSettings({
-            version,
+            // version,
             viewSettings: { ...viewSettings, availableDrivers: drivers },
             pages
           })
@@ -58,7 +60,7 @@ export function thunkLoadFile(content, presetName) {
       promArray.push(
         dispatch(
           updateViewSettings({
-            version,
+            // version,
             viewSettings: { ...viewSettings, availableDrivers: drivers },
             sliderList: sliderList,
             pages
@@ -66,13 +68,6 @@ export function thunkLoadFile(content, presetName) {
         )
       )
     promArray.push(dispatch(initApp()))
-    // promArray.push(
-    //   dispatch(
-    //     togglePage({
-    //       pageType: PAGE_TYPES.GLOBAL_MODE
-    //     })
-    //   )
-    // )
     return Promise.all(promArray)
   }
 }

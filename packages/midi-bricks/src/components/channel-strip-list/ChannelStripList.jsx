@@ -111,7 +111,6 @@ function ChannelStripList(props) {
                   }
                   : () => {}
               }
-              onBlur={() => actions.setLastFocusedIndex({i: 'none'})}
               key={i}
               style={
                 (isMidiLearnMode || isSettingsMode) &&
@@ -211,6 +210,7 @@ function ChannelStripList(props) {
         <br />
         <Button
           onClick={() =>
+            // TODO: use thunkLoadFile
             props.actions.loadFile({ content: preset, presetName: 'APC-40 Preset' })
           }
         >

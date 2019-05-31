@@ -27,7 +27,7 @@ import { Actions as MidiSliderActions } from '../../actions/slider-list'
 import { Actions as ViewSettingsActions } from '../../actions/view-settings'
 import { connect } from 'react-redux'
 
-const version = process.env.REACT_APP_VERSION || 'unknown'
+const version = process.env.REACT_APP_VERSION || 'dev'
 
 export default connect(
   mapStateToProps,
@@ -48,7 +48,6 @@ DrawerList.propTypes = {
   saveFile: PropTypes.func,
   sliders: PropTypes.object,
   togglePage: PropTypes.func,
-  version: PropTypes.string,
   viewSettings: PropTypes.object
 }
 
@@ -64,7 +63,6 @@ function DrawerList(props) {
     handleResetSliders: handleResetSlidersTmp,
     viewSettings,
     sliders,
-    version,
     thunkLoadFile
   } = props
   const [open, setOpen] = useState(false)
