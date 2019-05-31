@@ -20,6 +20,11 @@ import { DriverEmtpyRedirectButton } from './elements/DriverEmtpyRedirectButton'
 
 import { STRIP_TYPE } from '../../reducers/slider-list'
 
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MidiSettings)
+
 const { BUTTON, BUTTON_TOGGLE, PAGE } = STRIP_TYPE
 
 MidiSettings.propTypes = {
@@ -44,7 +49,6 @@ function MidiSettings(props) {
     sliderEntry = {},
     pageTarget = {},
     sliderEntry: { i, label, type },
-    idx,
     lastFocusedPage,
     onClose = () => {}
   } = props
@@ -55,20 +59,18 @@ function MidiSettings(props) {
     <div className={classes.root}>
       <MidiSettingsLabelInput
         classes={classes}
-        idx={idx}
-        label={(type === undefined) ? pageTarget.label : label}
+        label={type === undefined ? pageTarget.label : label}
         i={i}
         actions={actions}
         type={type}
       />
-      {(type === undefined && isSettingsMode) && (
+      {type === undefined && isSettingsMode && (
         <DriverExpansionPanel label='View' isEmpty={false}>
           <MidiSettingsView
             pageTarget={pageTarget}
             classes={classes}
             actions={actions}
             type={PAGE}
-
           />
         </DriverExpansionPanel>
       )}
@@ -83,14 +85,13 @@ function MidiSettings(props) {
             <MidiSettingsOutput
               classes={classes}
               sliderEntry={sliderEntry}
-              idx={idx}
               outputs={outputs}
               actions={actions}
               lastFocusedPage={lastFocusedPage}
             />
           )}
         </DriverExpansionPanel>
-      ) }
+      )}
       {type === STRIP_TYPE.XYPAD && (
         <DriverExpansionPanel label={'Outputs Y'} isEmpty={isOutputsEmpty}>
           {isOutputsEmpty ? (
@@ -99,14 +100,13 @@ function MidiSettings(props) {
             <MidiSettingsOutputY
               classes={classes}
               sliderEntry={sliderEntry}
-              idx={idx}
               outputs={outputs}
               actions={actions}
               lastFocusedPage={lastFocusedPage}
             />
           )}
         </DriverExpansionPanel>
-      ) }
+      )}
       {type !== undefined ? (
         <React.Fragment>
           {' '}
@@ -117,7 +117,6 @@ function MidiSettings(props) {
               <MidiSettingsInput
                 classes={classes}
                 sliderEntry={sliderEntry}
-                idx={idx}
                 inputs={inputs}
               />
             )}
@@ -145,7 +144,6 @@ function MidiSettings(props) {
         asButton
         isOpen={false}
         sliderEntry={sliderEntry}
-        idx={idx}
         onClose={onClose}
         actions={actions}
       />
@@ -159,38 +157,21 @@ function styles(theme) {
       display: 'flex',
       flexDirection: 'column'
     },
-    // expPanel: {
-    //   margin: theme.spacing(1),
-    //   minHeight: theme.spacing(8),
-    // },
+
     button: {
       margin: theme.spacing(1),
       background: theme.palette.button.background
     },
-    // heading: {
-    //   margin: theme.spacing(1),
-    //   color: theme.palette.primary.contrastText,
-    // },
+
     iconColor: {
       color: theme.palette.primary.contrastText,
       cursor: 'pointer'
     },
-    // input: {
-    //   color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
-    //   fontSize: '1rem',
-    //   fontWeight: 400,
-    //   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    //   lineHeight: '1.375em',
-    // },
+
     inputInput: {
       margin: theme.spacing(1)
     },
-    // formControl: {
-    //   margin: theme.spacing(1),
-    // },
-    // label: {
-    //   color: theme.palette.primary.contrastText,
-    // },
+
     select: {
       color: theme.palette.primary.contrastText,
       lineHeight: '1.375em'
@@ -262,10 +243,15 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({
-  viewSettings: { lastFocusedPage, isSettingsMode, pageTargets=[], availableDrivers: { inputs = {}, outputs = {} } = {} },
+  viewSettings: {
+    lastFocusedPage,
+    isSettingsMode,
+    pageTargets = [],
+    availableDrivers: { inputs = {}, outputs = {} } = {}
+  },
   sliders: { sliderList }
 }) {
-  const pageTarget = pageTargets.find(item => item.id === lastFocusedPage)
+  const pageTarget = pageTargets.find((item) => item.id === lastFocusedPage)
   return {
     lastFocusedPage,
     isSettingsMode,
@@ -275,8 +261,3 @@ function mapStateToProps({
     outputs
   }
 }
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MidiSettings)

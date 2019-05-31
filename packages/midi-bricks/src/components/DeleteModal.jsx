@@ -24,8 +24,10 @@ DeleteModalComponent.propTypes = {
   actions: PropTypes.object,
   asButton: PropTypes.bool,
   isOpen: PropTypes.bool,
+  lastFocusedPage: PropTypes.string,
   onAction: PropTypes.func,
   onClose: PropTypes.func,
+  pageTargets: PropTypes.array,
   sliderEntry: PropTypes.object
 }
 
@@ -109,7 +111,6 @@ function handleClose({ i, id }, lastFocusedPage, onAction, actions, onClose, set
   if  (i !== 'me') {
     actions.delete({ lastFocusedPage, i: i || id })
   }
-  //actions.deletePageFromFooter({ i })
   onClose && onClose(false)
   setOpen(false)
 

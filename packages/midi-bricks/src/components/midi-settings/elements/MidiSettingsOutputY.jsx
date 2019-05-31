@@ -10,6 +10,11 @@ import {
 } from '../MidiSettings'
 
 import { STRIP_TYPE } from '../../../reducers/slider-list'
+import { PropTypes } from 'prop-types'
+
+
+
+
 
 const { SLIDER, SLIDER_HORZ, XYPAD } = STRIP_TYPE
 
@@ -27,13 +32,12 @@ export const MidiSettingsOutputY = props => {
       yDriverName = 'None',
       yMidiChannel,
       yMidiCc,
-    },
-    idx,
+    } = {},
     outputs,
   } = props
   return (
     <React.Fragment>
-      <InputNoteOrCc i={i} yMidiCc={yMidiCc} type={type} idx={idx} />
+      <InputNoteOrCc i={i} yMidiCc={yMidiCc} type={type}/>
       <FormControl className={classes.formControl}>
         <InputLabel className={classes.label} htmlFor="midi-driver">
           Driver
@@ -82,11 +86,11 @@ export const MidiSettingsOutputY = props => {
           <MinMaxValInput
             label="Maximum Value"
             value={yMaxVal}
-            name={`input-maxval-name-${idx}`}
+            name={`input-maxval-name-${i}`}
             limitVal={127}
             onChange={e =>
               actions.changeXypadSettings({
-                idx,
+                i,
                 yMaxVal: e.target.value,
               })
             }
@@ -94,11 +98,11 @@ export const MidiSettingsOutputY = props => {
           <MinMaxValInput
             label="Minimum Value"
             value={yMinVal}
-            name={`input-yMinVal-name-${idx}`}
+            name={`input-yMinVal-name-${i}`}
             limitVal={0}
             onChange={e =>
               actions.changeXypadSettings({
-                idx,
+                i,
                 yMinVal: e.target.value,
               })
             }
@@ -107,4 +111,11 @@ export const MidiSettingsOutputY = props => {
       )}
     </React.Fragment>
   )
+}
+
+MidiSettingsOutputY.propTypes = {
+  actions: PropTypes.object,
+  classes: PropTypes.object,
+  outputs: PropTypes.any,
+  sliderEntry: PropTypes.object
 }
