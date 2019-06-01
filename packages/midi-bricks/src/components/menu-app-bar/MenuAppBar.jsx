@@ -11,7 +11,6 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
 import SwapVertIcon from '@material-ui/icons/SwapVert'
@@ -27,7 +26,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import ViewSettingsIcon from '@material-ui/icons/Settings'
 import AddMenu from './AddMenu'
 import { PAGE_TYPES } from '../../reducers'
-import { Tooltip } from '@material-ui/core'
+import { ToolTipIconButton } from '../ToolTipIconButton'
 
 export default connect(
   mapStateToProps,
@@ -72,14 +71,13 @@ function MenuAppBar(props) {
     <div className={classes.root}>
       <AppBar className={classes.appBar} position='fixed'>
         <Toolbar>
-          <IconButton
-            onClick={props.handleDrawerToggle}
-            className={classes.menuButton}
-            color='inherit'
+          <ToolTipIconButton
+            title={'Menu'}
+            handleClick={props.handleDrawerToggle}
+            icon={<MenuIcon />}
             aria-label='Menu'
-          >
-            <MenuIcon />
-          </IconButton>
+          />
+
           <Typography variant='h6' color='inherit' className={classes.flex}>
             MIDI Briqkxs
           </Typography>
@@ -94,23 +92,27 @@ function MenuAppBar(props) {
             </Typography>
           )}
 
-          {isLayoutMode &&
-            renderAppBarButton(
-              (e) => actions.toggleCompactMode(),
-              isCompactHorz ? 'Gravity horizontal' : 'Gravity vertical',
-              isCompactHorz ? <SwapHorizIcon /> : <SwapVertIcon />
-            )}
+          {isLayoutMode && (
+            <ToolTipIconButton
+              handleClick={(e) => actions.toggleCompactMode()}
+              title={isCompactHorz ? 'Gravity horizontal' : 'Gravity vertical'}
+              icon={isCompactHorz ? <SwapHorizIcon /> : <SwapVertIcon />}
+            />
+          )}
 
-          {isLayoutMode &&
-            renderAppBarButton(
-              (e) => actions.toggleAutoArrangeMode(),
-              isAutoArrangeMode ? 'Automatic Gravity' : 'Static Gravity',
-              isAutoArrangeMode ? (
-                <AutoArrangeModeIcon />
-              ) : (
-                <AutoArrangeModeIconFalse />
-              )
-            )}
+          {isLayoutMode && (
+            <ToolTipIconButton
+              handleClick={(e) => actions.toggleAutoArrangeMode()}
+              title={isAutoArrangeMode ? 'Automatic Gravity' : 'Static Gravity'}
+              icon={
+                isAutoArrangeMode ? (
+                  <AutoArrangeModeIcon />
+                ) : (
+                  <AutoArrangeModeIconFalse />
+                )
+              }
+            />
+          )}
 
           {isLayoutMode && <AddMenu />}
           {pageType === PAGE_TYPES.GLOBAL_MODE && (
@@ -120,7 +122,7 @@ function MenuAppBar(props) {
           )}
 
           {pageType === PAGE_TYPES.GLOBAL_MODE && (
-            <React.Fragment>
+            <>
               <Button
                 className={classes.resetButton}
                 variant='contained'
@@ -135,7 +137,7 @@ function MenuAppBar(props) {
               >
                 Trigger All MIDI
               </Button>
-            </React.Fragment>
+            </>
           )}
           {[PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
             pageType
@@ -171,43 +173,43 @@ function MenuAppBar(props) {
               <>
                 {!isMidiLearnMode && (
                   <>
-                    {renderAppBarButton(
-                      () => actions.toggleSettingsMode(),
-                      'Switch to Settings Mode.',
-                      <ViewSettingsIcon />
-                    )}
+                    <ToolTipIconButton
+                      handleClick={() => actions.toggleSettingsMode()}
+                      title={'Switch to Settings Mode.'}
+                      icon={<ViewSettingsIcon />}
+                    />
+
                     {Array.isArray(lastFocusedIdxs) &&
-                    lastFocusedIdxs.length > 0 ? (
-                      <>
-                        {renderAppBarButton(
-                          () => thunkCopyToNextPage(),
-                          'Copy to last page.',
-                          <CopyIcon />
-                        )}
-                        {renderAppBarButton(
-                          (e) => {
-                            lastFocusedIdxs.forEach((id) => {
-                              actions.delete({ i: id, lastFocusedPage })
-                            })
-                          },
-                          'Delete.',
-                          <DeleteIcon />
-                        )}
-                      </>
-                      ) : (
-                        <div />
-                      )}
+                      lastFocusedIdxs.length > 0 && (
+                        <>
+                          <ToolTipIconButton
+                            handleClick={() => thunkCopyToNextPage()}
+                            title={'Copy to last page.'}
+                            icon={<CopyIcon />}
+                          />
+
+                          <ToolTipIconButton
+                            handleClick={(e) => {
+                              lastFocusedIdxs.forEach((id) => {
+                                actions.delete({ i: id, lastFocusedPage })
+                              })
+                            }}
+                            title={'Delete.'}
+                            icon={<DeleteIcon />}
+                          />
+                        </>
+                    )}
                   </>
                 )}
-                {!isMidiLearnMode &&
-                  renderAppBarButton(
-                    (e) => actions.toggleLayoutMode(),
-                    'Switch to Layout Mode.',
-                    <LayoutIcon />
-                  )}
-
-                {renderAppBarButton(
-                  toggleMidiLearnMode.bind(
+                {!isMidiLearnMode && (
+                  <ToolTipIconButton
+                    handleClick={(e) => actions.toggleLayoutMode()}
+                    title={'Switch to Layout Mode.'}
+                    icon={<LayoutIcon />}
+                  />
+                )}
+                <ToolTipIconButton
+                  handleClick={toggleMidiLearnMode.bind(
                     this,
                     actions.toggleMidiLearnMode,
                     null,
@@ -218,16 +220,18 @@ function MenuAppBar(props) {
                     monitorVal,
                     lastFocusedIdx,
                     lastFocusedPage
-                  ),
+                  )}
+                  title={
+                    isMidiLearnMode
+                      ? 'Chose assigned element and finalize MIDI-Learn Mode.'
+                      : 'Switch to MIDI Learn Mode. Please, double-click element for listening to changes.'
+                  }
+                  icon={!isMidiLearnMode ? <MidiLearnIcon /> : <CheckIcon />}
+                />
 
-                  isMidiLearnMode
-                    ? 'Chose assigned element and finalize MIDI-Learn Mode.'
-                    : 'Switch to MIDI Learn Mode. Please, double-click element for listening to changes.',
-                  !isMidiLearnMode ? <MidiLearnIcon /> : <CheckIcon />
-                )}
-                {isMidiLearnMode &&
-                  renderAppBarButton(
-                    cancelMidiLeanMode.bind(
+                {isMidiLearnMode && (
+                  <ToolTipIconButton
+                    handleClick={cancelMidiLeanMode.bind(
                       this,
                       actions.toggleMidiLearnMode,
                       null,
@@ -237,27 +241,32 @@ function MenuAppBar(props) {
                       actions,
                       monitorVal,
                       lastFocusedIdx
-                    ),
-                    'Cancel MIDI Learn mode. Throw away changes.',
-                    <CancelIcon />
-                  )}
+                    )}
+                    title={'Cancel MIDI Learn mode. Throw away changes.'}
+                    icon={<CancelIcon />}
+                  />
+                )}
               </>
           )}
-          {isLayoutMode &&
-            renderAppBarButton(
-              () => actions.toggleLayoutMode({ isLayoutMode: false }),
-              'Commit changes and exit layout-mode.',
-              <CheckIcon />
-            )}
-          {isLayoutMode &&
-            renderAppBarButton(
-              () => {
+          {isLayoutMode && (
+            <ToolTipIconButton
+              handleClick={() =>
+                actions.toggleLayoutMode({ isLayoutMode: false })
+              }
+              title={'Commit changes and exit layout-mode.'}
+              icon={<CheckIcon />}
+            />
+          )}
+          {isLayoutMode && (
+            <ToolTipIconButton
+              handleClick={() => {
                 actions.goBack()
                 actions.toggleLayoutMode({ isLayoutMode: false })
-              },
-              'Throw away changes and go back.',
-              <CancelIcon />
-            )}
+              }}
+              title={'Throw away changes and go back.'}
+              icon={<CancelIcon />}
+            />
+          )}
         </Toolbar>
       </AppBar>
       <div
@@ -392,14 +401,4 @@ function mapStateToProps({
     presetName,
     monitorVal
   }
-}
-
-function renderAppBarButton(handleClick, title = '', icon) {
-  return (
-    <Tooltip disableHoverListener={false} title={title}>
-      <IconButton onClick={handleClick} color='inherit'>
-        {icon}
-      </IconButton>
-    </Tooltip>
-  )
 }
