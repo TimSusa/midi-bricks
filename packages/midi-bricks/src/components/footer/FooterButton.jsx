@@ -58,5 +58,5 @@ export function FooterButton(props) {
 function handleClick({ id, actions, lastFocusedPage }) {
   actions.setLastFocusedIndex({i: 'none'})
   actions.setLastFocusedPage({ lastFocusedPage: id })
-  actions.setMidiPage({focusedPage: id })
+  actions.setMidiPage({lastFocusedPage, focusedPage: id })
 }

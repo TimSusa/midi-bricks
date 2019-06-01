@@ -31,7 +31,7 @@ export function addElement(type, payload) {
           })
         )
         dispatch(addPage({ id: pageId, lastFocusedPage }))
-        dispatch(setMidiPage({ focusedPage: pageId }))
+        dispatch(setMidiPage({ focusedPage: pageId, lastFocusedPage }))
       })
     } else {
       dispatch(addMidiElement({ lastFocusedPage, type, id: getUniqueId() }))
