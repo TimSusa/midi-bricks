@@ -272,7 +272,7 @@ export const sliders = {
 
   [ActionTypeSliderList.HANDLE_SLIDER_CHANGE](state, action) {
     return createNextState(state, (draftState) => {
-      const { i, val } = action.payload
+      const { i, val, lastFocusedPage } = action.payload
       let sliderList = state.sliderList
 
       // Set noteOn/noteOff stemming from CC VAl
@@ -289,6 +289,7 @@ export const sliders = {
       const refreshedSliderList = transformState(sliderList, { i, val }, 'val')
 
       draftState.sliderList = refreshedSliderList
+      draftState.pages[lastFocusedPage].sliderList = refreshedSliderList
       return draftState
     })
 

@@ -16,7 +16,7 @@ const noop = () => {}
 function MidiSlider(props) {
   const [isActivated, setIsActivated] = useState(false)
   let selfRef = useRef(null)
-  let parentRectY = useRef(0)
+  let parentRectY = useRef(null)
   let onPointerMove = useRef(null)
   let isDragging = useRef(false)
   let send = useRef(null)
@@ -47,7 +47,7 @@ function MidiSlider(props) {
       }}
       ref={selfRef}
       onPointerDown={isDisabled ? noop : handlePointerStart}
-      onPointerMove={isDisabled ? noop : handlePointerMove}
+      onPointerMove={isDisabled ? noop : onPointerMove.current}
       onPointerUp={isDisabled ? noop : handlePointerEnd}
       onPointerCancel={isDisabled ? noop : handlePointerEnd}
       onGotPointerCapture={isDisabled ? noop : onGotCapture}
@@ -74,13 +74,16 @@ function MidiSlider(props) {
   )
 
   function handlePointerStart(e) {
-    //selfRef.current.focus()
-    onPointerMove = onPointerMove && handlePointerMove
+    selfRef.current.focus()
+    onPointerMove.current = onPointerMove && handlePointerMove
     isDragging.current = true
     selfRef.current.setPointerCapture(e.pointerId)
+
+    // Should be set before calling heightToVal()
+    parentRectY.current = selfRef.current.getBoundingClientRect().top
+
     const val = heightToVal(e)
     send.current(val, props)
-    parentRectY.current = selfRef.current.getBoundingClientRect().y
   }
 
   function handlePointerEnd(e) {
@@ -92,9 +95,9 @@ function MidiSlider(props) {
   }
 
   function handlePointerMove(e) {
-    // if (!isDragging.current) {
-    //   return
-    // }
+    if (!isDragging.current) {
+      return
+    }
     const val = heightToVal(e)
     if (isNaN(val)) return
     send.current(val, props)
@@ -124,6 +127,7 @@ function MidiSlider(props) {
   }
 
   function heightToVal(e) {
+    // if (isNaN(parentRectY.current)) return
     const tmpY = e.clientY - parentRectY.current
     if (isNaN(tmpY)) return
     const thumb = props.sliderThumbHeight / 2

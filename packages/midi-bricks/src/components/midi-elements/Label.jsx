@@ -14,6 +14,7 @@ export function LabelComponent(props) {
     i,
     lastSavedVal,
     handleSliderChange,
+    lastFocusedPage,
     fontSize,
     fontWeight,
     colorFont,
@@ -25,7 +26,8 @@ export function LabelComponent(props) {
       onClick={() =>
         handleSliderChange({
           i: i,
-          val: lastSavedVal || 0
+          val: lastSavedVal || 0,
+          lastFocusedPage
         })
       }
       style={{
@@ -47,7 +49,8 @@ LabelComponent.propTypes = {
   fontWeight: PropTypes.any,
   handleSliderChange: PropTypes.func,
   i: PropTypes.string,
-  labelStyle: PropTypes.any,
+  labelStyle: PropTypes.string,
+  lastFocusedPage: PropTypes.string,
   lastSavedVal: PropTypes.any
 }
 

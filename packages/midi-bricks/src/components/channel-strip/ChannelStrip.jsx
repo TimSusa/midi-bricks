@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
-import MidiSliderClassic from '../midi-elements/MidiSliderClassic'
-//import MidiSlider  from '../midi-elements/MidiSlider'
+// import MidiSliderClassic from '../midi-elements/MidiSliderClassic'
+import MidiSlider  from '../midi-elements/MidiSlider'
 import MidiButtons from '../midi-elements/midi-buttons/MidiButtons'
 import StripLabel from '../midi-elements/StripLabel'
 import { STRIP_TYPE } from '../../reducers/slider-list'
@@ -52,7 +52,7 @@ function ChannelStrip(props) {
           >
             {label}
           </Label>
-          <MidiSliderClassic
+          <MidiSlider
             className={classes.sliderWrapper}
             isDisabled={isDisabled}
             sliderEntry={sliderEntry}
