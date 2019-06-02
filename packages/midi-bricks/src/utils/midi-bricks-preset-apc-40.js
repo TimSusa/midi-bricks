@@ -1,6 +1,6 @@
 export const preset = {
   "presetName": "APC-40-simple",
-    "version": "1.2.8-alpha.6",
+    "version": "1.2.8-alpha.7",
     "viewSettings": {
       "columns": 16,
       "rowHeight": 40,
