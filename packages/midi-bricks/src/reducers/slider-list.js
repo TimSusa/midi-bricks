@@ -575,7 +575,7 @@ export const sliders = {
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER](state, action) {
     return createNextState(state, (draftState) => {
-      const { listOrder } = action.payload
+      const { listOrder, lastFocusedPage } = action.payload
 
       const sliderList =
         state.sliderList.map((item, idx) => ({
@@ -585,6 +585,7 @@ export const sliders = {
 
       draftState.sliderList = sliderList
       draftState.sliderListBackup = state.sliderList
+      draftState.pages[lastFocusedPage].sliderList = sliderList
       return draftState
     })
 
@@ -882,13 +883,13 @@ export const sliders = {
       const { lastFocusedPage, focusedPage } = action.payload
 
       // In order to persist listorder, we try to save slider-list to page
-      draftState.pages[lastFocusedPage].sliderList = state.sliderList
+      draftState.pages[lastFocusedPage].sliderList = state.pages[lastFocusedPage].sliderList
 
-      const sliderList =
-        focusedPage && state.pages[focusedPage]
-          ? state.pages[focusedPage].sliderList
-          : []
-      draftState.sliderList = sliderList
+      // const sliderList =
+      //   focusedPage && state.pages[focusedPage]
+      //     ? state.pages[focusedPage].sliderList
+      //     : []
+      draftState.sliderList = state.pages[focusedPage].sliderList
 
       return draftState
     })

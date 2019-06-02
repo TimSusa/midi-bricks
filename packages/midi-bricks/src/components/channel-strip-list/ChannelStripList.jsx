@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/styles'
 import { SizeMe } from 'react-sizeme'
 import { PAGE_TYPES } from '../../reducers'
 import { Button } from '@material-ui/core'
+import { thunkLoadFile } from '../../actions/thunks/thunk-load-file'
 import { preset } from '../../utils/midi-bricks-preset-apc-40.js'
 require('react-grid-layout/css/styles.css')
 require('react-resizable/css/styles.css')
@@ -30,6 +31,7 @@ function ChannelStripList(props) {
   const classes = makeStyles(styles, { withTheme: true })()
   const {
     actions,
+    thunkLoadFile,
     sliderList = [],
     monitorVal: { driver = 'None', cC = 'None', channel = 'None' } = {},
     viewSettings: {
@@ -89,7 +91,7 @@ function ChannelStripList(props) {
         layout={sliderList}
         onLayoutChange={
           isLayoutMode
-            ? onLayoutChange.bind(this, actions, isLayoutMode)
+            ? onLayoutChange.bind(this, actions, isLayoutMode, lastFocusedPage)
             : () => {}
         }
       >
@@ -213,12 +215,8 @@ function ChannelStripList(props) {
         <br />
         <br />
         <Button
-          onClick={() =>
-            // TODO: use thunkLoadFile
-            props.actions.loadFile({
-              content: preset,
-              presetName: 'APC-40 Preset'
-            })
+          onClick={async () =>
+            await thunkLoadFile(preset, preset.presetName)
           }
         >
           LOAD EXAMPLE PRESET
@@ -238,9 +236,9 @@ ChannelStripList.propTypes = {
   viewSettings: PropTypes.object
 }
 
-function onLayoutChange(actions, isLayoutMode, layout) {
+function onLayoutChange(actions, isLayoutMode, lastFocusedPage, layout) {
   if (isLayoutMode) {
-    actions.changeListOrder({ listOrder: layout })
+    actions.changeListOrder({ listOrder: layout, lastFocusedPage })
   }
 }
 
@@ -358,6 +356,7 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(
       { ...MidiSliderActions, ...ViewSettingsActions },
       dispatch
-    )
+    ),
+    thunkLoadFile: bindActionCreators(thunkLoadFile, dispatch)
   }
 }

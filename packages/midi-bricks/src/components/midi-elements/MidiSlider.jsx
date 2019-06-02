@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useRef, useState } from 'react'
 import createSelector from 'selectorator'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -7,126 +7,159 @@ import debounce from 'debounce'
 import { PropTypes } from 'prop-types'
 
 const noop = () => {}
-class MidiSlider extends Component {
-  selfRef = null
-  onPointerMove = null
-  constructor(props) {
-    super(props)
-    this.selfRef = React.createRef()
-    this.sendOutFromChildren = debounce(this.sendOutFromChildren, 5)
-    this.state = {
-      isActivated: false
-    }
-  }
 
-  render() {
-    const {
+// let previousLeft = 0
+// let previousTop = 0
+
+function MidiSlider(props) {
+  const [isActivated, setIsActivated] = useState(false)
+  let selfRef = useRef(null) // React.createRef()
+  let parentRectY = useRef(0)
+  let onPointerMove = useRef(null)
+  let isDragging = useRef(false)
+
+  const {
+    val,
+    entry: {
       isDisabled,
       height,
       sliderThumbHeight,
       width,
-      sliderEntry: {
-        colors: { color },
-        val,
-        maxVal,
-        minVal
-      }
-    } = this.props.preProps
-    return (
+      colors: { color },
+      maxVal,
+      minVal
+    }
+  } = props
+
+  return (
+    <div
+      onContextMenu={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        return false
+      }}
+      ref={selfRef}
+      onPointerDown={isDisabled ? noop : handlePointerStart}
+      onPointerMove={isDisabled ? noop : onPointerMove.current}
+      onPointerUp={isDisabled ? noop : handlePointerEnd}
+      onPointerCancel={isDisabled ? noop : handlePointerEnd}
+      onGotPointerCapture={isDisabled ? noop : onGotCapture}
+      onLostPointerCapture={isDisabled ? noop : onLostCapture}
+      style={{
+        height: height + sliderThumbHeight,
+        width,
+        borderRadius: 3,
+        background: color ? color : 'aliceblue',
+        boxShadow: isActivated && '0 0 3px 3px rgb(24, 164, 157)'
+        //opacity: 0.7,
+      }}
+    >
       <div
-        onContextMenu={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          return false
-        }}
-        ref={this.selfRef}
-        onPointerDown={isDisabled ? noop : this.handlePointerStart}
-        onPointerMove={isDisabled ? noop : this.onPointerMove}
-        onPointerUp={isDisabled ? noop : this.handlePointerEnd}
-        style={{
-          height: height + sliderThumbHeight,
-          width,
-          borderRadius: 3,
-          background: color ? color : 'aliceblue',
-          boxShadow: this.state.isActivated && '0 0 3px 3px rgb(24, 164, 157)'
-          //opacity: 0.7,
-        }}
-      >
-        <div
-          style={this.getSliderThumbStyle(
-            calcYFromVal({
-              val,
-              height,
-              maxVal,
-              minVal
-            })
-          )}
-        />
-      </div>
-    )
+        style={getSliderThumbStyle(
+          calcYFromVal({
+            val,
+            height,
+            maxVal,
+            minVal
+          })
+        )}
+      />
+    </div>
+  )
+
+  function extractPositionDelta(event) {
+    // console.log('extractPositionDelta')
+    // const left = event.pageX
+    // const top = event.pageY
+    // const delta = {
+    //   left: left - previousLeft,
+    //   top: top - previousTop
+    // }
+    // previousLeft = left
+    // previousTop = top
+    parentRectY.current  = selfRef.current.getBoundingClientRect().y
+    // return delta
   }
 
-  handlePointerStart = (e) => {
-    this.onPointerMove = this.handlePointerMove
-    window.requestAnimationFrame(this.onPointerMove)
-    this.selfRef.current.setPointerCapture(e.pointerId)
+  function handlePointerStart(e) {
+    selfRef.current.focus()
+    onPointerMove.current = onPointerMove && handlePointerMove
+    isDragging.current = true
 
-    const val = this.heightToVal(e)
-    this.sendOutFromChildren(val)
-    this.setState({ isActivated: true })
+    //animFrame = window.requestAnimationFrame(onPointerMove)
+    //console.log('handlePointerStart :', parentRectY)
+
+    selfRef.current.setPointerCapture(e.pointerId)
+
+    const val = heightToVal(e)
+    sendOutFromChildren(val, props)
+
+    parentRectY.current  = selfRef.current.getBoundingClientRect().y
+
+    //extractPositionDelta(e)
   }
 
-  handlePointerEnd = (e) => {
-    this.onPointerMove = null
-    this.selfRef.current.releasePointerCapture(e.pointerId)
+  function handlePointerEnd(e) {
+    onPointerMove = null
+    selfRef.current.releasePointerCapture(e.pointerId)
 
-    const val = this.heightToVal(e)
-    this.sendOutFromChildren(val)
-    this.setState({ isActivated: false })
+    const val = heightToVal(e)
+    sendOutFromChildren(val, props)
+    //animFrame && cancelAnimationFrame(animFrame)
+    isDragging.current = false
+    // console.log('handlePointerEnd')
   }
 
-  handlePointerMove = (e) => {
-    const val = this.heightToVal(e)
+  function handlePointerMove(e) {
+    if (!isDragging.current) {
+      return
+    }
+    //console.log('handlePointerMove :', { e, pointerId: e.pointerId, selfRef })
+    const val = heightToVal(e)
     if (isNaN(val)) return
-    this.sendOutFromChildren(val)
+    sendOutFromChildren(val, props)
   }
 
-  sendOutFromChildren = (y) => {
-    this.props.actions.handleSliderChange({
-      i: this.props.sliderEntry.i,
-      val: parseInt(y, 10),
-      lastFocusedPage: this.props.lastFocusedPage
-    })
+  function onGotCapture(event) {
+    //console.log('onGotCapture :', parentRectY)
+    setIsActivated(true)
+  }
+  function onLostCapture(event) {
+    // console.log('onLostCapture :', {
+    //   event,
+    //   pointerId: event.pointerId,
+    //   selfRef
+    // })
+    setIsActivated(false)
   }
 
-  getSliderThumbStyle = (y) => {
+  function getSliderThumbStyle(y) {
     return {
       position: 'relative',
       cursor: 'pointer',
-      height: this.props.sliderThumbHeight,
+      height: props.sliderThumbHeight,
       width: '100%',
       borderRadius: 3,
-      background: this.props.sliderEntry.colors.colorActive
-        ? this.props.sliderEntry.colors.colorActive
+      background: props.sliderEntry.colors.colorActive
+        ? props.sliderEntry.colors.colorActive
         : 'goldenrod',
       top: Math.round(y - 1),
       left: 0,
-      boxShadow: this.state.isActivated && '0 0 3px 3px rgb(24, 164, 157)'
+      boxShadow: isActivated && '0 0 3px 3px rgb(24, 164, 157)'
     }
   }
 
-  heightToVal(e) {
-    const parentRect = this.selfRef.current.getBoundingClientRect()
-    const tmpY = e.clientY - parentRect.y
+  function heightToVal(e) {
+    const tmpY = e.clientY - parentRectY.current
     if (isNaN(tmpY)) return
-    const thumb = this.props.sliderThumbHeight / 2
+    const thumb = props.sliderThumbHeight / 2
     const tmpThumb = tmpY - thumb
     const tmpYy = tmpThumb < 0 ? 0 : tmpThumb
-    const y = tmpYy >= this.props.height ? this.props.height : tmpYy
+    const y = tmpYy >= props.height ? props.height : tmpYy
     const val =
-      ((this.props.height - Math.round(y)) *
-        (this.props.sliderEntry.maxVal - this.props.sliderEntry.minVal)) /
-      this.props.height
+      ((props.height - Math.round(y)) *
+        (props.sliderEntry.maxVal - props.sliderEntry.minVal)) /
+      props.height
     if (isNaN(val)) return
     return val
   }
@@ -134,30 +167,18 @@ class MidiSlider extends Component {
 
 MidiSlider.propTypes = {
   actions: PropTypes.object,
+  entry: PropTypes.object,
   height: PropTypes.any,
   isDisabled: PropTypes.bool,
   lastFocusedPage: PropTypes.string,
+  preProps: PropTypes.object,
   sliderEntry: PropTypes.object,
   sliderThumbHeight: PropTypes.any,
-  width: PropTypes.any,
-  preProps: PropTypes.object
+  val: PropTypes.any,
+  width: PropTypes.any
 }
 
-const getSliderEntr = (
-  state,
-  {
-    isDisabled,
-    height,
-    sliderThumbHeight,
-    width,
-    sliderEntry: {
-      colors: { color },
-      val,
-      maxVal,
-      minVal
-    }
-  }
-) => ({
+const getSliderEntr = ({
   isDisabled,
   height,
   sliderThumbHeight,
@@ -168,10 +189,37 @@ const getSliderEntr = (
     maxVal,
     minVal
   }
+}) => ({
+  isDisabled,
+  height,
+  sliderThumbHeight,
+  width,
+  colors: { color },
+  val,
+  maxVal,
+  minVal
 })
 const getSliderEntry = createSelector(
   [getSliderEntr],
-  (sliderEntry) => sliderEntry
+  ({
+    isDisabled,
+    height,
+    sliderThumbHeight,
+    width,
+    colors: { color },
+    val,
+    maxVal,
+    minVal
+  }) => ({
+    isDisabled,
+    height,
+    sliderThumbHeight,
+    width,
+    colors: { color },
+    val,
+    maxVal,
+    minVal
+  })
 )
 
 const getLastFocus = ({ viewSettings }) => viewSettings.lastFocusedPage
@@ -179,10 +227,35 @@ const getLastFocusedPage = createSelector(
   [getLastFocus],
   (lastFocusedPage) => lastFocusedPage
 )
+const getMemVal = createSelector(
+  [getSliderEntry],
+  ({ val }) => val
+)
+const getEntry = createSelector(
+  [getSliderEntry],
+  ({
+    isDisabled,
+    height,
+    sliderThumbHeight,
+    width,
+    colors: { color },
+    maxVal,
+    minVal
+  }) => ({
+    isDisabled,
+    height,
+    sliderThumbHeight,
+    width,
+    colors: { color },
+    maxVal,
+    minVal
+  })
+)
 function mapStateToProps(state, props) {
   return {
     lastFocusedPage: getLastFocusedPage(state),
-    preProps: getSliderEntry(state, props)
+    entry: getEntry(props),
+    val: getMemVal(props)
   }
 }
 
@@ -200,4 +273,13 @@ export default connect(
 function calcYFromVal({ val, height, maxVal, minVal }) {
   const y = height * (1 - val / (maxVal - minVal))
   return y
+}
+function sendOutFromChildren(y, props) {
+  //const me = 
+  props.actions.handleSliderChange({
+    i: props.sliderEntry.i,
+    val: parseInt(y, 10),
+    lastFocusedPage: props.lastFocusedPage
+  })
+  //debounce(me, 5)
 }
