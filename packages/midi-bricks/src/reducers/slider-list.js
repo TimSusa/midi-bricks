@@ -3,7 +3,7 @@ import WebMIDI from 'webmidi'
 import { ActionTypeSliderList } from '../actions/slider-list'
 import { midi } from 'tonal'
 import { fromMidi } from '../utils/fromMidi'
-import { map, groupBy } from 'lodash'
+import { map } from 'lodash'
 import { getUniqueId } from '../utils/get-unique-id'
 import { createNextState } from 'redux-starter-kit'
 
@@ -1012,53 +1012,6 @@ function toggleNotes({
 function getCheckedMidiOut(driverName) {
   const output = driverName !== 'None' && WebMIDI.getOutputByName(driverName)
   return output
-}
-
-// DEPRECATED
-// function filterPage(sliderList, label) {
-//   let newArr = []
-//   let arr = sortSliderList(sliderList)
-
-//   const startIdx = arr.findIndex((cur) => cur.label === label)
-//   const startVal = arr[startIdx]
-
-//   arr.splice(0, startIdx + 1)
-
-//   let wasFound = false
-//   arr.forEach((cur) => {
-//     if (!wasFound && cur.type !== 'PAGE') {
-//       newArr.push({ ...cur })
-//     } else {
-//       wasFound = true
-//       return
-//     }
-//   })
-//   const endVal = newArr[newArr.length - 1]
-
-//   newArr.splice(newArr.length - 1, 1)
-
-//   const tmpVal = endVal ? [startVal, ...newArr, endVal] : [startVal, ...newArr]
-//   const ret = tmpVal.map((item) => ({ ...item, y: item.y - tmpVal[0].y }))
-//   return ret
-// }
-
-function sortSliderList(list = []) {
-  const vList = sortBy(list, 'y')
-  const yGroups = groupBy(vList, 'y')
-  let ySortedList = []
-  Object.keys(yGroups).forEach((group) => {
-    const sortedXList = sortBy(yGroups[group], 'x')
-    ySortedList = [...ySortedList, ...sortedXList]
-  })
-  return ySortedList
-}
-
-function sortBy(list = [], by) {
-  return list
-    .map((item) => item)
-    .sort((a, b) => {
-      return a[by] - b[by]
-    })
 }
 
 function updatePagesWithSliderlist(

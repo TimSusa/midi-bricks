@@ -123,8 +123,9 @@ export const viewSettings = {
   [ActionTypeViewSettings.DELETE_FOOTER_PAGES](state, action) {
     return createNextState(state, (draftState) => {
       draftState.pageTargets = viewSettingsInitState.pageTargets
-      draftState.footerPages = []
+      draftState.footerPages = undefined
       draftState.lastFocusedIdxs = []
+      draftState.lastFocusedIdx = null
       draftState.lastFocusedPage = viewSettingsInitState.lastFocusedPage
       draftState.isLayoutMode = viewSettingsInitState.isLayoutMode
       return draftState
@@ -463,8 +464,8 @@ function getChannels(
         noteChannel === 'all'
           ? chDummy
           : !oldNoteChannels.includes(noteChannel)
-          ? [...oldNoteChannels, noteChannel]
-          : oldNoteChannels
+            ? [...oldNoteChannels, noteChannel]
+            : oldNoteChannels
       channels = getObjFromNoteChannels(old, name, noteChannels)
     }
     if (ccChannel) {
@@ -472,8 +473,8 @@ function getChannels(
         ccChannel === 'all'
           ? chDummy
           : !oldCcChannels.includes(ccChannel)
-          ? [...oldCcChannels, ccChannel]
-          : oldCcChannels
+            ? [...oldCcChannels, ccChannel]
+            : oldCcChannels
       channels = getObjFromCcChannels(old, name, ccChannels)
     }
   } else {

@@ -8,7 +8,6 @@ import { persistReducer } from 'redux-persist'
 import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
 import rootReducer from '../reducers'
-import undoable from 'redux-undo'
 
 const persistConfig = {
   key: 'root',
@@ -47,7 +46,7 @@ const devMiddleware = [
 ]
 export function configureAppStore(preloadedState) {
   const reducer = persistReducer(
-    persistConfig,
+    persistConfig, 
     rootReducer
   )
   const store = configureStore({

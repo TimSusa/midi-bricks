@@ -359,9 +359,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({
+  viewSettings,
   sliders: {
-    present: { sliderList, midi },
-    viewSettings
+    present: { sliderList, midi }
   }
 }) {
   return {
