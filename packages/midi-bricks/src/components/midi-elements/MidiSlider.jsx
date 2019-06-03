@@ -200,7 +200,7 @@ const getSliderEntry = createSelector(
   })
 )
 
-const getLastFocus = ({ viewSettings }) => viewSettings.lastFocusedPage
+const getLastFocus = ({ present: {viewSettings} }) => viewSettings.lastFocusedPage
 const getLastFocusedPage = createSelector(
   [getLastFocus],
   (lastFocusedPage) => lastFocusedPage

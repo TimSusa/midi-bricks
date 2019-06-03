@@ -26,8 +26,8 @@ export function thunkLoadFile(content, presetName) {
       promArray.push(dispatch(updatePages({ pages })))
     } else {
       const {
-        pagesx: oldPages,
-        viewSettings: { lastFocusedPage: lfp }
+        present: {        pagesx: oldPages,
+          viewSettings: { lastFocusedPage: lfp }}
       } = getState()
       const oldPresetTransformedPages = {
         //...oldPages,

@@ -214,7 +214,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 function mapStateToProps({
-  viewSettings: { isChangedTheme, isLayoutMode, isSettingsMode, lastFocusedPage }
+  present: {viewSettings: { isChangedTheme, isLayoutMode, isSettingsMode, lastFocusedPage }}
 }) {
   return {
     isChangedTheme,

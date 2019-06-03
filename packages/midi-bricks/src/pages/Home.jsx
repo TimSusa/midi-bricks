@@ -28,21 +28,21 @@ function Home(props) {
   const classes = makeStyles(styles, { useTheme: true })()
 
   const {
-    viewSettings: { isLiveMode = false, pageType = PAGE_TYPES.HOME_MODE },
+    viewSettings: { isLiveMode = false, pageType = PAGE_TYPES.HOME_MODE } = {},
     initApp
   } = props
-  useEffect(() => {
-    async function initAsync() {
-      await initApp()
-    }
+  // useEffect(() => {
+  //   async function initAsync() {
+  //     await initApp()
+  //   }
 
-    if (pageType !== PAGE_TYPES.HOME_MODE) {
-      return
-    }
-    console.log('Re-Init MIDI')
-    initAsync()
-    return () => {}
-  }, [initApp, pageType])
+  //   if (pageType !== PAGE_TYPES.HOME_MODE) {
+  //     return
+  //   }
+  //   console.log('Re-Init MIDI')
+  //   //    initAsync()
+  //   return () => {}
+  // }, [initApp, pageType])
 
   const preventScrollStyle = isLiveMode
     ? {
@@ -73,8 +73,8 @@ function Home(props) {
 }
 
 function mapStateToProperties({
-  viewSettings,
-  sliders: { isMidiFailed }
+  present: {  viewSettings,
+    sliders: { isMidiFailed } = {}}
 }) {
   return {
     viewSettings,

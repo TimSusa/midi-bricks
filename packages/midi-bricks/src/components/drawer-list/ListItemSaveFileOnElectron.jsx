@@ -38,7 +38,7 @@ export function ListItemSaveFileOnElectronComp({ onFileChange, viewSettings, sli
   )
 }
 
-function mapStateToProps({ viewSettings, sliders }) {
+function mapStateToProps({ present: {viewSettings, sliders} }) {
   return {
     viewSettings,
     sliders

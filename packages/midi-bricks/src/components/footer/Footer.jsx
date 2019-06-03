@@ -12,6 +12,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as ViewSettinsgsAction } from '../../actions/view-settings'
 import { Actions as SliderSettinsgsAction } from '../../actions/slider-list'
+import { ActionCreators as UndoActions } from 'redux-undo'
 import { Button, Tooltip } from '@material-ui/core'
 import { PAGE_TYPES } from '../../reducers'
 import MidiSettingsDialog from '../midi-settings-dialog/MidiSettingsDialog'
@@ -163,6 +164,7 @@ function handleLiveButtonClick(
   }
   actions.setLastFocusedPage({ lastFocusedPage })
   actions.toggleLiveMode()
+  actions.clearHistory()
 }
 
 function styles(theme) {
@@ -206,16 +208,18 @@ function styles(theme) {
 }
 
 function mapStateToProps({
-  viewSettings: {
-    footerPages,
-    pageTargets,
-    lastFocusedPage,
-    lastFocusedIdx,
-    isSettingsMode,
-    isSettingsDialogMode,
-    isFullscreenOnLivemode,
-    isLiveMode,
-    pageType
+  present: {
+    viewSettings: {
+      footerPages,
+      pageTargets,
+      lastFocusedPage,
+      lastFocusedIdx,
+      isSettingsMode,
+      isSettingsDialogMode,
+      isFullscreenOnLivemode,
+      isLiveMode,
+      pageType
+    }
   }
 }) {
   return {
@@ -234,7 +238,7 @@ function mapStateToProps({
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
-      { ...ViewSettinsgsAction, ...SliderSettinsgsAction },
+      { ...UndoActions, ...ViewSettinsgsAction, ...SliderSettinsgsAction },
       dispatch
     ),
     thunkChangePage: bindActionCreators(thunkChangePage, dispatch)

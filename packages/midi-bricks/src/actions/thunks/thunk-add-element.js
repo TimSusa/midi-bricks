@@ -1,4 +1,3 @@
-
 import { Actions as sliderListActions } from '../slider-list'
 import { Actions as viewSettingsActions } from '../view-settings'
 import { thunkChangePage } from './thunk-change-page'
@@ -16,7 +15,7 @@ export function addElement(type, payload) {
 
   return function(dispatch, getState) {
     const {
-      viewSettings: { lastFocusedPage, pageTargets }
+      present: { viewSettings: { lastFocusedPage = '', pageTargets } = {} }
     } = getState()
 
     if (type === PAGE) {
@@ -39,8 +38,10 @@ export function addElement(type, payload) {
       const id = getUniqueId()
       dispatch(addMidiElement({ type, id }))
       const {
-        viewSettings: { lastFocusedPage },
-        sliders: { sliderList }
+        present: {
+          viewSettings: { lastFocusedPage },
+          sliders: { sliderList }
+        }
       } = getState()
 
       dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList }))

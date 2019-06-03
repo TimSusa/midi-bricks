@@ -242,12 +242,14 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({
-  viewSettings: {
-    lastFocusedPage,
-    isSettingsMode,
-    pageTargets = [],
-    availableDrivers: { inputs = {}, outputs = {} } = {}
-  },
+  present: {
+    viewSettings: {
+      lastFocusedPage,
+      isSettingsMode,
+      pageTargets = [],
+      availableDrivers: { inputs = {}, outputs = {} } = {}
+    }
+  }
 }) {
   const pageTarget = pageTargets.find((item) => item.id === lastFocusedPage)
   return {

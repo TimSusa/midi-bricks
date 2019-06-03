@@ -4,10 +4,8 @@ import MuiWrappedApp from './MuiWrappedApp'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
-import {configureAppStore} from './configure-app-store'
+import { configureAppStore } from './configure-app-store'
 import { persistStore } from 'redux-persist'
-
-
 
 ReduxWrappedMuiApp.propTypes = {
   children: PropTypes.any,

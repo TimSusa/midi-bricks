@@ -11,8 +11,8 @@ const { updateSliderListOfPage } = pageActions
 export function thunkChangeListOrder(listOrder, lastFocusedPage) {
   return async function(dispatch, getState) {
     const {
-      viewSettings: { lastFocusedPage },
-      sliders: {sliderList}
+      present: {      viewSettings: { lastFocusedPage },
+        sliders: {sliderList}}
     } = getState()
 
     const mergedList = sliderList.reduce((acc, cur) => {

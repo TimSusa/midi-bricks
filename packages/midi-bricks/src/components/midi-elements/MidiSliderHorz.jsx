@@ -138,7 +138,7 @@ MidiSliderHorz.propTypes = {
   width: PropTypes.any
 }
 
-function mapStateToProps({ viewSettings: { lastFocusedPage } }) {
+function mapStateToProps({ present: {viewSettings: { lastFocusedPage }} }) {
   return {
     lastFocusedPage,
   }

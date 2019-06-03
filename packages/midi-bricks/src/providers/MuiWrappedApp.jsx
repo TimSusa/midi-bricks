@@ -34,7 +34,7 @@ function MuiWrappedApp(props) {
   )
 }
 
-function mapStateToProps({ viewSettings: { isChangedTheme } }) {
+function mapStateToProps({present: { viewSettings: { isChangedTheme }}}) {
   return {
     isChangedTheme
   }

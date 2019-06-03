@@ -8,6 +8,7 @@ import { persistReducer } from 'redux-persist'
 import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
 import rootReducer from '../reducers'
+import undoable from 'redux-undo'
 
 const persistConfig = {
   key: 'root',
@@ -45,12 +46,28 @@ const devMiddleware = [
   logger
 ]
 export function configureAppStore(preloadedState) {
-  const reducer = persistReducer(persistConfig, rootReducer)
+  const reducer = persistReducer(
+    persistConfig,
+    undoable(rootReducer, {
+      limit: 5,
+      syncFilter: false,
+      filter: function filterActions(action, currentState, previousHistory) {
+        return [
+          'DELETE',
+          'DELETE_ALL',
+          'CHANGE_LIST_ORDER',
+          'ADD_MIDI_ELEMENT',
+          'ADD_PAGE',
+          'LOAD_FILE'
+        ].includes(action.type)
+      }
+    })
+  )
   const store = configureStore({
     reducer,
     middleware: isDev ? devMiddleware : [...getDefaultMiddleware()],
     preloadedState
-    //enhancers: [monitorReducersEnhancer]
+    // enhancers: [monitorReducersEnhancer]
   })
 
   if (isDev && module.hot) {

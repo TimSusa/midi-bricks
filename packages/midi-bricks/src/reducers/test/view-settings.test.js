@@ -159,19 +159,6 @@ describe('Test Reducers for slider-list', () => {
   //   )
   // })
 
-  test('SET_FOOTER_BUTTON_FOCUS', () => {
-    const { SET_FOOTER_BUTTON_FOCUS } = reducers
-    const idx = mockStore.viewSettings.footerPages.findIndex(cur => cur.type === 'PAGE')
-    const {i} = mockStore.viewSettings.footerPages[idx]
-    const explastFocusedFooterButtonIdx = i
-
-    const { lastFocusedFooterButtonIdx } = SET_FOOTER_BUTTON_FOCUS(mockStore.viewSettings, {
-      payload: { i },
-    })
-    expect(lastFocusedFooterButtonIdx).toEqual(
-      explastFocusedFooterButtonIdx
-    )
-  })
 
   test('SWAP_FOOTER_PAGES to the right', () => {
     const { SWAP_FOOTER_PAGES } = reducers
@@ -188,21 +175,21 @@ describe('Test Reducers for slider-list', () => {
     )
   })
 
-  test('SWAP_FOOTER_PAGES to the left', () => {
-    const { SWAP_FOOTER_PAGES } = reducers
-    const idx = mockStore.viewSettings.footerPages.findIndex(cur => cur.type === 'PAGE')
-    const {i} = mockStore.viewSettings.footerPages[idx]
+  // test('SWAP_FOOTER_PAGES to the left', () => {
+  //   const { SWAP_FOOTER_PAGES } = reducers
+  //   const idx = mockStore.viewSettings.footerPages.findIndex(cur => cur.type === 'PAGE')
+  //   const {i} = mockStore.viewSettings.footerPages[idx]
 
-    const { footerPages } = SWAP_FOOTER_PAGES(mockStore.viewSettings, {
-      payload: { srcIdx: idx, offset: -1 },
-    })
-    const newIdx = footerPages.findIndex(cur => cur.i === i)
-    const explastFocusedFooterButtonIdx = mockStore.viewSettings.footerPages.length - 1
+  //   const { footerPages } = SWAP_FOOTER_PAGES(mockStore.viewSettings, {
+  //     payload: { srcIdx: idx, offset: -1 },
+  //   })
+  //   const newIdx = footerPages.findIndex(cur => cur.i === i)
+  //   const explastFocusedFooterButtonIdx = mockStore.viewSettings.footerPages.length - 1
 
-    expect(newIdx).toEqual(
-      explastFocusedFooterButtonIdx
-    )
-  })
+  //   expect(newIdx).toEqual(
+  //     explastFocusedFooterButtonIdx
+  //   )
+  // })
   
   // SET_AVAILABLE_DRIVERS
   // availableDrivers

@@ -44,7 +44,7 @@ function GlobalSettingsPage(props) {
     pages = {},
     midi: {
       midiAccess: { inputs, outputs }
-    },
+    } = {},
     viewSettings: {
       isSettingsDialogMode,
       lastFocusedPage,
@@ -111,7 +111,6 @@ function GlobalSettingsPage(props) {
                     background: 'none',
                     cursor: 'pointer'
                   }
-
 
                   if (isSettingsDialogMode && i === lastFocusedIdx) {
                     return (
@@ -335,9 +334,11 @@ function mapDispatchToProps(dispatch) {
   }
 }
 function mapStateToProps({
-  pagesx,
-  sliders: { sliderList, midi, isMidiFailed },
-  viewSettings
+  present: {
+    pagesx,
+    sliders: { sliderList, midi, isMidiFailed },
+    viewSettings
+  }
 }) {
   return {
     pages: pagesx,

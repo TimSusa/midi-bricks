@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import { generateReducers } from 'redux-generate'
 
+
 import { sliders, initId } from './slider-list'
 import { viewSettings } from './view-settings'
 

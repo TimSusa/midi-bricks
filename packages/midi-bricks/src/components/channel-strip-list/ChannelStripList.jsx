@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 import { Actions as ViewSettingsActions } from '../../actions/view-settings.js'
+import { ActionCreators as UndoActions } from 'redux-undo'
 import { thunkChangeListOrder } from '../../actions/thunks/thunk-change-list-order'
 import MidiSettingsDialogButton from '../midi-settings-dialog/MidiSettingsDialogButton'
 import { makeStyles } from '@material-ui/styles'
@@ -38,6 +39,7 @@ function ChannelStripList(props) {
     monitorVal: { driver = 'None', cC = 'None', channel = 'None' } = {},
     viewSettings: {
       pageType,
+      pageTargets,
       isLayoutMode = true,
       isCompactHorz = false,
       isAutoArrangeMode = true,
@@ -93,7 +95,12 @@ function ChannelStripList(props) {
         layout={sliderList}
         onLayoutChange={
           isLayoutMode
-            ? onLayoutChange.bind(this, thunkChangeListOrder, isLayoutMode, lastFocusedPage)
+            ? onLayoutChange.bind(
+              this,
+              thunkChangeListOrder,
+              isLayoutMode,
+              lastFocusedPage
+            )
             : () => {}
         }
       >
@@ -197,15 +204,13 @@ function ChannelStripList(props) {
         })}
       </GridLayout>
     )
-  } else {
+  } else if (pageTargets.length < 2 ) {
     return (
       <Typography variant='h4' className={classes.noMidiTypography}>
         <br />
         <br />
         <Button
-          onClick={async () =>
-            await thunkLoadFile(preset, preset.presetName)
-          }
+          onClick={async () => await thunkLoadFile(preset, preset.presetName)}
         >
           LOAD EXAMPLE
         </Button>
@@ -213,6 +218,17 @@ function ChannelStripList(props) {
         <br />
       </Typography>
     )
+  } else {
+    return ((
+      <Typography variant='h5' className={classes.noMidiTypography}>
+        <br />
+        <br />
+        <br />
+        <br />
+
+          Add an element in layout-mode via plus-sign at the top right corner.
+      </Typography>
+    ))
   }
 }
 
@@ -222,7 +238,12 @@ ChannelStripList.propTypes = {
   viewSettings: PropTypes.object
 }
 
-function onLayoutChange(thunkChangeListOrder, isLayoutMode, lastFocusedPage, layout) {
+function onLayoutChange(
+  thunkChangeListOrder,
+  isLayoutMode,
+  lastFocusedPage,
+  layout
+) {
   if (isLayoutMode) {
     thunkChangeListOrder(layout, lastFocusedPage)
   }
@@ -264,6 +285,7 @@ function handleKeyPress(actions, isLayoutMode, e) {
   if (e.keyCode === 112) {
     e.preventDefault()
     actions.toggleLiveMode()
+    actions.clearHistory()
   }
 
   // l: layout mode
@@ -327,8 +349,10 @@ function toggleSettings(lastFocusedPage, i, actions, { isSettingsDialogMode }) {
 }
 
 function mapStateToProps({
-  viewSettings,
-  sliders: { sliderList, monitorVal }
+  present: {
+    viewSettings,
+    sliders: { sliderList, monitorVal }
+  }
 }) {
   return {
     viewSettings,
@@ -340,7 +364,7 @@ function mapStateToProps({
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
-      { ...MidiSliderActions, ...ViewSettingsActions },
+      { ...MidiSliderActions, ...ViewSettingsActions, ...UndoActions },
       dispatch
     ),
     thunkLoadFile: bindActionCreators(thunkLoadFile, dispatch),
