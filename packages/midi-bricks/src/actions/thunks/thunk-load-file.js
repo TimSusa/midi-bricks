@@ -18,7 +18,8 @@ export function thunkLoadFile(content, presetName) {
     const {
       viewSettings = {},
       viewSettings: { availableDrivers } = {},
-      sliders: { sliderList, pages } = {}
+      sliders: { sliderList = [] } = {},
+      pages
     } = content
 
     promArray.push(
@@ -26,9 +27,9 @@ export function thunkLoadFile(content, presetName) {
     )
 
     promArray.push(dispatch(updatePages({ pages })))
-    sliderList && promArray.push(
-      dispatch(updateSliderListOfPage({ lastFocusedPage: initId, sliderList }))
-    )
+    // sliderList && promArray.push(
+    //   dispatch(updateSliderListOfPage({ lastFocusedPage: initId, sliderList }))
+    // )
 
     promArray.push(dispatch(setLastFocusedPage({ lastFocusedPage: initId })))
 
@@ -51,8 +52,7 @@ export function thunkLoadFile(content, presetName) {
       promArray.push(
         dispatch(
           updateViewSettings({
-            viewSettings: { ...viewSettings, availableDrivers: drivers },
-            pages
+            viewSettings: { ...viewSettings, availableDrivers: drivers }
           })
         )
       )
@@ -65,8 +65,7 @@ export function thunkLoadFile(content, presetName) {
         dispatch(
           updateViewSettings({
             viewSettings: { ...viewSettings, availableDrivers: drivers },
-            sliderList: sliderList,
-            pages
+            sliderList: sliderList
           })
         )
       )

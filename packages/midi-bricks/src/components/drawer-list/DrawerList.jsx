@@ -49,6 +49,7 @@ DrawerList.propTypes = {
   onFileChange: PropTypes.func,
   saveFile: PropTypes.func,
   sliders: PropTypes.object,
+  pages: PropTypes.object,
   togglePage: PropTypes.func,
   viewSettings: PropTypes.object
 }
@@ -63,6 +64,7 @@ function DrawerList(props) {
     deleteFooterPages,
     handleSaveFile: handleSaveFileTmp,
     handleResetSliders: handleResetSlidersTmp,
+    pages,
     viewSettings,
     sliders,
     thunkLoadFile,
@@ -163,6 +165,7 @@ function DrawerList(props) {
               this,
               saveFile,
               handleSaveFileTmp,
+              pages,
               viewSettings,
               sliders,
               version
@@ -218,8 +221,9 @@ function handleResetSliders(thunkDelete, cb, deleteAll, deleteFooterPages) {
   cb()
 }
 
-function handleSaveFile(saveFile, handleSaveFile, viewSettings, sliders) {
+function handleSaveFile(saveFile, handleSaveFile, pages, viewSettings, sliders) {
   saveFile({
+    pages,
     viewSettings,
     sliders,
     version
@@ -227,8 +231,9 @@ function handleSaveFile(saveFile, handleSaveFile, viewSettings, sliders) {
   handleSaveFile()
 }
 
-function mapStateToProps({ viewSettings, sliders, version }) {
+function mapStateToProps({ pagesx, viewSettings, sliders, version }) {
   return {
+    pages: pagesx, 
     viewSettings,
     sliders
   }

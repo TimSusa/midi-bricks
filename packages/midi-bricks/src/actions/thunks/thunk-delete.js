@@ -5,7 +5,7 @@ import { Actions as pageActions } from '../pagesx'
 
 const { deletePages } = pageActions
 const {  deleteAll } = sliderListActions
-const { deleteFooterPages } = viewSettingsActions
+const { deleteFooterPages, updateSliderListOfPage } = viewSettingsActions
 
 
 // - all 
@@ -13,9 +13,9 @@ const { deleteFooterPages } = viewSettingsActions
 // - whole page, 
 export function thunkDelete(type, i) {
   return async function(dispatch, getState) {
-    // const {
-    //   viewSettings: { lastFocusedPage },
-    // } = getState()
+    const {
+      viewSettings: { lastFocusedPage },
+    } = getState()
     batch(()=>{
       if (type === 'all') {
         // sliders
@@ -24,6 +24,14 @@ export function thunkDelete(type, i) {
         dispatch(deleteFooterPages())
         // pages
         dispatch(deletePages())
+      }
+      if (type === 'page') {
+        // sliders
+        dispatch(deleteAll())
+        // viewsettginsg
+        dispatch(deleteFooterPages())
+        // pages
+        dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList: undefined }))
       }
     })
   }

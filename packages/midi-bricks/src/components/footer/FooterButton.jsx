@@ -57,8 +57,6 @@ export function FooterButton(props) {
 
 function handleSettingsClick({ id, actions, thunkChangePage,  lastFocusedPage }) {
   thunkChangePage(lastFocusedPage, id)
-  //actions.setLastFocusedIndex({ i: id })
-  //actions.setLastFocusedPage({ lastFocusedPage: id })
   actions.toggleSettingsDialogMode({
     i: id,
     isSettingsDialogMode: true,
@@ -68,8 +66,4 @@ function handleSettingsClick({ id, actions, thunkChangePage,  lastFocusedPage })
 
 function handleClick({ id, actions, thunkChangePage,  lastFocusedPage }) {
   thunkChangePage(lastFocusedPage, id)
-
-  // actions.setLastFocusedIndex({i: 'none'})
-  // actions.setLastFocusedPage({ lastFocusedPage: id })
-  // actions.setMidiPage({lastFocusedPage, focusedPage: id})
 }
