@@ -61,7 +61,7 @@ const initState = {
   }
 }
 
-const pagesInit = {
+export const pagesInit = {
   [initId]: {
     sliderList: [],
     id: initId,

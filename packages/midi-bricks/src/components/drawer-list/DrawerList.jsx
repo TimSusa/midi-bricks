@@ -23,6 +23,7 @@ import { PropTypes } from 'prop-types'
 
 import { bindActionCreators } from 'redux'
 import { thunkLoadFile } from '../../actions/thunks/thunk-load-file'
+import { thunkDelete } from '../../actions/thunks/thunk-delete'
 import { Actions as MidiSliderActions } from '../../actions/slider-list'
 import { Actions as ViewSettingsActions } from '../../actions/view-settings'
 import { connect } from 'react-redux'
@@ -39,6 +40,7 @@ DrawerList.propTypes = {
   deleteAll: PropTypes.func,
   deleteFooterPages: PropTypes.func,
   thunkLoadFile: PropTypes.func,
+  thunkDelete: PropTypes.func,
   handleResetSliders: PropTypes.func,
   handleResetSlidersTmp: PropTypes.func,
   handleSaveFile: PropTypes.func,
@@ -63,7 +65,8 @@ function DrawerList(props) {
     handleResetSliders: handleResetSlidersTmp,
     viewSettings,
     sliders,
-    thunkLoadFile
+    thunkLoadFile,
+    thunkDelete
   } = props
   const [open, setOpen] = useState(false)
   const [isOpenViewSettings, setIsOpenViewSettings] = useState(false)
@@ -190,6 +193,7 @@ function DrawerList(props) {
             }}
             onAction={handleResetSliders.bind(
               this,
+              thunkDelete,
               handleResetSlidersTmp,
               deleteAll,
               deleteFooterPages
@@ -209,9 +213,8 @@ function DrawerList(props) {
   )
 }
 
-function handleResetSliders(cb, deleteAll, deleteFooterPages) {
-  deleteFooterPages()
-  deleteAll()
+function handleResetSliders(thunkDelete, cb, deleteAll, deleteFooterPages) {
+  thunkDelete('all')
   cb()
 }
 
@@ -245,7 +248,8 @@ function mapDispatchToProps(dispatch) {
     //   { ...MidiSliderActions, ...ViewSettingsActions },
     //   dispatch
     // ),
-    thunkLoadFile: bindActionCreators(thunkLoadFile, dispatch)
+    thunkLoadFile: bindActionCreators(thunkLoadFile, dispatch),
+    thunkDelete: bindActionCreators(thunkDelete, dispatch)
   }
 }
 

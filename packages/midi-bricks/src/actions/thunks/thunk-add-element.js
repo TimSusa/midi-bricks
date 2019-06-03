@@ -1,4 +1,4 @@
-import { batch } from 'react-redux'
+
 import { Actions as sliderListActions } from '../slider-list'
 import { Actions as viewSettingsActions } from '../view-settings'
 import { thunkChangePage } from './thunk-change-page'

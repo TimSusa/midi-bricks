@@ -1,5 +1,6 @@
 import { createNextState } from 'redux-starter-kit'
 import { ActionTypePages } from '../actions/pagesx'
+import {pagesInit} from '.'
 
 export const pagesx = {
   [ActionTypePages.CREATE_PAGE](state, action) {
@@ -32,7 +33,7 @@ export const pagesx = {
   // TODO: this is not clean
   [ActionTypePages.DELETE_PAGES](state, action) {
     return createNextState(state, (draftState) => {
-      draftState = {}
+      draftState = pagesInit
       return draftState
     })
   }
