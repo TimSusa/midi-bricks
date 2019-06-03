@@ -208,7 +208,7 @@ function MenuAppBar(props) {
                             icon={<DeleteIcon />}
                           />
                         </>
-                    )}
+                      )}
                   </>
                 )}
                 {!isMidiLearnMode && (
@@ -257,7 +257,7 @@ function MenuAppBar(props) {
                   />
                 )}
               </>
-          )}
+            )}
           {isLayoutMode && (
             <ToolTipIconButton
               handleClick={() =>
@@ -279,21 +279,19 @@ function MenuAppBar(props) {
           )}
           {
             <>
-              {past.length > 0 && (
-                <ToolTipIconButton
-                  handleClick={actions.undo}
-                  title={`Undo´s left ${past.length}`}
-                  icon={<UndoIcon />}
-                />
-              )}
+              <ToolTipIconButton
+                isDisabled={past.length <1  }
+                handleClick={actions.undo}
+                title={`Undo´s left ${past.length}`}
+                icon={<UndoIcon />}
+              />
 
-              {future.length > 0 && (
-                <ToolTipIconButton
-                  handleClick={actions.redo}
-                  title={`Redo´s left ${future.length}`}
-                  icon={<RedoIcon />}
-                />
-              )}
+              <ToolTipIconButton
+                isDisabled={future.length <1 }
+                handleClick={actions.redo}
+                title={`Redo´s left ${future.length}`}
+                icon={<RedoIcon disabled />}
+              />
             </>
           }
         </Toolbar>
@@ -422,7 +420,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({
-  sliders: {past, future, present: { presetName, monitorVal} },
+  sliders: {
+    past,
+    future,
+    present: { presetName, monitorVal }
+  },
   viewSettings
 }) {
   return {

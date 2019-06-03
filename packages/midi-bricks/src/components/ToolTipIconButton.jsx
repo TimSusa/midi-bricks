@@ -4,12 +4,14 @@ import { Tooltip } from '@material-ui/core'
 import { PropTypes } from 'prop-types'
 
 export function ToolTipIconButton(props) {
-  const { handleClick = () => {}, title = '', icon } = props
+  const { handleClick = () => {}, title = '', icon, isDisabled = false } = props
   return (
     <Tooltip disableHoverListener={false} title={title}>
-      <IconButton onClick={handleClick} color='inherit'>
-        {icon}
-      </IconButton>
+      <div>
+        <IconButton onClick={handleClick} color='inherit' disabled={isDisabled}>
+          {icon}
+        </IconButton>
+      </div>
     </Tooltip>
   )
 }
@@ -17,5 +19,6 @@ export function ToolTipIconButton(props) {
 ToolTipIconButton.propTypes = {
   handleClick: PropTypes.func,
   icon: PropTypes.any,
+  isDisabled: PropTypes.bool,
   title: PropTypes.string
 }
