@@ -1,7 +1,10 @@
 import { combineReducers } from 'redux'
 import { generateReducers } from 'redux-generate'
+
 import { sliders, initId } from './slider-list'
 import { viewSettings } from './view-settings'
+
+import { pagesx } from './pagesx'
 
 export const PAGE_TYPES = {
   HOME_MODE: 'HOME_MODE',
@@ -9,7 +12,6 @@ export const PAGE_TYPES = {
   MIDI_DRIVER_MODE: 'MIDI_DRIVER_MODE',
   VIEW_SETTINGS_MODE: 'VIEW_SETTINGS_MODE'
 }
-
 
 const initState = {
   columns: 18,
@@ -59,17 +61,19 @@ const initState = {
   }
 }
 
-const pages = {
+const pagesInit = {
   [initId]: {
     sliderList: [],
-    initId,
+    id: initId,
     label: 'Page 1'
   }
 }
 
 const slidersInitState = {
-  pages,
-  sliderList: []
+  isMidiFailed: false,
+  midi: null,
+  sliderList: [],
+  sliderListBackup: []
 }
 
 export const viewSettingsInitState = {
@@ -84,12 +88,13 @@ export const viewSettingsInitState = {
         colorFont: '#dddddd'
       },
       id: initId,
-      label: pages[initId].label
+      label: pagesInit[initId].label
     }
   ]
 }
 
 export default combineReducers({
   sliders: generateReducers(slidersInitState, sliders),
-  viewSettings: generateReducers(viewSettingsInitState, viewSettings)
+  viewSettings: generateReducers(viewSettingsInitState, viewSettings),
+  pagesx: generateReducers(pagesInit, pagesx)
 })

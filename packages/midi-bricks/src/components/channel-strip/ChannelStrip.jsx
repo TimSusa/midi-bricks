@@ -32,7 +32,7 @@ function ChannelStrip(props) {
     val,
     fontSize,
     fontWeight,
-    colors: { colorFont },
+    colors: { colorFont } = {},
     isValueHidden,
     lastSavedVal
   } = sliderEntry

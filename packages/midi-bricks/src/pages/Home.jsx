@@ -28,13 +28,9 @@ function Home(props) {
   const classes = makeStyles(styles, { useTheme: true })()
 
   const {
-    viewSettings: {
-      isLiveMode = false,
-      pageType = PAGE_TYPES.HOME_MODE,
-    },
+    viewSettings: { isLiveMode = false, pageType = PAGE_TYPES.HOME_MODE },
     initApp
   } = props
-
   useEffect(() => {
     async function initAsync() {
       await initApp()
@@ -45,8 +41,7 @@ function Home(props) {
     }
     console.log('Re-Init MIDI')
     initAsync()
-    return () => {
-    }
+    return () => {}
   }, [initApp, pageType])
 
   const preventScrollStyle = isLiveMode
@@ -77,7 +72,10 @@ function Home(props) {
   }
 }
 
-function mapStateToProperties({ viewSettings, sliders: { isMidiFailed } }) {
+function mapStateToProperties({
+  viewSettings,
+  sliders: { isMidiFailed }
+}) {
   return {
     viewSettings,
     isMidiFailed

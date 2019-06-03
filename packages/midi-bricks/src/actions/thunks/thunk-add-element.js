@@ -1,12 +1,15 @@
 import { batch } from 'react-redux'
 import { Actions as sliderListActions } from '../slider-list'
 import { Actions as viewSettingsActions } from '../view-settings'
+import { thunkChangePage } from './thunk-change-page'
 import { getUniqueId } from '../../utils/get-unique-id'
 import { STRIP_TYPE } from '../../reducers/slider-list'
+import { Actions as pageActions } from '../pagesx'
 
+const { createPage, updateSliderListOfPage } = pageActions
 const { PAGE } = STRIP_TYPE
-const { addPage, addMidiElement, setMidiPage } = sliderListActions
-const { setLastFocusedIndex, addPageTarget } = viewSettingsActions
+const { addMidiElement } = sliderListActions
+const { addPageTarget } = viewSettingsActions
 
 export function addElement(type, payload) {
   const pageId = `page-${getUniqueId()}`
@@ -18,7 +21,6 @@ export function addElement(type, payload) {
 
     if (type === PAGE) {
       batch(() => {
-        dispatch(setLastFocusedIndex({ i: 'none' }))
         dispatch(
           addPageTarget({
             pageTarget: {
@@ -30,11 +32,18 @@ export function addElement(type, payload) {
             }
           })
         )
-        dispatch(addPage({ id: pageId, lastFocusedPage }))
-        dispatch(setMidiPage({ focusedPage: pageId, lastFocusedPage }))
+        dispatch(createPage({ id: pageId, lastFocusedPage }))
+        dispatch(thunkChangePage(lastFocusedPage, pageId))
       })
     } else {
-      dispatch(addMidiElement({ lastFocusedPage, type, id: getUniqueId() }))
+      const id = getUniqueId()
+      dispatch(addMidiElement({ type, id }))
+      const {
+        viewSettings: { lastFocusedPage },
+        sliders: { sliderList }
+      } = getState()
+
+      dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList }))
     }
   }
 }

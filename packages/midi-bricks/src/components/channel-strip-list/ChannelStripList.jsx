@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 import { Actions as ViewSettingsActions } from '../../actions/view-settings.js'
+import { thunkChangeListOrder } from '../../actions/thunks/thunk-change-list-order'
 import MidiSettingsDialogButton from '../midi-settings-dialog/MidiSettingsDialogButton'
 import { makeStyles } from '@material-ui/styles'
 import { SizeMe } from 'react-sizeme'
@@ -32,6 +33,7 @@ function ChannelStripList(props) {
   const {
     actions,
     thunkLoadFile,
+    thunkChangeListOrder,
     sliderList = [],
     monitorVal: { driver = 'None', cC = 'None', channel = 'None' } = {},
     viewSettings: {
@@ -91,7 +93,7 @@ function ChannelStripList(props) {
         layout={sliderList}
         onLayoutChange={
           isLayoutMode
-            ? onLayoutChange.bind(this, actions, isLayoutMode, lastFocusedPage)
+            ? onLayoutChange.bind(this, thunkChangeListOrder, isLayoutMode, lastFocusedPage)
             : () => {}
         }
       >
@@ -236,9 +238,9 @@ ChannelStripList.propTypes = {
   viewSettings: PropTypes.object
 }
 
-function onLayoutChange(actions, isLayoutMode, lastFocusedPage, layout) {
+function onLayoutChange(thunkChangeListOrder, isLayoutMode, lastFocusedPage, layout) {
   if (isLayoutMode) {
-    actions.changeListOrder({ listOrder: layout, lastFocusedPage })
+    thunkChangeListOrder(layout, lastFocusedPage)
   }
 }
 
@@ -357,6 +359,7 @@ function mapDispatchToProps(dispatch) {
       { ...MidiSliderActions, ...ViewSettingsActions },
       dispatch
     ),
-    thunkLoadFile: bindActionCreators(thunkLoadFile, dispatch)
+    thunkLoadFile: bindActionCreators(thunkLoadFile, dispatch),
+    thunkChangeListOrder: bindActionCreators(thunkChangeListOrder, dispatch)
   }
 }

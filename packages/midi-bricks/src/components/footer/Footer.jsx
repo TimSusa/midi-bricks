@@ -5,6 +5,9 @@ import { makeStyles } from '@material-ui/styles'
 import IconButton from '@material-ui/core/IconButton'
 import LeftIcon from '@material-ui/icons/KeyboardArrowLeft'
 import RightIcon from '@material-ui/icons/KeyboardArrowRight'
+
+import { thunkChangePage } from '../../actions/thunks/thunk-change-page'
+
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as ViewSettinsgsAction } from '../../actions/view-settings'
@@ -23,15 +26,16 @@ export default connect(
 Footer.propTypes = {
   actions: PropTypes.object,
   footerPages: PropTypes.array,
-  pageTargets: PropTypes.array,
   isFullscreenOnLivemode: PropTypes.bool,
   isLiveMode: PropTypes.bool,
-  isSettingsMode: PropTypes.bool,
   isSettingsDialogMode: PropTypes.bool,
+  isSettingsMode: PropTypes.bool,
   lastFocusedFooterButtonIdx: PropTypes.string,
-  lastFocusedPage: PropTypes.string,
   lastFocusedIdx: PropTypes.string,
-  pageType: PropTypes.string
+  lastFocusedPage: PropTypes.string,
+  pageTargets: PropTypes.array,
+  pageType: PropTypes.string,
+  thunkChangePage: PropTypes.any
 }
 
 function Footer(props) {
@@ -47,7 +51,8 @@ function Footer(props) {
     isLiveMode = false,
     isFullscreenOnLivemode = false,
     pageType = '',
-    actions
+    actions,
+    thunkChangePage
   } = props
   if (pageType !== PAGE_TYPES.HOME_MODE && !isLiveMode) return <div />
   return (
@@ -74,6 +79,7 @@ function Footer(props) {
                 item={item}
                 isSettingsMode={isSettingsMode}
                 actions={actions}
+                thunkChangePage={thunkChangePage}
               />
 
               <IconButton
@@ -116,6 +122,7 @@ function Footer(props) {
             item={item}
             isSettingsMode={isSettingsMode}
             actions={actions}
+            thunkChangePage={thunkChangePage}
           />
         )
       })}
@@ -241,6 +248,7 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(
       { ...ViewSettinsgsAction, ...SliderSettinsgsAction },
       dispatch
-    )
+    ),
+    thunkChangePage: bindActionCreators(thunkChangePage, dispatch)
   }
 }

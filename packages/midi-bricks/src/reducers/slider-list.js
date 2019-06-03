@@ -74,10 +74,17 @@ export const sliders = {
   },
 
   [ActionTypeSliderList.ADD_MIDI_ELEMENT](state, action) {
-    const { type, lastFocusedPage } = action.payload
-    const me = transformAddState(state, action, type)
-
-    return updatePagesWithSliderlist(me, me.sliderList, lastFocusedPage)
+    //const { type, id } = action.payload
+    const {isMidiFailed, sliderList, midi, sliderListBackup} = transformAddState(state, action)
+    console.log('ADD_MIDI_ELEMENT', {isMidiFailed, sliderList, midi, sliderListBackup})
+    return createNextState(state, draftState => {
+      draftState.sliderList = sliderList
+      draftState.isMidiFailed = isMidiFailed
+      draftState.midi = midi
+      draftState.sliderListBackup = sliderListBackup
+      return draftState
+    })
+    //return updatePagesWithSliderlist(me, me.sliderList, lastFocusedPage)
     // if (!Array.isArray(sliderList)) {
     //   throw new TypeError('sliderlist comes wihtout array')
     // }
@@ -89,23 +96,15 @@ export const sliders = {
     //return {state, sliderList, lastFocusedPage}
   },
 
+  // DEPRECATED
   [ActionTypeSliderList.ADD_PAGE](state, action) {
-    const { lastFocusedPage, id } = action.payload
-
-    return createNextState(state, (draftState) => {
-      draftState.pages[lastFocusedPage].sliderList = state.sliderList 
-      draftState.sliderList = []
-      draftState.pages[id] = {
-        sliderList: [],
-        id,
-        label: `Page ${Object.keys(state.pages).length + 1}`
-      }
-      return draftState
-    })
+    return state
   },
 
+  // TODO: FIX
   [ActionTypeSliderList.COPY_TO_NEXT_PAGE](state, action) {
     const { lastFocusedIdxs, nextPageIdx } = action.payload
+    return state
     return createNextState(state, (draftState) => {
       const entries = Object.keys(state.pages).reduce((acc, cur) => {
         const foundEntries = state.pages[cur].sliderList.map((item) => {
@@ -218,28 +217,13 @@ export const sliders = {
     return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
   [ActionTypeSliderList.DELETE](state, action) {
-    const { i: sentIdx, lastFocusedPage } = action.payload
+    const { i: sentIdx } = action.payload
     const isPage = sentIdx.toString().startsWith('page')
 
     if (isPage) {
       return createNextState(state, (draftState) => {
         let sliderList = []
-        const pages = Object.keys(state.pages).reduce((acc, cur) => {
-          if (cur !== sentIdx.toString()) {
-            sliderList = state.pages[cur].sliderList
-            return {
-              ...acc,
-              [cur]: {
-                ...state.pages[cur]
-              }
-            }
-          } else {
-            return acc
-          }
-        }, {})
-        console.warn('ispage', pages)
 
-        draftState.pages = pages
         draftState.sliderList = sliderList
         draftState.sliderListBackup = state.sliderList
         return draftState
@@ -251,10 +235,6 @@ export const sliders = {
         )
 
         draftState.sliderList = sliderList
-        draftState.pages[lastFocusedPage] = {
-          ...state.pages[lastFocusedPage],
-          sliderList
-        }
         return draftState
       })
 
@@ -263,7 +243,6 @@ export const sliders = {
   [ActionTypeSliderList.DELETE_ALL](state, action) {
     return createNextState(state, (draftState) => {
       draftState.sliderList = []
-      draftState.pages = initPages([], initId)
       draftState.presetName = ''
       draftState.sliderListBackup = state.sliderList
       return draftState
@@ -272,7 +251,7 @@ export const sliders = {
 
   [ActionTypeSliderList.HANDLE_SLIDER_CHANGE](state, action) {
     return createNextState(state, (draftState) => {
-      const { i, val, lastFocusedPage } = action.payload
+      const { i, val } = action.payload
       let sliderList = state.sliderList
 
       // Set noteOn/noteOff stemming from CC VAl
@@ -289,7 +268,7 @@ export const sliders = {
       const refreshedSliderList = transformState(sliderList, { i, val }, 'val')
 
       draftState.sliderList = refreshedSliderList
-      draftState.pages[lastFocusedPage].sliderList = refreshedSliderList
+      //draftState.pages[lastFocusedPage].sliderList = refreshedSliderList
       return draftState
     })
 
@@ -561,14 +540,10 @@ export const sliders = {
     return createNextState(state, (draftState) => {
       const {
         payload: {
-          // lastFocusedPage,
-          // presetName,
-          content: { sliders: { sliderList, pages } } = {}
+          content: { sliders: { sliderList } } = {}
         } = {}
       } = action
 
-      draftState.pages = pages || initPages(sliderList, initId)
-      //draftState.pages[id].sliderList = sliderList
       draftState.sliderList = sliderList
       return draftState
     })
@@ -576,7 +551,7 @@ export const sliders = {
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER](state, action) {
     return createNextState(state, (draftState) => {
-      const { listOrder, lastFocusedPage } = action.payload
+      const { listOrder } = action.payload
 
       const sliderList =
         state.sliderList.map((item, idx) => ({
@@ -586,7 +561,6 @@ export const sliders = {
 
       draftState.sliderList = sliderList
       draftState.sliderListBackup = state.sliderList
-      draftState.pages[lastFocusedPage].sliderList = sliderList
       return draftState
     })
 
@@ -881,17 +855,8 @@ export const sliders = {
 
   [ActionTypeSliderList.SET_MIDI_PAGE](state, action) {
     return createNextState(state, (draftState) => {
-      const { lastFocusedPage, focusedPage } = action.payload
-
-      // In order to persist listorder, we try to save slider-list to page
-      draftState.pages[lastFocusedPage].sliderList = state.pages[lastFocusedPage].sliderList
-
-      // const sliderList =
-      //   focusedPage && state.pages[focusedPage]
-      //     ? state.pages[focusedPage].sliderList
-      //     : []
-      draftState.sliderList = state.pages[focusedPage].sliderList
-
+      const { sliderList } = action.payload
+      draftState.sliderList = sliderList
       return draftState
     })
   },
@@ -934,23 +899,16 @@ function transformState(sliderList, { i, val }, field) {
   })
 }
 
-function transformAddState(state, action, type) {
-  const { id } = action.payload
-  let pages = state.pages || {}
+function transformAddState(state, action) {
+  const { id, type } = action.payload
   const oldSliderList = state.sliderList || []
-  const { lastFocusedPage } = action.payload
-  const list =
-    (lastFocusedPage &&
-      pages[lastFocusedPage] &&
-      pages[lastFocusedPage].sliderList) ||
-    []
 
   const lastSelectedDriverName =
-    (list.length > 0 && list[list.length - 1].driverName) || 'None'
+    (oldSliderList.length > 0 && oldSliderList[oldSliderList.length - 1].driverName) || 'None'
   const newDriverName =
     lastSelectedDriverName !== 'None' && lastSelectedDriverName
 
-  const addStateLength = () => list.length + 1
+  const addStateLength = () => oldSliderList.length + 1
   const addMidiCCVal = () => 59 + addStateLength() > 119 && 119
 
   let midiCC = null
@@ -1040,37 +998,14 @@ function transformAddState(state, action, type) {
     isValueHidden: false
   }
 
-  // set type === PAGE to false to get old mode
-  const tmpArrr = !Array.isArray(list) ? [entry] : [...list, entry]
-  // const sliderList = type === PAGE ? oldSliderList : tmpArrr
-  const { focusedPage } = action.payload
   return type === PAGE
     ? {
       ...state,
       sliderList: [],
-      pages: {
-        ...pages,
-        [lastFocusedPage]: {
-          sliderList: oldSliderList,
-          label,
-          id: focusedPage
-        },
-        [focusedPage]: {
-          sliderList: [],
-          label,
-          id: focusedPage
-        }
-      }
     }
     : {
       ...state,
-      sliderList: tmpArrr,
-      pages: {
-        ...pages,
-        [lastFocusedPage]: lastFocusedPage
-          ? { ...pages[lastFocusedPage], sliderList: tmpArrr, label }
-          : undefined
-      }
+      sliderList: [...oldSliderList, entry]
     }
 }
 
@@ -1180,26 +1115,12 @@ function sortBy(list = [], by) {
 }
 
 function updatePagesWithSliderlist(
-  state = { pages: {} },
+  state,
   refreshedSliderList = [],
   lastFocusedPage
 ) {
   return createNextState(state, (draftState) => {
     draftState.sliderList = refreshedSliderList
-    draftState.pages[lastFocusedPage] = {
-      sliderList: refreshedSliderList,
-      id: lastFocusedPage
-    }
     return draftState
   })
-}
-
-function initPages(sliderList = [], id) {
-  return {
-    [id]: {
-      sliderList,
-      id,
-      label: 'Page 1'
-    }
-  }
 }

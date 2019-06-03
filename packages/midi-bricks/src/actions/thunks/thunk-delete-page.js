@@ -7,6 +7,7 @@ const { PAGE } = STRIP_TYPE
 const { addPage, addMidiElement, setMidiPage } = sliderListActions
 const { setLastFocusedPage, setLastFocusedIndex, addPageTarget } = viewSettingsActions
 
+//TO DO: this is not used yet
 export function thunkDeletePage(payload) {
   return async function(dispatch, getState) {
     const {
@@ -15,27 +16,3 @@ export function thunkDeletePage(payload) {
     await dispatch(addMidiElement({ lastFocusedPage}))
   }
 }
-
-// function createPage(dispatch, getState) {
-//   const pageId = `page-${getUniqueId()}`
-
-//   const { viewSettings } = getState()
-  
-//   return Promise.all([
-//     dispatch(addPage({ id: pageId, lastFocusedPage: viewSettings.lastFocusedPage })),
-//     dispatch(
-//       addPageTarget({
-//         pageTarget: {
-//           id: pageId,
-//           label: Array.isArray(viewSettings.pageTargets)
-//             ? `Page ${viewSettings.pageTargets.length + 1}`
-//             : 'Page',
-//           colors: { colorFont: '#123456', color: '#dddddd' }
-//         }
-//       })
-//     ),
-//     dispatch(setLastFocusedPage({ lastFocusedPage: pageId })),
-//     dispatch(setLastFocusedIndex({i: 'none'})),
-//     dispatch(setMidiPage({focusedPage: pageId, lastFocusedPage: viewSettings.lastFocusedPage}))
-//   ])
-// }

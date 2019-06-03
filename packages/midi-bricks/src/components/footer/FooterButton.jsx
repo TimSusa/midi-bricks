@@ -7,7 +7,8 @@ FooterButton.propTypes = {
   classes: PropTypes.object,
   isSettingsMode: PropTypes.bool,
   item: PropTypes.object,
-  lastFocusedPage: PropTypes.string
+  lastFocusedPage: PropTypes.string,
+  thunkChangePage: PropTypes.func
 }
 
 export function FooterButton(props) {
@@ -20,7 +21,8 @@ export function FooterButton(props) {
     },
     lastFocusedPage,
     isSettingsMode,
-    actions
+    actions,
+    thunkChangePage 
   } = props
 
   return (
@@ -33,18 +35,16 @@ export function FooterButton(props) {
       }}
       onClick={
         isSettingsMode
-          ? () => {
-            actions.setLastFocusedIndex({ i: id })
-            actions.setLastFocusedPage({ lastFocusedPage: id })
-            actions.toggleSettingsDialogMode({
-              i: id,
-              isSettingsDialogMode: true,
-              lastFocusedPage: id
-            })
-          }
+          ? handleSettingsClick.bind(this, {
+            id,
+            actions,
+            thunkChangePage,
+            lastFocusedPage
+          })
           : handleClick.bind(this, {
             id,
             actions,
+            thunkChangePage,
             lastFocusedPage
           })
       }
@@ -55,8 +55,21 @@ export function FooterButton(props) {
   )
 }
 
-function handleClick({ id, actions, lastFocusedPage }) {
-  actions.setLastFocusedIndex({i: 'none'})
-  actions.setLastFocusedPage({ lastFocusedPage: id })
-  actions.setMidiPage({lastFocusedPage, focusedPage: id})
+function handleSettingsClick({ id, actions, thunkChangePage,  lastFocusedPage }) {
+  thunkChangePage(lastFocusedPage, id)
+  //actions.setLastFocusedIndex({ i: id })
+  //actions.setLastFocusedPage({ lastFocusedPage: id })
+  actions.toggleSettingsDialogMode({
+    i: id,
+    isSettingsDialogMode: true,
+    lastFocusedPage: id
+  })
+}
+
+function handleClick({ id, actions, thunkChangePage,  lastFocusedPage }) {
+  thunkChangePage(lastFocusedPage, id)
+
+  // actions.setLastFocusedIndex({i: 'none'})
+  // actions.setLastFocusedPage({ lastFocusedPage: id })
+  // actions.setMidiPage({lastFocusedPage, focusedPage: id})
 }
