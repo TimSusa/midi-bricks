@@ -26,7 +26,7 @@ export function thunkLoadFile(content, presetName) {
     )
 
     promArray.push(dispatch(updatePages({ pages })))
-    promArray.push(
+    sliderList && promArray.push(
       dispatch(updateSliderListOfPage({ lastFocusedPage: initId, sliderList }))
     )
 
@@ -47,7 +47,6 @@ export function thunkLoadFile(content, presetName) {
       }
     }
 
-    // Either will will have pages or sliderList
     if (pages) {
       promArray.push(
         dispatch(

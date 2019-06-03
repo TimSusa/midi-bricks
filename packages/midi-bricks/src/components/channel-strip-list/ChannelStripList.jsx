@@ -213,20 +213,15 @@ function ChannelStripList(props) {
       <Typography variant='h4' className={classes.noMidiTypography}>
         <br />
         <br />
-        Dear user, I suggest for you to load an example preset.
-        <br />
-        <br />
         <Button
           onClick={async () =>
             await thunkLoadFile(preset, preset.presetName)
           }
         >
-          LOAD EXAMPLE PRESET
+          LOAD EXAMPLE
         </Button>
         <br />
         <br />
-        Otherwise, feel free to play arround and add a page or buttons. You can
-        do this with the button at the right top in the AppBar → ↑
       </Typography>
     )
   }

@@ -1,6 +1,5 @@
 import { Drawer } from '@material-ui/core'
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import Home from './pages/Home'
 
 import MenuAppBar from './components/menu-app-bar/MenuAppBar'
@@ -10,11 +9,7 @@ import { makeStyles } from '@material-ui/styles'
 
 export default App
 
-App.displayName = 'App'
-
-App.propTypes = {}
-
-function App(props) {
+function App() {
   const classes = makeStyles(styles, { withTheme: true })()
   const [isMobileOpen, setIsMobileOpen] = useState(false)
 
