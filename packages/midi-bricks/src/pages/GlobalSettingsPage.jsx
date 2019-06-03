@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
-// import MidiSettingsDialog from '../components/midi-settings-dialog/MidiSettingsDialog'
+import MidiSettingsDialog from '../components/midi-settings-dialog/MidiSettingsDialog'
 import { outputToDriverName } from '../utils/output-to-driver-name.js'
 import { STRIP_TYPE } from '../reducers/slider-list.js'
 import DriverExpansionPanel from '../components/DriverExpansionPanel.jsx'
@@ -46,10 +46,9 @@ function GlobalSettingsPage(props) {
       midiAccess: { inputs, outputs }
     },
     viewSettings: {
-      //isSettingsDialogMode,
+      isSettingsDialogMode,
       lastFocusedPage,
-      //lastFocusedIdx,
-      lastFocusedFooterButtonIdx,
+      lastFocusedIdx,
       availableDrivers: { outputs: chosenOutputs, inputs: chosenInputs },
       pageTargets
     }
@@ -113,24 +112,21 @@ function GlobalSettingsPage(props) {
                     cursor: 'pointer'
                   }
 
-                  // if (hasChanged(sliderListBackup, sliderEntry)) {
-                  //   rowStyle.background = 'aliceblue'
-                  // }
 
-                  // if (isSettingsDialogMode && i === lastFocusedIdx) {
-                  //   return (
-                  //     <MidiSettingsDialog
-                  //       key={`glb-settings-${idx}`}
-                  //       open
-                  //       onClose={actions.toggleSettingsDialogMode.bind(this, {
-                  //         i,
-                  //         isSettingsDialogMode: false,
-                  //         lastFocusedPage
-                  //       })}
-                  //       sliderEntry={sliderEntry}
-                  //     />
-                  //   )
-                  // }
+                  if (isSettingsDialogMode && i === lastFocusedIdx) {
+                    return (
+                      <MidiSettingsDialog
+                        key={`glb-settings-${i}`}
+                        open
+                        onClose={actions.toggleSettingsDialogMode.bind(this, {
+                          i,
+                          isSettingsDialogMode: false,
+                          lastFocusedPage
+                        })}
+                        sliderEntry={sliderEntry}
+                      />
+                    )
+                  }
                   let title = ''
                   let channelTooltipTitle = ''
 
@@ -210,7 +206,7 @@ function GlobalSettingsPage(props) {
                   return (
                     <Tooltip
                       title={title + channelTooltipTitle}
-                      key={`glb-${idx}`}
+                      key={`glb-${i}`}
                     >
                       <TableRow
                         style={rowStyle}

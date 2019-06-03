@@ -1020,7 +1020,6 @@ export const preset ={
     "paddingX": 8,
     "paddingY": 8,
     "footerPages": null,
-    "lastFocusedFooterButtonIdx": "15407487445620.e29d4446b4a6d1",
     "isLiveMode": false,
     "isSettingsDialogMode": false,
     "isLayoutMode": false,

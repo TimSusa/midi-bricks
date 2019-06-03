@@ -54,8 +54,6 @@ export const viewSettings = {
   },
 
   [ActionTypeViewSettings.TOGGLE_SETTINGS_MODE](state, action) {
-
-
     return createNextState(state, (draftState) => {
       const castedVal = !!state.isSettingsMode
       const { isSettingsMode } = action.payload || {}
@@ -95,43 +93,21 @@ export const viewSettings = {
   [ActionTypeViewSettings.UPDATE_VIEW_SETTINGS](state, action) {
     console.warn('DEPRECATED UPDATE_VIEW_SETTINGS')
     const {
-      // sliderList,
       viewSettings,
       viewSettings: { availableDrivers } = {}
-      //version
     } = action.payload
 
-    const extractedPages = null //extractPages(sliderList)
-    const oldPages = state.footerPages && Object.values(state.footerPages)
-    let newItemToTake = null
+    return createNextState(state, (draftState) => {
+      draftState = {
+        ...state,
+        ...viewSettings
+      }
+      if (availableDrivers) {
+        draftState.availableDrivers = availableDrivers
+      }
 
-    oldPages &&
-      oldPages.forEach((oldItem) => {
-        if (!oldItem) return
-        extractedPages &&
-          extractedPages.forEach((newItem) => {
-            if (!newItem) return
-            if (oldItem.i !== newItem.i) {
-              newItemToTake = newItem
-            }
-          })
-      })
-    const newPages = oldPages && oldPages.length > 0 ? oldPages : extractedPages
-    let footerState = null
-    if (newItemToTake) {
-      footerState = Object.assign({}, state, viewSettings, {
-        footerPages: [...newPages, newItemToTake]
-      })
-    } else {
-      footerState = Object.assign({}, state, viewSettings, {
-        footerPages: newPages
-      })
-    }
-    if (availableDrivers) {
-      return { ...footerState, availableDrivers }
-    } else {
-      return { ...footerState }
-    }
+      return draftState
+    })
   },
 
   [ActionTypeViewSettings.DELETE_PAGE_FROM_FOOTER](state, action) {
@@ -148,64 +124,16 @@ export const viewSettings = {
     return createNextState(state, (draftState) => {
       draftState.pageTargets = viewSettingsInitState.pageTargets
       draftState.footerPages = []
-      draftState.lastFocusedFooterButtonIdx = ''
       draftState.lastFocusedIdxs = []
       draftState.lastFocusedPage = viewSettingsInitState.lastFocusedPage
       draftState.isLayoutMode = viewSettingsInitState.isLayoutMode
-      return draftState
-    })
-
-    // return Object.assign(
-    //   {},
-    //   state,
-    //   {
-    //     footerPages: [],
-    //     pageTargets: []
-    //   },
-    //   viewSettingsInitState
-    // )
-  },
-
-  // [ActionTypeViewSettings.CHANGE_FOOTER_PAGE](state , action) {
-  //   const { i, label, colorFont, color } = action.payload
-
-  //   const tmpArr = state.footerPages.map((item) => {
-  //     if (label) {
-  //       if (item.i === i) {
-  //         return Object.assign({}, item, { label })
-  //       }
-  //     }
-  //     if (color) {
-  //       if (item.i === i) {
-  //         return Object.assign({}, item, { colors: { ...item.colors, color } })
-  //       }
-  //     }
-  //     if (colorFont) {
-  //       if (item.i === i) {
-  //         return Object.assign({}, item, {
-  //           colors: { ...item.colors, colorFont }
-  //         })
-  //       }
-  //     }
-  //     return Object.assign({}, item)
-  //   })
-
-  //   return Object.assign({}, state, {
-  //     footerPages: tmpArr
-  //   })
-  // },
-
-  [ActionTypeViewSettings.SET_FOOTER_BUTTON_FOCUS](state, action) {
-    const { i } = action.payload
-    return createNextState(state, (draftState) => {
-      draftState.lastFocusedFooterButtonIdx = i
       return draftState
     })
   },
 
   [ActionTypeViewSettings.SET_LAST_FOCUSED_INDEX](state, action) {
     return createNextState(state, (draftState) => {
-      const { i='' } = action.payload || {}
+      const { i = '' } = action.payload || {}
 
       // Multiselection
       if (i !== 'none' && !i.startsWith('page')) {
@@ -230,8 +158,8 @@ export const viewSettings = {
 
   [ActionTypeViewSettings.SWAP_FOOTER_PAGES](state, action) {
     const { srcIdx: srcI, offset } = action.payload
-    const srcItem = state.pageTargets.find(item => item.id === srcI)
-    const srcIdx = state.pageTargets.findIndex(item => item.id === srcI)
+    const srcItem = state.pageTargets.find((item) => item.id === srcI)
+    const srcIdx = state.pageTargets.findIndex((item) => item.id === srcI)
     const newIdx =
       srcIdx === 0 && offset === -1 ? state.pageTargets.length : srcIdx
     const targetIdx =
@@ -329,16 +257,15 @@ export const viewSettings = {
     const { color, colorFont, label } = action.payload
 
     return createNextState(state, (draftState) => {
-
-      const idx = state.pageTargets.findIndex(item => item.id === state.lastFocusedPage)
+      const idx = state.pageTargets.findIndex(
+        (item) => item.id === state.lastFocusedPage
+      )
       if (idx < 0) return draftState
       if (color) {
         draftState.pageTargets[idx].colors.color = color
       }
       if (colorFont) {
-        draftState.pageTargets[
-          idx
-        ].colors.colorFont = colorFont
+        draftState.pageTargets[idx].colors.colorFont = colorFont
       }
       if (label) {
         draftState.pageTargets[idx].label = label
@@ -445,7 +372,6 @@ export const viewSettings = {
       draftState.lastFocusedPage = lastFocusedPage
       return draftState
     })
-    // return { ...state, lastFocusedPage }
   },
 
   [ActionTypeViewSettings.ADD_PAGE_TARGET](state, action) {
@@ -537,8 +463,8 @@ function getChannels(
         noteChannel === 'all'
           ? chDummy
           : !oldNoteChannels.includes(noteChannel)
-            ? [...oldNoteChannels, noteChannel]
-            : oldNoteChannels
+          ? [...oldNoteChannels, noteChannel]
+          : oldNoteChannels
       channels = getObjFromNoteChannels(old, name, noteChannels)
     }
     if (ccChannel) {
@@ -546,8 +472,8 @@ function getChannels(
         ccChannel === 'all'
           ? chDummy
           : !oldCcChannels.includes(ccChannel)
-            ? [...oldCcChannels, ccChannel]
-            : oldCcChannels
+          ? [...oldCcChannels, ccChannel]
+          : oldCcChannels
       channels = getObjFromCcChannels(old, name, ccChannels)
     }
   } else {

@@ -30,7 +30,6 @@ Footer.propTypes = {
   isLiveMode: PropTypes.bool,
   isSettingsDialogMode: PropTypes.bool,
   isSettingsMode: PropTypes.bool,
-  lastFocusedFooterButtonIdx: PropTypes.string,
   lastFocusedIdx: PropTypes.string,
   lastFocusedPage: PropTypes.string,
   pageTargets: PropTypes.array,
@@ -44,7 +43,6 @@ function Footer(props) {
     footerPages = [],
     pageTargets = [],
     lastFocusedPage,
-    lastFocusedFooterButtonIdx = '',
     lastFocusedIdx,
     isSettingsMode = false,
     isSettingsDialogMode,
@@ -136,8 +134,8 @@ function Footer(props) {
             onClick={handleLiveButtonClick.bind(
               this,
               isLiveMode,
+              lastFocusedPage,
               actions,
-              lastFocusedFooterButtonIdx,
               footerPages,
               isFullscreenOnLivemode
             )}
@@ -152,8 +150,8 @@ function Footer(props) {
 
 function handleLiveButtonClick(
   isLiveMode,
+  lastFocusedPage,
   actions,
-  lastFocusedFooterButtonIdx,
   footerPages,
   isFullscreenOnLivemode
 ) {
@@ -163,7 +161,7 @@ function handleLiveButtonClick(
   } else {
     isWebMode && isFullscreenOnLivemode && document.body.requestFullscreen()
   }
-  actions.setFooterButtonFocus({ i: lastFocusedFooterButtonIdx })
+  actions.setLastFocusedPage({ lastFocusedPage })
   actions.toggleLiveMode()
 }
 
@@ -213,7 +211,6 @@ function mapStateToProps({
     pageTargets,
     lastFocusedPage,
     lastFocusedIdx,
-    lastFocusedFooterButtonIdx,
     isSettingsMode,
     isSettingsDialogMode,
     isFullscreenOnLivemode,
@@ -226,7 +223,6 @@ function mapStateToProps({
     pageTargets,
     lastFocusedPage,
     lastFocusedIdx,
-    lastFocusedFooterButtonIdx,
     isSettingsMode,
     isSettingsDialogMode,
     isLiveMode,

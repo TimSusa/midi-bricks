@@ -21,11 +21,6 @@ const initState = {
   marginY: 8,
   paddingX: 8,
   paddingY: 8,
-  // deprecated in favor of pageTargets
-  footerPages: [],
-
-  // deprecated in favor of lastFocusedPage
-  lastFocusedFooterButtonIdx: '',
   isLiveMode: false,
   isSettingsDialogMode: false,
   isLayoutMode: false,
