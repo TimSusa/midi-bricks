@@ -16,10 +16,7 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
     } = getState()
 
     batch(() => {
-      // dispatch(deletePages({}))
-      // dispatch(updatePages({pages}))
       dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList }))
-
       dispatch(setLastFocusedIndex({ i: 'none' }))
       dispatch(setMidiPage({ sliderList: pagesx[focusedPage].sliderList }))
       dispatch(setLastFocusedPage({ lastFocusedPage: focusedPage }))

@@ -2,12 +2,11 @@ import { Actions as sliderListActions } from '../slider-list'
 import { Actions as viewSettingsActions } from '../view-settings'
 import { Actions as pageActions } from '../pagesx'
 import { initApp } from '../init'
-
 import { initId } from '../../reducers/slider-list'
 
 const { loadFile, deleteAll } = sliderListActions
 const { updateViewSettings, setLastFocusedPage } = viewSettingsActions
-const { updatePages } = pageActions
+const { updatePages, updateSliderListOfPage } = pageActions
 
 export function thunkLoadFile(content, presetName) {
   return async function(dispatch, getState) {
@@ -21,11 +20,15 @@ export function thunkLoadFile(content, presetName) {
       viewSettings: { availableDrivers } = {},
       sliders: { sliderList, pages } = {}
     } = content
+
     promArray.push(
       dispatch(loadFile({ presetName, content, lastFocusedPage: initId }))
     )
 
     promArray.push(dispatch(updatePages({ pages })))
+    promArray.push(
+      dispatch(updateSliderListOfPage({ lastFocusedPage: initId, sliderList }))
+    )
 
     promArray.push(dispatch(setLastFocusedPage({ lastFocusedPage: initId })))
 
@@ -49,7 +52,6 @@ export function thunkLoadFile(content, presetName) {
       promArray.push(
         dispatch(
           updateViewSettings({
-            // version,
             viewSettings: { ...viewSettings, availableDrivers: drivers },
             pages
           })
@@ -63,7 +65,6 @@ export function thunkLoadFile(content, presetName) {
       promArray.push(
         dispatch(
           updateViewSettings({
-            // version,
             viewSettings: { ...viewSettings, availableDrivers: drivers },
             sliderList: sliderList,
             pages
