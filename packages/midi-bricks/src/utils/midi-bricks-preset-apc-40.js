@@ -2287,7 +2287,6 @@ export const preset ={
         "moved": false
       }
     ],
-    "sliderListBackup": [],
-    "presetName": ""
+    "presetName": "APC Light"
   }
 }

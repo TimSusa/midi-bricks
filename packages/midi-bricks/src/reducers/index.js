@@ -52,7 +52,7 @@ const initState = {
   },
   electronAppSettings: {
     isDevConsoleEnabled: true,
-    isAllowedToUpdate: true,
+    isAllowedToUpdate: false,
     isAutoDownload: false,
     isAllowedPrerelease: false,
     isAllowedDowngrade: false,
@@ -72,8 +72,7 @@ export const pagesInit = {
 const slidersInitState = {
   isMidiFailed: false,
   midi: null,
-  sliderList: [],
-  sliderListBackup: []
+  sliderList: []
 }
 
 export const viewSettingsInitState = {

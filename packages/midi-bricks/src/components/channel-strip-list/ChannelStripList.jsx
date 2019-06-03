@@ -154,17 +154,6 @@ function ChannelStripList(props) {
                           midiLearnTypo={classes.midiLearnTypo}
                         />
                       )}
-                      {/* {isSettingsMode && isFocused && (
-                          <MIDIMonitorLabel
-                            isSettings={true}
-                            midiInfo={{
-                              driver: sliderEntry.driverNameInput,
-                              cC: sliderEntry.listenToCc.join(', '),
-                              channel: sliderEntry.midiChannelInput,
-                            }}
-                            midiLearnTypo={classes.midiLearnTypo}
-                          />
-                        )} */}
                       <ChannelStrip
                         size={size}
                         sliderEntry={sliderEntry}
@@ -268,7 +257,7 @@ function handleKeyPress(actions, isLayoutMode, e) {
   // z: go back
   if (e.keyCode === 122) {
     e.preventDefault()
-    actions.goBack()
+    //actions.goBack()
   }
 
   // p: performance (live) mode

@@ -15,7 +15,6 @@ export function thunkChangeListOrder(listOrder, lastFocusedPage) {
       sliders: {sliderList}
     } = getState()
 
-    // TODO: Get rid of needing to merge that stuff
     const mergedList = sliderList.reduce((acc, cur) => {
       const orderEntry = listOrder.find(er => er.i === cur.i)
       if(orderEntry) {

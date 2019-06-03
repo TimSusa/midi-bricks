@@ -44,9 +44,7 @@ function MidiDriversSettingsPage(props) {
       >
         {outputs &&
           outputs.map((name, idx) => {
-            const { ccChannels, noteChannels } = avalableOutputs[
-              name
-            ] || {
+            const { ccChannels, noteChannels } = avalableOutputs[name] || {
               ccChannels: [],
               noteChannels: []
             }
@@ -86,9 +84,7 @@ function MidiDriversSettingsPage(props) {
       >
         {inputs &&
           inputs.map((name, idx) => {
-            const { ccChannels, noteChannels } = availableInputs[
-              name
-            ] || {
+            const { ccChannels, noteChannels } = availableInputs[name] || {
               ccChannels: [],
               noteChannels: []
             }
@@ -178,14 +174,10 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-function mapStateToProps({
-  sliders: { sliderList, midi, sliderListBackup },
-  viewSettings
-}) {
+function mapStateToProps({ sliders: { sliderList, midi }, viewSettings }) {
   return {
     sliderList,
     midi,
-    viewSettings,
-    sliderListBackup
+    viewSettings
   }
 }

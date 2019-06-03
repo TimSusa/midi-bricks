@@ -153,14 +153,14 @@ function MenuAppBar(props) {
               <Button
                 className={classes.resetButton}
                 variant='contained'
-                onClick={async () => window.location.reload()}
+                onClick={() => window.location.reload()}
               >
                 Reload
               </Button>
               <Button
                 className={classes.resetButton}
                 variant='contained'
-                onClick={async () => window.localStorage.clear()}
+                onClick={() => window.localStorage.clear()}
               >
                 Clear Cache
               </Button>
@@ -260,7 +260,7 @@ function MenuAppBar(props) {
           {isLayoutMode && (
             <ToolTipIconButton
               handleClick={() => {
-                actions.goBack()
+                //actions.goBack()
                 actions.toggleLayoutMode({ isLayoutMode: false })
               }}
               title={'Throw away changes and go back.'}

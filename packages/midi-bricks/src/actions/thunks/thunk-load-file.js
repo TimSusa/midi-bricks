@@ -5,8 +5,8 @@ import { initApp } from '../init'
 import { initId } from '../../reducers/slider-list'
 
 const { loadFile, deleteAll } = sliderListActions
-const { updateViewSettings, setLastFocusedPage } = viewSettingsActions
-const { updatePages, updateSliderListOfPage } = pageActions
+const { updateViewSettings, setLastFocusedPage, deleteFooterPages } = viewSettingsActions
+const { updatePages } = pageActions
 
 export function thunkLoadFile(content, presetName) {
   return async function(dispatch, getState) {
@@ -17,34 +17,36 @@ export function thunkLoadFile(content, presetName) {
 
     const {
       viewSettings = {},
-      viewSettings: { availableDrivers, lastFocusedPage } = {},
+      viewSettings: { availableDrivers } = {},
       sliders: { sliderList = [] } = {},
       pages
     } = content
 
-
-
     if (pages) {
       promArray.push(dispatch(updatePages({ pages })))
     } else {
-      const {pagesx: oldPages, viewSettings: {lastFocusedPage: lfp} } = getState()
+      const {
+        pagesx: oldPages,
+        viewSettings: { lastFocusedPage: lfp }
+      } = getState()
       const oldPresetTransformedPages = {
-        ...oldPages,
+        //...oldPages,
         [lfp]: {
           ...oldPages[lfp],
           sliderList: sliderList
         }
-
       }
-      promArray.push(dispatch(updatePages({ pages: oldPresetTransformedPages })))
+      promArray.push(
+        dispatch(updatePages({ pages: oldPresetTransformedPages }))
+      )
+      promArray.push(
+        dispatch(deleteFooterPages())
+      )
     }
 
     promArray.push(
       dispatch(loadFile({ presetName, content, lastFocusedPage: initId }))
     )
-    // sliderList && promArray.push(
-    //   dispatch(updateSliderListOfPage({ lastFocusedPage: initId, sliderList }))
-    // )
 
     promArray.push(dispatch(setLastFocusedPage({ lastFocusedPage: initId })))
 

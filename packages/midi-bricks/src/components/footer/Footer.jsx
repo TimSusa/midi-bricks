@@ -54,7 +54,7 @@ function Footer(props) {
     actions,
     thunkChangePage
   } = props
-  if (pageType !== PAGE_TYPES.HOME_MODE && !isLiveMode) return <div />
+  //if (!isLiveMode) return <div />
   return (
     <div className={classes.root}>
       {pageTargets.map((item) => {
@@ -126,24 +126,26 @@ function Footer(props) {
           />
         )
       })}
-      <Tooltip title='Toggle Live Mode'>
-        <Button
-          className={classes.liveButton}
-          style={{
-            boxShadow: isLiveMode && '0 0 3px 3px rgb(24, 164, 157)'
-          }}
-          onClick={handleLiveButtonClick.bind(
-            this,
-            isLiveMode,
-            actions,
-            lastFocusedFooterButtonIdx,
-            footerPages,
-            isFullscreenOnLivemode
-          )}
-        >
-          Live
-        </Button>
-      </Tooltip>
+      {pageType === PAGE_TYPES.HOME_MODE && (
+        <Tooltip title='Toggle Live Mode'>
+          <Button
+            className={classes.liveButton}
+            style={{
+              boxShadow: isLiveMode && '0 0 3px 3px rgb(24, 164, 157)'
+            }}
+            onClick={handleLiveButtonClick.bind(
+              this,
+              isLiveMode,
+              actions,
+              lastFocusedFooterButtonIdx,
+              footerPages,
+              isFullscreenOnLivemode
+            )}
+          >
+            Live
+          </Button>
+        </Tooltip>
+      )}
     </div>
   )
 }
@@ -155,24 +157,14 @@ function handleLiveButtonClick(
   footerPages,
   isFullscreenOnLivemode
 ) {
+  // TODO: Seems to make no sense at all, get rid of it
   if (isLiveMode) {
     isWebMode && isFullscreenOnLivemode && document.exitFullscreen()
-    actions.goBack()
   } else {
     isWebMode && isFullscreenOnLivemode && document.body.requestFullscreen()
-    actions.updateSliderListBackup()
   }
   actions.setFooterButtonFocus({ i: lastFocusedFooterButtonIdx })
-
   actions.toggleLiveMode()
-
-  // Wait before scrolling into view: This is a very bad bad bad approach...
-  // let timerId = setTimeout(() => {
-  //   const selector = `[id="page-${lastFocusedFooterButtonIdx}"]`
-  //   const elem = document.querySelector(selector)
-  //   elem && elem.scrollIntoView()
-  // }, 1000)
-  // clearTimeout(timerId)
 }
 
 function styles(theme) {

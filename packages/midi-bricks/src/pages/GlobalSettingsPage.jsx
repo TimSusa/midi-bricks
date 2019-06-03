@@ -5,8 +5,7 @@ import {
   TableCell,
   TableHead,
   Tooltip,
-  Paper,
-  
+  Paper
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import React, { useEffect } from 'react'
@@ -15,10 +14,11 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
-import MidiSettingsDialog from '../components/midi-settings-dialog/MidiSettingsDialog'
+// import MidiSettingsDialog from '../components/midi-settings-dialog/MidiSettingsDialog'
 import { outputToDriverName } from '../utils/output-to-driver-name.js'
 import { STRIP_TYPE } from '../reducers/slider-list.js'
 import DriverExpansionPanel from '../components/DriverExpansionPanel.jsx'
+import { thunkChangePage } from '../actions/thunks/thunk-change-page'
 
 export default connect(
   mapStateToProps,
@@ -27,11 +27,12 @@ export default connect(
 
 GlobalSettingsPage.propTypes = {
   actions: PropTypes.object,
-  viewSettings: PropTypes.object,
-  midi: PropTypes.object,
   isMidiFailed: PropTypes.bool,
+  midi: PropTypes.object,
+  pages: PropTypes.object,
   sliderList: PropTypes.array,
-  sliderListBackup: PropTypes.array
+  thunkChangePage: PropTypes.any,
+  viewSettings: PropTypes.object
 }
 
 function GlobalSettingsPage(props) {
@@ -39,16 +40,16 @@ function GlobalSettingsPage(props) {
   const {
     isMidiFailed,
     actions,
-    pages={},
+    thunkChangePage,
+    pages = {},
     midi: {
-      midiAccess: { inputs, outputs },
+      midiAccess: { inputs, outputs }
     },
-    sliderListBackup,
-    sliderList,
     viewSettings: {
-      isSettingsDialogMode,
+      //isSettingsDialogMode,
       lastFocusedPage,
-      lastFocusedIdx,
+      //lastFocusedIdx,
+      lastFocusedFooterButtonIdx,
       availableDrivers: { outputs: chosenOutputs, inputs: chosenInputs },
       pageTargets
     }
@@ -58,13 +59,24 @@ function GlobalSettingsPage(props) {
   }, [actions])
 
   if (isMidiFailed) return <div />
-  const hasPage = (Object.values(pages).length > 0)
-  const list =  hasPage ? Object.values(pages)  : sliderList
-  return (hasPage ? list : ['OK'] ).map((thing, idx) => {
-    const { sliderList } = thing
-    const label = (pageTargets[idx] && pageTargets[idx].label) || thing.label
+  const hasPage = Object.values(pages).length > 0
+  const pagesArray = hasPage ? Object.values(pages) : []
+  return (hasPage ? pagesArray : ['OK']).map((page, idx) => {
+    const { sliderList } = page
+    const label = (pageTargets[idx] && pageTargets[idx].label) || page.label
+    const isExpanded = lastFocusedPage === page.id
     return (
-      <DriverExpansionPanel label={label || 'O'} isEmpty={false} key={`exp-${idx}`}>
+      <DriverExpansionPanel
+        label={label || 'O'}
+        isEmpty={false}
+        expanded={isExpanded}
+        key={`exp-${idx}`}
+        onChange={
+          isExpanded
+            ? () => {}
+            : (e) => thunkChangePage(lastFocusedPage, page.id)
+        }
+      >
         <Paper style={{ flexDirection: 'column' }} className={classes.root}>
           <Table className={classes.table}>
             <TableHead>
@@ -101,24 +113,24 @@ function GlobalSettingsPage(props) {
                     cursor: 'pointer'
                   }
 
-                  if (hasChanged(sliderListBackup, sliderEntry)) {
-                    rowStyle.background = 'aliceblue'
-                  }
+                  // if (hasChanged(sliderListBackup, sliderEntry)) {
+                  //   rowStyle.background = 'aliceblue'
+                  // }
 
-                  if (isSettingsDialogMode && i === lastFocusedIdx) {
-                    return (
-                      <MidiSettingsDialog
-                        key={`glb-settings-${idx}`}
-                        open
-                        onClose={actions.toggleSettingsDialogMode.bind(this, {
-                          i,
-                          isSettingsDialogMode: false,
-                          lastFocusedPage
-                        })}
-                        sliderEntry={sliderEntry}
-                      />
-                    )
-                  }
+                  // if (isSettingsDialogMode && i === lastFocusedIdx) {
+                  //   return (
+                  //     <MidiSettingsDialog
+                  //       key={`glb-settings-${idx}`}
+                  //       open
+                  //       onClose={actions.toggleSettingsDialogMode.bind(this, {
+                  //         i,
+                  //         isSettingsDialogMode: false,
+                  //         lastFocusedPage
+                  //       })}
+                  //       sliderEntry={sliderEntry}
+                  //     />
+                  //   )
+                  // }
                   let title = ''
                   let channelTooltipTitle = ''
 
@@ -203,7 +215,16 @@ function GlobalSettingsPage(props) {
                       <TableRow
                         style={rowStyle}
                         onClick={(e) => {
+                          //actions.togglePage({ pageType: PAGE_TYPES.HOME_MODE })
+                          //actions.toggleSettingsMode(true)
+
                           actions.setLastFocusedIndex({ i })
+                          // actions.setLastFocusedPage({ lastFocusedPage: i })
+
+                          // actions.setMidiPage({ sliderList })
+                          //thunkChangePage(lastFocusedPage, lastFocusedPage)
+                          //thunkChangePage(lastFocusedPage, i)
+
                           actions.toggleSettingsDialogMode({
                             i,
                             isSettingsDialogMode: true,
@@ -283,18 +304,18 @@ function renderListeners(tmp) {
   return <div>{tmp.join(', ')}</div>
 }
 
-function hasChanged(sliderListBackup, sliderEntry) {
-  let retVal = false
-  sliderListBackup &&
-    sliderListBackup.forEach((sliderBackupEntry, idx) => {
-      if (sliderBackupEntry.i === sliderEntry.i) {
-        const backupVals = Object.values(sliderBackupEntry)
-        const vals = Object.values(sliderEntry)
-        retVal = backupVals.join(', ') !== vals.join(', ')
-      }
-    })
-  return retVal
-}
+// function hasChanged(sliderListBackup, sliderEntry) {
+//   let retVal = false
+//   sliderListBackup &&
+//     sliderListBackup.forEach((sliderBackupEntry, idx) => {
+//       if (sliderBackupEntry.i === sliderEntry.i) {
+//         const backupVals = Object.values(sliderBackupEntry)
+//         const vals = Object.values(sliderEntry)
+//         retVal = backupVals.join(', ') !== vals.join(', ')
+//       }
+//     })
+//   return retVal
+// }
 
 function styles(theme) {
   return {
@@ -314,11 +335,12 @@ function mapDispatchToProps(dispatch) {
       { ...MidiSliderActions, ...ViewStuff },
       dispatch
     ),
+    thunkChangePage: bindActionCreators(thunkChangePage, dispatch)
   }
 }
 function mapStateToProps({
   pagesx,
-  sliders: { sliderList, midi, sliderListBackup, isMidiFailed },
+  sliders: { sliderList, midi, isMidiFailed },
   viewSettings
 }) {
   return {
@@ -326,8 +348,7 @@ function mapStateToProps({
     sliderList,
     midi,
     isMidiFailed,
-    viewSettings,
-    sliderListBackup
+    viewSettings
   }
 }
 

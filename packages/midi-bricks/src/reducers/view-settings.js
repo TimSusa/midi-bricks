@@ -149,6 +149,7 @@ export const viewSettings = {
       draftState.pageTargets = viewSettingsInitState.pageTargets
       draftState.footerPages = []
       draftState.lastFocusedFooterButtonIdx = ''
+      draftState.lastFocusedIdxs = []
       draftState.lastFocusedPage = viewSettingsInitState.lastFocusedPage
       draftState.isLayoutMode = viewSettingsInitState.isLayoutMode
       return draftState

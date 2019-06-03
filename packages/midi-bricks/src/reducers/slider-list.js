@@ -67,17 +67,11 @@ export const sliders = {
   },
 
   [ActionTypeSliderList.ADD_MIDI_ELEMENT](state, action) {
-    const {
-      isMidiFailed,
-      sliderList,
-      midi,
-      sliderListBackup
-    } = transformAddState(state, action)
+    const { isMidiFailed, sliderList, midi } = transformAddState(state, action)
     return createNextState(state, (draftState) => {
       draftState.sliderList = sliderList
       draftState.isMidiFailed = isMidiFailed
       draftState.midi = midi
-      draftState.sliderListBackup = sliderListBackup
       return draftState
     })
   },
@@ -116,21 +110,21 @@ export const sliders = {
     })
     let newEntry = i
       ? {
-        ...tmpState,
-        label: tmpState.label,
-        i: newDate,
-        midiCC: [caclCCThresh],
-        x: x + 1,
-        y: y + 1
-      }
+          ...tmpState,
+          label: tmpState.label,
+          i: newDate,
+          midiCC: [caclCCThresh],
+          x: x + 1,
+          y: y + 1
+        }
       : {
-        ...list[idx],
-        label: list[idx].label,
-        i: newDate,
-        midiCC: [caclCCThresh || 60],
-        x: x + 1,
-        y: y + 1
-      }
+          ...list[idx],
+          label: list[idx].label,
+          i: newDate,
+          midiCC: [caclCCThresh || 60],
+          x: x + 1,
+          y: y + 1
+        }
 
     newArr.splice(idx, 0, newEntry)
 
@@ -174,7 +168,6 @@ export const sliders = {
         let sliderList = []
 
         draftState.sliderList = sliderList
-        draftState.sliderListBackup = state.sliderList
         return draftState
       })
     } else {
@@ -192,7 +185,6 @@ export const sliders = {
     return createNextState(state, (draftState) => {
       draftState.sliderList = []
       draftState.presetName = ''
-      draftState.sliderListBackup = state.sliderList
       return draftState
     })
   },
@@ -280,9 +272,17 @@ export const sliders = {
   },
 
   [ActionTypeSliderList.CHANGE_LABEL](state, action) {
-    const { i, val, lastFocusedPage } = action.payload
-    const sliderList = transformState(state.sliderList, { i, val }, 'label')
-    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
+    const { i, val } = action.payload
+    //const sliderList = transformState(state.sliderList, { i, val }, 'label')
+    return createNextState(state, (draftState) => {
+      const idx = state.sliderList.findIndex((er) => er.i === i)
+      const entry = state.sliderList.find((er) => er.i === i)
+      if (entry) {
+        draftState.sliderList[idx] = { ...entry, label: val }
+      }
+      return draftState
+    })
+    // return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
   [ActionTypeSliderList.SELECT_MIDI_DRIVER](state, action) {
     const { i, driverName, lastFocusedPage } = action.payload
@@ -450,18 +450,21 @@ export const sliders = {
 
   [ActionTypeSliderList.SAVE_FILE](state, action) {
     // This is actuall only envolved in web app mode, not in electron mode
-    const { viewSettings, sliders, version, pages:pgs } = action.payload
+    const { viewSettings, sliders, version, pages: pgs } = action.payload
 
     // Clean out older preset fields
-    let pages = Object.values(pgs).reduce((acc, item) => {
-      return {
-        ...acc,
-        [item.id]: {
-          ...item,
-          midi: undefined
+    let pages = Object.values(pgs).reduce(
+      (acc, item) => {
+        return {
+          ...acc,
+          [item.id]: {
+            ...item,
+            midi: undefined
+          }
         }
-      }
-    }, {...pgs})
+      },
+      { ...pgs }
+    )
 
     const tmpFilterStore = {
       version,
@@ -500,7 +503,6 @@ export const sliders = {
         })) || []
 
       draftState.sliderList = sliderList
-      draftState.sliderListBackup = state.sliderList
       return draftState
     })
   },
@@ -770,27 +772,30 @@ export const sliders = {
   },
 
   [ActionTypeSliderList.RESET_VALUES](state, action) {
-    const sliderList = state.sliderList.map((item, idx) => {
-      const tmp = state.sliderListBackup[idx]
-      let retVal = {
-        ...item,
-        val: (tmp && tmp.val) || 0,
-        isNoteOn: (tmp && tmp.isNoteOn) || false
-      }
-      return retVal
+    // const sliderList = state.sliderList.map((item, idx) => {
+    //   const tmp = state.sliderListBackup[idx]
+    //   let retVal = {
+    //     ...item,
+    //     val: (tmp && tmp.val) || 0,
+    //     isNoteOn: (tmp && tmp.isNoteOn) || false
+    //   }
+    //   return retVal
+    // })
+    return createNextState(state, (draftState) => {
+      //draftState.sliderList = sliderList
+      return draftState
     })
-    return { ...state, sliderList, sliderListBackup: state.sliderList }
+    // return { ...state, sliderList }
   },
 
-  [ActionTypeSliderList.GO_BACK](state, action) {
-    return { ...state, sliderList: state.sliderListBackup }
-  },
+  // [ActionTypeSliderList.GO_BACK](state, action) {
+  //   return { ...state, sliderList: state.sliderListBackup }
+  // },
 
-  [ActionTypeSliderList.UPDATE_SLIDER_LIST_BACKUP](state, action) {
-    const sliderList = sortSliderList(state.sliderList)
-    return { ...state, sliderList, sliderListBackup: sliderList }
-  },
-
+  // [ActionTypeSliderList.UPDATE_SLIDER_LIST_BACKUP](state, action) {
+  //   const sliderList = sortSliderList(state.sliderList)
+  //   return { ...state, sliderList, sliderListBackup: sliderList }
+  // },
 
   [ActionTypeSliderList.SET_MIDI_PAGE](state, action) {
     return createNextState(state, (draftState) => {
@@ -798,31 +803,31 @@ export const sliders = {
       draftState.sliderList = sliderList
       return draftState
     })
-  },
-
-  [ActionTypeSliderList.EXTRACT_PAGE](state, action) {
-    /// DEPRECATED
-    const sliderListBackup = state.sliderListBackup.map((item) => {
-      const tmpItem = state.sliderList.find((tmpI) => tmpI.i === item.i)
-      return tmpItem
-        ? {
-          ...item,
-          val: tmpItem.val,
-          isNoteOn: tmpItem.isNoteOn,
-          onVal: tmpItem.onVal,
-          offVal: tmpItem.offVal,
-          lastSavedVal: tmpItem.lastSavedVal,
-          fontSize: tmpItem.fontSize
-        }
-        : item
-    })
-
-    return {
-      ...state,
-      sliderList: filterPage(sliderListBackup, action.payload.label),
-      sliderListBackup
-    }
   }
+
+  // [ActionTypeSliderList.EXTRACT_PAGE](state, action) {
+  //   /// DEPRECATED
+  //   const sliderListBackup = state.sliderListBackup.map((item) => {
+  //     const tmpItem = state.sliderList.find((tmpI) => tmpI.i === item.i)
+  //     return tmpItem
+  //       ? {
+  //         ...item,
+  //         val: tmpItem.val,
+  //         isNoteOn: tmpItem.isNoteOn,
+  //         onVal: tmpItem.onVal,
+  //         offVal: tmpItem.offVal,
+  //         lastSavedVal: tmpItem.lastSavedVal,
+  //         fontSize: tmpItem.fontSize
+  //       }
+  //       : item
+  //   })
+
+  //   return {
+  //     ...state,
+  //     sliderList: filterPage(sliderListBackup, action.payload.label),
+  //     sliderListBackup
+  //   }
+  // }
 }
 
 function transformState(sliderList, { i, val }, field) {
@@ -942,13 +947,13 @@ function transformAddState(state, action) {
 
   return type === PAGE
     ? {
-      ...state,
-      sliderList: []
-    }
+        ...state,
+        sliderList: []
+      }
     : {
-      ...state,
-      sliderList: [...oldSliderList, entry]
-    }
+        ...state,
+        sliderList: [...oldSliderList, entry]
+      }
 }
 
 function toggleNotesInState(list, i) {
@@ -1010,32 +1015,32 @@ function getCheckedMidiOut(driverName) {
 }
 
 // DEPRECATED
-function filterPage(sliderList, label) {
-  let newArr = []
-  let arr = sortSliderList(sliderList)
+// function filterPage(sliderList, label) {
+//   let newArr = []
+//   let arr = sortSliderList(sliderList)
 
-  const startIdx = arr.findIndex((cur) => cur.label === label)
-  const startVal = arr[startIdx]
+//   const startIdx = arr.findIndex((cur) => cur.label === label)
+//   const startVal = arr[startIdx]
 
-  arr.splice(0, startIdx + 1)
+//   arr.splice(0, startIdx + 1)
 
-  let wasFound = false
-  arr.forEach((cur) => {
-    if (!wasFound && cur.type !== 'PAGE') {
-      newArr.push({ ...cur })
-    } else {
-      wasFound = true
-      return
-    }
-  })
-  const endVal = newArr[newArr.length - 1]
+//   let wasFound = false
+//   arr.forEach((cur) => {
+//     if (!wasFound && cur.type !== 'PAGE') {
+//       newArr.push({ ...cur })
+//     } else {
+//       wasFound = true
+//       return
+//     }
+//   })
+//   const endVal = newArr[newArr.length - 1]
 
-  newArr.splice(newArr.length - 1, 1)
+//   newArr.splice(newArr.length - 1, 1)
 
-  const tmpVal = endVal ? [startVal, ...newArr, endVal] : [startVal, ...newArr]
-  const ret = tmpVal.map((item) => ({ ...item, y: item.y - tmpVal[0].y }))
-  return ret
-}
+//   const tmpVal = endVal ? [startVal, ...newArr, endVal] : [startVal, ...newArr]
+//   const ret = tmpVal.map((item) => ({ ...item, y: item.y - tmpVal[0].y }))
+//   return ret
+// }
 
 function sortSliderList(list = []) {
   const vList = sortBy(list, 'y')

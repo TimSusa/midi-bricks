@@ -556,43 +556,43 @@ describe('Test sliders for slider-list', () => {
     expect(oldVal === sliderList[idx].val).toBe(true)
   })
 
-  test('GO_BACK', () => {
-    const { GO_BACK } = sliders
-    const { sliders } = mockStore
+  // test('GO_BACK', () => {
+  //   const { GO_BACK } = sliders
+  //   const { sliders } = mockStore
 
-    const changedStore = {
-      sliders: {
-        ...sliders,
-        sliderListBackup: mockSliderListBackup,
-      },
-    }
-    const idx = mockSliderListBackup.findIndex(item => item.label === 'me too')
-    const { x: oldX } = mockSliderListBackup[idx]
-    const { sliderList } = GO_BACK(changedStore.sliders, {
-      payload: {},
-    })
-    expect(oldX === sliderList[idx].x).toBe(true)
-  })
+  //   const changedStore = {
+  //     sliders: {
+  //       ...sliders,
+  //       sliderListBackup: mockSliderListBackup,
+  //     },
+  //   }
+  //   const idx = mockSliderListBackup.findIndex(item => item.label === 'me too')
+  //   const { x: oldX } = mockSliderListBackup[idx]
+  //   const { sliderList } = GO_BACK(changedStore.sliders, {
+  //     payload: {},
+  //   })
+  //   expect(oldX === sliderList[idx].x).toBe(true)
+  // })
 
-  test('UPDATE_SLIDER_LIST_BACKUP', () => {
-    const { UPDATE_SLIDER_LIST_BACKUP } = sliders
-    const { sliders } = mockStore
+  // test('UPDATE_SLIDER_LIST_BACKUP', () => {
+  //   const { UPDATE_SLIDER_LIST_BACKUP } = sliders
+  //   const { sliders } = mockStore
 
-    const changedStore = {
-      sliders: {
-        ...sliders,
-        sliderListBackup: mockSliderListBackup,
-      },
-    }
-    const idx = mockSliderListBackup.findIndex(item => item.label === 'me too')
-    const { sliderListBackup } = UPDATE_SLIDER_LIST_BACKUP(
-      changedStore.sliders,
-      {
-        payload: {},
-      }
-    )
-    expect(sliders.sliderList[idx]).toEqual(sliderListBackup[idx])
-  })
+  //   const changedStore = {
+  //     sliders: {
+  //       ...sliders,
+  //       sliderListBackup: mockSliderListBackup,
+  //     },
+  //   }
+  //   const idx = mockSliderListBackup.findIndex(item => item.label === 'me too')
+  //   const { sliderListBackup } = UPDATE_SLIDER_LIST_BACKUP(
+  //     changedStore.sliders,
+  //     {
+  //       payload: {},
+  //     }
+  //   )
+  //   expect(sliders.sliderList[idx]).toEqual(sliderListBackup[idx])
+  // })
 
   // test('EXTRACT_PAGE', () => {
   //   const { EXTRACT_PAGE } = sliders

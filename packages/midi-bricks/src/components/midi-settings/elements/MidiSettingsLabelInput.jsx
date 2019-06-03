@@ -9,6 +9,7 @@ MidiSettingsLabelInput.propTypes = {
   classes: PropTypes.object,
   i: PropTypes.string,
   label: PropTypes.string,
+  lastFocusedPage: PropTypes.string,
   type: PropTypes.string
 }
 

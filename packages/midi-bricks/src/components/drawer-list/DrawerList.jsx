@@ -217,8 +217,9 @@ function DrawerList(props) {
 }
 
 function handleResetSliders(thunkDelete, cb, deleteAll, deleteFooterPages) {
-  thunkDelete('all')
   cb()
+  return thunkDelete('all')
+
 }
 
 function handleSaveFile(saveFile, handleSaveFile, pages, viewSettings, sliders) {
@@ -249,10 +250,6 @@ function mapDispatchToProps(dispatch) {
     saveFile: bindActionCreators(saveFile, dispatch),
     deleteFooterPages: bindActionCreators(deleteFooterPages, dispatch),
     deleteAll: bindActionCreators(deleteAll, dispatch),
-    // actions: bindActionCreators(
-    //   { ...MidiSliderActions, ...ViewSettingsActions },
-    //   dispatch
-    // ),
     thunkLoadFile: bindActionCreators(thunkLoadFile, dispatch),
     thunkDelete: bindActionCreators(thunkDelete, dispatch)
   }
