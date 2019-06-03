@@ -17,16 +17,31 @@ export function thunkLoadFile(content, presetName) {
 
     const {
       viewSettings = {},
-      viewSettings: { availableDrivers } = {},
+      viewSettings: { availableDrivers, lastFocusedPage } = {},
       sliders: { sliderList = [] } = {},
       pages
     } = content
 
+
+
+    if (pages) {
+      promArray.push(dispatch(updatePages({ pages })))
+    } else {
+      const {pagesx: oldPages, viewSettings: {lastFocusedPage: lfp} } = getState()
+      const oldPresetTransformedPages = {
+        ...oldPages,
+        [lfp]: {
+          ...oldPages[lfp],
+          sliderList: sliderList
+        }
+
+      }
+      promArray.push(dispatch(updatePages({ pages: oldPresetTransformedPages })))
+    }
+
     promArray.push(
       dispatch(loadFile({ presetName, content, lastFocusedPage: initId }))
     )
-
-    promArray.push(dispatch(updatePages({ pages })))
     // sliderList && promArray.push(
     //   dispatch(updateSliderListOfPage({ lastFocusedPage: initId, sliderList }))
     // )
