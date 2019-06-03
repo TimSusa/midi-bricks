@@ -120,7 +120,7 @@ async function handleAddMidiInputChannel(props, e) {
   })
   await props.initApp()
 }
-function mapStateToProps({ present: {viewSettings: { lastFocusedPage }} }) {
+function mapStateToProps({ viewSettings: { lastFocusedPage }} ) {
   return {
     lastFocusedPage
   }

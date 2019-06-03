@@ -5,9 +5,6 @@ import { makeStyles } from '@material-ui/styles'
 import { connect } from 'react-redux'
 import { STRIP_TYPE } from '../../reducers/slider-list.js'
 
-
-
-
 StripLabel.propTypes = {
   height: PropTypes.number,
   isChangedTheme: PropTypes.bool,
@@ -51,7 +48,6 @@ function StripLabel(props) {
     </div>
   )
 }
-
 
 function styles(theme) {
   return {
@@ -111,7 +107,7 @@ function getLabelStyles(
   return { labelStyle, fontColorStyle }
 }
 
-function mapStateToProps({present: { viewSettings: { isChangedTheme } }}) {
+function mapStateToProps({ viewSettings: { isChangedTheme } }) {
   return {
     isChangedTheme
   }

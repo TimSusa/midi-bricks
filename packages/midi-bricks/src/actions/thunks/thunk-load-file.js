@@ -5,7 +5,11 @@ import { initApp } from '../init'
 import { initId } from '../../reducers/slider-list'
 
 const { loadFile, deleteAll } = sliderListActions
-const { updateViewSettings, setLastFocusedPage, deleteFooterPages } = viewSettingsActions
+const {
+  updateViewSettings,
+  setLastFocusedPage,
+  deleteFooterPages
+} = viewSettingsActions
 const { updatePages } = pageActions
 
 export function thunkLoadFile(content, presetName) {
@@ -26,8 +30,8 @@ export function thunkLoadFile(content, presetName) {
       promArray.push(dispatch(updatePages({ pages })))
     } else {
       const {
-        present: {        pagesx: oldPages,
-          viewSettings: { lastFocusedPage: lfp }}
+        pagesx: oldPages,
+        viewSettings: { lastFocusedPage: lfp }
       } = getState()
       const oldPresetTransformedPages = {
         //...oldPages,
@@ -39,9 +43,7 @@ export function thunkLoadFile(content, presetName) {
       promArray.push(
         dispatch(updatePages({ pages: oldPresetTransformedPages }))
       )
-      promArray.push(
-        dispatch(deleteFooterPages())
-      )
+      promArray.push(dispatch(deleteFooterPages()))
     }
 
     promArray.push(

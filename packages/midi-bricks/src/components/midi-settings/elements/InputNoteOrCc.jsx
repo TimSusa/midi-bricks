@@ -150,11 +150,7 @@ function styles(theme) {
   }
 }
 
-function mapStateToProps({
-  present: {
-    viewSettings: { lastFocusedPage }
-  }
-}) {
+function mapStateToProps({ viewSettings: { lastFocusedPage } }) {
   return {
     lastFocusedPage
   }

@@ -138,7 +138,7 @@ function styles(theme) {
   }
 }
 
-function mapStateToProps({ present: {viewSettings: { pageTargets, lastFocusedPage }} }) {
+function mapStateToProps({ viewSettings: { pageTargets, lastFocusedPage }} ) {
   return { pageTargets, lastFocusedPage }
 }
 function mapDispatchToProps(dispatch) {

@@ -42,9 +42,7 @@ function GlobalSettingsPage(props) {
     actions,
     thunkChangePage,
     pages = {},
-    midi: {
-      midiAccess: { inputs, outputs }
-    } = {},
+    midi: { midiAccess: { inputs, outputs } } = {},
     viewSettings: {
       isSettingsDialogMode,
       lastFocusedPage,
@@ -334,11 +332,11 @@ function mapDispatchToProps(dispatch) {
   }
 }
 function mapStateToProps({
-  present: {
-    pagesx,
-    sliders: { sliderList, midi, isMidiFailed },
-    viewSettings
-  }
+  pagesx,
+  sliders: {
+    present: { sliderList, midi, isMidiFailed }
+  },
+  viewSettings
 }) {
   return {
     pages: pagesx,

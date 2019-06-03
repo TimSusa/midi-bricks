@@ -16,10 +16,8 @@ const {
 export function thunkCopyToNextPage() {
   return async function(dispatch, getState) {
     const {
-      present: {
         viewSettings: { lastFocusedIdxs, lastFocusedPage },
         pagesx
-      }
     } = getState()
 
     // TODO: Put a modal here to ask the user where to copy that shit

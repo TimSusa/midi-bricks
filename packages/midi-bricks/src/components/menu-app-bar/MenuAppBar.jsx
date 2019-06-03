@@ -422,9 +422,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({
-  present: { sliders: { presetName, monitorVal } = {}, viewSettings },
-  past,
-  future
+  sliders: {past, future, present: { presetName, monitorVal} },
+  viewSettings
 }) {
   return {
     viewSettings,

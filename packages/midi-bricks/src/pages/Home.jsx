@@ -31,28 +31,28 @@ function Home(props) {
     viewSettings: { isLiveMode = false, pageType = PAGE_TYPES.HOME_MODE } = {},
     initApp
   } = props
-  // useEffect(() => {
-  //   async function initAsync() {
-  //     await initApp()
-  //   }
+  useEffect(() => {
+    async function initAsync() {
+      await initApp()
+    }
 
-  //   if (pageType !== PAGE_TYPES.HOME_MODE) {
-  //     return
-  //   }
-  //   console.log('Re-Init MIDI')
-  //   //    initAsync()
-  //   return () => {}
-  // }, [initApp, pageType])
+    if (pageType !== PAGE_TYPES.HOME_MODE) {
+      return
+    }
+    console.log('Re-Init MIDI')
+    initAsync()
+    return () => {}
+  }, [initApp, pageType])
 
   const preventScrollStyle = isLiveMode
     ? {
-      height: 'calc(100vh - 66px)',
-      overflowY: 'hidden'
-    }
+        height: 'calc(100vh - 66px)',
+        overflowY: 'hidden'
+      }
     : {
-      height: 'calc(100vh - 66px - 64px)',
-      overflowY: 'hidden'
-    }
+        height: 'calc(100vh - 66px - 64px)',
+        overflowY: 'hidden'
+      }
 
   if (pageType === PAGE_TYPES.GLOBAL_MODE) {
     return <GlobalSettingsPage />
@@ -73,8 +73,10 @@ function Home(props) {
 }
 
 function mapStateToProperties({
-  present: {  viewSettings,
-    sliders: { isMidiFailed } = {}}
+  viewSettings,
+  sliders: {
+    present: { isMidiFailed }
+  }
 }) {
   return {
     viewSettings,

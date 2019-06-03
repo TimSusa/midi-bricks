@@ -13,9 +13,7 @@ const { deleteFooterPages, updateSliderListOfPage } = viewSettingsActions
 export function thunkDelete(type, i) {
   return async function(dispatch, getState) {
     const {
-      present: {
-        viewSettings: { lastFocusedPage }
-      }
+      viewSettings: { lastFocusedPage }
     } = getState()
     batch(() => {
       if (type === 'all') {

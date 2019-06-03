@@ -208,18 +208,16 @@ function styles(theme) {
 }
 
 function mapStateToProps({
-  present: {
-    viewSettings: {
-      footerPages,
-      pageTargets,
-      lastFocusedPage,
-      lastFocusedIdx,
-      isSettingsMode,
-      isSettingsDialogMode,
-      isFullscreenOnLivemode,
-      isLiveMode,
-      pageType
-    }
+  viewSettings: {
+    footerPages,
+    pageTargets,
+    lastFocusedPage,
+    lastFocusedIdx,
+    isSettingsMode,
+    isSettingsDialogMode,
+    isFullscreenOnLivemode,
+    isLiveMode,
+    pageType
   }
 }) {
   return {

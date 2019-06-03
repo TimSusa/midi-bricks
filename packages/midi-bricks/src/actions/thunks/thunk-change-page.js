@@ -10,11 +10,11 @@ const { setLastFocusedIndex, setLastFocusedPage } = viewActions
 export function thunkChangePage(lastFocusedPage, focusedPage) {
   return function(dispatch, getState) {
     const {
-      present: {
-        viewSettings: { lastFocusedPage },
-        sliders: { sliderList = [] },
-        pagesx
-      }
+      viewSettings: { lastFocusedPage },
+      sliders: {
+        present: { sliderList = [] }
+      },
+      pagesx
     } = getState()
 
     //batch(() => {

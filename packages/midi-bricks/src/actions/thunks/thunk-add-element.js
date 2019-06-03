@@ -15,7 +15,7 @@ export function addElement(type, payload) {
 
   return function(dispatch, getState) {
     const {
-      present: { viewSettings: { lastFocusedPage = '', pageTargets } = {} }
+      viewSettings: { lastFocusedPage = '', pageTargets }
     } = getState()
 
     if (type === PAGE) {
@@ -38,9 +38,9 @@ export function addElement(type, payload) {
       const id = getUniqueId()
       dispatch(addMidiElement({ type, id }))
       const {
-        present: {
-          viewSettings: { lastFocusedPage },
-          sliders: { sliderList }
+        viewSettings: { lastFocusedPage },
+        sliders: {
+          present: { sliderList }
         }
       } = getState()
 

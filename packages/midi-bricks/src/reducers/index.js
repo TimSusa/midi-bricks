@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux'
 import { generateReducers } from 'redux-generate'
 
-
 import { sliders, initId } from './slider-list'
 import { viewSettings } from './view-settings'
 
 import { pagesx } from './pagesx'
+import undoable from 'redux-undo';
 
 export const PAGE_TYPES = {
   HOME_MODE: 'HOME_MODE',
@@ -89,7 +89,19 @@ export const viewSettingsInitState = {
 }
 
 export default combineReducers({
-  sliders: generateReducers(slidersInitState, sliders),
+  sliders: undoable(generateReducers(slidersInitState, sliders), {
+    limit: 5,
+    syncFilter: false,
+    filter: function filterActions(action, currentState, previousHistory) {
+      return [
+        'DELETE',
+        'DELETE_ALL',
+        'CHANGE_LIST_ORDER',
+        'ADD_MIDI_ELEMENT',
+        'LOAD_FILE'
+      ].includes(action.type)
+    }
+  }),
   viewSettings: generateReducers(viewSettingsInitState, viewSettings),
   pagesx: generateReducers(pagesInit, pagesx)
 })

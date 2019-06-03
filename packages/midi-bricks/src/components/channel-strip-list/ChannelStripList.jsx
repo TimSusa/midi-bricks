@@ -96,11 +96,11 @@ function ChannelStripList(props) {
         onLayoutChange={
           isLayoutMode
             ? onLayoutChange.bind(
-              this,
-              thunkChangeListOrder,
-              isLayoutMode,
-              lastFocusedPage
-            )
+                this,
+                thunkChangeListOrder,
+                isLayoutMode,
+                lastFocusedPage
+              )
             : () => {}
         }
       >
@@ -120,10 +120,10 @@ function ChannelStripList(props) {
                 !isSettingsDialogMode &&
                 !lastFocusedIdxs.includes(i)
                   ? (e) => {
-                    actions.setLastFocusedIndex({ i })
-                    e.preventDefault()
-                    e.stopPropagation()
-                  }
+                      actions.setLastFocusedIndex({ i })
+                      e.preventDefault()
+                      e.stopPropagation()
+                    }
                   : () => {}
               }
               key={i}
@@ -148,10 +148,10 @@ function ChannelStripList(props) {
                         background: isLayoutMode
                           ? '#f0ffff87'
                           : isSettingsMode
-                            ? '#f5f5dcb3'
-                            : isMidiLearnMode
-                              ? '#cfcfcf'
-                              : 'transparent'
+                          ? '#f5f5dcb3'
+                          : isMidiLearnMode
+                          ? '#cfcfcf'
+                          : 'transparent'
                       }}
                     >
                       {isMidiLearnMode && isFocused && (
@@ -204,7 +204,7 @@ function ChannelStripList(props) {
         })}
       </GridLayout>
     )
-  } else if (pageTargets.length < 2 ) {
+  } else if (pageTargets.length < 2) {
     return (
       <Typography variant='h4' className={classes.noMidiTypography}>
         <br />
@@ -219,16 +219,15 @@ function ChannelStripList(props) {
       </Typography>
     )
   } else {
-    return ((
+    return (
       <Typography variant='h5' className={classes.noMidiTypography}>
         <br />
         <br />
         <br />
         <br />
-
-          Add an element in layout-mode via plus-sign at the top right corner.
+        Add an element in layout-mode via plus-sign at the top right corner.
       </Typography>
-    ))
+    )
   }
 }
 
@@ -349,9 +348,9 @@ function toggleSettings(lastFocusedPage, i, actions, { isSettingsDialogMode }) {
 }
 
 function mapStateToProps({
-  present: {
-    viewSettings,
-    sliders: { sliderList, monitorVal }
+  viewSettings,
+  sliders: {
+    present: { sliderList, monitorVal }
   }
 }) {
   return {

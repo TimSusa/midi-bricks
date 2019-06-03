@@ -358,7 +358,12 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-function mapStateToProps({ present: {sliders: { sliderList, midi }, viewSettings }}) {
+function mapStateToProps({
+  sliders: {
+    present: { sliderList, midi },
+    viewSettings
+  }
+}) {
   return {
     sliderList,
     midi,

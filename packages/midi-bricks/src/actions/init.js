@@ -23,15 +23,15 @@ export function initApp(mode) {
         }
         const { inputs = [], outputs = [] } = WebMIDI
         const {
-          present: {
-            sliders: { sliderList = [], pages = {} },
-            viewSettings: {
-              availableDrivers: { inputs: availableInputs } = {
-                inputs: {
-                  None: {
-                    ccChannels: [],
-                    noteChannels: []
-                  }
+          sliders: {
+            present: { sliderList = [], pages = {} }
+          },
+          viewSettings: {
+            availableDrivers: { inputs: availableInputs } = {
+              inputs: {
+                None: {
+                  ccChannels: [],
+                  noteChannels: []
                 }
               }
             }

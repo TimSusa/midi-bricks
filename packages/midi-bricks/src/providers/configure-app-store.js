@@ -48,20 +48,7 @@ const devMiddleware = [
 export function configureAppStore(preloadedState) {
   const reducer = persistReducer(
     persistConfig,
-    undoable(rootReducer, {
-      limit: 5,
-      syncFilter: false,
-      filter: function filterActions(action, currentState, previousHistory) {
-        return [
-          'DELETE',
-          'DELETE_ALL',
-          'CHANGE_LIST_ORDER',
-          'ADD_MIDI_ELEMENT',
-          'ADD_PAGE',
-          'LOAD_FILE'
-        ].includes(action.type)
-      }
-    })
+    rootReducer
   )
   const store = configureStore({
     reducer,
