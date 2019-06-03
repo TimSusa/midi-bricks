@@ -317,11 +317,12 @@ function mapDispatchToProps(dispatch) {
   }
 }
 function mapStateToProps({
-  sliders: { pages, sliderList, midi, sliderListBackup, isMidiFailed },
+  pagesx,
+  sliders: { sliderList, midi, sliderListBackup, isMidiFailed },
   viewSettings
 }) {
   return {
-    pages,
+    pages: pagesx,
     sliderList,
     midi,
     isMidiFailed,
