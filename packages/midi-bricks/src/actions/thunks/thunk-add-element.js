@@ -20,21 +20,21 @@ export function addElement(type, payload) {
     } = getState()
 
     if (type === PAGE) {
-      batch(() => {
-        dispatch(
-          addPageTarget({
-            pageTarget: {
-              id: pageId,
-              label: Array.isArray(pageTargets)
-                ? `Page ${pageTargets.length + 1}`
-                : 'Page',
-              colors: { colorFont: '#123456', color: '#dddddd' }
-            }
-          })
-        )
-        dispatch(createPage({ id: pageId, lastFocusedPage }))
-        dispatch(thunkChangePage(lastFocusedPage, pageId))
-      })
+      //batch(() => {
+      dispatch(
+        addPageTarget({
+          pageTarget: {
+            id: pageId,
+            label: Array.isArray(pageTargets)
+              ? `Page ${pageTargets.length + 1}`
+              : 'Page',
+            colors: { colorFont: '#123456', color: '#dddddd' }
+          }
+        })
+      )
+      dispatch(createPage({ id: pageId, lastFocusedPage }))
+      dispatch(thunkChangePage(lastFocusedPage, pageId))
+      //})
     } else {
       const id = getUniqueId()
       dispatch(addMidiElement({ type, id }))

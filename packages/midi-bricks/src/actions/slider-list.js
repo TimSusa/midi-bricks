@@ -8,13 +8,8 @@ const typeSliderList = [
   'SELECT_MIDI_DRIVER',
   'SELECT_MIDI_DRIVER_INPUT',
   'ADD_MIDI_ELEMENT',
-  // 'ADD_SLIDER',
-  // 'ADD_SLIDER_HORZ',
-  // 'ADD_BUTTON',
-  // 'ADD_LABEL',
   'ADD_PAGE',
   'SET_MIDI_PAGE',
-  // 'ADD_XYPAD',
   'CHANGE_XYPAD_SETTINGS',
   'CHANGE_COLORS',
   'CHANGE_FONT_SIZE',
@@ -23,7 +18,6 @@ const typeSliderList = [
   'DELETE',
   'DELETE_ALL',
   'CLONE',
-  'COPY_TO_NEXT_PAGE',
   'CHANGE_LABEL',
   'SELECT_CC',
   'SELECT_MIDI_CHANNEL',
@@ -45,7 +39,6 @@ const typeSliderList = [
   'GO_BACK',
   'UPDATE_SLIDER_LIST_BACKUP',
   'TRIGGER_ALL_MIDI_ELEMENTS'
-  //'EXTRACT_PAGE',
 ]
 
 export const ActionTypeSliderList = createActionTypes(typeSliderList)

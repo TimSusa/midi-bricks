@@ -55,12 +55,6 @@ export const sliders = {
       draftState.isMidiFailed = true
       return draftState
     })
-
-    // return {
-    //   ...state,
-    //   isMidiFailed: true,
-    //   midi
-    // }
   },
 
   [ActionTypeSliderList.INIT_MIDI_ACCESS_OK](state, action) {
@@ -70,70 +64,25 @@ export const sliders = {
       draftState.isMidiFailed = false
       return draftState
     })
-    //return { ...state, isMidiFailed: false, midi }
   },
 
   [ActionTypeSliderList.ADD_MIDI_ELEMENT](state, action) {
-    //const { type, id } = action.payload
-    const {isMidiFailed, sliderList, midi, sliderListBackup} = transformAddState(state, action)
-    console.log('ADD_MIDI_ELEMENT', {isMidiFailed, sliderList, midi, sliderListBackup})
-    return createNextState(state, draftState => {
+    const {
+      isMidiFailed,
+      sliderList,
+      midi,
+      sliderListBackup
+    } = transformAddState(state, action)
+    return createNextState(state, (draftState) => {
       draftState.sliderList = sliderList
       draftState.isMidiFailed = isMidiFailed
       draftState.midi = midi
       draftState.sliderListBackup = sliderListBackup
       return draftState
     })
-    //return updatePagesWithSliderlist(me, me.sliderList, lastFocusedPage)
-    // if (!Array.isArray(sliderList)) {
-    //   throw new TypeError('sliderlist comes wihtout array')
-    // }
-    // return updatePagesWithSliderlist(
-    //   state,
-    //   sliderList,
-    //   lastFocusedPage
-    // )
-    //return {state, sliderList, lastFocusedPage}
-  },
-
-  // DEPRECATED
-  [ActionTypeSliderList.ADD_PAGE](state, action) {
-    return state
-  },
-
-  // TODO: FIX
-  [ActionTypeSliderList.COPY_TO_NEXT_PAGE](state, action) {
-    const { lastFocusedIdxs, nextPageIdx } = action.payload
-    return state
-    return createNextState(state, (draftState) => {
-      const entries = Object.keys(state.pages).reduce((acc, cur) => {
-        const foundEntries = state.pages[cur].sliderList.map((item) => {
-          if (lastFocusedIdxs.includes(item.i)) {
-            return {
-              ...item,
-              i: getUniqueId()
-            }
-          }
-        })
-        if (foundEntries) {
-          return [...acc, ...foundEntries].filter(Boolean)
-        }
-        return acc
-      }, [])
-      draftState.pages[nextPageIdx].sliderList = [
-        ...state.pages[nextPageIdx].sliderList,
-        ...entries
-      ]
-      draftState.sliderList = [
-        ...state.pages[nextPageIdx].sliderList,
-        ...entries
-      ]
-      return draftState
-    })
   },
 
   [ActionTypeSliderList.CLONE](state, action) {
-    // Action can come without payload
     const i = (action.payload && action.payload.i) || ''
     let tmpState = null
     const list = state.sliderList
@@ -237,7 +186,6 @@ export const sliders = {
         draftState.sliderList = sliderList
         return draftState
       })
-
     }
   },
   [ActionTypeSliderList.DELETE_ALL](state, action) {
@@ -271,7 +219,6 @@ export const sliders = {
       //draftState.pages[lastFocusedPage].sliderList = refreshedSliderList
       return draftState
     })
-
   },
 
   [ActionTypeSliderList.SEND_MIDI_CC_Y](state, action) {
@@ -436,7 +383,6 @@ export const sliders = {
       'onVal'
     )
     return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
-
   },
 
   [ActionTypeSliderList.SET_OFF_VAL](state, action) {
@@ -458,7 +404,6 @@ export const sliders = {
       'offVal'
     )
     return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
-
   },
 
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL](state, action) {
@@ -539,15 +484,12 @@ export const sliders = {
   [ActionTypeSliderList.LOAD_FILE](state, action) {
     return createNextState(state, (draftState) => {
       const {
-        payload: {
-          content: { sliders: { sliderList } } = {}
-        } = {}
+        payload: { content: { sliders: { sliderList } } = {} } = {}
       } = action
 
       draftState.sliderList = sliderList
       return draftState
     })
-
   },
   [ActionTypeSliderList.CHANGE_LIST_ORDER](state, action) {
     return createNextState(state, (draftState) => {
@@ -563,7 +505,6 @@ export const sliders = {
       draftState.sliderListBackup = state.sliderList
       return draftState
     })
-
   },
 
   [ActionTypeSliderList.MIDI_MESSAGE_ARRIVED](state, action) {
@@ -589,7 +530,6 @@ export const sliders = {
       draftState.monitorVal = { val, cC, channel, driver, isNoteOn }
       return draftState
     })
-
   },
 
   [ActionTypeSliderList.CHANGE_COLORS](state, action) {
@@ -853,6 +793,7 @@ export const sliders = {
     return { ...state, sliderList, sliderListBackup: sliderList }
   },
 
+
   [ActionTypeSliderList.SET_MIDI_PAGE](state, action) {
     return createNextState(state, (draftState) => {
       const { sliderList } = action.payload
@@ -899,12 +840,15 @@ function transformState(sliderList, { i, val }, field) {
   })
 }
 
+//TODO: mybe better to go outside with it
 function transformAddState(state, action) {
   const { id, type } = action.payload
   const oldSliderList = state.sliderList || []
 
   const lastSelectedDriverName =
-    (oldSliderList.length > 0 && oldSliderList[oldSliderList.length - 1].driverName) || 'None'
+    (oldSliderList.length > 0 &&
+      oldSliderList[oldSliderList.length - 1].driverName) ||
+    'None'
   const newDriverName =
     lastSelectedDriverName !== 'None' && lastSelectedDriverName
 
@@ -1001,7 +945,7 @@ function transformAddState(state, action) {
   return type === PAGE
     ? {
       ...state,
-      sliderList: [],
+      sliderList: []
     }
     : {
       ...state,

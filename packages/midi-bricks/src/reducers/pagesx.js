@@ -1,12 +1,11 @@
 import { createNextState } from 'redux-starter-kit'
 import { ActionTypePages } from '../actions/pagesx'
 
-export const pagesx =   {
+export const pagesx = {
   [ActionTypePages.CREATE_PAGE](state, action) {
-    const { lastFocusedPage, id } = action.payload
+    const { id } = action.payload
 
     return createNextState(state, (draftState) => {
-      //draftState[lastFocusedPage].sliderList = state.sliderList
       draftState[id] = {
         sliderList: [],
         id,
@@ -16,9 +15,8 @@ export const pagesx =   {
     })
   },
   [ActionTypePages.UPDATE_PAGES](state, action) {
-    const {pages} = action.payload
+    const { pages } = action.payload
     return createNextState(state, (draftState) => {
-      // draftState = {}
       draftState = pages
       return draftState
     })
@@ -30,6 +28,8 @@ export const pagesx =   {
       return draftState
     })
   },
+
+  // TODO: this is not clean
   [ActionTypePages.DELETE_PAGES](state, action) {
     return createNextState(state, (draftState) => {
       draftState = {}
@@ -37,4 +37,3 @@ export const pagesx =   {
     })
   }
 }
-
