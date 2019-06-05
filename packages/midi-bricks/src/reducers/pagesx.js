@@ -1,6 +1,6 @@
 import { createNextState } from 'redux-starter-kit'
 import { ActionTypePages } from '../actions/pagesx'
-import {pagesInit} from '.'
+import { pagesInit } from '.'
 
 export const pagesx = {
   [ActionTypePages.CREATE_PAGE](state, action) {
@@ -25,7 +25,9 @@ export const pagesx = {
   [ActionTypePages.UPDATE_SLIDER_LIST_OF_PAGE](state, action) {
     const { lastFocusedPage, sliderList } = action.payload
     return createNextState(state, (draftState) => {
-      draftState[lastFocusedPage].sliderList = sliderList
+      if (draftState[lastFocusedPage]) {
+        draftState[lastFocusedPage].sliderList = sliderList
+      }
       return draftState
     })
   },
