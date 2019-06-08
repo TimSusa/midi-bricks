@@ -23,7 +23,6 @@ MidiDriversSettingsPage.propTypes = {
 function MidiDriversSettingsPage(props) {
   const {
     actions,
-    thunkLiveModeToggle,
     midi: {
       midiAccess: { inputs, outputs } = { inputs: [], outputs: [] }
     } = {},
@@ -31,12 +30,17 @@ function MidiDriversSettingsPage(props) {
       availableDrivers: { inputs: availableInputs, outputs: avalableOutputs }
     }
   } = props
-  useEffect(() => {
-    thunkLiveModeToggle({ isLiveMode: false })
-  }, [actions, thunkLiveModeToggle])
+  // useEffect(() => {
+  //   thunkLiveModeToggle({ isLiveMode: false })
+  // }, [actions, thunkLiveModeToggle])
+
 
   const [isFirstPanelExpanded, setIsFirstPanelExpanded] = useState(true)
   const [isScndPanelExpanded, setIsScndPanelExpanded] = useState(true)
+
+  if (!Array.isArray(outputs) || !inputs) return <div></div>
+
+
   return (
     <React.Fragment>
       <DriverExpansionPanel
