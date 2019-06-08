@@ -24,7 +24,7 @@ Trace:
 npm manifest: 
   {
     "name": "midi-bricks-mono",
-  "version": "1.2.8-alpha.9",
+  "version": "1.2.8-alpha.10",
     "private": false,
     "license": "MIT",
     "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
