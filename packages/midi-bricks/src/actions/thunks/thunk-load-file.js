@@ -1,6 +1,6 @@
 import { Actions as sliderListActions } from '../slider-list'
 import { Actions as viewSettingsActions } from '../view-settings'
-import { Actions as pageActions } from '../pagesx'
+import { Actions as pageActions } from '../pages'
 import { initApp } from '../init'
 import { initId } from '../../reducers/slider-list'
 
@@ -26,7 +26,7 @@ export function thunkLoadFile(content, presetName) {
       promArray.push(dispatch(updatePages({ pages })))
     } else {
       const {
-        pagesx: oldPages,
+        pages: oldPages,
         viewSettings: { lastFocusedPage: lfp }
       } = getState()
       const oldPresetTransformedPages = {

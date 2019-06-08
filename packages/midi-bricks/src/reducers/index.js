@@ -4,7 +4,7 @@ import { generateReducers } from 'redux-generate'
 import { sliders, initId } from './slider-list'
 import { viewSettings } from './view-settings'
 
-import { pagesx } from './pagesx'
+import { pages } from './pages'
 
 export const PAGE_TYPES = {
   HOME_MODE: 'HOME_MODE',
@@ -90,5 +90,5 @@ export const viewSettingsInitState = {
 export default combineReducers({
   sliders: generateReducers(slidersInitState, sliders),
   viewSettings: generateReducers(viewSettingsInitState, viewSettings),
-  pagesx: generateReducers(pagesInit, pagesx)
+  pages: generateReducers(pagesInit, pages)
 })

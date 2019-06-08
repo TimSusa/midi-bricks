@@ -1,7 +1,7 @@
 import { batch } from 'react-redux'
 import { Actions as sliderActions } from '../slider-list'
 import { Actions as viewActions } from '../view-settings'
-import { Actions as pageActions } from '../pagesx'
+import { Actions as pageActions } from '../pages'
 
 const { updateSliderListOfPage } = pageActions
 const { setMidiPage } = sliderActions
@@ -12,13 +12,13 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
     const {
       viewSettings: { lastFocusedPage },
       sliders: { sliderList = [] },
-      pagesx
+      pages
     } = getState()
 
     //batch(() => {
       dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList }))
       dispatch(setLastFocusedIndex({ i: 'none' }))
-      dispatch(setMidiPage({ sliderList: pagesx[focusedPage].sliderList }))
+      dispatch(setMidiPage({ sliderList: pages[focusedPage].sliderList }))
       dispatch(setLastFocusedPage({ lastFocusedPage: focusedPage }))
     //})
 

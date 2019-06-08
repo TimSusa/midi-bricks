@@ -232,9 +232,9 @@ function handleSaveFile(saveFile, handleSaveFile, pages, viewSettings, sliders) 
   handleSaveFile()
 }
 
-function mapStateToProps({ pagesx, viewSettings, sliders, version }) {
+function mapStateToProps({ pages, viewSettings, sliders, version }) {
   return {
-    pages: pagesx, 
+    pages: pages, 
     viewSettings,
     sliders
   }

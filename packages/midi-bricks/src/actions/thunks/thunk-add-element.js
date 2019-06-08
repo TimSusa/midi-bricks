@@ -4,7 +4,7 @@ import { Actions as viewSettingsActions } from '../view-settings'
 import { thunkChangePage } from './thunk-change-page'
 import { getUniqueId } from '../../utils/get-unique-id'
 import { STRIP_TYPE } from '../../reducers/slider-list'
-import { Actions as pageActions } from '../pagesx'
+import { Actions as pageActions } from '../pages'
 
 const { createPage, updateSliderListOfPage } = pageActions
 const { PAGE } = STRIP_TYPE

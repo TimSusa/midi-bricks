@@ -335,12 +335,12 @@ function mapDispatchToProps(dispatch) {
   }
 }
 function mapStateToProps({
-  pagesx,
+  pages,
   sliders: { sliderList, midi, isMidiFailed },
   viewSettings
 }) {
   return {
-    pages: pagesx,
+    pages: pages,
     sliderList,
     midi,
     isMidiFailed,

@@ -1,8 +1,8 @@
 import { createNextState } from 'redux-starter-kit'
-import { ActionTypePages } from '../actions/pagesx'
+import { ActionTypePages } from '../actions/pages'
 import {pagesInit} from '.'
 
-export const pagesx = {
+export const pages = {
   [ActionTypePages.CREATE_PAGE](state, action) {
     const { id } = action.payload
 
