@@ -12,6 +12,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as ViewSettinsgsAction } from '../../actions/view-settings'
 import { Actions as SliderSettinsgsAction } from '../../actions/slider-list'
+import { thunkLiveModeToggle } from '../../actions/thunks/thunk-live-mode-toggle'
 import { Button, Tooltip } from '@material-ui/core'
 import { PAGE_TYPES } from '../../reducers'
 import MidiSettingsDialog from '../midi-settings-dialog/MidiSettingsDialog'
@@ -34,7 +35,8 @@ Footer.propTypes = {
   lastFocusedPage: PropTypes.string,
   pageTargets: PropTypes.array,
   pageType: PropTypes.string,
-  thunkChangePage: PropTypes.any
+  thunkChangePage: PropTypes.func,
+  thunkLiveModeToggle: PropTypes.func
 }
 
 function Footer(props) {
@@ -50,7 +52,8 @@ function Footer(props) {
     isFullscreenOnLivemode = false,
     pageType = '',
     actions,
-    thunkChangePage
+    thunkChangePage,
+    thunkLiveModeToggle
   } = props
   //if (!isLiveMode) return <div />
   return (
@@ -136,6 +139,7 @@ function Footer(props) {
               isLiveMode,
               lastFocusedPage,
               actions,
+              thunkLiveModeToggle,
               footerPages,
               isFullscreenOnLivemode
             )}
@@ -152,6 +156,7 @@ function handleLiveButtonClick(
   isLiveMode,
   lastFocusedPage,
   actions,
+  thunkLiveModeToggle,
   footerPages,
   isFullscreenOnLivemode
 ) {
@@ -162,7 +167,7 @@ function handleLiveButtonClick(
     isWebMode && isFullscreenOnLivemode && document.body.requestFullscreen()
   }
   actions.setLastFocusedPage({ lastFocusedPage })
-  actions.toggleLiveMode()
+  thunkLiveModeToggle()
 }
 
 function styles(theme) {
@@ -237,6 +242,7 @@ function mapDispatchToProps(dispatch) {
       { ...ViewSettinsgsAction, ...SliderSettinsgsAction },
       dispatch
     ),
-    thunkChangePage: bindActionCreators(thunkChangePage, dispatch)
+    thunkChangePage: bindActionCreators(thunkChangePage, dispatch),
+    thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
   }
 }

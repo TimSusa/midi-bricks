@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
+import { thunkLiveModeToggle } from '../actions/thunks/thunk-live-mode-toggle'
 
 export default connect(
   mapStateToProps,
@@ -15,12 +16,14 @@ export default connect(
 MidiDriversSettingsPage.propTypes = {
   actions: PropTypes.object,
   midi: PropTypes.object,
-  viewSettings: PropTypes.object
+  viewSettings: PropTypes.object,
+  thunkLiveModeToggle: PropTypes.func
 }
 
 function MidiDriversSettingsPage(props) {
   const {
     actions,
+    thunkLiveModeToggle,
     midi: {
       midiAccess: { inputs, outputs } = { inputs: [], outputs: [] }
     } = {},
@@ -29,8 +32,8 @@ function MidiDriversSettingsPage(props) {
     }
   } = props
   useEffect(() => {
-    actions.toggleLiveMode({ isLiveMode: false })
-  }, [actions])
+    thunkLiveModeToggle({ isLiveMode: false })
+  }, [actions, thunkLiveModeToggle])
 
   const [isFirstPanelExpanded, setIsFirstPanelExpanded] = useState(true)
   const [isScndPanelExpanded, setIsScndPanelExpanded] = useState(true)
@@ -170,7 +173,8 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(
       { ...MidiSliderActions, ...ViewStuff },
       dispatch
-    )
+    ),
+    thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
   }
 }
 

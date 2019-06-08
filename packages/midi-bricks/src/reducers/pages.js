@@ -30,7 +30,6 @@ export const pages = {
     })
   },
 
-  // TODO: this is not clean
   [ActionTypePages.DELETE_PAGES](state, action) {
     return createNextState(state, (draftState) => {
       draftState = pagesInit

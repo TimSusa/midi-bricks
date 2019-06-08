@@ -10,6 +10,7 @@ import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 import { Actions as ViewSettingsActions } from '../../actions/view-settings.js'
 import { thunkChangeListOrder } from '../../actions/thunks/thunk-change-list-order'
+import { thunkLiveModeToggle } from '../../actions/thunks/thunk-live-mode-toggle'
 import MidiSettingsDialogButton from '../midi-settings-dialog/MidiSettingsDialogButton'
 import { makeStyles } from '@material-ui/styles'
 import { SizeMe } from 'react-sizeme'
@@ -34,6 +35,7 @@ function ChannelStripList(props) {
     actions,
     thunkLoadFile,
     thunkChangeListOrder,
+    thunkLiveModeToggle,
     sliderList = [],
     monitorVal: { driver = 'None', cC = 'None', channel = 'None' } = {},
     viewSettings: {
@@ -60,7 +62,8 @@ function ChannelStripList(props) {
   let elem = document.body
 
   useEffect(() => {
-    const keypressRef = (e) => handleKeyPress(actions, isLayoutMode, e)
+    const keypressRef = (e) =>
+      handleKeyPress(actions, thunkLiveModeToggle, isLayoutMode, e)
 
     // Protect dialog mode from global listeners
     if (!isSettingsDialogMode) {
@@ -73,7 +76,14 @@ function ChannelStripList(props) {
       console.log('clean up -> Remove Keypress Listener ')
       elem.removeEventListener('keypress', keypressRef)
     }
-  }, [isSettingsDialogMode, isLayoutMode, elem, pageType, actions])
+  }, [
+    isSettingsDialogMode,
+    isLayoutMode,
+    elem,
+    pageType,
+    actions,
+    thunkLiveModeToggle
+  ])
 
   if (sliderList && sliderList.length > 0) {
     return (
@@ -93,7 +103,12 @@ function ChannelStripList(props) {
         layout={sliderList}
         onLayoutChange={
           isLayoutMode
-            ? onLayoutChange.bind(this, thunkChangeListOrder, isLayoutMode, lastFocusedPage)
+            ? onLayoutChange.bind(
+              this,
+              thunkChangeListOrder,
+              isLayoutMode,
+              lastFocusedPage
+            )
             : () => {}
         }
       >
@@ -203,9 +218,7 @@ function ChannelStripList(props) {
         <br />
         <br />
         <Button
-          onClick={async () =>
-            await thunkLoadFile(preset, preset.presetName)
-          }
+          onClick={async () => await thunkLoadFile(preset, preset.presetName)}
         >
           LOAD EXAMPLE
         </Button>
@@ -222,13 +235,18 @@ ChannelStripList.propTypes = {
   viewSettings: PropTypes.object
 }
 
-function onLayoutChange(thunkChangeListOrder, isLayoutMode, lastFocusedPage, layout) {
+function onLayoutChange(
+  thunkChangeListOrder,
+  isLayoutMode,
+  lastFocusedPage,
+  layout
+) {
   if (isLayoutMode) {
     thunkChangeListOrder(layout, lastFocusedPage)
   }
 }
 
-function handleKeyPress(actions, isLayoutMode, e) {
+function handleKeyPress(actions, thunkLiveModeToggle, isLayoutMode, e) {
   // e: midi driver settings
   // if (e.keyCode === 101) {
   //   const {
@@ -263,7 +281,7 @@ function handleKeyPress(actions, isLayoutMode, e) {
   // p: performance (live) mode
   if (e.keyCode === 112) {
     e.preventDefault()
-    actions.toggleLiveMode()
+    thunkLiveModeToggle()
   }
 
   // l: layout mode
@@ -344,6 +362,7 @@ function mapDispatchToProps(dispatch) {
       dispatch
     ),
     thunkLoadFile: bindActionCreators(thunkLoadFile, dispatch),
-    thunkChangeListOrder: bindActionCreators(thunkChangeListOrder, dispatch)
+    thunkChangeListOrder: bindActionCreators(thunkChangeListOrder, dispatch),
+    thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
   }
 }

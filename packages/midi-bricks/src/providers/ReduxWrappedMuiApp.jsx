@@ -7,7 +7,16 @@ import { PersistGate } from 'redux-persist/integration/react'
 import {configureAppStore} from './configure-app-store'
 import { persistStore } from 'redux-persist'
 
+import localforage from 'localforage'
 
+localforage.config({
+  //driver      : localforage.WEBSQL, // Force WebSQL; same as using setDriver()
+  name        : 'MIDI-Briqks',
+  version     : 1,
+  // size        : 4980736, // Size of database, in bytes. WebSQL-only for now.
+  storeName   : 'midi-briqks-store', // Should be alphanumeric, with underscores.
+  description : 'UR GAY'
+})
 
 ReduxWrappedMuiApp.propTypes = {
   children: PropTypes.any,

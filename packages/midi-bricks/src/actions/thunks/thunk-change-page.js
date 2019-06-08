@@ -1,4 +1,5 @@
 import { batch } from 'react-redux'
+import localforage from 'localforage'
 import { Actions as sliderActions } from '../slider-list'
 import { Actions as viewActions } from '../view-settings'
 import { Actions as pageActions } from '../pages'
@@ -8,19 +9,48 @@ const { setMidiPage } = sliderActions
 const { setLastFocusedIndex, setLastFocusedPage } = viewActions
 
 export function thunkChangePage(lastFocusedPage, focusedPage) {
-  return function(dispatch, getState) {
+  return async function(dispatch, getState) {
     const {
-      viewSettings: { lastFocusedPage },
+      viewSettings: { lastFocusedPage, isLiveMode },
       sliders: { sliderList = [] },
-      pages
+      pages: storedPages
     } = getState()
 
-    //batch(() => {
-      dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList }))
+    if (isLiveMode) {
+      console.log('isLiveMode')
+      const pages = await localforage.getItem('pages')
+      const updatedPages = {
+        ...pages, 
+        [lastFocusedPage]: {
+          ...pages[lastFocusedPage],
+          sliderList
+        }
+      }
+      await localforage.setItem('pages', updatedPages)
+      //dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList }))
       dispatch(setLastFocusedIndex({ i: 'none' }))
       dispatch(setMidiPage({ sliderList: pages[focusedPage].sliderList }))
       dispatch(setLastFocusedPage({ lastFocusedPage: focusedPage }))
+
+
+    } else {
+      console.log('is no LiveMode')
+      //batch(() => {
+      if (storedPages[focusedPage]) {
+        dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList }))
+        dispatch(setLastFocusedIndex({ i: 'none' }))
+        dispatch(setMidiPage({ sliderList: storedPages[focusedPage].sliderList }))
+        dispatch(setLastFocusedPage({ lastFocusedPage: focusedPage }))
+      } else {
+        dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList }))
+        dispatch(setLastFocusedIndex({ i: 'none' }))
+        dispatch(setMidiPage({ sliderList: [] }))
+        dispatch(setLastFocusedPage({ lastFocusedPage: focusedPage }))
+      }
+
     //})
+    }
+
 
     return Promise.resolve()
   }

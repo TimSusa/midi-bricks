@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
+import {thunkLiveModeToggle} from '../actions/thunks/thunk-live-mode-toggle'
 import { MinMaxValInput } from './midi-settings/elements/MinMaxValInput'
 import { ValueInput } from './midi-settings/elements/ValueInput'
 import { FormControlLabel, Switch, Tooltip } from '@material-ui/core'
@@ -21,12 +22,14 @@ const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
 
 ApplicationSettings.propTypes = {
   actions: PropTypes.object,
+  thunkLiveModeToggle: PropTypes.func,
   viewSettings: PropTypes.object
 }
 
 function ApplicationSettings(props) {
   const {
     actions,
+    thunkLiveModeToggle,
     viewSettings: {
       electronAppSettings: {
         isDevConsoleEnabled = false,
@@ -52,8 +55,8 @@ function ApplicationSettings(props) {
   const [isUpdatePanelExpanded, setIsUpdatePanelExpanded] = useState(false)
 
   useEffect(() => {
-    actions.toggleLiveMode({ isLiveMode: false })
-  }, [actions])
+    thunkLiveModeToggle({ isLiveMode: false })
+  }, [thunkLiveModeToggle])
 
   return (
     <React.Fragment>
@@ -354,7 +357,8 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(
       { ...MidiSliderActions, ...ViewStuff },
       dispatch
-    )
+    ),
+    thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
   }
 }
 

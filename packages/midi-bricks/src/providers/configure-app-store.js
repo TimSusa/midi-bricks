@@ -17,9 +17,9 @@ const persistConfig = {
 const isDev = process.env.NODE_ENV !== 'production'
 
 const logger = createLogger({
-  duration: true
-  // predicate: (getState, { type }) =>
-  //   !['MIDI_MESSAGE_ARRIVED', 'HANDLE_SLIDER_CHANGE'].includes(type)
+  duration: true,
+  predicate: (getState, { type }) =>
+    !['MIDI_MESSAGE_ARRIVED', 'HANDLE_SLIDER_CHANGE'].includes(type)
 })
 
 const serializableStateInvariant = createSerializableStateInvariantMiddleware({

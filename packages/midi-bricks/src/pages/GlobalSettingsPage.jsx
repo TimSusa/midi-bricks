@@ -14,6 +14,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
+import {thunkLiveModeToggle} from '../actions/thunks/thunk-live-mode-toggle'
 import MidiSettingsDialog from '../components/midi-settings-dialog/MidiSettingsDialog'
 import { outputToDriverName } from '../utils/output-to-driver-name.js'
 import { STRIP_TYPE } from '../reducers/slider-list.js'
@@ -31,7 +32,8 @@ GlobalSettingsPage.propTypes = {
   midi: PropTypes.object,
   pages: PropTypes.object,
   sliderList: PropTypes.array,
-  thunkChangePage: PropTypes.any,
+  thunkChangePage: PropTypes.func,
+  thunkLiveModeToggle: PropTypes.func,
   viewSettings: PropTypes.object
 }
 
@@ -41,6 +43,7 @@ function GlobalSettingsPage(props) {
     isMidiFailed,
     actions,
     thunkChangePage,
+    thunkLiveModeToggle,
     pages = {},
     midi: {
       midiAccess: { inputs, outputs }
@@ -54,8 +57,8 @@ function GlobalSettingsPage(props) {
     }
   } = props
   useEffect(() => {
-    actions.toggleLiveMode({ isLiveMode: false })
-  }, [actions])
+    thunkLiveModeToggle({ isLiveMode: false })
+  }, [thunkLiveModeToggle])
 
   if (isMidiFailed) return <div />
   const hasPage = Object.values(pages).length > 0
@@ -331,7 +334,8 @@ function mapDispatchToProps(dispatch) {
       { ...MidiSliderActions, ...ViewStuff },
       dispatch
     ),
-    thunkChangePage: bindActionCreators(thunkChangePage, dispatch)
+    thunkChangePage: bindActionCreators(thunkChangePage, dispatch),
+    thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
   }
 }
 function mapStateToProps({
