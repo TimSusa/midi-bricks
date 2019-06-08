@@ -17,9 +17,9 @@ const persistConfig = {
 const isDev = process.env.NODE_ENV !== 'production'
 
 const logger = createLogger({
-  duration: true,
-  predicate: (getState, { type }) =>
-    !['MIDI_MESSAGE_ARRIVED', 'HANDLE_SLIDER_CHANGE'].includes(type)
+  duration: true
+  // predicate: (getState, { type }) =>
+  //   !['MIDI_MESSAGE_ARRIVED', 'HANDLE_SLIDER_CHANGE'].includes(type)
 })
 
 const serializableStateInvariant = createSerializableStateInvariantMiddleware({
@@ -41,6 +41,7 @@ const [immutableStateInvariant] = getDefaultMiddleware()
 const devMiddleware = [
   immutableStateInvariant,
   thunk,
+  rafScheduler,
   serializableStateInvariant,
   logger
 ]
@@ -48,7 +49,9 @@ export function configureAppStore(preloadedState) {
   const reducer = persistReducer(persistConfig, rootReducer)
   const store = configureStore({
     reducer,
-    middleware: isDev ? devMiddleware : [...getDefaultMiddleware()],
+    middleware: isDev
+      ? devMiddleware
+      : [...getDefaultMiddleware(), rafScheduler],
     preloadedState
     //enhancers: [monitorReducersEnhancer]
   })
@@ -77,4 +80,46 @@ export default function isPlainObject(value) {
   }
 
   return Object.getPrototypeOf(value) === proto
+}
+
+/**
+ * Schedules actions with { meta: { raf: true } } to be dispatched inside a rAF loop
+ * frame.  Makes `dispatch` return a function to remove the action from the queue in
+ * this case.
+ */
+function rafScheduler(store) {
+  return function(next) {
+    let queuedActions = []
+    let frame = null
+
+    function loop() {
+      frame = null
+      try {
+        if (queuedActions.length > 0) {
+          next(queuedActions.shift())
+        }
+      } finally {
+        maybeRaf()
+      }
+    }
+
+    function maybeRaf() {
+      if (queuedActions.length > 0 && !frame) {
+        frame = requestAnimationFrame(loop)
+      }
+    }
+
+    return (action) => {
+      if (!action.meta || !action.meta.raf) {
+        return next(action)
+      }
+
+      queuedActions.push(action)
+      maybeRaf()
+
+      return function cancel() {
+        queuedActions = queuedActions.filter((a) => a !== action)
+      }
+    }
+  }
 }

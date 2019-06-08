@@ -22,7 +22,7 @@ function MidiSlider(props) {
   let send = useRef(null)
 
   useEffect(() => {
-    send.current = debounce(sendOutFromChildren, 5)
+    send.current = debounce(sendOutFromChildren, 3)
   }, [])
 
   const {
