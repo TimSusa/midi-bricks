@@ -45,7 +45,7 @@ function Footer(props) {
 
   return (
     <div className={classes.root}>
-      {footerPages.map((item, idx) => {
+      {footerPages&&footerPages.map((item, idx) => {
         if (isSettingsMode) {
           return (
             <div key={`footer-button-${idx}`}>
