@@ -13,7 +13,7 @@ export function initApp(mode) {
       WebMIDI.enable((err) => {
         if (err) {
           // eslint-disable-next-line no-alert
-          window.alert('Midi could not be enabled.', err)
+          //window.alert('Midi could not be enabled.', err)
           reject(dispatch(initFailed('Midi could not be enabled.')))
         }
         const { inputs = [], outputs = [] } = WebMIDI
