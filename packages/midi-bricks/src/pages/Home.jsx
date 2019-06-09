@@ -96,14 +96,16 @@ function styles(theme) {
     root: {
       textAlign: 'center',
       width: '100%',
-      overflowX: 'hidden'
+      overflowX: 'hidden',
+      background: 'white'
+ 
     },
     heading: {
       marginTop: theme.spacing(2)
     },
     noMidiTypography: {
       textAlign: 'center',
-      paddingTop: theme.spacing(4)
+      paddingTop: theme.spacing(4),
     }
   }
 }

@@ -47,7 +47,8 @@ function styles(theme) {
     root: {
       width: '100%',
       height: '100%',
-      zIndex: 1
+      zIndex: 1,
+
     },
     appFrame: {
       position: 'relative',
@@ -73,7 +74,8 @@ function styles(theme) {
     content: {
       backgroundColor: theme.palette.background.default,
       width: '100%',
-      marginTop: theme.spacing(1)
+      marginTop: theme.spacing(1),
+
     }
   }
 }

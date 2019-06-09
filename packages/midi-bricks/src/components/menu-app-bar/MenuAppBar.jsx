@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as ViewSettingsAction } from '../../actions/view-settings'
 import { Actions as MidiSlidersAction } from '../../actions/slider-list.js'
+import { ActionCreators as UndoAction } from 'redux-undo'
+
 import { initApp } from '../../actions/init'
 import { thunkCopyToNextPage } from '../../actions/thunks/thunk-copy-to-next-page.js'
 import AppBar from '@material-ui/core/AppBar'
@@ -12,6 +14,8 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import MenuIcon from '@material-ui/icons/Menu'
+import UndoIcon from '@material-ui/icons/Undo'
+import RedoIcon from '@material-ui/icons/Redo'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
 import SwapVertIcon from '@material-ui/icons/SwapVert'
 import CheckIcon from '@material-ui/icons/CheckCircle'
@@ -35,12 +39,14 @@ export default connect(
 
 MenuAppBar.propTypes = {
   actions: PropTypes.object,
-  viewSettings: PropTypes.object,
+  future: PropTypes.array,
   handleDrawerToggle: PropTypes.func,
   initApp: PropTypes.func,
-  thunkCopyToNextPage: PropTypes.func,
   monitorVal: PropTypes.object,
-  presetName: PropTypes.string
+  past: PropTypes.array,
+  presetName: PropTypes.string,
+  thunkCopyToNextPage: PropTypes.func,
+  viewSettings: PropTypes.object
 }
 
 function MenuAppBar(props) {
@@ -50,10 +56,13 @@ function MenuAppBar(props) {
     thunkCopyToNextPage,
     presetName = '',
     monitorVal,
+    past = [],
+    future = [],
     viewSettings: {
       pageType,
       isLiveMode = false,
       isLayoutMode = false,
+      isSettingsMode,
       isCompactHorz = true,
       isAutoArrangeMode = true,
       isMidiLearnMode = false,
@@ -77,7 +86,6 @@ function MenuAppBar(props) {
             icon={<MenuIcon />}
             aria-label='Menu'
           />
-
           <Typography variant='h6' color='inherit' className={classes.flex}>
             MIDI Briqkxs
           </Typography>
@@ -86,12 +94,17 @@ function MenuAppBar(props) {
               MIDI Learn Mode Running...
             </Typography>
           )}
+
           {isLayoutMode && (
             <Typography className={classes.typoColorStyle}>
               Layout Mode Running...
             </Typography>
           )}
-
+          {isSettingsMode && !isLayoutMode && (
+            <Typography className={classes.typoColorStyle}>
+              Settings Mode Running...
+            </Typography>
+          )}
           {isLayoutMode && (
             <ToolTipIconButton
               handleClick={(e) => actions.toggleCompactMode()}
@@ -99,7 +112,6 @@ function MenuAppBar(props) {
               icon={isCompactHorz ? <SwapHorizIcon /> : <SwapVertIcon />}
             />
           )}
-
           {isLayoutMode && (
             <ToolTipIconButton
               handleClick={(e) => actions.toggleAutoArrangeMode()}
@@ -113,14 +125,12 @@ function MenuAppBar(props) {
               }
             />
           )}
-
           {isLayoutMode && <AddMenu />}
           {pageType === PAGE_TYPES.GLOBAL_MODE && (
             <Typography className={classes.typoColorStyle}>
               {presetName || ''}
             </Typography>
           )}
-
           {pageType === PAGE_TYPES.GLOBAL_MODE && (
             <>
               <Button
@@ -267,6 +277,23 @@ function MenuAppBar(props) {
               icon={<CancelIcon />}
             />
           )}
+          {
+            <>
+              <ToolTipIconButton
+                isDisabled={past.length <1  }
+                handleClick={actions.undo}
+                title={`Undo´s left ${past.length}`}
+                icon={<UndoIcon />}
+              />
+
+              <ToolTipIconButton
+                isDisabled={future.length <1 }
+                handleClick={actions.redo}
+                title={`Redo´s left ${future.length}`}
+                icon={<RedoIcon disabled />}
+              />
+            </>
+          }
         </Toolbar>
       </AppBar>
       <div
@@ -384,7 +411,7 @@ async function cancelMidiLeanMode(
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
-      { ...MidiSlidersAction, ...ViewSettingsAction },
+      { ...MidiSlidersAction, ...ViewSettingsAction, ...UndoAction },
       dispatch
     ),
     initApp: bindActionCreators(initApp, dispatch),
@@ -393,7 +420,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({
-  sliders: { presetName, monitorVal },
+  sliders: {
+    presetName, monitorVal
+  },
   viewSettings
 }) {
   return {

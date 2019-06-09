@@ -224,6 +224,7 @@ function ChannelStripList(props) {
         </Button>
         <br />
         <br />
+        <img src={'cube_fx.gif'}></img>
       </Typography>
     )
   }
@@ -329,7 +330,7 @@ function handleKeyPress(actions, thunkLiveModeToggle, isLayoutMode, e) {
 function styles(theme) {
   return {
     channelList: {
-      display: 'flex'
+      display: 'flex',
       // overflowX: 'scroll'
     },
     midiLearnTypo: {
