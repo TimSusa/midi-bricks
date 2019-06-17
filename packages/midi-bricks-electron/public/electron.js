@@ -96,7 +96,7 @@ async function createWindow() {
       : isAllowedToUpdateCli
   !isAllowedToUpdate && log.warn('Updates were disabled! ')
 
-  if (isAllowedToUpdate) {
+  if (isAllowedToUpdate && !isDev) {
     const {
       isAutoDownload = appInitSettings.isAutoDownload,
       isAllowedPrerelease = appInitSettings.isAllowedPrerelease,
