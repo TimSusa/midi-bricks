@@ -2,6 +2,7 @@
 import { Actions as sliderListActions } from '../slider-list'
 import { Actions as viewSettingsActions } from '../view-settings'
 import { thunkChangePage } from './thunk-change-page'
+import { Actions as undoRedoActions } from '../undo-redo'
 import { getUniqueId } from '../../utils/get-unique-id'
 import { STRIP_TYPE } from '../../reducers/slider-list'
 import { Actions as pageActions } from '../pages'
@@ -10,6 +11,7 @@ const { createPage, updateSliderListOfPage } = pageActions
 const { PAGE } = STRIP_TYPE
 const { addMidiElement } = sliderListActions
 const { addPageTarget } = viewSettingsActions
+const { undoRedoUpdate } = undoRedoActions 
 
 export function addElement(type, payload) {
   const pageId = `page-${getUniqueId()}`
@@ -18,6 +20,8 @@ export function addElement(type, payload) {
     const {
       viewSettings: { lastFocusedPage, pageTargets }
     } = getState()
+    
+    dispatch(undoRedoUpdate({state: getState()}))
 
     if (type === PAGE) {
       //batch(() => {
@@ -45,5 +49,6 @@ export function addElement(type, payload) {
 
       dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList }))
     }
+
   }
 }

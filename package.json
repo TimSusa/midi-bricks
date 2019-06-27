@@ -24,7 +24,6 @@
     "redux-persist": "5.10.0",
     "redux-starter-kit": "^0.5.1",
     "redux-thunk": "2.3.0",
-    "redux-undo": "^0.6.1",
     "source-map-explorer": "1.8.0",
     "tonal": "2.2.2",
     "typeface-roboto": "0.0.54",

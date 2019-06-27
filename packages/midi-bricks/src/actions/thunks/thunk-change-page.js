@@ -1,12 +1,12 @@
-import { batch } from 'react-redux'
 import localforage from 'localforage'
 import { Actions as sliderActions } from '../slider-list'
 import { Actions as viewActions } from '../view-settings'
 import { Actions as pageActions } from '../pages'
-
+import { Actions as undoRedoActions } from '../undo-redo'
 const { updateSliderListOfPage } = pageActions
 const { setMidiPage } = sliderActions
 const { setLastFocusedIndex, setLastFocusedPage } = viewActions
+const { undoRedoUpdate } = undoRedoActions
 
 export function thunkChangePage(lastFocusedPage, focusedPage) {
   return async function(dispatch, getState) {
@@ -15,6 +15,7 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
       sliders: { sliderList = [] },
       pages: storedPages
     } = getState()
+    dispatch(undoRedoUpdate({state: getState()}))
 
     if (isLiveMode) {
       console.log('isLiveMode')
@@ -50,7 +51,6 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
 
     //})
     }
-
 
     return Promise.resolve()
   }

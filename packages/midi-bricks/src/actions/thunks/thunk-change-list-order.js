@@ -1,5 +1,6 @@
 import { batch } from 'react-redux'
 import { Actions as sliderListActions } from '../slider-list'
+import { Actions as undoRedoActions } from '../undo-redo'
 // import { Actions as viewSettingsActions } from '../view-settings'
 import { Actions as pageActions } from '../pages'
 
@@ -7,9 +8,12 @@ import { Actions as pageActions } from '../pages'
 const { changeListOrder } = sliderListActions
 //const { setLastFocusedPage, setLastFocusedIndex, addPageTarget } = viewSettingsActions
 const { updateSliderListOfPage } = pageActions
+const { undoRedoUpdate } = undoRedoActions
 
 export function thunkChangeListOrder(listOrder, lastFocusedPage) {
   return async function(dispatch, getState) {
+    dispatch(undoRedoUpdate({state: getState()}))
+
     const {
       viewSettings: { lastFocusedPage },
       sliders: {sliderList}

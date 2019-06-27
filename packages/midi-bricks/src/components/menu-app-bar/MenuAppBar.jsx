@@ -5,9 +5,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as ViewSettingsAction } from '../../actions/view-settings'
 import { Actions as MidiSlidersAction } from '../../actions/slider-list.js'
-import { ActionCreators as UndoAction } from 'redux-undo'
 
 import { initApp } from '../../actions/init'
+import { thunkUndoRedo } from '../../actions/thunks/thunk-undo-redo'
 import { thunkCopyToNextPage } from '../../actions/thunks/thunk-copy-to-next-page.js'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -15,7 +15,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import MenuIcon from '@material-ui/icons/Menu'
 import UndoIcon from '@material-ui/icons/Undo'
-import RedoIcon from '@material-ui/icons/Redo'
+// import RedoIcon from '@material-ui/icons/Redo'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
 import SwapVertIcon from '@material-ui/icons/SwapVert'
 import CheckIcon from '@material-ui/icons/CheckCircle'
@@ -42,6 +42,7 @@ MenuAppBar.propTypes = {
   future: PropTypes.array,
   handleDrawerToggle: PropTypes.func,
   initApp: PropTypes.func,
+  thunkUndoRedo: PropTypes.func,
   monitorVal: PropTypes.object,
   past: PropTypes.array,
   presetName: PropTypes.string,
@@ -54,10 +55,11 @@ function MenuAppBar(props) {
   const {
     actions = {},
     thunkCopyToNextPage,
+    thunkUndoRedo,
     presetName = '',
     monitorVal,
-    past = [],
-    future = [],
+    // past = [],
+    // future = [],
     viewSettings: {
       pageType,
       isLiveMode = false,
@@ -280,18 +282,18 @@ function MenuAppBar(props) {
           {
             <>
               <ToolTipIconButton
-                isDisabled={past.length <1  }
-                handleClick={actions.undo}
-                title={`Undo´s left ${past.length}`}
+                // isDisabled={past.length < 1}
+                handleClick={() => thunkUndoRedo({ offset: -1 })}
+                title='Undo'
                 icon={<UndoIcon />}
               />
 
-              <ToolTipIconButton
-                isDisabled={future.length <1 }
-                handleClick={actions.redo}
+              {/* <ToolTipIconButton
+                isDisabled={future.length < 1}
+                handleClick={async () =>  await thunkUndoRedo({offset: 1})}
                 title={`Redo´s left ${future.length}`}
                 icon={<RedoIcon disabled />}
-              />
+              /> */}
             </>
           }
         </Toolbar>
@@ -411,23 +413,25 @@ async function cancelMidiLeanMode(
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
-      { ...MidiSlidersAction, ...ViewSettingsAction, ...UndoAction },
+      { ...MidiSlidersAction, ...ViewSettingsAction },
       dispatch
     ),
     initApp: bindActionCreators(initApp, dispatch),
+    thunkUndoRedo: bindActionCreators(thunkUndoRedo, dispatch),
     thunkCopyToNextPage: bindActionCreators(thunkCopyToNextPage, dispatch)
   }
 }
 
 function mapStateToProps({
-  sliders: {
-    presetName, monitorVal
-  },
-  viewSettings
+  sliders: { presetName, monitorVal },
+  viewSettings,
+  undoRedo
 }) {
   return {
     viewSettings,
     presetName,
     monitorVal
+    // past,
+    // future
   }
 }

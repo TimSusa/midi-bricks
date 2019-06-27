@@ -3,6 +3,7 @@ import { generateReducers } from 'redux-generate'
 
 import { sliders, initId } from './slider-list'
 import { viewSettings } from './view-settings'
+import { undoRedo } from './undo-redo'
 
 import { pages } from './pages'
 
@@ -90,5 +91,6 @@ export const viewSettingsInitState = {
 export default combineReducers({
   sliders: generateReducers(slidersInitState, sliders),
   viewSettings: generateReducers(viewSettingsInitState, viewSettings),
-  pages: generateReducers(pagesInit, pages)
+  pages: generateReducers(pagesInit, pages),
+  undoRedo: generateReducers({}, undoRedo)
 })
