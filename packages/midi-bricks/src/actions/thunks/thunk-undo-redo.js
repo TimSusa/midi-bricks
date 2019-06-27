@@ -1,13 +1,10 @@
 import { Actions as viewActions } from '../view-settings'
 import { Actions as pageActions } from '../pages'
-import { Actions as undoRedoActions } from '../undo-redo'
 import { Actions as sliderActions } from '../slider-list'
 
-import localforage from 'localforage'
 
-const { deletePages, updatePages } = pageActions
-const { toggleLiveMode, updateViewSettings } = viewActions
-const { undoRedoUpdate, undoRedoDelete, undoRedoLoad } = undoRedoActions
+const {  updatePages } = pageActions
+const {  updateViewSettings } = viewActions
 const { loadFile } = sliderActions
 
 export function thunkUndoRedo(payload) {

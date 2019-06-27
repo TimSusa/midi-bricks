@@ -3,7 +3,7 @@ import WebMIDI from 'webmidi'
 import { ActionTypeSliderList } from '../actions/slider-list'
 import { midi } from 'tonal'
 import { fromMidi } from '../utils/fromMidi'
-import { map, groupBy } from 'lodash'
+import { map } from 'lodash'
 import { getUniqueId } from '../utils/get-unique-id'
 import { createNextState } from 'redux-starter-kit'
 
@@ -110,21 +110,21 @@ export const sliders = {
     })
     let newEntry = i
       ? {
-          ...tmpState,
-          label: tmpState.label,
-          i: newDate,
-          midiCC: [caclCCThresh],
-          x: x + 1,
-          y: y + 1
-        }
+        ...tmpState,
+        label: tmpState.label,
+        i: newDate,
+        midiCC: [caclCCThresh],
+        x: x + 1,
+        y: y + 1
+      }
       : {
-          ...list[idx],
-          label: list[idx].label,
-          i: newDate,
-          midiCC: [caclCCThresh || 60],
-          x: x + 1,
-          y: y + 1
-        }
+        ...list[idx],
+        label: list[idx].label,
+        i: newDate,
+        midiCC: [caclCCThresh || 60],
+        x: x + 1,
+        y: y + 1
+      }
 
     newArr.splice(idx, 0, newEntry)
 
@@ -947,13 +947,13 @@ function transformAddState(state, action) {
 
   return type === PAGE
     ? {
-        ...state,
-        sliderList: []
-      }
+      ...state,
+      sliderList: []
+    }
     : {
-        ...state,
-        sliderList: [...oldSliderList, entry]
-      }
+      ...state,
+      sliderList: [...oldSliderList, entry]
+    }
 }
 
 function toggleNotesInState(list, i) {
@@ -1042,24 +1042,24 @@ function getCheckedMidiOut(driverName) {
 //   return ret
 // }
 
-function sortSliderList(list = []) {
-  const vList = sortBy(list, 'y')
-  const yGroups = groupBy(vList, 'y')
-  let ySortedList = []
-  Object.keys(yGroups).forEach((group) => {
-    const sortedXList = sortBy(yGroups[group], 'x')
-    ySortedList = [...ySortedList, ...sortedXList]
-  })
-  return ySortedList
-}
+// function sortSliderList(list = []) {
+//   const vList = sortBy(list, 'y')
+//   const yGroups = groupBy(vList, 'y')
+//   let ySortedList = []
+//   Object.keys(yGroups).forEach((group) => {
+//     const sortedXList = sortBy(yGroups[group], 'x')
+//     ySortedList = [...ySortedList, ...sortedXList]
+//   })
+//   return ySortedList
+// }
 
-function sortBy(list = [], by) {
-  return list
-    .map((item) => item)
-    .sort((a, b) => {
-      return a[by] - b[by]
-    })
-}
+// function sortBy(list = [], by) {
+//   return list
+//     .map((item) => item)
+//     .sort((a, b) => {
+//       return a[by] - b[by]
+//     })
+// }
 
 function updatePagesWithSliderlist(
   state,

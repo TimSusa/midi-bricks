@@ -224,7 +224,7 @@ function ChannelStripList(props) {
         </Button>
         <br />
         <br />
-        <img src={'cube_fx.gif'}></img>
+        <img alt={'cubefx'} src={'cube_fx.gif'}></img>
       </Typography>
     )
   }
