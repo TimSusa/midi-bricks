@@ -102,29 +102,29 @@ export function initApp(mode) {
             input.addListener(
               'controlchange',
               'all',
-              //debounce(
-              ({ value, channel, controller: { number } }) => {
-                const obj = {
-                  isNoteOn: undefined,
-                  val: value,
-                  cC: number,
-                  channel,
-                  driver: name,
+              debounce(
+                ({ value, channel, controller: { number } }) => {
+                  const obj = {
+                    isNoteOn: undefined,
+                    val: value,
+                    cC: number,
+                    channel,
+                    driver: name,
                   
-                }
-                const myAction = (payload) => ({
-                  type: 'MIDI_MESSAGE_ARRIVED',
-                  payload, 
-                  meta: {
-                    raf: true 
                   }
-                })
-                // dispatch(midiMessageArrived(obj))
+                  const myAction = (payload) => ({
+                    type: 'MIDI_MESSAGE_ARRIVED',
+                    payload, 
+                    meta: {
+                      raf: true 
+                    }
+                  })
+                  // dispatch(midiMessageArrived(obj))
 
-                // Seems to perform in less time
-                dispatch(myAction(obj))
-              }
-              //, 2)
+                  // Seems to perform in less time
+                  dispatch(myAction(obj))
+                }
+                , 2)
             )
           }
           if (
