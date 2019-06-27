@@ -17,17 +17,18 @@ export const ListItemSaveFileOnElectron = connect(
 ListItemSaveFileOnElectronComp.propTypes = {
   onFileChange: PropTypes.func,
   viewSettings: PropTypes.object,
-  sliders: PropTypes.object
+  sliders: PropTypes.object,
+  pages: PropTypes.object
 }
 
 // At Electron App we use ipc for file loading from main process
-export function ListItemSaveFileOnElectronComp({ onFileChange, viewSettings, sliders={} }) {
+export function ListItemSaveFileOnElectronComp({ onFileChange, viewSettings, sliders={}, pages }) {
   return (
     <ListItem
       button
       onClick={(e) => {
         addIpcSaveFileListenerOnce(onFileChange)
-        saveIpcFileDialog({viewSettings, sliders})
+        saveIpcFileDialog({viewSettings, sliders, pages})
       }}
     >
       <ListItemIcon>
@@ -38,10 +39,11 @@ export function ListItemSaveFileOnElectronComp({ onFileChange, viewSettings, sli
   )
 }
 
-function mapStateToProps({ viewSettings, sliders }) {
+function mapStateToProps({ viewSettings, sliders, pages }) {
   return {
     viewSettings,
-    sliders
+    sliders, 
+    pages
   }
 }
 

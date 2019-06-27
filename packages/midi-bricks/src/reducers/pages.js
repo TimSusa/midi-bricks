@@ -25,7 +25,9 @@ export const pages = {
   [ActionTypePages.UPDATE_SLIDER_LIST_OF_PAGE](state, action) {
     const { lastFocusedPage, sliderList } = action.payload
     return createNextState(state, (draftState) => {
-      draftState[lastFocusedPage].sliderList = sliderList
+      if (lastFocusedPage && Array.isArray(sliderList)) {
+        draftState[lastFocusedPage].sliderList = sliderList
+      }
       return draftState
     })
   },
