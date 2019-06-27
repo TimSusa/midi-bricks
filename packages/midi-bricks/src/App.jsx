@@ -69,7 +69,7 @@ function styles(theme) {
     },
     drawerPaper: {
       width: 250,
-      backgroundColor: 'white'
+      backgroundColor: theme.palette.background.default,
     },
     content: {
       backgroundColor: theme.palette.background.default,

@@ -508,24 +508,25 @@ export const sliders = {
   },
 
   [ActionTypeSliderList.MIDI_MESSAGE_ARRIVED](state, action) {
-    return createNextState(state, (draftState) => {
-      const { val, cC, channel, driver, isNoteOn } = action.payload
+    const { val, cC, channel, driver, isNoteOn } = action.payload
 
-      const sliderList = map(state.sliderList, (item) => {
-        const { listenToCc, midiChannelInput, driverNameInput } = item
-        if (listenToCc && listenToCc.length > 0) {
-          const haveChannelsMatched =
-            midiChannelInput === 'all' ||
-            channel.toString() === midiChannelInput.toString()
-          const hasCc = cC && listenToCc.includes(cC.toString())
-          if (hasCc && haveChannelsMatched && driverNameInput === driver) {
-            return { ...item, val, isNoteOn }
-          } else {
-            return { ...item }
-          }
+    const sliderList = map(state.sliderList, (item) => {
+      const { listenToCc, midiChannelInput, driverNameInput } = item
+      if (listenToCc && listenToCc.length > 0) {
+        const haveChannelsMatched =
+          midiChannelInput === 'all' ||
+          channel.toString() === midiChannelInput.toString()
+        const hasCc = cC && listenToCc.includes(cC.toString())
+        if (hasCc && haveChannelsMatched && driverNameInput === driver) {
+          return { ...item, val, isNoteOn }
+        } else {
+          return { ...item }
         }
-        return { ...item }
-      })
+      }
+      return { ...item }
+    })
+
+    return createNextState(state, (draftState) => {
       draftState.sliderList = sliderList
       draftState.monitorVal = { val, cC, channel, driver, isNoteOn }
       return draftState

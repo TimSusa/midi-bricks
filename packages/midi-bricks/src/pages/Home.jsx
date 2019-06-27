@@ -97,7 +97,7 @@ function styles(theme) {
       textAlign: 'center',
       width: '100%',
       overflowX: 'hidden',
-      background: 'white'
+      backgroundColor: theme.palette.background.default,
  
     },
     heading: {
