@@ -38,7 +38,7 @@ function ChannelStrip(props) {
   } = sliderEntry
   const tmpH = (size && size.height) || 0
   const tmpW = (size && size.width) || 0
-  const isButton = type !== STRIP_TYPE.SLIDER && type !== STRIP_TYPE.LABEL
+  const isButton = ![STRIP_TYPE.SLIDER, STRIP_TYPE.SLIDER_HORZ, STRIP_TYPE.LABEL].includes(type)
   return (
     <div className={classes.root}>
       {type === STRIP_TYPE.SLIDER && !isMidiLearnMode && (

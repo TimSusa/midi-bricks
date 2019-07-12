@@ -97,8 +97,7 @@ function styles(theme) {
       textAlign: 'center',
       width: '100%',
       overflowX: 'hidden',
-      backgroundColor: theme.palette.background.default,
- 
+      backgroundColor: theme.palette.background.default
     },
     heading: {
       marginTop: theme.spacing(2)
