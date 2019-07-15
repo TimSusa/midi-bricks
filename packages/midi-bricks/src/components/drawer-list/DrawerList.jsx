@@ -131,7 +131,7 @@ function DrawerList(props) {
           <ListItemIcon>
             <ViewIcon />
           </ListItemIcon>
-          <ListItemText primary='Views Settings' />
+          <ListItemText primary='Preferences' />
           <ViewSettingsDialog
             isOpen={isOpenViewSettings}
             onClose={(e) => {

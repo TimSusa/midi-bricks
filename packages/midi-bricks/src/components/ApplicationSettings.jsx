@@ -61,7 +61,7 @@ function ApplicationSettings(props) {
   return (
     <React.Fragment>
       <DriverExpansionPanel
-        label='Update-Settings'
+        label='Updates'
         expanded={isUpdatePanelExpanded}
         noPadding={false}
         onChange={(e) => setIsUpdatePanelExpanded(!isUpdatePanelExpanded)}
@@ -142,7 +142,7 @@ function ApplicationSettings(props) {
         )}
       </DriverExpansionPanel>
       <DriverExpansionPanel
-        label='View Settings'
+        label='Views'
         expanded={isViewPanelExpanded}
         noPadding={false}
         onChange={(e) => setIsViewPanelExpanded(!isViewPanelExpanded)}
