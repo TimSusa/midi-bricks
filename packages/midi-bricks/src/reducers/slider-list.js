@@ -805,30 +805,6 @@ export const sliders = {
       return draftState
     })
   }
-
-  // [ActionTypeSliderList.EXTRACT_PAGE](state, action) {
-  //   /// DEPRECATED
-  //   const sliderListBackup = state.sliderListBackup.map((item) => {
-  //     const tmpItem = state.sliderList.find((tmpI) => tmpI.i === item.i)
-  //     return tmpItem
-  //       ? {
-  //         ...item,
-  //         val: tmpItem.val,
-  //         isNoteOn: tmpItem.isNoteOn,
-  //         onVal: tmpItem.onVal,
-  //         offVal: tmpItem.offVal,
-  //         lastSavedVal: tmpItem.lastSavedVal,
-  //         fontSize: tmpItem.fontSize
-  //       }
-  //       : item
-  //   })
-
-  //   return {
-  //     ...state,
-  //     sliderList: filterPage(sliderListBackup, action.payload.label),
-  //     sliderListBackup
-  //   }
-  // }
 }
 
 function transformState(sliderList, { i, val }, field) {

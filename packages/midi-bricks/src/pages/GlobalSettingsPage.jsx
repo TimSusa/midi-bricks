@@ -47,6 +47,7 @@ function GlobalSettingsPage(props) {
     midi: {
       midiAccess: { inputs, outputs }
     },
+    sliderList,
     viewSettings: {
       isSettingsDialogMode,
       lastFocusedPage,
@@ -62,7 +63,7 @@ function GlobalSettingsPage(props) {
   const hasPage = Object.values(pages).length > 0
   const pagesArray = hasPage ? Object.values(pages) : []
   return (hasPage ? pagesArray : ['OK']).map((page, idx) => {
-    const { sliderList } = page
+    //const { sliderList } = page
     const label = (pageTargets[idx] && pageTargets[idx].label) || page.label
     const isExpanded = lastFocusedPage === page.id
     return (
