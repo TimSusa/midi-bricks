@@ -281,12 +281,12 @@ function MenuAppBar(props) {
           )}
           {
             <>
-              <ToolTipIconButton
+              {/* <ToolTipIconButton
                 // isDisabled={past.length < 1}
                 handleClick={() => thunkUndoRedo({ offset: -1 })}
                 title='Undo'
                 icon={<UndoIcon />}
-              />
+              /> */}
 
               {/* <ToolTipIconButton
                 isDisabled={future.length < 1}
