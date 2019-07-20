@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.3](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.2...v1.3.3) (2019-07-20)
+
+
+
 ## [1.3.1](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.0-alpha.2...v1.3.1) (2019-07-20)
 
 
