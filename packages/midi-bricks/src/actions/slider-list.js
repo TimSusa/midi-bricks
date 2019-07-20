@@ -1,18 +1,15 @@
 import { generateActions, createActionTypes } from 'redux-generate'
 
 const typeSliderList = [
-  'INIT_MIDI_ACCESS',
+  'INIT_MIDI_ACCESS_OK',
   'RESET_VALUES',
-  'INIT_PENDING',
+  'INIT_MIDI_ACCESS_PENDING',
   'INIT_FAILED',
   'SELECT_MIDI_DRIVER',
   'SELECT_MIDI_DRIVER_INPUT',
-  'ADD_SLIDER',
-  'ADD_SLIDER_HORZ',
-  'ADD_BUTTON',
-  'ADD_LABEL',
+  'ADD_MIDI_ELEMENT',
   'ADD_PAGE',
-  'ADD_XYPAD',
+  'SET_MIDI_PAGE',
   'CHANGE_XYPAD_SETTINGS',
   'CHANGE_COLORS',
   'CHANGE_FONT_SIZE',
@@ -39,10 +36,9 @@ const typeSliderList = [
   'MIDI_MESSAGE_ARRIVED',
   'ADD_MIDI_CC_LISTENER',
   'TOGGLE_HIDE_VALUE',
-  'GO_BACK',
-  'UPDATE_SLIDER_LIST_BACKUP',
-  'TRIGGER_ALL_MIDI_ELEMENTS',
-  'EXTRACT_PAGE'
+  //'GO_BACK',
+  //'UPDATE_SLIDER_LIST_BACKUP',
+  'TRIGGER_ALL_MIDI_ELEMENTS'
 ]
 
 export const ActionTypeSliderList = createActionTypes(typeSliderList)

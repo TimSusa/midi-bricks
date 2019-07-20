@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
-import { initApp } from '../actions/init.js'
+import {thunkLiveModeToggle} from '../actions/thunks/thunk-live-mode-toggle'
 import { MinMaxValInput } from './midi-settings/elements/MinMaxValInput'
 import { ValueInput } from './midi-settings/elements/ValueInput'
 import { FormControlLabel, Switch, Tooltip } from '@material-ui/core'
@@ -22,12 +22,14 @@ const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
 
 ApplicationSettings.propTypes = {
   actions: PropTypes.object,
+  thunkLiveModeToggle: PropTypes.func,
   viewSettings: PropTypes.object
 }
 
 function ApplicationSettings(props) {
   const {
     actions,
+    thunkLiveModeToggle,
     viewSettings: {
       electronAppSettings: {
         isDevConsoleEnabled = false,
@@ -53,13 +55,13 @@ function ApplicationSettings(props) {
   const [isUpdatePanelExpanded, setIsUpdatePanelExpanded] = useState(false)
 
   useEffect(() => {
-    actions.toggleLiveMode({ isLiveMode: false })
-  }, [actions])
+    thunkLiveModeToggle({ isLiveMode: false })
+  }, [thunkLiveModeToggle])
 
   return (
     <React.Fragment>
       <DriverExpansionPanel
-        label='Update-Settings'
+        label='Updates'
         expanded={isUpdatePanelExpanded}
         noPadding={false}
         onChange={(e) => setIsUpdatePanelExpanded(!isUpdatePanelExpanded)}
@@ -140,7 +142,7 @@ function ApplicationSettings(props) {
         )}
       </DriverExpansionPanel>
       <DriverExpansionPanel
-        label='View Settings'
+        label='Views'
         expanded={isViewPanelExpanded}
         noPadding={false}
         onChange={(e) => setIsViewPanelExpanded(!isViewPanelExpanded)}
@@ -231,13 +233,15 @@ function ApplicationSettings(props) {
                   .map((val) => parseInt(val, 10))
                 Array.isArray(windowCoords) &&
                   actions.setElectronAppSettings({
-                    windowCoords
+                    windowCoords,
+                    isWindowSizeLocked: false
                   })
 
                 !isWindowSizeLocked &&
                   Array.isArray(windowCoords) &&
                   sendAppSettings({
-                    windowCoords
+                    windowCoords,
+                    isWindowSizeLocked: false
                   })
               }}
             />
@@ -356,18 +360,14 @@ function mapDispatchToProps(dispatch) {
       { ...MidiSliderActions, ...ViewStuff },
       dispatch
     ),
-    initApp: bindActionCreators(initApp, dispatch)
+    thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
   }
 }
 
-function mapStateToProps({
-  sliders: { sliderList, midi, sliderListBackup },
-  viewSettings
-}) {
+function mapStateToProps({ sliders: { sliderList, midi }, viewSettings }) {
   return {
     sliderList,
     midi,
-    viewSettings,
-    sliderListBackup
+    viewSettings
   }
 }

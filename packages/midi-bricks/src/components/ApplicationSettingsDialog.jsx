@@ -29,7 +29,7 @@ function ApplicationSettingsDialog(props) {
     >
       <DialogTitle id='confirmation-dialog-title'>
         <Typography color='secondary' variant='body1'>
-          Application Settings
+        Preferences
         </Typography>
       </DialogTitle>
       <DialogContent>

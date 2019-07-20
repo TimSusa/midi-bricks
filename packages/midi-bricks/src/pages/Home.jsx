@@ -11,7 +11,7 @@ import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
 import GlobalSettingsPage from './GlobalSettingsPage.jsx'
 import MidiDriversSettingsPage from './MidiDriversSettingsPage'
 import ApplicationSettingsPage from '../components/ApplicationSettings'
-import { PAGE_TYPES } from '../reducers/view-settings'
+import { PAGE_TYPES } from '../reducers'
 
 export default connect(
   mapStateToProperties,
@@ -28,16 +28,12 @@ function Home(props) {
   const classes = makeStyles(styles, { useTheme: true })()
 
   const {
-    viewSettings: {
-      isLiveMode = false,
-      pageType = PAGE_TYPES.HOME_MODE,
-      lastFocusedFooterButtonIdx
-    }
+    viewSettings: { isLiveMode = false, pageType = PAGE_TYPES.HOME_MODE },
+    initApp
   } = props
-
   useEffect(() => {
     async function initAsync() {
-      await props.initApp()
+      await initApp()
     }
 
     if (pageType !== PAGE_TYPES.HOME_MODE) {
@@ -45,18 +41,8 @@ function Home(props) {
     }
     console.log('Re-Init MIDI')
     initAsync()
-    const timeOut = setTimeout(() => {
-      const selector = `[id="page-${lastFocusedFooterButtonIdx}"]`
-      const element = document.querySelector(selector)
-      console.log('scroll and set timeout')
-      element && element.scrollIntoView({ block: 'start' })
-    }, 500)
-
-    return () => {
-      console.log('clear timeout', timeOut)
-      clearTimeout(timeOut)
-    }
-  }, [classes, lastFocusedFooterButtonIdx, pageType, props])
+    return () => {}
+  }, [initApp, pageType])
 
   const preventScrollStyle = isLiveMode
     ? {
@@ -86,7 +72,10 @@ function Home(props) {
   }
 }
 
-function mapStateToProperties({ viewSettings, sliders: { isMidiFailed } }) {
+function mapStateToProperties({
+  viewSettings,
+  sliders: { isMidiFailed }
+}) {
   return {
     viewSettings,
     isMidiFailed
@@ -107,14 +96,15 @@ function styles(theme) {
     root: {
       textAlign: 'center',
       width: '100%',
-      overflowX: 'hidden'
+      overflowX: 'hidden',
+      backgroundColor: theme.palette.background.default
     },
     heading: {
       marginTop: theme.spacing(2)
     },
     noMidiTypography: {
       textAlign: 'center',
-      paddingTop: theme.spacing(4)
+      paddingTop: theme.spacing(4),
     }
   }
 }

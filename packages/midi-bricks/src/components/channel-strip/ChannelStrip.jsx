@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
-import MidiSlider from '../midi-elements/MidiSlider'
+// import MidiSliderClassic from '../midi-elements/MidiSliderClassic'
+import MidiSlider  from '../midi-elements/MidiSlider'
 import MidiButtons from '../midi-elements/midi-buttons/MidiButtons'
 import StripLabel from '../midi-elements/StripLabel'
 import { STRIP_TYPE } from '../../reducers/slider-list'
-import MidiPage from '../midi-elements/MidiPage'
 import MidiSliderHorz from '../midi-elements/MidiSliderHorz'
 import XyPad from '../XyPad'
 import { Label } from '../midi-elements/Label'
@@ -16,7 +16,6 @@ const sliderThumbHeight = 30
 
 ChannelStrip.propTypes = {
   classes: PropTypes.object,
-  idx: PropTypes.number,
   isDisabled: PropTypes.bool,
   isMidiLearnMode: PropTypes.any,
   size: PropTypes.object,
@@ -25,20 +24,21 @@ ChannelStrip.propTypes = {
 
 function ChannelStrip(props) {
   const classes = makeStyles(styles, { withTheme: true })()
-  const { sliderEntry, idx, size, isDisabled, isMidiLearnMode } = props
+  const { sliderEntry, size, isDisabled, isMidiLearnMode } = props
   const {
+    i,
     type,
     label,
     val,
     fontSize,
     fontWeight,
-    colors: { colorFont },
+    colors: { colorFont } = {},
     isValueHidden,
     lastSavedVal
   } = sliderEntry
   const tmpH = (size && size.height) || 0
   const tmpW = (size && size.width) || 0
-  const isButton = type !== STRIP_TYPE.SLIDER && type !== STRIP_TYPE.LABEL
+  const isButton = ![STRIP_TYPE.SLIDER, STRIP_TYPE.SLIDER_HORZ, STRIP_TYPE.LABEL].includes(type)
   return (
     <div className={classes.root}>
       {type === STRIP_TYPE.SLIDER && !isMidiLearnMode && (
@@ -56,7 +56,6 @@ function ChannelStrip(props) {
             className={classes.sliderWrapper}
             isDisabled={isDisabled}
             sliderEntry={sliderEntry}
-            idx={idx}
             height={calcHeight(tmpH, props)}
             width={tmpW}
             sliderThumbHeight={sliderThumbHeight}
@@ -64,7 +63,7 @@ function ChannelStrip(props) {
           {!isValueHidden && (
             <Label
               lastSavedVal={lastSavedVal}
-              idx={idx}
+              i={i}
               fontSize={fontSize}
               fontWeight={fontWeight}
               labelStyle={classes.bottomLabel}
@@ -92,7 +91,7 @@ function ChannelStrip(props) {
             className={classes.sliderWrapper}
             isDisabled={isDisabled}
             sliderEntry={sliderEntry}
-            idx={idx}
+            i={i}
             height={calcHeight(tmpH, props)}
             width={tmpW - sliderThumbHeight}
             sliderThumbHeight={sliderThumbHeight}
@@ -100,7 +99,7 @@ function ChannelStrip(props) {
           {!isValueHidden ? (
             <Label
               lastSavedVal={lastSavedVal}
-              idx={idx}
+              i={i}
               fontSize={fontSize}
               fontWeight={fontWeight}
               labelStyle={classes.bottomLabel}
@@ -115,33 +114,25 @@ function ChannelStrip(props) {
       )}
       {isButton && (
         <MidiButtons
+          isDisabled={isDisabled}
           sliderEntry={sliderEntry}
-          idx={idx}
           height={tmpH}
           width={tmpW}
         />
       )}
       {type === STRIP_TYPE.LABEL && (
         <StripLabel
+          isDisabled={isDisabled}
           sliderEntry={sliderEntry}
-          idx={idx}
-          height={tmpH}
-          width={tmpW}
-        />
-      )}
-      {type === STRIP_TYPE.PAGE && (
-        <MidiPage
-          sliderEntry={sliderEntry}
-          idx={idx}
           height={tmpH}
           width={tmpW}
         />
       )}
       {type === STRIP_TYPE.XYPAD && (
         <XyPad
+          isDisabled={isDisabled}
           classes={classes}
           sliderEntry={sliderEntry}
-          idx={idx}
           height={tmpH}
           width={tmpW}
         />

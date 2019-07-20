@@ -20,46 +20,60 @@ import { DriverEmtpyRedirectButton } from './elements/DriverEmtpyRedirectButton'
 
 import { STRIP_TYPE } from '../../reducers/slider-list'
 
-const { BUTTON, BUTTON_TOGGLE } = STRIP_TYPE
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MidiSettings)
 
-
+const { BUTTON, BUTTON_TOGGLE, PAGE } = STRIP_TYPE
 
 MidiSettings.propTypes = {
+  isSettingsMode: PropTypes.bool,
   actions: PropTypes.object,
-  idx: PropTypes.number,
   inputs: PropTypes.object,
   onClose: PropTypes.func,
   outputs: PropTypes.object,
-  sliderEntry: PropTypes.object
+  sliderEntry: PropTypes.object,
+  pageTarget: PropTypes.object,
+  lastFocusedPage: PropTypes.string
 }
 
 function MidiSettings(props) {
   const classes = makeStyles(styles, { withTheme: true })()
   const {
+    isSettingsMode,
     actions,
     inputs = {},
     outputs = {},
     sliderEntry = {},
-    sliderEntry: { i, label, type },
-    idx,
+    pageTarget = {},
+    lastFocusedPage,
     onClose = () => {}
   } = props
-
+  const { i, label, type } = sliderEntry
   const isOutputsEmpty = isAllEmpty(outputs)
   const isInputsEmpty = isAllEmpty(inputs)
-
   return (
     <div className={classes.root}>
       <MidiSettingsLabelInput
         classes={classes}
-        idx={idx}
-        label={label}
+        label={type === undefined ? pageTarget.label : label}
         i={i}
+        lastFocusedPage={lastFocusedPage}
         actions={actions}
         type={type}
       />
-
-      {type !== STRIP_TYPE.PAGE ? (
+      {type === undefined && isSettingsMode && (
+        <DriverExpansionPanel label='View' isEmpty={false}>
+          <MidiSettingsView
+            pageTarget={pageTarget}
+            classes={classes}
+            actions={actions}
+            type={PAGE}
+          />
+        </DriverExpansionPanel>
+      )}
+      {type !== undefined && (
         <DriverExpansionPanel
           label={type === STRIP_TYPE.XYPAD ? 'Outputs X' : 'Outputs'}
           isEmpty={isOutputsEmpty}
@@ -70,14 +84,14 @@ function MidiSettings(props) {
             <MidiSettingsOutput
               classes={classes}
               sliderEntry={sliderEntry}
-              idx={idx}
               outputs={outputs}
               actions={actions}
+              lastFocusedPage={lastFocusedPage}
             />
           )}
         </DriverExpansionPanel>
-      ) : null}
-      {type === STRIP_TYPE.XYPAD ? (
+      )}
+      {type === STRIP_TYPE.XYPAD && (
         <DriverExpansionPanel label={'Outputs Y'} isEmpty={isOutputsEmpty}>
           {isOutputsEmpty ? (
             <DriverEmtpyRedirectButton actions={actions} i={i} />
@@ -85,14 +99,14 @@ function MidiSettings(props) {
             <MidiSettingsOutputY
               classes={classes}
               sliderEntry={sliderEntry}
-              idx={idx}
               outputs={outputs}
               actions={actions}
+              lastFocusedPage={lastFocusedPage}
             />
           )}
         </DriverExpansionPanel>
-      ) : null}
-      {type !== STRIP_TYPE.XYPAD ? (
+      )}
+      {type !== undefined ? (
         <React.Fragment>
           {' '}
           <DriverExpansionPanel label={'Inputs'} isEmpty={isInputsEmpty}>
@@ -102,7 +116,6 @@ function MidiSettings(props) {
               <MidiSettingsInput
                 classes={classes}
                 sliderEntry={sliderEntry}
-                idx={idx}
                 inputs={inputs}
               />
             )}
@@ -114,24 +127,22 @@ function MidiSettings(props) {
               actions={actions}
             />
           </DriverExpansionPanel>
+          <Tooltip title='Clone'>
+            <Button
+              className={classes.button}
+              variant='contained'
+              onClick={actions.clone.bind(this, sliderEntry)}
+            >
+              <CopyIcon className={classes.iconColor} />
+            </Button>
+          </Tooltip>
         </React.Fragment>
       ) : null}
-
-      <Tooltip title='Clone'>
-        <Button
-          className={classes.button}
-          variant='contained'
-          onClick={actions.clone.bind(this, sliderEntry)}
-        >
-          <CopyIcon className={classes.iconColor} />
-        </Button>
-      </Tooltip>
 
       <DeleteModal
         asButton
         isOpen={false}
         sliderEntry={sliderEntry}
-        idx={idx}
         onClose={onClose}
         actions={actions}
       />
@@ -145,38 +156,21 @@ function styles(theme) {
       display: 'flex',
       flexDirection: 'column'
     },
-    // expPanel: {
-    //   margin: theme.spacing(1),
-    //   minHeight: theme.spacing(8),
-    // },
+
     button: {
       margin: theme.spacing(1),
       background: theme.palette.button.background
     },
-    // heading: {
-    //   margin: theme.spacing(1),
-    //   color: theme.palette.primary.contrastText,
-    // },
+
     iconColor: {
       color: theme.palette.primary.contrastText,
       cursor: 'pointer'
     },
-    // input: {
-    //   color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',
-    //   fontSize: '1rem',
-    //   fontWeight: 400,
-    //   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    //   lineHeight: '1.375em',
-    // },
+
     inputInput: {
       margin: theme.spacing(1)
     },
-    // formControl: {
-    //   margin: theme.spacing(1),
-    // },
-    // label: {
-    //   color: theme.palette.primary.contrastText,
-    // },
+
     select: {
       color: theme.palette.primary.contrastText,
       lineHeight: '1.375em'
@@ -248,17 +242,19 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({
-  viewSettings: { availableDrivers: { inputs = {}, outputs = {} } = {} },
-  sliders: { sliderList }
+  viewSettings: {
+    lastFocusedPage,
+    isSettingsMode,
+    pageTargets = [],
+    availableDrivers: { inputs = {}, outputs = {} } = {}
+  },
 }) {
+  const pageTarget = pageTargets.find((item) => item.id === lastFocusedPage)
   return {
-    sliderList,
+    lastFocusedPage,
+    isSettingsMode,
+    pageTarget,
     inputs,
     outputs
   }
 }
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MidiSettings)

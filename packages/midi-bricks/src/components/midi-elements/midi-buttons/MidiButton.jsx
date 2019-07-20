@@ -10,10 +10,10 @@ import { makeStyles } from '@material-ui/styles'
 MidiButton.propTypes = {
   buttonStyle: PropTypes.object,
   fontColorStyle: PropTypes.object,
-  idx: PropTypes.number,
   label: PropTypes.string,
   onChangeEnd: PropTypes.func,
-  onChangeStart: PropTypes.func
+  onChangeStart: PropTypes.func,
+  isDisabled: PropTypes.bool
 }
 
 function MidiButton(props) {
@@ -24,13 +24,14 @@ function MidiButton(props) {
     onChangeEnd = () => {},
     fontColorStyle = {},
     label = '',
-    idx
+    isDisabled
   } = props
   return (
     <Button
       disableTouchRipple
       disableFocusRipple
       style={buttonStyle}
+      disabled={isDisabled}
       onContextMenu={preventCtxMenu}
       classes={{
         root: classes.button
@@ -38,16 +39,16 @@ function MidiButton(props) {
       variant='contained'
       onMouseDown={
         !isTouchDevice()
-          ? onChangeStart.bind(this, idx)
+          ? onChangeStart
           : (e) => e.preventDefault()
       }
       onMouseUp={
         !isTouchDevice()
-          ? onChangeEnd.bind(this, idx)
+          ? onChangeEnd
           : (e) => e.preventDefault()
       }
-      onTouchStart={onChangeStart.bind(this, idx)}
-      onTouchEnd={onChangeEnd.bind(this, idx)}
+      onTouchStart={onChangeStart}
+      onTouchEnd={onChangeEnd}
     >
       <Typography
         variant='body1'

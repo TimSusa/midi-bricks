@@ -1,7 +1,8 @@
 import React from 'react'
 import Button from '@material-ui/core/Button'
 import Tooltip from '@material-ui/core/Tooltip'
-import { PAGE_TYPES } from '../../../reducers/view-settings'
+import { PAGE_TYPES } from '../../../reducers'
+import PropTypes from 'prop-types'
 
 export function DriverEmtpyRedirectButton({
   i,
@@ -12,8 +13,9 @@ export function DriverEmtpyRedirectButton({
       <Button
         onClick={() => {
           toggleSettingsDialogMode({
-            idx: i,
+            i,
             isSettingsDialogMode: false,
+            lastFocusedPage: i
           })
           togglePage({
             pageType: PAGE_TYPES.MIDI_DRIVER_MODE,
@@ -24,4 +26,9 @@ export function DriverEmtpyRedirectButton({
       </Button>
     </Tooltip>
   )
+}
+
+DriverEmtpyRedirectButton.propTypes = {
+  i: PropTypes.string,
+  actions: PropTypes.object
 }

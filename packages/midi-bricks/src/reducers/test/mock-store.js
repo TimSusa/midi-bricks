@@ -4427,7 +4427,6 @@ export const mockStore = {
         driverNameInput: 'None',
       },
     ],
-    lastFocusedFooterButtonIdx: '15407487445620.e29d4446b4a6d1',
     isLiveMode: false,
     isSettingsDialogMode: true,
     isLayoutMode: false,

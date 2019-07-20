@@ -18,29 +18,57 @@ import ViewSettingsDialog from '../ApplicationSettingsDialog'
 import { ListItemLoadFileOnElectron } from './ListItemLoadFileOnElectron'
 import { ListItemSaveFileOnElectron } from './ListItemSaveFileOnElectron'
 import { ListItemLoadFileOnWeb } from './ListItemLoadFileOnWeb'
-import { PAGE_TYPES } from '../../reducers/view-settings'
+import { PAGE_TYPES } from '../../reducers'
 import { PropTypes } from 'prop-types'
+
+import { bindActionCreators } from 'redux'
+import { thunkLoadFile } from '../../actions/thunks/thunk-load-file'
+import { thunkDelete } from '../../actions/thunks/thunk-delete'
+import { Actions as MidiSliderActions } from '../../actions/slider-list'
+import { Actions as ViewSettingsActions } from '../../actions/view-settings'
+import { connect } from 'react-redux'
+
+const version = process.env.REACT_APP_VERSION || 'dev'
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DrawerList)
 
 DrawerList.propTypes = {
   classes: PropTypes.object,
+  deleteAll: PropTypes.func,
+  deleteFooterPages: PropTypes.func,
+  thunkLoadFile: PropTypes.func,
+  thunkDelete: PropTypes.func,
   handleResetSliders: PropTypes.func,
+  handleResetSlidersTmp: PropTypes.func,
   handleSaveFile: PropTypes.func,
+  handleSaveFileTmp: PropTypes.func,
   onClose: PropTypes.func,
   onFileChange: PropTypes.func,
+  saveFile: PropTypes.func,
+  sliders: PropTypes.object,
+  pages: PropTypes.object,
   togglePage: PropTypes.func,
-  version: PropTypes.string
+  viewSettings: PropTypes.object
 }
-
-export default DrawerList
 
 function DrawerList(props) {
   const {
     classes,
     togglePage,
+    saveFile,
     onFileChange,
-    handleSaveFile,
-    handleResetSliders,
-    version
+    deleteAll,
+    deleteFooterPages,
+    handleSaveFile: handleSaveFileTmp,
+    handleResetSliders: handleResetSlidersTmp,
+    pages,
+    viewSettings,
+    sliders,
+    thunkLoadFile,
+    thunkDelete
   } = props
   const [open, setOpen] = useState(false)
   const [isOpenViewSettings, setIsOpenViewSettings] = useState(false)
@@ -103,7 +131,7 @@ function DrawerList(props) {
           <ListItemIcon>
             <ViewIcon />
           </ListItemIcon>
-          <ListItemText primary='Views Settings' />
+          <ListItemText primary='Preferences' />
           <ViewSettingsDialog
             isOpen={isOpenViewSettings}
             onClose={(e) => {
@@ -116,21 +144,44 @@ function DrawerList(props) {
       <Divider />
       <List>
         {process.env.REACT_APP_IS_WEB_MODE === 'true' ? (
-          <ListItemLoadFileOnWeb onFileChange={onFileChange} />
+          <ListItemLoadFileOnWeb
+            onFileChange={(e) =>
+              handleFileChange(e, thunkLoadFile, onFileChange)
+            }
+          />
         ) : (
-          <ListItemLoadFileOnElectron onFileChange={onFileChange} />
+          <ListItemLoadFileOnElectron
+            onFileChange={(e) =>
+              handleFileChange(e, thunkLoadFile, onFileChange)
+            }
+          />
         )}
       </List>
       <List>
         {process.env.REACT_APP_IS_WEB_MODE === 'true' ? (
-          <ListItem button onClick={handleSaveFile}>
+          <ListItem
+            button
+            onClick={handleSaveFile.bind(
+              this,
+              saveFile,
+              handleSaveFileTmp,
+              pages,
+              viewSettings,
+              sliders,
+              version
+            )}
+          >
             <ListItemIcon>
               <SaveIcon />
             </ListItemIcon>
             <ListItemText primary='Save Preset' />
           </ListItem>
         ) : (
-          <ListItemSaveFileOnElectron onFileChange={onFileChange} />
+          <ListItemSaveFileOnElectron
+            onFileChange={(e) =>
+              handleFileChange(e, thunkLoadFile, onFileChange)
+            }
+          />
         )}
         <ListItem button onClick={() => setOpen(!open)}>
           <ListItemIcon>
@@ -143,7 +194,13 @@ function DrawerList(props) {
             sliderEntry={{
               i: 'me'
             }}
-            onAction={handleResetSliders}
+            onAction={handleResetSliders.bind(
+              this,
+              thunkDelete,
+              handleResetSlidersTmp,
+              deleteAll,
+              deleteFooterPages
+            )}
             onClose={setOpen}
           />
         </ListItem>
@@ -157,4 +214,48 @@ function DrawerList(props) {
       <Divider />
     </React.Fragment>
   )
+}
+
+function handleResetSliders(thunkDelete, cb, deleteAll, deleteFooterPages) {
+  cb()
+  return thunkDelete('all')
+
+}
+
+function handleSaveFile(saveFile, handleSaveFile, pages, viewSettings, sliders) {
+  saveFile({
+    pages,
+    viewSettings,
+    sliders,
+    version
+  })
+  handleSaveFile()
+}
+
+function mapStateToProps({ pages, viewSettings, sliders, version }) {
+  return {
+    pages: pages, 
+    viewSettings,
+    sliders
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  const { togglePage, saveFile, deleteFooterPages, deleteAll } = {
+    ...MidiSliderActions,
+    ...ViewSettingsActions
+  }
+  return {
+    togglePage: bindActionCreators(togglePage, dispatch),
+    saveFile: bindActionCreators(saveFile, dispatch),
+    deleteFooterPages: bindActionCreators(deleteFooterPages, dispatch),
+    deleteAll: bindActionCreators(deleteAll, dispatch),
+    thunkLoadFile: bindActionCreators(thunkLoadFile, dispatch),
+    thunkDelete: bindActionCreators(thunkDelete, dispatch)
+  }
+}
+
+async function handleFileChange(content, thunkLoadFile, cb) {
+  await thunkLoadFile(content.content, content.presetName)
+  cb(content.content, content.presetName)
 }

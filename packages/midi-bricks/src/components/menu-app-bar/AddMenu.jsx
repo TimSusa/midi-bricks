@@ -4,12 +4,23 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSlidersAction } from '../../actions/slider-list.js'
 import { Actions as ViewSettinsgsAction } from '../../actions/view-settings'
-import { addElement } from '../../actions/add-element'
+import { addElement } from '../../actions/thunks/thunk-add-element'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import AddIcon from '@material-ui/icons/Add'
 import { STRIP_TYPE } from '../../reducers/slider-list'
 import { Tooltip, IconButton } from '@material-ui/core'
+
+const {
+  BUTTON,
+  BUTTON_CC,
+  BUTTON_PROGRAM_CHANGE,
+  SLIDER,
+  SLIDER_HORZ,
+  LABEL,
+  PAGE,
+  XYPAD
+} = STRIP_TYPE
 
 export default connect(
   mapStateToProps,
@@ -23,7 +34,6 @@ AddMenu.propTypes = {
 function AddMenu(props) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
-  const { actions } = props
   return (
     <React.Fragment>
       <Tooltip title='Add Elements'>
@@ -55,26 +65,18 @@ function AddMenu(props) {
           Add Page
         </MenuItem>
 
-        <MenuItem
-          onClick={handleAddSlider.bind(this, setAnchorEl, actions.addSlider)}
-        >
+        <MenuItem onClick={handleAddSlider.bind(this, setAnchorEl, props)}>
           Add Vertical Slider
         </MenuItem>
-        <MenuItem
-          onClick={handleAddSliderHorz.bind(
-            this,
-            setAnchorEl,
-            actions.addSliderHorz
-          )}
-        >
+        <MenuItem onClick={handleAddSliderHorz.bind(this, setAnchorEl, props)}>
           Add Horizontal Slider
         </MenuItem>
         <MenuItem
           onClick={handleAddButton.bind(
             this,
             setAnchorEl,
-            actions.addButton,
-            STRIP_TYPE.BUTTON
+            props,
+            BUTTON
           )}
         >
           Add Button
@@ -83,8 +85,8 @@ function AddMenu(props) {
           onClick={handleAddButton.bind(
             this,
             setAnchorEl,
-            actions.addButton,
-            STRIP_TYPE.BUTTON_CC
+            props,
+            BUTTON_CC
           )}
         >
           Add Button CC
@@ -93,20 +95,16 @@ function AddMenu(props) {
           onClick={handleAddButton.bind(
             this,
             setAnchorEl,
-            actions.addButton,
-            STRIP_TYPE.BUTTON_PROGRAM_CHANGE
+            props,
+            BUTTON_PROGRAM_CHANGE
           )}
         >
           Add Button Program Change
         </MenuItem>
-        <MenuItem
-          onClick={handleAddLabel.bind(this, setAnchorEl, actions.addLabel)}
-        >
+        <MenuItem onClick={handleAddLabel.bind(this, setAnchorEl, props)}>
           Add Label
         </MenuItem>
-        <MenuItem
-          onClick={handleAddXyPad.bind(this, setAnchorEl, actions.addXypad)}
-        >
+        <MenuItem onClick={handleAddXyPad.bind(this, setAnchorEl, props)}>
           Add X/Y Pad
         </MenuItem>
       </Menu>
@@ -122,33 +120,33 @@ function handleClose(setAnchorEl, event) {
   setAnchorEl(null)
 }
 
-function handleAddButton(setAnchorEl, addButton, type) {
-  addButton({ type })
+async function handleAddButton(setAnchorEl, { addElement }, type) {
+  //addButton({ type })
+  await addElement(type)
   handleClose(setAnchorEl)
 }
 
-function handleAddSlider(setAnchorEl, addSlider) {
-  addSlider()
+async function handleAddSlider(setAnchorEl, { addElement }) {
+  await addElement(SLIDER)
   handleClose(setAnchorEl)
 }
-function handleAddSliderHorz(setAnchorEl, addSliderHorz) {
-  addSliderHorz()
-  handleClose(setAnchorEl)
-}
-
-function handleAddLabel(setAnchorEl, addLabel) {
-  addLabel()
+async function handleAddSliderHorz(setAnchorEl, { addElement }) {
+  await addElement(SLIDER_HORZ)
   handleClose(setAnchorEl)
 }
 
-function handleAddXyPad(setAnchorEl, addXypad) {
-  addXypad()
+async function handleAddLabel(setAnchorEl, { addElement }) {
+  await addElement(LABEL)
   handleClose(setAnchorEl)
 }
 
-async function handleAddPage(props, setAnchorEl) {
-  const { addElement } = props
-  await addElement('PAGE')
+async function handleAddXyPad(setAnchorEl, { addElement }) {
+  await addElement(XYPAD)
+  handleClose(setAnchorEl)
+}
+
+async function handleAddPage({ addElement }, setAnchorEl) {
+  await addElement(PAGE)
   setAnchorEl(null)
 }
 

@@ -7,7 +7,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import ColorModal from './ColorModal'
-
 import { STRIP_TYPE } from '../../../reducers/slider-list'
 
 const {
@@ -22,15 +21,21 @@ const {
 MidiSettingsView.propTypes = {
   actions: PropTypes.object,
   classes: PropTypes.object,
-  sliderEntry: PropTypes.object
+  type: PropTypes.string,
+  sliderEntry: PropTypes.object,
+  pageTarget: PropTypes.object
 }
 
 export function MidiSettingsView(props) {
   const {
     classes,
-    sliderEntry: { i, type, colors, fontSize, fontWeight, isValueHidden },
+    type: pageType,
+    sliderEntry: { i, type, colors, fontSize, fontWeight, isValueHidden } = {},
+    pageTarget = {},
     actions
   } = props
+  const color = !pageType ? colors.color : pageTarget&& pageTarget.colors && pageTarget.colors.color
+  const colorFont = !pageType ? colors.colorFont : pageTarget&& pageTarget.colors && pageTarget.colors.colorFont
   return (
     <React.Fragment>
       <FormControl>
@@ -55,58 +60,70 @@ export function MidiSettingsView(props) {
           title='Background'
           i={i}
           fieldName='color'
-          color={colors.color}
-        />
-        <ColorModal
-          title={
-            [SLIDER, SLIDER_HORZ].includes(type)
-              ? 'Thumb Background'
-              : 'Activated State'
+          color={color}
+          onChange={
+            !pageType ? actions.changeColors : actions.setPageTargetSettings
           }
-          i={i}
-          fieldName='colorActive'
-          color={colors.colorActive}
         />
+        {!pageType && (
+          <ColorModal
+            title={
+              [SLIDER, SLIDER_HORZ].includes(type)
+                ? 'Thumb Background'
+                : 'Activated State'
+            }
+            i={i}
+            fieldName='colorActive'
+            color={colors.colorActive}
+            onChange={actions.changeColors}
+          />
+        )}
         <ColorModal
           title='Font-Color'
           i={i}
           fieldName='colorFont'
-          color={colors.colorFont}
+          color={colorFont}
+          onChange={
+            !pageType ? actions.changeColors : actions.setPageTargetSettings
+          }
         />
 
-        {![SLIDER, SLIDER_HORZ].includes(type) ? (
+        {!pageType && ![SLIDER, SLIDER_HORZ].includes(type) ? (
           <ColorModal
             title='Activated Font-Color'
             i={i}
             fieldName='colorFontActive'
             color={colors.colorFontActive}
+            onChange={actions.changeColors}
           />
         ) : null}
       </FormControl>
 
-      <FormControl>
-        <Typography className={classes.label} htmlFor='fontsize'>
-          {'Font Size:  ' + (fontSize || 16) + 'px'}
-        </Typography>
-        <input
-          type='range'
-          min={8}
-          max={54}
-          value={fontSize || 16}
-          onChange={handleFontsizeChange.bind(this, i, actions)}
-        />
-        <Typography className={classes.label} htmlFor='fontWeight'>
-          {'Font Weight:  ' + (fontWeight || 500)}
-        </Typography>
-        <input
-          type='range'
-          min={100}
-          max={900}
-          step={100}
-          value={fontWeight || 500}
-          onChange={handleFontweightChange.bind(this, i, actions)}
-        />
-      </FormControl>
+      {!pageType && (
+        <FormControl>
+          <Typography className={classes.label} htmlFor='fontsize'>
+            {'Font Size:  ' + (fontSize || 16) + 'px'}
+          </Typography>
+          <input
+            type='range'
+            min={8}
+            max={54}
+            value={fontSize || 16}
+            onChange={handleFontsizeChange.bind(this, i, actions)}
+          />
+          <Typography className={classes.label} htmlFor='fontWeight'>
+            {'Font Weight:  ' + (fontWeight || 500)}
+          </Typography>
+          <input
+            type='range'
+            min={100}
+            max={900}
+            step={100}
+            value={fontWeight || 500}
+            onChange={handleFontweightChange.bind(this, i, actions)}
+          />
+        </FormControl>
+      )}
       {[SLIDER, SLIDER_HORZ].includes(type) && (
         <FormControl>
           <FormControlLabel

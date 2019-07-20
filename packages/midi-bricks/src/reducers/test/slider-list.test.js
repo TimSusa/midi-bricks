@@ -1,19 +1,19 @@
-import { reducers } from '../slider-list'
+import { sliders } from '../slider-list'
 import { mockStore, mockSliderListBackup } from './mock-store'
 
 jest.mock('webmidi')
 
-describe('Test Reducers for slider-list', () => {
+describe('Test sliders for slider-list', () => {
   test('INIT_FAILED', () => {
-    const { INIT_FAILED } = reducers
+    const { INIT_FAILED } = sliders
     const { isMidiFailed } = INIT_FAILED({}, { payload: {} })
     expect(isMidiFailed).toBe(true)
   })
 
-  test('INIT_MIDI_ACCESS', () => {
-    const { INIT_MIDI_ACCESS } = reducers
+  test('INIT_MIDI_ACCESS_OK', () => {
+    const { INIT_MIDI_ACCESS_OK } = sliders
     const midiAccess = { someMidi: true }
-    const { isMidiFailed, midi } = INIT_MIDI_ACCESS(
+    const { isMidiFailed, midi } = INIT_MIDI_ACCESS_OK(
       { isMidiFailed: true, midi: null },
       { payload: { midiAccess } }
     )
@@ -22,7 +22,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('ADD_SLIDER', () => {
-    const { ADD_SLIDER } = reducers
+    const { ADD_SLIDER } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -39,7 +39,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('ADD_SLIDER_HORZ', () => {
-    const { ADD_SLIDER_HORZ } = reducers
+    const { ADD_SLIDER_HORZ } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -56,7 +56,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('ADD_BUTTON', () => {
-    const { ADD_BUTTON } = reducers
+    const { ADD_BUTTON } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -73,7 +73,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('ADD_BUTTON_TOGGLE', () => {
-    const { ADD_BUTTON } = reducers
+    const { ADD_BUTTON } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -92,7 +92,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('ADD_BUTTON_CC', () => {
-    const { ADD_BUTTON } = reducers
+    const { ADD_BUTTON } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -108,7 +108,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('ADD_BUTTON_TOGGLE_CC', () => {
-    const { ADD_BUTTON } = reducers
+    const { ADD_BUTTON } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -127,7 +127,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('ADD_LABEL', () => {
-    const { ADD_LABEL } = reducers
+    const { ADD_LABEL } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -144,7 +144,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('ADD_PAGE', () => {
-    const { ADD_PAGE } = reducers
+    const { ADD_PAGE } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -161,7 +161,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('ADD_XYPAD', () => {
-    const { ADD_XYPAD } = reducers
+    const { ADD_XYPAD } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -178,7 +178,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('CLONE', () => {
-    const { CLONE } = reducers
+    const { CLONE } = sliders
     const { sliders } = mockStore
 
     const {
@@ -202,7 +202,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('CHANGE_BUTTON_TYPE', () => {
-    const { CHANGE_BUTTON_TYPE } = reducers
+    const { CHANGE_BUTTON_TYPE } = sliders
     const { sliders } = mockStore
     const expectedType = 'BUTTON_TOGGLE'
     const { type: oldType, i } = sliders.sliderList.find(
@@ -218,7 +218,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('DELETE', () => {
-    const { DELETE } = reducers
+    const { DELETE } = sliders
     const { sliders } = mockStore
     const oldElem = sliders.sliderList.find(el => el.type === 'BUTTON')
 
@@ -232,7 +232,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('DELETE_ALL', () => {
-    const { DELETE_ALL } = reducers
+    const { DELETE_ALL } = sliders
     const { sliders } = mockStore
     const oldElem = sliders.sliderList.find(el => el.type === 'BUTTON')
 
@@ -247,7 +247,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('HANDLE_SLIDER_CHANGE', () => {
-    const { HANDLE_SLIDER_CHANGE } = reducers
+    const { HANDLE_SLIDER_CHANGE } = sliders
     const { sliders } = mockStore
     const expectedValue = '111'
     let idx = sliders.sliderList.findIndex(item => item.type === 'SLIDER')
@@ -262,7 +262,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('TOGGLE_NOTE', () => {
-    const { TOGGLE_NOTE } = reducers
+    const { TOGGLE_NOTE } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -277,7 +277,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('CHANGE_LABEL', () => {
-    const { CHANGE_LABEL } = reducers
+    const { CHANGE_LABEL } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -295,7 +295,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('SELECT_MIDI_DRIVER', () => {
-    const { SELECT_MIDI_DRIVER } = reducers
+    const { SELECT_MIDI_DRIVER } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -314,7 +314,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('SELECT_MIDI_DRIVER_INPUT', () => {
-    const { SELECT_MIDI_DRIVER_INPUT } = reducers
+    const { SELECT_MIDI_DRIVER_INPUT } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -333,7 +333,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('SELECT_CC', () => {
-    const { SELECT_CC } = reducers
+    const { SELECT_CC } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -351,7 +351,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('ADD_MIDI_CC_LISTENER', () => {
-    const { ADD_MIDI_CC_LISTENER } = reducers
+    const { ADD_MIDI_CC_LISTENER } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -369,7 +369,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('SET_MAX_VAL', () => {
-    const { SET_MAX_VAL } = reducers
+    const { SET_MAX_VAL } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -387,7 +387,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('SET_MIN_VAL', () => {
-    const { SET_MIN_VAL } = reducers
+    const { SET_MIN_VAL } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -405,7 +405,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('SET_ON_VAL', () => {
-    const { SET_ON_VAL } = reducers
+    const { SET_ON_VAL } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -423,7 +423,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('SET_OFF_VAL', () => {
-    const { SET_OFF_VAL } = reducers
+    const { SET_OFF_VAL } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -441,7 +441,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('SELECT_MIDI_CHANNEL', () => {
-    const { SELECT_MIDI_CHANNEL } = reducers
+    const { SELECT_MIDI_CHANNEL } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -459,7 +459,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('SELECT_MIDI_CHANNEL_INPUT', () => {
-    const { SELECT_MIDI_CHANNEL_INPUT } = reducers
+    const { SELECT_MIDI_CHANNEL_INPUT } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -477,7 +477,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('CHANGE_COLORS', () => {
-    const { CHANGE_COLORS } = reducers
+    const { CHANGE_COLORS } = sliders
     const {
       sliders,
       sliders: { sliderList: oldSliderList },
@@ -494,7 +494,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('CHANGE_FONT_SIZE', () => {
-    const { CHANGE_FONT_SIZE } = reducers
+    const { CHANGE_FONT_SIZE } = sliders
     const { sliders } = mockStore
     const expectedFontSize = 8
     const idx = sliders.sliderList.findIndex(item => item.type === 'PAGE')
@@ -509,7 +509,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('CHANGE_FONT_WEIGHT', () => {
-    const { CHANGE_FONT_WEIGHT } = reducers
+    const { CHANGE_FONT_WEIGHT } = sliders
     const { sliders } = mockStore
     const expectedfontWeight = 400
     const idx = sliders.sliderList.findIndex(item => item.type === 'PAGE')
@@ -524,7 +524,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('TOGGLE_HIDE_VALUE', () => {
-    const { TOGGLE_HIDE_VALUE } = reducers
+    const { TOGGLE_HIDE_VALUE } = sliders
     const { sliders } = mockStore
     const idx = sliders.sliderList.findIndex(item => item.type === 'SLIDER')
     const { isValueHidden: oldisValueHidden, i } = sliders.sliderList[idx]
@@ -538,7 +538,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('RESET_VALUES', () => {
-    const { RESET_VALUES, HANDLE_SLIDER_CHANGE } = reducers
+    const { RESET_VALUES, HANDLE_SLIDER_CHANGE } = sliders
     const { sliders } = mockStore
     const expectedValue = 69
     const idx = sliders.sliderList.findIndex(item => item.type === 'SLIDER')
@@ -556,77 +556,77 @@ describe('Test Reducers for slider-list', () => {
     expect(oldVal === sliderList[idx].val).toBe(true)
   })
 
-  test('GO_BACK', () => {
-    const { GO_BACK } = reducers
-    const { sliders } = mockStore
+  // test('GO_BACK', () => {
+  //   const { GO_BACK } = sliders
+  //   const { sliders } = mockStore
 
-    const changedStore = {
-      sliders: {
-        ...sliders,
-        sliderListBackup: mockSliderListBackup,
-      },
-    }
-    const idx = mockSliderListBackup.findIndex(item => item.label === 'me too')
-    const { x: oldX } = mockSliderListBackup[idx]
-    const { sliderList } = GO_BACK(changedStore.sliders, {
-      payload: {},
-    })
-    expect(oldX === sliderList[idx].x).toBe(true)
-  })
+  //   const changedStore = {
+  //     sliders: {
+  //       ...sliders,
+  //       sliderListBackup: mockSliderListBackup,
+  //     },
+  //   }
+  //   const idx = mockSliderListBackup.findIndex(item => item.label === 'me too')
+  //   const { x: oldX } = mockSliderListBackup[idx]
+  //   const { sliderList } = GO_BACK(changedStore.sliders, {
+  //     payload: {},
+  //   })
+  //   expect(oldX === sliderList[idx].x).toBe(true)
+  // })
 
-  test('UPDATE_SLIDER_LIST_BACKUP', () => {
-    const { UPDATE_SLIDER_LIST_BACKUP } = reducers
-    const { sliders } = mockStore
+  // test('UPDATE_SLIDER_LIST_BACKUP', () => {
+  //   const { UPDATE_SLIDER_LIST_BACKUP } = sliders
+  //   const { sliders } = mockStore
 
-    const changedStore = {
-      sliders: {
-        ...sliders,
-        sliderListBackup: mockSliderListBackup,
-      },
-    }
-    const idx = mockSliderListBackup.findIndex(item => item.label === 'me too')
-    const { sliderListBackup } = UPDATE_SLIDER_LIST_BACKUP(
-      changedStore.sliders,
-      {
-        payload: {},
-      }
-    )
-    expect(sliders.sliderList[idx]).toEqual(sliderListBackup[idx])
-  })
+  //   const changedStore = {
+  //     sliders: {
+  //       ...sliders,
+  //       sliderListBackup: mockSliderListBackup,
+  //     },
+  //   }
+  //   const idx = mockSliderListBackup.findIndex(item => item.label === 'me too')
+  //   const { sliderListBackup } = UPDATE_SLIDER_LIST_BACKUP(
+  //     changedStore.sliders,
+  //     {
+  //       payload: {},
+  //     }
+  //   )
+  //   expect(sliders.sliderList[idx]).toEqual(sliderListBackup[idx])
+  // })
 
-  test('EXTRACT_PAGE', () => {
-    const { EXTRACT_PAGE } = reducers
-    const {
-      sliders,
-      sliders: { sliderList: oldSliderList },
-    } = mockStore
+  // test('EXTRACT_PAGE', () => {
+  //   const { EXTRACT_PAGE } = sliders
+  //   const {
+  //     sliders,
+  //     sliders: { sliderList: oldSliderList },
+  //   } = mockStore
 
-    // Create expected list
-    const idx = oldSliderList.findIndex(item => item.type === 'PAGE')
-    const { label } = oldSliderList[idx]
+  //   // Create expected list
+  //   const idx = oldSliderList.findIndex(item => item.type === 'PAGE')
+  //   const { label } = oldSliderList[idx]
 
-    const endIdx =
-      oldSliderList
-        .map((cur, idx) => {
-          if (idx > 0) {
-            return cur
-          }
-          return undefined
-        })
-        .filter(Boolean)
-        .findIndex(cur => cur.type === 'PAGE') + 1
+  //   const endIdx =
+  //     oldSliderList
+  //       .map((cur, idx) => {
+  //         if (idx > 0) {
+  //           return cur
+  //         }
+  //         return undefined
+  //       })
+  //       .filter(Boolean)
+  //       .findIndex(cur => cur.type === 'PAGE') + 1
 
-    let expectedList = oldSliderList.map(item => item).splice(idx, endIdx)
-    const { sliderList } = EXTRACT_PAGE(sliders, {
-      payload: { label },
-    })
-    expect(sliderList.length < oldSliderList.length).toBe(true)
-    expect(sliderList.length === expectedList.length).toBe(true)
-    expect(sliderList).toEqual(expectedList)
-  })
+  //   let expectedList = oldSliderList.map(item => item).splice(idx, endIdx)
+  //   const { sliderList } = EXTRACT_PAGE(sliders, {
+  //     payload: { label },
+  //   })
+  //   expect(sliderList.length < oldSliderList.length).toBe(true)
+  //   expect(sliderList.length === expectedList.length).toBe(true)
+  //   expect(sliderList).toEqual(expectedList)
+  // })
 
   test('MIDI_MESSAGE_ARRIVED with right driver, cc and channel', () => {
-    const { MIDI_MESSAGE_ARRIVED } = reducers
+    const { MIDI_MESSAGE_ARRIVED } = sliders
     const { sliders } = mockStore
     const idx = sliders.sliderList.findIndex(item => item.label === 'me too')
     const { val: oldVal, isNoteOn: oldIdNoteOn } = sliders.sliderList[idx]
@@ -647,7 +647,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('MIDI_MESSAGE_ARRIVED with wrong driver', () => {
-    const { MIDI_MESSAGE_ARRIVED } = reducers
+    const { MIDI_MESSAGE_ARRIVED } = sliders
     const { sliders } = mockStore
     const idx = sliders.sliderList.findIndex(item => item.label === 'me too')
     const { isNoteOn: oldIdNoteOn } = sliders.sliderList[idx]
@@ -667,7 +667,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('MIDI_MESSAGE_ARRIVED with wrong cc', () => {
-    const { MIDI_MESSAGE_ARRIVED } = reducers
+    const { MIDI_MESSAGE_ARRIVED } = sliders
     const { sliders } = mockStore
     const idx = sliders.sliderList.findIndex(item => item.label === 'me too')
     const { isNoteOn: oldIdNoteOn } = sliders.sliderList[idx]
@@ -687,7 +687,7 @@ describe('Test Reducers for slider-list', () => {
   })
 
   test('MIDI_MESSAGE_ARRIVED with wrong channel', () => {
-    const { MIDI_MESSAGE_ARRIVED } = reducers
+    const { MIDI_MESSAGE_ARRIVED } = sliders
     const { sliders } = mockStore
     const idx = sliders.sliderList.findIndex(item => item.label === 'me too')
     const { isNoteOn: oldIdNoteOn } = sliders.sliderList[idx]

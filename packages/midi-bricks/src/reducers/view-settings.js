@@ -1,66 +1,17 @@
-import { generateReducers } from 'redux-generate'
 import { ActionTypeViewSettings } from '../actions/view-settings'
 
-export const PAGE_TYPES = {
-  HOME_MODE: 'HOME_MODE',
-  GLOBAL_MODE: 'GLOBAL_MODE',
-  MIDI_DRIVER_MODE: 'MIDI_DRIVER_MODE',
-  VIEW_SETTINGS_MODE: 'VIEW_SETTINGS_MODE'
-}
+import { viewSettingsInitState } from '.'
+import { createNextState } from 'redux-starter-kit'
 
-const initState = {
-  columns: 18,
-  rowHeight: 40,
-  isAutoSize: false,
-  marginX: 8,
-  marginY: 8,
-  paddingX: 8,
-  paddingY: 8,
-  footerPages: [],
-  lastFocusedFooterButtonIdx: '',
-  isLiveMode: false,
-  isSettingsDialogMode: false,
-  isLayoutMode: false,
-  isCompactHorz: false,
-  isSettingsMode: false,
-  isMidiLearnMode: false,
-  isAutoArrangeMode: false,
-  isChangedTheme: false,
-  isFullscreenOnLivemode: false,
-  pageType: PAGE_TYPES.HOME_MODE,
-  availableDrivers: {
-    inputs: {
-      None: {
-        ccChannels: [],
-        noteChannels: []
-      }
-    },
-    outputs: {
-      None: {
-        ccChannels: [],
-        noteChannels: []
-      }
-    }
-  },
-  electronAppSettings: {
-    isDevConsoleEnabled: true,
-    isAllowedToUpdate: true,
-    isAutoDownload: false,
-    isAllowedPrerelease: false,
-    isAllowedDowngrade: false,
-    isWindowSizeLocked: true,
-    windowCoords: [0, 0, 600, 800]
-  }
-}
-export const reducers = {
-  [ActionTypeViewSettings.TOGGLE_PAGE](state = initState, action) {
+export const viewSettings = {
+  [ActionTypeViewSettings.TOGGLE_PAGE](state, action) {
     const { pageType } = action.payload
     return Object.assign({}, state, {
       pageType
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_LIVE_MODE](state = initState, action) {
+  [ActionTypeViewSettings.TOGGLE_LIVE_MODE](state, action) {
     let castedVal = !!state.isLiveMode
     if (action.payload && action.payload.isLiveMode !== undefined) {
       castedVal = action.payload.isLiveMode
@@ -75,7 +26,7 @@ export const reducers = {
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_MIDI_LEARN_MODE](state = initState, action) {
+  [ActionTypeViewSettings.TOGGLE_MIDI_LEARN_MODE](state, action) {
     const castedVal = !!state.isMidiLearnMode
     const { isMidiLearnMode } = action.payload || {}
     return Object.assign({}, state, {
@@ -94,7 +45,7 @@ export const reducers = {
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_COMPACT_MODE](state = initState, action) {
+  [ActionTypeViewSettings.TOGGLE_COMPACT_MODE](state, action) {
     const castedVal = !!state.isCompactHorz
     return Object.assign({}, state, {
       isCompactHorz: !castedVal,
@@ -103,18 +54,19 @@ export const reducers = {
   },
 
   [ActionTypeViewSettings.TOGGLE_SETTINGS_MODE](state, action) {
-    const castedVal = !!state.isSettingsMode
-    const { isSettingsMode } = action.payload || {}
-    return Object.assign({}, state, {
-      isSettingsMode: isSettingsMode || !castedVal,
-      isMidiLearnMode: false
+    return createNextState(state, (draftState) => {
+      const castedVal = !!state.isSettingsMode
+      const { isSettingsMode } = action.payload || {}
+
+      draftState.isSettingsMode = isSettingsMode || !castedVal
+      draftState.isMidiLearnMode = false
+      draftState.lastFocusedIdxs = []
+      draftState.lastFocusedIdxs.length = 0
+      return draftState
     })
   },
 
-  [ActionTypeViewSettings.SET_FULLSCREEN_ON_LIVEMODE](
-    state = initState,
-    action
-  ) {
+  [ActionTypeViewSettings.SET_FULLSCREEN_ON_LIVEMODE](state, action) {
     const castedVal = !!state.isFullscreenOnLivemode
     const { isFullscreenOnLivemode } = action.payload || {}
     return Object.assign({}, state, {
@@ -122,7 +74,7 @@ export const reducers = {
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_AUTO_ARRANGE_MODE](state = initState, action) {
+  [ActionTypeViewSettings.TOGGLE_AUTO_ARRANGE_MODE](state, action) {
     const castedVal = !!state.isAutoArrangeMode
     return Object.assign({}, state, {
       isAutoArrangeMode: !castedVal,
@@ -130,7 +82,7 @@ export const reducers = {
     })
   },
 
-  [ActionTypeViewSettings.CHANGE_THEME](state = initState, action) {
+  [ActionTypeViewSettings.CHANGE_THEME](state, action) {
     const castedVal = !!state.isChangedTheme
     return Object.assign({}, state, {
       isChangedTheme: !castedVal,
@@ -138,116 +90,86 @@ export const reducers = {
     })
   },
 
-  [ActionTypeViewSettings.UPDATE_VIEW_SETTINGS](state = initState, action) {
+  [ActionTypeViewSettings.UPDATE_VIEW_SETTINGS](state, action) {
+    console.warn('DEPRECATED UPDATE_VIEW_SETTINGS')
     const {
-      sliderList,
       viewSettings,
       viewSettings: { availableDrivers } = {}
     } = action.payload
 
-    const extractedPages = extractPages(sliderList)
-    const oldPages = state.footerPages && Object.values(state.footerPages)
-    let newItemToTake = null
-
-    oldPages &&
-      oldPages.forEach((oldItem) => {
-        if (!oldItem) return
-        extractedPages &&
-          extractedPages.forEach((newItem) => {
-            if (!newItem) return
-            if (oldItem.i !== newItem.i) {
-              newItemToTake = newItem
-            }
-          })
-      })
-    const newPages = oldPages && oldPages.length > 0 ? oldPages : extractedPages
-    let footerState = null
-    if (newItemToTake) {
-      footerState = Object.assign({}, state, viewSettings, {
-        footerPages: [...newPages, newItemToTake]
-      })
-    } else {
-      footerState = Object.assign({}, state, viewSettings, {
-        footerPages: newPages
-      })
-    }
-    if (availableDrivers) {
-      return { ...footerState, availableDrivers }
-    } else {
-      return { ...footerState }
-    }
-  },
-
-  [ActionTypeViewSettings.DELETE_PAGE_FROM_FOOTER](state = initState, action) {
-    const { i } = action.payload
-    const footerPages = state.footerPages.filter((item) => item.i !== i)
-    return Object.assign({}, state, {
-      footerPages
-    })
-  },
-
-  [ActionTypeViewSettings.DELETE_FOOTER_PAGES](state = initState, action) {
-    return Object.assign({}, state, {
-      footerPages: []
-    })
-  },
-
-  [ActionTypeViewSettings.CHANGE_FOOTER_PAGE](state = initState, action) {
-    const { i, label, colorFont, color } = action.payload
-
-    const tmpArr = state.footerPages.map((item) => {
-      if (label) {
-        if (item.i === i) {
-          return Object.assign({}, item, { label })
-        }
+    return createNextState(state, (draftState) => {
+      draftState = {
+        ...state,
+        ...viewSettings
       }
-      if (color) {
-        if (item.i === i) {
-          return Object.assign({}, item, { colors: { ...item.colors, color } })
-        }
+      if (availableDrivers) {
+        draftState.availableDrivers = availableDrivers
       }
-      if (colorFont) {
-        if (item.i === i) {
-          return Object.assign({}, item, {
-            colors: { ...item.colors, colorFont }
-          })
-        }
+
+      return draftState
+    })
+  },
+
+  [ActionTypeViewSettings.DELETE_PAGE_FROM_FOOTER](state, action) {
+    const { i } = action.payload
+    const pageTargets = state.pageTargets.filter((item) => item.id !== i)
+
+    return createNextState(state, (draftState) => {
+      draftState.pageTargets = pageTargets
+      return draftState
+    })
+  },
+
+  [ActionTypeViewSettings.DELETE_FOOTER_PAGES](state, action) {
+    return createNextState(state, (draftState) => {
+      draftState.pageTargets = viewSettingsInitState.pageTargets
+      draftState.footerPages = []
+      draftState.lastFocusedIdxs = []
+      draftState.lastFocusedPage = viewSettingsInitState.lastFocusedPage
+      draftState.isLayoutMode = viewSettingsInitState.isLayoutMode
+      return draftState
+    })
+  },
+
+  [ActionTypeViewSettings.SET_LAST_FOCUSED_INDEX](state, action) {
+    return createNextState(state, (draftState) => {
+      const { i = '' } = action.payload || {}
+
+      // Multiselection
+      if (i !== 'none' && !i.startsWith('page')) {
+        draftState.lastFocusedIdx = i
+        draftState.lastFocusedIdxs.push(i)
+        // Remove duplicates
+        draftState.lastFocusedIdxs = [...new Set(draftState.lastFocusedIdxs)]
+
+        // clear all
+      } else if (i === 'none') {
+        draftState.lastFocusedIdxs = []
+        draftState.lastFocusedIdxs.length = 0
+        draftState.lastFocusedIdx = i
+      } else {
+        draftState.lastFocusedIdx = i
+        draftState.lastFocusedIdxs = []
       }
-      return Object.assign({}, item)
-    })
 
-    return Object.assign({}, state, {
-      footerPages: tmpArr
+      return draftState
     })
   },
 
-  [ActionTypeViewSettings.SET_FOOTER_BUTTON_FOCUS](state = initState, action) {
-    const { i } = action.payload
-    return Object.assign({}, state, {
-      lastFocusedFooterButtonIdx: i
-    })
-  },
-
-  [ActionTypeViewSettings.SET_LAST_FOCUSED_INDEX](state = initState, action) {
-    const { i } = action.payload
-    return Object.assign({}, state, {
-      lastFocusedIdx: i
-    })
-  },
-
-  [ActionTypeViewSettings.SWAP_FOOTER_PAGES](state = initState, action) {
-    const { srcIdx, offset } = action.payload
-    const srcItem = state.footerPages[srcIdx]
+  [ActionTypeViewSettings.SWAP_FOOTER_PAGES](state, action) {
+    const { srcIdx: srcI, offset } = action.payload
+    const srcItem = state.pageTargets.find((item) => item.id === srcI)
+    const srcIdx = state.pageTargets.findIndex((item) => item.id === srcI)
     const newIdx =
-      srcIdx === 0 && offset === -1 ? state.footerPages.length : srcIdx
+      srcIdx === 0 && offset === -1 ? state.pageTargets.length : srcIdx
     const targetIdx =
-      newIdx === state.footerPages.length - 1 && offset === 1
+      newIdx === state.pageTargets.length - 1 && offset === 1
         ? 0
         : offset + newIdx
-    const otherItem = state.footerPages[targetIdx]
+    const otherItem = state.pageTargets[targetIdx]
 
     let newArray = []
-    state.footerPages.forEach((item, idx) => {
+    state.pageTargets.forEach((item, idx) => {
       if (idx === srcIdx) {
         newArray.push(otherItem)
       } else if (idx === targetIdx) {
@@ -258,21 +180,26 @@ export const reducers = {
     })
 
     return Object.assign({}, state, {
-      footerPages: newArray
+      pageTargets: newArray
     })
   },
   [ActionTypeViewSettings.TOGGLE_SETTINGS_DIALOG_MODE](state, action) {
-    const { isSettingsDialogMode = false } = action.payload
-
-    return Object.assign({}, state, {
-      isSettingsDialogMode
+    const { isSettingsDialogMode, i, lastFocusedPage } = action.payload
+    return createNextState(state, (draftState) => {
+      draftState.isSettingsDialogMode = isSettingsDialogMode
+      draftState.lastFocusedPage = lastFocusedPage
+      draftState.lastFocusedIdx = i
+      return draftState
     })
+    // return Object.assign({}, state, {
+    //   isSettingsDialogMode
+    // })
   },
 
   [ActionTypeViewSettings.SET_AVAILABLE_DRIVERS](state, action) {
     const {
       availableDrivers: { inputs: oldIn, outputs: oldOut }
-    } = state || initState
+    } = state || viewSettingsInitState
     const { input, output } = action.payload
 
     let availableDrivers = { ...state.availableDrivers }
@@ -320,60 +247,78 @@ export const reducers = {
       }
     }
 
-    return {
-      ...state,
-      availableDrivers
-    }
+    return createNextState(state, (draftState) => {
+      draftState.availableDrivers = availableDrivers
+      return draftState
+    })
   },
 
-  [ActionTypeViewSettings.SET_ROW_HEIGHT](state = initState, action) {
+  [ActionTypeViewSettings.SET_PAGE_TARGET_SETTINGS](state, action) {
+    const { color, colorFont, label } = action.payload
+
+    return createNextState(state, (draftState) => {
+      const idx = state.pageTargets.findIndex(
+        (item) => item.id === state.lastFocusedPage
+      )
+      if (idx < 0) return draftState
+      if (color) {
+        draftState.pageTargets[idx].colors.color = color
+      }
+      if (colorFont) {
+        draftState.pageTargets[idx].colors.colorFont = colorFont
+      }
+      if (label) {
+        draftState.pageTargets[idx].label = label
+      }
+      return draftState
+    })
+  },
+
+  [ActionTypeViewSettings.SET_ROW_HEIGHT](state, action) {
     const { rowHeight } = action.payload
     return Object.assign({}, state, {
       rowHeight
     })
   },
-  [ActionTypeViewSettings.SET_COLUMNS](state = initState, action) {
+  [ActionTypeViewSettings.SET_COLUMNS](state, action) {
     const { columns } = action.payload
     return Object.assign({}, state, {
       columns
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_AUTOSIZE](state = initState, action) {
+  [ActionTypeViewSettings.TOGGLE_AUTOSIZE](state, action) {
     const castedVal = !!state.isAutoSize
     return Object.assign({}, state, {
       isAutoSize: !castedVal
     })
   },
-  [ActionTypeViewSettings.SET_X_MARGIN](state = initState, action) {
+  [ActionTypeViewSettings.SET_X_MARGIN](state, action) {
     const { marginX } = action.payload
     return Object.assign({}, state, {
       marginX
     })
   },
-  [ActionTypeViewSettings.SET_Y_MARGIN](state = initState, action) {
+  [ActionTypeViewSettings.SET_Y_MARGIN](state, action) {
     const { marginY } = action.payload
     return Object.assign({}, state, {
       marginY
     })
   },
-  [ActionTypeViewSettings.SET_X_PADDING](state = initState, action) {
+  [ActionTypeViewSettings.SET_X_PADDING](state, action) {
     const { paddingX } = action.payload
     return Object.assign({}, state, {
       paddingX
     })
   },
-  [ActionTypeViewSettings.SET_Y_PADDING](state = initState, action) {
+  [ActionTypeViewSettings.SET_Y_PADDING](state, action) {
     const { paddingY } = action.payload
     return Object.assign({}, state, {
       paddingY
     })
   },
 
-  [ActionTypeViewSettings.SET_ELECTRON_APP_SETTINGS](
-    state = initState,
-    action
-  ) {
+  [ActionTypeViewSettings.SET_ELECTRON_APP_SETTINGS](state, action) {
     const {
       isDevConsoleEnabled,
       isAllowedToUpdate,
@@ -412,11 +357,38 @@ export const reducers = {
         ? windowCoords
         : state.electronAppSettings.windowCoords
     }
-    return { ...state, electronAppSettings }
+    return createNextState(state, (draftState) => {
+      draftState.electronAppSettings = electronAppSettings
+      return draftState
+    })
+    //return { ...state, electronAppSettings }
+  },
+  [ActionTypeViewSettings.SET_LAST_FOCUSED_PAGE](state, action) {
+    return createNextState(state, (draftState) => {
+      const {
+        payload: { lastFocusedPage = '' }
+      } = action
+
+      draftState.lastFocusedPage = lastFocusedPage
+      return draftState
+    })
+  },
+
+  [ActionTypeViewSettings.ADD_PAGE_TARGET](state, action) {
+    return createNextState(state, (draftState) => {
+      const {
+        payload: { pageTarget }
+      } = action
+      //let pageTargets = [...(state.pageTargets || []), pageTarget]
+
+      draftState.pageTargets = state.pageTargets || []
+      draftState.pageTargets.push(pageTarget)
+      draftState.lastFocusedPage = pageTarget.id
+      draftState.lastFocusedIdxs = []
+      return draftState
+    })
   }
 }
-
-export const viewSettings = generateReducers(initState, reducers)
 
 const chDummy = [
   '1',
@@ -441,18 +413,18 @@ function hasAll(arr = []) {
   return arr.length === chDummy.length
 }
 
-function extractPages(list = []) {
-  let tmp = []
-  list.forEach((item) => {
-    if (item.type === 'PAGE') {
-      tmp.push(item)
-    }
-  })
-  if (tmp.length === 0) {
-    console.warn('list was empty!')
-  }
-  return tmp
-}
+// function extractPages(list = []) {
+//   let tmp = []
+//   list.forEach((item) => {
+//     if (item.type === 'PAGE') {
+//       tmp.push(item)
+//     }
+//   })
+//   if (tmp.length === 0) {
+//     console.warn('list was empty!')
+//   }
+//   return tmp
+// }
 
 function getObjFromNoteChannels(obj, name, noteChannels) {
   return {
@@ -491,8 +463,8 @@ function getChannels(
         noteChannel === 'all'
           ? chDummy
           : !oldNoteChannels.includes(noteChannel)
-            ? [...oldNoteChannels, noteChannel]
-            : oldNoteChannels
+          ? [...oldNoteChannels, noteChannel]
+          : oldNoteChannels
       channels = getObjFromNoteChannels(old, name, noteChannels)
     }
     if (ccChannel) {
@@ -500,8 +472,8 @@ function getChannels(
         ccChannel === 'all'
           ? chDummy
           : !oldCcChannels.includes(ccChannel)
-            ? [...oldCcChannels, ccChannel]
-            : oldCcChannels
+          ? [...oldCcChannels, ccChannel]
+          : oldCcChannels
       channels = getObjFromCcChannels(old, name, ccChannels)
     }
   } else {

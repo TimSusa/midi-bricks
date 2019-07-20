@@ -13,7 +13,8 @@ import Chip from '@material-ui/core/Chip'
 
 MidiSuggestedInput.propTypes = {
   actions: PropTypes.object,
-  idx: PropTypes.number,
+  i: PropTypes.string,
+  lastFocusedPage: PropTypes.string,
   startVal: PropTypes.array,
   suggestions: PropTypes.array,
   handleChange: PropTypes.func
@@ -22,7 +23,8 @@ MidiSuggestedInput.propTypes = {
 function MidiSuggestedInput(props) {
   const {
     handleChange: handleChangeRedux,
-    idx,
+    i,
+    lastFocusedPage,
     suggestions,
     startVal
   } = props
@@ -36,7 +38,8 @@ function MidiSuggestedInput(props) {
       inputValue={inputValue}
       onChange={handleChange.bind(
         this,
-        idx,
+        i,
+        lastFocusedPage,
         selectedItem,
         handleChangeRedux,
         setInputValue,
@@ -65,7 +68,8 @@ function MidiSuggestedInput(props) {
                   className={classes.chip}
                   onDelete={handleDelete.bind(
                     this,
-                    idx,
+                    i,
+                    lastFocusedPage,
                     selectedItem,
                     handleChangeRedux,
                     setInputValue,
@@ -137,7 +141,8 @@ function handleInputChange(setInputValue, event) {
 }
 
 function handleChange(
-  idx,
+  i,
+  lastFocusedPage,
   selectedItem,
   handleChangeRedux,
   setInputValue,
@@ -146,7 +151,7 @@ function handleChange(
 ) {
   if (Array.isArray(selectedItem) && !selectedItem.includes(item)) {
     var val = [...selectedItem, item]
-    handleChangeRedux({ idx, val })
+    handleChangeRedux({ i, val, lastFocusedPage })
     setSelectedItem(val)
   } else {
     setSelectedItem(selectedItem)
@@ -155,7 +160,8 @@ function handleChange(
 }
 
 function handleDelete(
-  idx,
+  i,
+  lastFocusedPage,
   selectedItem,
   handleChangeRedux,
   setInputValue,
@@ -164,7 +170,7 @@ function handleDelete(
 ) {
   let freshSelectedItem = [...selectedItem]
   freshSelectedItem.splice(freshSelectedItem.indexOf(item), 1)
-  handleChangeRedux({ idx, val: freshSelectedItem })
+  handleChangeRedux({ i, val: freshSelectedItem, lastFocusedPage })
   setSelectedItem(freshSelectedItem)
   setInputValue('')
   return { selectedItem }

@@ -2,23 +2,23 @@ import WebMIDI from 'webmidi'
 import { debounce } from 'lodash'
 import { Actions } from './slider-list'
 
-const { initPending, midiMessageArrived, initFailed, initMidiAccess } = Actions
+const { initMidiAccessPending, midiMessageArrived, initFailed, initMidiAccessOk } = Actions
 
 export function initApp(mode) {
   return function(dispatch, getState) {
     return new Promise((resolve, reject) => {
       WebMIDI.disable()
-      dispatch(initPending('start'))
+      dispatch(initMidiAccessPending('start'))
 
       WebMIDI.enable((err) => {
         if (err) {
           // eslint-disable-next-line no-alert
-          window.alert('Midi could not be enabled.', err)
+          //window.alert('Midi could not be enabled.', err)
           reject(dispatch(initFailed('Midi could not be enabled.')))
         }
         const { inputs = [], outputs = [] } = WebMIDI
         const {
-          sliders: { sliderList },
+          sliders: { sliderList = [], pages={} },
           viewSettings: {
             availableDrivers: { inputs: availableInputs } = {
               inputs: {
@@ -38,7 +38,9 @@ export function initApp(mode) {
             noteChannels: []
           }
           let ccArr = []
-          sliderList &&
+
+          // Either only sliderlist
+          !pages && Array.isArray(sliderList) &&
             sliderList.forEach((entry) => {
               const { driverNameInput = '', listenToCc = [] } = entry
 
@@ -50,6 +52,24 @@ export function initApp(mode) {
                 })
               }
             })
+
+          // Or pages
+          Object.values(pages).forEach(item => {
+            const {sliderList} = item
+            Array.isArray(sliderList) &&
+            sliderList.forEach((entry) => {
+              const { driverNameInput = '', listenToCc = [] } = entry
+
+              if (name === driverNameInput) {
+                listenToCc.forEach((listen) => {
+                  if (!ccArr.includes(listen)) {
+                    ccArr.push(parseInt(listen, 10))
+                  }
+                })
+              }
+            })
+
+          })
           input.removeListener()
           if (
             // eslint-disable-next-line no-constant-condition
@@ -59,7 +79,7 @@ export function initApp(mode) {
             hasContent(ccArr) &&
             mode !== 'all'
           ) {
-            input.removeListener('controlchange')
+            //input.removeListener('controlchange')
             input.addListener(
               'controlchange',
               ccChannels,
@@ -77,21 +97,34 @@ export function initApp(mode) {
               }, 5)
             )
           } else {
-            input.removeListener('controlchange')
+            //input.removeListener('controlchange')
             //console.log('cc all')
             input.addListener(
               'controlchange',
               'all',
-              debounce(({ value, channel, controller: { number } }) => {
-                const obj = {
-                  isNoteOn: undefined,
-                  val: value,
-                  cC: number,
-                  channel,
-                  driver: name
+              debounce(
+                ({ value, channel, controller: { number } }) => {
+                  const obj = {
+                    isNoteOn: undefined,
+                    val: value,
+                    cC: number,
+                    channel,
+                    driver: name,
+                  
+                  }
+                  const myAction = (payload) => ({
+                    type: 'MIDI_MESSAGE_ARRIVED',
+                    payload, 
+                    meta: {
+                      raf: true 
+                    }
+                  })
+                  // dispatch(midiMessageArrived(obj))
+
+                  // Seems to perform in less time
+                  dispatch(myAction(obj))
                 }
-                dispatch(midiMessageArrived(obj))
-              }, 5)
+                , 2)
             )
           }
           if (
@@ -195,10 +228,11 @@ export function initApp(mode) {
         })
         if (hasContent(outputs) || hasContent(inputs)) {
           const midiAccess = {
-            inputs,
-            outputs
+            inputs: inputs.map(e => e.name),
+            outputs: outputs.map(e => e.name)
           }
-          resolve(dispatch(initMidiAccess({ midiAccess })))
+          dispatch(initMidiAccessOk({ midiAccess }))
+          resolve(midiAccess)
         } else {
           reject(dispatch(initFailed('No Midi Output available.')))
         }

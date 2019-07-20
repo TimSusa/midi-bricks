@@ -122,42 +122,42 @@ describe('Test Reducers for slider-list', () => {
     expect(footerPages.find(cur => cur.i === i)).toBeFalsy()
   })
 
-  test('CHANGE_FOOTER_PAGE label', () => {
-    const expLabel = 'this is just a test'
-    const { CHANGE_FOOTER_PAGE } = reducers
-    const idx = mockStore.viewSettings.footerPages.findIndex(cur => cur.type === 'PAGE')
-    const {i} = mockStore.viewSettings.footerPages[idx]
-    const { footerPages } = CHANGE_FOOTER_PAGE(mockStore.viewSettings, {
-      payload: { i, label: expLabel },
-    })
-    expect(footerPages[idx].label).toEqual(
-      expLabel
-    )
-  })
-  test('CHANGE_FOOTER_PAGE color', () => {
-    const expColor = 'rgba(24, 11, 11, 1)'
-    const { CHANGE_FOOTER_PAGE } = reducers
-    const idx = mockStore.viewSettings.footerPages.findIndex(cur => cur.type === 'PAGE')
-    const {i} = mockStore.viewSettings.footerPages[idx]
-    const { footerPages } = CHANGE_FOOTER_PAGE(mockStore.viewSettings, {
-      payload: { i, color: expColor },
-    })
-    expect(footerPages[idx].colors.color).toEqual(
-      expColor
-    )
-  })
-  test('CHANGE_FOOTER_PAGE colorFont', () => {
-    const expcolorFont = 'rgba(24, 11, 11, 1)'
-    const { CHANGE_FOOTER_PAGE } = reducers
-    const idx = mockStore.viewSettings.footerPages.findIndex(cur => cur.type === 'PAGE')
-    const {i} = mockStore.viewSettings.footerPages[idx]
-    const { footerPages } = CHANGE_FOOTER_PAGE(mockStore.viewSettings, {
-      payload: { i, colorFont: expcolorFont },
-    })
-    expect(footerPages[idx].colors.colorFont).toEqual(
-      expcolorFont
-    )
-  })
+  // test('CHANGE_FOOTER_PAGE label', () => {
+  //   const expLabel = 'this is just a test'
+  //   const { CHANGE_FOOTER_PAGE } = reducers
+  //   const idx = mockStore.viewSettings.footerPages.findIndex(cur => cur.type === 'PAGE')
+  //   const {i} = mockStore.viewSettings.footerPages[idx]
+  //   const { footerPages } = CHANGE_FOOTER_PAGE(mockStore.viewSettings, {
+  //     payload: { i, label: expLabel },
+  //   })
+  //   expect(footerPages[idx].label).toEqual(
+  //     expLabel
+  //   )
+  // })
+  // test('CHANGE_FOOTER_PAGE color', () => {
+  //   const expColor = 'rgba(24, 11, 11, 1)'
+  //   const { CHANGE_FOOTER_PAGE } = reducers
+  //   const idx = mockStore.viewSettings.footerPages.findIndex(cur => cur.type === 'PAGE')
+  //   const {i} = mockStore.viewSettings.footerPages[idx]
+  //   const { footerPages } = CHANGE_FOOTER_PAGE(mockStore.viewSettings, {
+  //     payload: { i, color: expColor },
+  //   })
+  //   expect(footerPages[idx].colors.color).toEqual(
+  //     expColor
+  //   )
+  // })
+  // test('CHANGE_FOOTER_PAGE colorFont', () => {
+  //   const expcolorFont = 'rgba(24, 11, 11, 1)'
+  //   const { CHANGE_FOOTER_PAGE } = reducers
+  //   const idx = mockStore.viewSettings.footerPages.findIndex(cur => cur.type === 'PAGE')
+  //   const {i} = mockStore.viewSettings.footerPages[idx]
+  //   const { footerPages } = CHANGE_FOOTER_PAGE(mockStore.viewSettings, {
+  //     payload: { i, colorFont: expcolorFont },
+  //   })
+  //   expect(footerPages[idx].colors.colorFont).toEqual(
+  //     expcolorFont
+  //   )
+  // })
 
   test('SET_FOOTER_BUTTON_FOCUS', () => {
     const { SET_FOOTER_BUTTON_FOCUS } = reducers

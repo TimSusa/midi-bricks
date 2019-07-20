@@ -16,7 +16,7 @@ import {
 import { suggestionsMidiCc } from './suggestions'
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(MidiSettingsInput)
 
@@ -26,7 +26,8 @@ MidiSettingsInput.propTypes = {
   classes: PropTypes.object,
   idx: PropTypes.number,
   initApp: PropTypes.func,
-  inputs: PropTypes.object
+  inputs: PropTypes.object,
+  lastFocusedPage: PropTypes.string
 }
 
 function MidiSettingsInput(props) {
@@ -34,14 +35,13 @@ function MidiSettingsInput(props) {
     sliderEntry: {
       i,
       type,
-      driverNameInput = 'None',
+      driverNameInput,
       midiChannelInput,
       listenToCc
     },
-    idx,
+    lastFocusedPage,
     inputs,
     classes,
-    initApp,
     actions
   } = props
 
@@ -54,8 +54,9 @@ function MidiSettingsInput(props) {
         <MidiSuggestedInput
           suggestions={suggestionsMidiCc()}
           startVal={listenToCc || []}
-          idx={idx}
-          handleChange={handleAddCCListener.bind(this, actions, initApp)}
+          i={i}
+          lastFocusedPage={lastFocusedPage}
+          handleChange={handleAddCCListener.bind(this, props)}
         />
       </FormControl>
       <FormControl className={classes.formControl}>
@@ -67,7 +68,8 @@ function MidiSettingsInput(props) {
           onChange={(e) =>
             actions.selectMidiDriverInput({
               i,
-              driverNameInput: e.target.value
+              driverNameInput: e.target.value,
+              lastFocusedPage
             })
           }
           value={driverNameInput}
@@ -84,12 +86,7 @@ function MidiSettingsInput(props) {
         </InputLabel>
         <Select
           className={classes.select}
-          onChange={(e) =>
-            actions.selectMidiChannelInput({
-              idx,
-              val: e.target.value
-            })
-          }
+          onChange={handleAddMidiInputChannel.bind(this, props)}
           value={midiChannelInput || 'None'}
         >
           {renderMidiChannelSelection(
@@ -105,9 +102,28 @@ function MidiSettingsInput(props) {
   )
 }
 
-async function handleAddCCListener(actions, initApp, e) {
-  actions.addMidiCcListener(e)
-  await initApp()
+async function handleAddCCListener(props, e) {
+  console.log('props', props)
+  props.actions.addMidiCcListener(e)
+  await props.initApp()
+}
+
+async function handleAddMidiInputChannel(props, e) {
+  const {
+    i,
+    lastFocusedPage
+  } = props
+  props.actions.selectMidiChannelInput({
+    i,
+    val: e.target.value,
+    lastFocusedPage
+  })
+  await props.initApp()
+}
+function mapStateToProps({ viewSettings: { lastFocusedPage } }) {
+  return {
+    lastFocusedPage
+  }
 }
 
 function mapDispatchToProps(dispatch) {

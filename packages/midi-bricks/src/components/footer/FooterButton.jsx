@@ -1,34 +1,69 @@
 import React from 'react'
 import { Button } from '@material-ui/core'
+import { PropTypes } from 'prop-types'
 
-export const FooterButton = props => {
-  const { classes, item, lastFocusedFooterButtonIdx, isLiveMode, actions } = props
+FooterButton.propTypes = {
+  actions: PropTypes.object,
+  classes: PropTypes.object,
+  isSettingsMode: PropTypes.bool,
+  item: PropTypes.object,
+  lastFocusedPage: PropTypes.string,
+  thunkChangePage: PropTypes.func
+}
+
+export function FooterButton(props) {
+  const {
+    classes,
+    item: {
+      id,
+      label,
+      colors: { color, colorFont }
+    },
+    lastFocusedPage,
+    isSettingsMode,
+    actions,
+    thunkChangePage 
+  } = props
+
   return (
     <Button
       className={classes.button}
       style={{
-        boxShadow: item.i === lastFocusedFooterButtonIdx && '0 0 3px 3px rgb(24, 164, 157)',
-        background: item.colors.color, 
-        color: item.colors.colorFont
+        boxShadow: id === lastFocusedPage && '0 0 3px 3px rgb(24, 164, 157)',
+        background: color,
+        color: colorFont
       }}
-      onClick={ handleClick.bind(this, {item, isLiveMode, actions})}
-      value={item.i}
+      onClick={
+        isSettingsMode
+          ? handleSettingsClick.bind(this, {
+            id,
+            actions,
+            thunkChangePage,
+            lastFocusedPage
+          })
+          : handleClick.bind(this, {
+            id,
+            actions,
+            thunkChangePage,
+            lastFocusedPage
+          })
+      }
+      value={id}
     >
-      {item && item.label}
+      {label && label}
     </Button>
   )
 }
 
-const handleClick = ({item, isLiveMode, actions}) => {
-  actions.setFooterButtonFocus({i: item.i})
-  if (isLiveMode) {
-    actions.extractPage({ label: item.label })
-  } else {
-    scrollByIndex(item.i);
-  }
+function handleSettingsClick({ id, actions, thunkChangePage,  lastFocusedPage }) {
+  thunkChangePage(lastFocusedPage, id)
+  actions.toggleSettingsDialogMode({
+    i: id,
+    isSettingsDialogMode: true,
+    lastFocusedPage: id
+  })
 }
 
-function scrollByIndex(i) {
-  const elem = document.getElementById(`page-${i}`);
-  elem.scrollIntoView({ block: 'start' });
+function handleClick({ id, actions, thunkChangePage,  lastFocusedPage }) {
+  thunkChangePage(lastFocusedPage, id)
 }

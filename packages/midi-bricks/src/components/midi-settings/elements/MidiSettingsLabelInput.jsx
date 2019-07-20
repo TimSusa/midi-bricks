@@ -8,15 +8,15 @@ MidiSettingsLabelInput.propTypes = {
   actions: PropTypes.object,
   classes: PropTypes.object,
   i: PropTypes.string,
-  idx: PropTypes.number,
   label: PropTypes.string,
+  lastFocusedPage: PropTypes.string,
   type: PropTypes.string
 }
 
 export function MidiSettingsLabelInput({
-  idx,
   label,
   i,
+  lastFocusedPage,
   classes,
   actions,
   type
@@ -30,26 +30,29 @@ export function MidiSettingsLabelInput({
         className={classes.input}
         id='label'
         type='label'
-        name={`input-label-name-${idx}`}
+        name={`input-label-name-${i}`}
         value={label}
-        onChange={handleLabelChange.bind(this, i, idx, actions, type)}
+        onChange={handleLabelChange.bind(this, lastFocusedPage, i, actions, type)}
         autoFocus
       />
     </FormControl>
   )
 }
 
-function handleLabelChange(i, idx, actions, type, e) {
+function handleLabelChange(lastFocusedPage, i, actions, type, e) {
   e.preventDefault()
   e.stopPropagation()
-  actions.changeLabel({
-    idx,
-    val: e.target.value
-  })
-  if (type === 'PAGE') {
-    actions.changeFooterPage({
+
+  if (type === undefined) {
+    actions.setPageTargetSettings({
+      label: e.target.value,
+      lastFocusedPage
+    })
+  } else {
+    actions.changeLabel({
       i,
-      label: e.target.value
+      val: e.target.value,
+      lastFocusedPage
     })
   }
 }

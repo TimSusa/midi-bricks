@@ -26,9 +26,9 @@ MidiSettingsOutput.propTypes = {
   sliderEntry: PropTypes.object,
   actions: PropTypes.object,
   classes: PropTypes.object,
-  idx: PropTypes.number,
-  initApp: PropTypes.func,
-  outputs: PropTypes.object
+  i: PropTypes.string,
+  outputs: PropTypes.object,
+  lastFocusedPage: PropTypes.string
 }
 
 export function MidiSettingsOutput(props) {
@@ -46,13 +46,13 @@ export function MidiSettingsOutput(props) {
       midiChannel,
       midiCC
     },
-    idx,
+    lastFocusedPage,
     outputs
   } = props
 
   return (
     <React.Fragment>
-      <InputNoteOrCc midiCC={midiCC} type={type} idx={idx} />
+      <InputNoteOrCc midiCC={midiCC} type={type} i={i} />
       <FormControl className={classes.formControl}>
         <InputLabel className={classes.label} htmlFor='midi-driver'>
           Driver
@@ -62,7 +62,8 @@ export function MidiSettingsOutput(props) {
           onChange={(e) =>
             actions.selectMidiDriver({
               i,
-              driverName: e.target.value
+              driverName: e.target.value,
+              lastFocusedPage
             })
           }
           value={driverName || 'None'}
@@ -81,8 +82,9 @@ export function MidiSettingsOutput(props) {
           className={classes.select}
           onChange={(e) =>
             actions.selectMidiChannel({
-              idx,
-              val: e.target.value
+              i,
+              val: parseInt(e.target.value, 10),
+              lastFocusedPage
             })
           }
           value={midiChannel || 'None'}
@@ -101,11 +103,11 @@ export function MidiSettingsOutput(props) {
           <MinMaxValInput
             label='Maximum Value'
             value={maxVal}
-            name={`input-maxval-name-${idx}`}
+            name={`input-maxval-name-${i}`}
             limitVal={127}
             onChange={(e) =>
               actions.setMaxVal({
-                idx,
+                i,
                 val: e.target.value
               })
             }
@@ -113,11 +115,11 @@ export function MidiSettingsOutput(props) {
           <MinMaxValInput
             label='Minimum Value'
             value={minVal}
-            name={`input-minval-name-${idx}`}
+            name={`input-minval-name-${i}`}
             limitVal={0}
             onChange={(e) =>
               actions.setMinVal({
-                idx,
+                i,
                 val: e.target.value
               })
             }
@@ -133,11 +135,11 @@ export function MidiSettingsOutput(props) {
               <MinMaxValInput
                 label='Value Button On'
                 value={onVal}
-                name={`input-onval-name-${idx}`}
+                name={`input-onval-name-${i}`}
                 limitVal={127}
                 onChange={(e) =>
                   actions.setOnVal({
-                    idx,
+                    i,
                     val: e.target.value
                   })
                 }
@@ -145,11 +147,11 @@ export function MidiSettingsOutput(props) {
               <MinMaxValInput
                 label='Value Button Off'
                 value={offVal}
-                name={`input-offval-name-${idx}`}
+                name={`input-offval-name-${i}`}
                 limitVal={0}
                 onChange={(e) =>
                   actions.setOffVal({
-                    idx,
+                    i,
                     val: e.target.value
                   })
                 }
