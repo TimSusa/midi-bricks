@@ -233,13 +233,15 @@ function ApplicationSettings(props) {
                   .map((val) => parseInt(val, 10))
                 Array.isArray(windowCoords) &&
                   actions.setElectronAppSettings({
-                    windowCoords
+                    windowCoords,
+                    isWindowSizeLocked: false
                   })
 
                 !isWindowSizeLocked &&
                   Array.isArray(windowCoords) &&
                   sendAppSettings({
-                    windowCoords
+                    windowCoords,
+                    isWindowSizeLocked: false
                   })
               }}
             />

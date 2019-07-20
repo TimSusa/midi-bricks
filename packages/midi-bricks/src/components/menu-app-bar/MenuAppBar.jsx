@@ -135,13 +135,13 @@ function MenuAppBar(props) {
           )}
           {pageType === PAGE_TYPES.GLOBAL_MODE && (
             <>
-              <Button
+              {/* <Button
                 className={classes.resetButton}
                 variant='contained'
                 onClick={(e) => actions.resetValues()}
               >
                 Reset To Saved Values
-              </Button>
+              </Button> */}
               <Button
                 className={classes.resetButton}
                 variant='contained'
