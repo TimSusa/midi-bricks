@@ -36,8 +36,15 @@ export function saveIpcFileDialog(payload){
 export function sendAppSettings(payload) {
   sendAsyncMsg('send-app-settings', payload)
 }
-
-
+export function setActualWinCoords(payload) {
+  sendAsyncMsg('set-to-actual-win-coords', payload)
+}
+export function addIpcWindowCoordsListenerOnce (cb) {
+  ipcRenderer.once('set-to-actual-win-coords-reply', (event, payload) => {
+    // mostly this will trigger onFileLoad
+    cb(payload)
+  })
+}
 
 function sendAsyncMsg(msg, payload){
   ipcRenderer.send(msg, payload)

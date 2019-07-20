@@ -4,12 +4,16 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
-import {thunkLiveModeToggle} from '../actions/thunks/thunk-live-mode-toggle'
+import { thunkLiveModeToggle } from '../actions/thunks/thunk-live-mode-toggle'
 import { MinMaxValInput } from './midi-settings/elements/MinMaxValInput'
 import { ValueInput } from './midi-settings/elements/ValueInput'
-import { FormControlLabel, Switch, Tooltip } from '@material-ui/core'
+import { FormControlLabel, Switch, Tooltip, Button } from '@material-ui/core'
 import { PropTypes } from 'prop-types'
-import { sendAppSettings } from '../utils/ipc-renderer'
+import {
+  sendAppSettings,
+  setActualWinCoords,
+  addIpcWindowCoordsListenerOnce
+} from '../utils/ipc-renderer'
 import LockIcon from '@material-ui/icons/Lock'
 import LockOpenIcon from '@material-ui/icons/LockOpen'
 
@@ -37,7 +41,7 @@ function ApplicationSettings(props) {
         isAutoDownload = false,
         isAllowedDowngrade = false,
         isWindowSizeLocked = true,
-        windowCoords = [69, 69, 690, 690]
+        windowCoords: winCood = [69, 69, 690, 690]
       } = {},
       columns = 18,
       rowHeight = 40,
@@ -50,7 +54,7 @@ function ApplicationSettings(props) {
       paddingY = 8
     }
   } = props
-
+  let windowCoords = winCood
   const [isViewPanelExpanded, setIsViewPanelExpanded] = useState(false)
   const [isUpdatePanelExpanded, setIsUpdatePanelExpanded] = useState(false)
 
@@ -215,6 +219,23 @@ function ApplicationSettings(props) {
               }
               label='Lock Initial Window Pos/Size'
             />
+            <Button
+              disabled={isWindowSizeLocked}
+              variant='outlined'
+              onClick={(e) => {
+                e.preventDefault()
+                addIpcWindowCoordsListenerOnce((windowCoords) =>
+                  actions.setElectronAppSettings({
+                    windowCoords,
+                    isWindowSizeLocked
+                  })
+                )
+                setActualWinCoords()
+              }}
+            >
+              Take over position
+            </Button>
+
             <ValueInput
               isDisabled={isWindowSizeLocked}
               icon={<LockIcon />}

@@ -163,6 +163,7 @@ async function createWindow() {
   ipcMain.on('open-file-dialog', onOpenFileDialog)
   ipcMain.on('save-file-dialog', onSaveFileDialog)
   ipcMain.on('send-app-settings', onSetAppSettings)
+  ipcMain.on('set-to-actual-win-coords', onSetActualWinCoords)
 
   const url = isDev
     ? 'http://localhost:3000/'
@@ -280,6 +281,17 @@ function onSetAppSettings(event, arg) {
       electronAppSettings: { ...appSettings, ...arg }
     }
   })
+}
+function onSetActualWinCoords(event, arg) {
+  const {x, y, width, height} = win.getBounds()
+  appSettings = persistAppSettings({
+    viewSettings: {
+      electronAppSettings: { ...appSettings, windowCoords:  [x, y, width, height]}
+    }
+  })
+  event.sender.send('set-to-actual-win-coords-reply', [x, y, width, height])
+  return [x, y, width, height]
+
 }
 async function readoutPersistedAppsettings(appSettings = appInitSettings) {
   // Try to read out persisted app-settings:
