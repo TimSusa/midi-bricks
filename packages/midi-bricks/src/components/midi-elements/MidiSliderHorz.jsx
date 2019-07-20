@@ -57,7 +57,8 @@ function MidiSliderHorz(props) {
         width: width + sliderThumbHeight,
         borderRadius: 3,
         background: color ? color : 'aliceblue',
-        boxShadow: isActivated && '0 0 3px 3px rgb(24, 164, 157)'
+        boxShadow: isActivated && '0 0 3px 3px rgb(24, 164, 157)',
+        transform: 'scale(-1, 1)'
       }}
     >
       <div
@@ -135,7 +136,7 @@ function MidiSliderHorz(props) {
     const tmpYy = tmpThumb < 0 ? 0 : tmpThumb
     const y = tmpYy >= props.width ? props.width : tmpYy
     const val =
-      ((props.width - Math.round(y)) *
+      (( Math.round(y)) *
         (props.sliderEntry.maxVal - props.sliderEntry.minVal)) /
       props.width
     if (isNaN(val)) return
@@ -246,11 +247,6 @@ function mapDispatchToProps(dispatch) {
 function calcXFromVal({ val, width, maxVal, minVal }) {
   const x = width * (1 - (val - 0) / (maxVal - 0))
   return x
-}
-
-function calcYFromVal({ val, height, maxVal, minVal }) {
-  const y = height * (1 - val / (maxVal - minVal))
-  return y
 }
 
 function sendOutFromChildren(y, props) {
