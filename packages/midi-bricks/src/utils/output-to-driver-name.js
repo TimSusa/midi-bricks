@@ -4,15 +4,15 @@ export const outputToDriverName = ({ inputs, outputs }, driverNameInput, driverN
 
   if (inputs && driverNameInput) {
     inputs.forEach((item) => {
-      if (item.name === driverNameInput) {
+      if (item === driverNameInput) {
         driverNameInputOut = driverNameInput
       }
     })
   }
   if (outputs && driverName) {
     outputs.forEach((item) => {
-      if (item.name === driverName) {
-        driverNameOut = item.name
+      if (item === driverName) {
+        driverNameOut = item
       }
     })
   }

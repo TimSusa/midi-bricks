@@ -58,7 +58,6 @@ function GlobalSettingsPage(props) {
   // useEffect(() => {
   //   thunkLiveModeToggle({ isLiveMode: false })
   // }, [thunkLiveModeToggle])
-
   if (isMidiFailed) return <div />
   const hasPage = Object.values(pages).length > 0
   const pagesArray = hasPage ? Object.values(pages) : []
