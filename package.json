@@ -12,6 +12,7 @@
     "downshift": "3.2.10",
     "keycode": "^2.2.0",
     "localforage": "^1.7.3",
+    "lodash": "^4.17.15",
     "react": "16.8.6",
     "react-color": "2.17.1",
     "react-dom": "16.8.6",
