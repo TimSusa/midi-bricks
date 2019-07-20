@@ -218,6 +218,7 @@ function ChannelStripList(props) {
         <br />
         <br />
         <Button
+          variant='outlined'
           onClick={async () => await thunkLoadFile(preset, preset.presetName)}
         >
           LOAD EXAMPLE
