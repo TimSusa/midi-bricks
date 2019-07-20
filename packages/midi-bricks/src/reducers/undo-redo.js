@@ -16,7 +16,9 @@ export const undoRedo = {
   },
   [ActionTypeUndoRedo.UNDO_REDO_DELETE](state, action) {
     return createNextState(state, (draftState) => {
-      draftState = []
+      draftState.pages = {}
+      draftState.sliders = {}
+      draftState.viewSettings = {}
       return draftState
     })
   },

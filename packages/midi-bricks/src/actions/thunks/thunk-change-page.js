@@ -15,7 +15,6 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
       sliders: { sliderList = [] },
       pages: storedPages
     } = getState()
-    dispatch(undoRedoUpdate({state: getState()}))
 
     if (isLiveMode) {
       console.log('isLiveMode')
@@ -35,6 +34,8 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
 
 
     } else {
+      dispatch(undoRedoUpdate({state: getState()}))
+
       console.log('is no LiveMode')
       //batch(() => {
       if (storedPages[focusedPage]) {
