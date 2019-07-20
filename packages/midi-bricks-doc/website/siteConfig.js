@@ -21,7 +21,7 @@ const users = [
 ]
 
 const siteConfig = {
-  title: 'MIDI Briqks', // Title for your website.
+  title: 'MIDI Bricks', // Title for your website.
   tagline: '...easily create your own MIDI Touch Controller...',
   url: 'https://facebook.github.io', // Your website URL
   baseUrl: '/midi-bricks-mono/', // Base URL for your project */

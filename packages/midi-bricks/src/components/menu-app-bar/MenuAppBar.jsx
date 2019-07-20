@@ -89,7 +89,7 @@ function MenuAppBar(props) {
             aria-label='Menu'
           />
           <Typography variant='h6' color='inherit' className={classes.flex}>
-            MIDI Briqkxs
+            MIDI Bricks
           </Typography>
           {isMidiLearnMode && (
             <Typography className={classes.typoColorStyle}>
