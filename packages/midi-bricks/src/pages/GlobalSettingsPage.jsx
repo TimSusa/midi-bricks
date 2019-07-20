@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
-import {thunkLiveModeToggle} from '../actions/thunks/thunk-live-mode-toggle'
+import { thunkLiveModeToggle } from '../actions/thunks/thunk-live-mode-toggle'
 import MidiSettingsDialog from '../components/midi-settings-dialog/MidiSettingsDialog'
 import { outputToDriverName } from '../utils/output-to-driver-name.js'
 import { STRIP_TYPE } from '../reducers/slider-list.js'
@@ -74,7 +74,7 @@ function GlobalSettingsPage(props) {
         key={`exp-${idx}`}
         onChange={
           isExpanded
-            ? () => {}
+            ? (e) => thunkChangePage(lastFocusedPage, '')
             : (e) => thunkChangePage(lastFocusedPage, page.id)
         }
       >
@@ -113,7 +113,6 @@ function GlobalSettingsPage(props) {
                     background: 'none',
                     cursor: 'pointer'
                   }
-
 
                   if (isSettingsDialogMode && i === lastFocusedIdx) {
                     return (
