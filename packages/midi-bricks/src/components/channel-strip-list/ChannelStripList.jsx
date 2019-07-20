@@ -37,6 +37,7 @@ function ChannelStripList(props) {
     thunkChangeListOrder,
     thunkLiveModeToggle,
     sliderList = [],
+    hasPages,
     monitorVal: { driver = 'None', cC = 'None', channel = 'None' } = {},
     viewSettings: {
       pageType,
@@ -212,7 +213,7 @@ function ChannelStripList(props) {
         })}
       </GridLayout>
     )
-  } else {
+  } else if (!hasPages){
     return (
       <Typography variant='h4' className={classes.noMidiTypography}>
         <br />
@@ -228,6 +229,9 @@ function ChannelStripList(props) {
         <img alt={'cubefx'} src={'cube_fx.gif'}></img>
       </Typography>
     )
+  }
+  else {
+    return (<></>)
   }
 }
 
@@ -348,12 +352,14 @@ function toggleSettings(lastFocusedPage, i, actions, { isSettingsDialogMode }) {
 
 function mapStateToProps({
   viewSettings,
+  pages,
   sliders: { sliderList, monitorVal }
 }) {
   return {
     viewSettings,
     sliderList,
-    monitorVal
+    monitorVal,
+    hasPages: Object.keys(pages).length > 1
   }
 }
 
