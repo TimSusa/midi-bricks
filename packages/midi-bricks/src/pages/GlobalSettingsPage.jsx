@@ -8,7 +8,7 @@ import {
   Paper
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -56,9 +56,9 @@ function GlobalSettingsPage(props) {
       pageTargets
     }
   } = props
-  // useEffect(() => {
-  //   thunkLiveModeToggle({ isLiveMode: false })
-  // }, [thunkLiveModeToggle])
+  useEffect(() => {
+    thunkLiveModeToggle({ isLiveMode: false })
+  }, [])
   if (isMidiFailed) return <div />
   const hasPage = Object.values(pages).length > 0
   const pagesArray = hasPage ? Object.values(pages) : []
