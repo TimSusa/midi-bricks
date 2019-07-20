@@ -1,11 +1,11 @@
 {
   "name": "midi-bricks-electron",
   "productName": "MIDI-Bricks",
-  "version": "1.2.8-alpha.16",
+  "version": "1.2.8-alpha.17",
   "main": "./build/electron.js",
   "homepage": ".",
   "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
-  "description": "Midi Briqks for all!",
+  "description": "Midi Bricks for all!",
   "author": "TimSusa <timmsusa@googlemail.com>",
   "copyright": "Copyright © 2019 Tim Susa",
   "license": "MIT",
@@ -14,7 +14,7 @@
     "build"
   ],
   "build": {
-    "appId": "com.electron.midi-briqks-electron",
+    "appId": "com.electron.midi-bricks-electron",
     "asar": true,
     "asarUnpack": true,
     "releaseInfo": {

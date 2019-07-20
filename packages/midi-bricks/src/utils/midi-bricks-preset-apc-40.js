@@ -1,5 +1,5 @@
 export const preset ={
-  "version": "1.2.8-alpha.16",
+  "version": "1.2.8-alpha.17",
   "pages": {
     "page-15595424091230.d16be927299392": {
       "sliderList": [

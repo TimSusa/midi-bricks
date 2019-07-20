@@ -11,11 +11,11 @@ import localforage from 'localforage'
 
 localforage.config({
   //driver      : localforage.WEBSQL, // Force WebSQL; same as using setDriver()
-  name        : 'MIDI-Briqks',
+  name        : 'MIDI-Bricks',
   version     : 1,
   // size        : 4980736, // Size of database, in bytes. WebSQL-only for now.
-  storeName   : 'midi-briqks-store', // Should be alphanumeric, with underscores.
-  description : 'UR GAY'
+  storeName   : 'midi-bricks-store', // Should be alphanumeric, with underscores.
+  description : 'This store is intended to save MIDI Bricks Pages for live mode.'
 })
 
 ReduxWrappedMuiApp.propTypes = {
