@@ -39,7 +39,7 @@ GlobalSettingsPage.propTypes = {
 
 function GlobalSettingsPage(props) {
   const theme = useTheme()
-  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
+  const classes = makeStyles(styles.bind(this, theme))()
   const {
     isMidiFailed,
     actions,
@@ -57,9 +57,7 @@ function GlobalSettingsPage(props) {
       pageTargets
     }
   } = props
-  useEffect(() => {
-    thunkLiveModeToggle({ isLiveMode: false })
-  }, [])
+
   if (isMidiFailed) return <div />
   const hasPage = Object.values(pages).length > 0
   const pagesArray = hasPage ? Object.values(pages) : []

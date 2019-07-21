@@ -20,7 +20,7 @@ function DriverExpansionPanel({
   noPadding = false
 }) {
   const theme = useTheme()
-  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
+  const classes = makeStyles(styles.bind(this, theme))()
   return (
     <ExpansionPanel
       className={classes.root}

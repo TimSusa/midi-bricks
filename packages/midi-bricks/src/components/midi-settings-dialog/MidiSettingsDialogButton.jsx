@@ -16,7 +16,7 @@ MidiSettingsDialogButton.propTypes = {
 export default function MidiSettingsDialogButton(props) {
   const { isOpen, toggleSettings, sliderEntry } = props
     const theme = useTheme()
-  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
+  const classes = makeStyles(styles.bind(this, theme))()
 
   return (
     <div className={classes.root}>

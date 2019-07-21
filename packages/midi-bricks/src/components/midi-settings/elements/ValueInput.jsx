@@ -29,7 +29,7 @@ export function ValueInput({
   icon
 }) {
     const theme = useTheme()
-  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
+  const classes = makeStyles(styles.bind(this, theme))()
 
   const form = (
     <div className={classes.root}>

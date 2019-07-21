@@ -33,7 +33,6 @@ ApplicationSettings.propTypes = {
 function ApplicationSettings(props) {
   const {
     actions,
-    thunkLiveModeToggle,
     viewSettings: {
       electronAppSettings: {
         isDevConsoleEnabled = false,
@@ -58,19 +57,15 @@ function ApplicationSettings(props) {
   const [isViewPanelExpanded, setIsViewPanelExpanded] = useState(false)
   const [isUpdatePanelExpanded, setIsUpdatePanelExpanded] = useState(false)
 
-  useEffect(() => {
-    thunkLiveModeToggle({ isLiveMode: false })
-  }, [thunkLiveModeToggle])
-
   return (
     <React.Fragment>
-      <DriverExpansionPanel
-        label='Updates'
-        expanded={isUpdatePanelExpanded}
-        noPadding={false}
-        onChange={(e) => setIsUpdatePanelExpanded(!isUpdatePanelExpanded)}
-      >
-        {!isWebMode && (
+      {!isWebMode && (
+        <DriverExpansionPanel
+          label='Updates'
+          expanded={isUpdatePanelExpanded}
+          noPadding={false}
+          onChange={(e) => setIsUpdatePanelExpanded(!isUpdatePanelExpanded)}
+        >
           <FormControlLabel
             control={
               <Tooltip title='You can disable the check for updates here. Keep in mind, that this settings comes into play after restart.'>
@@ -92,9 +87,7 @@ function ApplicationSettings(props) {
             }
             label='Initial Update Check'
           />
-        )}
 
-        {!isWebMode && (
           <FormControlLabel
             disabled={!isAllowedToUpdate}
             control={
@@ -117,9 +110,6 @@ function ApplicationSettings(props) {
             }
             label='Automatic Download (experimental)'
           />
-        )}
-
-        {!isWebMode && (
           <FormControlLabel
             disabled={!isAllowedToUpdate}
             control={
@@ -143,8 +133,9 @@ function ApplicationSettings(props) {
             }
             label='Rollback Update (experimental)'
           />
-        )}
-      </DriverExpansionPanel>
+        </DriverExpansionPanel>
+      )}
+
       <DriverExpansionPanel
         label='Views'
         expanded={isViewPanelExpanded}

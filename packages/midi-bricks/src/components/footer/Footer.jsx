@@ -41,7 +41,7 @@ Footer.propTypes = {
 
 function Footer(props) {
   const theme = useTheme()
-  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
+  const classes = makeStyles(styles.bind(this, theme))()
   const {
     footerPages = [],
     pageTargets = [],
@@ -111,6 +111,7 @@ function Footer(props) {
                 sliderEntry={pageTargets.find(
                   (item) => item.id === lastFocusedPage
                 )}
+                iconColor={classes.iconColor}
               />
             </div>
           )

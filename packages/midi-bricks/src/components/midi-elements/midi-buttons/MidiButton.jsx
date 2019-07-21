@@ -18,7 +18,7 @@ MidiButton.propTypes = {
 
 function MidiButton(props) {
   const theme = useTheme()
-  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
+  const classes = makeStyles(styles.bind(this, theme))()
   const {
     buttonStyle = {},
     onChangeStart = () => {},

@@ -39,8 +39,8 @@ MidiSettings.propTypes = {
 }
 
 function MidiSettings(props) {
-    const theme = useTheme()
-  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
+  const theme = useTheme()
+  const classes = makeStyles(styles.bind(this, theme))()
   const {
     isSettingsMode,
     actions,
@@ -248,7 +248,7 @@ function mapStateToProps({
     isSettingsMode,
     pageTargets = [],
     availableDrivers: { inputs = {}, outputs = {} } = {}
-  },
+  }
 }) {
   const pageTarget = pageTargets.find((item) => item.id === lastFocusedPage)
   return {

@@ -30,10 +30,6 @@ function MidiDriversSettingsPage(props) {
       availableDrivers: { inputs: availableInputs, outputs: avalableOutputs }
     }
   } = props
-  useEffect(() => {
-    thunkLiveModeToggle({ isLiveMode: false })
-  }, [])
-
 
   const [isFirstPanelExpanded, setIsFirstPanelExpanded] = useState(true)
   const [isScndPanelExpanded, setIsScndPanelExpanded] = useState(true)

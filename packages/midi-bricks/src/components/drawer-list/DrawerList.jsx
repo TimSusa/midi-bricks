@@ -24,6 +24,7 @@ import { PropTypes } from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { thunkLoadFile } from '../../actions/thunks/thunk-load-file'
 import { thunkDelete } from '../../actions/thunks/thunk-delete'
+import { thunkLiveModeToggle } from '../../actions/thunks/thunk-live-mode-toggle'
 import { Actions as MidiSliderActions } from '../../actions/slider-list'
 import { Actions as ViewSettingsActions } from '../../actions/view-settings'
 import { connect } from 'react-redux'
@@ -68,7 +69,8 @@ function DrawerList(props) {
     viewSettings,
     sliders,
     thunkLoadFile,
-    thunkDelete
+    thunkDelete,
+    thunkLiveModeToggle
   } = props
   const [open, setOpen] = useState(false)
   const [isOpenViewSettings, setIsOpenViewSettings] = useState(false)
@@ -138,6 +140,7 @@ function DrawerList(props) {
               setIsOpenViewSettings(!isOpenViewSettings)
               props.onClose()
             }}
+            iconColor={classes.iconColor}
           />
         </ListItem>
       </List>
@@ -221,6 +224,7 @@ function DrawerList(props) {
 
 function handleResetSliders(thunkDelete, cb, deleteAll, deleteFooterPages) {
   cb()
+  console.log('Sdfasdfasfasf')
   return thunkDelete('all')
 
 }
@@ -254,7 +258,8 @@ function mapDispatchToProps(dispatch) {
     deleteFooterPages: bindActionCreators(deleteFooterPages, dispatch),
     deleteAll: bindActionCreators(deleteAll, dispatch),
     thunkLoadFile: bindActionCreators(thunkLoadFile, dispatch),
-    thunkDelete: bindActionCreators(thunkDelete, dispatch)
+    thunkDelete: bindActionCreators(thunkDelete, dispatch),
+    thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
   }
 }
 

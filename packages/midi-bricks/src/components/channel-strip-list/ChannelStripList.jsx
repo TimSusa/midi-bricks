@@ -31,7 +31,7 @@ const GridLayout = WidthProvider(RGL)
 
 function ChannelStripList(props) {
   const theme = useTheme()
-  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
+  const classes = makeStyles(styles.bind(this, theme))()
   const {
     actions,
     thunkLoadFile,

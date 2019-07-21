@@ -11,6 +11,7 @@ import { Typography } from '@material-ui/core'
 export default ApplicationSettingsDialog
 
 ApplicationSettingsDialog.propTypes = {
+  iconColor: PropTypes.any,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   sliderEntry: PropTypes.object,
@@ -18,7 +19,7 @@ ApplicationSettingsDialog.propTypes = {
 }
 
 function ApplicationSettingsDialog(props) {
-  const { isOpen = true, sliderEntry, onClose, ...other } = props
+  const { isOpen = true, sliderEntry, onClose, iconColor, ...other } = props
   return (
     <Dialog
       open={isOpen}
@@ -28,7 +29,7 @@ function ApplicationSettingsDialog(props) {
       {...other}
     >
       <DialogTitle id='confirmation-dialog-title'>
-        <Typography color='secondary' variant='body1'>
+        <Typography className={iconColor} variant='body1'>
         Preferences
         </Typography>
       </DialogTitle>
@@ -40,7 +41,7 @@ function ApplicationSettingsDialog(props) {
           onClick={(e) => {
             props.onClose()
           }}
-          color='secondary'
+          className={iconColor} 
         >
           Close
         </Button>

@@ -32,7 +32,7 @@ function MidiSuggestedInput(props) {
   const [inputValue, setInputValue] = useState('')
   const [selectedItem, setSelectedItem] = useState(startVal || [])
     const theme = useTheme()
-  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
+  const classes = makeStyles(styles.bind(this, theme))()
 
   return (
     <Downshift
