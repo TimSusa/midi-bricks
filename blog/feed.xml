@@ -14,11 +14,11 @@
         </image>
         <copyright>Copyright © 2019 Tim Susa</copyright>
         <item>
-            <title><![CDATA[New Release 1.3.8]]></title>
+            <title><![CDATA[New Release 1.3.8 Clever Page Concept]]></title>
             <link>https://facebook.github.io/midi-bricks-mono/blog/2019/07/21/blog-post.html</link>
             <guid>https://facebook.github.io/midi-bricks-mono/blog/2019/07/21/blog-post.html</guid>
             <pubDate>Sun, 21 Jul 2019 06:00:00 GMT</pubDate>
-            <description><![CDATA[<h1><a class="anchor" aria-hidden="true" id="app-was-rebuilt-for-new-page-concept-with-release-138"></a><a href="#app-was-rebuilt-for-new-page-concept-with-release-138" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>App was rebuilt for new Page Concept with Release 1.3.8</h1> <p>In order to improve performance and internal software architecture a new page concept was established. Furthermore, we have the new multi-copy feature.</p> <p>You can update your app or download new Re...</p>]]></description>
+            <description><![CDATA[<h1><a class="anchor" aria-hidden="true" id="app-was-rebuilt-for-new-page-concept-with-release-138"></a><a href="#app-was-rebuilt-for-new-page-concept-with-release-138" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>App was rebuilt for new Page Concept with Release 1.3.8</h1> <p>In order to improve performance and internal software architecture a new page concept was established. This was a really huge step, where about 200 Commits have be done. Furthermore, we have the ...</p>]]></description>
         </item>
         <item>
             <title><![CDATA[Problems, when loading in preset with the app]]></title>
