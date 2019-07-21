@@ -12,7 +12,7 @@ import { Actions as ViewSettingsActions } from '../../actions/view-settings.js'
 import { thunkChangeListOrder } from '../../actions/thunks/thunk-change-list-order'
 import { thunkLiveModeToggle } from '../../actions/thunks/thunk-live-mode-toggle'
 import MidiSettingsDialogButton from '../midi-settings-dialog/MidiSettingsDialogButton'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
 import { SizeMe } from 'react-sizeme'
 import { PAGE_TYPES } from '../../reducers'
 import { Button } from '@material-ui/core'
@@ -30,7 +30,8 @@ export default connect(
 const GridLayout = WidthProvider(RGL)
 
 function ChannelStripList(props) {
-  const classes = makeStyles(styles, { withTheme: true })()
+  const theme = useTheme()
+  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
   const {
     actions,
     thunkLoadFile,

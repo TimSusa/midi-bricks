@@ -1,7 +1,7 @@
 import { FooterButton } from './FooterButton'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
 import IconButton from '@material-ui/core/IconButton'
 import LeftIcon from '@material-ui/icons/KeyboardArrowLeft'
 import RightIcon from '@material-ui/icons/KeyboardArrowRight'
@@ -40,7 +40,8 @@ Footer.propTypes = {
 }
 
 function Footer(props) {
-  const classes = makeStyles(styles, { withTheme: true })()
+  const theme = useTheme()
+  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
   const {
     footerPages = [],
     pageTargets = [],

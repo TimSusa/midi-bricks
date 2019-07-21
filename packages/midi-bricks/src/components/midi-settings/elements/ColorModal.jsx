@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../../actions/slider-list.js'
 import { Actions as ViewSettingsActions } from '../../../actions/view-settings.js'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -52,7 +52,8 @@ ColorModal.propTypes = {
 }
 
 function ColorModal(props) {
-  const classes = makeStyles(styles, { withTheme: true })()
+  const theme = useTheme()
+  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
   let {
     actions,
     fieldName,

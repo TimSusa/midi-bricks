@@ -4,7 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Tooltip from '@material-ui/core/Tooltip'
 import CopyIcon from '@material-ui/icons/NoteAdd'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
@@ -39,7 +39,8 @@ MidiSettings.propTypes = {
 }
 
 function MidiSettings(props) {
-  const classes = makeStyles(styles, { withTheme: true })()
+    const theme = useTheme()
+  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
   const {
     isSettingsMode,
     actions,

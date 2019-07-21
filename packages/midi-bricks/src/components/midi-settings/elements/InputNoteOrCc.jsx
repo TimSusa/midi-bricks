@@ -2,7 +2,7 @@ import React from 'react'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../../actions/slider-list.js'
@@ -23,7 +23,8 @@ InputNoteOrCc.propTypes = {
 }
 
 function InputNoteOrCc(props) {
-  const classes = makeStyles(styles, { withTheme: true })()
+    const theme = useTheme()
+  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
   const {
     midiCC,
     yMidiCc,

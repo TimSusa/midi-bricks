@@ -1,7 +1,7 @@
 import { Drawer } from '@material-ui/core'
 import React, { useState } from 'react'
 import Home from './pages/Home'
-
+import { useTheme } from '@material-ui/styles'
 import MenuAppBar from './components/menu-app-bar/MenuAppBar'
 import DrawerList from './components/drawer-list/DrawerList'
 import Footer from './components/footer/Footer'
@@ -10,7 +10,8 @@ import { makeStyles } from '@material-ui/styles'
 export default App
 
 function App() {
-  const classes = makeStyles(styles, { withTheme: true })()
+  const theme = useTheme()
+  const classes = makeStyles(styles.bind(this, theme))()
   const [isMobileOpen, setIsMobileOpen] = useState(false)
 
   return (
@@ -22,7 +23,7 @@ function App() {
           anchor={'left'}
           open={isMobileOpen}
           classes={{
-            paper: classes.drawerPaper
+            paper: classes.drawerPaper,
           }}
           onClose={() => setIsMobileOpen(!isMobileOpen)}
         >
@@ -70,6 +71,10 @@ function styles(theme) {
     drawerPaper: {
       width: 250,
       backgroundColor: theme.palette.background.default,
+      color: theme.palette.primary.contrastText
+    },
+    iconColor: {
+      color: theme.palette.primary.contrastText
     },
     content: {
       backgroundColor: theme.palette.background.default,

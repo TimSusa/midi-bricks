@@ -22,7 +22,7 @@ ListItemSaveFileOnElectronComp.propTypes = {
 }
 
 // At Electron App we use ipc for file loading from main process
-export function ListItemSaveFileOnElectronComp({ onFileChange, viewSettings, sliders={}, pages }) {
+export function ListItemSaveFileOnElectronComp({ onFileChange, viewSettings, sliders={}, pages, iconColor }) {
   return (
     <ListItem
       button
@@ -31,7 +31,7 @@ export function ListItemSaveFileOnElectronComp({ onFileChange, viewSettings, sli
         saveIpcFileDialog({viewSettings, sliders, pages})
       }}
     >
-      <ListItemIcon>
+      <ListItemIcon className={iconColor}>
         <SaveIcon />
       </ListItemIcon>
       <ListItemText primary='Save Preset' />

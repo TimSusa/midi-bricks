@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import keycode from 'keycode'
 import Downshift from 'downshift'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
 import TextField from '@material-ui/core/TextField'
 
 import Paper from '@material-ui/core/Paper'
@@ -31,7 +31,8 @@ function MidiSuggestedInput(props) {
 
   const [inputValue, setInputValue] = useState('')
   const [selectedItem, setSelectedItem] = useState(startVal || [])
-  const classes = makeStyles(styles, { withTheme: true })()
+    const theme = useTheme()
+  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
 
   return (
     <Downshift

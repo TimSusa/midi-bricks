@@ -85,7 +85,7 @@ function DrawerList(props) {
             })
           }
         >
-          <ListItemIcon>
+          <ListItemIcon className={classes.iconColor}>
             <HomeIcon />
           </ListItemIcon>
           <ListItemText primary='Main' />
@@ -98,7 +98,7 @@ function DrawerList(props) {
             })
           }
         >
-          <ListItemIcon>
+          <ListItemIcon  className={classes.iconColor}>
             <GlobalIcon />
           </ListItemIcon>
           <ListItemText primary='Controllers' />
@@ -112,7 +112,7 @@ function DrawerList(props) {
             })
           }
         >
-          <ListItemIcon>
+          <ListItemIcon  className={classes.iconColor}>
             <IconDriverSettings />
           </ListItemIcon>
           <ListItemText primary='Drivers' />
@@ -128,7 +128,7 @@ function DrawerList(props) {
               : () => {}
           }
         >
-          <ListItemIcon>
+          <ListItemIcon  className={classes.iconColor}>
             <ViewIcon />
           </ListItemIcon>
           <ListItemText primary='Preferences' />
@@ -148,12 +148,14 @@ function DrawerList(props) {
             onFileChange={(e) =>
               handleFileChange(e, thunkLoadFile, onFileChange)
             }
+            iconColor={classes.iconColor}
           />
         ) : (
           <ListItemLoadFileOnElectron
             onFileChange={(e) =>
               handleFileChange(e, thunkLoadFile, onFileChange)
             }
+            iconColor={classes.iconColor}
           />
         )}
       </List>
@@ -171,7 +173,7 @@ function DrawerList(props) {
               version
             )}
           >
-            <ListItemIcon>
+            <ListItemIcon  className={classes.iconColor}>
               <SaveIcon />
             </ListItemIcon>
             <ListItemText primary='Save Preset' />
@@ -181,10 +183,11 @@ function DrawerList(props) {
             onFileChange={(e) =>
               handleFileChange(e, thunkLoadFile, onFileChange)
             }
+            iconColor={classes.iconColor}
           />
         )}
         <ListItem button onClick={() => setOpen(!open)}>
-          <ListItemIcon>
+          <ListItemIcon  className={classes.iconColor}>
             <DeleteIcon />
           </ListItemIcon>
           <ListItemText primary='Delete All' />
@@ -205,7 +208,7 @@ function DrawerList(props) {
           />
         </ListItem>
         <ListItem>
-          <ListItemIcon>
+          <ListItemIcon  className={classes.iconColor}>
             <VersionIcon />
           </ListItemIcon>
           <ListItemText primary={`${version}`} />

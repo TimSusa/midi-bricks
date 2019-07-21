@@ -1,8 +1,8 @@
 import {
   CssBaseline,
-  MuiThemeProvider,
   createMuiTheme
 } from '@material-ui/core'
+import { ThemeProvider } from '@material-ui/styles'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -27,10 +27,10 @@ function MuiWrappedApp(props) {
   const { isChangedTheme = false, children } = props
   const theme = createMuiTheme(isChangedTheme ? darkTheme : lightTheme)
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       {children ? children : <App {...props} />}
-    </MuiThemeProvider>
+    </ThemeProvider>
   )
 }
 

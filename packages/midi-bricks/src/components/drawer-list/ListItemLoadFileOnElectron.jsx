@@ -8,11 +8,12 @@ import {
 import { PropTypes } from 'prop-types'
 
 ListItemLoadFileOnElectron.propTypes = {
+  iconColor: PropTypes.any,
   onFileChange: PropTypes.func
 }
 
 // At Electron App we use ipc for file loading from main process
-export function ListItemLoadFileOnElectron({ onFileChange }) {
+export function ListItemLoadFileOnElectron({ onFileChange, iconColor }) {
   return (
     <ListItem
       button
@@ -21,7 +22,7 @@ export function ListItemLoadFileOnElectron({ onFileChange }) {
         openIpcFileDialog()
       }}
     >
-      <ListItemIcon>
+      <ListItemIcon className={iconColor}>
         <LoadIcon />
       </ListItemIcon>
       <ListItemText primary='Load Preset' />

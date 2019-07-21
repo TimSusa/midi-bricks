@@ -2,7 +2,7 @@ import React from 'react'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
 import MidiSettingsDialog from './MidiSettingsDialog'
 
 
@@ -15,7 +15,8 @@ MidiSettingsDialogButton.propTypes = {
 
 export default function MidiSettingsDialogButton(props) {
   const { isOpen, toggleSettings, sliderEntry } = props
-  const classes = makeStyles(styles, { withTheme: true })()
+    const theme = useTheme()
+  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
 
   return (
     <div className={classes.root}>

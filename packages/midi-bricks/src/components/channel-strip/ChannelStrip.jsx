@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
 // import MidiSliderClassic from '../midi-elements/MidiSliderClassic'
 import MidiSlider  from '../midi-elements/MidiSlider'
 import MidiButtons from '../midi-elements/midi-buttons/MidiButtons'
@@ -23,7 +23,8 @@ ChannelStrip.propTypes = {
 }
 
 function ChannelStrip(props) {
-  const classes = makeStyles(styles, { withTheme: true })()
+  const theme = useTheme()
+  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
   const { sliderEntry, size, isDisabled, isMidiLearnMode } = props
   const {
     i,

@@ -4,7 +4,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import PropTypes from 'prop-types'
 import InputAdornment from '@material-ui/core/InputAdornment'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
 import { Tooltip } from '@material-ui/core'
 
 ValueInput.propTypes = {
@@ -28,7 +28,8 @@ export function ValueInput({
   toolTip,
   icon
 }) {
-  const classes = makeStyles(styles, { withTheme: true })()
+    const theme = useTheme()
+  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
 
   const form = (
     <div className={classes.root}>

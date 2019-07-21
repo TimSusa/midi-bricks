@@ -12,14 +12,14 @@ ListItemLoadFileOnWeb.propTypes = {
   onFileChange: PropTypes.func
 }
 
-export function ListItemLoadFileOnWeb({ onFileChange }) {
+export function ListItemLoadFileOnWeb({ onFileChange, iconColor }) {
   return (
     <FileReader
       as='binary'
       onChange={handleFileChangeWebMode.bind(this, onFileChange)}
     >
       <ListItem button>
-        <ListItemIcon>
+        <ListItemIcon  className={iconColor}>
           <LoadIcon />
         </ListItemIcon>
         <ListItemText primary='Load Preset' />

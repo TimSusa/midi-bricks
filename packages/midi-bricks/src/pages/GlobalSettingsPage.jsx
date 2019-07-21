@@ -7,7 +7,7 @@ import {
   Tooltip,
   Paper
 } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -38,7 +38,8 @@ GlobalSettingsPage.propTypes = {
 }
 
 function GlobalSettingsPage(props) {
-  const classes = makeStyles(styles, { withTheme: true })()
+  const theme = useTheme()
+  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
   const {
     isMidiFailed,
     actions,

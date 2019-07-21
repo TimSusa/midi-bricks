@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as ViewSettingsAction } from '../../actions/view-settings'
@@ -51,15 +51,14 @@ MenuAppBar.propTypes = {
 }
 
 function MenuAppBar(props) {
-  const classes = makeStyles(styles, { withTheme: true })()
+  const theme = useTheme()
+  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
   const {
     actions = {},
     thunkCopyToNextPage,
     thunkUndoRedo,
     presetName = '',
     monitorVal,
-    // past = [],
-    // future = [],
     viewSettings: {
       pageType,
       isLiveMode = false,
@@ -88,7 +87,7 @@ function MenuAppBar(props) {
             icon={<MenuIcon />}
             aria-label='Menu'
           />
-          <Typography variant='h6' color='inherit' className={classes.flex}>
+          <Typography variant='h6' className={classes.typoColorStyle}>
             MIDI Bricks
           </Typography>
           {isMidiLearnMode && (

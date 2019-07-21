@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
 
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
@@ -25,7 +25,8 @@ Home.propTypes = {
 }
 
 function Home(props) {
-  const classes = makeStyles(styles, { useTheme: true })()
+  const theme = useTheme()
+  const classes = makeStyles(styles.bind(this,theme), { useTheme: true })()
 
   const {
     viewSettings: { isLiveMode = false, pageType = PAGE_TYPES.HOME_MODE },

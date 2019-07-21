@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
 import {
   Typography,
   ExpansionPanel,
@@ -19,7 +19,8 @@ function DriverExpansionPanel({
   label='',
   noPadding = false
 }) {
-  const classes = makeStyles(styles, { withTheme: true })()
+  const theme = useTheme()
+  const classes = makeStyles(styles.bind(this, theme), { withTheme: true })()
   return (
     <ExpansionPanel
       className={classes.root}
@@ -68,7 +69,8 @@ function styles(theme) {
       margin: 0
     },
     heading: {
-      margin: theme.spacing(1)
+      margin: theme.spacing(1),
+      color: theme.palette.primary.contrastText
     },
     details: {
       flexDirection: 'column',
