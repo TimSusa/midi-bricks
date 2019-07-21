@@ -223,9 +223,7 @@ function DrawerList(props) {
 
 function handleResetSliders(thunkDelete, cb, deleteAll, deleteFooterPages) {
   cb()
-  console.log('Sdfasdfasfasf')
   return thunkDelete('all')
-
 }
 
 function handleSaveFile(saveFile, handleSaveFile, pages, viewSettings, sliders) {
