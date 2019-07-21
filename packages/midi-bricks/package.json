@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks",
- "version": "1.3.8",
+  "version": "1.3.9",
   "private": false,
   "homepage": "https://midi-bricks.timsusa.now.sh",
   "main": "./src/index.js",
@@ -24,5 +24,5 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "gitHead": "fc837443e47b67e16bba775c1a8c961c3985e526"
+  "gitHead": "21d6a29d4898f067aad4891a3d061ee773347dc0"
 }
