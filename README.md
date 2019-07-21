@@ -4,7 +4,11 @@
 </p>
 
 
-# Midi-Bricks-Mono-Repository
+# Midi-Bricks
+
+MIDI Bricks can be use to create interactive MIDI Controller interfaces even for touch devices. 
+
+## Mono Repository
 This is a mono-repository for midi-bricks, its electron app and deployment. 
 
 ## Live-Web-Demo
@@ -29,7 +33,7 @@ yarn && yarn bootstrap
 ```
 
 
-# Midi-Bricks-Webapp
+# Webapp
 The midi-bricks folder poses the core source, which is a standalone webapp.
 Furthermore, it is deployed to the great guys from https://zeit.co/now. 
 
