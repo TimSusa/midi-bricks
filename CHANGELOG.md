@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.7](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.6...v1.3.7) (2019-07-21)
+
+
+### Bug Fixes
+
+* Invalid gui state on driver view ([6d23aa4](https://github.com/TimSusa/midi-bricks-mono/commit/6d23aa4))
+
+
+
 ## [1.3.6](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.4...v1.3.6) (2019-07-21)
 
 
