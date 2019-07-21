@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import DriverExpansionPanel from '../components/DriverExpansionPanel'
 import MidiDriverTable from '../components/MidiDriverTable'
@@ -30,9 +30,9 @@ function MidiDriversSettingsPage(props) {
       availableDrivers: { inputs: availableInputs, outputs: avalableOutputs }
     }
   } = props
-  // useEffect(() => {
-  //   thunkLiveModeToggle({ isLiveMode: false })
-  // }, [actions, thunkLiveModeToggle])
+  useEffect(() => {
+    thunkLiveModeToggle({ isLiveMode: false })
+  }, [])
 
 
   const [isFirstPanelExpanded, setIsFirstPanelExpanded] = useState(true)

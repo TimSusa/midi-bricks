@@ -50,6 +50,7 @@ You can use this file to add custom api tokens for example.
 ``` 
 
 ## Logging
+In production you can observe logs from your operatio system.
 
 ### MacOSX:
   ```
