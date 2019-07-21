@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import DriverExpansionPanel from './DriverExpansionPanel'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'

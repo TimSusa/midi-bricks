@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 import debounce from 'debounce'
+// import { debounce } from 'lodash'
 import { PropTypes } from 'prop-types'
 
 export default connect(

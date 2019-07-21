@@ -8,7 +8,7 @@ import {
   Paper
 } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'

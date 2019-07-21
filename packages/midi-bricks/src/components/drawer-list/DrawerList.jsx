@@ -70,7 +70,6 @@ function DrawerList(props) {
     sliders,
     thunkLoadFile,
     thunkDelete,
-    thunkLiveModeToggle
   } = props
   const [open, setOpen] = useState(false)
   const [isOpenViewSettings, setIsOpenViewSettings] = useState(false)
