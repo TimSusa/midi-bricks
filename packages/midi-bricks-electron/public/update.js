@@ -30,7 +30,7 @@ function setUp({ isAutoDownload, isAllowedPrerelease, isAllowedDowngrade }) {
   autoUpdater.logger = log
   autoUpdater.logger.transports.file.level = 'info'
   log.info('checkForUpdates')
-  autoUpdater.checkForUpdates()
+  autoUpdater.checkForUpdates() // is this obsolete? unsure!
   startAutoUpdater(autoUpdater)
 }
 
