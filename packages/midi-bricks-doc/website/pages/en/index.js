@@ -99,7 +99,7 @@ class Index extends React.Component {
       <div
         className="productShowcaseSection paddingBottom"
         style={{textAlign: 'center'}}>
-        <h2> <a href="https://github.com/TimSusa/midi-bricks-mono/releases">Try for free. <br></br><br></br> Be informed with automatic updates.</a></h2>
+        <h2> <a href="https://github.com/TimSusa/midi-bricks-mono/releases">It is Freeware! <br></br><br></br> Be informed with automatic updates.</a></h2>
         <MarkdownBlock>MIDI Bricks is for free, because it is open source software. You can even have automatic updates available.</MarkdownBlock>
         <a href="https://github.com/TimSusa/midi-bricks-mono/releases">Download actual release from github.</a>
       </div>
