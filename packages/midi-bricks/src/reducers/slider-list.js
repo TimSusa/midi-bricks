@@ -347,13 +347,13 @@ export const sliders = {
     // Limit to allow number
     // and prevent crash
     const minVal = parseInt(val, 10)
-    let newAction = null
+    let newAction = {}
     if (minVal <= 127 && minVal >= 0) {
-      newAction = { payload: { val, i } }
+      newAction = { val, i } 
     } else if (minVal > 127) {
-      newAction = { payload: { val: 127, i } }
+      newAction = { val: 127, i } 
     } else {
-      newAction = { payload: { val: 0, i } }
+      newAction = { val: 0, i } 
     }
     const { i: ii, val: vall } = newAction
     const sliderList = transformState(

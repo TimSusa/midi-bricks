@@ -1,4 +1,4 @@
-import React, { createRef } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import {
@@ -20,7 +20,6 @@ function DriverExpansionPanel({
   noPadding = false,
 }) {
   const theme = useTheme()
-  const ref = createRef()
 
   const classes = makeStyles(styles.bind(this, theme))()
   return (
@@ -28,8 +27,6 @@ function DriverExpansionPanel({
       className={classes.root}
       expanded={expanded}
       onChange={onChange}
-      ref={ref}
-      onClick={onHandleClickScrollTo}
     >
       <ExpansionPanelSummary
         className={classes.summary}
@@ -52,11 +49,6 @@ function DriverExpansionPanel({
       </ExpansionPanelDetails>
     </ExpansionPanel>
   )
-  function onHandleClickScrollTo(){
-    ref.current.scrollIntoView({
-      behavior: 'smooth', block: 'start', inline: 'nearest'
-    })
-  }
 }
 
 DriverExpansionPanel.propTypes = {
