@@ -17,9 +17,10 @@ function DriverExpansionPanel({
   expanded,
   onChange=()=>{},
   label='',
-  noPadding = false
+  noPadding = false,
 }) {
   const theme = useTheme()
+
   const classes = makeStyles(styles.bind(this, theme))()
   return (
     <ExpansionPanel
