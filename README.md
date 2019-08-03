@@ -6,7 +6,7 @@
 
 # Midi-Bricks
 
-MIDI Bricks can be use to create interactive MIDI Controller interfaces even for touch devices. 
+MIDI Bricks can be used to create interactive MIDI Controller interfaces even for touch devices. 
 
 ## Mono Repository
 This is a mono-repository for midi-bricks, its electron app and deployment. 
