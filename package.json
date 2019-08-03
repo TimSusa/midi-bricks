@@ -79,6 +79,6 @@
     "info-ci": "uname -a",
     "pre-release-ci": "release prepatch -t $(git describe --abbrev=0) --show-url --overwrite",
     "release-ci": "git push origin $(git describe --abbrev=0)",
-    "release": "standard-version"
+    "release": "standard-version -i --release-as"
   }
 }
