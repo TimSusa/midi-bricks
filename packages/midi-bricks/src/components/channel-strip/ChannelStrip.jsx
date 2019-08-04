@@ -1,12 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
-// import MidiSliderClassic from '../midi-elements/MidiSliderClassic'
-import MidiSlider  from '../midi-elements/MidiSlider'
+import Slider  from '../midi-elements/Slider'
 import MidiButtons from '../midi-elements/midi-buttons/MidiButtons'
 import StripLabel from '../midi-elements/StripLabel'
 import { STRIP_TYPE } from '../../reducers/slider-list'
-import MidiSliderHorz from '../midi-elements/MidiSliderHorz'
 import XyPad from '../XyPad'
 import { Label } from '../midi-elements/Label'
 export default ChannelStrip
@@ -53,11 +51,12 @@ function ChannelStrip(props) {
           >
             {label}
           </Label>
-          <MidiSlider
+          <Slider
+            isHorz={false}
             className={classes.sliderWrapper}
             isDisabled={isDisabled}
             sliderEntry={sliderEntry}
-            height={calcHeight(tmpH, props)}
+            height={calcLengthIfHidden(tmpH, props)}
             width={tmpW}
             sliderThumbHeight={sliderThumbHeight}
           />
@@ -88,13 +87,14 @@ function ChannelStrip(props) {
           >
             {label}
           </Label>
-          <MidiSliderHorz
+          <Slider
+            isHorz={true}
             className={classes.sliderWrapper}
             isDisabled={isDisabled}
             sliderEntry={sliderEntry}
             i={i}
-            height={calcHeight(tmpH, props)}
-            width={tmpW - sliderThumbHeight}
+            height={calcLengthIfHidden(tmpH, props)}
+            width={tmpW}
             sliderThumbHeight={sliderThumbHeight}
           />
           {!isValueHidden ? (
@@ -142,12 +142,12 @@ function ChannelStrip(props) {
   )
 }
 
-function calcHeight(tmpH, props) {
-  const fact = props.sliderEntry.isValueHidden ? 1 : 2
-  const marge = props.sliderEntry.isValueHidden ? 8 : 16
+function calcLengthIfHidden(tmpH, {sliderEntry: {isValueHidden, fontSize}}) {
+  const fact = isValueHidden ? 1 : 2
+  const marge = isValueHidden ? 8 : 16
   return (
     tmpH -
-    parseInt(fact * props.sliderEntry.fontSize, 10) -
+    parseInt(fact * fontSize, 10) -
     sliderThumbHeight -
     marge
   )
