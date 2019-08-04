@@ -128,11 +128,11 @@ function MidiSlider(props) {
   }
 
   function heightToVal(e) {
-    const tmpY = e.clientY - parentRectY.current
+    const tmpY = e.clientY - parentRectY.current - (sliderThumbHeight / 2)
     const tmpYy = tmpY < 0 ? 0 : tmpY
     const y = tmpYy >= height ? height : tmpYy
-    const val = ( 1 - y / height) * maxVal
-    const nVal = (val > minVal) ? val : minVal
+    const val = (1 - y / height) * maxVal
+    const nVal = val > minVal ? val : minVal
     return nVal
   }
 }
@@ -237,8 +237,8 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-function calcYFromVal({ val, height, maxVal, minVal }) {
-  const y = height * (1 - val / (maxVal - minVal))
+function calcYFromVal({ val, height, maxVal }) {
+  const y = height * (1 - val / maxVal)
   return y
 }
 function sendOutFromChildren(y, props) {

@@ -17,7 +17,7 @@ const noop = () => {}
 function MidiSliderHorz(props) {
   const [isActivated, setIsActivated] = useState(false)
   let selfRef = useRef(null)
-  let parentRectY = useRef(null)
+  let parentRectX = useRef(null)
   let onPointerMove = useRef(null)
   let isDragging = useRef(false)
   let send = useRef(null)
@@ -82,7 +82,7 @@ function MidiSliderHorz(props) {
     selfRef.current.setPointerCapture(e.pointerId)
 
     // Should be set before calling widthToVal()
-    parentRectY.current = selfRef.current.getBoundingClientRect().left
+    parentRectX.current = selfRef.current.getBoundingClientRect().left
 
     const val = widthToVal(e)
     send.current(val, props)
@@ -112,7 +112,7 @@ function MidiSliderHorz(props) {
     setIsActivated(false)
   }
 
-  function getSliderThumbStyle(y) {
+  function getSliderThumbStyle(left) {
     return {
       position: 'relative',
       cursor: 'pointer',
@@ -123,25 +123,18 @@ function MidiSliderHorz(props) {
         ? props.sliderEntry.colors.colorActive
         : 'goldenrod',
       top: 0,
-      left: Math.round(y - 1),
+      left,
       boxShadow: isActivated && '0 0 3px 3px rgb(24, 164, 157)'
     }
   }
 
   function widthToVal(e) {
-    // if (isNaN(parentRectY.current)) return
-    const tmpY = e.clientX - parentRectY.current
-    if (isNaN(tmpY)) return
-    const thumb = props.sliderThumbHeight / 2
-    const tmpThumb = tmpY - thumb
-    const tmpYy = tmpThumb < 0 ? 0 : tmpThumb
-    const y = tmpYy >= props.width ? props.width : tmpYy
-    const val =
-      (( Math.round(y)) *
-        (props.sliderEntry.maxVal - props.sliderEntry.minVal)) /
-      props.width
-    if (isNaN(val)) return
-    return val
+    const tmpY = e.clientX - parentRectX.current - (sliderThumbHeight / 2)
+    const tmpYy = tmpY < 0 ? 0 : tmpY
+    const y = tmpYy >= width ? width : tmpYy
+    const val = ( y / width) * maxVal
+    const nVal = val > minVal ? val : minVal
+    return nVal
   }
 }
 
@@ -246,7 +239,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function calcXFromVal({ val, width, maxVal, minVal }) {
-  const x = width * (1 - (val - 0) / (maxVal - 0))
+  const x = width * (1 - val / (maxVal))
   return x
 }
 
