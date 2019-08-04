@@ -47,7 +47,7 @@ function ChannelStripList(props) {
       isAutoArrangeMode = true,
       isSettingsMode = true,
       isSettingsDialogMode = false,
-      // isLiveMode = false,
+      isLiveMode = false,
       isMidiLearnMode = false,
       lastFocusedIdxs = [],
       lastFocusedPage,
@@ -68,7 +68,7 @@ function ChannelStripList(props) {
       handleKeyPress(actions, thunkLiveModeToggle, isLayoutMode, e)
 
     // Protect dialog mode from global listeners
-    if (!isSettingsDialogMode) {
+    if (!isSettingsDialogMode && !isLiveMode) {
       console.log('Add Keypress Listener')
       elem.addEventListener('keypress', keypressRef)
     }
@@ -81,6 +81,7 @@ function ChannelStripList(props) {
   }, [
     isSettingsDialogMode,
     isLayoutMode,
+    isLiveMode,
     elem,
     pageType,
     actions,
@@ -216,19 +217,21 @@ function ChannelStripList(props) {
     )
   } else if (!hasPages){
     return (
-      <Typography variant='h4' className={classes.noMidiTypography}>
-        <br />
-        <br />
-        <Button
-          variant='outlined'
-          onClick={async () => await thunkLoadFile(preset, preset.presetName)}
-        >
+      <div style={{height: 'calc(100vh - 132px)', background: 'white'}}>
+        <Typography variant='h4' className={classes.noMidiTypography}>
+          <br />
+          <br />
+          <Button
+            variant='outlined'
+            onClick={async () => await thunkLoadFile(preset, preset.presetName)}
+          >
           LOAD EXAMPLE
-        </Button>
-        <br />
-        <br />
-        <img alt={'cubefx'} src={'cube_fx.gif'}></img>
-      </Typography>
+          </Button>
+          <br />
+          <br />
+          <img alt={'cubefx'} src={'cube_fx.gif'}></img>
+        </Typography>
+      </div>
     )
   }
   else {

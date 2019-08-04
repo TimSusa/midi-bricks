@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.17](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.16-pre...v1.3.17) (2019-08-04)
+
+
+### Bug Fixes
+
+* Autoupdates ([5da4d89](https://github.com/TimSusa/midi-bricks-mono/commit/5da4d89))
+
+
+
 ## [1.3.16](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.15...v1.3.16) (2019-08-04)
 
 

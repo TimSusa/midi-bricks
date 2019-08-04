@@ -40,7 +40,6 @@ function Home(props) {
     if (pageType !== PAGE_TYPES.HOME_MODE) {
       return
     }
-    console.log('Re-Init MIDI')
     initAsync()
     return () => {}
   }, [initApp, pageType])
