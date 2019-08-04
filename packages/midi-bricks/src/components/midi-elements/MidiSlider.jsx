@@ -111,7 +111,7 @@ function MidiSlider(props) {
     setIsActivated(false)
   }
 
-  function getSliderThumbStyle(y) {
+  function getSliderThumbStyle(top) {
     return {
       position: 'relative',
       cursor: 'pointer',
@@ -121,26 +121,19 @@ function MidiSlider(props) {
       background: props.sliderEntry.colors.colorActive
         ? props.sliderEntry.colors.colorActive
         : 'goldenrod',
-      top: Math.round(y - 1),
+      top,
       left: 0,
       boxShadow: isActivated && '0 0 3px 3px rgb(24, 164, 157)'
     }
   }
 
   function heightToVal(e) {
-    // if (isNaN(parentRectY.current)) return
     const tmpY = e.clientY - parentRectY.current
-    if (isNaN(tmpY)) return
-    const thumb = props.sliderThumbHeight / 2
-    const tmpThumb = tmpY - thumb
-    const tmpYy = tmpThumb < 0 ? 0 : tmpThumb
-    const y = tmpYy >= props.height ? props.height : tmpYy
-    const val =
-      ((props.height - Math.round(y)) *
-        (props.sliderEntry.maxVal - props.sliderEntry.minVal)) /
-      props.height
-    if (isNaN(val)) return
-    return val
+    const tmpYy = tmpY < 0 ? 0 : tmpY
+    const y = tmpYy >= height ? height : tmpYy
+    const val = ( 1 - y / height) * maxVal
+    const nVal = (val > minVal) ? val : minVal
+    return nVal
   }
 }
 
