@@ -1,10 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { initApp } from '../../../actions/init.js'
-import { Actions as MidiSliderActions } from '../../../actions/slider-list.js'
-import { Actions as ViewActions } from '../../../actions/view-settings.js'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
@@ -14,11 +9,6 @@ import {
   renderMidiChannelSelection
 } from '../MidiSettings'
 import { suggestionsMidiCc } from './suggestions'
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MidiSettingsInput)
 
 MidiSettingsInput.propTypes = {
   sliderEntry: PropTypes.object,
@@ -30,7 +20,7 @@ MidiSettingsInput.propTypes = {
   lastFocusedPage: PropTypes.string
 }
 
-function MidiSettingsInput(props) {
+export default function MidiSettingsInput(props) {
   const {
     sliderEntry: {
       i,
@@ -42,7 +32,8 @@ function MidiSettingsInput(props) {
     lastFocusedPage,
     inputs,
     classes,
-    actions
+    actions,
+    initApp
   } = props
 
   return (
@@ -86,7 +77,14 @@ function MidiSettingsInput(props) {
         </InputLabel>
         <Select
           className={classes.select}
-          onChange={handleAddMidiInputChannel.bind(this, props)}
+          onChange={async e => {
+            props.actions.selectMidiChannelInput({
+              i,
+              val: e.target.value,
+              lastFocusedPage
+            })
+            await initApp()
+          }}
           value={midiChannelInput || 'None'}
         >
           {renderMidiChannelSelection(
@@ -103,35 +101,6 @@ function MidiSettingsInput(props) {
 }
 
 async function handleAddCCListener(props, e) {
-  console.log('props', props)
   props.actions.addMidiCcListener(e)
   await props.initApp()
-}
-
-async function handleAddMidiInputChannel(props, e) {
-  const {
-    i,
-    lastFocusedPage
-  } = props
-  props.actions.selectMidiChannelInput({
-    i,
-    val: e.target.value,
-    lastFocusedPage
-  })
-  await props.initApp()
-}
-function mapStateToProps({ viewSettings: { lastFocusedPage } }) {
-  return {
-    lastFocusedPage
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(
-      { ...MidiSliderActions, ...ViewActions },
-      dispatch
-    ),
-    initApp: bindActionCreators(initApp, dispatch)
-  }
 }

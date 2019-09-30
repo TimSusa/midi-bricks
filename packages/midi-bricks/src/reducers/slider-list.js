@@ -349,11 +349,11 @@ export const sliders = {
     const minVal = parseInt(val, 10)
     let newAction = {}
     if (minVal <= 127 && minVal >= 0) {
-      newAction = { val, i } 
+      newAction = { val, i }
     } else if (minVal > 127) {
-      newAction = { val: 127, i } 
+      newAction = { val: 127, i }
     } else {
-      newAction = { val: 0, i } 
+      newAction = { val: 0, i }
     }
     const { i: ii, val: vall } = newAction
     const sliderList = transformState(
@@ -429,14 +429,16 @@ export const sliders = {
   },
 
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL_INPUT](state, action) {
-    const { val, i, lastFocusedPage } = action.payload
-
+    const { val, i, lastFocusedPage } = action.payload 
     // Limit to allow number of midi channels
     // and prevent crash
     let newAction = null
-
-    if (val === 'all') {
-      newAction = { val: 'all', i }
+    if (val <= 16 && val >= 1) {
+      newAction = { val, i }
+    } else if (val > 16) {
+      newAction = { val: 16, i }
+    } else {
+      newAction = { val: 1, i }
     }
     const { i: ii, val: vall } = newAction
     const sliderList = transformState(

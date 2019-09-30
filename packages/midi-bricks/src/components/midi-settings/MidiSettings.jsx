@@ -6,6 +6,8 @@ import CopyIcon from '@material-ui/icons/NoteAdd'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import { connect } from 'react-redux'
+import { initApp } from '../../actions/init.js'
+
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 import { Actions as ViewActions } from '../../actions/view-settings.js'
@@ -28,14 +30,15 @@ export default connect(
 const { BUTTON, BUTTON_TOGGLE, PAGE } = STRIP_TYPE
 
 MidiSettings.propTypes = {
-  isSettingsMode: PropTypes.bool,
   actions: PropTypes.object,
+  initApp: PropTypes.func,
   inputs: PropTypes.object,
+  isSettingsMode: PropTypes.bool,
+  lastFocusedPage: PropTypes.string,
   onClose: PropTypes.func,
   outputs: PropTypes.object,
-  sliderEntry: PropTypes.object,
   pageTarget: PropTypes.object,
-  lastFocusedPage: PropTypes.string
+  sliderEntry: PropTypes.object
 }
 
 function MidiSettings(props) {
@@ -44,6 +47,7 @@ function MidiSettings(props) {
   const {
     isSettingsMode,
     actions,
+    initApp,
     inputs = {},
     outputs = {},
     sliderEntry = {},
@@ -118,6 +122,9 @@ function MidiSettings(props) {
                 classes={classes}
                 sliderEntry={sliderEntry}
                 inputs={inputs}
+                actions={actions}
+                lastFocusedPage={lastFocusedPage}
+                initApp={initApp}
               />
             )}
           </DriverExpansionPanel>
@@ -238,7 +245,8 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(
       { ...MidiSliderActions, ...ViewActions },
       dispatch
-    )
+    ),
+    initApp: bindActionCreators(initApp, dispatch)
   }
 }
 
