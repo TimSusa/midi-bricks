@@ -11,7 +11,7 @@ const { createPage, updateSliderListOfPage } = pageActions
 const { PAGE } = STRIP_TYPE
 const { addMidiElement } = sliderListActions
 const { addPageTarget } = viewSettingsActions
-const { undoRedoUpdate } = undoRedoActions 
+const { undoRedoUpdate } = undoRedoActions
 
 export function addElement(type, payload) {
   const pageId = `page-${getUniqueId()}`
