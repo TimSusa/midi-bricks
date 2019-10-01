@@ -79,34 +79,33 @@ describe('E2E Tests for MIDI-Bricks will get started...', function() {
     return app
   })
 
-  it.skip('Page Title should be MIDI Bricks + Open Drawer Menu and check some page elements', async function() {
+  it('Page Title should be MIDI Bricks + Open Drawer Menu and check some page elements', async function() {
     const { client } = app
 
-    const burgerMenuSelector = 'button[aria-label="Menu"]'
-    const viewSettingsSelector = 'span*=Views Settings'
-    const closeViewSettingsSelector = 'span*=Close'
+    const burgerMenuSelector = 'button[title="Menu"]'
+    // const viewSettingsSelector = 'span*=Views Settings'
+    // const closeViewSettingsSelector = 'span*=Close'
     await client.browserWindow.getTitle().should.eventually.equal('MIDI Bricks')
 
     await isSelectorVisible(client, burgerMenuSelector)
 
-    await client
-      .click(burgerMenuSelector)
-      .click('span*=Main')
-      .click('span*=Controllers')
-      .click('span*=Drivers')
+    // await client.click(burgerMenuSelector)
+    // await client.click('span*=Main')
+    // .click('span*=Controllers')
+    // .click('span*=Drivers')
 
-    await isSelectorVisible(client, viewSettingsSelector)
-    await client.click(viewSettingsSelector)
+    // await isSelectorVisible(client, viewSettingsSelector)
+    // await client.click(viewSettingsSelector)
 
-    await isSelectorVisible(client, closeViewSettingsSelector)
-    await client.click(closeViewSettingsSelector)
+    // await isSelectorVisible(client, closeViewSettingsSelector)
+    // await client.click(closeViewSettingsSelector)
 
     return app
   })
 
   it.skip('Open Drawer Menu Left and delete all elements', async function() {
     await app.client
-      .click('button[aria-label="Menu"]')
+      .click('button[title="Menu"]')
       .click('span*=Delete All')
       .click('span*=Yes, Delete')
 
