@@ -38,9 +38,7 @@ function ApplicationSettingsDialog(props) {
       </DialogContent>
       <DialogActions>
         <Button
-          onClick={(e) => {
-            props.onClose()
-          }}
+          onClick={e => onClose()}
           className={iconColor} 
         >
           Close

@@ -429,7 +429,7 @@ export const sliders = {
   },
 
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL_INPUT](state, action) {
-    const { val, i, lastFocusedPage } = action.payload 
+    const { val, i, lastFocusedPage } = action.payload
     // Limit to allow number of midi channels
     // and prevent crash
     let newAction = null
@@ -992,53 +992,6 @@ function getCheckedMidiOut(driverName) {
   const output = driverName !== 'None' && WebMIDI.getOutputByName(driverName)
   return output
 }
-
-// DEPRECATED
-// function filterPage(sliderList, label) {
-//   let newArr = []
-//   let arr = sortSliderList(sliderList)
-
-//   const startIdx = arr.findIndex((cur) => cur.label === label)
-//   const startVal = arr[startIdx]
-
-//   arr.splice(0, startIdx + 1)
-
-//   let wasFound = false
-//   arr.forEach((cur) => {
-//     if (!wasFound && cur.type !== 'PAGE') {
-//       newArr.push({ ...cur })
-//     } else {
-//       wasFound = true
-//       return
-//     }
-//   })
-//   const endVal = newArr[newArr.length - 1]
-
-//   newArr.splice(newArr.length - 1, 1)
-
-//   const tmpVal = endVal ? [startVal, ...newArr, endVal] : [startVal, ...newArr]
-//   const ret = tmpVal.map((item) => ({ ...item, y: item.y - tmpVal[0].y }))
-//   return ret
-// }
-
-// function sortSliderList(list = []) {
-//   const vList = sortBy(list, 'y')
-//   const yGroups = groupBy(vList, 'y')
-//   let ySortedList = []
-//   Object.keys(yGroups).forEach((group) => {
-//     const sortedXList = sortBy(yGroups[group], 'x')
-//     ySortedList = [...ySortedList, ...sortedXList]
-//   })
-//   return ySortedList
-// }
-
-// function sortBy(list = [], by) {
-//   return list
-//     .map((item) => item)
-//     .sort((a, b) => {
-//       return a[by] - b[by]
-//     })
-// }
 
 function updatePagesWithSliderlist(
   state,
