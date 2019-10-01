@@ -48,18 +48,8 @@ describe('E2E Tests for MIDI-Bricks will get started...', function() {
     return helpers.stopApplication(app)
   })
 
-  it('Check for right window adjustment', async function() {
+  it('Is there a server running, which we could test?', async function() {
     await winInit(app)
-    // .should.eventually.be.false.browserWindow.isDevToolsOpened()
-    // .should.eventually.be.true.browserWindow.isVisible()
-    // .should.eventually.be.true.browserWindow.isFocused()
-    // .should.eventually.be.true.browserWindow.getBounds()
-    // .should.eventually.have.property('width')
-    // .and.be.above(0)
-    // .browserWindow.getBounds()
-    // .should.eventually.have.property('height')
-    // .and.be.above(0)
-
     return app
   })
 
@@ -85,8 +75,6 @@ describe('E2E Tests for MIDI-Bricks will get started...', function() {
   it('Page Title should be MIDI Bricks + Open Drawer Menu and check some page elements', async function() {
     const { client } = app
     await winInit(app)
-    // const viewSettingsSelector = 'span*=Views Settings'
-    // const closeViewSettingsSelector = 'span*=Close'
     await client.browserWindow.getTitle().should.eventually.equal('MIDI Bricks')
 
     const isViss = await isSelectorVisible(client, loadExampleSelector)
@@ -102,17 +90,10 @@ describe('E2E Tests for MIDI-Bricks will get started...', function() {
     } else {
       console.error('no burgerMenuSelector')
     }
-    //await isSelectorVisible(client, burgerMenuSelector)
     await client
       .click('span*=Main')
       .click('span*=Controllers')
       .click('span*=Drivers')
-
-    // await isSelectorVisible(client, viewSettingsSelector)
-    // await client.click(viewSettingsSelector)
-
-    // await isSelectorVisible(client, closeViewSettingsSelector)
-    // await client.click(closeViewSettingsSelector)
 
     return app
   })
