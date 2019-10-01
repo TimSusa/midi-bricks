@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSlidersAction } from '../../actions/slider-list.js'
 import { Actions as ViewSettinsgsAction } from '../../actions/view-settings'
-import { addElement } from '../../actions/thunks/thunk-add-element'
+import { addElement } from '../../actions/thunks/thunk-add-element.js'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import AddIcon from '@material-ui/icons/Add'
@@ -72,22 +72,12 @@ function AddMenu(props) {
           Add Horizontal Slider
         </MenuItem>
         <MenuItem
-          onClick={handleAddButton.bind(
-            this,
-            setAnchorEl,
-            props,
-            BUTTON
-          )}
+          onClick={handleAddButton.bind(this, setAnchorEl, props, BUTTON)}
         >
           Add Button
         </MenuItem>
         <MenuItem
-          onClick={handleAddButton.bind(
-            this,
-            setAnchorEl,
-            props,
-            BUTTON_CC
-          )}
+          onClick={handleAddButton.bind(this, setAnchorEl, props, BUTTON_CC)}
         >
           Add Button CC
         </MenuItem>

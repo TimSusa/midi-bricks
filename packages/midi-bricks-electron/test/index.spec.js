@@ -5,6 +5,9 @@ const base = path.join(__dirname, '..')
 const helpers = require('./setup')
 
 const liveButtonSelector = 'button*=Live'
+const loadExampleSelector = 'button*=LOAD EXAMPLE'
+const burgerMenuSelector = 'button[title="Menu"]'
+
 const menuBarSelector = 'h6*=MIDI Bricks'
 const settingsButtonSelector = 'button[title="Switch to Settings Mode."]'
 const layoutButtonSelector = 'button[title="Switch to Layout Mode."]'
@@ -81,18 +84,29 @@ describe('E2E Tests for MIDI-Bricks will get started...', function() {
 
   it('Page Title should be MIDI Bricks + Open Drawer Menu and check some page elements', async function() {
     const { client } = app
-
-    const burgerMenuSelector = 'button[title="Menu"]'
+    await winInit(app)
     // const viewSettingsSelector = 'span*=Views Settings'
     // const closeViewSettingsSelector = 'span*=Close'
     await client.browserWindow.getTitle().should.eventually.equal('MIDI Bricks')
 
-    await isSelectorVisible(client, burgerMenuSelector)
+    const isViss = await isSelectorVisible(client, loadExampleSelector)
+    if (isViss) {
+      await app.client.click(loadExampleSelector)
+    } else {
+      console.error('no loadExampleSelector')
+    }
 
-    // await client.click(burgerMenuSelector)
-    // await client.click('span*=Main')
-    // .click('span*=Controllers')
-    // .click('span*=Drivers')
+    const isVis = await isSelectorVisible(client, burgerMenuSelector)
+    if (isVis) {
+      await app.client.click(burgerMenuSelector)
+    } else {
+      console.error('no burgerMenuSelector')
+    }
+    //await isSelectorVisible(client, burgerMenuSelector)
+    await client
+      .click('span*=Main')
+      .click('span*=Controllers')
+      .click('span*=Drivers')
 
     // await isSelectorVisible(client, viewSettingsSelector)
     // await client.click(viewSettingsSelector)
@@ -104,10 +118,8 @@ describe('E2E Tests for MIDI-Bricks will get started...', function() {
   })
 
   it.skip('Open Drawer Menu Left and delete all elements', async function() {
-    await app.client
-      .click('button[title="Menu"]')
-      .click('span*=Delete All')
-      .click('span*=Yes, Delete')
+    await app.client.click(burgerMenuSelector).click('span*=Delete All')
+    //.click('span*=Yes, Delete')
 
     return app
   })
