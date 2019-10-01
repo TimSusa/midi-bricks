@@ -14,6 +14,7 @@ const log = require('electron-log')
 const util = require('util')
 const readFile = util.promisify(fs.readFile)
 const doesFileExist = util.promisify(fs.stat)
+// eslint-disable-next-line no-unused-expressions
 require('electron').process
 
 let win = null
@@ -75,6 +76,7 @@ if (!gotTheLock) {
 }
 
 async function createWindow() {
+  // eslint-disable-next-line require-atomic-updates
   appSettings = (await readoutPersistedAppsettings(appSettings)) || {}
   log.info('App started... ! ', appSettings)
 
@@ -154,7 +156,6 @@ async function createWindow() {
 
   win.webContents.session.setPermissionRequestHandler(
     (webContents, permission, callback) => {
-      // eslint-disable-next-line standard/no-callback-literal
       callback(true)
     }
   )
@@ -283,27 +284,29 @@ function onSetAppSettings(event, arg) {
   })
 }
 function onSetActualWinCoords(event, arg) {
-  const {x, y, width, height} = win.getBounds()
+  const { x, y, width, height } = win.getBounds()
   appSettings = persistAppSettings({
     viewSettings: {
-      electronAppSettings: { ...appSettings, windowCoords:  [x, y, width, height]}
+      electronAppSettings: {
+        ...appSettings,
+        windowCoords: [x, y, width, height]
+      }
     }
   })
   event.sender.send('set-to-actual-win-coords-reply', [x, y, width, height])
   return [x, y, width, height]
-
 }
 async function readoutPersistedAppsettings(appSettings = appInitSettings) {
   // Try to read out persisted app-settings:
   try {
     const isExisting = await doesFileExist(persistedAppSettingsFileName)
-    if (isExisting) { 
+    if (isExisting) {
       const res = await readFile(persistedAppSettingsFileName)
       const data = JSON.parse(res)
       appSettings = data
       return data
-    } 
-  } catch(error){
+    }
+  } catch (error) {
     log.warn('App Settings Warning: ', 'Try to create settings-file')
 
     const persJson = JSON.stringify(appSettings)
@@ -319,8 +322,6 @@ async function readoutPersistedAppsettings(appSettings = appInitSettings) {
       }
     )
   }
-
-
 }
 
 function persistAppSettings(arg) {

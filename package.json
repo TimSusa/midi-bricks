@@ -23,7 +23,7 @@
     "react-sizeme": "^2.6.7",
     "redux": "^4.0.4",
     "redux-generate": "2.0.0",
-    "redux-persist": "5.10.0",
+    "redux-persist": "6.0.0",
     "redux-starter-kit": "^0.6.1",
     "redux-thunk": "2.3.0",
     "source-map-explorer": "1.8.0",

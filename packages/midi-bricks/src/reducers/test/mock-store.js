@@ -2354,7 +2354,7 @@ export const mockStore = {
           color: 'rgba(208, 2, 27, 1)',
           colorActive: 'rgba(184, 233, 134, 1)',
         },
-        fontSize: 16,
+        fontSize: '22',
         fontWeight: 500,
         isValueHidden: false,
         moved: false,

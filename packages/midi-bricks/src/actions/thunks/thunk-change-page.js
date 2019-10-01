@@ -20,7 +20,7 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
       console.log('isLiveMode')
       const pages = await localforage.getItem('pages')
       const updatedPages = {
-        ...pages, 
+        ...pages,
         [lastFocusedPage]: {
           ...pages[lastFocusedPage],
           sliderList
@@ -31,17 +31,17 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
       dispatch(setLastFocusedIndex({ i: 'none' }))
       dispatch(setMidiPage({ sliderList: pages[focusedPage].sliderList }))
       dispatch(setLastFocusedPage({ lastFocusedPage: focusedPage }))
-
-
     } else {
-      dispatch(undoRedoUpdate({state: getState()}))
+      dispatch(undoRedoUpdate({ state: getState() }))
 
       console.log('is no LiveMode')
       //batch(() => {
       if (storedPages[focusedPage]) {
         dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList }))
         dispatch(setLastFocusedIndex({ i: 'none' }))
-        dispatch(setMidiPage({ sliderList: storedPages[focusedPage].sliderList }))
+        dispatch(
+          setMidiPage({ sliderList: storedPages[focusedPage].sliderList })
+        )
         dispatch(setLastFocusedPage({ lastFocusedPage: focusedPage }))
       } else {
         dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList }))
@@ -50,7 +50,7 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
         dispatch(setLastFocusedPage({ lastFocusedPage: focusedPage }))
       }
 
-    //})
+      //})
     }
 
     return Promise.resolve()
