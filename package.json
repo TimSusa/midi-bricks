@@ -74,7 +74,7 @@
     "deploy:midi-bricks-ci": "cd packages/midi-bricks/ && yarn deploy-ci && cd .. && cd ..",
     "deploy:midi-bricks-doc": "cd packages/midi-bricks-doc/ && yarn && yarn deploy && cd .. && cd ..",
     "deploy:midi-bricks-electron": "cd packages/midi-bricks-electron/ && yarn build && yarn release && cd .. && cd ..",
-    "deploy:midi-bricks-electron-ci": "cd packages/midi-bricks-electron/ && yarn release-ci && cd .. && cd ..",
+    "deploy:midi-bricks-electron-ci": "cd packages/midi-bricks-electron/ && yarn build && yarn release-ci && cd .. && cd ..",
     "precommit": "yarn test && cd packages/midi-bricks/ && yarn test && cd ..",
     "info-ci": "uname -a",
     "pre-release-ci": "release prepatch -t $(git describe --abbrev=0) --show-url --overwrite",
