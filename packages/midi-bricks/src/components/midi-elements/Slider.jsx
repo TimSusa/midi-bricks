@@ -3,7 +3,7 @@ import createSelector from 'selectorator'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
-import{debounce} from 'debounce'
+import { debounce } from 'debounce'
 import { PropTypes } from 'prop-types'
 
 export default connect(
@@ -14,7 +14,7 @@ export default connect(
 function MidiSlider(props) {
   const [isActivated, setIsActivated] = useState(false)
   let selfRef = useRef(null)
-  let parentRectLength = useRef(null)
+  let parentOffset = useRef(null)
   let onPointerMove = useRef(null)
   let isDragging = useRef(false)
   let send = useRef(null)
@@ -45,24 +45,87 @@ function MidiSlider(props) {
         return false
       }}
       ref={selfRef}
-      onPointerDown={isDisabled ? noop : handlePointerStart}
+      onPointerDown={
+        isDisabled
+          ? noop
+          : handlePointerStart.bind(
+            this,
+            selfRef,
+            isHorz,
+            setIsActivated,
+            onPointerMove,
+            isDragging,
+            parentOffset,
+            handlePointerMove,
+            send,
+            sliderThumbHeight,
+            width,
+            height,
+            maxVal,
+            minVal,
+            props
+          )
+      }
       onPointerMove={isDisabled ? noop : onPointerMove.current}
-      onPointerUp={isDisabled ? noop : handlePointerEnd}
-      onPointerCancel={isDisabled ? noop : handlePointerEnd}
-      onGotPointerCapture={isDisabled ? noop : onGotCapture}
-      onLostPointerCapture={isDisabled ? noop : onLostCapture}
+      onPointerUp={
+        isDisabled
+          ? noop
+          : handlePointerEnd.bind(
+            this,
+            onPointerMove,
+            selfRef,
+            isHorz,
+            height,
+            width,
+            maxVal,
+            minVal,
+            parentOffset,
+            sliderThumbHeight,
+            send,
+            props,
+            setIsActivated,
+            isDragging
+          )
+      }
+      onPointerCancel={
+        isDisabled
+          ? noop
+          : handlePointerEnd.bind(
+            this,
+            onPointerMove,
+            selfRef,
+            isHorz,
+            height,
+            width,
+            maxVal,
+            minVal,
+            parentOffset,
+            sliderThumbHeight,
+            send,
+            props,
+            setIsActivated,
+            isDragging
+          )
+      }
+      onGotPointerCapture={
+        isDisabled ? noop : onGotCapture.bind(this, isActivated, setIsActivated)
+      }
+      onLostPointerCapture={
+        isDisabled
+          ? noop
+          : onLostCapture.bind(this, isActivated, setIsActivated)
+      }
       style={{
         height: !isHorz ? height + sliderThumbHeight / 2 : height,
         width: isHorz ? width + sliderThumbHeight / 2 : width,
         borderRadius: 3,
         background: color ? color : 'aliceblue',
-        boxShadow: isActivated && '0 0 3px 3px rgb(24, 164, 157)',
-        transform: isHorz ? 'scale(-1, 1)' : 'none'
+        boxShadow: isActivated && '0 0 3px 3px rgb(24, 164, 157)'
       }}
     >
       <div
         style={getSliderThumbStyle(
-          valToPixel(hOrW, val, maxVal),
+          valToPixel(hOrW, val, maxVal, minVal),
           isHorz,
           sliderThumbHeight,
           colorActive,
@@ -71,94 +134,6 @@ function MidiSlider(props) {
       />
     </div>
   )
-
-  function handlePointerStart(e) {
-    selfRef.current.focus()
-    setIsActivated(true)
-    onPointerMove.current = onPointerMove && handlePointerMove
-    isDragging.current = true
-    selfRef.current.setPointerCapture(e.pointerId)
-
-    // Should be set before calling heightToVal()
-    const { left, top } = selfRef.current.getBoundingClientRect()
-    parentRectLength.current = isHorz ? left : top
-
-    const val = isHorz
-      ? widthToVal(
-        e,
-        width,
-        maxVal,
-        minVal,
-        parentRectLength,
-        sliderThumbHeight
-      )
-      : heightToVal(
-        e,
-        height,
-        maxVal,
-        minVal,
-        parentRectLength,
-        sliderThumbHeight
-      )
-    send.current(val, props)
-  }
-
-  function handlePointerEnd(e) {
-    onPointerMove = null
-    selfRef.current.releasePointerCapture(e.pointerId)
-    const val = isHorz
-      ? widthToVal(
-        e,
-        width,
-        maxVal,
-        minVal,
-        parentRectLength,
-        sliderThumbHeight
-      )
-      : heightToVal(
-        e,
-        height,
-        maxVal,
-        minVal,
-        parentRectLength,
-        sliderThumbHeight
-      )
-    send.current(val, props)
-    isDragging.current = false
-    setIsActivated(false)
-  }
-
-  function handlePointerMove(e) {
-    if (!isDragging.current) {
-      return
-    }
-    const val = isHorz
-      ? widthToVal(
-        e,
-        width,
-        maxVal,
-        minVal,
-        parentRectLength,
-        sliderThumbHeight
-      )
-      : heightToVal(
-        e,
-        height,
-        maxVal,
-        minVal,
-        parentRectLength,
-        sliderThumbHeight
-      )
-    //if (isNaN(val)) return
-    send.current(val, props)
-  }
-
-  function onGotCapture(event) {
-    !isActivated && setIsActivated(true)
-  }
-  function onLostCapture(event) {
-    isActivated && setIsActivated(false)
-  }
 }
 
 MidiSlider.propTypes = {
@@ -174,41 +149,143 @@ MidiSlider.propTypes = {
   val: PropTypes.any
 }
 
-function valToPixel(heightOrWidth, val, maxVal) {
-  return heightOrWidth * (1 - val / maxVal)
-}
-function heightToVal(
-  e,
+function handlePointerStart(
+  selfRef,
+  isHorz,
+  setIsActivated,
+  onPointerMove,
+  isDragging,
+  parentOffset,
+  handlePointerMove,
+  send,
+  sliderThumbHeight,
+  width,
   height,
   maxVal,
   minVal,
-  parentRectLength,
-  sliderThumbHeight
+  props,
+  e
 ) {
-  const tmpY = e.clientY - parentRectLength.current - sliderThumbHeight / 2
-  const tmpYy = tmpY < 0 ? 0 : tmpY
-  const y = tmpYy >= height ? height : tmpYy
-  const oneToZeroScaledVal = 1 - y / height
-  //const val = minVal + oneToZeroScaledVal * (maxVal - minVal)
-  const val = oneToZeroScaledVal * maxVal
-  const nVal = val > minVal ? val : minVal
-  return nVal
+  selfRef.current.focus()
+  setIsActivated(true)
+  onPointerMove.current =
+    onPointerMove &&
+    handlePointerMove.bind(
+      this,
+      isDragging,
+      isHorz,
+      height,
+      width,
+      maxVal,
+      minVal,
+      parentOffset,
+      sliderThumbHeight,
+      send,
+      props
+    )
+  isDragging.current = true
+  selfRef.current.setPointerCapture(e.pointerId)
+
+  // Should be set before calling heightToVal()
+  const { left, top } = selfRef.current.getBoundingClientRect()
+  parentOffset.current = isHorz ? left : top
+
+  const val = pixelToVal(
+    isHorz ? e.clientX : e.clientY,
+    isHorz ? width : height,
+    maxVal,
+    minVal,
+    parentOffset,
+    sliderThumbHeight
+  )
+  send.current(val, props)
 }
-function widthToVal(
-  e,
+
+function handlePointerMove(
+  isDragging,
+  isHorz,
+  height,
   width,
   maxVal,
   minVal,
-  parentRectLength,
+  parentOffset,
+  sliderThumbHeight,
+  send,
+  props,
+  e
+) {
+  if (!isDragging.current) {
+    return
+  }
+  const val = pixelToVal(
+    isHorz ? e.clientX : e.clientY,
+    isHorz ? width : height,
+    maxVal,
+    minVal,
+    parentOffset,
+    sliderThumbHeight
+  )
+  send.current(val, props)
+}
+
+function handlePointerEnd(
+  onPointerMove,
+  selfRef,
+  isHorz,
+  height,
+  width,
+  maxVal,
+  minVal,
+  parentOffset,
+  sliderThumbHeight,
+  send,
+  props,
+  setIsActivated,
+  isDragging,
+  e
+) {
+  onPointerMove = null
+  selfRef.current.releasePointerCapture(e.pointerId)
+
+  const val = pixelToVal(
+    isHorz ? e.clientX : e.clientY,
+    isHorz ? width : height,
+    maxVal,
+    minVal,
+    parentOffset,
+    sliderThumbHeight
+  )
+  send.current(val, props)
+  isDragging.current = false
+  setIsActivated(false)
+  send = null
+}
+function onGotCapture(isActivated, setIsActivated, event) {
+  !isActivated && setIsActivated(true)
+}
+function onLostCapture(isActivated, setIsActivated, event) {
+  isActivated && setIsActivated(false)
+}
+function valToPixel(heightOrWidth, val, maxVal, minVal) {
+  const y = heightOrWidth - (heightOrWidth * (val - minVal)) / (maxVal - minVal)
+  return y
+}
+function pixelToVal(
+  actualOffset,
+  length,
+  maxVal,
+  minVal,
+  parentOffset,
   sliderThumbHeight
 ) {
-  const tmpY = e.clientX - parentRectLength.current
+  const tmpY = actualOffset - parentOffset.current - sliderThumbHeight / 2
   const tmpYy = tmpY < 0 ? 0 : tmpY
-  const y = tmpYy >= width ? width : tmpYy
-  const val = (y / width) * maxVal
-  const nVal = val > minVal ? val : minVal
-  return nVal
+  const y = tmpYy >= length ? length : tmpYy
+  const oneToZeroScaledVal = 1 - y / length
+  const val = minVal + oneToZeroScaledVal * (maxVal - minVal)
+  return val
 }
+
 function sendOutFromChildren(y, props) {
   return props.actions.handleSliderChange({
     i: props.sliderEntry.i,
