@@ -102,7 +102,7 @@ export function MidiSettingsOutput(props) {
         <React.Fragment>
           <MinMaxValInput
             label='Maximum Value'
-            value={maxVal}
+            value={parseInt(maxVal, 10)}
             name={`input-maxval-name-${i}`}
             limitVal={127}
             onChange={(e) =>
@@ -114,7 +114,7 @@ export function MidiSettingsOutput(props) {
           />
           <MinMaxValInput
             label='Minimum Value'
-            value={minVal}
+            value={parseInt(minVal, 10)}
             name={`input-minval-name-${i}`}
             limitVal={0}
             onChange={(e) =>

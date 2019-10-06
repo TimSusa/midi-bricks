@@ -1,8 +1,14 @@
 import WebMIDI from 'webmidi'
-import { debounce } from 'lodash'
+// import { debounce } from 'lodash'
+import{debounce} from 'debounce'
 import { Actions } from './slider-list'
 
-const { initMidiAccessPending, midiMessageArrived, initFailed, initMidiAccessOk } = Actions
+const {
+  initMidiAccessPending,
+  midiMessageArrived,
+  initFailed,
+  initMidiAccessOk
+} = Actions
 
 export function initApp(mode) {
   return function(dispatch, getState) {
@@ -18,7 +24,7 @@ export function initApp(mode) {
         }
         const { inputs = [], outputs = [] } = WebMIDI
         const {
-          sliders: { sliderList = [], pages={} },
+          sliders: { sliderList = [], pages = {} },
           viewSettings: {
             availableDrivers: { inputs: availableInputs } = {
               inputs: {
@@ -40,22 +46,7 @@ export function initApp(mode) {
           let ccArr = []
 
           // Either only sliderlist
-          !pages && Array.isArray(sliderList) &&
-            sliderList.forEach((entry) => {
-              const { driverNameInput = '', listenToCc = [] } = entry
-
-              if (name === driverNameInput) {
-                listenToCc.forEach((listen) => {
-                  if (!ccArr.includes(listen)) {
-                    ccArr.push(parseInt(listen, 10))
-                  }
-                })
-              }
-            })
-
-          // Or pages
-          Object.values(pages).forEach(item => {
-            const {sliderList} = item
+          !pages &&
             Array.isArray(sliderList) &&
             sliderList.forEach((entry) => {
               const { driverNameInput = '', listenToCc = [] } = entry
@@ -69,6 +60,21 @@ export function initApp(mode) {
               }
             })
 
+          // Or pages
+          Object.values(pages).forEach((item) => {
+            const { sliderList } = item
+            Array.isArray(sliderList) &&
+              sliderList.forEach((entry) => {
+                const { driverNameInput = '', listenToCc = [] } = entry
+
+                if (name === driverNameInput) {
+                  listenToCc.forEach((listen) => {
+                    if (!ccArr.includes(listen)) {
+                      ccArr.push(parseInt(listen, 10))
+                    }
+                  })
+                }
+              })
           })
           input.removeListener()
           if (
@@ -102,29 +108,26 @@ export function initApp(mode) {
             input.addListener(
               'controlchange',
               'all',
-              debounce(
-                ({ value, channel, controller: { number } }) => {
-                  const obj = {
-                    isNoteOn: undefined,
-                    val: value,
-                    cC: number,
-                    channel,
-                    driver: name,
-                  
-                  }
-                  const myAction = (payload) => ({
-                    type: 'MIDI_MESSAGE_ARRIVED',
-                    payload, 
-                    meta: {
-                      raf: true 
-                    }
-                  })
-                  // dispatch(midiMessageArrived(obj))
-
-                  // Seems to perform in less time
-                  dispatch(myAction(obj))
+              debounce(({ value, channel, controller: { number } }) => {
+                const obj = {
+                  isNoteOn: undefined,
+                  val: value,
+                  cC: number,
+                  channel,
+                  driver: name
                 }
-                , 2)
+                const myAction = (payload) => ({
+                  type: 'MIDI_MESSAGE_ARRIVED',
+                  payload,
+                  meta: {
+                    raf: true
+                  }
+                })
+                // dispatch(midiMessageArrived(obj))
+
+                // Seems to perform in less time
+                dispatch(myAction(obj))
+              }, 2)
             )
           }
           if (
@@ -228,8 +231,8 @@ export function initApp(mode) {
         })
         if (hasContent(outputs) || hasContent(inputs)) {
           const midiAccess = {
-            inputs: inputs.map(e => e.name),
-            outputs: outputs.map(e => e.name)
+            inputs: inputs.map((e) => e.name),
+            outputs: outputs.map((e) => e.name)
           }
           dispatch(initMidiAccessOk({ midiAccess }))
           resolve(midiAccess)

@@ -13,8 +13,8 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import Typography from '@material-ui/core/Typography'
 import { SketchPicker } from 'react-color'
-
-import { debounce } from 'lodash'
+import{debounce} from 'debounce'
+//import { debounce } from 'lodash'
 
 export default connect(
   null,
