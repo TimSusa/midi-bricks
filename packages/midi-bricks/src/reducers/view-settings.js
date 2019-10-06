@@ -463,8 +463,9 @@ function getChannels(
         noteChannel === 'all'
           ? chDummy
           : !oldNoteChannels.includes(noteChannel)
-          ? [...oldNoteChannels, noteChannel]
-          : oldNoteChannels
+            ? [...oldNoteChannels, noteChannel]
+            : oldNoteChannels
+
       channels = getObjFromNoteChannels(old, name, noteChannels)
     }
     if (ccChannel) {
@@ -472,8 +473,8 @@ function getChannels(
         ccChannel === 'all'
           ? chDummy
           : !oldCcChannels.includes(ccChannel)
-          ? [...oldCcChannels, ccChannel]
-          : oldCcChannels
+            ? [...oldCcChannels, ccChannel]
+            : oldCcChannels
       channels = getObjFromCcChannels(old, name, ccChannels)
     }
   } else {

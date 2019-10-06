@@ -4,31 +4,31 @@ import { Actions as undoRedoActions } from '../undo-redo'
 // import { Actions as viewSettingsActions } from '../view-settings'
 import { Actions as pageActions } from '../pages'
 
-
 const { changeListOrder } = sliderListActions
-//const { setLastFocusedPage, setLastFocusedIndex, addPageTarget } = viewSettingsActions
 const { updateSliderListOfPage } = pageActions
 const { undoRedoUpdate } = undoRedoActions
 
 export function thunkChangeListOrder(listOrder, lastFocusedPage) {
   return async function(dispatch, getState) {
-    dispatch(undoRedoUpdate({state: getState()}))
+    dispatch(undoRedoUpdate({ state: getState() }))
 
     const {
       viewSettings: { lastFocusedPage },
-      sliders: {sliderList}
+      sliders: { sliderList }
     } = getState()
 
     const mergedList = sliderList.reduce((acc, cur) => {
-      const orderEntry = listOrder.find(er => er.i === cur.i)
-      if(orderEntry) {
-        acc.push({ ...cur, ...orderEntry})
+      const orderEntry = listOrder.find((er) => er.i === cur.i)
+      if (orderEntry) {
+        acc.push({ ...cur, ...orderEntry })
       }
       return acc
     }, [])
-    batch(()=>{
+    batch(() => {
       dispatch(changeListOrder({ listOrder, lastFocusedPage }))
-      dispatch(updateSliderListOfPage({lastFocusedPage, sliderList: mergedList}))
+      dispatch(
+        updateSliderListOfPage({ lastFocusedPage, sliderList: mergedList })
+      )
     })
   }
 }

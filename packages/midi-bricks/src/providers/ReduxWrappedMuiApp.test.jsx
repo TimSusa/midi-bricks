@@ -16,7 +16,7 @@ const store = mockStore(storeMock)
 
 Enzyme.configure({ adapter: new Adapter() })
 
-describe('<ReduxWrappedMuiApp />', () => {
+describe.skip('<ReduxWrappedMuiApp />', () => {
   let mount
 
   beforeEach(() => {
