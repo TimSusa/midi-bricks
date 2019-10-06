@@ -59,8 +59,7 @@ function MidiSlider(props) {
             handlePointerMove,
             send,
             sliderThumbHeight,
-            width,
-            height,
+            hOrW,
             maxVal,
             minVal,
             props
@@ -75,8 +74,7 @@ function MidiSlider(props) {
             onPointerMove,
             selfRef,
             isHorz,
-            height,
-            width,
+            hOrW,
             maxVal,
             minVal,
             parentOffset,
@@ -95,8 +93,7 @@ function MidiSlider(props) {
             onPointerMove,
             selfRef,
             isHorz,
-            height,
-            width,
+            hOrW,
             maxVal,
             minVal,
             parentOffset,
@@ -159,8 +156,7 @@ function handlePointerStart(
   handlePointerMove,
   send,
   sliderThumbHeight,
-  width,
-  height,
+  hOrW,
   maxVal,
   minVal,
   props,
@@ -174,8 +170,7 @@ function handlePointerStart(
       this,
       isDragging,
       isHorz,
-      height,
-      width,
+      hOrW,
       maxVal,
       minVal,
       parentOffset,
@@ -192,7 +187,7 @@ function handlePointerStart(
 
   const val = pixelToVal(
     isHorz ? e.clientX : e.clientY,
-    isHorz ? width : height,
+    hOrW,
     maxVal,
     minVal,
     parentOffset,
@@ -204,8 +199,7 @@ function handlePointerStart(
 function handlePointerMove(
   isDragging,
   isHorz,
-  height,
-  width,
+  length,
   maxVal,
   minVal,
   parentOffset,
@@ -219,7 +213,7 @@ function handlePointerMove(
   }
   const val = pixelToVal(
     isHorz ? e.clientX : e.clientY,
-    isHorz ? width : height,
+    length,
     maxVal,
     minVal,
     parentOffset,
@@ -232,8 +226,7 @@ function handlePointerEnd(
   onPointerMove,
   selfRef,
   isHorz,
-  height,
-  width,
+  length,
   maxVal,
   minVal,
   parentOffset,
@@ -249,7 +242,7 @@ function handlePointerEnd(
 
   const val = pixelToVal(
     isHorz ? e.clientX : e.clientY,
-    isHorz ? width : height,
+    length,
     maxVal,
     minVal,
     parentOffset,
@@ -267,7 +260,7 @@ function onLostCapture(isActivated, setIsActivated, event) {
   isActivated && setIsActivated(false)
 }
 function valToPixel(heightOrWidth, val, maxVal, minVal) {
-  const y = heightOrWidth - (heightOrWidth * (val - minVal)) / (maxVal - minVal)
+  const y = heightOrWidth * (1 - (val - minVal) / (maxVal - minVal))
   return y
 }
 function pixelToVal(
@@ -278,11 +271,11 @@ function pixelToVal(
   parentOffset,
   sliderThumbHeight
 ) {
-  const tmpY = actualOffset - parentOffset.current - sliderThumbHeight / 2
-  const tmpYy = tmpY < 0 ? 0 : tmpY
-  const y = tmpYy >= length ? length : tmpYy
-  const oneToZeroScaledVal = 1 - y / length
-  const val = minVal + oneToZeroScaledVal * (maxVal - minVal)
+  const tmpPixel = actualOffset - parentOffset.current - sliderThumbHeight / 2
+  const tmpPixelGreaterZero = tmpPixel < 0 ? 0 : tmpPixel
+  const pixel = tmpPixelGreaterZero >= length ? length : tmpPixelGreaterZero
+  const oneToZeroScaledPixel = 1 - pixel / length
+  const val = minVal + oneToZeroScaledPixel * (maxVal - minVal)
   return val
 }
 
