@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.21](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.20...v1.3.21) (2019-10-06)
+
+
+### Bug Fixes
+
+* BUG - Slider Min/Max Values [#173](https://github.com/TimSusa/midi-bricks-mono/issues/173) ([cd8ee79](https://github.com/TimSusa/midi-bricks-mono/commit/cd8ee79))
+* build script ([cd1cbf8](https://github.com/TimSusa/midi-bricks-mono/commit/cd1cbf8))
+* types for slider values ([7c059ab](https://github.com/TimSusa/midi-bricks-mono/commit/7c059ab))
+
+
+
 ## [1.3.20](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.19...v1.3.20) (2019-10-06)
 
 
