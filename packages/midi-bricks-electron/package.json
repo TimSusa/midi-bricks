@@ -1,7 +1,7 @@
 {
   "name": "midi-bricks-electron",
   "productName": "MIDI-Bricks",
-  "version": "1.3.20-pre",
+  "version": "1.3.20",
   "main": "./build/electron.js",
   "homepage": ".",
   "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
@@ -85,8 +85,8 @@
     "build:app-ci": "yarn cp-src && yarn cp-src-electron && electron-builder --win --linux",
     "build:web": "yarn cp-src && react-scripts build",
     "pack": "yarn clean:dist && yarn cp-src && yarn cp-src-electron && electron-builder --dir --mac --win --linux",
-    "release": "build --win --mac --linux -p always",
-    "release-ci": "build --win --linux -p always",
+    "release": "electron-builder --win --mac --linux -p always",
+    "release-ci": "electron-builder --win --linux -p always",
     "test": "yarn cp-src && react-scripts test --colors",
     "test-e2e-ci": "concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && CI=true mocha --colors\"",
     "test-e2e": "CI=true mocha --colors",
@@ -96,5 +96,5 @@
     "clean": "yarn clean:dist && rimraf src",
     "clean:dist": "rimraf dist && rimraf build && mkdir build"
   },
-  "gitHead": "74ad45ceb2ab30fddea4a059b37c521627e6f9c3"
+  "gitHead": "b002098266cd0ab8166e8fca7fe5304054599098"
 }
