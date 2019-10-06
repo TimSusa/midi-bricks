@@ -3,16 +3,13 @@ import createSelector from 'selectorator'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
-import debounce from 'debounce'
-// import { debounce } from 'lodash'
+import{debounce} from 'debounce'
 import { PropTypes } from 'prop-types'
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(MidiSlider)
-
-const noop = () => {}
 
 function MidiSlider(props) {
   const [isActivated, setIsActivated] = useState(false)
@@ -63,80 +60,104 @@ function MidiSlider(props) {
         transform: isHorz ? 'scale(-1, 1)' : 'none'
       }}
     >
-      <div style={getSliderThumbStyle(valToCood(hOrW, val, maxVal))} />
+      <div
+        style={getSliderThumbStyle(
+          valToPixel(hOrW, val, maxVal),
+          isHorz,
+          sliderThumbHeight,
+          colorActive,
+          isActivated
+        )}
+      />
     </div>
   )
 
   function handlePointerStart(e) {
     selfRef.current.focus()
+    setIsActivated(true)
     onPointerMove.current = onPointerMove && handlePointerMove
     isDragging.current = true
     selfRef.current.setPointerCapture(e.pointerId)
 
     // Should be set before calling heightToVal()
-    const {left, top} = selfRef.current.getBoundingClientRect()
-    parentRectLength.current = isHorz
-      ? left
-      : top
+    const { left, top } = selfRef.current.getBoundingClientRect()
+    parentRectLength.current = isHorz ? left : top
 
-    const val = isHorz ? widthToVal(e) : heightToVal(e)
+    const val = isHorz
+      ? widthToVal(
+        e,
+        width,
+        maxVal,
+        minVal,
+        parentRectLength,
+        sliderThumbHeight
+      )
+      : heightToVal(
+        e,
+        height,
+        maxVal,
+        minVal,
+        parentRectLength,
+        sliderThumbHeight
+      )
     send.current(val, props)
   }
 
   function handlePointerEnd(e) {
     onPointerMove = null
     selfRef.current.releasePointerCapture(e.pointerId)
-    const val = isHorz ? widthToVal(e) : heightToVal(e)
+    const val = isHorz
+      ? widthToVal(
+        e,
+        width,
+        maxVal,
+        minVal,
+        parentRectLength,
+        sliderThumbHeight
+      )
+      : heightToVal(
+        e,
+        height,
+        maxVal,
+        minVal,
+        parentRectLength,
+        sliderThumbHeight
+      )
     send.current(val, props)
     isDragging.current = false
+    setIsActivated(false)
   }
 
   function handlePointerMove(e) {
     if (!isDragging.current) {
       return
     }
-    const val = isHorz ? widthToVal(e) : heightToVal(e)
+    const val = isHorz
+      ? widthToVal(
+        e,
+        width,
+        maxVal,
+        minVal,
+        parentRectLength,
+        sliderThumbHeight
+      )
+      : heightToVal(
+        e,
+        height,
+        maxVal,
+        minVal,
+        parentRectLength,
+        sliderThumbHeight
+      )
     //if (isNaN(val)) return
     send.current(val, props)
   }
 
   function onGotCapture(event) {
-    setIsActivated(true)
+    !isActivated && setIsActivated(true)
   }
   function onLostCapture(event) {
-    setIsActivated(false)
-  }
-
-  function getSliderThumbStyle(thumbLocation) {
-    return {
-      position: 'relative',
-      cursor: 'pointer',
-      height: isHorz ? '100%' : sliderThumbHeight,
-      width: !isHorz ? '100%' : sliderThumbHeight,
-      borderRadius: 3,
-      background: colorActive ? colorActive : 'goldenrod',
-      top: isHorz ? 0 : thumbLocation,
-      left: !isHorz ? 0 : thumbLocation,
-      boxShadow: isActivated && '0 0 3px 3px rgb(24, 164, 157)'
-    }
-  }
-
-  function heightToVal(e) {
-    const tmpY = e.clientY - parentRectLength.current - sliderThumbHeight / 2
-    const tmpYy = tmpY < 0 ? 0 : tmpY
-    const y = tmpYy >= height ? height : tmpYy
-    const val = (1 - y / height) * maxVal
-    const nVal = val > minVal ? val : minVal
-    return nVal
-  }
-
-  function widthToVal(e) {
-    const tmpY = e.clientX - parentRectLength.current 
-    const tmpYy = tmpY < 0 ? 0 : tmpY
-    const y = tmpYy >= width ? width : tmpYy
-    const val = (y / width) * maxVal
-    const nVal = val > minVal ? val : minVal
-    return nVal
+    isActivated && setIsActivated(false)
   }
 }
 
@@ -153,6 +174,68 @@ MidiSlider.propTypes = {
   val: PropTypes.any
 }
 
+function valToPixel(heightOrWidth, val, maxVal) {
+  return heightOrWidth * (1 - val / maxVal)
+}
+function heightToVal(
+  e,
+  height,
+  maxVal,
+  minVal,
+  parentRectLength,
+  sliderThumbHeight
+) {
+  const tmpY = e.clientY - parentRectLength.current - sliderThumbHeight / 2
+  const tmpYy = tmpY < 0 ? 0 : tmpY
+  const y = tmpYy >= height ? height : tmpYy
+  const oneToZeroScaledVal = 1 - y / height
+  //const val = minVal + oneToZeroScaledVal * (maxVal - minVal)
+  const val = oneToZeroScaledVal * maxVal
+  const nVal = val > minVal ? val : minVal
+  return nVal
+}
+function widthToVal(
+  e,
+  width,
+  maxVal,
+  minVal,
+  parentRectLength,
+  sliderThumbHeight
+) {
+  const tmpY = e.clientX - parentRectLength.current
+  const tmpYy = tmpY < 0 ? 0 : tmpY
+  const y = tmpYy >= width ? width : tmpYy
+  const val = (y / width) * maxVal
+  const nVal = val > minVal ? val : minVal
+  return nVal
+}
+function sendOutFromChildren(y, props) {
+  return props.actions.handleSliderChange({
+    i: props.sliderEntry.i,
+    val: parseInt(y, 10),
+    lastFocusedPage: props.lastFocusedPage
+  })
+}
+function getSliderThumbStyle(
+  thumbLocation,
+  isHorz,
+  sliderThumbHeight,
+  colorActive,
+  isActivated
+) {
+  return {
+    position: 'relative',
+    cursor: 'pointer',
+    height: isHorz ? '100%' : sliderThumbHeight,
+    width: !isHorz ? '100%' : sliderThumbHeight,
+    borderRadius: 3,
+    background: colorActive ? colorActive : 'goldenrod',
+    top: isHorz ? 0 : thumbLocation,
+    left: !isHorz ? 0 : thumbLocation,
+    boxShadow: isActivated && '0 0 3px 3px rgb(24, 164, 157)'
+  }
+}
+
 const getSliderEntr = ({
   isDisabled,
   height,
@@ -166,14 +249,17 @@ const getSliderEntr = ({
   }
 }) => ({
   isDisabled,
-  height,
-  sliderThumbHeight,
-  width,
   colors: { color, colorActive },
   val,
-  maxVal,
-  minVal
+  height: parseInt(height, 10),
+  sliderThumbHeight: parseInt(sliderThumbHeight, 10),
+  width: parseInt(width, 10),
+  maxVal: parseInt(maxVal, 10),
+  minVal: parseInt(minVal, 10)
 })
+
+function noop() {}
+
 const getSliderEntry = createSelector(
   [getSliderEntr],
   ({
@@ -238,15 +324,4 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
-}
-
-function valToCood(cood, val, maxVal) {
-  return cood * (1 - val / maxVal)
-}
-function sendOutFromChildren(y, props) {
-  return props.actions.handleSliderChange({
-    i: props.sliderEntry.i,
-    val: parseInt(y, 10),
-    lastFocusedPage: props.lastFocusedPage
-  })
 }
