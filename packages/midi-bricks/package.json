@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks",
-  "version": "1.3.23",
+  "version": "1.3.24",
   "private": false,
   "homepage": "https://midi-bricks.timsusa.now.sh",
   "main": "./src/index.js",

@@ -1,22 +1,12 @@
-/**
- * updater.js
- *
- * Please use manual update only when it is really required, otherwise please use recommended non-intrusive auto update.
- *
- * Import steps:
- * 1. create `updater.js` for the code snippet
- * 2. require `updater.js` for menu implementation, and set `checkForUpdates` callback from `updater` for the click property of `Check Updates...` MenuItem.
- */
 const { dialog } = require('electron')
 const log = require('electron-log')
 const { autoUpdater } = require('electron-updater')
 
 module.exports = {
-  setUp,
-  checkForUpdates
+  setUp
 }
 
-let updater
+let updater = null
 
 function setUp({ isAutoDownload, isAllowedPrerelease, isAllowedDowngrade }) {
   log.info('setUp... ', {
@@ -32,15 +22,6 @@ function setUp({ isAutoDownload, isAllowedPrerelease, isAllowedDowngrade }) {
   log.info('checkForUpdates')
   autoUpdater.checkForUpdates()
   startAutoUpdater(autoUpdater)
-}
-
-// export this to MenuItem click callback
-function checkForUpdates(clickCallback, focusedWindow, event) {
-  // log.info('checkForUpdates')
-  // updater = clickCallback
-  // updater.enabled = false
-  // autoUpdater.checkForUpdates()
-  // startAutoUpdater()
 }
 
 function startAutoUpdater(autoUpdater) {
@@ -86,7 +67,6 @@ function startAutoUpdater(autoUpdater) {
       ')'
 
     log.info(logMsg)
-    // sendStatusToWindow(logMsg)
   })
 
   // autoUpdater.on('update-not-available', () => {

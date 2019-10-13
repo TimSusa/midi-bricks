@@ -10,7 +10,6 @@ const fs = require('fs')
 const isDev = require('electron-is-dev')
 const windowStateKeeper = require('electron-window-state')
 const log = require('electron-log')
-//const { checkForUpdates } = require('./update')
 const util = require('util')
 const readFile = util.promisify(fs.readFile)
 const doesFileExist = util.promisify(fs.stat)
@@ -110,7 +109,6 @@ async function createWindow() {
       isAllowedPrerelease,
       isAllowedDowngrade
     })
-    // require('./update').checkForUpdates((thing) => updateCallback(thing))
   }
 
   // Load the previous state with fallback to defaults
@@ -355,7 +353,6 @@ function persistAppSettings(arg) {
   }
 
   const jsonRefreshed = JSON.stringify(freshContent)
-  sendStatusToWindow('App Settings persisted.')
 
   fs.writeFile(
     persistedAppSettingsFileName,
@@ -364,20 +361,16 @@ function persistAppSettings(arg) {
     (err, data) => {
       if (err) {
         throw new Error(err)
+      } else {
+        log.info(
+          'App Settings written: ',
+          jsonRefreshed,
+          ' to: ',
+          persistedAppSettingsFileName
+        )
       }
     }
-  )
-  log.info(
-    'App Settings written: ',
-    jsonRefreshed,
-    ' to: ',
-    persistedAppSettingsFileName
   )
 
   return freshContent
 }
-// let updateObject = {}
-// function updateCallback(thing) {
-//   updateObject = thing
-//   log.info('updateCallback:', updateObject)
-// }
