@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import Slider  from '../midi-elements/Slider'
+import Slider from '../midi-elements/Slider'
 import MidiButtons from '../midi-elements/midi-buttons/MidiButtons'
 import StripLabel from '../midi-elements/StripLabel'
 import { STRIP_TYPE } from '../../reducers/slider-list'
@@ -10,7 +10,6 @@ import { Label } from '../midi-elements/Label'
 export default ChannelStrip
 
 const sliderThumbHeight = 30
-
 
 ChannelStrip.propTypes = {
   classes: PropTypes.object,
@@ -37,7 +36,11 @@ function ChannelStrip(props) {
   } = sliderEntry
   const tmpH = (size && size.height) || 0
   const tmpW = (size && size.width) || 0
-  const isButton = ![STRIP_TYPE.SLIDER, STRIP_TYPE.SLIDER_HORZ, STRIP_TYPE.LABEL].includes(type)
+  const isButton = ![
+    STRIP_TYPE.SLIDER,
+    STRIP_TYPE.SLIDER_HORZ,
+    STRIP_TYPE.LABEL
+  ].includes(type)
   return (
     <div className={classes.root}>
       {type === STRIP_TYPE.SLIDER && !isMidiLearnMode && (
@@ -142,15 +145,13 @@ function ChannelStrip(props) {
   )
 }
 
-function calcLengthIfHidden(tmpH, {sliderEntry: {isValueHidden, fontSize}}) {
+function calcLengthIfHidden(
+  tmpH,
+  { sliderEntry: { isValueHidden, fontSize } }
+) {
   const fact = isValueHidden ? 1 : 2
   const marge = isValueHidden ? 8 : 16
-  return (
-    tmpH -
-    parseInt(fact * fontSize, 10) -
-    sliderThumbHeight -
-    marge
-  )
+  return tmpH - parseInt(fact * fontSize, 10) - sliderThumbHeight - marge
 }
 
 function styles(theme) {
