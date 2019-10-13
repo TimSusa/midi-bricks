@@ -97,7 +97,7 @@ function ChannelStrip(props) {
             sliderEntry={sliderEntry}
             i={i}
             height={calcLengthIfHidden(tmpH, props)}
-            width={tmpW}
+            width={calcLengthIfHidden(tmpW + 16 + sliderThumbHeight, props)}
             sliderThumbHeight={sliderThumbHeight}
           />
           {!isValueHidden ? (
