@@ -205,9 +205,9 @@ export const sliders = {
       // Handle multi CC
       const { midiCC, midiChannel, driverName, label } = tmp || {}
       sendControlChanges({ midiCC, midiChannel, driverName, val, label })
-      const refreshedSliderList = transformState(sliderList, { i, val }, 'val')
-
-      draftState.sliderList = refreshedSliderList
+      //const refreshedSliderList = transformState(sliderList, { i, val }, 'val')
+      const idx = sliderList.findIndex(item => item.i === i)
+      draftState.sliderList[idx].val = val // refreshedSliderList
       //draftState.pages[lastFocusedPage].sliderList = refreshedSliderList
       return draftState
     })

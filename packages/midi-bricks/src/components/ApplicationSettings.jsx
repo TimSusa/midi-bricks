@@ -18,6 +18,7 @@ import {
 } from '../utils/ipc-renderer'
 import LockIcon from '@material-ui/icons/Lock'
 import LockOpenIcon from '@material-ui/icons/LockOpen'
+import NetWorkIcon from '@material-ui/icons/SettingsEthernet'
 
 export default connect(
   mapStateToProps,
@@ -266,7 +267,6 @@ function ApplicationSettings(props) {
         {!isWebMode && (
           <>
             <FormControlLabel
-              icon={isRemoteServerRunning ? <LockIcon /> : <LockOpenIcon />}
               control={
                 <Tooltip title='Start MIDI Server Remote Session. (Please restart App afterwards)'>
                   <Switch
@@ -294,7 +294,6 @@ function ApplicationSettings(props) {
                 e.preventDefault()
                 addIpcTunnelUrlListenerOnce((url) =>
                 {      
-                  console.log('tim', url)
                   actions.setElectronAppSettings({
                     tunnelUrl: url
                   })}
@@ -308,7 +307,7 @@ function ApplicationSettings(props) {
 
             <ValueInput
               isDisabled={!isRemoteServerRunning}
-              // icon={<LockIcon />}
+              icon={<NetWorkIcon />}
               label='Public URL'
               name='app-tunnel-url'
               value={tunnelUrl}
