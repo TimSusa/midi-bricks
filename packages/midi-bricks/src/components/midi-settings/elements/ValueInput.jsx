@@ -28,7 +28,7 @@ export function ValueInput({
   toolTip,
   icon
 }) {
-    const theme = useTheme()
+  const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
 
   const form = (
@@ -59,7 +59,8 @@ function styles(theme) {
   return {
     root: {},
     formControl: {
-      margin: theme.spacing(1)
+      margin: theme.spacing(1),
+      width: '100%'
     },
     input: {
       color: theme.palette.primary.contrastText, // 'rgba(0, 0, 0, 0.54)',

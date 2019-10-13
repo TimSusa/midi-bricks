@@ -326,6 +326,8 @@ export const viewSettings = {
       isAllowedPrerelease,
       isAllowedDowngrade,
       isWindowSizeLocked,
+      isRemoteServerRunning,
+      tunnelUrl,
       windowCoords
     } = action.payload
     const electronAppSettings = {
@@ -353,6 +355,14 @@ export const viewSettings = {
         isWindowSizeLocked !== undefined
           ? isWindowSizeLocked
           : state.electronAppSettings.isWindowSizeLoisAllwedcked,
+      isRemoteServerRunning:
+          isRemoteServerRunning !== undefined
+            ? isRemoteServerRunning
+            : state.electronAppSettings.isRemoteServerRunning,
+      tunnelUrl:
+            tunnelUrl !== undefined
+              ? tunnelUrl
+              : state.electronAppSettings.tunnelUrl,
       windowCoords: Array.isArray(windowCoords)
         ? windowCoords
         : state.electronAppSettings.windowCoords

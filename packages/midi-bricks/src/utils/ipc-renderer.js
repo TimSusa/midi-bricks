@@ -42,6 +42,14 @@ export function addIpcWindowCoordsListenerOnce(cb) {
     cb(payload)
   })
 }
+export function setTunnelUrl(payload) {
+  sendAsyncMsg('set-to-actual-tunnel-url', payload)
+}
+export function addIpcTunnelUrlListenerOnce(cb) {
+  ipcRenderer.once('set-to-actual-tunnel-url-reply', (event, payload) => {
+    cb(payload)
+  })
+}
 
 function sendAsyncMsg(msg, payload) {
   ipcRenderer.send(msg, payload)

@@ -13,10 +13,14 @@ const log = require('electron-log')
 const util = require('util')
 const readFile = util.promisify(fs.readFile)
 const doesFileExist = util.promisify(fs.stat)
+const {startMidiServer } = require('./start-midi-server')
+
 // eslint-disable-next-line no-unused-expressions
 require('electron').process
 
+const localtunnel = require( 'localtunnel')
 let win = null
+let tunnel = null
 let appSettings = null
 let appInitSettings = {
   isDevConsoleEnabled: isDev,
@@ -25,7 +29,8 @@ let appInitSettings = {
   isAllowedToUpdate: true,
   isAutoDownload: false,
   isAllowedPrerelease: false,
-  isAllowedDowngrade: false
+  isAllowedDowngrade: false,
+  isRemoteServerRunning: false
 }
 log.info(app.getPath('userData'))
 
@@ -77,8 +82,7 @@ if (!gotTheLock) {
 async function createWindow() {
   // eslint-disable-next-line require-atomic-updates
   appSettings = (await readoutPersistedAppsettings(appSettings)) || {}
-  log.info('App started... ! ', appSettings)
-  require('./start-midi-server')
+  log.info('App started... !', appSettings)
   // Extract CLI parameter: Enable Dev Console
   const isDevelopmentCli =
     (process.argv.find((item) => item === '--dev') !== undefined &&
@@ -158,11 +162,19 @@ async function createWindow() {
     }
   )
 
+  if (appSettings.isRemoteServerRunning){
+    startMidiServer()
+
+
+  }
+
+
   // Register IPC
   ipcMain.on('open-file-dialog', onOpenFileDialog)
   ipcMain.on('save-file-dialog', onSaveFileDialog)
   ipcMain.on('send-app-settings', onSetAppSettings)
   ipcMain.on('set-to-actual-win-coords', onSetActualWinCoords)
+  ipcMain.on('set-to-actual-tunnel-url', onSetTunnelUrl)
 
   const url = isDev
     ? 'http://localhost:3000/'
@@ -170,6 +182,8 @@ async function createWindow() {
 
   win.loadURL(url)
   isAllowedToUpdate && sendStatusToWindow('Software-Updates enabled.')
+
+
 
   //  Emitted when the window is closed.
   win.on('closed', function() {
@@ -294,6 +308,30 @@ function onSetActualWinCoords(event, arg) {
   event.sender.send('set-to-actual-win-coords-reply', [x, y, width, height])
   return [x, y, width, height]
 }
+
+async function onSetTunnelUrl(event, arg) {
+  startMidiServer()
+  // Activate tunnel URL
+  tunnel = await localtunnel({ port: 3002 })
+
+  // the assigned public url for your tunnel
+  // i.e. https://abcdefgjhij.localtunnel.me
+  console.log('onSetTunnelUrl', tunnel.url)
+  log.info(tunnel.url)
+  tunnel.on('close', () => {
+    // tunnels are closed
+  })
+  appSettings = persistAppSettings({
+    viewSettings: {
+      electronAppSettings: {
+        ...appSettings,
+        tunnelUrl: tunnel.url
+      }
+    }
+  })
+  event.sender.send('set-to-actual-tunnel-url-reply', tunnel.url)
+  return tunnel.url
+}
 async function readoutPersistedAppsettings(appSettings = appInitSettings) {
   // Try to read out persisted app-settings:
   try {
@@ -332,6 +370,8 @@ function persistAppSettings(arg) {
         isAllowedDowngrade,
         isAllowedPrerelease,
         isWindowSizeLocked,
+        isRemoteServerRunning,
+        tunnelUrl,
         windowCoords
       } = appInitSettings
     }
@@ -349,7 +389,11 @@ function persistAppSettings(arg) {
       isDevConsoleEnabled !== undefined ? isDevConsoleEnabled : undefined,
     isWindowSizeLocked:
       isWindowSizeLocked !== undefined ? isWindowSizeLocked : undefined,
-    windowCoords: Array.isArray(windowCoords) ? windowCoords : undefined
+    windowCoords: Array.isArray(windowCoords) ? windowCoords : undefined,
+    isRemoteServerRunning:
+    isRemoteServerRunning !== undefined ? isRemoteServerRunning : undefined,
+    tunnelUrl:
+    tunnelUrl !== undefined ? tunnelUrl : undefined,
   }
 
   const jsonRefreshed = JSON.stringify(freshContent)

@@ -1,29 +1,19 @@
-/*
- * Copyright (C) 2017 Jason Henderson
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 const log = require('electron-log')
+const {app} = require('./configure-midi-server.js')
+const debug = require('debug')('config:server')
+const http = require('http')
 
 log.transports.console.level = 'info'
 log.transports.file.level = 'info'
 
 log.info('inside child express process...')
 
-/**
- * Module dependencies.
- */
-
-const app = require('./configure-midi-server.js')
-const debug = require('debug')('config:server')
-const http = require('http')
-
+module.exports = {
+  startMidiServer
+}
 /**
  * Get port from environment and store in Express.
  */
-
 // Port 4332 is currently unassigned and not widely used
 // We will use it as a default HTTP channel
 const port = normalizePort(3002 || '3000')
@@ -32,18 +22,27 @@ app.set('port', port)
 /**
  * Create HTTP server.
  */
-
 const server = http.createServer(app)
 
+
+function startMidiServer () {
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-log.info('listenting... ', port)
-server.listen(port)
-server.on('error', onError)
-server.on('listening', onListening)
+  if (!server.listening) {
+    log.info('listenting... ', port)
+    server.listen(port)
+    server.on('error', onError)
+    server.on('listening', onListening)
+  } else {
+    log.info('Server already running on ', port)
+  }
+}
 
+function stopMidiServer (){
+  server.stop()  
+}
 /**
  * Normalize a port into a number, string, or false.
  */

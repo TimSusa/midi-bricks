@@ -1417,6 +1417,7 @@ export const preset ={
       "isAllowedPrerelease": false,
       "isAllowedDowngrade": false,
       "isWindowSizeLocked": true,
+      "isRemoteServerRunning": false,
       "windowCoords": [
         0,
         0,

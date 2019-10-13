@@ -12,7 +12,9 @@ import { PropTypes } from 'prop-types'
 import {
   sendAppSettings,
   setActualWinCoords,
-  addIpcWindowCoordsListenerOnce
+  addIpcWindowCoordsListenerOnce,
+  addIpcTunnelUrlListenerOnce,
+  setTunnelUrl
 } from '../utils/ipc-renderer'
 import LockIcon from '@material-ui/icons/Lock'
 import LockOpenIcon from '@material-ui/icons/LockOpen'
@@ -40,7 +42,9 @@ function ApplicationSettings(props) {
         isAutoDownload = false,
         isAllowedDowngrade = false,
         isWindowSizeLocked = true,
-        windowCoords: winCood = [69, 69, 690, 690]
+        isRemoteServerRunning = false,
+        windowCoords: winCood = [69, 69, 690, 690],
+        tunnelUrl = ''
       } = {},
       columns = 18,
       rowHeight = 40,
@@ -259,7 +263,61 @@ function ApplicationSettings(props) {
             />
           </>
         )}
+        {!isWebMode && (
+          <>
+            <FormControlLabel
+              icon={isRemoteServerRunning ? <LockIcon /> : <LockOpenIcon />}
+              control={
+                <Tooltip title='Start MIDI Server Remote Session. (Please restart App afterwards)'>
+                  <Switch
+                    checked={isRemoteServerRunning}
+                    onChange={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      const payload = {
+                        isRemoteServerRunning: !isRemoteServerRunning
+                      }
+                      sendAppSettings(payload)
+                      actions.setElectronAppSettings(payload)
+                    }}
+                    value={isRemoteServerRunning}
+                    color='secondary'
+                  />
+                </Tooltip>
+              }
+              label='Start MIDI Server Remote Session.'
+            />
+            <Button
+              disabled={!isRemoteServerRunning}
+              variant='outlined'
+              onClick={(e) => {
+                e.preventDefault()
+                addIpcTunnelUrlListenerOnce((url) =>
+                {      
+                  console.log('tim', url)
+                  actions.setElectronAppSettings({
+                    tunnelUrl: url
+                  })}
+                )
+                setTunnelUrl()
 
+              }}
+            >
+              Create Public URL
+            </Button>
+
+            <ValueInput
+              isDisabled={!isRemoteServerRunning}
+              // icon={<LockIcon />}
+              label='Public URL'
+              name='app-tunnel-url'
+              value={tunnelUrl}
+              onChange={(e) => {
+                e.preventDefault()
+              }}
+            ></ValueInput> 
+          </>
+        )}
         <FormControlLabel
           control={
             <Tooltip title='Toggle Theme'>
