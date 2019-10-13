@@ -195,7 +195,9 @@ export const sliders = {
       let sliderList = state.sliderList
 
       // Set noteOn/noteOff stemming from CC VAl
-      const tmp = sliderList && sliderList.find((item) => item.i === i)
+      const idx = sliderList.findIndex(item => item.i === i)
+
+      const tmp =  sliderList[idx]
       const { type, onVal, offVal } = tmp || {}
       if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
         if (val === onVal || val === offVal) {
@@ -206,7 +208,6 @@ export const sliders = {
       const { midiCC, midiChannel, driverName, label } = tmp || {}
       sendControlChanges({ midiCC, midiChannel, driverName, val, label })
       //const refreshedSliderList = transformState(sliderList, { i, val }, 'val')
-      const idx = sliderList.findIndex(item => item.i === i)
       draftState.sliderList[idx].val = val // refreshedSliderList
       //draftState.pages[lastFocusedPage].sliderList = refreshedSliderList
       return draftState
