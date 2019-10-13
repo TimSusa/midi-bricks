@@ -190,23 +190,24 @@ export const sliders = {
   },
 
   [ActionTypeSliderList.HANDLE_SLIDER_CHANGE](state, action) {
-    return createNextState(state, (draftState) => {
-      const { i, val } = action.payload
-      let sliderList = state.sliderList
+    const { i, val } = action.payload
+    let sliderList = state.sliderList
 
-      // Set noteOn/noteOff stemming from CC VAl
-      const idx = sliderList.findIndex(item => item.i === i)
+    // Set noteOn/noteOff stemming from CC VAl
+    const idx = sliderList.findIndex(item => item.i === i)
 
-      const tmp =  sliderList[idx]
-      const { type, onVal, offVal } = tmp || {}
-      if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
-        if (val === onVal || val === offVal) {
-          sliderList = toggleNotesInState(state.sliderList, i)
-        }
+    const tmp =  sliderList[idx]
+    const { type, onVal, offVal } = tmp || {}
+    if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
+      if (val === onVal || val === offVal) {
+        sliderList = toggleNotesInState(state.sliderList, i)
       }
-      // Handle multi CC
-      const { midiCC, midiChannel, driverName, label } = tmp || {}
-      sendControlChanges({ midiCC, midiChannel, driverName, val, label })
+    }
+    // Handle multi CC
+    const { midiCC, midiChannel, driverName, label } = tmp || {}
+    sendControlChanges({ midiCC, midiChannel, driverName, val, label })
+    return createNextState(state, (draftState) => {
+
       //const refreshedSliderList = transformState(sliderList, { i, val }, 'val')
       draftState.sliderList[idx].val = val // refreshedSliderList
       //draftState.pages[lastFocusedPage].sliderList = refreshedSliderList
