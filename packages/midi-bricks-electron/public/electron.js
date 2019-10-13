@@ -78,7 +78,7 @@ async function createWindow() {
   // eslint-disable-next-line require-atomic-updates
   appSettings = (await readoutPersistedAppsettings(appSettings)) || {}
   log.info('App started... ! ', appSettings)
-
+  require('./start-midi-server')
   // Extract CLI parameter: Enable Dev Console
   const isDevelopmentCli =
     (process.argv.find((item) => item === '--dev') !== undefined &&
@@ -92,7 +92,7 @@ async function createWindow() {
   )
 
   const isAllowedToUpdate =
-    appSettings.isAllowedToUpdate != undefined
+    appSettings.isAllowedToUpdate !== undefined
       ? appSettings.isAllowedToUpdate
       : isAllowedToUpdateCli
   !isAllowedToUpdate && log.warn('Updates were disabled! ')
