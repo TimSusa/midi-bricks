@@ -15,8 +15,7 @@ jobs:
           name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
-      - run: yarn --pure-lockfile
-      - run: yarn bootstrap
+      - run: yarn
       - run:
           name: Run linter and tests
           command: yarn lint && yarn test:midi-bricks && git status
