@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.23](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.22...v1.3.23) (2019-10-13)
+
+
+### Bug Fixes
+
+* Horizontal slider min-max scaling ([67ce7d3](https://github.com/TimSusa/midi-bricks-mono/commit/67ce7d3))
+
+
+
 ## [1.3.21](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.20...v1.3.21) (2019-10-06)
 
 

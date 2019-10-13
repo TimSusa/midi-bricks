@@ -32,10 +32,12 @@ function MidiSlider(props) {
       sliderThumbHeight,
       width,
       colors: { color, colorActive },
-      maxVal,
-      minVal
+      maxVal: tmpMax,
+      minVal: tmpMin
     }
   } = props
+  const maxVal = isHorz ? tmpMin : tmpMax
+  const minVal = isHorz ? tmpMax : tmpMin
   const hOrW = isHorz ? width : height
   return (
     <div

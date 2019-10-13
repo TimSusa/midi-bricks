@@ -7,10 +7,10 @@ defaults: &defaults
     - image: mono
 jobs:
   deploy:
-    <<: *defaults  
+    <<: *defaults
     steps:
       - checkout
-      
+
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
@@ -18,7 +18,7 @@ jobs:
       - run: yarn --pure-lockfile
       - run: yarn bootstrap
       - run:
-          name: Run linter and tests 
+          name: Run linter and tests
           command: yarn lint && yarn test:midi-bricks && git status
       - run:
           name: Authenticate with registry
@@ -42,7 +42,7 @@ jobs:
             - ~/.cache/yarn
       - persist_to_workspace:
           root: ~/repo
-          paths: .
+          paths: ["./"]
 
 workflows:
   version: 2
@@ -54,4 +54,3 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
-
