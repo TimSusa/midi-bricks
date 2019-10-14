@@ -282,10 +282,12 @@ function pixelToVal(
 }
 
 function sendOutFromChildren(y, props) {
+  postData(props.tunnelUrl, props.sliderEntry)
+
   return props.actions.handleSliderChange({
     i: props.sliderEntry.i,
     val: parseInt(y, 10),
-    lastFocusedPage: props.lastFocusedPage
+    lastFocusedPage: props.lastFocusedPage,
   })
 }
 function getSliderThumbStyle(
@@ -360,6 +362,11 @@ const getLastFocusedPage = createSelector(
   [getLastFocus],
   (lastFocusedPage) => lastFocusedPage
 )
+const getTunnelUrl = ({ viewSettings }) => viewSettings.electronAppSettings.tunnelUrl
+const getTunnelUrlSelector = createSelector(
+  [getTunnelUrl],
+  (tunnelUrl) => tunnelUrl
+)
 const getMemVal = createSelector(
   [getSliderEntry],
   ({ val }) => val
@@ -387,6 +394,7 @@ const getEntry = createSelector(
 function mapStateToProps(state, props) {
   return {
     lastFocusedPage: getLastFocusedPage(state),
+    tunnelUrl: getTunnelUrlSelector(state),
     entry: getEntry(props),
     val: getMemVal(props)
   }
@@ -396,4 +404,31 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
+}
+
+
+async function postData(url = '', data = {}) {
+  if (!url) return
+  if (!data) return
+  try {
+  // Default options are marked with *http://localhost:3000
+    const response = await fetch(url+'/users', {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'no-cors', // no-cors, *cors, same-origin
+      // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      // referrer: 'no-referrer', // no-referrer, *client
+      body: JSON.stringify(data) // body data type must match "Content-Type" header
+    })
+    const res =  await response.json() 
+    console.log(res)
+  } catch(error){
+    throw new Error(error)
+  }
+// parses JSON response into native JavaScript objects
 }

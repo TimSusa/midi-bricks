@@ -47,18 +47,5 @@ app.use(function(err, req, res, next) {
   res.render('error')
 })
 
-// Activate tunnel URL
-// (async () => {
-//   const tunnel = await localtunnel({ port: 3002 })
 
-//   // the assigned public url for your tunnel
-//   // i.e. https://abcdefgjhij.localtunnel.me
-//   console.log(tunnel.url)
-//   log.info(tunnel.url)
-//   tunnelUrl = tunnel.url
-//   tunnel.on('close', () => {
-//     // tunnels are closed
-//   })
-// })()
-
-module.exports = {app, getTunnelUrl}
+module.exports = {app}

@@ -317,6 +317,30 @@ function ApplicationSettings(props) {
             ></ValueInput> 
           </>
         )}
+        {isWebMode && (
+          <>
+            <FormControlLabel
+              control={
+                <Tooltip title='Set Public URL to connect to MIDI Server.'>
+                  <ValueInput
+                    isDisabled={false}
+                    icon={<NetWorkIcon />}
+                    label='MIDI Server Connection URL'
+                    name='app-connect-tunnel-url'
+                    value={tunnelUrl}
+                    onChange={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      actions.setElectronAppSettings({
+                        tunnelUrl: e.target.value
+                      })
+                    }}
+                  />
+                </Tooltip>
+              }
+            />
+          </>
+        )}
         <FormControlLabel
           control={
             <Tooltip title='Toggle Theme'>

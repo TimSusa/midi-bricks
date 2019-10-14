@@ -193,11 +193,12 @@ export const sliders = {
     const { i, val } = action.payload
     let sliderList = state.sliderList
 
-    // Set noteOn/noteOff stemming from CC VAl
     const idx = sliderList.findIndex(item => item.i === i)
 
     const tmp =  sliderList[idx]
     const { type, onVal, offVal } = tmp || {}
+
+    // Set noteOn/noteOff stemming from CC VAl
     if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
       if (val === onVal || val === offVal) {
         sliderList = toggleNotesInState(state.sliderList, i)
@@ -206,10 +207,8 @@ export const sliders = {
     // Handle multi CC
     const { midiCC, midiChannel, driverName, label } = tmp || {}
     sendControlChanges({ midiCC, midiChannel, driverName, val, label })
-    
     return createNextState(state, (draftState) => {
-
-      draftState.sliderList[idx].val = val // refreshedSliderList
+      draftState.sliderList[idx].val = val
       return draftState
     })
   },
