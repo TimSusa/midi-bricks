@@ -272,43 +272,47 @@ export const sliders = {
     })
   },
   [ActionTypeSliderList.SELECT_MIDI_DRIVER](state, action) {
-    const { i, driverName, lastFocusedPage } = action.payload
-    const sliderList = transformState(
-      state.sliderList,
-      { i, val: driverName },
-      'driverName'
-    )
-    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
+    const { i, driverName } = action.payload
+    const idx = state.sliderList.findIndex((item) => i === item.i)
+
+    return createNextState(state, (draftState) => {
+      draftState.sliderList[idx].driverName = driverName
+      return draftState
+    })
   },
 
   [ActionTypeSliderList.SELECT_MIDI_DRIVER_INPUT](state, action) {
-    const { i, driverNameInput, lastFocusedPage } = action.payload
-    const sliderList = transformState(
-      state.sliderList,
-      { i, val: driverNameInput },
-      'driverNameInput'
-    )
-    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
+    const { i, driverNameInput } = action.payload
+    const idx = state.sliderList.findIndex((item) => i === item.i)
+
+    return createNextState(state, (draftState) => {
+      draftState.sliderList[idx].driverNameInput = driverNameInput
+      return draftState
+    })
   },
 
   [ActionTypeSliderList.SELECT_CC](state, action) {
-    const { i, val, lastFocusedPage } = action.payload
-    const sliderList = transformState(state.sliderList, { i, val }, 'midiCC')
-    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
+    const { i, val } = action.payload
+    const idx = state.sliderList.findIndex((item) => i === item.i)
+    return createNextState(state, (draftState) => {
+      draftState.sliderList[idx].midiCC = val
+      return draftState
+    })
   },
   [ActionTypeSliderList.ADD_MIDI_CC_LISTENER](state, action) {
-    const { i, val, lastFocusedPage } = action.payload
-    const sliderList = transformState(
-      state.sliderList,
-      { i, val },
-      'listenToCc'
-    )
-    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
+    const { i, val } = action.payload
+    const idx = state.sliderList.findIndex((item) => i === item.i)
+
+    return createNextState(state, (draftState) => {
+      draftState.sliderList[idx].listenToCc = val
+      return draftState
+    })
   },
   [ActionTypeSliderList.SET_MAX_VAL](state, action) {
     const { val, i } = action.payload
+    const idx = state.sliderList.findIndex((item) => i === item.i)
+
     return createNextState(state, (draftState) => {
-      const idx = state.sliderList.findIndex((item) => i === item.i)
       draftState.sliderList[idx].maxVal = scaleToMinMax(val, 1, 127)
       return draftState
     })
@@ -316,8 +320,9 @@ export const sliders = {
 
   [ActionTypeSliderList.SET_MIN_VAL](state, action) {
     const { val, i } = action.payload
+    const idx = state.sliderList.findIndex((item) => i === item.i)
+
     return createNextState(state, (draftState) => {
-      const idx = state.sliderList.findIndex((item) => i === item.i)
       draftState.sliderList[idx].minVal = scaleToMinMax(val, 0, 127)
       return draftState
     })
@@ -325,8 +330,9 @@ export const sliders = {
 
   [ActionTypeSliderList.SET_ON_VAL](state, action) {
     const { val, i } = action.payload
+    const idx = state.sliderList.findIndex((item) => i === item.i)
+
     return createNextState(state, (draftState) => {
-      const idx = state.sliderList.findIndex((item) => i === item.i)
       draftState.sliderList[idx].onVal = scaleToMinMax(val, 0, 127)
       return draftState
     })
@@ -334,8 +340,9 @@ export const sliders = {
 
   [ActionTypeSliderList.SET_OFF_VAL](state, action) {
     const { val, i } = action.payload
+    const idx = state.sliderList.findIndex((item) => i === item.i)
+
     return createNextState(state, (draftState) => {
-      const idx = state.sliderList.findIndex((item) => i === item.i)
       draftState.sliderList[idx].offVal = scaleToMinMax(val, 0, 127)
       return draftState
     })
@@ -343,9 +350,9 @@ export const sliders = {
 
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL](state, action) {
     const { val, i } = action.payload
+    const idx = state.sliderList.findIndex((item) => item.i === i)
 
     return createNextState(state, (draftState) => {
-      const idx = state.sliderList.findIndex((item) => item.i === i)
       draftState.sliderList[idx].midiChannel = val
       return draftState
     })
@@ -353,8 +360,9 @@ export const sliders = {
 
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL_INPUT](state, action) {
     const { val, i } = action.payload
+    const idx = state.sliderList.findIndex((item) => item.i === i)
+
     return createNextState(state, (draftState) => {
-      const idx = state.sliderList.findIndex((item) => item.i === i)
       draftState.sliderList[idx].midiChannelInput = val
       return draftState
     })
@@ -685,30 +693,10 @@ export const sliders = {
   },
 
   [ActionTypeSliderList.RESET_VALUES](state, action) {
-    // const sliderList = state.sliderList.map((item, idx) => {
-    //   const tmp = state.sliderListBackup[idx]
-    //   let retVal = {
-    //     ...item,
-    //     val: (tmp && tmp.val) || 0,
-    //     isNoteOn: (tmp && tmp.isNoteOn) || false
-    //   }
-    //   return retVal
-    // })
     return createNextState(state, (draftState) => {
-      //draftState.sliderList = sliderList
       return draftState
     })
-    // return { ...state, sliderList }
   },
-
-  // [ActionTypeSliderList.GO_BACK](state, action) {
-  //   return { ...state, sliderList: state.sliderListBackup }
-  // },
-
-  // [ActionTypeSliderList.UPDATE_SLIDER_LIST_BACKUP](state, action) {
-  //   const sliderList = sortSliderList(state.sliderList)
-  //   return { ...state, sliderList, sliderListBackup: sliderList }
-  // },
 
   [ActionTypeSliderList.SET_MIDI_PAGE](state, action) {
     return createNextState(state, (draftState) => {
@@ -752,9 +740,7 @@ function transformAddState(state, action) {
   let yVal = undefined
   let yDriverName = undefined
   let yMidiCc = undefined
-  //let yDriverNameInput = undefined
   let yMidiChannel = undefined
-  //let yMidiChannelInput = undefined
   let yMinVal = undefined
   let yMaxVal = undefined
 
@@ -786,9 +772,7 @@ function transformAddState(state, action) {
     midiCC = [addMidiCCVal()]
     yDriverName = 'None'
     yMidiCc = [addMidiCCVal()]
-    //yDriverNameInput = 'None'
     yMidiChannel = 1
-    //yMidiChannelInput = 1
     yMinVal = 0
     yMaxVal = 127
   }
@@ -808,9 +792,7 @@ function transformAddState(state, action) {
     yDriverName,
     yVal,
     yMidiCc,
-    //yDriverNameInput,
     yMidiChannel,
-    //yMidiChannelInput,
     yMinVal,
     yMaxVal,
     midiChannel: 1,
