@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.27](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.26...v1.3.27) (2019-10-16)
+
+
+### Bug Fixes
+
+* Fix for broken CC Toggle Button ([8b8f429](https://github.com/TimSusa/midi-bricks-mono/commit/8b8f429))
+* revert toggeNotesInState to its old state ([e6ab7e2](https://github.com/TimSusa/midi-bricks-mono/commit/e6ab7e2))
+* Test ([b6a73a0](https://github.com/TimSusa/midi-bricks-mono/commit/b6a73a0))
+
+
+
 ## [1.3.25](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.24...v1.3.25) (2019-10-13)
 
 
