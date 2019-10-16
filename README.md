@@ -6,7 +6,7 @@
 
 # Midi-Bricks
 
-MIDI Bricks is invented for usage as interactive MIDI-Controller-Interface or even for Touch-Device purposes.
+MIDI Bricks was invented for usage as interactive MIDI-Controller-Interface or even for Touch-Device purposes.
 
 ## Mono Repository
 This is a mono-repository for midi-bricks, its electron app and deployment. 
