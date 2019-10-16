@@ -262,7 +262,6 @@ export const sliders = {
 
   [ActionTypeSliderList.CHANGE_LABEL](state, action) {
     const { i, val } = action.payload
-    //const sliderList = transformState(state.sliderList, { i, val }, 'label')
     return createNextState(state, (draftState) => {
       const idx = state.sliderList.findIndex((er) => er.i === i)
       const entry = state.sliderList.find((er) => er.i === i)
@@ -271,7 +270,6 @@ export const sliders = {
       }
       return draftState
     })
-    // return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
   [ActionTypeSliderList.SELECT_MIDI_DRIVER](state, action) {
     const { i, driverName, lastFocusedPage } = action.payload
@@ -308,91 +306,39 @@ export const sliders = {
     return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
   [ActionTypeSliderList.SET_MAX_VAL](state, action) {
-    const { val, i, lastFocusedPage } = action.payload
-
-    // Limit to allow number
-    // and prevent crash
-    const maxVal = parseInt(val, 10)
-    let newAction = {}
-    if (maxVal <= 127 && maxVal >= 1) {
-      newAction = { val, i }
-    } else if (maxVal > 127) {
-      newAction = { val: 127, i }
-    } else {
-      newAction = { val: 1, i }
-    }
-    const { i: ii, val: vall } = newAction
-    const sliderList = transformState(
-      state.sliderList,
-      { i: ii, val: vall },
-      'maxVal'
-    )
-    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
+    const { val, i } = action.payload
+    return createNextState(state, (draftState) => {
+      const idx = state.sliderList.findIndex((item) => i === item.i)
+      draftState.sliderList[idx].maxVal = scaleToMinMax(val, 1, 127)
+      return draftState
+    })
   },
 
   [ActionTypeSliderList.SET_MIN_VAL](state, action) {
-    const { val, i, lastFocusedPage } = action.payload
-
-    // Limit to allow number
-    // and prevent crash
-    const minVal = parseInt(val, 10)
-    let newAction = {}
-    if (minVal <= 127 && minVal >= 0) {
-      newAction = { val, i }
-    } else if (minVal > 127) {
-      newAction = { val: 127, i }
-    } else {
-      newAction = { val: 0, i }
-    }
-    const { i: ii, val: vall } = newAction
-    const sliderList = transformState(
-      state.sliderList,
-      { i: ii, val: vall },
-      'minVal'
-    )
-    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
+    const { val, i } = action.payload
+    return createNextState(state, (draftState) => {
+      const idx = state.sliderList.findIndex((item) => i === item.i)
+      draftState.sliderList[idx].minVal = scaleToMinMax(val, 0, 127)
+      return draftState
+    })
   },
 
   [ActionTypeSliderList.SET_ON_VAL](state, action) {
-    const { val, i, lastFocusedPage } = action.payload
-    const valInt = parseInt(val, 10)
-    let newAction = null
-    if (valInt <= 127 && valInt >= 0) {
-      newAction = { val: valInt, i }
-    } else if (valInt > 127) {
-      newAction = { val: 127, i }
-    } else {
-      newAction = { val: 0, i }
-    }
-
-    const { i: ii, val: vall } = newAction
-    const sliderList = transformState(
-      state.sliderList,
-      { i: ii, val: vall },
-      'onVal'
-    )
-    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
+    const { val, i } = action.payload
+    return createNextState(state, (draftState) => {
+      const idx = state.sliderList.findIndex((item) => i === item.i)
+      draftState.sliderList[idx].onVal = scaleToMinMax(val, 0, 127)
+      return draftState
+    })
   },
 
   [ActionTypeSliderList.SET_OFF_VAL](state, action) {
-    const { val, i, lastFocusedPage } = action.payload
-    const valInt = parseInt(val, 10)
-    let newAction = null
-    if (valInt <= 127 && valInt >= 0) {
-      newAction = { val: valInt, i }
-    } else if (valInt > 127) {
-      newAction = { val: 127, i }
-    } else {
-      newAction = { val: 0, i }
-    }
-
-    const { i: ii, val: vall } = newAction
-    const sliderList = transformState(
-      state.sliderList,
-      { i: ii, val: vall },
-      'offVal'
-    )
-    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
+    const { val, i } = action.payload
+    return createNextState(state, (draftState) => {
+      const idx = state.sliderList.findIndex((item) => i === item.i)
+      draftState.sliderList[idx].offVal = scaleToMinMax(val, 0, 127)
+      return draftState
+    })
   },
 
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL](state, action) {
@@ -963,4 +909,17 @@ function updatePagesWithSliderlist(state, refreshedSliderList = []) {
     draftState.sliderList = refreshedSliderList
     return draftState
   })
+}
+
+function scaleToMinMax(val, min, max) {
+  const v = parseInt(val, 10)
+  let newVal = null
+  if (v <= max && v >= min) {
+    newVal = val
+  } else if (v > max) {
+    newVal = max
+  } else {
+    newVal = min
+  }
+  return newVal
 }
