@@ -484,25 +484,24 @@ export const sliders = {
 
   [ActionTypeSliderList.CHANGE_FONT_SIZE](state, action) {
     const { i, fontSize } = action.payload
-    const sliderList = transformState(
-      state.sliderList,
-      { i, val: fontSize },
-      'fontSize'
-    )
 
-    return { ...state, sliderList }
+    const idx = state.sliderList.findIndex((item) => i === item.i)
+
+    return createNextState(state, (draftState) => {
+      draftState.sliderList[idx].fontSize = fontSize
+      return draftState
+    })
   },
 
   [ActionTypeSliderList.CHANGE_FONT_WEIGHT](state, action) {
     const { i, fontWeight } = action.payload
 
-    const sliderList = transformState(
-      state.sliderList,
-      { i, val: fontWeight },
-      'fontWeight'
-    )
+    const idx = state.sliderList.findIndex((item) => i === item.i)
 
-    return { ...state, sliderList }
+    return createNextState(state, (draftState) => {
+      draftState.sliderList[idx].fontWeight = fontWeight
+      return draftState
+    })
   },
 
   [ActionTypeSliderList.CHANGE_XYPAD_SETTINGS](state, action) {
@@ -514,67 +513,38 @@ export const sliders = {
       yMinVal,
       yMidiCc
     } = action.payload
+    const idx = state.sliderList.findIndex((item) => i === item.i)
+    return createNextState(state, (draftState) => {
+      if (yMidiChannel) {
+        draftState.sliderList[idx].yMidiChannel = yMidiChannel
+      }
+      if (yDriverName) {
+        draftState.sliderList[idx].yDriverName = yDriverName
+      }
 
-    let sliderList = []
+      if (yMidiCc && yMidiCc.length > 0) {
+        draftState.sliderList[idx].yMidiCc = yMidiCc
+      }
 
-    if (yMidiChannel) {
-      const listWithChannels = transformState(
-        state.sliderList,
-        { i, val: yMidiChannel },
-        'yMidiChannel'
-      )
-      sliderList = [...sliderList, ...listWithChannels]
-    }
-
-    if (yDriverName) {
-      sliderList = transformState(
-        state.sliderList,
-        { i, val: yDriverName },
-        'yDriverName'
-      )
-    }
-
-    if (yMidiCc && yMidiCc.length > 0) {
-      const listWithMidiCc = transformState(
-        state.sliderList,
-        { i, val: yMidiCc },
-        'yMidiCc'
-      )
-      sliderList = [...sliderList, ...listWithMidiCc]
-    }
-
-    if (yMaxVal) {
-      const listWithyMaxVal = transformState(
-        state.sliderList,
-        { i, val: yMaxVal },
-        'yMaxVal'
-      )
-      sliderList = [...sliderList, ...listWithyMaxVal]
-    }
-    if (yMinVal) {
-      const listWithyMinVal = transformState(
-        state.sliderList,
-        { i, val: yMinVal },
-        'yMinVal'
-      )
-      sliderList = [...sliderList, ...listWithyMinVal]
-    }
-
-    return { ...state, sliderList }
+      if (yMaxVal) {
+        draftState.sliderList[idx].yMaxVal = yMaxVal
+      }
+      if (yMinVal) {
+        draftState.sliderList[idx].yMinVal = yMinVal
+      }
+      return draftState
+    })
   },
 
   [ActionTypeSliderList.TOGGLE_HIDE_VALUE](state, action) {
     const { i } = action.payload
-    const sliderList = state.sliderList.map((item, idx) => {
-      if (i === item.i) {
-        return {
-          ...item,
-          isValueHidden: !item.isValueHidden
-        }
-      }
-      return item
+    const idx = state.sliderList.findIndex((item) => i === item.i)
+
+    return createNextState(state, (draftState) => {
+      draftState.sliderList[idx].isValueHidden = !state.sliderList[idx]
+        .isValueHidden
+      return draftState
     })
-    return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.TRIGGER_ALL_MIDI_ELEMENTS](state, action) {
