@@ -196,13 +196,13 @@ export const sliders = {
     const tmp = sliderList[idx]
 
     // At first send MIDI
-    const { midiCC, midiChannel, driverName, label, isNoteOn } = tmp || {}
+    const { midiCC, midiChannel, driverName, label, isNoteOn, type } = tmp || {}
     sendControlChanges({ midiCC, midiChannel, driverName, val, label })
 
     // Now, do view state changes
     return createNextState(state, (draftState) => {
       // For CC Buttons we toggle the NoteOn state at each trigger
-      if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(tmp.type)) {
+      if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
         draftState.sliderList[idx].isNoteOn = !isNoteOn
       }
       draftState.sliderList[idx].val = val
