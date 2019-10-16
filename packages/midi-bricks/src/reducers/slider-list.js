@@ -191,23 +191,20 @@ export const sliders = {
 
   [ActionTypeSliderList.HANDLE_SLIDER_CHANGE](state, action) {
     const { i, val } = action.payload
-    let sliderList = state.sliderList
+    const sliderList = state.sliderList
+    const idx = sliderList.findIndex((item) => item.i === i)
+    const tmp = sliderList[idx]
 
-    const idx = sliderList.findIndex(item => item.i === i)
-
-    const tmp =  sliderList[idx]
-    const { type, onVal, offVal } = tmp || {}
-
-    // Set noteOn/noteOff stemming from CC VAl
-    if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
-      if (val === onVal || val === offVal) {
-        sliderList = toggleNotesInState(state.sliderList, i)
-      }
-    }
-    // Handle multi CC
-    const { midiCC, midiChannel, driverName, label } = tmp || {}
+    // At first send MIDI
+    const { midiCC, midiChannel, driverName, label, isNoteOn, type } = tmp || {}
     sendControlChanges({ midiCC, midiChannel, driverName, val, label })
+
+    // Now, do view state changes
     return createNextState(state, (draftState) => {
+      // For CC Buttons we toggle the NoteOn state at each trigger
+      if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
+        draftState.sliderList[idx].isNoteOn = !isNoteOn
+      }
       draftState.sliderList[idx].val = val
       return draftState
     })
@@ -938,11 +935,12 @@ function transformAddState(state, action) {
 function toggleNotesInState(list, i) {
   return list.map((item) => {
     if (item.i === i) {
-      return {
+      const res = {
         ...item,
         isNoteOn: !item.isNoteOn,
         val: !item.isNoteOn ? item.onVal : item.offVal
       }
+      return res
     } else {
       return item
     }
