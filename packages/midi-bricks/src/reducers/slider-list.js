@@ -396,47 +396,22 @@ export const sliders = {
   },
 
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL](state, action) {
-    const { val, i, lastFocusedPage } = action.payload
+    const { val, i } = action.payload
 
-    // Limit to allow number of midi channels
-    // and prevent crash
-    let newAction = null
-    if (val <= 16 && val >= 1) {
-      newAction = { val, i }
-    } else if (val > 16) {
-      newAction = { val: 16, i }
-    } else {
-      newAction = { val: 1, i }
-    }
-    const { i: ii, val: vall } = newAction
-    const sliderList = transformState(
-      state.sliderList,
-      { i: ii, val: vall },
-      'midiChannel'
-    )
-    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
+    return createNextState(state, (draftState) => {
+      const idx = state.sliderList.findIndex((item) => item.i === i)
+      draftState.sliderList[idx].midiChannel = val
+      return draftState
+    })
   },
 
   [ActionTypeSliderList.SELECT_MIDI_CHANNEL_INPUT](state, action) {
-    const { val, i, lastFocusedPage } = action.payload
-    // Limit to allow number of midi channels
-    // and prevent crash
-    let newAction = null
-    if (val <= 16 && val >= 1) {
-      newAction = { val, i }
-    } else if (val > 16) {
-      newAction = { val: 16, i }
-    } else {
-      newAction = { val: 1, i }
-    }
-    const { i: ii, val: vall } = newAction
-    const sliderList = transformState(
-      state.sliderList,
-      { i: ii, val: vall },
-      'midiChannelInput'
-    )
-
-    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
+    const { val, i } = action.payload
+    return createNextState(state, (draftState) => {
+      const idx = state.sliderList.findIndex((item) => item.i === i)
+      draftState.sliderList[idx].midiChannelInput = val
+      return draftState
+    })
   },
 
   [ActionTypeSliderList.SAVE_FILE](state, action) {
