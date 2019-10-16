@@ -144,20 +144,13 @@ export const sliders = {
       action.payload.lastFocusedPage
     )
   },
-  [ActionTypeSliderList.CHANGE_BUTTON_TYPE](state, action) {
-    const { i, val, lastFocusedPage } = action.payload
-    const sliderList = state.sliderList.map((item) => {
-      if (item.i === i) {
-        return {
-          ...item,
-          isNoteOn: false,
-          type: val
-        }
-      } else {
-        return item
-      }
+  [ActionTypeSliderList.CHANGE_BUTTON_TYPE]({ sliderList }, action) {
+    const { i, val } = action.payload
+    return createNextState({ sliderList }, (draftState) => {
+      const idx = sliderList.findIndex((item) => item.i === i)
+      draftState.sliderList[idx].type = val
+      return draftState
     })
-    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
   },
   [ActionTypeSliderList.DELETE](state, action) {
     const { i: sentIdx } = action.payload
@@ -189,19 +182,18 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.HANDLE_SLIDER_CHANGE](state, action) {
-    const { i, val } = action.payload
-    const sliderList = state.sliderList
-    const idx = sliderList.findIndex((item) => item.i === i)
-    const tmp = sliderList[idx]
-
+  [ActionTypeSliderList.HANDLE_SLIDER_CHANGE]({ sliderList }, action) {
     // At first send MIDI
-    const { midiCC, midiChannel, driverName, label, isNoteOn, type } = tmp || {}
+    const { i, val } = action.payload
+    const idx = sliderList.findIndex((item) => item.i === i)
+    const { midiCC, midiChannel, driverName, label, isNoteOn, type } =
+      sliderList[idx] || {}
     sendControlChanges({ midiCC, midiChannel, driverName, val, label })
 
     // Now, do view state changes
-    return createNextState(state, (draftState) => {
+    return createNextState({ sliderList }, (draftState) => {
       // For CC Buttons we toggle the NoteOn state at each trigger
+      // Keep in mind, that the component button will take care of sending the right values for itself.
       if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
         draftState.sliderList[idx].isNoteOn = !isNoteOn
       }
@@ -991,11 +983,7 @@ function getCheckedMidiOut(driverName) {
   return output
 }
 
-function updatePagesWithSliderlist(
-  state,
-  refreshedSliderList = [],
-  lastFocusedPage
-) {
+function updatePagesWithSliderlist(state, refreshedSliderList = []) {
   return createNextState(state, (draftState) => {
     draftState.sliderList = refreshedSliderList
     return draftState
