@@ -940,7 +940,6 @@ function toggleNotesInState(list, i) {
         isNoteOn: !item.isNoteOn,
         val: !item.isNoteOn ? item.onVal : item.offVal
       }
-      console.log('togglenotesinsstat', res.isNoteOn)
       return res
     } else {
       return item
