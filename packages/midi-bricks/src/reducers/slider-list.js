@@ -203,7 +203,7 @@ export const sliders = {
   },
 
   [ActionTypeSliderList.SEND_MIDI_CC_Y](state, action) {
-    const { idx, yVal, lastFocusedPage } = action.payload
+    const { idx, yVal } = action.payload
     let newStateTmp = state.sliderList
 
     // Handle multi CC
@@ -216,12 +216,11 @@ export const sliders = {
       val: yVal,
       label
     })
-    const sliderList = transformState(
-      newStateTmp,
-      { payload: { idx: parseInt(idx, 10), val: yVal } },
-      'yVal'
-    )
-    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
+    return createNextState(state, (draftState) => {
+      const idx = state.sliderList.findIndex((er) => er.i === i)
+      draftState.sliderList[idx].yVal = yVal
+      return draftState
+    })
   },
 
   [ActionTypeSliderList.TOGGLE_NOTE](state, action) {
@@ -677,20 +676,6 @@ export const sliders = {
   }
 }
 
-function transformState(sliderList, { i, val }, field) {
-  return sliderList.map((item) => {
-    if (item.i === i) {
-      return {
-        ...item,
-        [field]: val
-      }
-    } else {
-      return item
-    }
-  })
-}
-
-//TODO: mybe better to go outside with it
 function transformAddState(state, action) {
   const { id, type } = action.payload
   const oldSliderList = state.sliderList || []
