@@ -217,7 +217,7 @@ export const sliders = {
       label
     })
     return createNextState(state, (draftState) => {
-      const idx = state.sliderList.findIndex((er) => er.i === i)
+      const idx = state.sliderList.findIndex((er) => er.i === idx)
       draftState.sliderList[idx].yVal = yVal
       return draftState
     })
@@ -453,32 +453,15 @@ export const sliders = {
   },
 
   [ActionTypeSliderList.CHANGE_COLORS](state, action) {
-    // Extract color fields from payload
-    let fields = {}
-    Object.keys(action.payload).forEach((e, i) => {
-      if (e !== 'i') {
-        fields = {
-          ...fields,
-          [e]: action.payload[e]
-        }
+    const { i, ...rest } = action.payload
+    return createNextState(state, (draftState) => {
+      const idx = state.sliderList.findIndex((item) => item.i === i)
+      draftState.sliderList[idx].colors = {
+        ...state.sliderList[idx].colors,
+        ...rest
       }
+      return draftState
     })
-
-    // Add color fields to state
-    const sliderList = state.sliderList.map((item) => {
-      if (action.payload.i === item.i) {
-        return {
-          ...item,
-          colors: {
-            ...item.colors,
-            ...fields
-          }
-        }
-      }
-      return item
-    })
-
-    return { ...state, sliderList }
   },
 
   [ActionTypeSliderList.CHANGE_FONT_SIZE](state, action) {
@@ -770,16 +753,14 @@ function transformAddState(state, action) {
     fontWeight: 500,
     isValueHidden: false
   }
-
-  return type === PAGE
-    ? {
-      ...state,
-      sliderList: []
+  return createNextState(state, (draftState) => {
+    if (type === PAGE) {
+      draftState = { ...state, sliderList: [] }
+    } else {
+      draftState = { ...state, sliderList: [...oldSliderList, entry] }
     }
-    : {
-      ...state,
-      sliderList: [...oldSliderList, entry]
-    }
+    return draftState
+  })
 }
 
 function toggleNotesInState(list, i) {
@@ -800,7 +781,7 @@ function toggleNotesInState(list, i) {
 function sendControlChanges({ midiCC, midiChannel, driverName, val, label }) {
   WebMIDI.octaveOffset = -1
   const output = getCheckedMidiOut(driverName)
-  if (Array.isArray(midiCC) === true) {
+  if (Array.isArray(midiCC)) {
     midiCC.forEach((item) => {
       const cc = midi(item)
       output && output.sendControlChange(cc, val, parseInt(midiChannel, 10))
