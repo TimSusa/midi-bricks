@@ -1,6 +1,6 @@
 import WebMIDI from 'webmidi'
 // import { debounce } from 'lodash'
-import{debounce} from 'debounce'
+import { debounce } from 'debounce'
 import { Actions } from './slider-list'
 
 const {
@@ -11,7 +11,7 @@ const {
 } = Actions
 
 export function initApp(mode) {
-  return function(dispatch, getState) {
+  return function (dispatch, getState) {
     return new Promise((resolve, reject) => {
       WebMIDI.disable()
       dispatch(initMidiAccessPending('start'))
@@ -237,7 +237,7 @@ export function initApp(mode) {
           dispatch(initMidiAccessOk({ midiAccess }))
           resolve(midiAccess)
         } else {
-          reject(dispatch(initFailed('No Midi Output available.')))
+          resolve(dispatch(initFailed('No Midi Output available.')))
         }
       })
     })
