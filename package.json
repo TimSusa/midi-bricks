@@ -67,7 +67,7 @@
     "build:midi-bricks-doc": "cd packages/midi-bricks-doc && yarn && yarn build && cd ..",
     "build:midi-bricks-electron": "cd packages/midi-bricks-electron && yarn && yarn build && cd ..",
     "build:midi-bricks-electron-ci": "cd packages/midi-bricks-electron && yarn && yarn build-ci && cd ..",
-    "publish": "lerna publish && yarn deploy",
+    "prd:publish": "lerna publish && yarn deploy",
     "publish-ci": "lerna publish patch --yes",
     "publish-retry": "lerna publish --yes from-package --force-publish $(ls packages/) && yarn deploy",
     "deploy": "yarn deploy:midi-bricks-doc && yarn deploy:midi-bricks && yarn deploy:midi-bricks-electron",
