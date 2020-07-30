@@ -110,21 +110,21 @@ export const sliders = {
     })
     let newEntry = i
       ? {
-        ...tmpState,
-        label: tmpState.label,
-        i: newDate,
-        midiCC: [caclCCThresh],
-        x: x + 1,
-        y: y + 1
-      }
+          ...tmpState,
+          label: tmpState.label,
+          i: newDate,
+          midiCC: [caclCCThresh],
+          x: x + 1,
+          y: y + 1
+        }
       : {
-        ...list[idx],
-        label: list[idx].label,
-        i: newDate,
-        midiCC: [caclCCThresh || 60],
-        x: x + 1,
-        y: y + 1
-      }
+          ...list[idx],
+          label: list[idx].label,
+          i: newDate,
+          midiCC: [caclCCThresh || 60],
+          x: x + 1,
+          y: y + 1
+        }
 
     newArr.splice(idx, 0, newEntry)
 
@@ -144,10 +144,10 @@ export const sliders = {
       action.payload.lastFocusedPage
     )
   },
-  [ActionTypeSliderList.CHANGE_BUTTON_TYPE]({ sliderList }, action) {
+  [ActionTypeSliderList.CHANGE_BUTTON_TYPE](state, action) {
     const { i, val } = action.payload
-    return createNextState({ sliderList }, (draftState) => {
-      const idx = sliderList.findIndex((item) => item.i === i)
+    return createNextState(state, (draftState) => {
+      const idx = state.sliderList.findIndex((item) => item.i === i)
       draftState.sliderList[idx].type = val
       return draftState
     })
