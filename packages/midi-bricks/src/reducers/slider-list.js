@@ -466,7 +466,6 @@ export const sliders = {
 
   [ActionTypeSliderList.CHANGE_FONT_SIZE](state, action) {
     const { i, fontSize } = action.payload
-
     const idx = state.sliderList.findIndex((item) => i === item.i)
 
     return createNextState(state, (draftState) => {
