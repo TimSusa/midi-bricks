@@ -16,7 +16,7 @@ assignees: ''
 Version: x.x.x
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+A clear and concise description of what the bug is .
 
 **Steps To Reproduce**
 Steps to reproduce the behavior:

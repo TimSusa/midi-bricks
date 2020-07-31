@@ -6,7 +6,6 @@ packages/*/dist
 packages/*/build
 .idea
 .vscode
-.github
 package-lock.json
 .DS_Store
 .npmrc
