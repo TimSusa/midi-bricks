@@ -35,7 +35,7 @@
       ]
     },
     "linux": {
-      "target": "deb",
+      "target": "tar.gz",
       "category": "midi.touch.device",
       "icon": "build/icons/icon.icns",
       "publish": [
@@ -61,9 +61,9 @@
     "chai-as-promised": "7.1.1",
     "chai-roughly": "1.0.0",
     "concurrently": "4.1.0",
-    "electron": "6.0.10",
-    "electron-builder": "21.2.0",
-    "electron-publish": "21.2.0",
+    "electron": "9.1.2",
+    "electron-builder": "22.8.0",
+    "electron-publish": "22.8.1",
     "midi-bricks": "latest",
     "mocha": "6.0.2",
     "rimraf": "^2.6.3",
@@ -81,8 +81,8 @@
     "dev": "REACT_APP_IS_WEB_MODE=false && yarn run clean && yarn cp-src && concurrently \"yarn cp-src-electron && BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
     "build": "REACT_APP_IS_WEB_MODE=false && yarn run clean && yarn build:web && yarn build:app",
     "build-ci": "REACT_APP_IS_WEB_MODE=false && yarn clean:dist && yarn build:web && yarn build:app-ci",
-    "build:app": "yarn cp-src && yarn cp-src-electron && electron-builder",
-    "build:app-ci": "yarn cp-src && yarn cp-src-electron && electron-builder --win --linux",
+    "build:app": "yarn cp-src && yarn cp-src-electron && electron-builder -mwl",
+    "build:app-ci": "yarn cp-src && yarn cp-src-electron && electron-builder -mwl",
     "build:web": "yarn cp-src && react-scripts build",
     "pack": "yarn clean:dist && yarn cp-src && yarn cp-src-electron && electron-builder --dir --mac --win --linux",
     "release": "electron-builder --win --mac --linux -p always",
