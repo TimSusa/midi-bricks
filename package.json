@@ -18,7 +18,7 @@
     "react-color": "2.18.1",
     "react-dom": "16.13.1",
     "react-gamepad": "1.0.3",
-    "react-grid-layout": "^0.16.6",
+    "react-grid-layout": "0.17.1",
     "react-redux": "7.2.1",
     "react-sizeme": "2.6.12",
     "redux": "4.0.5",
@@ -34,7 +34,7 @@
   "devDependencies": {
     "chai": "4.2.0",
     "concurrently": "^4.1.0",
-    "electron": "5.0.7",
+    "electron": "9.1.2",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.14.0",
     "eslint": "^6.0.1",
