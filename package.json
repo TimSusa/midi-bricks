@@ -21,7 +21,7 @@
     "react-grid-layout": "^0.16.6",
     "react-redux": "7.2.1",
     "react-sizeme": "2.6.12",
-    "redux": "^4.0.5",
+    "redux": "4.0.5",
     "redux-generate": "2.0.0",
     "redux-persist": "6.0.0",
     "redux-starter-kit": "^0.6.1",
