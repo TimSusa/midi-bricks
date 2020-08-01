@@ -80,6 +80,6 @@
     "info-ci": "uname -a",
     "pre-release-ci": "release prepatch -t $(git describe --abbrev=0) --show-url --overwrite",
     "release-ci": "git push origin $(git describe --abbrev=0)",
-    "release": "standard-version -r $1"
+    "release-me": "standard-version -r $1"
   }
 }
