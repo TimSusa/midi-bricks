@@ -46,7 +46,7 @@
     "eslint-plugin-unicorn": "latest",
     "lerna": "^3.13.4",
     "now": "^15.1.0",
-    "react-scripts": "^3.1.2",
+    "react-scripts": "3.4.1",
     "redux-devtools-extension": "2.13.8",
     "redux-logger": "3.0.6",
     "redux-mock-store": "1.5.3",
