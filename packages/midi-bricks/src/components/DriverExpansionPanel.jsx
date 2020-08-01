@@ -5,7 +5,7 @@ import {
   Typography,
   ExpansionPanel,
   ExpansionPanelSummary,
-  ExpansionPanelDetails
+  AccordionDetails
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
@@ -39,12 +39,12 @@ function DriverExpansionPanel({
           {label}
         </Typography>
       </ExpansionPanelSummary>
-      <ExpansionPanelDetails
+      <AccordionDetails
         className={classes.details}
         style={{ padding: noPadding && 0 }}
       >
         {children}
-      </ExpansionPanelDetails>
+      </AccordionDetails>
     </ExpansionPanel>
   )
 }
