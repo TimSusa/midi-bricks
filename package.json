@@ -50,7 +50,7 @@
     "redux-devtools-extension": "2.13.8",
     "redux-logger": "3.0.6",
     "redux-mock-store": "1.5.3",
-    "standard-version": "5.0.2"
+    "standard-version": "8.0.1"
   },
   "scripts": {
     "bootstrap": "lerna bootstrap && lerna link",
