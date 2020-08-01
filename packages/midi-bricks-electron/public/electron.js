@@ -13,6 +13,7 @@ const log = require('electron-log')
 const util = require('util')
 const readFile = util.promisify(fs.readFile)
 const doesFileExist = util.promisify(fs.stat)
+
 // eslint-disable-next-line no-unused-expressions
 require('electron').process
 
@@ -92,7 +93,7 @@ async function createWindow() {
   )
 
   const isAllowedToUpdate =
-    appSettings.isAllowedToUpdate != undefined
+    appSettings.isAllowedToUpdate !== undefined
       ? appSettings.isAllowedToUpdate
       : isAllowedToUpdateCli
   !isAllowedToUpdate && log.warn('Updates were disabled! ')
@@ -124,11 +125,11 @@ async function createWindow() {
   const [xSet, ySet, widthSet, heightSet] = appSettings.windowCoords || []
   const { x, y, width, height } =
     {
-      x: parseInt((yy && w && h && xx) || xSet, 10),
-      y: parseInt(yy || ySet, 10),
-      width: parseInt(w || widthSet, 10),
-      height: parseInt(h || heightSet, 10)
-    } || mainWindowState
+      x: parseInt(((yy && w && h && xx) && xSet ) || 0, 10),
+      y: parseInt((yy || ySet), 10),
+      width: parseInt((w || widthSet), 10),
+      height: parseInt((h || heightSet), 10)
+    } 
   // Create the window using the state information
   win = new BrowserWindow({
     x,
@@ -193,7 +194,7 @@ function sendStatusToWindow(title, subtitle, text) {
     body: text,
     silent: true,
     sound: '',
-    icon: './icons/icon-128x128.png'
+    // icon: './icons/icon-128x128.png'
   })
 
   eventListen(notification)
@@ -201,10 +202,10 @@ function sendStatusToWindow(title, subtitle, text) {
   //notification.close()
 }
 
-function eventListen(notification) {
-  return notification.once('click', () => {
+function eventListen(notificationn) {
+  return notificationn.once('click', () => {
     log.info('Notification clicked')
-    notification.close()
+    notificationn.close()
   })
 }
 
@@ -256,18 +257,18 @@ function onOpenFileDialog(event, arg) {
       Array.isArray(filenames) &&
         readFile(filenames[0], {}).then(
           (data) => {
-            const arg = JSON.parse(data)
+            const args = JSON.parse(data)
             const stuff = {
-              content: arg,
+              content: args,
               presetName: filenames[0]
             }
-            appSettings = persistAppSettings(arg)
+            appSettings = persistAppSettings(args)
             event.sender.send('open-file-dialog-reply', stuff)
             log.info('Object loaded: ')
             return data
           },
           (err) => {
-            new Error(err)
+            console.error(err)
           }
         )
     }
@@ -294,20 +295,20 @@ function onSetActualWinCoords(event, arg) {
   event.sender.send('set-to-actual-win-coords-reply', [x, y, width, height])
   return [x, y, width, height]
 }
-async function readoutPersistedAppsettings(appSettings = appInitSettings) {
+async function readoutPersistedAppsettings(appSettingss = appInitSettings) {
   // Try to read out persisted app-settings:
   try {
     const isExisting = await doesFileExist(persistedAppSettingsFileName)
     if (isExisting) {
       const res = await readFile(persistedAppSettingsFileName)
       const data = JSON.parse(res)
-      appSettings = data
+      appSettingss = data
       return data
     }
   } catch (error) {
     log.warn('App Settings Warning: ', 'Try to create settings-file')
 
-    const persJson = JSON.stringify(appSettings)
+    const persJson = JSON.stringify(appSettingss)
     fs.writeFile(
       persistedAppSettingsFileName,
       persJson,
@@ -316,7 +317,7 @@ async function readoutPersistedAppsettings(appSettings = appInitSettings) {
         if (err) {
           throw new Error(err)
         }
-        return appSettings
+        return appSettingss
       }
     )
   }
