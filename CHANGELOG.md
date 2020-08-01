@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.32](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.31...v1.3.32) (2020-08-01)
+
+
+### Bug Fixes
+
+* Fix Buildchain for win and linux ([6399c58](https://github.com/TimSusa/midi-bricks-mono/commit/6399c58))
+* Sending right Notes and fix linter warnings ([48404a4](https://github.com/TimSusa/midi-bricks-mono/commit/48404a4))
+
+
+
 ## [1.3.28](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.27...v1.3.28) (2019-10-17)
 
 
