@@ -34,8 +34,12 @@ export function MidiSettingsView(props) {
     pageTarget = {},
     actions
   } = props
-  const color = !pageType ? colors.color : pageTarget&& pageTarget.colors && pageTarget.colors.color
-  const colorFont = !pageType ? colors.colorFont : pageTarget&& pageTarget.colors && pageTarget.colors.colorFont
+  const color = !pageType
+    ? colors.color
+    : pageTarget && pageTarget.colors && pageTarget.colors.color
+  const colorFont = !pageType
+    ? colors.colorFont
+    : pageTarget && pageTarget.colors && pageTarget.colors.colorFont
   return (
     <React.Fragment>
       <FormControl>
@@ -130,7 +134,7 @@ export function MidiSettingsView(props) {
             control={
               <Checkbox
                 className={classes.iconColor}
-                checked={isValueHidden && isValueHidden}
+                checked={isValueHidden || false}
                 onChange={actions.toggleHideValue.bind(this, {
                   i
                 })}

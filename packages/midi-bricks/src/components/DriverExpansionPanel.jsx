@@ -9,15 +9,13 @@ import {
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
-
-
 function DriverExpansionPanel({
   children,
   isEmpty = false,
   expanded,
-  onChange=()=>{},
-  label='',
-  noPadding = false,
+  onChange = () => {},
+  label = '',
+  noPadding = false
 }) {
   const theme = useTheme()
 

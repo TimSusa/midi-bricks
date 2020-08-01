@@ -28,23 +28,26 @@ export function ValueInput({
   toolTip,
   icon
 }) {
-    const theme = useTheme()
+  const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
 
   const form = (
     <div className={classes.root}>
       <FormControl className={classes.formControl} disabled={isDisabled}>
-        <InputLabel disabled={isDisabled} className={classes.label}>{`${label}  `}</InputLabel>
+        <InputLabel
+          disabled={isDisabled}
+          className={classes.label}
+        >{`${label}  `}</InputLabel>
         <Input
           disabled={isDisabled}
           className={classes.input}
           id='someting-s'
           type='string'
           name={name}
-          value={value && value}
+          value={value || 'nono'}
           onChange={onChange}
           startAdornment={
-            <InputAdornment position='start'>{icon && icon}</InputAdornment>
+            <InputAdornment position='start'>{icon || 'ups'}</InputAdornment>
           }
         />
       </FormControl>

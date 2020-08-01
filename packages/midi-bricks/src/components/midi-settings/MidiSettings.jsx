@@ -22,10 +22,7 @@ import { DriverEmtpyRedirectButton } from './elements/DriverEmtpyRedirectButton'
 
 import { STRIP_TYPE } from '../../reducers/slider-list'
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MidiSettings)
+export default connect(mapStateToProps, mapDispatchToProps)(MidiSettings)
 
 const { BUTTON, BUTTON_TOGGLE, PAGE } = STRIP_TYPE
 
@@ -47,7 +44,7 @@ function MidiSettings(props) {
   const {
     isSettingsMode,
     actions,
-    initApp,
+    initApp: initAppLocal,
     inputs = {},
     outputs = {},
     sliderEntry = {},
@@ -124,7 +121,7 @@ function MidiSettings(props) {
                 inputs={inputs}
                 actions={actions}
                 lastFocusedPage={lastFocusedPage}
-                initApp={initApp}
+                initApp={initAppLocal}
               />
             )}
           </DriverExpansionPanel>
@@ -211,7 +208,7 @@ export function renderMidiChannelSelection({ inputs, outputs }, name, type) {
   if (!channels) {
     return getItem('None', 0)
   }
-  return channels.map((name, idx) => getItem(name, idx))
+  return channels.map((namee, idx) => getItem(namee, idx))
 }
 
 export function renderDriverSelection({ inputs, outputs }) {

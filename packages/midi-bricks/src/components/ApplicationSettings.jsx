@@ -17,10 +17,7 @@ import {
 import LockIcon from '@material-ui/icons/Lock'
 import LockOpenIcon from '@material-ui/icons/LockOpen'
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ApplicationSettings)
+export default connect(mapStateToProps, mapDispatchToProps)(ApplicationSettings)
 
 const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
 
@@ -215,9 +212,9 @@ function ApplicationSettings(props) {
               variant='outlined'
               onClick={(e) => {
                 e.preventDefault()
-                addIpcWindowCoordsListenerOnce((windowCoords) =>
+                addIpcWindowCoordsListenerOnce((windowCoo) =>
                   actions.setElectronAppSettings({
-                    windowCoords,
+                    windowCoords: windowCoo,
                     isWindowSizeLocked
                   })
                 )
@@ -240,12 +237,12 @@ function ApplicationSettings(props) {
               onChange={(e) => {
                 e.preventDefault()
                 const val = e.target.value
-                const windowCoords = (val || '100,100,600,800')
+                const windowCoordss = (val || '100,100,600,800')
                   .split(',')
-                  .map((val) => parseInt(val, 10))
-                Array.isArray(windowCoords) &&
+                  .map((v) => parseInt(v, 10))
+                Array.isArray(windowCoordss) &&
                   actions.setElectronAppSettings({
-                    windowCoords,
+                    windowCoords: windowCoordss,
                     isWindowSizeLocked: false
                   })
 

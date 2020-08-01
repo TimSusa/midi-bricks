@@ -12,7 +12,6 @@ import {
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
 
-
 const channelDummy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 
 MidiDriverTable.propTypes = {
@@ -24,7 +23,7 @@ MidiDriverTable.propTypes = {
 }
 
 function MidiDriverTable(props) {
-    const theme = useTheme()
+  const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
   const {
     labelPostfix,
@@ -169,15 +168,13 @@ function MidiDriverTable(props) {
 function isCheckedNote(availableDrivers, name, val) {
   if (!availableDrivers) return false
   const { noteChannels = [] } = availableDrivers[name] || { noteChannels: [] }
-  const isCheckedNote = noteChannels.includes(val)
-  return isCheckedNote
+  return noteChannels.includes(val)
 }
 
 function isCheckedCc(availableDrivers, name, val) {
   if (!availableDrivers) return false
   const { ccChannels = [] } = availableDrivers[name] || { ccChannels: [] }
-  const isCheckedCc = ccChannels.includes(val)
-  return isCheckedCc
+  return ccChannels.includes(val)
 }
 
 function styles(theme) {

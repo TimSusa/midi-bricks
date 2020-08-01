@@ -30,17 +30,14 @@ function ApplicationSettingsDialog(props) {
     >
       <DialogTitle id='confirmation-dialog-title'>
         <Typography className={iconColor} variant='body1'>
-        Preferences
+          Preferences
         </Typography>
       </DialogTitle>
       <DialogContent>
         <ApplicationSettings />
       </DialogContent>
       <DialogActions>
-        <Button
-          onClick={e => onClose()}
-          className={iconColor} 
-        >
+        <Button onClick={(e) => onClose()} className={iconColor}>
           Close
         </Button>
       </DialogActions>

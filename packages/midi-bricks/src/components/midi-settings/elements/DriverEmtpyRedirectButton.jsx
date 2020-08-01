@@ -6,10 +6,10 @@ import PropTypes from 'prop-types'
 
 export function DriverEmtpyRedirectButton({
   i,
-  actions: { toggleSettingsDialogMode, togglePage },
+  actions: { toggleSettingsDialogMode, togglePage }
 }) {
   return (
-    <Tooltip title="No MIDI Driver available. Go to settings...">
+    <Tooltip title='No MIDI Driver available. Go to settings...'>
       <Button
         onClick={() => {
           toggleSettingsDialogMode({
@@ -18,7 +18,7 @@ export function DriverEmtpyRedirectButton({
             lastFocusedPage: i
           })
           togglePage({
-            pageType: PAGE_TYPES.MIDI_DRIVER_MODE,
+            pageType: PAGE_TYPES.MIDI_DRIVER_MODE
           })
         }}
       >
