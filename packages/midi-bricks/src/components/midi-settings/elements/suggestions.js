@@ -1,5 +1,5 @@
-export function suggestionsMidiNoteCC() {
-  return Array.apply(null, { length: 128 })
+export function suggestionsMidiNoteCC () {
+  return Array.apply(null, { length: 127 })
     .map(Number.call, Number)
     .map((item) => {
       return {
@@ -8,7 +8,7 @@ export function suggestionsMidiNoteCC() {
     })
 }
 
-export function suggestionsMidiCc() {
+export function suggestionsMidiCc () {
   return Array.apply(null, { length: 120 })
     .map(Number.call, Number)
     .map((item) => {

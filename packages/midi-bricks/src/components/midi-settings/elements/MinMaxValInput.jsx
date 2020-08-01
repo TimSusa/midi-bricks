@@ -37,7 +37,7 @@ export function MinMaxValInput({
           id='number'
           type='number'
           name={name}
-          value={(value && value) || limitVal}
+          value={value || limitVal}
           onChange={onChange}
         />
       </FormControl>

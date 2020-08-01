@@ -13,7 +13,6 @@ import { midi } from 'tonal'
 import { Input } from '@material-ui/core'
 import { suggestionsMidiNoteCC, suggestionsMidiCc } from './suggestions'
 
-
 InputNoteOrCc.propTypes = {
   i: PropTypes.string,
   lastFocusedPage: PropTypes.string,
@@ -23,7 +22,7 @@ InputNoteOrCc.propTypes = {
 }
 
 function InputNoteOrCc(props) {
-    const theme = useTheme()
+  const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
   const {
     midiCC,
@@ -86,7 +85,12 @@ function InputNoteOrCc(props) {
           type='number'
           name={`input-prgChange-name-${i}`}
           value={midiCC[0] || 0}
-          onChange={handleProgramChange.bind(this, i, lastFocusedPage, selectCc)}
+          onChange={handleProgramChange.bind(
+            this,
+            i,
+            lastFocusedPage,
+            selectCc
+          )}
         />
       </FormControl>
     )
@@ -98,7 +102,9 @@ function InputNoteOrCc(props) {
         </InputLabel>
         <MidiSuggestedInput
           suggestions={[...suggestionsMidiNoteCC(), ...suggestionsMidiNote()]}
-          startVal={Array.isArray(midiCC) && midiCC.map((item) => fromMidi(midi(item)))}
+          startVal={
+            Array.isArray(midiCC) && midiCC.map((item) => fromMidi(midi(item)))
+          }
           i={i}
           lastFocusedPage={lastFocusedPage}
           handleChange={selectCc}
@@ -145,12 +151,11 @@ function styles(theme) {
   }
 }
 
-function mapStateToProps({viewSettings: {lastFocusedPage}}){
+function mapStateToProps({ viewSettings: { lastFocusedPage } }) {
   return {
     lastFocusedPage
   }
 }
-
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -158,13 +163,9 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
+export default connect(mapStateToProps, mapDispatchToProps)(InputNoteOrCc)
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(InputNoteOrCc)
-
-function selectCcY({i, actions}, e) {
+function selectCcY({ i, actions }, e) {
   actions.changeXypadSettings({
     i,
     yMidiCc: e.val

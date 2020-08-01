@@ -43,15 +43,13 @@ export const sliders = {
   },
 
   [ActionTypeSliderList.INIT_FAILED](state, action) {
-    const midi = {
-      midiAccess: {
-        inputs: {},
-        outputs: {}
-      }
-    }
-
     return createNextState(state, (draftState) => {
-      draftState.midi = midi
+      draftState.midi = {
+        midiAccess: {
+          inputs: {},
+          outputs: {}
+        }
+      }
       draftState.isMidiFailed = true
       return draftState
     })
@@ -59,19 +57,18 @@ export const sliders = {
 
   [ActionTypeSliderList.INIT_MIDI_ACCESS_OK](state, action) {
     return createNextState(state, (draftState) => {
-      const midi = action.payload
-      draftState.midi = midi
+      draftState.midi = action.payload
       draftState.isMidiFailed = false
       return draftState
     })
   },
 
   [ActionTypeSliderList.ADD_MIDI_ELEMENT](state, action) {
-    const { isMidiFailed, sliderList, midi } = transformAddState(state, action)
+    const { isMidiFailed, sliderList, midi: tmpMidi } = transformAddState(state, action)
     return createNextState(state, (draftState) => {
       draftState.sliderList = sliderList
       draftState.isMidiFailed = isMidiFailed
-      draftState.midi = midi
+      draftState.midi = tmpMidi
       return draftState
     })
   },
@@ -110,28 +107,28 @@ export const sliders = {
     })
     let newEntry = i
       ? {
-          ...tmpState,
-          label: tmpState.label,
-          i: newDate,
-          midiCC: [caclCCThresh],
-          x: x + 1,
-          y: y + 1
-        }
+        ...tmpState,
+        label: tmpState.label,
+        i: newDate,
+        midiCC: [caclCCThresh],
+        x: x + 1,
+        y: y + 1
+      }
       : {
-          ...list[idx],
-          label: list[idx].label,
-          i: newDate,
-          midiCC: [caclCCThresh || 60],
-          x: x + 1,
-          y: y + 1
-        }
+        ...list[idx],
+        label: list[idx].label,
+        i: newDate,
+        midiCC: [caclCCThresh || 60],
+        x: x + 1,
+        y: y + 1
+      }
 
     newArr.splice(idx, 0, newEntry)
 
     // Check for duplicated ids, or Error
     newArr.forEach((tmpItem, id) => {
-      newArr.forEach((item, idx) => {
-        if (tmpItem.i === item.i && id !== idx) {
+      newArr.forEach((item, ii) => {
+        if (tmpItem.i === item.i && id !== ii) {
           throw new Error(
             'Duplicated ID found in store. Look after better creation of unique ids, man!'
           )
@@ -140,8 +137,7 @@ export const sliders = {
     })
     return updatePagesWithSliderlist(
       state,
-      newArr,
-      action.payload.lastFocusedPage
+      newArr
     )
   },
   [ActionTypeSliderList.CHANGE_BUTTON_TYPE](state, action) {
@@ -217,14 +213,14 @@ export const sliders = {
       label
     })
     return createNextState(state, (draftState) => {
-      const idx = state.sliderList.findIndex((er) => er.i === idx)
-      draftState.sliderList[idx].yVal = yVal
+      const idxx = state.sliderList.findIndex((er) => er.i === idx)
+      draftState.sliderList[idxx].yVal = yVal
       return draftState
     })
   },
 
   [ActionTypeSliderList.TOGGLE_NOTE](state, action) {
-    const { i, lastFocusedPage } = action.payload
+    const { i } = action.payload
 
     const {
       onVal = 127,
@@ -246,7 +242,7 @@ export const sliders = {
       label
     })
     const sliderList = toggleNotesInState(state.sliderList, i)
-    return updatePagesWithSliderlist(state, sliderList, lastFocusedPage)
+    return updatePagesWithSliderlist(state, sliderList )
   },
 
   [ActionTypeSliderList.SEND_PROGRAM_CHANGE](state, action) {
@@ -369,7 +365,7 @@ export const sliders = {
 
   [ActionTypeSliderList.SAVE_FILE](state, action) {
     // This is actuall only envolved in web app mode, not in electron mode
-    const { viewSettings, sliders, version, pages: pgs } = action.payload
+    const { viewSettings, sliders: tmpSliders, version, pages: pgs } = action.payload
 
     // Clean out older preset fields
     let pages = Object.values(pgs).reduce(
@@ -389,7 +385,7 @@ export const sliders = {
       version,
       pages,
       viewSettings,
-      sliders
+      sliders: tmpSliders
     }
     const content = JSON.stringify(tmpFilterStore)
     const fileName = 'midi-bricks-preset.json'
