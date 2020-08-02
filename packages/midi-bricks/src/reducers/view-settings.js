@@ -5,9 +5,9 @@ import { createNextState } from 'redux-starter-kit'
 
 export const viewSettings = {
   [ActionTypeViewSettings.TOGGLE_PAGE](state, action) {
-    const { pageType } = action.payload
-    return Object.assign({}, state, {
-      pageType
+    return createNextState(state, (draftState) => {
+      draftState.pageType = action.payload.pageType ||  'HOME'
+      return draftState
     })
   },
 
@@ -18,14 +18,14 @@ export const viewSettings = {
     } else {
       castedVal = !castedVal
     }
-    return Object.assign({}, state, {
-      isLiveMode: castedVal,
-      isLayoutMode: false,
-      isSettingsMode: false,
-      isMidiLearnMode: false
+    return createNextState(state, (draftState) => {
+      draftState.isLiveMode = castedVal
+      draftState.isLayoutMode = false
+      draftState.isSettingsMode = false
+      draftState.isMidiLearnMode = false
+      return draftState
     })
   },
-
   [ActionTypeViewSettings.TOGGLE_MIDI_LEARN_MODE](state, action) {
     const castedVal = !!state.isMidiLearnMode
     const { isMidiLearnMode } = action.payload || {}
