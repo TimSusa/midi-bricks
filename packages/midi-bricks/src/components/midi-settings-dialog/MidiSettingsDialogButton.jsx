@@ -1,11 +1,9 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import MidiSettingsDialog from './MidiSettingsDialog'
-
-
+//import MidiSettingsDialog from './MidiSettingsDialog'
 
 MidiSettingsDialogButton.propTypes = {
   isOpen: PropTypes.bool,
@@ -15,8 +13,12 @@ MidiSettingsDialogButton.propTypes = {
 
 export default function MidiSettingsDialogButton(props) {
   const { isOpen, toggleSettings, sliderEntry } = props
-    const theme = useTheme()
+  const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
+
+  if (isOpen) {
+    var MidiSettingsDialog = React.lazy(() => import('./MidiSettingsDialog'))
+  }
 
   return (
     <div className={classes.root}>
@@ -36,13 +38,15 @@ export default function MidiSettingsDialogButton(props) {
         />
       )}
       {isOpen ? (
-        <MidiSettingsDialog
-          open={isOpen}
-          onClose={toggleSettings.bind(this, {
-            isSettingsDialogMode: false
-          })}
-          sliderEntry={sliderEntry}
-        />
+        <Suspense fallback={<div>Loading...</div>}>
+          <MidiSettingsDialog
+            open={isOpen}
+            onClose={toggleSettings.bind(this, {
+              isSettingsDialogMode: false
+            })}
+            sliderEntry={sliderEntry}
+          />
+        </Suspense>
       ) : (
         <div />
       )}

@@ -8,14 +8,14 @@ import {
   Paper
 } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import React from 'react'
+import React, { Suspense } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
 import { thunkLiveModeToggle } from '../actions/thunks/thunk-live-mode-toggle'
-import MidiSettingsDialog from '../components/midi-settings-dialog/MidiSettingsDialog'
+// import MidiSettingsDialog from '../components/midi-settings-dialog/MidiSettingsDialog'
 import { outputToDriverName } from '../utils/output-to-driver-name.js'
 import { STRIP_TYPE } from '../reducers/slider-list.js'
 import DriverExpansionPanel from '../components/DriverExpansionPanel.jsx'
@@ -114,17 +114,24 @@ function GlobalSettingsPageComponent(props) {
                   }
 
                   if (isSettingsDialogMode && i === lastFocusedIdx) {
+                    const MidiSettingsDialog = React.lazy(() =>
+                      import(
+                        '../components/midi-settings-dialog/MidiSettingsDialog.jsx'
+                      )
+                    )
                     return (
-                      <MidiSettingsDialog
-                        key={`glb-settings-${i}`}
-                        open
-                        onClose={actions.toggleSettingsDialogMode.bind(this, {
-                          i,
-                          isSettingsDialogMode: false,
-                          lastFocusedPage
-                        })}
-                        sliderEntry={sliderEntry}
-                      />
+                      <Suspense fallback={<div>Loading...</div>}>
+                        <MidiSettingsDialog
+                          key={`glb-settings-${i}`}
+                          open
+                          onClose={actions.toggleSettingsDialogMode.bind(this, {
+                            i,
+                            isSettingsDialogMode: false,
+                            lastFocusedPage
+                          })}
+                          sliderEntry={sliderEntry}
+                        />
+                      </Suspense>
                     )
                   }
                   let title = ''

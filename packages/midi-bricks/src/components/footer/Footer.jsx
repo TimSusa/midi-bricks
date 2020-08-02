@@ -15,14 +15,11 @@ import { Actions as SliderSettinsgsAction } from '../../actions/slider-list'
 import { thunkLiveModeToggle } from '../../actions/thunks/thunk-live-mode-toggle'
 import { Button, Tooltip } from '@material-ui/core'
 import { PAGE_TYPES } from '../../reducers'
-import MidiSettingsDialog from '../midi-settings-dialog/MidiSettingsDialog'
+// import MidiSettingsDialog from '../midi-settings-dialog/MidiSettingsDialog'
 
 const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Footer)
+export default connect(mapStateToProps, mapDispatchToProps)(Footer)
 
 Footer.propTypes = {
   actions: PropTypes.object,
@@ -46,9 +43,9 @@ function Footer(props) {
     footerPages = [],
     pageTargets = [],
     lastFocusedPage,
-    lastFocusedIdx,
+    // lastFocusedIdx,
     isSettingsMode = false,
-    isSettingsDialogMode,
+    // isSettingsDialogMode,
     isLiveMode = false,
     isFullscreenOnLivemode = false,
     pageType = '',
@@ -96,7 +93,7 @@ function Footer(props) {
                 <RightIcon className={classes.iconColor} />
               </IconButton>
 
-              <MidiSettingsDialog
+              {/* <MidiSettingsDialog
                 open={
                   isSettingsDialogMode && lastFocusedIdx === lastFocusedPage
                 }
@@ -112,7 +109,7 @@ function Footer(props) {
                   (item) => item.id === lastFocusedPage
                 )}
                 iconColor={classes.iconColor}
-              />
+              /> */}
             </div>
           )
         }
