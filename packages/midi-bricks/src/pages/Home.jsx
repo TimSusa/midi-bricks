@@ -6,8 +6,8 @@ import { bindActionCreators } from 'redux'
 import { initApp } from '../actions/init.js'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
-import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
-import ApplicationSettingsPage from '../components/ApplicationSettings'
+// import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
+// import ApplicationSettingsPage from '../components/ApplicationSettings'
 import { PAGE_TYPES } from '../reducers'
 
 export default connect(mapStateToProperties, mapDispatchToProperties)(Home)
@@ -66,16 +66,23 @@ function Home(props) {
         <MidiDriversSettingsPage />
       </Suspense>
     )
-  } else if (pageType === PAGE_TYPES.VIEW_SETTINGS_MODE) {
-    return <ApplicationSettingsPage />
-  } else if (pageType === PAGE_TYPES.HOME_MODE) {
+  }
+  //  else if (pageType === PAGE_TYPES.VIEW_SETTINGS_MODE) {
+  //   return <ApplicationSettingsPage />
+  // }
+  else if (pageType === PAGE_TYPES.HOME_MODE) {
+    const ChannelStripList = React.lazy(() =>
+      import('../components/channel-strip-list/ChannelStripList')
+    )
     return (
-      <div
-        className={classes.root}
-        style={isLiveMode ? preventScrollStyle : {}}
-      >
-        <ChannelStripList />
-      </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <div
+          className={classes.root}
+          style={isLiveMode ? preventScrollStyle : {}}
+        >
+          <ChannelStripList />
+        </div>
+      </Suspense>
     )
   }
 }
