@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import {
   Typography,
-  ExpansionPanel,
-  ExpansionPanelSummary,
+  Accordion,
+  AccordionSummary,
   AccordionDetails
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
@@ -21,12 +21,8 @@ function DriverExpansionPanel({
 
   const classes = makeStyles(styles.bind(this, theme))()
   return (
-    <ExpansionPanel
-      className={classes.root}
-      expanded={expanded}
-      onChange={onChange}
-    >
-      <ExpansionPanelSummary
+    <Accordion className={classes.root} expanded={expanded} onChange={onChange}>
+      <AccordionSummary
         className={classes.summary}
         expandIcon={<ExpandMoreIcon />}
       >
@@ -38,14 +34,14 @@ function DriverExpansionPanel({
         >
           {label}
         </Typography>
-      </ExpansionPanelSummary>
+      </AccordionSummary>
       <AccordionDetails
         className={classes.details}
         style={{ padding: noPadding && 0 }}
       >
         {children}
       </AccordionDetails>
-    </ExpansionPanel>
+    </Accordion>
   )
 }
 
