@@ -45,9 +45,7 @@ function GlobalSettingsPageComponent(props) {
     actions,
     thunkChangePage,
     pages = {},
-    midi: {
-      midiAccess: { inputs, outputs }
-    },
+    midi,
     sliderList,
     viewSettings: {
       isSettingsDialogMode,
@@ -61,6 +59,8 @@ function GlobalSettingsPageComponent(props) {
   if (isMidiFailed) return <div />
   const hasPage = Object.values(pages).length > 0
   const pagesArray = hasPage ? Object.values(pages) : []
+  const { midiAccess } = midi || {}
+  const { inputs = [], outputs = [] } = midiAccess || {}
   return (hasPage ? pagesArray : ['OK']).map((page, idx) => {
     //const { sliderList } = page
     const label = (pageTargets[idx] && pageTargets[idx].label) || page.label
