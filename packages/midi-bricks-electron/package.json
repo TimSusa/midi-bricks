@@ -1,8 +1,8 @@
 {
   "name": "midi-bricks-electron",
   "productName": "MIDI-Bricks",
-  "version": "1.3.32",
-  "main": "./build/electron.js",
+  "version": "1.3.32-alpha.0",
+  "main": "./app/electron.js",
   "homepage": ".",
   "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
   "description": "Midi Bricks for all!",
@@ -10,8 +10,8 @@
   "copyright": "Copyright © 2019 Tim Susa",
   "license": "MIT",
   "files": [
-    "public",
-    "build"
+    "build/**/*",
+    "node_modules/**/*"
   ],
   "build": {
     "appId": "com.electron.midi-bricks-electron",
@@ -81,8 +81,8 @@
     "dev": "REACT_APP_IS_WEB_MODE=false && yarn run clean && yarn cp-src && concurrently \"yarn cp-src-electron && BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && electron .\"",
     "build": "REACT_APP_IS_WEB_MODE=false && yarn run clean && yarn build:web && yarn build:app",
     "build-ci": "REACT_APP_IS_WEB_MODE=false && yarn clean:dist && yarn build:web && yarn build:app-ci",
-    "build:app": "yarn cp-src && yarn cp-src-electron && electron-builder -mwl",
-    "build:app-ci": "yarn cp-src && yarn cp-src-electron && electron-builder -mwl",
+    "build:app": "yarn cp-src && yarn cp-src-electron && electron-builder -c.extraMetadata.main=build/app/electron.js --mac",
+    "build:app-ci": "yarn cp-src && yarn cp-src-electron && electron-builder -c.extraMetadata.main=build/app/electron.js -mwl",
     "build:web": "yarn cp-src && react-scripts build",
     "pack": "yarn clean:dist && yarn cp-src && yarn cp-src-electron && electron-builder --dir -mwl",
     "release": "electron-builder -mwl -p always",
@@ -92,7 +92,7 @@
     "test-e2e": "CI=true mocha --colors",
     "postinstall": "yarn clean && electron-builder install-app-deps && yarn cp-src",
     "cp-src": "cp -rf ../midi-bricks/src/ src",
-    "cp-src-electron": "cp -rf ./public/*.js build",
+    "cp-src-electron": "mkdir build/app && cp -rf ./app/ build/app",
     "clean": "yarn clean:dist && rimraf src",
     "clean:dist": "rimraf dist && rimraf build && mkdir build"
   },
