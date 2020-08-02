@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.33](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.32-alpha.0...v1.3.33) (2020-08-02)
+
+
+### Features
+
+* Load appbar and menu only when not in live mode ([6e2743b](https://github.com/TimSusa/midi-bricks-mono/commit/6e2743b))
+
+
+
 ## [1.3.32](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.31...v1.3.32) (2020-08-01)
 
 
