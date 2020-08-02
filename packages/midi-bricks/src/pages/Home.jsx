@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import { initApp } from '../actions/init.js'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
-// import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
+import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
 // import ApplicationSettingsPage from '../components/ApplicationSettings'
 import { PAGE_TYPES } from '../reducers'
 
@@ -24,11 +24,11 @@ function Home(props) {
 
   const {
     viewSettings: { isLiveMode = false, pageType = PAGE_TYPES.HOME_MODE },
-    initApp
+    initApp: initAppLocal
   } = props
   useEffect(() => {
     async function initAsync() {
-      await initApp()
+      await initAppLocal()
     }
 
     if (pageType !== PAGE_TYPES.HOME_MODE) {
@@ -36,7 +36,7 @@ function Home(props) {
     }
     initAsync()
     return () => {}
-  }, [initApp, pageType])
+  }, [initAppLocal, pageType])
 
   const preventScrollStyle = isLiveMode
     ? {
@@ -71,18 +71,18 @@ function Home(props) {
   //   return <ApplicationSettingsPage />
   // }
   else if (pageType === PAGE_TYPES.HOME_MODE) {
-    const ChannelStripList = React.lazy(() =>
-      import('../components/channel-strip-list/ChannelStripList')
-    )
+    // const ChannelStripList = React.lazy(() =>
+    //   import('../components/channel-strip-list/ChannelStripList')
+    // )
     return (
-      <Suspense fallback={<div>Loading...</div>}>
-        <div
-          className={classes.root}
-          style={isLiveMode ? preventScrollStyle : {}}
-        >
-          <ChannelStripList />
-        </div>
-      </Suspense>
+      // <Suspense fallback={<div>Loading...</div>}>
+      <div
+        className={classes.root}
+        style={isLiveMode ? preventScrollStyle : {}}
+      >
+        <ChannelStripList />
+      </div>
+      // </Suspense>
     )
   }
 }
