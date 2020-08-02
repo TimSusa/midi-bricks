@@ -22,8 +22,7 @@ export function thunkLiveModeToggle(lastFocusedPage, focusedPage) {
       await save('undoRedo', undoRedo)
       dispatch(undoRedoDelete())
     } else {
-      const pages = await localforage.getItem('pages')
-      dispatch(updatePages({ pages }))
+      dispatch(updatePages({ pages: await localforage.getItem('pages') }))
     }
     dispatch(toggleLiveMode())
     return Promise.resolve()

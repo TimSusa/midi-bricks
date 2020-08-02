@@ -7,10 +7,6 @@ const { deletePages } = pageActions
 const {  deleteAll } = sliderListActions
 const { deleteFooterPages, updateSliderListOfPage } = viewSettingsActions
 
-
-// - all 
-// - elements in page
-// - whole page, 
 export function thunkDelete(type, i) {
   return async function(dispatch, getState) {
     const {

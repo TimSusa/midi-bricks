@@ -1,4 +1,3 @@
-
 import { Actions as sliderListActions } from '../slider-list'
 import { Actions as viewSettingsActions } from '../view-settings'
 import { thunkChangePage } from './thunk-change-page'
@@ -13,18 +12,16 @@ const { addMidiElement } = sliderListActions
 const { addPageTarget } = viewSettingsActions
 const { undoRedoUpdate } = undoRedoActions
 
-export function addElement(type, payload) {
+export function addElement (type, payload) {
   const pageId = `page-${getUniqueId()}`
 
-  return function(dispatch, getState) {
-    const {
-      viewSettings: { lastFocusedPage, pageTargets }
-    } = getState()
-    
+  return function (dispatch, getState) {
+    const {viewSettings: { lastFocusedPage, pageTargets }} = getState()
+
     dispatch(undoRedoUpdate({state: getState()}))
 
     if (type === PAGE) {
-      //batch(() => {
+      // batch(() => {
       dispatch(
         addPageTarget({
           pageTarget: {
@@ -36,19 +33,15 @@ export function addElement(type, payload) {
           }
         })
       )
-      dispatch(createPage({ id: pageId, lastFocusedPage }))
+      dispatch(createPage({ id: pageId, lastFocusedPage}))
       dispatch(thunkChangePage(lastFocusedPage, pageId))
-      //})
+    // })
     } else {
       const id = getUniqueId()
-      dispatch(addMidiElement({ type, id }))
-      const {
-        viewSettings: { lastFocusedPage },
-        sliders: { sliderList }
-      } = getState()
+      dispatch(addMidiElement({ type, id}))
+      const {viewSettings: { lastFocusedPage: lastFocusedPageLocal }, sliders: { sliderList }} = getState()
 
-      dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList }))
+      dispatch(updateSliderListOfPage({ lastFocusedPage: lastFocusedPageLocal, sliderList}))
     }
-
   }
 }
