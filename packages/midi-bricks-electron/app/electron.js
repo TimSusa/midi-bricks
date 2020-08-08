@@ -76,6 +76,8 @@ if (!gotTheLock) {
 }
 
 async function createWindow() {
+
+  // app.allowRendererProcessReuse = false
   // eslint-disable-next-line require-atomic-updates
   appSettings = (await readoutPersistedAppsettings(appSettings)) || {}
   log.info('App started... ! ', appSettings)
@@ -88,29 +90,30 @@ async function createWindow() {
 
   // Extract CLI parameter: Enable Auto Update
   isDevelopmentCli && log.info('isDevelopmentCli is enabled! ')
-  const isAllowedToUpdateCli = process.argv.find(
-    (item) => item === '--noUpdate'
-  )
+  // const isAllowedToUpdateCli = process.argv.find(
+  //   (item) => item === '--noUpdate'
+  // )
 
-  const isAllowedToUpdate =
-    appSettings.isAllowedToUpdate !== undefined
-      ? appSettings.isAllowedToUpdate
-      : isAllowedToUpdateCli
-  !isAllowedToUpdate && log.warn('Updates were disabled! ')
+  // const isAllowedToUpdate =
+  //   appSettings.isAllowedToUpdate !== undefined
+  //     ? appSettings.isAllowedToUpdate
+  //     : isAllowedToUpdateCli
+  // !isAllowedToUpdate && log.warn('Updates were disabled! ')
 
-  if (isAllowedToUpdate && !isDev) {
-    const {
-      isAutoDownload = appInitSettings.isAutoDownload,
-      isAllowedPrerelease = appInitSettings.isAllowedPrerelease,
-      isAllowedDowngrade = appInitSettings.isAllowedDowngrade
-    } = appSettings
+  // TO DO CLEAN OUT
+  // if (isAllowedToUpdate && !isDev) {
+  //   const {
+  //     isAutoDownload = appInitSettings.isAutoDownload,
+  //     isAllowedPrerelease = appInitSettings.isAllowedPrerelease,
+  //     isAllowedDowngrade = appInitSettings.isAllowedDowngrade
+  //   } = appSettings
 
-    require('./update').setUp({
-      isAutoDownload,
-      isAllowedPrerelease,
-      isAllowedDowngrade
-    })
-  }
+  //   require('./update').setUp({
+  //     isAutoDownload,
+  //     isAllowedPrerelease,
+  //     isAllowedDowngrade
+  //   })
+  // }
 
   // Load the previous state with fallback to defaults
   const mainWindowState = windowStateKeeper({
@@ -125,7 +128,7 @@ async function createWindow() {
   const [xSet, ySet, widthSet, heightSet] = appSettings.windowCoords || []
   const { x, y, width, height } =
     {
-      x: parseInt(((yy && w && h && xx) && xSet ) || 0, 10),
+      x: parseInt(((yy && w && h && xx) || xSet ) || 0, 10),
       y: parseInt((yy || ySet), 10),
       width: parseInt((w || widthSet), 10),
       height: parseInt((h || heightSet), 10)
@@ -140,7 +143,7 @@ async function createWindow() {
       nodeIntegration: true
     },
     title: 'MIDI Bricks',
-    vibrancy: 'dark'
+    // vibrancy: 'dark'
     // titlebarAppearsTransparent: true
   })
   win.setMenu(null)
@@ -170,11 +173,11 @@ async function createWindow() {
     : `file://${path.join(__dirname, '../index.html')}`
 
   win.loadURL(url)
-  isAllowedToUpdate && sendStatusToWindow('Software-Updates enabled.')
+  // isAllowedToUpdate && sendStatusToWindow('Software-Updates enabled.')
 
   //  Emitted when the window is closed.
   win.on('closed', function() {
-    sendStatusToWindow('Gracefully shutting down.')
+    //sendStatusToWindow('Gracefully shutting down.')
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
@@ -182,32 +185,32 @@ async function createWindow() {
   })
 }
 
-function sendStatusToWindow(title, subtitle, text) {
-  log.info(title)
-  if (!Notification.isSupported()) {
-    log.warn('notifcations are not supported on this OS')
-    return
-  }
-  notification = new Notification({
-    title: title || 'txt is not there',
-    // subtitle: text,
-    body: text,
-    silent: true,
-    sound: '',
-    // icon: './icons/icon-128x128.png'
-  })
+// function sendStatusToWindow(title, subtitle, text) {
+//   log.info(title)
+//   if (!Notification.isSupported()) {
+//     log.warn('notifcations are not supported on this OS')
+//     return
+//   }
+//   notification = new Notification({
+//     title: title || 'txt is not there',
+//     // subtitle: text,
+//     body: text,
+//     silent: true,
+//     sound: '',
+//     // icon: './icons/icon-128x128.png'
+//   })
 
-  eventListen(notification)
-  notification.show()
-  //notification.close()
-}
+//   eventListen(notification)
+//   notification.show()
+//   //notification.close()
+// }
 
-function eventListen(notificationn) {
-  return notificationn.once('click', () => {
-    log.info('Notification clicked')
-    notificationn.close()
-  })
-}
+// function eventListen(notificationn) {
+//   return notificationn.once('click', () => {
+//     log.info('Notification clicked')
+//     notificationn.close()
+//   })
+// }
 
 function onSaveFileDialog(event, arg) {
   dialog.showSaveDialog(

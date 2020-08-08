@@ -1,6 +1,10 @@
 {
   "name": "midi-bricks-doc",
+<<<<<<< HEAD
   "version": "1.3.35-alpha.0",
+=======
+  "version": "1.3.36",
+>>>>>>> master
   "private": true,
   "description": "Documentation for midi-bricks",
   "author": "TimSusa <timsusa@altus-insight.de>",
