@@ -33,9 +33,9 @@ function ApplicationSettings(props) {
     viewSettings: {
       electronAppSettings: {
         isDevConsoleEnabled = false,
-        isAllowedToUpdate = true,
-        isAutoDownload = false,
-        isAllowedDowngrade = false,
+        // isAllowedToUpdate = true,
+        // isAutoDownload = false,
+        // isAllowedDowngrade = false,
         isWindowSizeLocked = true,
         windowCoords: winCood = [69, 69, 690, 690]
       } = {},
@@ -52,11 +52,11 @@ function ApplicationSettings(props) {
   } = props
   let windowCoords = winCood
   const [isViewPanelExpanded, setIsViewPanelExpanded] = useState(false)
-  const [isUpdatePanelExpanded, setIsUpdatePanelExpanded] = useState(false)
+  //const [isUpdatePanelExpanded, setIsUpdatePanelExpanded] = useState(false)
 
   return (
     <React.Fragment>
-      {!isWebMode && (
+      {/* {!isWebMode && (
         <DriverExpansionPanel
           label='Updates'
           expanded={isUpdatePanelExpanded}
@@ -131,7 +131,7 @@ function ApplicationSettings(props) {
             label='Rollback Update (experimental)'
           />
         </DriverExpansionPanel>
-      )}
+      )} */}
 
       <DriverExpansionPanel
         label='Views'
