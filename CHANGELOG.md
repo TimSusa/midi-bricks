@@ -11,6 +11,15 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 
+## [1.3.35](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.34...v1.3.35) (2020-08-08)
+
+
+### Bug Fixes
+
+* broken window init position [#209](https://github.com/TimSusa/midi-bricks-mono/issues/209) and get rid of autoupdates ([05eaf55](https://github.com/TimSusa/midi-bricks-mono/commit/05eaf55))
+
+
+
 ## [1.3.34](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.33...v1.3.34) (2020-08-08)
 
 
