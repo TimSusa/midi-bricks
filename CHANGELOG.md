@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.34](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.33...v1.3.34) (2020-08-08)
+
+
+### Bug Fixes
+
+* Crash, when switching to global settings ([d5eb5bf](https://github.com/TimSusa/midi-bricks-mono/commit/d5eb5bf))
+* further fixes ([057197c](https://github.com/TimSusa/midi-bricks-mono/commit/057197c))
+* linter fixes ([1a8be73](https://github.com/TimSusa/midi-bricks-mono/commit/1a8be73))
+
+
+### Features
+
+* Put Midisettings into dynamic imports and fix some linting issues ([53cfb2d](https://github.com/TimSusa/midi-bricks-mono/commit/53cfb2d))
+
+
+
 ## [1.3.33](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.32-alpha.0...v1.3.33) (2020-08-02)
 
 
