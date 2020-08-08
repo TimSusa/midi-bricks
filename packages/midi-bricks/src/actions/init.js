@@ -26,79 +26,11 @@ export function initApp (mode) {
           const { name } = input
           input.removeListener()
           input.removeListener('controlchange')
-          Object.keys(allCcListenersFound).forEach((driverNameIn) => {
-            const enty = allCcListenersFound[driverNameIn]
-            if (driverNameIn !== 'None') {
-              if (driverNameIn === name) {
-                const midiChIn = Object.keys(enty)
-                // const cCs = enty[midiChIn]
-                input.addListener(
-                  'controlchange',
-                  midiChIn,
-                  debounce(({ value, channel, controller: { number } }) => {
-                    const obj = {
-                      isNoteOn: undefined,
-                      val: value,
-                      cC: number,
-                      channel,
-                      driver: name
-                    }
-                    const myAction = (payload) => ({
-                      type: 'MIDI_MESSAGE_ARRIVED',
-                      payload,
-                      meta: {
-                        raf: true
-                      }
-                    })
-                    dispatch(myAction(obj))
-                  }, 2)
-                )
-              }
-            }
-          })
+          registerCcListeners(allCcListenersFound, name, input, dispatch)
 
           input.removeListener('noteon')
           input.removeListener('noteoff')
-
-          Object.keys(allNoteListenersFound).forEach((driverNameIn) => {
-            const enty = allNoteListenersFound[driverNameIn]
-            if (driverNameIn !== 'None') {
-              if (driverNameIn === name) {
-                const midiChIn = Object.keys(enty)
-                // const cCs = enty[midiChIn]
-                input.addListener(
-                  'noteon',
-                  midiChIn,
-                  debounce((event) => {
-                    const {rawVelocity, channel, note: { number }} = event
-                    const obj = {
-                      isNoteOn: true,
-                      val: rawVelocity,
-                      cC: number,
-                      channel,
-                      driver: name
-                    }
-                    dispatch(midiMessageArrived(obj))
-                  }, 5)
-                )
-                input.addListener(
-                  'noteoff',
-                  midiChIn,
-                  debounce((event) => {
-                    const {rawVelocity, channel, note: { number }} = event
-                    const obj = {
-                      isNoteOn: false,
-                      val: rawVelocity,
-                      cC: number,
-                      channel,
-                      driver: name
-                    }
-                    dispatch(midiMessageArrived(obj))
-                  }, 5)
-                )
-              }
-            }
-          })
+          registerNoteListeners(allNoteListenersFound, name, input, dispatch)
         })
         if (hasContent(outputs) || hasContent(inputs)) {
           const midiAccess = {
@@ -140,4 +72,79 @@ function findByElementType (arrayOfTypes, array) {
 }
 function hasContent (arr) {
   return arr.length > 0
+}
+
+function registerCcListeners (listenersObj, name, input, dispatch) {
+  Object.keys(listenersObj).forEach((driverNameIn) => {
+    const enty = listenersObj[driverNameIn]
+    if (driverNameIn !== 'None') {
+      if (driverNameIn === name) {
+        const midiChIn = Object.keys(enty)
+        // const cCs = enty[midiChIn]
+        input.addListener(
+          'controlchange',
+          midiChIn,
+          debounce(({ value, channel, controller: { number } }) => {
+            const obj = {
+              isNoteOn: undefined,
+              val: value,
+              cC: number,
+              channel,
+              driver: name
+            }
+            const myAction = (payload) => ({
+              type: 'MIDI_MESSAGE_ARRIVED',
+              payload,
+              meta: {
+                raf: true
+              }
+            })
+            dispatch(myAction(obj))
+          }, 2)
+        )
+      }
+    }
+  })
+}
+
+function registerNoteListeners (notesObj, name, input, dispatch) {
+  Object.keys(notesObj).forEach((driverNameIn) => {
+    const enty = notesObj[driverNameIn]
+    if (driverNameIn !== 'None') {
+      if (driverNameIn === name) {
+        const midiChIn = Object.keys(enty)
+        // const cCs = enty[midiChIn]
+        input.addListener(
+          'noteon',
+          midiChIn,
+          debounce((event) => {
+            const {rawVelocity, channel, note: { number }} = event
+            const obj = {
+              isNoteOn: true,
+              val: rawVelocity,
+              cC: number,
+              channel,
+              driver: name
+            }
+            dispatch(midiMessageArrived(obj))
+          }, 5)
+        )
+        input.addListener(
+          'noteoff',
+          midiChIn,
+          debounce((event) => {
+            const {rawVelocity, channel, note: { number }} = event
+            const obj = {
+              isNoteOn: false,
+              val: rawVelocity,
+              cC: number,
+              channel,
+              driver: name
+            }
+            dispatch(midiMessageArrived(obj))
+          }, 5)
+        )
+      }
+    }
+  })
 }
