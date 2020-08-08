@@ -13,7 +13,7 @@ export function thunkChangeListOrder(listOrder, lastFocusedPage) {
     dispatch(undoRedoUpdate({ state: getState() }))
 
     const {
-      viewSettings: { lastFocusedPage: lastFocusedPageLocal },
+      viewSettings: { lastFocusedPage },
       sliders: { sliderList }
     } = getState()
 
@@ -25,9 +25,9 @@ export function thunkChangeListOrder(listOrder, lastFocusedPage) {
       return acc
     }, [])
     batch(() => {
-      dispatch(changeListOrder({ listOrder, lastFocusedPage: lastFocusedPageLocal }))
+      dispatch(changeListOrder({ listOrder, lastFocusedPage }))
       dispatch(
-        updateSliderListOfPage({ lastFocusedPage: lastFocusedPageLocal, sliderList: mergedList })
+        updateSliderListOfPage({ lastFocusedPage, sliderList: mergedList })
       )
     })
   }
