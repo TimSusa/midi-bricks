@@ -18,7 +18,7 @@ export function initApp (mode) {
           reject(dispatch(initFailed('Midi could not be enabled.')))
         }
         const { inputs = [], outputs = [] } = WebMIDI
-        const { sliders: { sliderList, pages  } } = getState()
+        // const { sliders: { sliderList, pages  } } = getState()
         inputs && Array.isArray(inputs) && WebMIDI.removeListener()
         inputs.forEach((input) => {
           const { name } = input
@@ -26,39 +26,39 @@ export function initApp (mode) {
           //   ccChannels: [],
           //   noteChannels: []
           // }
-          let ccArr = []
+          // let ccArr = []
 
           // Either only sliderlist
-          !pages &&
-          Array.isArray(sliderList) &&
-          sliderList.forEach((entry) => {
-            const { driverNameInput = '', listenToCc = [] } = entry
+          // !pages &&
+          // Array.isArray(sliderList) &&
+          // sliderList.forEach((entry) => {
+          //   const { driverNameInput = '', listenToCc = [] } = entry
 
-            if (name === driverNameInput) {
-              listenToCc.forEach((listen) => {
-                if (!ccArr.includes(listen)) {
-                  ccArr.push(parseInt(listen, 10))
-                }
-              })
-            }
-          })
+          //   if (name === driverNameInput) {
+          //     listenToCc.forEach((listen) => {
+          //       // if (!ccArr.includes(listen)) {
+          //       //   ccArr.push(parseInt(listen, 10))
+          //       // }
+          //     })
+          //   }
+          // })
 
           // Or pages
-          Object.values(pages || []).forEach((item) => {
-            const { sliderList:sliderListLocal } = item
-            Array.isArray(sliderListLocal) &&
-            sliderList.forEach((entry) => {
-              const { driverNameInput = '', listenToCc = [] } = entry
+          // Object.values(pages || []).forEach((item) => {
+          //   const { sliderList:sliderListLocal } = item
+          //   Array.isArray(sliderListLocal) &&
+          //   sliderList.forEach((entry) => {
+          //     const { driverNameInput = '', listenToCc = [] } = entry
 
-              if (name === driverNameInput) {
-                listenToCc.forEach((listen) => {
-                  if (!ccArr.includes(listen)) {
-                    ccArr.push(parseInt(listen, 10))
-                  }
-                })
-              }
-            })
-          })
+          //     if (name === driverNameInput) {
+          //       listenToCc.forEach((listen) => {
+          //         // if (!ccArr.includes(listen)) {
+          //         //   ccArr.push(parseInt(listen, 10))
+          //         // }
+          //       })
+          //     }
+          //   })
+          // })
           input.removeListener()
           // input.removeListener('controlchange')
           // console.log('cc all')
