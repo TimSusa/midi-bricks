@@ -34,7 +34,7 @@
   "devDependencies": {
     "chai": "4.2.0",
     "concurrently": "^4.1.0",
-    "electron": "9.1.2",
+    "electron": "9.2.0",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.14.0",
     "eslint": "^6.0.1",

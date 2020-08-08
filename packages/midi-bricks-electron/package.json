@@ -61,7 +61,7 @@
     "chai-as-promised": "7.1.1",
     "chai-roughly": "1.0.0",
     "concurrently": "4.1.0",
-    "electron": "9.1.2",
+    "electron": "9.2.0",
     "electron-builder": "22.8.0",
     "electron-publish": "22.8.1",
     "midi-bricks": "latest",
