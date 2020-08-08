@@ -84,6 +84,8 @@ function Home(props) {
       </div>
       // </Suspense>
     )
+  } else {
+    return <div>Du bist am Arsch!</div>
   }
 }
 
