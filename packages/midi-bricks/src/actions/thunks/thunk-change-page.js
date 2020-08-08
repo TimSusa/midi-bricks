@@ -1,4 +1,5 @@
 import localforage from 'localforage'
+import { initApp } from '../init'
 import { Actions as sliderActions } from '../slider-list'
 import { Actions as viewActions } from '../view-settings'
 import { Actions as pageActions } from '../pages'
@@ -49,7 +50,7 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
         dispatch(setMidiPage({ sliderList: [] }))
         dispatch(setLastFocusedPage({ lastFocusedPage: focusedPage }))
       }
-
+      dispatch(initApp())
       //})
     }
 

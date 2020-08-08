@@ -1,7 +1,7 @@
 import WebMIDI from 'webmidi'
-// import { debounce } from 'lodash'
 import { debounce } from 'debounce'
 import { Actions } from './slider-list'
+import { merge } from 'lodash'
 
 const {initMidiAccessPending, midiMessageArrived, initFailed, initMidiAccessOk} = Actions
 
@@ -14,113 +14,91 @@ export function initApp (mode) {
       WebMIDI.enable((err) => {
         if (err) {
           // eslint-disable-next-line no-alert
-          // window.alert('Midi could not be enabled.', err)
           reject(dispatch(initFailed('Midi could not be enabled.')))
         }
         const { inputs = [], outputs = [] } = WebMIDI
-        // const { sliders: { sliderList, pages  } } = getState()
+        const { sliders: { sliderList  } } = getState()
+        const allCcListenersFound = findCcListeners(sliderList)
+        const allNoteListenersFound = findNoteListeners(sliderList)
+
         inputs && Array.isArray(inputs) && WebMIDI.removeListener()
         inputs.forEach((input) => {
           const { name } = input
-          // const { ccChannels, noteChannels } = availableInputs[name] || {
-          //   ccChannels: [],
-          //   noteChannels: []
-          // }
-          // let ccArr = []
-
-          // Either only sliderlist
-          // !pages &&
-          // Array.isArray(sliderList) &&
-          // sliderList.forEach((entry) => {
-          //   const { driverNameInput = '', listenToCc = [] } = entry
-
-          //   if (name === driverNameInput) {
-          //     listenToCc.forEach((listen) => {
-          //       // if (!ccArr.includes(listen)) {
-          //       //   ccArr.push(parseInt(listen, 10))
-          //       // }
-          //     })
-          //   }
-          // })
-
-          // Or pages
-          // Object.values(pages || []).forEach((item) => {
-          //   const { sliderList:sliderListLocal } = item
-          //   Array.isArray(sliderListLocal) &&
-          //   sliderList.forEach((entry) => {
-          //     const { driverNameInput = '', listenToCc = [] } = entry
-
-          //     if (name === driverNameInput) {
-          //       listenToCc.forEach((listen) => {
-          //         // if (!ccArr.includes(listen)) {
-          //         //   ccArr.push(parseInt(listen, 10))
-          //         // }
-          //       })
-          //     }
-          //   })
-          // })
           input.removeListener()
-          // input.removeListener('controlchange')
-          // console.log('cc all')
-          input.addListener(
-            'controlchange',
-            'all',
-            debounce(({ value, channel, controller: { number } }) => {
-              const obj = {
-                isNoteOn: undefined,
-                val: value,
-                cC: number,
-                channel,
-                driver: name
+          input.removeListener('controlchange')
+          Object.keys(allCcListenersFound).forEach((driverNameIn) => {
+            const enty = allCcListenersFound[driverNameIn]
+            if (driverNameIn !== 'None') {
+              if (driverNameIn === name) {
+                const midiChIn = Object.keys(enty)
+                // const cCs = enty[midiChIn]
+                input.addListener(
+                  'controlchange',
+                  midiChIn,
+                  debounce(({ value, channel, controller: { number } }) => {
+                    const obj = {
+                      isNoteOn: undefined,
+                      val: value,
+                      cC: number,
+                      channel,
+                      driver: name
+                    }
+                    const myAction = (payload) => ({
+                      type: 'MIDI_MESSAGE_ARRIVED',
+                      payload,
+                      meta: {
+                        raf: true
+                      }
+                    })
+                    dispatch(myAction(obj))
+                  }, 2)
+                )
               }
-              const myAction = (payload) => ({
-                type: 'MIDI_MESSAGE_ARRIVED',
-                payload,
-                meta: {
-                  raf: true
-                }
-              })
-              // dispatch(midiMessageArrived(obj))
-
-              // Seems to perform in less time
-              dispatch(myAction(obj))
-            }, 2)
-          )
+            }
+          })
 
           input.removeListener('noteon')
-          // console.log('Add note listener ALL', name, ' ', ccArr)
-          input.addListener(
-            'noteon',
-            'all',
-            debounce((event) => {
-              const {rawVelocity, channel, note: { number }} = event
-              const obj = {
-                isNoteOn: true,
-                val: rawVelocity,
-                cC: number,
-                channel,
-                driver: name
-              }
-              dispatch(midiMessageArrived(obj))
-            }, 5)
-          )
           input.removeListener('noteoff')
-          // console.log('Add note off listener ALL', name, ' ', ccArr)
-          input.addListener(
-            'noteoff',
-            'all',
-            debounce((event) => {
-              const {rawVelocity, channel, note: { number }} = event
-              const obj = {
-                isNoteOn: false,
-                val: rawVelocity,
-                cC: number,
-                channel,
-                driver: name
+
+          Object.keys(allNoteListenersFound).forEach((driverNameIn) => {
+            const enty = allNoteListenersFound[driverNameIn]
+            if (driverNameIn !== 'None') {
+              if (driverNameIn === name) {
+                const midiChIn = Object.keys(enty)
+                // const cCs = enty[midiChIn]
+                input.addListener(
+                  'noteon',
+                  midiChIn,
+                  debounce((event) => {
+                    const {rawVelocity, channel, note: { number }} = event
+                    const obj = {
+                      isNoteOn: true,
+                      val: rawVelocity,
+                      cC: number,
+                      channel,
+                      driver: name
+                    }
+                    dispatch(midiMessageArrived(obj))
+                  }, 5)
+                )
+                input.addListener(
+                  'noteoff',
+                  midiChIn,
+                  debounce((event) => {
+                    const {rawVelocity, channel, note: { number }} = event
+                    const obj = {
+                      isNoteOn: false,
+                      val: rawVelocity,
+                      cC: number,
+                      channel,
+                      driver: name
+                    }
+                    dispatch(midiMessageArrived(obj))
+                  }, 5)
+                )
               }
-              dispatch(midiMessageArrived(obj))
-            }, 5)
-          )
+            }
+          })
         })
         if (hasContent(outputs) || hasContent(inputs)) {
           const midiAccess = {
@@ -137,6 +115,29 @@ export function initApp (mode) {
   }
 }
 
+function findCcListeners (sliderList) {
+  return findByElementType(['LABEL', 'SLIDER_HORZ', 'SLIDER', 'BUTTON_CC'], sliderList)
+}
+
+function findNoteListeners (sliderList) {
+  return findByElementType(['BUTTON', 'BUTTON_TOGGLE'], sliderList)
+}
+
+function findByElementType (arrayOfTypes, array) {
+  return array.reduce((acc, cur) => {
+    const { driverNameInput, midiChannelInput, listenToCc, type } = cur
+    if (arrayOfTypes.includes(type)) {
+      const cc = ((acc[driverNameInput] || [])[midiChannelInput] || [])
+      return merge(acc, {
+        [driverNameInput]: {
+          [midiChannelInput || 'None']: Array.from(new Set([...cc, ...listenToCc]))
+        }
+      })
+    }else {
+      return acc
+    }
+  }, {})
+}
 function hasContent (arr) {
   return arr.length > 0
 }
