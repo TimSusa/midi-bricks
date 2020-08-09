@@ -1,6 +1,15 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [1.3.38-alpha.o](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.37...v1.3.38-alpha.o) (2020-08-09)
+
+
+### Bug Fixes
+
+* HOTFIX do not remove the listeners ([373c70f](https://github.com/TimSusa/midi-bricks-mono/commit/373c70f7db6c197a4e407320042185bfb532ab3d))
+* Hotfix for initializing midi on every page change ([0f04389](https://github.com/TimSusa/midi-bricks-mono/commit/0f043896116700255ef9b88440efbe5ca521355e))
+* Linting with eslint ([00a8031](https://github.com/TimSusa/midi-bricks-mono/commit/00a8031a696a66d6df408807e56c0c92c98716e3))
 
 ## [1.3.37](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.36...v1.3.37) (2020-08-08)
 
