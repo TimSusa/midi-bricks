@@ -18,7 +18,7 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
     } = getState()
 
     if (isLiveMode) {
-      console.log('isLiveMode')
+      // console.log('isLiveMode')
       const pages = await localforage.getItem('pages')
       const updatedPages = {
         ...pages,
@@ -35,7 +35,7 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
     } else {
       dispatch(undoRedoUpdate({ state: getState() }))
 
-      console.log('is no LiveMode')
+      // console.log('is no LiveMode')
       //batch(() => {
       if (storedPages[focusedPage]) {
         dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList }))

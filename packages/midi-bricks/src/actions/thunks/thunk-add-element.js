@@ -12,7 +12,7 @@ const { addMidiElement } = sliderListActions
 const { addPageTarget } = viewSettingsActions
 const { undoRedoUpdate } = undoRedoActions
 
-export function addElement (type, payload) {
+export function addElement (type) {
   const pageId = `page-${getUniqueId()}`
 
   return function (dispatch, getState) {

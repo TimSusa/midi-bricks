@@ -7,7 +7,7 @@ const { deletePages, updatePages } = pageActions
 const { toggleLiveMode } = viewActions
 const { undoRedoDelete } = undoRedoActions
 
-export function thunkLiveModeToggle(lastFocusedPage, focusedPage) {
+export function thunkLiveModeToggle() {
   return async function(dispatch, getState) {
     const {
       viewSettings: { isLiveMode },

@@ -8,7 +8,7 @@ const { changeListOrder } = sliderListActions
 const { updateSliderListOfPage } = pageActions
 const { undoRedoUpdate } = undoRedoActions
 
-export function thunkChangeListOrder(listOrder, lastFocusedPage) {
+export function thunkChangeListOrder(listOrder) {
   return async function(dispatch, getState) {
     dispatch(undoRedoUpdate({ state: getState() }))
 
