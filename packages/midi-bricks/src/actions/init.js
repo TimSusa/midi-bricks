@@ -5,7 +5,7 @@ import { merge, debounce } from 'lodash'
 
 const {initMidiAccessPending, midiMessageArrived, initFailed, initMidiAccessOk} = Actions
 
-export function initApp (mode) {
+export function initApp () {
   return function (dispatch, getState) {
     return new Promise((resolve, reject) => {
       WebMIDI.disable()
@@ -59,7 +59,7 @@ function findByElementType (arrayOfTypes, array) {
       const cc = ((acc[driverNameInput] || [])[midiChannelInput] || [])
       return merge(acc, {
         [driverNameInput]: {
-          [midiChannelInput || 'None']: Array.from(new Set([...cc, ...listenToCc]))
+          [midiChannelInput || 'None']: [...new Set([...cc, ...listenToCc])]
         }
       })
     }else {
@@ -97,7 +97,7 @@ function registerCcListeners (listenersObj, name, input, dispatch) {
           dispatch(myAction(obj))
         }
         if (!input.hasListener('controlchange', midiChIn, debounce(midiEventMapper, 5))) {
-          console.log('ADDD LISTENERS CC', midiChIn, driverNameIn)
+          // console.log('ADDD LISTENERS CC', midiChIn, driverNameIn)
           input.addListener(
             'controlchange',
             midiChIn,
@@ -129,7 +129,7 @@ function registerNoteListeners (notesObj, name, input, dispatch) {
           dispatch(midiMessageArrived(obj))
         }
         if (!input.hasListener('noteon', midiChIn, debounce(midiEventNoteOnMapper, 5))) {
-          console.log('ADDD LISTENERS NOTE ON', midiChIn, driverNameIn)
+          // console.log('ADDD LISTENERS NOTE ON', midiChIn, driverNameIn)
           input.addListener(
             'noteon',
             midiChIn,
@@ -150,7 +150,7 @@ function registerNoteListeners (notesObj, name, input, dispatch) {
         }
 
         if (!input.hasListener('noteoff', midiChIn, debounce(midiEventNoteOffMapper, 5))) {
-          console.log('ADDD LISTENERS NOTE OFF', midiChIn, driverNameIn)
+          // console.log('ADDD LISTENERS NOTE OFF', midiChIn, driverNameIn)
           input.addListener(
             'noteoff',
             midiChIn,

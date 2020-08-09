@@ -15,9 +15,6 @@
     "analyze": "source-map-explorer build/static/js/main.*",
     "precommit": "yarn test"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": [
     ">0.2%",
     "not dead",
