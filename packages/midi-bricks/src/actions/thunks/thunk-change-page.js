@@ -50,9 +50,9 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
         dispatch(setMidiPage({ sliderList: [] }))
         dispatch(setLastFocusedPage({ lastFocusedPage: focusedPage }))
       }
-      dispatch(initApp())
       //})
     }
+    dispatch(initApp())
 
     return Promise.resolve()
   }

@@ -23,9 +23,11 @@ export function initApp (mode) {
 
         inputs.forEach((input) => {
           const { name } = input
-          registerCcListeners(allCcListenersFound, name, input, dispatch)
-
-          registerNoteListeners(allNoteListenersFound, name, input, dispatch)
+          const tmpIn = input.removeListener('controlchange')
+          registerCcListeners(allCcListenersFound, name, tmpIn, dispatch)
+          const tmpInNoteOn = tmpIn.removeListener('noteon')
+          const tmpInNoteOff = tmpInNoteOn.removeListener('noteoff')
+          registerNoteListeners(allNoteListenersFound, name, tmpInNoteOff , dispatch)
         })
         if (hasContent(outputs) || hasContent(inputs)) {
           const midiAccess = {
