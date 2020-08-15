@@ -6,10 +6,7 @@ import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 import { debounce } from 'debounce'
 import { PropTypes } from 'prop-types'
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MidiSlider)
+export default connect(mapStateToProps, mapDispatchToProps)(MidiSlider)
 
 function MidiSlider(props) {
   const [isActivated, setIsActivated] = useState(false)
@@ -51,60 +48,60 @@ function MidiSlider(props) {
         isDisabled
           ? noop
           : handlePointerStart.bind(
-            this,
-            selfRef,
-            isHorz,
-            setIsActivated,
-            onPointerMove,
-            isDragging,
-            parentOffset,
-            handlePointerMove,
-            send,
-            sliderThumbHeight,
-            hOrW,
-            maxVal,
-            minVal,
-            props
-          )
+              this,
+              selfRef,
+              isHorz,
+              setIsActivated,
+              onPointerMove,
+              isDragging,
+              parentOffset,
+              handlePointerMove,
+              send,
+              sliderThumbHeight,
+              hOrW,
+              maxVal,
+              minVal,
+              props
+            )
       }
       onPointerMove={isDisabled ? noop : onPointerMove.current}
       onPointerUp={
         isDisabled
           ? noop
           : handlePointerEnd.bind(
-            this,
-            onPointerMove,
-            selfRef,
-            isHorz,
-            hOrW,
-            maxVal,
-            minVal,
-            parentOffset,
-            sliderThumbHeight,
-            send,
-            props,
-            setIsActivated,
-            isDragging
-          )
+              this,
+              onPointerMove,
+              selfRef,
+              isHorz,
+              hOrW,
+              maxVal,
+              minVal,
+              parentOffset,
+              sliderThumbHeight,
+              send,
+              props,
+              setIsActivated,
+              isDragging
+            )
       }
       onPointerCancel={
         isDisabled
           ? noop
           : handlePointerEnd.bind(
-            this,
-            onPointerMove,
-            selfRef,
-            isHorz,
-            hOrW,
-            maxVal,
-            minVal,
-            parentOffset,
-            sliderThumbHeight,
-            send,
-            props,
-            setIsActivated,
-            isDragging
-          )
+              this,
+              onPointerMove,
+              selfRef,
+              isHorz,
+              hOrW,
+              maxVal,
+              minVal,
+              parentOffset,
+              sliderThumbHeight,
+              send,
+              props,
+              setIsActivated,
+              isDragging
+            )
       }
       onGotPointerCapture={
         isDisabled ? noop : onGotCapture.bind(this, isActivated, setIsActivated)
@@ -169,7 +166,6 @@ function handlePointerStart(
   onPointerMove.current =
     onPointerMove &&
     handlePointerMove.bind(
-      this,
       isDragging,
       isHorz,
       hOrW,
@@ -239,7 +235,7 @@ function handlePointerEnd(
   isDragging,
   e
 ) {
-  onPointerMove = null
+  // onPointerMove = null
   selfRef.current.releasePointerCapture(e.pointerId)
 
   const val = pixelToVal(
@@ -253,12 +249,12 @@ function handlePointerEnd(
   send.current(val, props)
   isDragging.current = false
   setIsActivated(false)
-  send = null
+  // send = null
 }
-function onGotCapture(isActivated, setIsActivated, event) {
+function onGotCapture(isActivated, setIsActivated) {
   !isActivated && setIsActivated(true)
 }
-function onLostCapture(isActivated, setIsActivated, event) {
+function onLostCapture(isActivated, setIsActivated) {
   isActivated && setIsActivated(false)
 }
 function valToPixel(heightOrWidth, val, maxVal, minVal) {
@@ -360,10 +356,7 @@ const getLastFocusedPage = createSelector(
   [getLastFocus],
   (lastFocusedPage) => lastFocusedPage
 )
-const getMemVal = createSelector(
-  [getSliderEntry],
-  ({ val }) => val
-)
+const getMemVal = createSelector([getSliderEntry], ({ val }) => val)
 const getEntry = createSelector(
   [getSliderEntry],
   ({

@@ -85,7 +85,7 @@ class MidiButtons extends React.Component {
     }
   }
 
-  handleButtonToggle = (e) => {
+  handleButtonToggle = () => {
     const {
       actions,
       sliderEntry: { i },
@@ -214,7 +214,12 @@ function mapDispatchToProps(dispatch) {
   }
 }
 function mapStateToProps({
-  viewSettings: { isChangedTheme, isLayoutMode, isSettingsMode, lastFocusedPage }
+  viewSettings: {
+    isChangedTheme,
+    isLayoutMode,
+    isSettingsMode,
+    lastFocusedPage
+  }
 }) {
   return {
     isChangedTheme,
@@ -224,7 +229,4 @@ function mapStateToProps({
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MidiButtons)
+export default connect(mapStateToProps, mapDispatchToProps)(MidiButtons)

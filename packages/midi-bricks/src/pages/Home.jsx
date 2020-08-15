@@ -38,15 +38,15 @@ function Home(props) {
     return () => {}
   }, [initAppLocal, pageType])
 
-  const preventScrollStyle = isLiveMode
-    ? {
-        height: 'calc(100vh - 66px)',
-        overflowY: 'hidden'
-      }
-    : {
-        height: 'calc(100vh - 66px - 64px)',
-        overflowY: 'hidden'
-      }
+  const styleLiveModeYes = {
+    height: 'calc(100vh - 66px)',
+    overflowY: 'hidden'
+  }
+  const styleLiveModeNo = {
+    height: 'calc(100vh - 66px - 64px)',
+    overflowY: 'hidden'
+  }
+  const preventScrollStyle = isLiveMode ? styleLiveModeYes : styleLiveModeNo
 
   if (pageType === PAGE_TYPES.GLOBAL_MODE) {
     const GlobalSettingsPage = React.lazy(() =>

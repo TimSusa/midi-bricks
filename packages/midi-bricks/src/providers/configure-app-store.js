@@ -1,25 +1,19 @@
-import storage from 'redux-persist/lib/storage' // defaults to localStorage for web and AsyncStorage for react-native
-import {
-  configureStore,
-  getDefaultMiddleware,
-  createSerializableStateInvariantMiddleware
-} from 'redux-starter-kit'
-import { persistReducer } from 'redux-persist'
+// import storage from 'redux-persist/lib/storage' // defaults to localStorage for web and AsyncStorage for react-native
+import { configureStore, getDefaultMiddleware, createSerializableStateInvariantMiddleware } from 'redux-starter-kit'
+// import { persistReducer } from 'redux-persist'
 import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
 import rootReducer from '../reducers'
 
-const persistConfig = {
-  key: 'root',
-  storage
-}
+// const persistConfig = {
+//   key: 'root',
+// storage}
 
 const isDev = process.env.NODE_ENV !== 'production'
 
 const logger = createLogger({
   duration: true,
-  predicate: (getState, { type }) =>
-    !['MIDI_MESSAGE_ARRIVED', 'HANDLE_SLIDER_CHANGE'].includes(type)
+  predicate: (getState, { type }) => !['MIDI_MESSAGE_ARRIVED', 'HANDLE_SLIDER_CHANGE'].includes(type)
 })
 
 const serializableStateInvariant = createSerializableStateInvariantMiddleware({
@@ -45,15 +39,15 @@ const devMiddleware = [
   serializableStateInvariant,
   logger
 ]
-export function configureAppStore(preloadedState) {
-  const reducer = persistReducer(persistConfig, rootReducer)
+export function configureAppStore (preloadedState) {
+  // const reducer = persistReducer(persistConfig, rootReducer)
   const store = configureStore({
-    reducer,
+    reducer: rootReducer,
     middleware: isDev
       ? devMiddleware
       : [...getDefaultMiddleware(), rafScheduler],
     preloadedState
-    //enhancers: [monitorReducersEnhancer]
+  // enhancers: [monitorReducersEnhancer]
   })
 
   if (isDev && module.hot) {
@@ -71,7 +65,7 @@ export function configureAppStore(preloadedState) {
  * @param {any} value The value to inspect.
  * @returns {boolean} True if the argument appears to be a plain object.
  */
-export default function isPlainObject(value) {
+export default function isPlainObject (value) {
   if (typeof value !== 'object' || value === null) return false
 
   let proto = value
@@ -87,12 +81,12 @@ export default function isPlainObject(value) {
  * frame.  Makes `dispatch` return a function to remove the action from the queue in
  * this case.
  */
-function rafScheduler(store) {
-  return function(next) {
+function rafScheduler () {
+  return function (next) {
     let queuedActions = []
     let frame = null
 
-    function loop() {
+    function loop () {
       frame = null
       try {
         if (queuedActions.length > 0) {
@@ -103,7 +97,7 @@ function rafScheduler(store) {
       }
     }
 
-    function maybeRaf() {
+    function maybeRaf () {
       if (queuedActions.length > 0 && !frame) {
         frame = requestAnimationFrame(loop)
       }
@@ -117,7 +111,7 @@ function rafScheduler(store) {
       queuedActions.push(action)
       maybeRaf()
 
-      return function cancel() {
+      return function cancel () {
         queuedActions = queuedActions.filter((a) => a !== action)
       }
     }
