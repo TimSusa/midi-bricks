@@ -29,5 +29,3 @@ export function ListItemLoadFileOnElectron({ onFileChange, iconColor }) {
     </ListItem>
   )
 }
-
-

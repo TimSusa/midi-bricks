@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  ListItem,
-  ListItemText,
-  ListItemIcon
-} from '@material-ui/core'
+import { ListItem, ListItemText, ListItemIcon } from '@material-ui/core'
 import LoadIcon from '@material-ui/icons/InsertDriveFile'
 import FileReader from './FileReader'
 import { PropTypes } from 'prop-types'
@@ -19,7 +15,7 @@ export function ListItemLoadFileOnWeb({ onFileChange, iconColor }) {
       onChange={handleFileChangeWebMode.bind(this, onFileChange)}
     >
       <ListItem button>
-        <ListItemIcon  className={iconColor}>
+        <ListItemIcon className={iconColor}>
           <LoadIcon />
         </ListItemIcon>
         <ListItemText primary='Load Preset' />
@@ -27,8 +23,6 @@ export function ListItemLoadFileOnWeb({ onFileChange, iconColor }) {
     </FileReader>
   )
 }
-
-
 
 function handleFileChangeWebMode(onFileChange, _, results) {
   if (!Array.isArray(results)) {

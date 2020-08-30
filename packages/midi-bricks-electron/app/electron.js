@@ -1,7 +1,7 @@
 const {
   BrowserWindow,
   app,
-  Notification,
+  //Notification,
   ipcMain,
   dialog
 } = require('electron')
@@ -33,7 +33,7 @@ log.info(app.getPath('userData'))
 const persistedAppSettingsFileName =
   app.getPath('userData') + '/midi-bricks-persisted-app-settings.json'
 
-let notification = null
+//let notification = null
 
 // Prevent Zoom, disrupting touches
 !isDev && app.commandLine.appendSwitch('disable-pinch')
@@ -44,7 +44,7 @@ const gotTheLock = app.requestSingleInstanceLock()
 if (!gotTheLock) {
   app.quit()
 } else {
-  app.on('second-instance', (event, commandLine, workingDirectory) => {
+  app.on('second-instance', () => {
     // Someone tried to run a second instance, we should focus our window.
     log.info(
       'Someone tried to run a second instance, we should focus our window.'
@@ -140,7 +140,9 @@ async function createWindow() {
     width,
     height,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js')
     },
     title: 'MIDI Bricks',
     // vibrancy: 'dark'
@@ -223,26 +225,26 @@ function onSaveFileDialog(event, arg) {
           extensions: ['json', 'js']
         }
       ]
-    },
-    (filename, bookmark) => {
-      if (filename === undefined) {
-        return
-      }
-      const json = JSON.stringify(arg)
-
-      fs.writeFile(filename, json, { flag: 'w' }, (err, data) => {
-        if (err) {
-          throw new Error(err)
-        }
-      })
-
-      appSettings = persistAppSettings(arg)
-      event.sender.send('save-file-dialog-reply', {
-        presetName: filename,
-        content: arg
-      })
     }
-  )
+  ).then((stuff) => {
+    const {filePath: filename} = stuff
+    if (filename === undefined) {
+      return
+    }
+    const json = JSON.stringify(arg)
+
+    fs.writeFile(filename, json, { flag: 'w' }, (err) => {
+      if (err) {
+        throw new Error(err)
+      }
+    })
+
+    appSettings = persistAppSettings(arg)
+    event.sender.send('save-file-dialog-reply', {
+      presetName: filename,
+      content: arg
+    })
+  })
 }
 
 function onOpenFileDialog(event, arg) {
@@ -255,25 +257,27 @@ function onOpenFileDialog(event, arg) {
           extensions: ['json', 'js']
         }
       ]
-    },
-    (filenames) => {
-      Array.isArray(filenames) &&
-        readFile(filenames[0], {}).then(
-          (data) => {
-            const args = JSON.parse(data)
-            const stuff = {
-              content: args,
-              presetName: filenames[0]
-            }
-            appSettings = persistAppSettings(args)
-            event.sender.send('open-file-dialog-reply', stuff)
-            log.info('Object loaded: ')
-            return data
-          },
-          (err) => {
-            console.error(err)
+    }
+  ).then(
+    (stuff)=> {
+
+      const {filePaths: filenames} = stuff
+      readFile(filenames[0], {}).then(
+        (data) => {
+          const args = JSON.parse(data)
+          const stuff = {
+            content: args,
+            presetName: filenames[0]
           }
-        )
+          appSettings = persistAppSettings(args)
+          event.sender.send('open-file-dialog-reply', {...stuff})
+          log.info('Object loaded: ', stuff)
+          return data
+        },
+        (err) => {
+          console.error(err)
+        }
+      )
     }
   )
 }
@@ -285,7 +289,7 @@ function onSetAppSettings(event, arg) {
     }
   })
 }
-function onSetActualWinCoords(event, arg) {
+function onSetActualWinCoords(event) {
   const { x, y, width, height } = win.getBounds()
   appSettings = persistAppSettings({
     viewSettings: {

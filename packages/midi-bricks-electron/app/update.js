@@ -1,3 +1,4 @@
+// window.ipcRenderer = require('electron').ipcRenderer
 // const { dialog } = require('electron')
 // const log = require('electron-log')
 // const { autoUpdater } = require('electron-updater')
