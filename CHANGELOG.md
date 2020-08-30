@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.38-alpha.2](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.38-alpha.1...v1.3.38-alpha.2) (2020-08-30)
+
+
+### Bug Fixes
+
+* Loading of presets in electron app ([5134fda](https://github.com/TimSusa/midi-bricks-mono/commit/5134fda716118e89eb4a0e20de3732272a71e63d))
+
 ### [1.3.38-alpha.1](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.38-alpha.0...v1.3.38-alpha.1) (2020-08-09)
 
 ### [1.3.38-alpha.0](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.38-alpha.o...v1.3.38-alpha.0) (2020-08-09)
