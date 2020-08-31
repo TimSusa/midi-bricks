@@ -1,26 +1,36 @@
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web and AsyncStorage for react-native
-import {
-  configureStore,
-  getDefaultMiddleware,
-  createSerializableStateInvariantMiddleware
-} from 'redux-starter-kit'
+import { configureStore, getDefaultMiddleware, createSerializableStateInvariantMiddleware } from 'redux-starter-kit'
 import { persistReducer } from 'redux-persist'
-import { createLogger } from 'redux-logger'
+// import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
 import rootReducer from '../reducers'
 
 const persistConfig = {
   key: 'root',
-  storage
-}
+storage}
 
 const isDev = process.env.NODE_ENV !== 'production'
 
-const logger = createLogger({
-  duration: true,
-  predicate: (getState, { type }) =>
-    !['MIDI_MESSAGE_ARRIVED', 'HANDLE_SLIDER_CHANGE'].includes(type)
-})
+// const logger = createLogger({
+//   duration: true,
+//   predicate: (getState, { type }) => !['MIDI_MESSAGE_ARRIVED', 'HANDLE_SLIDER_CHANGE'].includes(type)
+// })
+
+/**
+ * Schedules actions with { meta: { delay: N } } to be delayed by N milliseconds.
+ * Makes `dispatch` return a function to cancel the timeout in this case.
+ */
+const timeoutScheduler = store => next => action => {
+  if (!action.meta || !action.meta.delay) {
+    return next(action)
+  }
+
+  const timeoutId = setTimeout(() => next(action), action.meta.delay)
+
+  return function cancel () {
+    clearTimeout(timeoutId)
+  }
+}
 
 const serializableStateInvariant = createSerializableStateInvariantMiddleware({
   isSerializable(val) {
@@ -42,18 +52,19 @@ const devMiddleware = [
   immutableStateInvariant,
   thunk,
   rafScheduler,
+  timeoutScheduler,
   serializableStateInvariant,
-  logger
+// logger
 ]
-export function configureAppStore(preloadedState) {
+export function configureAppStore (preloadedState) {
   const reducer = persistReducer(persistConfig, rootReducer)
   const store = configureStore({
     reducer,
     middleware: isDev
       ? devMiddleware
-      : [...getDefaultMiddleware(), rafScheduler],
+      : [...getDefaultMiddleware(), rafScheduler, timeoutScheduler],
     preloadedState
-    //enhancers: [monitorReducersEnhancer]
+  // enhancers: [monitorReducersEnhancer]
   })
 
   if (isDev && module.hot) {
@@ -71,7 +82,7 @@ export function configureAppStore(preloadedState) {
  * @param {any} value The value to inspect.
  * @returns {boolean} True if the argument appears to be a plain object.
  */
-export default function isPlainObject(value) {
+export default function isPlainObject (value) {
   if (typeof value !== 'object' || value === null) return false
 
   let proto = value
@@ -87,12 +98,12 @@ export default function isPlainObject(value) {
  * frame.  Makes `dispatch` return a function to remove the action from the queue in
  * this case.
  */
-function rafScheduler(store) {
-  return function(next) {
+function rafScheduler (store) {
+  return function (next) {
     let queuedActions = []
     let frame = null
 
-    function loop() {
+    function loop () {
       frame = null
       try {
         if (queuedActions.length > 0) {
@@ -103,7 +114,7 @@ function rafScheduler(store) {
       }
     }
 
-    function maybeRaf() {
+    function maybeRaf () {
       if (queuedActions.length > 0 && !frame) {
         frame = requestAnimationFrame(loop)
       }
@@ -117,7 +128,7 @@ function rafScheduler(store) {
       queuedActions.push(action)
       maybeRaf()
 
-      return function cancel() {
+      return function cancel () {
         queuedActions = queuedActions.filter((a) => a !== action)
       }
     }
