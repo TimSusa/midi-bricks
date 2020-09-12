@@ -19,7 +19,7 @@ function MidiSlider(props) {
   let send = useRef(null)
 
   useEffect(() => {
-    send.current = debounce(sendOutFromChildren, 3)
+    send.current = debounce(sendOutFromChildren, 5)
     function sendOutFromChildren(y) {
       return dispatch(
         handleSliderChange({

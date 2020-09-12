@@ -20,7 +20,7 @@ const timeoutScheduler = () => next => action => {
 export function configureAppStore () {
   const obj = {
     reducer,
-    middleware: getDefaultMiddleware().concat(rafScheduler, timeoutScheduler)
+    middleware: getDefaultMiddleware().concat(timeoutScheduler, rafScheduler)
   }
   const store = configureStore(obj)
   return store
