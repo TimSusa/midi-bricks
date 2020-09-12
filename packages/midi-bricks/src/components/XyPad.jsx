@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 
-
 class XyPad extends Component {
   animationFrames = []
   state = {
@@ -13,19 +12,19 @@ class XyPad extends Component {
     x: this.props.x || 0,
     y: this.props.y || 0,
     connected: false,
-    pressedButtons: [],
+    pressedButtons: []
   }
 
   componentDidMount() {
     const handle = window.requestAnimationFrame(this.update.bind(this))
     this.animationFrames.push(handle)
   }
-  componentWillUnmount(){
-    this.animationFrames.forEach(frame => window.cancelAnimationFrame(frame))
+  componentWillUnmount() {
+    this.animationFrames.forEach((frame) => window.cancelAnimationFrame(frame))
   }
 
   update(datetime) {
-    const handle =  window.requestAnimationFrame(this.update.bind(this))
+    const handle = window.requestAnimationFrame(this.update.bind(this))
     this.animationFrames.push(handle)
     const frameTime = datetime - this.previousFrameTime
     this.previousFrameTime = datetime
@@ -42,16 +41,13 @@ class XyPad extends Component {
         1 -
         (this.state.speedY * this.props.height) / 2 +
         this.props.height / 2 -
-        16,
+        16
     })
   }
 
   render() {
     const { x, y, pressedButtons } = this.state
-    const {
-      width,
-      height,
-    } = this.props
+    const { width, height } = this.props
     return (
       <React.Fragment>
         <Gamepad
@@ -77,19 +73,19 @@ class XyPad extends Component {
     )
   }
 
-  connectHandler = gamepadIndex => {
+  connectHandler = (gamepadIndex) => {
     console.log(`Gamepad ${gamepadIndex} connected!`)
 
     this.setState({
-      connected: true,
+      connected: true
     })
   }
 
-  disconnectHandler = gamepadIndex => {
+  disconnectHandler = (gamepadIndex) => {
     console.log(`Gamepad ${gamepadIndex} disconnected !`)
 
     this.setState({
-      connected: false,
+      connected: false
     })
   }
 
@@ -97,19 +93,19 @@ class XyPad extends Component {
     if (axisName === 'LeftStickX') {
       this.props.actions.handleSliderChange({
         idx: this.props.idx,
-        val: parseInt((value + 1) * 63.5, 10),
+        val: parseInt((value + 1) * 63.5, 10)
       })
 
       this.setState({
-        speedX: value,
+        speedX: value
       })
     } else if (axisName === 'LeftStickY') {
       this.props.actions.sendMidiCcY({
         idx: this.props.idx,
-        yVal: parseInt((value + 1) * 63.5, 10),
+        yVal: parseInt((value + 1) * 63.5, 10)
       })
       this.setState({
-        speedY: value,
+        speedY: value
       })
     }
   }
@@ -117,22 +113,22 @@ class XyPad extends Component {
   sendOutFromChildren = (x, y) => {
     this.props.actions.handleSliderChange({
       idx: this.props.idx,
-      val: parseInt(x, 10),
+      val: parseInt(x, 10)
     })
 
     this.props.actions.sendMidiCcY({
       idx: this.props.idx,
-      yVal: parseInt(y, 10),
+      yVal: parseInt(y, 10)
     })
   }
 
-  onButtonDown = e => {
+  onButtonDown = (e) => {
     this.setState({ pressedButtons: [...this.state.pressedButtons, e] })
   }
 
-  onButtonUp = e => {
-    const idx = this.state.pressedButtons.findIndex(cur => cur === e)
-    const list = this.state.pressedButtons.map(cur => cur).splice(idx, 0)
+  onButtonUp = (e) => {
+    const idx = this.state.pressedButtons.findIndex((cur) => cur === e)
+    const list = this.state.pressedButtons.map((cur) => cur).splice(idx, 0)
     this.setState({ pressedButtons: list })
   }
 
@@ -145,27 +141,18 @@ class XyPad extends Component {
       background: 'grey',
       color: 'grey',
       top: Math.round(y) + 'px',
-      left: Math.round(x) + 'px',
+      left: Math.round(x) + 'px'
     }
   }
 }
 
-// function mapStateToProps({ viewSettings: { isSettingsMode } }) {
-//   return {
-//     isSettingsMode,
-//   }
-// }
-
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(MidiSliderActions, dispatch),
+    actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(XyPad)
+export default connect(null, mapDispatchToProps)(XyPad)
 
 class Pad extends Component {
   selfRef = null
@@ -174,7 +161,7 @@ class Pad extends Component {
     super(props)
     this.state = {
       x: 0,
-      y: 0,
+      y: 0
     }
     this.selfRef = React.createRef()
   }
@@ -182,12 +169,12 @@ class Pad extends Component {
   render() {
     return (
       <div
-        onContextMenu={e => {
+        onContextMenu={(e) => {
           e.preventDefault()
           e.stopPropagation()
           return false
         }}
-        ref={ref => (this.selfRef = ref)}
+        ref={(ref) => (this.selfRef = ref)}
         onPointerDown={this.handlePointerStart}
         onPointerMove={this.onPointerMove}
         onPointerUp={this.handlePointerEnd}
@@ -201,9 +188,9 @@ class Pad extends Component {
             this.props.pressedButtons.length > 0
               ? 'pink'
               : this.props.isConnected
-                ? 'aliceblue'
-                : 'red',
-          opacity: 0.7,
+              ? 'aliceblue'
+              : 'red',
+          opacity: 0.7
         }}
       >
         <div
@@ -218,11 +205,11 @@ class Pad extends Component {
     )
   }
 
-  handlePointerStart = e => {
+  handlePointerStart = (e) => {
     this.onPointerMove = this.handlePointerMove
     this.selfRef.setPointerCapture(e.pointerId)
   }
-  handlePointerEnd = e => {
+  handlePointerEnd = (e) => {
     this.onPointerMove = null
     this.selfRef.releasePointerCapture(e.pointerId)
 
@@ -239,7 +226,7 @@ class Pad extends Component {
     this.setState({ x, y })
     this.props.sendOutFromChildren(valX, val)
   }
-  handlePointerMove = e => {
+  handlePointerMove = (e) => {
     const parentRect = this.selfRef.getBoundingClientRect()
 
     const tmpX = e.clientX - parentRect.x

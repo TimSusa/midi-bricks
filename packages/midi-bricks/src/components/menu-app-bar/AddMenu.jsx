@@ -22,10 +22,7 @@ const {
   XYPAD
 } = STRIP_TYPE
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AddMenu)
+export default connect(null, mapDispatchToProps)(AddMenu)
 
 AddMenu.propTypes = {
   actions: PropTypes.object.isRequired
@@ -138,10 +135,6 @@ async function handleAddXyPad(setAnchorEl, { addElement }) {
 async function handleAddPage({ addElement }, setAnchorEl) {
   await addElement(PAGE)
   setAnchorEl(null)
-}
-
-function mapStateToProps() {
-  return {}
 }
 
 function mapDispatchToProps(dispatch) {

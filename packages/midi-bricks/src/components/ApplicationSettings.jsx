@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import DriverExpansionPanel from './DriverExpansionPanel'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
@@ -17,7 +17,7 @@ import {
 import LockIcon from '@material-ui/icons/Lock'
 import LockOpenIcon from '@material-ui/icons/LockOpen'
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicationSettings)
+export default connect(null, mapDispatchToProps)(ApplicationSettings)
 
 const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
 
@@ -29,115 +29,32 @@ ApplicationSettings.propTypes = {
 
 function ApplicationSettings(props) {
   const {
-    actions,
-    viewSettings: {
-      electronAppSettings: {
-        isDevConsoleEnabled = false,
-        // isAllowedToUpdate = true,
-        // isAutoDownload = false,
-        // isAllowedDowngrade = false,
-        isWindowSizeLocked = true,
-        windowCoords: winCood = [69, 69, 690, 690]
-      } = {},
-      columns = 18,
-      rowHeight = 40,
-      isAutoSize = false,
-      isChangedTheme = false,
-      isFullscreenOnLivemode = false,
-      marginX = 8,
-      marginY = 8,
-      paddingX = 8,
-      paddingY = 8
-    }
-  } = props
+    electronAppSettings: {
+      isDevConsoleEnabled = false,
+      isWindowSizeLocked = true,
+      windowCoords: winCood = [69, 69, 690, 690]
+    } = {},
+    columns = 18,
+    rowHeight = 40,
+    isAutoSize = false,
+    isChangedTheme = false,
+    isFullscreenOnLivemode = false,
+    marginX = 8,
+    marginY = 8,
+    paddingX = 8,
+    paddingY = 8
+  } = useSelector((state) => state.viewSettings)
+  const { actions } = props
   let windowCoords = winCood
   const [isViewPanelExpanded, setIsViewPanelExpanded] = useState(false)
-  //const [isUpdatePanelExpanded, setIsUpdatePanelExpanded] = useState(false)
 
   return (
     <React.Fragment>
-      {/* {!isWebMode && (
-        <DriverExpansionPanel
-          label='Updates'
-          expanded={isUpdatePanelExpanded}
-          noPadding={false}
-          onChange={(e) => setIsUpdatePanelExpanded(!isUpdatePanelExpanded)}
-        >
-          <FormControlLabel
-            control={
-              <Tooltip title='You can disable the check for updates here. Keep in mind, that this settings comes into play after restart.'>
-                <Switch
-                  checked={isAllowedToUpdate}
-                  onChange={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    const payload = {
-                      isAllowedToUpdate: !isAllowedToUpdate
-                    }
-                    sendAppSettings(payload)
-                    actions.setElectronAppSettings(payload)
-                  }}
-                  value={isAllowedToUpdate}
-                  color='secondary'
-                />
-              </Tooltip>
-            }
-            label='Initial Update Check'
-          />
-
-          <FormControlLabel
-            disabled={!isAllowedToUpdate}
-            control={
-              <Tooltip title='Whether to automatically download an update when it is found.'>
-                <Switch
-                  checked={isAutoDownload}
-                  onChange={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    const payload = {
-                      isAutoDownload: !isAutoDownload
-                    }
-                    sendAppSettings(payload)
-                    actions.setElectronAppSettings(payload)
-                  }}
-                  value={isAutoDownload}
-                  color='secondary'
-                />
-              </Tooltip>
-            }
-            label='Automatic Download (experimental)'
-          />
-          <FormControlLabel
-            disabled={!isAllowedToUpdate}
-            control={
-              <Tooltip title='Whether to allow version downgrade (when a user from the beta channel wants to go back to the stable channel). Defaults to `true` if application version contains prerelease components (e.g. `0.12.1-alpha.1`, here `alpha` is a prerelease component), otherwise `false`.'>
-                <Switch
-                  checked={isAllowedDowngrade}
-                  onChange={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    const payload = {
-                      isAllowedDowngrade: !isAllowedDowngrade,
-                      isAllowedPrerelease: !isAllowedDowngrade
-                    }
-                    sendAppSettings(payload)
-                    actions.setElectronAppSettings(payload)
-                  }}
-                  value={isAllowedDowngrade}
-                  color='secondary'
-                />
-              </Tooltip>
-            }
-            label='Rollback Update (experimental)'
-          />
-        </DriverExpansionPanel>
-      )} */}
-
       <DriverExpansionPanel
         label='Views'
         expanded={isViewPanelExpanded}
         noPadding={false}
-        onChange={(e) => setIsViewPanelExpanded(!isViewPanelExpanded)}
+        onChange={() => setIsViewPanelExpanded(!isViewPanelExpanded)}
       >
         {isWebMode && (
           <FormControlLabel
@@ -370,13 +287,5 @@ function mapDispatchToProps(dispatch) {
       dispatch
     ),
     thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
-  }
-}
-
-function mapStateToProps({ sliders: { sliderList, midi }, viewSettings }) {
-  return {
-    sliderList,
-    midi,
-    viewSettings
   }
 }

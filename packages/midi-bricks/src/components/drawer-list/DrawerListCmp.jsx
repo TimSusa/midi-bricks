@@ -27,14 +27,11 @@ import { thunkDelete } from '../../actions/thunks/thunk-delete'
 import { thunkLiveModeToggle } from '../../actions/thunks/thunk-live-mode-toggle'
 import { Actions as MidiSliderActions } from '../../actions/slider-list'
 import { Actions as ViewSettingsActions } from '../../actions/view-settings'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 
 const version = process.env.REACT_APP_VERSION || 'dev'
 
-export const DrawerList = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DrawerListCmp)
+export const DrawerList = connect(null, mapDispatchToProps)(DrawerListCmp)
 
 DrawerListCmp.propTypes = {
   classes: PropTypes.object,
@@ -56,6 +53,9 @@ DrawerListCmp.propTypes = {
 }
 
 function DrawerListCmp(props) {
+  const pages = useSelector((state) => state.pages)
+  const viewSettings = useSelector((state) => state.viewSettings)
+  const sliders = useSelector((state) => state.sliders)
   const {
     classes,
     togglePage,
@@ -65,9 +65,6 @@ function DrawerListCmp(props) {
     deleteFooterPages,
     handleSaveFile: handleSaveFileTmp,
     handleResetSliders: handleResetSlidersTmp,
-    pages,
-    viewSettings,
-    sliders,
     thunkLoadFile,
     thunkDelete
   } = props
@@ -123,9 +120,7 @@ function DrawerListCmp(props) {
           button
           onClick={
             !isOpenViewSettings
-              ? (e) => {
-                  setIsOpenViewSettings(!isOpenViewSettings)
-                }
+              ? () => setIsOpenViewSettings(!isOpenViewSettings)
               : () => {}
           }
         >
@@ -135,7 +130,7 @@ function DrawerListCmp(props) {
           <ListItemText primary='Preferences' />
           <ViewSettingsDialog
             isOpen={isOpenViewSettings}
-            onClose={(e) => {
+            onClose={() => {
               setIsOpenViewSettings(!isOpenViewSettings)
               props.onClose()
             }}
@@ -221,7 +216,7 @@ function DrawerListCmp(props) {
   )
 }
 
-function handleResetSliders(thunkDelete, cb, deleteAll, deleteFooterPages) {
+function handleResetSliders(thunkDelete, cb) {
   cb()
   return thunkDelete('all')
 }
@@ -240,14 +235,6 @@ function handleSaveFile(
     version
   })
   handleSaveFile()
-}
-
-function mapStateToProps({ pages, viewSettings, sliders, version }) {
-  return {
-    pages: pages,
-    viewSettings,
-    sliders
-  }
 }
 
 function mapDispatchToProps(dispatch) {

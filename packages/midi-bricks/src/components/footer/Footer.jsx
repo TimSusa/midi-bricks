@@ -5,21 +5,18 @@ import { makeStyles, useTheme } from '@material-ui/styles'
 import IconButton from '@material-ui/core/IconButton'
 import LeftIcon from '@material-ui/icons/KeyboardArrowLeft'
 import RightIcon from '@material-ui/icons/KeyboardArrowRight'
-
 import { thunkChangePage } from '../../actions/thunks/thunk-change-page'
-
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as ViewSettinsgsAction } from '../../actions/view-settings'
 import { Actions as SliderSettinsgsAction } from '../../actions/slider-list'
 import { thunkLiveModeToggle } from '../../actions/thunks/thunk-live-mode-toggle'
 import { Button, Tooltip } from '@material-ui/core'
 import { PAGE_TYPES } from '../../reducers'
-// import MidiSettingsDialog from '../midi-settings-dialog/MidiSettingsDialog'
 
 const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
 
-export default connect(mapStateToProps, mapDispatchToProps)(Footer)
+export default connect(null, mapDispatchToProps)(Footer)
 
 Footer.propTypes = {
   actions: PropTypes.object,
@@ -40,20 +37,18 @@ function Footer(props) {
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
   const {
-    footerPages = [],
-    pageTargets = [],
+    footerPages,
+    pageTargets,
     lastFocusedPage,
-    // lastFocusedIdx,
-    isSettingsMode = false,
-    // isSettingsDialogMode,
-    isLiveMode = false,
-    isFullscreenOnLivemode = false,
-    pageType = '',
-    actions,
-    thunkChangePage,
-    thunkLiveModeToggle
-  } = props
-  //if (!isLiveMode) return <div />
+
+    isSettingsMode,
+
+    isFullscreenOnLivemode,
+    isLiveMode,
+    pageType
+  } = useSelector((state) => state.viewSettings)
+  const { actions, thunkChangePage, thunkLiveModeToggle } = props
+
   return (
     <div className={classes.root}>
       {pageTargets.map((item) => {
@@ -206,32 +201,6 @@ function styles(theme) {
       color: theme.palette.primary.contrastText,
       cursor: 'pointer'
     }
-  }
-}
-
-function mapStateToProps({
-  viewSettings: {
-    footerPages,
-    pageTargets,
-    lastFocusedPage,
-    lastFocusedIdx,
-    isSettingsMode,
-    isSettingsDialogMode,
-    isFullscreenOnLivemode,
-    isLiveMode,
-    pageType
-  }
-}) {
-  return {
-    footerPages,
-    pageTargets,
-    lastFocusedPage,
-    lastFocusedIdx,
-    isSettingsMode,
-    isSettingsDialogMode,
-    isLiveMode,
-    pageType,
-    isFullscreenOnLivemode
   }
 }
 
