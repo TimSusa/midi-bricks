@@ -1,12 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { connect, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 import { debounce } from 'debounce'
 import { PropTypes } from 'prop-types'
 
 const { handleSliderChange } = MidiSliderActions
 
-export default connect(mapStateToProps, null)(MidiSlider)
+export default MidiSlider
 
 function MidiSlider(props) {
   const [isActivated, setIsActivated] = useState(false)
@@ -16,33 +16,28 @@ function MidiSlider(props) {
   let onPointerMove = useRef(null)
   let isDragging = useRef(false)
   let send = useRef(null)
+  const { idx, isHorz, height, sliderThumbHeight, width, isDisabled } = props
 
+  const { i, val, maxVal: tmpMax, minVal: tmpMin, colors } = useSelector(
+    (state) => state.sliders.sliderList[idx] || {}
+  )
+  const { color, colorActive } = colors || {}
+  const lastFocusedPage = useSelector(
+    (state) => state.viewSettings.lastFocusedPage
+  )
   useEffect(() => {
     send.current = debounce(sendOutFromChildren, 5)
     function sendOutFromChildren(y) {
       return dispatch(
         handleSliderChange({
-          i: props.sliderEntry.i,
+          i,
           val: parseInt(y, 10),
-          lastFocusedPage: props.lastFocusedPage
+          lastFocusedPage
         })
       )
     }
-  }, [dispatch, props.lastFocusedPage, props.sliderEntry.i])
+  }, [dispatch, i, lastFocusedPage])
 
-  const {
-    isHorz,
-    val,
-    entry: {
-      isDisabled,
-      height,
-      sliderThumbHeight,
-      width,
-      colors: { color, colorActive },
-      maxVal: tmpMax,
-      minVal: tmpMin
-    }
-  } = props
   const maxVal = isHorz ? tmpMin : tmpMax
   const minVal = isHorz ? tmpMax : tmpMin
   const hOrW = isHorz ? width : height
@@ -251,22 +246,19 @@ function MidiSlider(props) {
 }
 
 MidiSlider.propTypes = {
-  actions: PropTypes.object,
-  entry: PropTypes.object,
   height: PropTypes.any,
-  width: PropTypes.any,
-  isDisabled: PropTypes.bool,
-  isHorz: PropTypes.bool,
-  lastFocusedPage: PropTypes.string,
-  sliderEntry: PropTypes.object,
+  i: PropTypes.any,
+  idx: PropTypes.any,
+  isDisabled: PropTypes.any,
+  isHorz: PropTypes.any,
   sliderThumbHeight: PropTypes.any,
-  val: PropTypes.any
+  width: PropTypes.any
 }
 
-function onGotCapture(isActivated, setIsActivated, event) {
+function onGotCapture(isActivated, setIsActivated) {
   !isActivated && setIsActivated(true)
 }
-function onLostCapture(isActivated, setIsActivated, event) {
+function onLostCapture(isActivated, setIsActivated) {
   isActivated && setIsActivated(false)
 }
 function valToPixel(heightOrWidth, val, maxVal, minVal) {
@@ -309,40 +301,4 @@ function getSliderThumbStyle(
   }
 }
 
-function getSliderEntr({
-  isDisabled,
-  height,
-  sliderThumbHeight,
-  width,
-  sliderEntry: {
-    colors: { color, colorActive },
-    val,
-    maxVal,
-    minVal
-  }
-}) {
-  return {
-    isDisabled,
-    colors: { color, colorActive },
-    val,
-    height: parseInt(height, 10),
-    sliderThumbHeight: parseInt(sliderThumbHeight, 10),
-    width: parseInt(width, 10),
-    maxVal: parseInt(maxVal, 10),
-    minVal: parseInt(minVal, 10)
-  }
-}
-
 function noop() {}
-
-function getLastFocus({ viewSettings }) {
-  return viewSettings.lastFocusedPage
-}
-
-function mapStateToProps(state, props) {
-  return {
-    lastFocusedPage: getLastFocus(state),
-    entry: getSliderEntr(props),
-    val: getSliderEntr(props).val
-  }
-}

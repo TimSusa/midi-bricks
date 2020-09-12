@@ -7,10 +7,10 @@ import {
 } from './../../utils/ipc-renderer'
 import { PropTypes } from 'prop-types'
 
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 
 export const ListItemSaveFileOnElectron = connect(
-  mapStateToProps,
+  null,
   null
 )(ListItemSaveFileOnElectronComp)
 
@@ -18,17 +18,21 @@ ListItemSaveFileOnElectronComp.propTypes = {
   onFileChange: PropTypes.func,
   viewSettings: PropTypes.object,
   sliders: PropTypes.object,
-  pages: PropTypes.object
+  pages: PropTypes.object,
+  iconColor: PropTypes.string
 }
 
 // At Electron App we use ipc for file loading from main process
-export function ListItemSaveFileOnElectronComp({ onFileChange, viewSettings, sliders={}, pages, iconColor }) {
+export function ListItemSaveFileOnElectronComp({ onFileChange, iconColor }) {
+  const pages = useSelector((state) => state.pages)
+  const viewSettings = useSelector((state) => state.viewSettings)
+  const sliders = useSelector((state) => state.sliders)
   return (
     <ListItem
       button
-      onClick={(e) => {
+      onClick={() => {
         addIpcSaveFileListenerOnce(onFileChange)
-        saveIpcFileDialog({viewSettings, sliders, pages})
+        saveIpcFileDialog({ viewSettings, sliders, pages })
       }}
     >
       <ListItemIcon className={iconColor}>
@@ -38,12 +42,3 @@ export function ListItemSaveFileOnElectronComp({ onFileChange, viewSettings, sli
     </ListItem>
   )
 }
-
-function mapStateToProps({ viewSettings, sliders, pages }) {
-  return {
-    viewSettings,
-    sliders, 
-    pages
-  }
-}
-

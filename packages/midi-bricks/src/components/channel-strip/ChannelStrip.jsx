@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
+import { useSelector } from 'react-redux'
 import Slider from '../midi-elements/Slider'
 import MidiButtons from '../midi-elements/midi-buttons/MidiButtons'
 import StripLabel from '../midi-elements/StripLabel'
@@ -12,17 +13,20 @@ export default ChannelStrip
 const sliderThumbHeight = 30
 
 ChannelStrip.propTypes = {
+  idx: PropTypes.number,
   classes: PropTypes.object,
   isDisabled: PropTypes.bool,
   isMidiLearnMode: PropTypes.any,
-  size: PropTypes.object,
-  sliderEntry: PropTypes.object
+  size: PropTypes.object
 }
 
 function ChannelStrip(props) {
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
-  const { sliderEntry, size, isDisabled, isMidiLearnMode } = props
+  const { idx, size, isDisabled, isMidiLearnMode } = props
+  const sliderEntry = useSelector(
+    (state) => state.sliders.sliderList[idx] || {}
+  )
   const {
     i,
     type,
@@ -34,6 +38,7 @@ function ChannelStrip(props) {
     isValueHidden,
     lastSavedVal
   } = sliderEntry
+
   const tmpH = (size && size.height) || 0
   const tmpW = (size && size.width) || 0
   const isButton = ![
@@ -46,73 +51,69 @@ function ChannelStrip(props) {
       {type === STRIP_TYPE.SLIDER && !isMidiLearnMode && (
         <div className={classes.sliderChannelWrapper}>
           <Label
+            i={i}
+            label={label}
+            lastSavedVal={lastSavedVal}
             fontSize={fontSize}
             fontWeight={fontWeight}
             labelStyle={classes.label}
             colorFont={colorFont}
-            {...props}
-          >
-            {label}
-          </Label>
+          ></Label>
           <Slider
+            idx={idx}
             isHorz={false}
             className={classes.sliderWrapper}
             isDisabled={isDisabled}
-            sliderEntry={sliderEntry}
-            height={calcLengthIfHidden(tmpH, props)}
+            height={calcLengthIfHidden(tmpH, sliderEntry)}
             width={tmpW}
             sliderThumbHeight={sliderThumbHeight}
           />
           {!isValueHidden && (
             <Label
-              lastSavedVal={lastSavedVal}
               i={i}
+              label={`${val} / ${lastSavedVal}`}
+              lastSavedVal={lastSavedVal}
               fontSize={fontSize}
               fontWeight={fontWeight}
               labelStyle={classes.bottomLabel}
               colorFont={colorFont}
-              {...props}
-            >
-              {val}
-              {` / ${lastSavedVal}`}
-            </Label>
+            ></Label>
           )}
         </div>
       )}
       {type === STRIP_TYPE.SLIDER_HORZ && (
         <div className={classes.sliderChannelWrapper}>
           <Label
+            i={i}
+            label={label}
+            lastSavedVal={lastSavedVal}
             fontSize={fontSize}
             fontWeight={fontWeight}
             labelStyle={classes.label}
             colorFont={colorFont}
-            {...props}
-          >
-            {label}
-          </Label>
+          ></Label>
           <Slider
+            idx={idx}
             isHorz={true}
             className={classes.sliderWrapper}
             isDisabled={isDisabled}
-            sliderEntry={sliderEntry}
-            i={i}
-            height={calcLengthIfHidden(tmpH, props)}
-            width={calcLengthIfHidden(tmpW + 16 + sliderThumbHeight, props)}
+            height={calcLengthIfHidden(tmpH, sliderEntry)}
+            width={calcLengthIfHidden(
+              tmpW + 16 + sliderThumbHeight,
+              sliderEntry
+            )}
             sliderThumbHeight={sliderThumbHeight}
           />
           {!isValueHidden ? (
             <Label
-              lastSavedVal={lastSavedVal}
               i={i}
+              label={`${val} / ${lastSavedVal}`}
+              lastSavedVal={lastSavedVal}
               fontSize={fontSize}
               fontWeight={fontWeight}
               labelStyle={classes.bottomLabel}
               colorFont={colorFont}
-              {...props}
-            >
-              {val}
-              {` / ${lastSavedVal}`}
-            </Label>
+            ></Label>
           ) : null}
         </div>
       )}
@@ -145,10 +146,8 @@ function ChannelStrip(props) {
   )
 }
 
-function calcLengthIfHidden(
-  tmpH,
-  { sliderEntry: { isValueHidden, fontSize } }
-) {
+function calcLengthIfHidden(tmpH, sliderEntry) {
+  const { isValueHidden, fontSize } = sliderEntry || {}
   const fact = isValueHidden ? 1 : 2
   const marge = isValueHidden ? 8 : 16
   return tmpH - parseInt(fact * fontSize, 10) - sliderThumbHeight - marge

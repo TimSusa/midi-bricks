@@ -79,13 +79,11 @@ function ChannelStripListCmp() {
 
     // Protect dialog mode from global listeners
     if (!isSettingsDialogMode && !isLiveMode) {
-      console.log('Add Keypress Listener')
       elem.addEventListener('keypress', keypressRef)
     }
 
     // clean up
     return () => {
-      console.log('clean up -> Remove Keypress Listener ')
       elem.removeEventListener('keypress', keypressRef)
     }
   }, [isSettingsDialogMode, isLayoutMode, isLiveMode, elem, pageType, dispatch])
@@ -106,16 +104,7 @@ function ChannelStripListCmp() {
         isResizable={isLayoutMode}
         compactType={isCompactHorz ? 'horizontal' : 'vertical'}
         layout={sliderList}
-        onLayoutChange={
-          isLayoutMode
-            ? onLayoutChange.bind(
-                this,
-                thunkChangeListOrder,
-                isLayoutMode,
-                lastFocusedPage
-              )
-            : () => {}
-        }
+        onLayoutChange={isLayoutMode ? onLayoutChange.bind(this) : () => {}}
       >
         {map(sliderList, (sliderEntry, idx) => {
           const { i } = sliderEntry
@@ -175,8 +164,8 @@ function ChannelStripListCmp() {
                         />
                       )}
                       <ChannelStrip
+                        idx={idx}
                         size={size}
-                        sliderEntry={sliderEntry}
                         isDisabled={isLayoutMode || isSettingsMode}
                         isMidiLearnMode={isMidiLearnMode}
                       />
@@ -239,12 +228,7 @@ function ChannelStripListCmp() {
   } else {
     return <></>
   }
-  async function onLayoutChange(
-    thunkChangeListOrdert,
-    isLayoutMode,
-    lastFocusedPage,
-    layout
-  ) {
+  async function onLayoutChange(layout) {
     if (isLayoutMode) {
       dispatch(thunkChangeListOrder(layout, lastFocusedPage))
     }

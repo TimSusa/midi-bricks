@@ -1,34 +1,32 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useDispatch } from 'react-redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 import { PropTypes } from 'prop-types'
-
-export const Label = connect(
-  null,
-  mapDispatchToProps
-)(LabelComponent)
+const { handleSliderChange } = MidiSliderActions
+export const Label = LabelComponent
 
 export function LabelComponent(props) {
+  const dispatch = useDispatch()
   const {
     i,
     lastSavedVal,
-    handleSliderChange,
     lastFocusedPage,
     fontSize,
     fontWeight,
     colorFont,
     labelStyle,
-    children
+    label
   } = props
   return (
     <div
       onClick={() =>
-        handleSliderChange({
-          i: i,
-          val: lastSavedVal || 0,
-          lastFocusedPage
-        })
+        dispatch(
+          handleSliderChange({
+            i: i,
+            val: lastSavedVal || 0,
+            lastFocusedPage
+          })
+        )
       }
       style={{
         fontWeight,
@@ -37,28 +35,19 @@ export function LabelComponent(props) {
       }}
       className={labelStyle}
     >
-      {children}
+      {label}
     </div>
   )
 }
 
 LabelComponent.propTypes = {
-  children: PropTypes.any,
-  colorFont: PropTypes.string,
+  colorFont: PropTypes.any,
   fontSize: PropTypes.any,
   fontWeight: PropTypes.any,
   handleSliderChange: PropTypes.func,
-  i: PropTypes.string,
-  labelStyle: PropTypes.string,
-  lastFocusedPage: PropTypes.string,
-  lastSavedVal: PropTypes.any
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    handleSliderChange: bindActionCreators(
-      MidiSliderActions.handleSliderChange,
-      dispatch
-    )
-  }
+  i: PropTypes.any,
+  label: PropTypes.any,
+  labelStyle: PropTypes.any,
+  lastFocusedPage: PropTypes.any,
+  lastSavedVal: PropTypes.number
 }

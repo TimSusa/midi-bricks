@@ -3,7 +3,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../../actions/slider-list.js'
 import { STRIP_TYPE } from '../../../reducers/slider-list.js'
@@ -22,6 +22,7 @@ InputNoteOrCc.propTypes = {
 }
 
 function InputNoteOrCc(props) {
+  const { lastFocusedPage } = useSelector((state) => state.viewSettings)
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
   const {
@@ -29,7 +30,7 @@ function InputNoteOrCc(props) {
     yMidiCc,
     type,
     i,
-    lastFocusedPage,
+    // lastFocusedPage,
     actions: { selectCc = () => {} }
   } = props
   const isCcInput = [
@@ -151,19 +152,13 @@ function styles(theme) {
   }
 }
 
-function mapStateToProps({ viewSettings: { lastFocusedPage } }) {
-  return {
-    lastFocusedPage
-  }
-}
-
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InputNoteOrCc)
+export default connect(null, mapDispatchToProps)(InputNoteOrCc)
 
 function selectCcY({ i, actions }, e) {
   actions.changeXypadSettings({

@@ -5,7 +5,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import CopyIcon from '@material-ui/icons/NoteAdd'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { initApp } from '../../actions/init.js'
 
 import { bindActionCreators } from 'redux'
@@ -22,7 +22,7 @@ import { DriverEmtpyRedirectButton } from './elements/DriverEmtpyRedirectButton'
 
 import { STRIP_TYPE } from '../../reducers/slider-list'
 
-export default connect(mapStateToProps, mapDispatchToProps)(MidiSettings)
+export default connect(null, mapDispatchToProps)(MidiSettings)
 
 const { BUTTON, BUTTON_TOGGLE, PAGE } = STRIP_TYPE
 
@@ -39,17 +39,24 @@ MidiSettings.propTypes = {
 }
 
 function MidiSettings(props) {
+  const {
+    lastFocusedPage,
+    isSettingsMode,
+    pageTargets = [],
+    availableDrivers: { inputs = {}, outputs = {} } = {}
+  } = useSelector((state) => state.viewSettings)
+  const pageTarget = pageTargets.find((item) => item.id === lastFocusedPage)
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
   const {
-    isSettingsMode,
+    //isSettingsMode,
     actions,
     initApp: initAppLocal,
-    inputs = {},
-    outputs = {},
+    // inputs = {},
+    // outputs = {},
     sliderEntry = {},
-    pageTarget = {},
-    lastFocusedPage,
+    // pageTarget = {},
+    // lastFocusedPage,
     onClose = () => {}
   } = props
   const { i, label, type } = sliderEntry
@@ -189,7 +196,7 @@ function hasContent(arr) {
 
 function isAllEmpty(obj) {
   let ret = true
-  Object.keys(obj).forEach((name, idx) => {
+  Object.keys(obj).forEach((name) => {
     const { ccChannels, noteChannels } = obj[name]
     if (hasContent(ccChannels) || hasContent(noteChannels)) {
       ret = false
@@ -244,23 +251,5 @@ function mapDispatchToProps(dispatch) {
       dispatch
     ),
     initApp: bindActionCreators(initApp, dispatch)
-  }
-}
-
-function mapStateToProps({
-  viewSettings: {
-    lastFocusedPage,
-    isSettingsMode,
-    pageTargets = [],
-    availableDrivers: { inputs = {}, outputs = {} } = {}
-  }
-}) {
-  const pageTarget = pageTargets.find((item) => item.id === lastFocusedPage)
-  return {
-    lastFocusedPage,
-    isSettingsMode,
-    pageTarget,
-    inputs,
-    outputs
   }
 }

@@ -2,14 +2,14 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import DriverExpansionPanel from '../components/DriverExpansionPanel'
 import MidiDriverTable from '../components/MidiDriverTable'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
 import { thunkLiveModeToggle } from '../actions/thunks/thunk-live-mode-toggle'
 
 export const MidiDriversSettingsPage = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(MidiDriversSettingsPageComponent)
 
@@ -21,14 +21,16 @@ MidiDriversSettingsPageComponent.propTypes = {
 }
 
 function MidiDriversSettingsPageComponent(props) {
+  const { inputs: availableInputs, outputs: avalableOutputs } = useSelector(
+    (state) => state.viewSettings.availableDrivers
+  )
+  //const sliderList = useSelector((state) => state.sliders.sliderList)
+  const { inputs, outputs } = useSelector(
+    (state) => state.sliders.midi.midiAccess
+  )
   const {
-    actions,
-    midi: {
-      midiAccess: { inputs, outputs } = { inputs: [], outputs: [] }
-    } = {},
-    viewSettings: {
-      availableDrivers: { inputs: availableInputs, outputs: avalableOutputs }
-    }
+    actions
+    //midi: { midiAccess: { inputs, outputs } = { inputs: [], outputs: [] } } = {}
   } = props
 
   const [isFirstPanelExpanded, setIsFirstPanelExpanded] = useState(true)
@@ -42,7 +44,7 @@ function MidiDriversSettingsPageComponent(props) {
         label='Output MIDI Driver'
         expanded={isScndPanelExpanded}
         noPadding={true}
-        onChange={(e) => setIsScndPanelExpanded(!isScndPanelExpanded)}
+        onChange={() => setIsScndPanelExpanded(!isScndPanelExpanded)}
       >
         {outputs &&
           outputs.map((name, idx) => {
@@ -82,7 +84,7 @@ function MidiDriversSettingsPageComponent(props) {
         label='Input MIDI Driver'
         expanded={isFirstPanelExpanded}
         noPadding={true}
-        onChange={(e) => setIsFirstPanelExpanded(!isFirstPanelExpanded)}
+        onChange={() => setIsFirstPanelExpanded(!isFirstPanelExpanded)}
       >
         {inputs &&
           inputs.map((name, idx) => {
@@ -174,13 +176,5 @@ function mapDispatchToProps(dispatch) {
       dispatch
     ),
     thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
-  }
-}
-
-function mapStateToProps({ sliders: { sliderList, midi }, viewSettings }) {
-  return {
-    sliderList,
-    midi,
-    viewSettings
   }
 }

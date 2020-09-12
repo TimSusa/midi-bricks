@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as ViewSettingsAction } from '../../actions/view-settings'
 import { Actions as MidiSlidersAction } from '../../actions/slider-list.js'
@@ -15,7 +15,6 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import MenuIcon from '@material-ui/icons/Menu'
 import UndoIcon from '@material-ui/icons/Undo'
-// import RedoIcon from '@material-ui/icons/Redo'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
 import SwapVertIcon from '@material-ui/icons/SwapVert'
 import CheckIcon from '@material-ui/icons/CheckCircle'
@@ -32,46 +31,26 @@ import AddMenu from './AddMenu'
 import { PAGE_TYPES } from '../../reducers'
 import { ToolTipIconButton } from '../ToolTipIconButton'
 
-export const MenuAppBar = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MenuAppBarCmp)
-
-MenuAppBar.propTypes = {
-  actions: PropTypes.object,
-  future: PropTypes.array,
-  handleDrawerToggle: PropTypes.func,
-  initApp: PropTypes.func,
-  thunkUndoRedo: PropTypes.func,
-  monitorVal: PropTypes.object,
-  past: PropTypes.array,
-  presetName: PropTypes.string,
-  thunkCopyToNextPage: PropTypes.func,
-  viewSettings: PropTypes.object
-}
+export const MenuAppBar = connect(null, mapDispatchToProps)(MenuAppBarCmp)
 
 function MenuAppBarCmp(props) {
   const theme = useTheme()
-  const classes = makeStyles(styles.bind(this, theme))()
   const {
-    actions = {},
-    thunkCopyToNextPage,
-    thunkUndoRedo,
-    presetName = '',
-    monitorVal,
-    viewSettings: {
-      pageType,
-      isLiveMode = false,
-      isLayoutMode = false,
-      isSettingsMode,
-      isCompactHorz = true,
-      isAutoArrangeMode = true,
-      isMidiLearnMode = false,
-      lastFocusedIdx,
-      lastFocusedIdxs,
-      lastFocusedPage
-    }
-  } = props
+    pageType,
+    isLiveMode = false,
+    isLayoutMode = false,
+    isSettingsMode,
+    isCompactHorz = true,
+    isAutoArrangeMode = true,
+    isMidiLearnMode = false,
+    lastFocusedIdx,
+    lastFocusedIdxs,
+    lastFocusedPage
+  } = useSelector((state) => state.viewSettings)
+
+  const { presetName, monitorVal } = useSelector((state) => state.sliders)
+  const classes = makeStyles(styles.bind(this, theme))()
+  const { actions = {}, thunkCopyToNextPage, thunkUndoRedo } = props
 
   if (isLiveMode) {
     return <div />
@@ -108,14 +87,14 @@ function MenuAppBarCmp(props) {
           )}
           {isLayoutMode && (
             <ToolTipIconButton
-              handleClick={(e) => actions.toggleCompactMode()}
+              handleClick={() => actions.toggleCompactMode()}
               title={isCompactHorz ? 'Gravity horizontal' : 'Gravity vertical'}
               icon={isCompactHorz ? <SwapHorizIcon /> : <SwapVertIcon />}
             />
           )}
           {isLayoutMode && (
             <ToolTipIconButton
-              handleClick={(e) => actions.toggleAutoArrangeMode()}
+              handleClick={() => actions.toggleAutoArrangeMode()}
               title={isAutoArrangeMode ? 'Automatic Gravity' : 'Static Gravity'}
               icon={
                 isAutoArrangeMode ? (
@@ -144,7 +123,7 @@ function MenuAppBarCmp(props) {
               <Button
                 className={classes.resetButton}
                 variant='contained'
-                onClick={(e) => actions.triggerAllMidiElements()}
+                onClick={() => actions.triggerAllMidiElements()}
               >
                 Trigger All MIDI
               </Button>
@@ -200,7 +179,7 @@ function MenuAppBarCmp(props) {
                           />
 
                           <ToolTipIconButton
-                            handleClick={(e) => {
+                            handleClick={() => {
                               lastFocusedIdxs.forEach((id) => {
                                 actions.delete({ i: id, lastFocusedPage })
                               })
@@ -214,7 +193,7 @@ function MenuAppBarCmp(props) {
                 )}
                 {!isMidiLearnMode && (
                   <ToolTipIconButton
-                    handleClick={(e) => actions.toggleLayoutMode()}
+                    handleClick={() => actions.toggleLayoutMode()}
                     title={'Switch to Layout Mode.'}
                     icon={<LayoutIcon />}
                   />
@@ -306,6 +285,14 @@ function MenuAppBarCmp(props) {
       />
     </div>
   )
+}
+
+MenuAppBarCmp.propTypes = {
+  actions: PropTypes.object,
+  handleDrawerToggle: PropTypes.any,
+  initApp: PropTypes.func,
+  thunkCopyToNextPage: PropTypes.func,
+  thunkUndoRedo: PropTypes.func
 }
 
 function styles(theme) {
@@ -401,10 +388,7 @@ async function cancelMidiLeanMode(
   setAncEl,
   isMidiLearn,
   initMidiLearn,
-  initApp,
-  actions,
-  monitorVal,
-  lastFocusedIdx
+  initApp
 ) {
   await initApp('all')
 
@@ -420,19 +404,5 @@ function mapDispatchToProps(dispatch) {
     initApp: bindActionCreators(initApp, dispatch),
     thunkUndoRedo: bindActionCreators(thunkUndoRedo, dispatch),
     thunkCopyToNextPage: bindActionCreators(thunkCopyToNextPage, dispatch)
-  }
-}
-
-function mapStateToProps({
-  sliders: { presetName, monitorVal },
-  viewSettings,
-  undoRedo
-}) {
-  return {
-    viewSettings,
-    presetName,
-    monitorVal
-    // past,
-    // future
   }
 }

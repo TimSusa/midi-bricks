@@ -10,19 +10,18 @@ import {
 import { makeStyles, useTheme } from '@material-ui/styles'
 import React, { Suspense } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewStuff } from '../actions/view-settings.js'
 import { thunkLiveModeToggle } from '../actions/thunks/thunk-live-mode-toggle'
-// import MidiSettingsDialog from '../components/midi-settings-dialog/MidiSettingsDialog'
 import { outputToDriverName } from '../utils/output-to-driver-name.js'
 import { STRIP_TYPE } from '../reducers/slider-list.js'
 import DriverExpansionPanel from '../components/DriverExpansionPanel.jsx'
 import { thunkChangePage } from '../actions/thunks/thunk-change-page'
 
 export const GlobalSettingsPage = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(GlobalSettingsPageComponent)
 
@@ -38,23 +37,21 @@ GlobalSettingsPageComponent.propTypes = {
 }
 
 function GlobalSettingsPageComponent(props) {
+  const { sliderList, midi, isMidiFailed } = useSelector(
+    (state) => state.sliders || {}
+  )
+  const pages = useSelector((state) => state.pages)
+  const viewSettings = useSelector((state) => state.viewSettings)
+  const {
+    isSettingsDialogMode,
+    lastFocusedPage,
+    lastFocusedIdx,
+    availableDrivers: { outputs: chosenOutputs, inputs: chosenInputs },
+    pageTargets
+  } = viewSettings
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
-  const {
-    isMidiFailed,
-    actions,
-    thunkChangePage,
-    pages = {},
-    midi,
-    sliderList,
-    viewSettings: {
-      isSettingsDialogMode,
-      lastFocusedPage,
-      lastFocusedIdx,
-      availableDrivers: { outputs: chosenOutputs, inputs: chosenInputs },
-      pageTargets
-    }
-  } = props
+  const { actions, thunkChangePage } = props
 
   if (isMidiFailed) return <div />
   const hasPage = Object.values(pages).length > 0
@@ -62,7 +59,6 @@ function GlobalSettingsPageComponent(props) {
   const { midiAccess } = midi || {}
   const { inputs = [], outputs = [] } = midiAccess || {}
   return (hasPage ? pagesArray : ['OK']).map((page, idx) => {
-    //const { sliderList } = page
     const label = (pageTargets[idx] && pageTargets[idx].label) || page.label
     const isExpanded = lastFocusedPage === page.id
     return (
@@ -73,8 +69,8 @@ function GlobalSettingsPageComponent(props) {
         key={`exp-${idx}`}
         onChange={
           isExpanded
-            ? (e) => thunkChangePage(lastFocusedPage, '')
-            : (e) => thunkChangePage(lastFocusedPage, page.id)
+            ? () => thunkChangePage(lastFocusedPage, '')
+            : () => thunkChangePage(lastFocusedPage, page.id)
         }
       >
         <Paper style={{ flexDirection: 'column' }} className={classes.root}>
@@ -95,7 +91,7 @@ function GlobalSettingsPageComponent(props) {
             </TableHead>
             <TableBody>
               {Array.isArray(sliderList) &&
-                sliderList.map((sliderEntry, idx) => {
+                sliderList.map((sliderEntry) => {
                   const {
                     label,
                     type,
@@ -217,17 +213,8 @@ function GlobalSettingsPageComponent(props) {
                     >
                       <TableRow
                         style={rowStyle}
-                        onClick={(e) => {
-                          //actions.togglePage({ pageType: PAGE_TYPES.HOME_MODE })
-                          //actions.toggleSettingsMode(true)
-
+                        onClick={() => {
                           actions.setLastFocusedIndex({ i })
-                          // actions.setLastFocusedPage({ lastFocusedPage: i })
-
-                          // actions.setMidiPage({ sliderList })
-                          //thunkChangePage(lastFocusedPage, lastFocusedPage)
-                          //thunkChangePage(lastFocusedPage, i)
-
                           actions.toggleSettingsDialogMode({
                             i,
                             isSettingsDialogMode: true,
@@ -340,19 +327,6 @@ function mapDispatchToProps(dispatch) {
     ),
     thunkChangePage: bindActionCreators(thunkChangePage, dispatch),
     thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
-  }
-}
-function mapStateToProps({
-  pages,
-  sliders: { sliderList, midi, isMidiFailed },
-  viewSettings
-}) {
-  return {
-    pages: pages,
-    sliderList,
-    midi,
-    isMidiFailed,
-    viewSettings
   }
 }
 

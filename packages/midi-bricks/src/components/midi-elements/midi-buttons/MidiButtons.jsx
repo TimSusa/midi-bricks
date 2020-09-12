@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../../actions/slider-list.js'
 import MidiButton from './MidiButton'
@@ -18,63 +18,62 @@ const {
 const noop = () => ''
 
 // This component is supposed to configure the button type for rendering
-class MidiButtons extends React.Component {
-  render() {
-    const {
-      sliderEntry: { type, isNoteOn, label, colors, fontSize, fontWeight },
-      height,
-      width,
-      isChangedTheme,
-      isLayoutMode,
-      isDisabled
-    } = this.props
+function MidiButtons(props) {
+  const { isChangedTheme, isLayoutMode } = useSelector(
+    (state) => state.viewSettings
+  )
+  const {
+    sliderEntry: { type, isNoteOn, label, colors, fontSize, fontWeight },
+    height,
+    width,
+    isDisabled
+  } = props
 
-    const { fontColorStyle, buttonStyle } = getStyles(
-      isChangedTheme,
-      colors,
-      height,
-      width,
-      isNoteOn,
-      fontSize,
-      fontWeight
-    )
-    const { onChangeStart, onChangeEnd } = this.getCb(type, isLayoutMode)
-    return (
-      <MidiButton
-        label={label}
-        onChangeStart={onChangeStart}
-        onChangeEnd={onChangeEnd}
-        fontColorStyle={fontColorStyle}
-        buttonStyle={buttonStyle}
-        isDisabled={isDisabled}
-      />
-    )
-  }
+  const { fontColorStyle, buttonStyle } = getStyles(
+    isChangedTheme,
+    colors,
+    height,
+    width,
+    isNoteOn,
+    fontSize,
+    fontWeight
+  )
+  const { onChangeStart, onChangeEnd } = getCb(type, isLayoutMode)
+  return (
+    <MidiButton
+      label={label}
+      onChangeStart={onChangeStart}
+      onChangeEnd={onChangeEnd}
+      fontColorStyle={fontColorStyle}
+      buttonStyle={buttonStyle}
+      isDisabled={isDisabled}
+    />
+  )
 
-  getCb = (type, isLayoutMode) => {
+  function getCb(type, isLayoutMode) {
     if (type === BUTTON) {
       return {
-        onChangeStart: !isLayoutMode ? this.handleButtonToggle : noop,
-        onChangeEnd: !isLayoutMode ? this.handleButtonToggle : noop
+        onChangeStart: !isLayoutMode ? handleButtonToggle : noop,
+        onChangeEnd: !isLayoutMode ? handleButtonToggle : noop
       }
     } else if (type === BUTTON_TOGGLE) {
       return {
-        onChangeStart: !isLayoutMode ? this.handleButtonToggle : noop,
+        onChangeStart: !isLayoutMode ? handleButtonToggle : noop,
         onChangeEnd: noop
       }
     } else if (type === BUTTON_CC) {
       return {
-        onChangeStart: !isLayoutMode ? this.handleButtonCcTriggerOn : noop,
-        onChangeEnd: !isLayoutMode ? this.handleButtonCcTriggerOff : noop
+        onChangeStart: !isLayoutMode ? handleButtonCcTriggerOn : noop,
+        onChangeEnd: !isLayoutMode ? handleButtonCcTriggerOff : noop
       }
     } else if (type === BUTTON_TOGGLE_CC) {
       return {
-        onChangeStart: !isLayoutMode ? this.handleButtonCcToggle : noop,
+        onChangeStart: !isLayoutMode ? handleButtonCcToggle : noop,
         onChangeEnd: noop
       }
     } else if (type === BUTTON_PROGRAM_CHANGE) {
       return {
-        onChangeStart: !isLayoutMode ? this.handleButtonProgramChange : noop,
+        onChangeStart: !isLayoutMode ? handleButtonProgramChange : noop,
         onChangeEnd: noop
       }
     } else {
@@ -85,23 +84,23 @@ class MidiButtons extends React.Component {
     }
   }
 
-  handleButtonToggle = (e) => {
+  function handleButtonToggle() {
     const {
       actions,
       sliderEntry: { i },
       lastFocusedPage
-    } = this.props
+    } = props
     actions.toggleNote({ i, lastFocusedPage })
   }
 
-  handleButtonCcTriggerOn = (e) => {
+  function handleButtonCcTriggerOn(e) {
     e.preventDefault()
     e.stopPropagation()
     const {
       actions,
       sliderEntry: { i, onVal },
       lastFocusedPage
-    } = this.props
+    } = props
     actions.handleSliderChange({
       i,
       lastFocusedPage,
@@ -109,14 +108,14 @@ class MidiButtons extends React.Component {
     })
   }
 
-  handleButtonCcTriggerOff = (e) => {
+  function handleButtonCcTriggerOff(e) {
     e.preventDefault()
     e.stopPropagation()
     const {
       actions,
       sliderEntry: { i, offVal },
       lastFocusedPage
-    } = this.props
+    } = props
     actions.handleSliderChange({
       i,
       lastFocusedPage,
@@ -124,14 +123,14 @@ class MidiButtons extends React.Component {
     })
   }
 
-  handleButtonCcToggle = (e) => {
+  function handleButtonCcToggle(e) {
     e.preventDefault()
     e.stopPropagation()
     const {
       actions,
       sliderEntry: { i, isNoteOn, onVal, offVal },
       lastFocusedPage
-    } = this.props
+    } = props
     if (!isNoteOn) {
       actions.handleSliderChange({
         i,
@@ -147,14 +146,14 @@ class MidiButtons extends React.Component {
     }
   }
 
-  handleButtonProgramChange = (e) => {
+  function handleButtonProgramChange(e) {
     e.preventDefault()
     e.stopPropagation()
     const {
       actions,
       sliderEntry: { i },
       lastFocusedPage
-    } = this.props
+    } = props
     actions.sendProgramChange({ i, lastFocusedPage })
   }
 }
@@ -213,18 +212,5 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
-function mapStateToProps({
-  viewSettings: { isChangedTheme, isLayoutMode, isSettingsMode, lastFocusedPage }
-}) {
-  return {
-    isChangedTheme,
-    isLayoutMode,
-    isSettingsMode,
-    lastFocusedPage
-  }
-}
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MidiButtons)
+export default connect(null, mapDispatchToProps)(MidiButtons)

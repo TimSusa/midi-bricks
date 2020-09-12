@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../actions/slider-list.js'
 import { Actions as ViewActions } from '../actions/view-settings.js'
@@ -13,10 +13,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DeleteIcon from '@material-ui/icons/Delete'
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DeleteModalComponent)
+export default connect(null, mapDispatchToProps)(DeleteModalComponent)
 
 DeleteModalComponent.propTypes = {
   actions: PropTypes.object,
@@ -30,6 +27,9 @@ DeleteModalComponent.propTypes = {
 }
 
 export function DeleteModalComponent(props) {
+  const { pageTargets, lastFocusedPage } = useSelector(
+    (state) => state.viewSettings
+  )
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
   const {
@@ -38,9 +38,7 @@ export function DeleteModalComponent(props) {
     isOpen = false,
     onAction = () => {},
     actions = {},
-    onClose = () => {},
-    pageTargets = [],
-    lastFocusedPage = ''
+    onClose = () => {}
   } = props
   const [open, setOpen] = useState(false)
   return (
@@ -139,9 +137,6 @@ function styles(theme) {
   }
 }
 
-function mapStateToProps({ viewSettings: { pageTargets, lastFocusedPage } }) {
-  return { pageTargets, lastFocusedPage }
-}
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(

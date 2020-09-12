@@ -1,20 +1,14 @@
-import {
-  CssBaseline,
-  createMuiTheme
-} from '@material-ui/core'
+import { CssBaseline, createMuiTheme } from '@material-ui/core'
 import { ThemeProvider } from '@material-ui/styles'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import 'typeface-roboto'
 import { darkTheme } from '../themes/dark-theme'
 import { lightTheme } from '../themes/light-theme'
 import App from '../App'
 
-export default connect(
-  mapStateToProps,
-  null
-)(MuiWrappedApp)
+export default MuiWrappedApp
 
 MuiWrappedApp.propTypes = {
   children: PropTypes.any,
@@ -24,7 +18,8 @@ MuiWrappedApp.propTypes = {
 MuiWrappedApp.displayName = 'MuiWrappedApp'
 
 function MuiWrappedApp(props) {
-  const { isChangedTheme = false, children } = props
+  const { isChangedTheme } = useSelector((state) => state.viewSettings)
+  const { children } = props
   const theme = createMuiTheme(isChangedTheme ? darkTheme : lightTheme)
   return (
     <ThemeProvider theme={theme}>
@@ -32,10 +27,4 @@ function MuiWrappedApp(props) {
       {children ? children : <App {...props} />}
     </ThemeProvider>
   )
-}
-
-function mapStateToProps({ viewSettings: { isChangedTheme } }) {
-  return {
-    isChangedTheme
-  }
 }
