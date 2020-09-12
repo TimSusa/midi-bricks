@@ -1,18 +1,14 @@
-// import { Drawer } from '@material-ui/core'
 import React, { useState, Suspense } from 'react'
 import Home from './pages/Home'
 import { useTheme } from '@material-ui/styles'
-// import MenuAppBar from './components/menu-app-bar/MenuAppBar'
-// import DrawerList from './components/drawer-list/DrawerList'
 import Footer from './components/footer/Footer'
 import { makeStyles } from '@material-ui/styles'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
-// export default App
+export default App
 
-export default connect(mapStateToProps)(App)
-
-function App({ isLiveMode }) {
+function App() {
+  const isLiveMode = useSelector((state) => state.viewSettings.isLiveMode)
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
   const [isMobileOpen, setIsMobileOpen] = useState(false)
@@ -108,11 +104,5 @@ function styles(theme) {
       width: '100%',
       marginTop: theme.spacing(1)
     }
-  }
-}
-
-function mapStateToProps({ viewSettings: { isLiveMode } }) {
-  return {
-    isLiveMode
   }
 }
