@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { connect, useDispatch } from 'react-redux'
-//import { useDispatch } from '@reduxjs/toolkit'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 import { debounce } from 'debounce'
 import { PropTypes } from 'prop-types'
