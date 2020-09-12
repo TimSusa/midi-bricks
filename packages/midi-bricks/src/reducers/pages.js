@@ -1,6 +1,6 @@
-import { createNextState } from 'redux-starter-kit'
+import { createNextState } from '@reduxjs/toolkit'
 import { ActionTypePages } from '../actions/pages'
-import {pagesInit} from '.'
+import { pagesInit } from '.'
 
 export const pages = {
   [ActionTypePages.CREATE_PAGE](state, action) {

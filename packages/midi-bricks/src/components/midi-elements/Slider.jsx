@@ -1,18 +1,17 @@
 import React, { useRef, useState, useEffect } from 'react'
-import createSelector from 'selectorator'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { connect, useDispatch } from 'react-redux'
+//import { useDispatch } from '@reduxjs/toolkit'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 import { debounce } from 'debounce'
 import { PropTypes } from 'prop-types'
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MidiSlider)
+const { handleSliderChange } = MidiSliderActions
+
+export default connect(mapStateToProps, null)(MidiSlider)
 
 function MidiSlider(props) {
   const [isActivated, setIsActivated] = useState(false)
+  const dispatch = useDispatch()
   let selfRef = useRef(null)
   let parentOffset = useRef(null)
   let onPointerMove = useRef(null)
@@ -21,7 +20,16 @@ function MidiSlider(props) {
 
   useEffect(() => {
     send.current = debounce(sendOutFromChildren, 3)
-  }, [])
+    function sendOutFromChildren(y) {
+      return dispatch(
+        handleSliderChange({
+          i: props.sliderEntry.i,
+          val: parseInt(y, 10),
+          lastFocusedPage: props.lastFocusedPage
+        })
+      )
+    }
+  }, [dispatch, props.lastFocusedPage, props.sliderEntry.i])
 
   const {
     isHorz,
@@ -51,60 +59,60 @@ function MidiSlider(props) {
         isDisabled
           ? noop
           : handlePointerStart.bind(
-            this,
-            selfRef,
-            isHorz,
-            setIsActivated,
-            onPointerMove,
-            isDragging,
-            parentOffset,
-            handlePointerMove,
-            send,
-            sliderThumbHeight,
-            hOrW,
-            maxVal,
-            minVal,
-            props
-          )
+              this,
+              selfRef,
+              isHorz,
+              setIsActivated,
+              onPointerMove,
+              isDragging,
+              parentOffset,
+              handlePointerMove,
+              send,
+              sliderThumbHeight,
+              hOrW,
+              maxVal,
+              minVal,
+              props
+            )
       }
       onPointerMove={isDisabled ? noop : onPointerMove.current}
       onPointerUp={
         isDisabled
           ? noop
           : handlePointerEnd.bind(
-            this,
-            onPointerMove,
-            selfRef,
-            isHorz,
-            hOrW,
-            maxVal,
-            minVal,
-            parentOffset,
-            sliderThumbHeight,
-            send,
-            props,
-            setIsActivated,
-            isDragging
-          )
+              this,
+              onPointerMove,
+              selfRef,
+              isHorz,
+              hOrW,
+              maxVal,
+              minVal,
+              parentOffset,
+              sliderThumbHeight,
+              send,
+              props,
+              setIsActivated,
+              isDragging
+            )
       }
       onPointerCancel={
         isDisabled
           ? noop
           : handlePointerEnd.bind(
-            this,
-            onPointerMove,
-            selfRef,
-            isHorz,
-            hOrW,
-            maxVal,
-            minVal,
-            parentOffset,
-            sliderThumbHeight,
-            send,
-            props,
-            setIsActivated,
-            isDragging
-          )
+              this,
+              onPointerMove,
+              selfRef,
+              isHorz,
+              hOrW,
+              maxVal,
+              minVal,
+              parentOffset,
+              sliderThumbHeight,
+              send,
+              props,
+              setIsActivated,
+              isDragging
+            )
       }
       onGotPointerCapture={
         isDisabled ? noop : onGotCapture.bind(this, isActivated, setIsActivated)
@@ -133,6 +141,114 @@ function MidiSlider(props) {
       />
     </div>
   )
+
+  function handlePointerStart(
+    selfRef,
+    isHorz,
+    setIsActivated,
+    onPointerMove,
+    isDragging,
+    parentOffset,
+    handlePointerMove,
+    send,
+    sliderThumbHeight,
+    hOrW,
+    maxVal,
+    minVal,
+    props,
+    e
+  ) {
+    selfRef.current.focus()
+    setIsActivated(true)
+    onPointerMove.current =
+      onPointerMove &&
+      handlePointerMove.bind(
+        this,
+        isDragging,
+        isHorz,
+        hOrW,
+        maxVal,
+        minVal,
+        parentOffset,
+        sliderThumbHeight,
+        send,
+        props
+      )
+    isDragging.current = true
+    selfRef.current.setPointerCapture(e.pointerId)
+
+    // Should be set before calling heightToVal()
+    const { left, top } = selfRef.current.getBoundingClientRect()
+    parentOffset.current = isHorz ? left : top
+
+    const val = pixelToVal(
+      isHorz ? e.clientX : e.clientY,
+      hOrW,
+      maxVal,
+      minVal,
+      parentOffset,
+      sliderThumbHeight
+    )
+    send.current(val, props)
+  }
+
+  function handlePointerMove(
+    isDragging,
+    isHorz,
+    length,
+    maxVal,
+    minVal,
+    parentOffset,
+    sliderThumbHeight,
+    send,
+    props,
+    e
+  ) {
+    if (!isDragging.current) {
+      return
+    }
+    const val = pixelToVal(
+      isHorz ? e.clientX : e.clientY,
+      length,
+      maxVal,
+      minVal,
+      parentOffset,
+      sliderThumbHeight
+    )
+    send.current(val, props)
+  }
+
+  function handlePointerEnd(
+    onPointerMove,
+    selfRef,
+    isHorz,
+    length,
+    maxVal,
+    minVal,
+    parentOffset,
+    sliderThumbHeight,
+    send,
+    props,
+    setIsActivated,
+    isDragging,
+    e
+  ) {
+    onPointerMove = null
+    selfRef.current.releasePointerCapture(e.pointerId)
+
+    const val = pixelToVal(
+      isHorz ? e.clientX : e.clientY,
+      length,
+      maxVal,
+      minVal,
+      parentOffset,
+      sliderThumbHeight
+    )
+    send.current(val, props)
+    isDragging.current = false
+    setIsActivated(false)
+    send = null
+  }
 }
 
 MidiSlider.propTypes = {
@@ -148,113 +264,6 @@ MidiSlider.propTypes = {
   val: PropTypes.any
 }
 
-function handlePointerStart(
-  selfRef,
-  isHorz,
-  setIsActivated,
-  onPointerMove,
-  isDragging,
-  parentOffset,
-  handlePointerMove,
-  send,
-  sliderThumbHeight,
-  hOrW,
-  maxVal,
-  minVal,
-  props,
-  e
-) {
-  selfRef.current.focus()
-  setIsActivated(true)
-  onPointerMove.current =
-    onPointerMove &&
-    handlePointerMove.bind(
-      this,
-      isDragging,
-      isHorz,
-      hOrW,
-      maxVal,
-      minVal,
-      parentOffset,
-      sliderThumbHeight,
-      send,
-      props
-    )
-  isDragging.current = true
-  selfRef.current.setPointerCapture(e.pointerId)
-
-  // Should be set before calling heightToVal()
-  const { left, top } = selfRef.current.getBoundingClientRect()
-  parentOffset.current = isHorz ? left : top
-
-  const val = pixelToVal(
-    isHorz ? e.clientX : e.clientY,
-    hOrW,
-    maxVal,
-    minVal,
-    parentOffset,
-    sliderThumbHeight
-  )
-  send.current(val, props)
-}
-
-function handlePointerMove(
-  isDragging,
-  isHorz,
-  length,
-  maxVal,
-  minVal,
-  parentOffset,
-  sliderThumbHeight,
-  send,
-  props,
-  e
-) {
-  if (!isDragging.current) {
-    return
-  }
-  const val = pixelToVal(
-    isHorz ? e.clientX : e.clientY,
-    length,
-    maxVal,
-    minVal,
-    parentOffset,
-    sliderThumbHeight
-  )
-  send.current(val, props)
-}
-
-function handlePointerEnd(
-  onPointerMove,
-  selfRef,
-  isHorz,
-  length,
-  maxVal,
-  minVal,
-  parentOffset,
-  sliderThumbHeight,
-  send,
-  props,
-  setIsActivated,
-  isDragging,
-  e
-) {
-  onPointerMove = null
-  selfRef.current.releasePointerCapture(e.pointerId)
-
-  const val = pixelToVal(
-    isHorz ? e.clientX : e.clientY,
-    length,
-    maxVal,
-    minVal,
-    parentOffset,
-    sliderThumbHeight
-  )
-  send.current(val, props)
-  isDragging.current = false
-  setIsActivated(false)
-  send = null
-}
 function onGotCapture(isActivated, setIsActivated, event) {
   !isActivated && setIsActivated(true)
 }
@@ -281,13 +290,6 @@ function pixelToVal(
   return val
 }
 
-function sendOutFromChildren(y, props) {
-  return props.actions.handleSliderChange({
-    i: props.sliderEntry.i,
-    val: parseInt(y, 10),
-    lastFocusedPage: props.lastFocusedPage
-  })
-}
 function getSliderThumbStyle(
   thumbLocation,
   isHorz,
@@ -308,7 +310,7 @@ function getSliderThumbStyle(
   }
 }
 
-const getSliderEntr = ({
+function getSliderEntr({
   isDisabled,
   height,
   sliderThumbHeight,
@@ -319,81 +321,29 @@ const getSliderEntr = ({
     maxVal,
     minVal
   }
-}) => ({
-  isDisabled,
-  colors: { color, colorActive },
-  val,
-  height: parseInt(height, 10),
-  sliderThumbHeight: parseInt(sliderThumbHeight, 10),
-  width: parseInt(width, 10),
-  maxVal: parseInt(maxVal, 10),
-  minVal: parseInt(minVal, 10)
-})
-
-function noop() {}
-
-const getSliderEntry = createSelector(
-  [getSliderEntr],
-  ({
-    isDisabled,
-    height,
-    sliderThumbHeight,
-    width,
-    colors: { color, colorActive },
-    val,
-    maxVal,
-    minVal
-  }) => ({
-    isDisabled,
-    height,
-    sliderThumbHeight,
-    width,
-    colors: { color, colorActive },
-    val,
-    maxVal,
-    minVal
-  })
-)
-
-const getLastFocus = ({ viewSettings }) => viewSettings.lastFocusedPage
-const getLastFocusedPage = createSelector(
-  [getLastFocus],
-  (lastFocusedPage) => lastFocusedPage
-)
-const getMemVal = createSelector(
-  [getSliderEntry],
-  ({ val }) => val
-)
-const getEntry = createSelector(
-  [getSliderEntry],
-  ({
-    isDisabled,
-    height,
-    sliderThumbHeight,
-    width,
-    colors: { color, colorActive },
-    maxVal,
-    minVal
-  }) => ({
-    isDisabled,
-    height,
-    sliderThumbHeight,
-    width,
-    colors: { color, colorActive },
-    maxVal,
-    minVal
-  })
-)
-function mapStateToProps(state, props) {
+}) {
   return {
-    lastFocusedPage: getLastFocusedPage(state),
-    entry: getEntry(props),
-    val: getMemVal(props)
+    isDisabled,
+    colors: { color, colorActive },
+    val,
+    height: parseInt(height, 10),
+    sliderThumbHeight: parseInt(sliderThumbHeight, 10),
+    width: parseInt(width, 10),
+    maxVal: parseInt(maxVal, 10),
+    minVal: parseInt(minVal, 10)
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function noop() {}
+
+function getLastFocus({ viewSettings }) {
+  return viewSettings.lastFocusedPage
+}
+
+function mapStateToProps(state, props) {
   return {
-    actions: bindActionCreators(MidiSliderActions, dispatch)
+    lastFocusedPage: getLastFocus(state),
+    entry: getSliderEntr(props),
+    val: getSliderEntr(props).val
   }
 }

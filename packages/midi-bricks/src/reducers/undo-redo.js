@@ -1,12 +1,10 @@
-import { createNextState } from 'redux-starter-kit'
+import { createNextState } from '@reduxjs/toolkit'
 import { ActionTypeUndoRedo } from '../actions/undo-redo'
 
 export const undoRedo = {
   [ActionTypeUndoRedo.UNDO_REDO_UPDATE](state, action) {
-    const {
-      state: { pages, sliders, viewSettings }
-    } = action.payload
-    
+    const {state: { pages, sliders, viewSettings }} = action.payload
+
     return createNextState(state, (draftState) => {
       draftState.pages = pages
       draftState.sliders = sliders
