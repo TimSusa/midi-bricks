@@ -36,7 +36,7 @@ export const DrawerList = connect(
   mapDispatchToProps
 )(DrawerListCmp)
 
-DrawerList.propTypes = {
+DrawerListCmp.propTypes = {
   classes: PropTypes.object,
   deleteAll: PropTypes.func,
   deleteFooterPages: PropTypes.func,

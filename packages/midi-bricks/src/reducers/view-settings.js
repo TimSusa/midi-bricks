@@ -1,7 +1,7 @@
 import { ActionTypeViewSettings } from '../actions/view-settings'
 
 import { viewSettingsInitState } from '.'
-import { createNextState } from 'redux-starter-kit'
+import { createNextState } from '@reduxjs/toolkit'
 
 export const viewSettings = {
   [ActionTypeViewSettings.TOGGLE_PAGE](state, action) {

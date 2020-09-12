@@ -1,15 +1,9 @@
-import {isEmpty, isObject} from 'lodash'
-
-let ipcRenderer = null
-
-if (process.env.REACT_APP_IS_WEB_MODE === 'false') {
-  ipcRenderer = window.require('electron').ipcRenderer
-}
+// import {isEmpty, isObject} from 'lodash'
+import ipcRenderer from './ipc-runtime.js'
 
 export function addIpcFileListenerOnce (cb) {
-  ipcRenderer.once('open-file-dialog-reply', (event, payload) => {
-    //  this will trigger onFileLoad
-    cb(payload)
+  ipcRenderer.once('open-file-dialog-reply', (event) => {
+    cb(event)
   })
 }
 
@@ -18,14 +12,14 @@ export function openIpcFileDialog () {
 }
 
 export function addIpcSaveFileListenerOnce (cb) {
-  ipcRenderer.once('save-file-dialog-reply', (event, payload) => {
-    cb(payload)
+  ipcRenderer.once('save-file-dialog-reply', (event) => {
+    cb(event)
   })
 }
 
-export function openFileDialogSync () {
-  return sendSyncMsgGetResult('open-file-dialog')
-}
+// export function openFileDialogSync () {
+//   return sendSyncMsgGetResult('open-file-dialog')
+// }
 
 export function saveIpcFileDialog (payload) {
   sendAsyncMsg('save-file-dialog', payload)
@@ -45,19 +39,19 @@ export function addIpcWindowCoordsListenerOnce (cb) {
 
 function sendAsyncMsg (msg, payload) {
   
+  ipcRenderer.send(msg, payload)
+  // if (Array.isArray(payload)) {
+  //   ipcRenderer.send(msg, {...payload})
 
-  if (Array.isArray(payload)) {
-    ipcRenderer.send(msg, {...payload})
-
-  } else if (isEmpty(payload)) {
-    ipcRenderer.send(msg, {})
-  } 
-  else {
-    if (!isObject(payload)) console.warn('NO OBJECT IN IPC!! ', payload)
-    ipcRenderer.send(msg, payload)
-  }
+  // } else if (isEmpty(payload)) {
+  //   ipcRenderer.send(msg, {})
+  // } 
+  // else {
+  //   if (!isObject(payload)) console.warn('NO OBJECT IN IPC!!', payload)
+  //   ipcRenderer.send(msg, payload)
+  // }
 }
 
-function sendSyncMsgGetResult (msg) {
-  return ipcRenderer.sendSync(msg)
-}
+// function sendSyncMsgGetResult (msg) {
+//   return ipcRenderer.sendSync(msg)
+// }

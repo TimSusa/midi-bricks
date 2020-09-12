@@ -1,12 +1,10 @@
 import { MIDIMonitorLabel } from '../MIDIMonitorLabel'
 import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { map } from 'lodash'
 import RGL, { WidthProvider } from 'react-grid-layout'
 import Typography from '@material-ui/core/Typography'
 import ChannelStrip from '../channel-strip/ChannelStrip'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 import { Actions as ViewSettingsActions } from '../../actions/view-settings.js'
 import { thunkChangeListOrder } from '../../actions/thunks/thunk-change-list-order'
@@ -21,57 +19,63 @@ import { preset } from '../../utils/midi-bricks-preset-apc-40.js'
 require('react-grid-layout/css/styles.css')
 require('react-resizable/css/styles.css')
 
-export const ChannelStripList = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChannelStripListCmp)
+const {
+  //goBack,
+  toggleLayoutMode,
+  toggleSettingsMode,
+  toggleAutoArrangeMode,
+  clone,
+  toggleCompactMode,
+  changeTheme,
+  togglePage,
+  setLastFocusedIndex,
+  toggleSettingsDialogMode
+} = { ...MidiSliderActions, ...ViewSettingsActions }
 
-ChannelStripList.propTypes = {
-  actions: PropTypes.object,
-  sliderList: PropTypes.array,
-  viewSettings: PropTypes.object
-}
+export const ChannelStripList = ChannelStripListCmp
+
+ChannelStripList.propTypes = {}
 
 // eslint-disable-next-line new-cap
 const GridLayout = WidthProvider(RGL)
 
-function ChannelStripListCmp(props) {
+function ChannelStripListCmp() {
+  const dispatch = useDispatch()
+  const {
+    pageType,
+    isLayoutMode = true,
+    isCompactHorz = false,
+    isAutoArrangeMode = true,
+    isSettingsMode = true,
+    isSettingsDialogMode = false,
+    isLiveMode = false,
+    isMidiLearnMode = false,
+    lastFocusedIdxs = [],
+    lastFocusedPage,
+    rowHeight,
+    columns,
+    isAutoSize,
+    marginX,
+    marginY,
+    paddingX,
+    paddingY
+  } = useSelector((state) => state.viewSettings)
+  const { sliderList = [], monitorVal: monTmp } = useSelector(
+    (state) => state.sliders
+  )
+  const { driver, cC, channel } = monTmp || {
+    driver: 'None',
+    cC: 'None',
+    channel: 'None'
+  }
+  const hasPages = useSelector((state) => Object.keys(state.pages).length > 1)
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
-  const {
-    actions,
-    thunkLoadFile,
-    thunkChangeListOrder,
-    thunkLiveModeToggle,
-    sliderList = [],
-    hasPages,
-    monitorVal: { driver = 'None', cC = 'None', channel = 'None' } = {},
-    viewSettings: {
-      pageType,
-      isLayoutMode = true,
-      isCompactHorz = false,
-      isAutoArrangeMode = true,
-      isSettingsMode = true,
-      isSettingsDialogMode = false,
-      isLiveMode = false,
-      isMidiLearnMode = false,
-      lastFocusedIdxs = [],
-      lastFocusedPage,
-      rowHeight,
-      columns,
-      isAutoSize,
-      marginX,
-      marginY,
-      paddingX,
-      paddingY
-    }
-  } = props
 
   let elem = document.body
 
   useEffect(() => {
-    const keypressRef = (e) =>
-      handleKeyPress(actions, thunkLiveModeToggle, isLayoutMode, e)
+    const keypressRef = (e) => handleKeyPress(dispatch, isLayoutMode, e)
 
     // Protect dialog mode from global listeners
     if (!isSettingsDialogMode && !isLiveMode) {
@@ -84,15 +88,7 @@ function ChannelStripListCmp(props) {
       console.log('clean up -> Remove Keypress Listener ')
       elem.removeEventListener('keypress', keypressRef)
     }
-  }, [
-    isSettingsDialogMode,
-    isLayoutMode,
-    isLiveMode,
-    elem,
-    pageType,
-    actions,
-    thunkLiveModeToggle
-  ])
+  }, [isSettingsDialogMode, isLayoutMode, isLiveMode, elem, pageType, dispatch])
 
   if (sliderList && sliderList.length > 0) {
     return (
@@ -127,7 +123,7 @@ function ChannelStripListCmp(props) {
           return (
             <div
               onDoubleClick={(e) => {
-                actions.setLastFocusedIndex({ i })
+                dispatch(setLastFocusedIndex({ i }))
                 e.preventDefault()
                 e.stopPropagation()
               }}
@@ -137,7 +133,7 @@ function ChannelStripListCmp(props) {
                 !isSettingsDialogMode &&
                 !lastFocusedIdxs.includes(i)
                   ? (e) => {
-                      actions.setLastFocusedIndex({ i })
+                      dispatch(setLastFocusedIndex({ i }))
                       e.preventDefault()
                       e.stopPropagation()
                     }
@@ -205,8 +201,7 @@ function ChannelStripListCmp(props) {
                             toggleSettings={toggleSettings.bind(
                               this,
                               lastFocusedPage,
-                              i,
-                              actions
+                              i
                             )}
                             sliderEntry={sliderEntry}
                           />
@@ -229,7 +224,9 @@ function ChannelStripListCmp(props) {
           <br />
           <Button
             variant='outlined'
-            onClick={async () => await thunkLoadFile(preset, preset.presetName)}
+            onClick={async () =>
+              await dispatch(thunkLoadFile(preset, preset.presetName))
+            }
           >
             LOAD EXAMPLE
           </Button>
@@ -242,20 +239,24 @@ function ChannelStripListCmp(props) {
   } else {
     return <></>
   }
-}
-
-function onLayoutChange(
-  thunkChangeListOrder,
-  isLayoutMode,
-  lastFocusedPage,
-  layout
-) {
-  if (isLayoutMode) {
-    thunkChangeListOrder(layout, lastFocusedPage)
+  async function onLayoutChange(
+    thunkChangeListOrdert,
+    isLayoutMode,
+    lastFocusedPage,
+    layout
+  ) {
+    if (isLayoutMode) {
+      dispatch(thunkChangeListOrder(layout, lastFocusedPage))
+    }
+  }
+  function toggleSettings(lastFocusedPage, i, { isSettingsDialogMode }) {
+    dispatch(
+      toggleSettingsDialogMode({ i, lastFocusedPage, isSettingsDialogMode })
+    )
   }
 }
 
-function handleKeyPress(actions, thunkLiveModeToggle, isLayoutMode, e) {
+function handleKeyPress(dispatch, isLayoutMode, e) {
   // e: midi driver settings
   // if (e.keyCode === 101) {
   //   const {
@@ -265,45 +266,45 @@ function handleKeyPress(actions, thunkLiveModeToggle, isLayoutMode, e) {
   //   if (!isMidiLearnMode) {
   //     await initApp('all')
   //     e.preventDefault()
-  //     actions.toggleMidiLearnMode(true)
+  //     dispatch(toggleMidiLearnMode(true))
   //   }
   // }
 
   // m: midi driver settings
   if (e.keyCode === 109) {
     e.preventDefault()
-    actions.togglePage({ pageType: PAGE_TYPES.MIDI_DRIVER_MODE })
+    dispatch(togglePage({ pageType: PAGE_TYPES.MIDI_DRIVER_MODE }))
   }
 
   // g: global midi settings
   if (e.keyCode === 103) {
     e.preventDefault()
-    actions.togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE })
+    dispatch(togglePage({ pageType: PAGE_TYPES.GLOBAL_MODE }))
   }
 
   // z: go back
   if (e.keyCode === 122) {
     e.preventDefault()
-    //actions.goBack()
+    //dispatch(goBack())
   }
 
   // p: performance (live) mode
   if (e.keyCode === 112) {
     e.preventDefault()
-    thunkLiveModeToggle()
+    dispatch(thunkLiveModeToggle())
   }
 
   // l: layout mode
   if (e.keyCode === 108) {
     e.preventDefault()
-    actions.toggleLayoutMode()
+    dispatch(toggleLayoutMode())
   }
 
   // s: settings mode
   if (e.keyCode === 115) {
     if (!isLayoutMode) {
       e.preventDefault()
-      actions.toggleSettingsMode()
+      dispatch(toggleSettingsMode())
       return false
     }
   }
@@ -312,26 +313,26 @@ function handleKeyPress(actions, thunkLiveModeToggle, isLayoutMode, e) {
   if (e.keyCode === 97) {
     if (isLayoutMode) {
       e.preventDefault()
-      actions.toggleAutoArrangeMode()
+      dispatch(toggleAutoArrangeMode())
     }
   }
 
   // d: duplicate last added element
   if (e.keyCode === 100) {
     e.preventDefault()
-    actions.clone()
+    dispatch(clone())
   }
 
   // v: vertical / horizontal compact mode
   if (e.keyCode === 118) {
     e.preventDefault()
-    actions.toggleCompactMode()
+    dispatch(toggleCompactMode())
   }
 
   // t: theme
   if (e.keyCode === 116) {
     e.preventDefault()
-    actions.changeTheme()
+    dispatch(changeTheme())
   }
 }
 
@@ -346,34 +347,5 @@ function styles(theme) {
       fontSize: 12,
       fontWeight: 500
     }
-  }
-}
-
-function toggleSettings(lastFocusedPage, i, actions, { isSettingsDialogMode }) {
-  actions.toggleSettingsDialogMode({ i, lastFocusedPage, isSettingsDialogMode })
-}
-
-function mapStateToProps({
-  viewSettings,
-  pages,
-  sliders: { sliderList, monitorVal }
-}) {
-  return {
-    viewSettings,
-    sliderList,
-    monitorVal,
-    hasPages: Object.keys(pages).length > 1
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(
-      { ...MidiSliderActions, ...ViewSettingsActions },
-      dispatch
-    ),
-    thunkLoadFile: bindActionCreators(thunkLoadFile, dispatch),
-    thunkChangeListOrder: bindActionCreators(thunkChangeListOrder, dispatch),
-    thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
   }
 }

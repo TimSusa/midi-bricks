@@ -1,7 +1,7 @@
 {
   "name": "midi-bricks-electron",
   "productName": "MIDI-Bricks",
-  "version": "1.3.38-alpha.1",
+  "version": "1.3.38-alpha.3",
   "main": "./app/electron.js",
   "homepage": ".",
   "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
@@ -60,7 +60,7 @@
     "chai-as-promised": "7.1.1",
     "chai-roughly": "1.0.0",
     "concurrently": "4.1.0",
-    "electron": "9.2.0",
+    "electron": "9.2.1",
     "electron-builder": "22.8.0",
     "electron-publish": "22.8.1",
     "mocha": "6.0.2",
