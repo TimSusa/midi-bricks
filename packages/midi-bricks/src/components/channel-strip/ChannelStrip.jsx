@@ -6,7 +6,6 @@ import Slider from '../midi-elements/Slider'
 import MidiButtons from '../midi-elements/midi-buttons/MidiButtons'
 import StripLabel from '../midi-elements/StripLabel'
 import { STRIP_TYPE } from '../../reducers/slider-list'
-import XyPad from '../XyPad'
 import { Label } from '../midi-elements/Label'
 export default ChannelStrip
 
@@ -24,10 +23,10 @@ function ChannelStrip(props) {
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
   const { idx, size, isDisabled, isMidiLearnMode } = props
-  const sliderEntry = useSelector(
+  const { type, isValueHidden, fontSize } = useSelector(
     (state) => state.sliders.sliderList[idx] || {}
   )
-  const { type } = sliderEntry
+  //const { type, isValueHidden, fontSize } = sliderEntry
 
   const tmpH = (size && size.height) || 0
   const tmpW = (size && size.width) || 0
@@ -50,7 +49,7 @@ function ChannelStrip(props) {
             isHorz={false}
             className={classes.sliderWrapper}
             isDisabled={isDisabled}
-            height={calcLengthIfHidden(tmpH, sliderEntry)}
+            height={calcLengthIfHidden(tmpH, { isValueHidden, fontSize })}
             width={tmpW}
             sliderThumbHeight={sliderThumbHeight}
           />
@@ -73,11 +72,11 @@ function ChannelStrip(props) {
             isHorz={true}
             className={classes.sliderWrapper}
             isDisabled={isDisabled}
-            height={calcLengthIfHidden(tmpH, sliderEntry)}
-            width={calcLengthIfHidden(
-              tmpW + 16 + sliderThumbHeight,
-              sliderEntry
-            )}
+            height={calcLengthIfHidden(tmpH, { isValueHidden, fontSize })}
+            width={calcLengthIfHidden(tmpW + 16 + sliderThumbHeight, {
+              isValueHidden,
+              fontSize
+            })}
             sliderThumbHeight={sliderThumbHeight}
           />
           <Label
@@ -90,7 +89,7 @@ function ChannelStrip(props) {
       {isButton && (
         <MidiButtons
           isDisabled={isDisabled}
-          sliderEntry={sliderEntry}
+          idx={idx}
           height={tmpH}
           width={tmpW}
         />
@@ -98,16 +97,7 @@ function ChannelStrip(props) {
       {type === STRIP_TYPE.LABEL && (
         <StripLabel
           isDisabled={isDisabled}
-          sliderEntry={sliderEntry}
-          height={tmpH}
-          width={tmpW}
-        />
-      )}
-      {type === STRIP_TYPE.XYPAD && (
-        <XyPad
-          isDisabled={isDisabled}
-          classes={classes}
-          sliderEntry={sliderEntry}
+          idx={idx}
           height={tmpH}
           width={tmpW}
         />
@@ -116,8 +106,8 @@ function ChannelStrip(props) {
   )
 }
 
-function calcLengthIfHidden(tmpH, sliderEntry) {
-  const { isValueHidden, fontSize } = sliderEntry || {}
+function calcLengthIfHidden(tmpH, { isValueHidden, fontSize }) {
+  //const { isValueHidden, fontSize } = sliderEntry || {}
   const fact = isValueHidden ? 1 : 2
   const marge = isValueHidden ? 8 : 16
   return tmpH - parseInt(fact * fontSize, 10) - sliderThumbHeight - marge

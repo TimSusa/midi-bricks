@@ -19,15 +19,21 @@ const noop = () => ''
 
 // This component is supposed to configure the button type for rendering
 function MidiButtons(props) {
-  const { isChangedTheme, isLayoutMode } = useSelector(
+  const { idx, height, width, isDisabled } = props
+  const { isChangedTheme, isLayoutMode, lastFocusedPage } = useSelector(
     (state) => state.viewSettings
   )
   const {
-    sliderEntry: { type, isNoteOn, label, colors, fontSize, fontWeight },
-    height,
-    width,
-    isDisabled
-  } = props
+    i,
+    onVal,
+    offVal,
+    type,
+    isNoteOn,
+    label,
+    colors,
+    fontSize,
+    fontWeight
+  } = useSelector((state) => state.sliders.sliderList[idx] || {})
 
   const { fontColorStyle, buttonStyle } = getStyles(
     isChangedTheme,
@@ -38,7 +44,7 @@ function MidiButtons(props) {
     fontSize,
     fontWeight
   )
-  const { onChangeStart, onChangeEnd } = getCb(type, isLayoutMode)
+  const { onChangeStart, onChangeEnd } = getCb()
   return (
     <MidiButton
       label={label}
@@ -50,7 +56,7 @@ function MidiButtons(props) {
     />
   )
 
-  function getCb(type, isLayoutMode) {
+  function getCb() {
     if (type === BUTTON) {
       return {
         onChangeStart: !isLayoutMode ? handleButtonToggle : noop,
@@ -86,9 +92,9 @@ function MidiButtons(props) {
 
   function handleButtonToggle() {
     const {
-      actions,
-      sliderEntry: { i },
-      lastFocusedPage
+      actions
+      // sliderEntry: { i },
+      // lastFocusedPage
     } = props
     actions.toggleNote({ i, lastFocusedPage })
   }
@@ -97,9 +103,9 @@ function MidiButtons(props) {
     e.preventDefault()
     e.stopPropagation()
     const {
-      actions,
-      sliderEntry: { i, onVal },
-      lastFocusedPage
+      actions
+      // sliderEntry: { i, onVal },
+      //lastFocusedPage
     } = props
     actions.handleSliderChange({
       i,
@@ -112,9 +118,9 @@ function MidiButtons(props) {
     e.preventDefault()
     e.stopPropagation()
     const {
-      actions,
-      sliderEntry: { i, offVal },
-      lastFocusedPage
+      actions
+      // sliderEntry: { i, offVal },
+      // lastFocusedPage
     } = props
     actions.handleSliderChange({
       i,
@@ -127,9 +133,9 @@ function MidiButtons(props) {
     e.preventDefault()
     e.stopPropagation()
     const {
-      actions,
-      sliderEntry: { i, isNoteOn, onVal, offVal },
-      lastFocusedPage
+      actions
+      // sliderEntry: { i, isNoteOn, onVal, offVal },
+      // lastFocusedPage
     } = props
     if (!isNoteOn) {
       actions.handleSliderChange({
@@ -150,9 +156,9 @@ function MidiButtons(props) {
     e.preventDefault()
     e.stopPropagation()
     const {
-      actions,
-      sliderEntry: { i },
-      lastFocusedPage
+      actions
+      // sliderEntry: { i },
+      // lastFocusedPage
     } = props
     actions.sendProgramChange({ i, lastFocusedPage })
   }
@@ -161,9 +167,10 @@ function MidiButtons(props) {
 MidiButtons.propTypes = {
   actions: PropTypes.object,
   height: PropTypes.any,
+  idx: PropTypes.any,
   isChangedTheme: PropTypes.bool,
-  isLayoutMode: PropTypes.bool,
   isDisabled: PropTypes.bool,
+  isLayoutMode: PropTypes.bool,
   lastFocusedPage: PropTypes.string,
   sliderEntry: PropTypes.object,
   width: PropTypes.any

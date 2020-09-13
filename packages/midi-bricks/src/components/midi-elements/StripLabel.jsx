@@ -7,9 +7,10 @@ import { STRIP_TYPE } from '../../reducers/slider-list.js'
 
 StripLabel.propTypes = {
   height: PropTypes.number,
+  idx: PropTypes.number,
   isChangedTheme: PropTypes.bool,
-  width: PropTypes.number,
-  sliderEntry: PropTypes.object
+  sliderEntry: PropTypes.object,
+  width: PropTypes.number
 }
 
 function StripLabel(props) {
@@ -18,12 +19,10 @@ function StripLabel(props) {
   )
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
-  const {
-    sliderEntry: { isNoteOn, colors, fontSize, fontWeight, type, label },
-    height = '',
-    width = ''
-  } = props
-
+  const { idx, height = '', width = '' } = props
+  const { isNoteOn, colors, fontSize, fontWeight, type, label } = useSelector(
+    (state) => state.sliders.sliderList[idx] || {}
+  )
   if (type !== STRIP_TYPE.LABEL) {
     return <div />
   }
