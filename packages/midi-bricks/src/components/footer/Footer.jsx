@@ -1,6 +1,6 @@
 import { FooterButton } from './FooterButton'
-import MidiSettingsDialog from '../midi-settings-dialog/MidiSettingsDialog'
-import React from 'react'
+// import MidiSettingsDialog from '../midi-settings-dialog/MidiSettingsDialog'
+import React, { Suspense } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import IconButton from '@material-ui/core/IconButton'
@@ -51,7 +51,12 @@ function Footer(props) {
     pageType
   } = useSelector((state) => state.viewSettings)
   const { actions, thunkChangePage, thunkLiveModeToggle } = props
-
+  const isOpen = isSettingsDialogMode && lastFocusedIdx === lastFocusedPage
+  if (isOpen) {
+    var MidiSettingsDialog = React.lazy(() =>
+      import('../midi-settings-dialog/MidiSettingsDialog')
+    )
+  }
   return (
     <div className={classes.root}>
       {pageTargets.map((item) => {
@@ -90,8 +95,29 @@ function Footer(props) {
               >
                 <RightIcon className={classes.iconColor} />
               </IconButton>
+              {isOpen ? (
+                <Suspense fallback={<div>Loading...</div>}>
+                  <MidiSettingsDialog
+                    open={isOpen}
+                    onClose={() => {
+                      actions.setLastFocusedIndex({ i: '' })
+                      actions.toggleSettingsDialogMode({
+                        i: '',
+                        isSettingsDialogMode: false,
+                        lastFocusedPage
+                      })
+                    }}
+                    sliderEntry={pageTargets.find(
+                      (item) => item.id === lastFocusedPage
+                    )}
+                    iconColor={classes.iconColor}
+                  />
+                </Suspense>
+              ) : (
+                <div />
+              )}
 
-              <MidiSettingsDialog
+              {/* <MidiSettingsDialog
                 open={
                   isSettingsDialogMode && lastFocusedIdx === lastFocusedPage
                 }
@@ -107,7 +133,7 @@ function Footer(props) {
                   (item) => item.id === lastFocusedPage
                 )}
                 iconColor={classes.iconColor}
-              />
+              /> */}
             </div>
           )
         }

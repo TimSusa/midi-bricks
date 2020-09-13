@@ -1,22 +1,30 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
 import { PropTypes } from 'prop-types'
 const { handleSliderChange } = MidiSliderActions
 export const Label = LabelComponent
 
 export function LabelComponent(props) {
+  const { idx, isLabelShown, labelStyle } = props
   const dispatch = useDispatch()
+  const sliderEntry = useSelector(
+    (state) => state.sliders.sliderList[idx] || {}
+  )
+  const lastFocusedPage = useSelector(
+    (state) => state.viewSettings.lastFocusedPage || {}
+  )
   const {
     i,
-    lastSavedVal,
-    lastFocusedPage,
+    label,
+    val,
     fontSize,
     fontWeight,
-    colorFont,
-    labelStyle,
-    label
-  } = props
+    colors: { colorFont } = {},
+    isValueHidden,
+    lastSavedVal
+  } = sliderEntry
+  if (isValueHidden) return <div></div>
   return (
     <div
       onClick={() =>
@@ -35,19 +43,13 @@ export function LabelComponent(props) {
       }}
       className={labelStyle}
     >
-      {label}
+      {isLabelShown ? label : `${val} / ${lastSavedVal}`}
     </div>
   )
 }
 
 LabelComponent.propTypes = {
-  colorFont: PropTypes.any,
-  fontSize: PropTypes.any,
-  fontWeight: PropTypes.any,
-  handleSliderChange: PropTypes.func,
-  i: PropTypes.any,
-  label: PropTypes.any,
-  labelStyle: PropTypes.any,
-  lastFocusedPage: PropTypes.any,
-  lastSavedVal: PropTypes.number
+  idx: PropTypes.number,
+  isLabelShown: PropTypes.bool,
+  labelStyle: PropTypes.any
 }

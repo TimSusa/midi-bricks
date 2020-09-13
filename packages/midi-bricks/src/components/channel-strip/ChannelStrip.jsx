@@ -27,17 +27,7 @@ function ChannelStrip(props) {
   const sliderEntry = useSelector(
     (state) => state.sliders.sliderList[idx] || {}
   )
-  const {
-    i,
-    type,
-    label,
-    val,
-    fontSize,
-    fontWeight,
-    colors: { colorFont } = {},
-    isValueHidden,
-    lastSavedVal
-  } = sliderEntry
+  const { type } = sliderEntry
 
   const tmpH = (size && size.height) || 0
   const tmpW = (size && size.width) || 0
@@ -51,13 +41,9 @@ function ChannelStrip(props) {
       {type === STRIP_TYPE.SLIDER && !isMidiLearnMode && (
         <div className={classes.sliderChannelWrapper}>
           <Label
-            i={i}
-            label={label}
-            lastSavedVal={lastSavedVal}
-            fontSize={fontSize}
-            fontWeight={fontWeight}
+            idx={idx}
             labelStyle={classes.label}
-            colorFont={colorFont}
+            isLabelShown={true}
           ></Label>
           <Slider
             idx={idx}
@@ -68,29 +54,19 @@ function ChannelStrip(props) {
             width={tmpW}
             sliderThumbHeight={sliderThumbHeight}
           />
-          {!isValueHidden && (
-            <Label
-              i={i}
-              label={`${val} / ${lastSavedVal}`}
-              lastSavedVal={lastSavedVal}
-              fontSize={fontSize}
-              fontWeight={fontWeight}
-              labelStyle={classes.bottomLabel}
-              colorFont={colorFont}
-            ></Label>
-          )}
+          <Label
+            idx={idx}
+            labelStyle={classes.label}
+            isLabelShown={false}
+          ></Label>
         </div>
       )}
       {type === STRIP_TYPE.SLIDER_HORZ && (
         <div className={classes.sliderChannelWrapper}>
           <Label
-            i={i}
-            label={label}
-            lastSavedVal={lastSavedVal}
-            fontSize={fontSize}
-            fontWeight={fontWeight}
+            idx={idx}
             labelStyle={classes.label}
-            colorFont={colorFont}
+            isLabelShown={true}
           ></Label>
           <Slider
             idx={idx}
@@ -104,17 +80,11 @@ function ChannelStrip(props) {
             )}
             sliderThumbHeight={sliderThumbHeight}
           />
-          {!isValueHidden ? (
-            <Label
-              i={i}
-              label={`${val} / ${lastSavedVal}`}
-              lastSavedVal={lastSavedVal}
-              fontSize={fontSize}
-              fontWeight={fontWeight}
-              labelStyle={classes.bottomLabel}
-              colorFont={colorFont}
-            ></Label>
-          ) : null}
+          <Label
+            idx={idx}
+            labelStyle={classes.bottomLabel}
+            isLabelShown={false}
+          ></Label>
         </div>
       )}
       {isButton && (
