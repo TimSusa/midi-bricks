@@ -1,4 +1,5 @@
 import { FooterButton } from './FooterButton'
+import MidiSettingsDialog from '../midi-settings-dialog/MidiSettingsDialog'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
@@ -41,6 +42,8 @@ function Footer(props) {
     pageTargets,
     lastFocusedPage,
 
+    isSettingsDialogMode,
+    lastFocusedIdx,
     isSettingsMode,
 
     isFullscreenOnLivemode,
@@ -88,7 +91,7 @@ function Footer(props) {
                 <RightIcon className={classes.iconColor} />
               </IconButton>
 
-              {/* <MidiSettingsDialog
+              <MidiSettingsDialog
                 open={
                   isSettingsDialogMode && lastFocusedIdx === lastFocusedPage
                 }
@@ -104,7 +107,7 @@ function Footer(props) {
                   (item) => item.id === lastFocusedPage
                 )}
                 iconColor={classes.iconColor}
-              /> */}
+              />
             </div>
           )
         }
