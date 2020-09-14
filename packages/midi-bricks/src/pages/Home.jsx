@@ -1,20 +1,16 @@
 import { makeStyles, useTheme } from '@material-ui/styles'
 import React, { useEffect, Suspense } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { initApp } from '../actions/init.js'
-import { Actions as MidiSliderActions } from '../actions/slider-list.js'
-import { Actions as ViewStuff } from '../actions/view-settings.js'
 import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
-// import ApplicationSettingsPage from '../components/ApplicationSettings'
 import { PAGE_TYPES } from '../reducers'
 
-export default connect(mapStateToProperties, mapDispatchToProperties)(Home)
+export default connect(null, mapDispatchToProperties)(Home)
 
 Home.propTypes = {
   classes: PropTypes.object,
-  viewSettings: PropTypes.object,
   initApp: PropTypes.func
 }
 
@@ -22,10 +18,15 @@ function Home(props) {
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme), { useTheme: true })()
 
-  const {
-    viewSettings: { isLiveMode = false, pageType = PAGE_TYPES.HOME_MODE },
-    initApp: initAppLocal
-  } = props
+  const { initApp: initAppLocal } = props
+
+  const pageType = useSelector(
+    (state) => state.viewSettings.pageType || PAGE_TYPES.HOME_MODE
+  )
+  const isLiveMode = useSelector(
+    (state) => state.viewSettings.isLiveMode || false
+  )
+
   useEffect(() => {
     async function initAsync() {
       await initAppLocal()
@@ -38,15 +39,16 @@ function Home(props) {
     return () => {}
   }, [initAppLocal, pageType])
 
-  const preventScrollStyle = isLiveMode
-    ? {
-        height: 'calc(100vh - 66px)',
-        overflowY: 'hidden'
-      }
-    : {
-        height: 'calc(100vh - 66px - 64px)',
-        overflowY: 'hidden'
-      }
+  const objLM = {
+    height: 'calc(100vh - 66px)',
+    overflowY: 'hidden'
+  }
+  const objNLM = {
+    height: 'calc(100vh - 66px - 64px)',
+    overflowY: 'hidden'
+  }
+
+  const preventScrollStyle = isLiveMode ? objLM : objNLM
 
   if (pageType === PAGE_TYPES.GLOBAL_MODE) {
     const GlobalSettingsPage = React.lazy(() =>
@@ -66,41 +68,22 @@ function Home(props) {
         <MidiDriversSettingsPage />
       </Suspense>
     )
-  }
-  //  else if (pageType === PAGE_TYPES.VIEW_SETTINGS_MODE) {
-  //   return <ApplicationSettingsPage />
-  // }
-  else if (pageType === PAGE_TYPES.HOME_MODE) {
-    // const ChannelStripList = React.lazy(() =>
-    //   import('../components/channel-strip-list/ChannelStripList')
-    // )
+  } else if (pageType === PAGE_TYPES.HOME_MODE) {
     return (
-      // <Suspense fallback={<div>Loading...</div>}>
       <div
         className={classes.root}
         style={isLiveMode ? preventScrollStyle : {}}
       >
         <ChannelStripList />
       </div>
-      // </Suspense>
     )
   } else {
-    return <div>Du bist am Arsch!</div>
+    return <div>NOK!</div>
   }
 }
 
-function mapStateToProperties({ viewSettings, sliders: { isMidiFailed } }) {
-  return {
-    viewSettings,
-    isMidiFailed
-  }
-}
 function mapDispatchToProperties(dispatch) {
   return {
-    actions: bindActionCreators(
-      { ...MidiSliderActions, ...ViewStuff },
-      dispatch
-    ),
     initApp: bindActionCreators(initApp, dispatch)
   }
 }
