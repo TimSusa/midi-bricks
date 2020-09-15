@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.39-alpha.3](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.2...v1.3.39-alpha.3) (2020-09-15)
+
+
+### Features
+
+* Establish Global midi input settings globally ([75fea4b](https://github.com/TimSusa/midi-bricks-mono/commit/75fea4b311f80673617cf6f3de554e0b2f8956ec))
+
 ### [1.3.39-alpha.2](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.38...v1.3.39-alpha.2) (2020-09-15)
 
 
