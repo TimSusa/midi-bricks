@@ -12,13 +12,13 @@ import React, { Suspense } from 'react'
 import PropTypes from 'prop-types'
 import { connect, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Actions as MidiSliderActions } from '../actions/slider-list.js'
-import { Actions as ViewStuff } from '../actions/view-settings.js'
-import { thunkLiveModeToggle } from '../actions/thunks/thunk-live-mode-toggle'
+import { Actions as MidiSliderActions } from '../global-state/actions/slider-list.js'
+import { Actions as ViewStuff } from '../global-state/actions/view-settings.js'
+import { thunkLiveModeToggle } from '../global-state/actions/thunks/thunk-live-mode-toggle'
 import { outputToDriverName } from '../utils/output-to-driver-name.js'
 import { STRIP_TYPE } from '../reducers/slider-list.js'
 import DriverExpansionPanel from '../components/DriverExpansionPanel.jsx'
-import { thunkChangePage } from '../actions/thunks/thunk-change-page'
+import { thunkChangePage } from '../global-state/actions/thunks/thunk-change-page'
 
 export const GlobalSettingsPage = connect(
   null,

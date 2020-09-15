@@ -2,7 +2,7 @@
 import { Actions as sliderListActions } from '../slider-list'
 import { Actions as viewSettingsActions } from '../view-settings'
 import { Actions as pageActions } from '../pages'
-import { getUniqueId } from '../../utils/get-unique-id'
+import { getUniqueId } from '../../../utils/get-unique-id'
 
 const { updateSliderListOfPage } = pageActions
 const { setMidiPage } = sliderListActions

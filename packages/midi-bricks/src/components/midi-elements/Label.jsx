@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Actions as MidiSliderActions } from '../../actions/slider-list.js'
+import { Actions as MidiSliderActions } from '../../global-state/actions/slider-list.js'
 import { PropTypes } from 'prop-types'
 const { handleSliderChange } = MidiSliderActions
 export const Label = LabelComponent

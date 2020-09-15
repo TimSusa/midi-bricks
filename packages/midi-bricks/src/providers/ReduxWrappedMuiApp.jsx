@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import MuiWrappedApp from './MuiWrappedApp'
 import { Provider } from 'react-redux'
 
-import { configureAppStore } from './configure-app-store'
+import { configureAppStore } from '../global-state/configure-app-store'
 
 import localforage from 'localforage'
 

@@ -3,7 +3,7 @@ import React, { useEffect, Suspense } from 'react'
 import PropTypes from 'prop-types'
 import { connect, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { initApp } from '../actions/init.js'
+import { initApp } from '../global-state/actions/init.js'
 import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
 import { PAGE_TYPES } from '../reducers'
 

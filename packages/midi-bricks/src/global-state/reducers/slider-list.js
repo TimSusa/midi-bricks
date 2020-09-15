@@ -2,9 +2,9 @@ import WebMIDI from 'webmidi'
 
 import { ActionTypeSliderList } from '../actions/slider-list'
 import { midi } from 'tonal'
-import { fromMidi } from '../utils/fromMidi'
+import { fromMidi } from '../../utils/fromMidi'
 import { map } from 'lodash'
-import { getUniqueId } from '../utils/get-unique-id'
+import { getUniqueId } from '../../utils/get-unique-id'
 import { createNextState } from '@reduxjs/toolkit'
 
 export const initId = `page-${getUniqueId()}`

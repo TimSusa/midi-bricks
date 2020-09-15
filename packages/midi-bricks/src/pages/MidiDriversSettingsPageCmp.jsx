@@ -4,9 +4,9 @@ import DriverExpansionPanel from '../components/DriverExpansionPanel'
 import MidiDriverTable from '../components/MidiDriverTable'
 import { connect, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Actions as MidiSliderActions } from '../actions/slider-list.js'
-import { Actions as ViewStuff } from '../actions/view-settings.js'
-import { thunkLiveModeToggle } from '../actions/thunks/thunk-live-mode-toggle'
+import { Actions as MidiSliderActions } from '../global-state/actions/slider-list.js'
+import { Actions as ViewStuff } from '../global-state/actions/view-settings.js'
+import { thunkLiveModeToggle } from '../global-state/actions/thunks/thunk-live-mode-toggle'
 
 export const MidiDriversSettingsPage = connect(
   null,
