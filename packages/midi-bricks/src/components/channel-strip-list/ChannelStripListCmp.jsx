@@ -12,7 +12,7 @@ import { thunkLiveModeToggle } from '../../global-state/actions/thunks/thunk-liv
 import MidiSettingsDialogButton from '../midi-settings-dialog/MidiSettingsDialogButton'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import { SizeMe } from 'react-sizeme'
-import { PAGE_TYPES } from '../../reducers'
+import { PAGE_TYPES } from '../../global-state/reducers'
 import { Button } from '@material-ui/core'
 import { thunkLoadFile } from '../../global-state/actions/thunks/thunk-load-file'
 import { preset } from '../../utils/midi-bricks-preset-apc-40.js'

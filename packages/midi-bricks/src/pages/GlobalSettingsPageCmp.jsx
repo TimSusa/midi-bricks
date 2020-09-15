@@ -16,7 +16,7 @@ import { Actions as MidiSliderActions } from '../global-state/actions/slider-lis
 import { Actions as ViewStuff } from '../global-state/actions/view-settings.js'
 import { thunkLiveModeToggle } from '../global-state/actions/thunks/thunk-live-mode-toggle'
 import { outputToDriverName } from '../utils/output-to-driver-name.js'
-import { STRIP_TYPE } from '../reducers/slider-list.js'
+import { STRIP_TYPE } from '../global-state/reducers/slider-list.js'
 import DriverExpansionPanel from '../components/DriverExpansionPanel.jsx'
 import { thunkChangePage } from '../global-state/actions/thunks/thunk-change-page'
 

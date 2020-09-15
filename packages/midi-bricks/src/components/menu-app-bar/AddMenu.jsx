@@ -8,7 +8,7 @@ import { addElement } from '../../global-state/actions/thunks/thunk-add-element.
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import AddIcon from '@material-ui/icons/Add'
-import { STRIP_TYPE } from '../../reducers/slider-list'
+import { STRIP_TYPE } from '../../global-state/reducers/slider-list'
 import { Tooltip, IconButton } from '@material-ui/core'
 
 const {

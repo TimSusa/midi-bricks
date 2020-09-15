@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '@material-ui/core/Button'
 import Tooltip from '@material-ui/core/Tooltip'
-import { PAGE_TYPES } from '../../../reducers'
+import { PAGE_TYPES } from '../../../global-state/reducers'
 import PropTypes from 'prop-types'
 
 export function DriverEmtpyRedirectButton({

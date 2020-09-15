@@ -5,7 +5,7 @@ import { connect, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { initApp } from '../global-state/actions/init.js'
 import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
-import { PAGE_TYPES } from '../reducers'
+import { PAGE_TYPES } from '../global-state/reducers'
 
 export default connect(null, mapDispatchToProperties)(Home)
 

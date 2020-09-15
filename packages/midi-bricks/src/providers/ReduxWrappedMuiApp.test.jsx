@@ -6,7 +6,7 @@ import { ReduxWrappedMuiApp } from './ReduxWrappedMuiApp'
 import { createMount } from '@material-ui/core/test-utils'
 
 import configureStore from 'redux-mock-store'
-import { mockStore as storeMock } from '../reducers/test/mock-store'
+import { mockStore as storeMock } from '../global-state/reducers/test/mock-store'
 import thunk from 'redux-thunk'
 
 import Footer from '../components/footer/Footer'

@@ -20,7 +20,7 @@ import { MidiSettingsOutputY } from './elements/MidiSettingsOutputY'
 import { MidiSettingsView } from './elements/MidiSettingsView'
 import { DriverEmtpyRedirectButton } from './elements/DriverEmtpyRedirectButton'
 
-import { STRIP_TYPE } from '../../reducers/slider-list'
+import { STRIP_TYPE } from '../../global-state/reducers/slider-list'
 
 export default connect(null, mapDispatchToProps)(MidiSettings)
 

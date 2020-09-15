@@ -7,7 +7,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import ColorModal from './ColorModal'
-import { STRIP_TYPE } from '../../../reducers/slider-list'
+import { STRIP_TYPE } from '../../../global-state/reducers/slider-list'
 
 const {
   BUTTON,

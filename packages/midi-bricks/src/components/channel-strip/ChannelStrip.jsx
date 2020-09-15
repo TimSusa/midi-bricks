@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import Slider from '../midi-elements/Slider'
 import MidiButtons from '../midi-elements/midi-buttons/MidiButtons'
 import StripLabel from '../midi-elements/StripLabel'
-import { STRIP_TYPE } from '../../reducers/slider-list'
+import { STRIP_TYPE } from '../../global-state/reducers/slider-list'
 import { Label } from '../midi-elements/Label'
 export default ChannelStrip
 

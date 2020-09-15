@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../../global-state/actions/slider-list.js'
 import MidiButton from './MidiButton'
 
-import { STRIP_TYPE } from '../../../reducers/slider-list.js'
+import { STRIP_TYPE } from '../../../global-state/reducers/slider-list.js'
 import { PropTypes } from 'prop-types'
 
 const {

@@ -28,7 +28,7 @@ import CopyIcon from '@material-ui/icons/ArrowRightAlt'
 import DeleteIcon from '@material-ui/icons/Delete'
 import ViewSettingsIcon from '@material-ui/icons/Settings'
 import AddMenu from './AddMenu'
-import { PAGE_TYPES } from '../../reducers'
+import { PAGE_TYPES } from '../../global-state/reducers'
 import { ToolTipIconButton } from '../ToolTipIconButton'
 
 export const MenuAppBar = connect(null, mapDispatchToProps)(MenuAppBarCmp)

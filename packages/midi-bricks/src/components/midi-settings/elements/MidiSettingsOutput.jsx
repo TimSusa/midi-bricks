@@ -10,7 +10,7 @@ import {
   renderMidiChannelSelection
 } from '../MidiSettings'
 
-import { STRIP_TYPE } from '../../../reducers/slider-list'
+import { STRIP_TYPE } from '../../../global-state/reducers/slider-list'
 
 const {
   BUTTON,

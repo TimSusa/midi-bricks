@@ -6,19 +6,15 @@ import Select from '@material-ui/core/Select'
 import InputNoteOrCc from './InputNoteOrCc'
 import {
   renderDriverSelection,
-  renderMidiChannelSelection,
+  renderMidiChannelSelection
 } from '../MidiSettings'
 
-import { STRIP_TYPE } from '../../../reducers/slider-list'
+import { STRIP_TYPE } from '../../../global-state/reducers/slider-list'
 import { PropTypes } from 'prop-types'
-
-
-
-
 
 const { SLIDER, SLIDER_HORZ, XYPAD } = STRIP_TYPE
 
-export const MidiSettingsOutputY = props => {
+export const MidiSettingsOutputY = (props) => {
   const {
     classes,
     actions,
@@ -31,50 +27,50 @@ export const MidiSettingsOutputY = props => {
       //offVal,
       yDriverName = 'None',
       yMidiChannel,
-      yMidiCc,
+      yMidiCc
     } = {},
-    outputs,
+    outputs
   } = props
   return (
     <React.Fragment>
-      <InputNoteOrCc i={i} yMidiCc={yMidiCc} type={type}/>
+      <InputNoteOrCc i={i} yMidiCc={yMidiCc} type={type} />
       <FormControl className={classes.formControl}>
-        <InputLabel className={classes.label} htmlFor="midi-driver">
+        <InputLabel className={classes.label} htmlFor='midi-driver'>
           Driver
         </InputLabel>
         <Select
           className={classes.select}
-          onChange={e =>
+          onChange={(e) =>
             actions.changeXypadSettings({
               i,
-              yDriverName: e.target.value,
+              yDriverName: e.target.value
             })
           }
           value={yDriverName || 'None'}
         >
           {renderDriverSelection({
-            outputs,
+            outputs
           })}
         </Select>
       </FormControl>
 
       <FormControl className={classes.formControl}>
-        <InputLabel className={classes.label} htmlFor="output-cc-input">
+        <InputLabel className={classes.label} htmlFor='output-cc-input'>
           Channel
         </InputLabel>
         <Select
           className={classes.select}
-          onChange={e =>
+          onChange={(e) =>
             actions.changeXypadSettings({
               i,
-              yMidiChannel: e.target.value,
+              yMidiChannel: e.target.value
             })
           }
           value={yMidiChannel || 'None'}
         >
           {renderMidiChannelSelection(
             {
-              outputs,
+              outputs
             },
             yDriverName,
             type
@@ -84,26 +80,26 @@ export const MidiSettingsOutputY = props => {
       {[SLIDER, SLIDER_HORZ, XYPAD].includes(type) && (
         <React.Fragment>
           <MinMaxValInput
-            label="Maximum Value"
+            label='Maximum Value'
             value={yMaxVal}
             name={`input-maxval-name-${i}`}
             limitVal={127}
-            onChange={e =>
+            onChange={(e) =>
               actions.changeXypadSettings({
                 i,
-                yMaxVal: e.target.value,
+                yMaxVal: e.target.value
               })
             }
           />
           <MinMaxValInput
-            label="Minimum Value"
+            label='Minimum Value'
             value={yMinVal}
             name={`input-yMinVal-name-${i}`}
             limitVal={0}
-            onChange={e =>
+            onChange={(e) =>
               actions.changeXypadSettings({
                 i,
-                yMinVal: e.target.value,
+                yMinVal: e.target.value
               })
             }
           />

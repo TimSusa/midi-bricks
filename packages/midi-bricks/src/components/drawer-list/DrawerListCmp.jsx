@@ -18,7 +18,7 @@ import ViewSettingsDialog from '../ApplicationSettingsDialog'
 import { ListItemLoadFileOnElectron } from './ListItemLoadFileOnElectron'
 import { ListItemSaveFileOnElectron } from './ListItemSaveFileOnElectron'
 import { ListItemLoadFileOnWeb } from './ListItemLoadFileOnWeb'
-import { PAGE_TYPES } from '../../reducers'
+import { PAGE_TYPES } from '../../global-state/reducers'
 import { PropTypes } from 'prop-types'
 
 import { bindActionCreators } from 'redux'
