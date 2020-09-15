@@ -17,7 +17,7 @@ export function ListItemLoadFileOnElectron({ onFileChange, iconColor }) {
   return (
     <ListItem
       button
-      onClick={(e) => {
+      onClick={() => {
         addIpcFileListenerOnce(onFileChange)
         openIpcFileDialog()
       }}

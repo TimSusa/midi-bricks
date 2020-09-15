@@ -111,21 +111,13 @@ function ChannelStripListCmp() {
           const isFocused = lastFocusedIdxs.includes(i)
           return (
             <div
-              onDoubleClick={(e) => {
-                dispatch(setLastFocusedIndex({ i }))
-                e.preventDefault()
-                e.stopPropagation()
-              }}
+              onDoubleClick={handleClick.bind(this, { i })}
               onClick={
                 !isLayoutMode &&
                 isSettingsMode &&
                 !isSettingsDialogMode &&
                 !lastFocusedIdxs.includes(i)
-                  ? (e) => {
-                      dispatch(setLastFocusedIndex({ i }))
-                      e.preventDefault()
-                      e.stopPropagation()
-                    }
+                  ? handleClick.bind(this, { i })
                   : () => {}
               }
               key={i}
@@ -147,13 +139,7 @@ function ChannelStripListCmp() {
                       style={{
                         height: '100%',
                         borderRadius: 3,
-                        background: isLayoutMode
-                          ? '#f0ffff87'
-                          : isSettingsMode
-                          ? '#f5f5dcb3'
-                          : isMidiLearnMode
-                          ? '#cfcfcf'
-                          : 'transparent'
+                        background: getBackgroundColor
                       }}
                     >
                       {isMidiLearnMode && isFocused && (
@@ -237,6 +223,29 @@ function ChannelStripListCmp() {
     dispatch(
       toggleSettingsDialogMode({ i, lastFocusedPage, isSettingsDialogMode })
     )
+  }
+  function handleClick({ i }, e) {
+    dispatch(setLastFocusedIndex({ i }))
+    e.preventDefault()
+    e.stopPropagation()
+  }
+  function getBackgroundColor() {
+    if (isLayoutMode) {
+      return '#f0ffff87'
+    } else if (isSettingsMode) {
+      return '#f5f5dcb3'
+    } else if (isMidiLearnMode) {
+      return '#cfcfcf'
+    } else {
+      return 'transparent'
+    }
+    // return isLayoutMode
+    //   ? '#f0ffff87'
+    //   : isSettingsMode
+    //   ? '#f5f5dcb3'
+    //   : isMidiLearnMode
+    //   ? '#cfcfcf'
+    //   : 'transparent'
   }
 }
 

@@ -5,6 +5,7 @@ import FileReader from './FileReader'
 import { PropTypes } from 'prop-types'
 
 ListItemLoadFileOnWeb.propTypes = {
+  iconColor: PropTypes.any,
   onFileChange: PropTypes.func
 }
 
