@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.39-alpha.2](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.38...v1.3.39-alpha.2) (2020-09-15)
+
+
+### Bug Fixes
+
+* Show footer setttings in settings mode ([91f3602](https://github.com/TimSusa/midi-bricks-mono/commit/91f3602dafe9e144a099187d28565019b238b806))
+
 ### [1.3.38](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.38-alpha.3...v1.3.38) (2020-09-12)
 
 ### [1.3.38-alpha.3](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.38-alpha.2...v1.3.38-alpha.3) (2020-08-31)
