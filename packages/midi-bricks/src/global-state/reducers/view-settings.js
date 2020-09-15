@@ -387,6 +387,15 @@ export const viewSettings = {
       draftState.lastFocusedIdxs = []
       return draftState
     })
+  },
+  [ActionTypeViewSettings.CHANGE_GLOBAL_MIDI_INPUT_DELAY](state, action) {
+    return createNextState(state, (draftState) => {
+      const {
+        payload: { globalMidiInputDelay }
+      } = action
+      draftState.globalMidiInputDelay = globalMidiInputDelay
+      return draftState
+    })
   }
 }
 

@@ -398,6 +398,7 @@ export const sliders = {
     return state
   },
   [ActionTypeSliderList.LOAD_FILE](state, action) {
+    // DEPRECATD??
     return createNextState(state, (draftState) => {
       const {
         payload: { content: { sliders: { sliderList } } = {} } = {}

@@ -5,7 +5,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import Dialog from '@material-ui/core/Dialog'
-import ApplicationSettings from './ApplicationSettings'
+import ApplicationSettings from '../pages/ApplicationSettings'
 import { Typography } from '@material-ui/core'
 
 export default ApplicationSettingsDialog
@@ -19,7 +19,7 @@ ApplicationSettingsDialog.propTypes = {
 }
 
 function ApplicationSettingsDialog(props) {
-  const { isOpen = true, sliderEntry, onClose, iconColor, ...other } = props
+  const { isOpen = true, onClose, iconColor, ...other } = props
   return (
     <Dialog
       open={isOpen}
@@ -37,7 +37,7 @@ function ApplicationSettingsDialog(props) {
         <ApplicationSettings />
       </DialogContent>
       <DialogActions>
-        <Button onClick={(e) => onClose()} className={iconColor}>
+        <Button onClick={() => onClose()} className={iconColor}>
           Close
         </Button>
       </DialogActions>

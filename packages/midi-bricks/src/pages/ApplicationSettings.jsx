@@ -1,13 +1,20 @@
 import React, { useState } from 'react'
-import DriverExpansionPanel from './DriverExpansionPanel'
+import DriverExpansionPanel from '../components/DriverExpansionPanel'
+import {
+  FormControlLabel,
+  Switch,
+  Tooltip,
+  Button,
+  Input
+} from '@material-ui/core'
 import { connect, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../global-state/actions/slider-list.js'
 import { Actions as ViewStuff } from '../global-state/actions/view-settings.js'
 import { thunkLiveModeToggle } from '../global-state/actions/thunks/thunk-live-mode-toggle'
-import { MinMaxValInput } from './midi-settings/elements/MinMaxValInput'
-import { ValueInput } from './midi-settings/elements/ValueInput'
-import { FormControlLabel, Switch, Tooltip, Button } from '@material-ui/core'
+import { MinMaxValInput } from '../components/midi-settings/elements/MinMaxValInput'
+import { ValueInput } from '../components/midi-settings/elements/ValueInput'
+
 import { PropTypes } from 'prop-types'
 import {
   sendAppSettings,
@@ -42,7 +49,8 @@ function ApplicationSettings(props) {
     marginX = 8,
     marginY = 8,
     paddingX = 8,
-    paddingY = 8
+    paddingY = 8,
+    globalMidiInputDelay
   } = useSelector((state) => state.viewSettings)
   const { actions } = props
   let windowCoords = winCood
@@ -50,6 +58,24 @@ function ApplicationSettings(props) {
 
   return (
     <React.Fragment>
+      <FormControlLabel
+        control={
+          <Tooltip title='Please chose this value carefully, because it will highly depend on your cpu power.'>
+            <Input
+              onChange={(e) => {
+                // e.preventDefault()
+                // e.stopPropagation()
+
+                actions.changeGlobalMidiInputDelay({
+                  globalMidiInputDelay: e.target.value
+                })
+              }}
+              value={globalMidiInputDelay || 15}
+            />
+          </Tooltip>
+        }
+        label='Global Midi Input Delay'
+      />
       <DriverExpansionPanel
         label='Views'
         expanded={isViewPanelExpanded}

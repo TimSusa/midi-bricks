@@ -11,51 +11,41 @@ export const PAGE_TYPES = {
   HOME_MODE: 'HOME_MODE',
   GLOBAL_MODE: 'GLOBAL_MODE',
   MIDI_DRIVER_MODE: 'MIDI_DRIVER_MODE',
-  // VIEW_SETTINGS_MODE: 'VIEW_SETTINGS_MODE'
+// VIEW_SETTINGS_MODE: 'VIEW_SETTINGS_MODE'
 }
 
-const initState = {
-  columns: 18,
-  rowHeight: 40,
-  isAutoSize: false,
-  marginX: 8,
-  marginY: 8,
-  paddingX: 8,
-  paddingY: 8,
-  isLiveMode: false,
-  isSettingsDialogMode: false,
-  isLayoutMode: false,
-  isCompactHorz: false,
-  isSettingsMode: false,
-  isMidiLearnMode: false,
-  isAutoArrangeMode: false,
-  isChangedTheme: false,
-  isFullscreenOnLivemode: false,
-  pageType: PAGE_TYPES.HOME_MODE,
-  availableDrivers: {
-    inputs: {
-      None: {
-        ccChannels: [],
-        noteChannels: []
-      }
-    },
-    outputs: {
-      None: {
-        ccChannels: [],
-        noteChannels: []
-      }
-    }
-  },
-  electronAppSettings: {
-    isDevConsoleEnabled: true,
-    isAllowedToUpdate: false,
-    isAutoDownload: false,
-    isAllowedPrerelease: false,
-    isAllowedDowngrade: false,
-    isWindowSizeLocked: true,
-    windowCoords: [0, 0, 600, 800]
-  }
-}
+// const initState = {
+//   columns: 18,
+//   rowHeight: 40,
+//   isAutoSize: false,
+//   marginX: 8,
+//   marginY: 8,
+//   paddingX: 8,
+//   paddingY: 8,
+//   availableDrivers: {
+//     inputs: {
+//       None: {
+//         ccChannels: [],
+//         noteChannels: []
+//       }
+//     },
+//     outputs: {
+//       None: {
+//         ccChannels: [],
+//         noteChannels: []
+//       }
+//     }
+//   },
+//   electronAppSettings: {
+//     isDevConsoleEnabled: true,
+//     isAllowedToUpdate: false,
+//     isAutoDownload: false,
+//     isAllowedPrerelease: false,
+//     isAllowedDowngrade: false,
+//     isWindowSizeLocked: true,
+//     windowCoords: [0, 0, 600, 800]
+//   }
+// }
 
 export const pagesInit = {
   [initId]: {
@@ -72,10 +62,20 @@ const slidersInitState = {
 }
 
 export const viewSettingsInitState = {
-  ...initState,
+  isLiveMode: false,
+  isSettingsDialogMode: false,
+  isLayoutMode: false,
+  isCompactHorz: false,
+  isSettingsMode: false,
+  isMidiLearnMode: false,
+  isAutoArrangeMode: false,
+  isChangedTheme: false,
+  isFullscreenOnLivemode: false,
+  pageType: PAGE_TYPES.HOME_MODE,
   lastFocusedPage: initId,
   lastFocusedIdx: '',
   lastFocusedIdxs: [],
+  globalMidiInputDelay: 15,
   pageTargets: [
     {
       colors: {

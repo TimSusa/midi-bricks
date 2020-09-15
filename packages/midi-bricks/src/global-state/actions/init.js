@@ -3,9 +3,7 @@ import WebMIDI from 'webmidi'
 import { Actions } from './slider-list'
 import { merge, debounce } from 'lodash'
 
-const {initMidiAccessPending, midiMessageArrived, initFailed, initMidiAccessOk} = Actions
-
-const DELAY = 15
+const { initMidiAccessPending, midiMessageArrived, initFailed, initMidiAccessOk } = Actions
 
 export function initApp () {
   return function (dispatch, getState) {
@@ -19,17 +17,17 @@ export function initApp () {
           reject(dispatch(initFailed('Midi could not be enabled.')))
         }
         const { inputs = [], outputs = [] } = WebMIDI
-        const { sliders: { sliderList  } } = getState()
+        const { sliders: { sliderList  }, viewSettings: { globalMidiInputDelay } } = getState()
         const allCcListenersFound = findCcListeners(sliderList)
         const allNoteListenersFound = findNoteListeners(sliderList)
 
         inputs.forEach((input) => {
           const { name } = input
           const tmpIn = input.removeListener('controlchange')
-          registerCcListeners(allCcListenersFound, name, tmpIn, dispatch)
+          registerCcListeners(allCcListenersFound, name, tmpIn, dispatch, globalMidiInputDelay)
           const tmpInNoteOn = tmpIn.removeListener('noteon')
           const tmpInNoteOff = tmpInNoteOn.removeListener('noteoff')
-          registerNoteListeners(allNoteListenersFound, name, tmpInNoteOff , dispatch)
+          registerNoteListeners(allNoteListenersFound, name, tmpInNoteOff , dispatch, globalMidiInputDelay)
         })
         if (hasContent(outputs) || hasContent(inputs)) {
           const midiAccess = {
@@ -73,7 +71,7 @@ function hasContent (arr) {
   return arr.length > 0
 }
 
-function registerCcListeners (listenersObj, name, input, dispatch) {
+function registerCcListeners (listenersObj, name, input, dispatch, globalMidiInputDelay) {
   Object.keys(listenersObj).forEach((driverNameIn) => {
     const enty = listenersObj[driverNameIn]
     if (driverNameIn !== 'None') {
@@ -94,17 +92,17 @@ function registerCcListeners (listenersObj, name, input, dispatch) {
             payload,
             meta: {
               raf: true,
-              delay: DELAY
+              delay: globalMidiInputDelay
             }
           })
           dispatch(myAction(obj))
         }
-        if (!input.hasListener('controlchange', midiChIn, debounce(midiEventMapper, DELAY))) {
+        if (!input.hasListener('controlchange', midiChIn, debounce(midiEventMapper, globalMidiInputDelay))) {
           // console.log('ADDD LISTENERS CC', midiChIn, driverNameIn)
           input.addListener(
             'controlchange',
             midiChIn,
-            debounce(midiEventMapper, DELAY)
+            debounce(midiEventMapper, globalMidiInputDelay)
           )
         }
       }
@@ -112,7 +110,7 @@ function registerCcListeners (listenersObj, name, input, dispatch) {
   })
 }
 
-function registerNoteListeners (notesObj, name, input, dispatch) {
+function registerNoteListeners (notesObj, name, input, dispatch, globalMidiInputDelay) {
   Object.keys(notesObj).forEach((driverNameIn) => {
     const enty = notesObj[driverNameIn]
     if (driverNameIn !== 'None') {
@@ -131,12 +129,12 @@ function registerNoteListeners (notesObj, name, input, dispatch) {
           }
           dispatch(midiMessageArrived(obj))
         }
-        if (!input.hasListener('noteon', midiChIn, debounce(midiEventNoteOnMapper, DELAY))) {
+        if (!input.hasListener('noteon', midiChIn, debounce(midiEventNoteOnMapper, globalMidiInputDelay))) {
           // console.log('ADDD LISTENERS NOTE ON', midiChIn, driverNameIn)
           input.addListener(
             'noteon',
             midiChIn,
-            debounce(midiEventNoteOnMapper, DELAY)
+            debounce(midiEventNoteOnMapper, globalMidiInputDelay)
           )
         }
 
@@ -152,12 +150,12 @@ function registerNoteListeners (notesObj, name, input, dispatch) {
           dispatch(midiMessageArrived(obj))
         }
 
-        if (!input.hasListener('noteoff', midiChIn, debounce(midiEventNoteOffMapper, DELAY))) {
+        if (!input.hasListener('noteoff', midiChIn, debounce(midiEventNoteOffMapper, globalMidiInputDelay))) {
           // console.log('ADDD LISTENERS NOTE OFF', midiChIn, driverNameIn)
           input.addListener(
             'noteoff',
             midiChIn,
-            debounce(midiEventNoteOffMapper, DELAY)
+            debounce(midiEventNoteOffMapper, globalMidiInputDelay)
           )
         }
       }
