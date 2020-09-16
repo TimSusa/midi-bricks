@@ -16,7 +16,7 @@ import DriverExpansionPanel from '../DriverExpansionPanel'
 import MidiSettingsInput from './elements/MidiSettingsInput'
 import { MidiSettingsLabelInput } from './elements/MidiSettingsLabelInput'
 import { MidiSettingsOutput } from './elements/MidiSettingsOutput'
-import { MidiSettingsOutputY } from './elements/MidiSettingsOutputY'
+//import { MidiSettingsOutputY } from './elements/MidiSettingsOutputY'
 import { MidiSettingsView } from './elements/MidiSettingsView'
 import { DriverEmtpyRedirectButton } from './elements/DriverEmtpyRedirectButton'
 
@@ -91,21 +91,6 @@ function MidiSettings(props) {
             <DriverEmtpyRedirectButton actions={actions} i={i} />
           ) : (
             <MidiSettingsOutput
-              classes={classes}
-              sliderEntry={sliderEntry}
-              outputs={outputs}
-              actions={actions}
-              lastFocusedPage={lastFocusedPage}
-            />
-          )}
-        </DriverExpansionPanel>
-      )}
-      {type === STRIP_TYPE.XYPAD && (
-        <DriverExpansionPanel label={'Outputs Y'} isEmpty={isOutputsEmpty}>
-          {isOutputsEmpty ? (
-            <DriverEmtpyRedirectButton actions={actions} i={i} />
-          ) : (
-            <MidiSettingsOutputY
               classes={classes}
               sliderEntry={sliderEntry}
               outputs={outputs}
