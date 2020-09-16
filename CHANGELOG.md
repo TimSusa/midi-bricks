@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.39-alpha.4](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.3...v1.3.39-alpha.4) (2020-09-16)
+
+
+### Bug Fixes
+
+* Bad midi settings input ([8a0291d](https://github.com/TimSusa/midi-bricks-mono/commit/8a0291d1aaf5d71cb73d7223de83d251e9659ff9))
+
 ### [1.3.39-alpha.3](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.2...v1.3.39-alpha.3) (2020-09-15)
 
 
