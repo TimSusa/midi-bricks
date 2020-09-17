@@ -68,8 +68,10 @@ function DrawerListCmp(props) {
     thunkLoadFile,
     thunkDelete
   } = props
+
   const [open, setOpen] = useState(false)
   const [isOpenViewSettings, setIsOpenViewSettings] = useState(false)
+
   return (
     <React.Fragment>
       <div className={classes.drawerHeader} />
