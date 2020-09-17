@@ -12,6 +12,7 @@ import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../global-state/actions/slider-list.js'
 import { Actions as ViewStuff } from '../global-state/actions/view-settings.js'
 import { thunkLiveModeToggle } from '../global-state/actions/thunks/thunk-live-mode-toggle'
+import { initApp as initMidiApp } from '../global-state/actions/init'
 import { MinMaxValInput } from '../components/midi-settings/elements/MinMaxValInput'
 import { ValueInput } from '../components/midi-settings/elements/ValueInput'
 
@@ -30,6 +31,7 @@ const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
 
 ApplicationSettings.propTypes = {
   actions: PropTypes.object,
+  initApp: PropTypes.func,
   thunkLiveModeToggle: PropTypes.func,
   viewSettings: PropTypes.object
 }
@@ -52,9 +54,12 @@ function ApplicationSettings(props) {
     paddingY = 8,
     globalMidiInputDelay
   } = useSelector((state) => state.viewSettings)
-  const { actions } = props
+  const { actions, initApp } = props
   let windowCoords = winCood
   const [isViewPanelExpanded, setIsViewPanelExpanded] = useState(false)
+  const [midiInputDelayValue, setMidiInputDelayValue] = useState(
+    globalMidiInputDelay
+  )
 
   return (
     <React.Fragment>
@@ -63,19 +68,27 @@ function ApplicationSettings(props) {
           <Tooltip title='Please chose this value carefully, because it will highly depend on your cpu power.'>
             <Input
               onChange={(e) => {
-                // e.preventDefault()
-                // e.stopPropagation()
-
-                actions.changeGlobalMidiInputDelay({
-                  globalMidiInputDelay: e.target.value
-                })
+                e.preventDefault()
+                e.stopPropagation()
+                setMidiInputDelayValue(e.target.value)
               }}
-              value={globalMidiInputDelay || 15}
+              value={midiInputDelayValue || 15}
             />
           </Tooltip>
         }
         label='Global Midi Input Delay'
       />
+      <Button
+        variant='contained'
+        onClick={async () => {
+          actions.changeGlobalMidiInputDelay({
+            globalMidiInputDelay: midiInputDelayValue
+          })
+          await initApp()
+        }}
+      >
+        OK{' '}
+      </Button>
       <DriverExpansionPanel
         label='Views'
         expanded={isViewPanelExpanded}
@@ -312,6 +325,7 @@ function mapDispatchToProps(dispatch) {
       { ...MidiSliderActions, ...ViewStuff },
       dispatch
     ),
-    thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
+    thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch),
+    initApp: bindActionCreators(initMidiApp, dispatch)
   }
 }
