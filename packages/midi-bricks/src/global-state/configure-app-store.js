@@ -6,6 +6,7 @@ import reducer from './reducers'
  * Makes `dispatch` return a function to cancel the timeout in this case.
  */
 const timeoutScheduler = () => next => action => {
+  if (action === undefined) return
   if (!action.meta || !action.meta.delay) {
     return next(action)
   }

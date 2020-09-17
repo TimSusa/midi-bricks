@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import {
   Divider,
   List,
@@ -12,7 +13,6 @@ import ViewIcon from '@material-ui/icons/ViewCarousel'
 import DeleteIcon from '@material-ui/icons/Delete'
 import VersionIcon from '@material-ui/icons/FormatListNumberedRtl'
 import IconDriverSettings from '@material-ui/icons/SettingsInputSvideo'
-import React, { useState } from 'react'
 import DeleteModal from '../DeleteModal'
 import ViewSettingsDialog from '../ApplicationSettingsDialog'
 import { ListItemLoadFileOnElectron } from './ListItemLoadFileOnElectron'
@@ -21,17 +21,19 @@ import { ListItemLoadFileOnWeb } from './ListItemLoadFileOnWeb'
 import { PAGE_TYPES } from '../../global-state/reducers'
 import { PropTypes } from 'prop-types'
 
-import { bindActionCreators } from 'redux'
 import { thunkLoadFile } from '../../global-state/actions/thunks/thunk-load-file'
 import { thunkDelete } from '../../global-state/actions/thunks/thunk-delete'
-import { thunkLiveModeToggle } from '../../global-state/actions/thunks/thunk-live-mode-toggle'
+//import { thunkLiveModeToggle } from '../../global-state/actions/thunks/thunk-live-mode-toggle'
 import { Actions as MidiSliderActions } from '../../global-state/actions/slider-list'
 import { Actions as ViewSettingsActions } from '../../global-state/actions/view-settings'
-import { connect, useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 const version = process.env.REACT_APP_VERSION || 'dev'
-
-export const DrawerList = connect(null, mapDispatchToProps)(DrawerListCmp)
+const { togglePage, saveFile, deleteFooterPages, deleteAll } = {
+  ...MidiSliderActions,
+  ...ViewSettingsActions
+}
+export const DrawerList = DrawerListCmp
 
 DrawerListCmp.propTypes = {
   classes: PropTypes.object,
@@ -53,20 +55,21 @@ DrawerListCmp.propTypes = {
 }
 
 function DrawerListCmp(props) {
+  const dispatch = useDispatch()
   const pages = useSelector((state) => state.pages)
   const viewSettings = useSelector((state) => state.viewSettings)
   const sliders = useSelector((state) => state.sliders)
   const {
     classes,
-    togglePage,
-    saveFile,
+    // togglePage,
+    // saveFile,
     onFileChange,
-    deleteAll,
-    deleteFooterPages,
-    handleSaveFile: handleSaveFileTmp,
-    handleResetSliders: handleResetSlidersTmp,
-    thunkLoadFile,
-    thunkDelete
+    // deleteAll,
+    // deleteFooterPages,
+    // handleSaveFile: handleSaveFileTmp,
+    handleResetSliders: handleResetSlidersTmp
+    // thunkLoadFile,
+    // thunkDelete
   } = props
 
   const [open, setOpen] = useState(false)
@@ -80,9 +83,11 @@ function DrawerListCmp(props) {
         <ListItem
           button
           onClick={() =>
-            togglePage({
-              pageType: PAGE_TYPES.HOME_MODE
-            })
+            dispatch(
+              togglePage({
+                pageType: PAGE_TYPES.HOME_MODE
+              })
+            )
           }
         >
           <ListItemIcon className={classes.iconColor}>
@@ -93,9 +98,11 @@ function DrawerListCmp(props) {
         <ListItem
           button
           onClick={() =>
-            togglePage({
-              pageType: PAGE_TYPES.GLOBAL_MODE
-            })
+            dispatch(
+              togglePage({
+                pageType: PAGE_TYPES.GLOBAL_MODE
+              })
+            )
           }
         >
           <ListItemIcon className={classes.iconColor}>
@@ -107,9 +114,11 @@ function DrawerListCmp(props) {
         <ListItem
           button
           onClick={() =>
-            togglePage({
-              pageType: PAGE_TYPES.MIDI_DRIVER_MODE
-            })
+            dispatch(
+              togglePage({
+                pageType: PAGE_TYPES.MIDI_DRIVER_MODE
+              })
+            )
           }
         >
           <ListItemIcon className={classes.iconColor}>
@@ -122,7 +131,7 @@ function DrawerListCmp(props) {
           button
           onClick={
             !isOpenViewSettings
-              ? () => setIsOpenViewSettings(!isOpenViewSettings)
+              ? () => dispatch(setIsOpenViewSettings(!isOpenViewSettings))
               : () => {}
           }
         >
@@ -133,7 +142,7 @@ function DrawerListCmp(props) {
           <ViewSettingsDialog
             isOpen={isOpenViewSettings}
             onClose={() => {
-              setIsOpenViewSettings(!isOpenViewSettings)
+              dispatch(setIsOpenViewSettings(!isOpenViewSettings))
               props.onClose()
             }}
             iconColor={classes.iconColor}
@@ -162,15 +171,16 @@ function DrawerListCmp(props) {
         {process.env.REACT_APP_IS_WEB_MODE === 'true' ? (
           <ListItem
             button
-            onClick={handleSaveFile.bind(
-              this,
-              saveFile,
-              handleSaveFileTmp,
-              pages,
-              viewSettings,
-              sliders,
-              version
-            )}
+            onClick={() =>
+              dispatch(
+                saveFile({
+                  pages,
+                  viewSettings,
+                  sliders,
+                  version
+                })
+              )
+            }
           >
             <ListItemIcon className={classes.iconColor}>
               <SaveIcon />
@@ -216,46 +226,28 @@ function DrawerListCmp(props) {
       <Divider />
     </React.Fragment>
   )
-}
-
-function handleResetSliders(thunkDelete, cb) {
-  cb()
-  return thunkDelete('all')
-}
-
-function handleSaveFile(
-  saveFile,
-  handleSaveFile,
-  pages,
-  viewSettings,
-  sliders
-) {
-  saveFile({
-    pages,
-    viewSettings,
-    sliders,
-    version
-  })
-  handleSaveFile()
-}
-
-function mapDispatchToProps(dispatch) {
-  const { togglePage, saveFile, deleteFooterPages, deleteAll } = {
-    ...MidiSliderActions,
-    ...ViewSettingsActions
+  function handleResetSliders(thunkDeletet, cb) {
+    cb()
+    return dispatch(thunkDeletet('all'))
   }
-  return {
-    togglePage: bindActionCreators(togglePage, dispatch),
-    saveFile: bindActionCreators(saveFile, dispatch),
-    deleteFooterPages: bindActionCreators(deleteFooterPages, dispatch),
-    deleteAll: bindActionCreators(deleteAll, dispatch),
-    thunkLoadFile: bindActionCreators(thunkLoadFile, dispatch),
-    thunkDelete: bindActionCreators(thunkDelete, dispatch),
-    thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
+  async function handleFileChange(content, thunkLoadFilet, cb) {
+    await thunkLoadFilet(content.content, content.presetName)
+    cb(content.content, content.presetName)
   }
 }
 
-async function handleFileChange(content, thunkLoadFile, cb) {
-  await thunkLoadFile(content.content, content.presetName)
-  cb(content.content, content.presetName)
-}
+// function mapDispatchToProps(dispatch) {
+//   const { togglePage, saveFile, deleteFooterPages, deleteAll } = {
+//     ...MidiSliderActions,
+//     ...ViewSettingsActions
+//   }
+//   return {
+//     togglePage: bindActionCreators(togglePage, dispatch),
+//     saveFile: bindActionCreators(saveFile, dispatch),
+//     deleteFooterPages: bindActionCreators(deleteFooterPages, dispatch),
+//     deleteAll: bindActionCreators(deleteAll, dispatch),
+//     thunkLoadFile: bindActionCreators(thunkLoadFile, dispatch),
+//     thunkDelete: bindActionCreators(thunkDelete, dispatch),
+//     thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
+//   }
+// }
