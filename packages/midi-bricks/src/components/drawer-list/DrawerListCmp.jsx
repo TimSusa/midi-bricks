@@ -20,10 +20,8 @@ import { ListItemSaveFileOnElectron } from './ListItemSaveFileOnElectron'
 import { ListItemLoadFileOnWeb } from './ListItemLoadFileOnWeb'
 import { PAGE_TYPES } from '../../global-state/reducers'
 import { PropTypes } from 'prop-types'
-
 import { thunkLoadFile } from '../../global-state/actions/thunks/thunk-load-file'
 import { thunkDelete } from '../../global-state/actions/thunks/thunk-delete'
-//import { thunkLiveModeToggle } from '../../global-state/actions/thunks/thunk-live-mode-toggle'
 import { Actions as MidiSliderActions } from '../../global-state/actions/slider-list'
 import { Actions as ViewSettingsActions } from '../../global-state/actions/view-settings'
 import { useSelector, useDispatch } from 'react-redux'
@@ -35,25 +33,6 @@ const { togglePage, saveFile, deleteFooterPages, deleteAll } = {
 }
 export const DrawerList = DrawerListCmp
 
-DrawerListCmp.propTypes = {
-  classes: PropTypes.object,
-  deleteAll: PropTypes.func,
-  deleteFooterPages: PropTypes.func,
-  thunkLoadFile: PropTypes.func,
-  thunkDelete: PropTypes.func,
-  handleResetSliders: PropTypes.func,
-  handleResetSlidersTmp: PropTypes.func,
-  handleSaveFile: PropTypes.func,
-  handleSaveFileTmp: PropTypes.func,
-  onClose: PropTypes.func,
-  onFileChange: PropTypes.func,
-  saveFile: PropTypes.func,
-  sliders: PropTypes.object,
-  pages: PropTypes.object,
-  togglePage: PropTypes.func,
-  viewSettings: PropTypes.object
-}
-
 function DrawerListCmp(props) {
   const dispatch = useDispatch()
   const pages = useSelector((state) => state.pages)
@@ -61,15 +40,8 @@ function DrawerListCmp(props) {
   const sliders = useSelector((state) => state.sliders)
   const {
     classes,
-    // togglePage,
-    // saveFile,
     onFileChange,
-    // deleteAll,
-    // deleteFooterPages,
-    // handleSaveFile: handleSaveFileTmp,
     handleResetSliders: handleResetSlidersTmp
-    // thunkLoadFile,
-    // thunkDelete
   } = props
 
   const [open, setOpen] = useState(false)
@@ -236,18 +208,12 @@ function DrawerListCmp(props) {
   }
 }
 
-// function mapDispatchToProps(dispatch) {
-//   const { togglePage, saveFile, deleteFooterPages, deleteAll } = {
-//     ...MidiSliderActions,
-//     ...ViewSettingsActions
-//   }
-//   return {
-//     togglePage: bindActionCreators(togglePage, dispatch),
-//     saveFile: bindActionCreators(saveFile, dispatch),
-//     deleteFooterPages: bindActionCreators(deleteFooterPages, dispatch),
-//     deleteAll: bindActionCreators(deleteAll, dispatch),
-//     thunkLoadFile: bindActionCreators(thunkLoadFile, dispatch),
-//     thunkDelete: bindActionCreators(thunkDelete, dispatch),
-//     thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
-//   }
-// }
+DrawerListCmp.propTypes = {
+  classes: PropTypes.shape({
+    drawerHeader: PropTypes.any,
+    iconColor: PropTypes.any
+  }),
+  handleResetSliders: PropTypes.any,
+  onClose: PropTypes.func,
+  onFileChange: PropTypes.any
+}

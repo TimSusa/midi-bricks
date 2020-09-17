@@ -55,7 +55,7 @@ function Home(props) {
       import('./GlobalSettingsPage.jsx')
     )
     return (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div>Loading GlobalSettingsPage...</div>}>
         <GlobalSettingsPage />
       </Suspense>
     )

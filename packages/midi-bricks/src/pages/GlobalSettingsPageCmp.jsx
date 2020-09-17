@@ -116,7 +116,9 @@ function GlobalSettingsPageComponent(props) {
                       )
                     )
                     return (
-                      <Suspense fallback={<div>Loading...</div>}>
+                      <Suspense
+                        fallback={<div>Loading MidiSettingsDialog...</div>}
+                      >
                         <MidiSettingsDialog
                           key={`glb-settings-${i}`}
                           open

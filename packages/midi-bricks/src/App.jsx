@@ -14,45 +14,46 @@ function App() {
   const [isMobileOpen, setIsMobileOpen] = useState(false)
 
   if (!isLiveMode) {
-    const MenuAppBar = React.lazy(() =>
+    var MenuAppBar = React.lazy(() =>
       import('./components/menu-app-bar/MenuAppBar.jsx')
     )
-    const Drawer = React.lazy(() =>
+    var Drawer = React.lazy(() =>
       import('./components/drawer-list/DrawerLoader.jsx')
     )
-    const DrawerList = React.lazy(() =>
+    var DrawerList = React.lazy(() =>
       import('./components/drawer-list/DrawerList.jsx')
     )
 
     return (
       <div className={classes.root}>
-        <div className={classes.appBar}>
-          <Suspense fallback={<div>Loading...</div>}>
-            <MenuAppBar
-              handleDrawerToggle={() => setIsMobileOpen(!isMobileOpen)}
-            />
-            <Drawer
-              variant='temporary'
-              anchor={'left'}
-              open={isMobileOpen}
-              classes={{
-                paper: classes.drawerPaper
-              }}
-              onClose={() => setIsMobileOpen(!isMobileOpen)}
-            >
-              <DrawerList
-                onFileChange={() => setIsMobileOpen(false)}
-                handleSaveFile={() => setIsMobileOpen(false)}
-                handleResetSliders={() => setIsMobileOpen(false)}
-                classes={classes}
-                onClose={() => setIsMobileOpen(!isMobileOpen)}
+        {!isLiveMode && (
+          <div className={classes.appBar}>
+            <Suspense fallback={<div>Loading Menu...</div>}>
+              <MenuAppBar
+                handleDrawerToggle={() => setIsMobileOpen(!isMobileOpen)}
               />
-            </Drawer>
-          </Suspense>
-          <Home />
-
-          <Footer />
-        </div>
+              <Drawer
+                variant='temporary'
+                anchor={'left'}
+                open={isMobileOpen}
+                classes={{
+                  paper: classes.drawerPaper
+                }}
+                onClose={() => setIsMobileOpen(!isMobileOpen)}
+              >
+                <DrawerList
+                  onFileChange={() => setIsMobileOpen(false)}
+                  handleSaveFile={() => setIsMobileOpen(false)}
+                  handleResetSliders={() => setIsMobileOpen(false)}
+                  classes={classes}
+                  onClose={() => setIsMobileOpen(!isMobileOpen)}
+                />
+              </Drawer>
+            </Suspense>
+            <Home />
+            <Footer />
+          </div>
+        )}
       </div>
     )
   } else {

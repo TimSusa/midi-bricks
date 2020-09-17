@@ -41,7 +41,7 @@ function ApplicationSettingsDialog(props) {
       </DialogTitle>
       <DialogContent>
         {isOpen && (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div>Loading Application Settings...</div>}>
             <ApplicationSettings />
           </Suspense>
         )}
