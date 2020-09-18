@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Button } from '@material-ui/core'
 import { PropTypes } from 'prop-types'
+import { thunkChangePage } from '../../global-state/actions/thunks/thunk-change-page'
 
 FooterButton.propTypes = {
   actions: PropTypes.object,
@@ -22,9 +23,9 @@ export function FooterButton(props) {
       colors: { color, colorFont }
     },
     lastFocusedPage,
-    isSettingsMode,
+    isSettingsMode
     //actions,
-    thunkChangePage
+    // thunkChangePage
   } = props
 
   return (

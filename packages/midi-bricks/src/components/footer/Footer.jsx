@@ -57,7 +57,7 @@ function Footer(props) {
     pageType
   } = useSelector((state) => state.viewSettings)
 
-  const { thunkChangePage, thunkLiveModeToggle } = props
+  const { thunkLiveModeToggle } = props
 
   // const {
   //   swapFooterPages,
@@ -94,7 +94,7 @@ function Footer(props) {
                 lastFocusedPage={lastFocusedPage}
                 item={item}
                 isSettingsMode={isSettingsMode}
-                thunkChangePage={thunkChangePage}
+                //thunkChangePage={thunkChangePage}
               />
 
               <IconButton
@@ -160,7 +160,7 @@ function Footer(props) {
             lastFocusedPage={lastFocusedPage}
             item={item}
             isSettingsMode={isSettingsMode}
-            thunkChangePage={thunkChangePage}
+            // thunkChangePage={thunkChangePage}
           />
         )
       })}
