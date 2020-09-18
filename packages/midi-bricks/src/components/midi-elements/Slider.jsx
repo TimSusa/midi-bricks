@@ -117,7 +117,7 @@ function MidiSlider(props) {
           : onLostCapture.bind(this, isActivated, setIsActivated)
       }
       style={{
-        height: !isHorz ? height + sliderThumbHeight : height,
+        height: height,
         width: isHorz ? width + sliderThumbHeight : width,
         borderRadius: 3,
         background: color ? color : 'aliceblue',
