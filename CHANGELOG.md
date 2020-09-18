@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.39-alpha.5](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.4...v1.3.39-alpha.5) (2020-09-18)
+
+
+### Features
+
+* Add tooltip warning to input of globalMidiInputDelay ([9d95dd2](https://github.com/TimSusa/midi-bricks-mono/commit/9d95dd2ef70cc0d6a3d11401f93a926dc1d3f4b1))
+* Have global settings dynamically available ([5ffb3b5](https://github.com/TimSusa/midi-bricks-mono/commit/5ffb3b588c8fb82a60a5f43bb3d2c3da0277b9d3))
+
+
+### Bug Fixes
+
+* Input of global midi input ([94108e8](https://github.com/TimSusa/midi-bricks-mono/commit/94108e84d54f666d4ff35532466d5e1a8c9c6828))
+
 ### [1.3.39-alpha.4](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.3...v1.3.39-alpha.4) (2020-09-16)
 
 
