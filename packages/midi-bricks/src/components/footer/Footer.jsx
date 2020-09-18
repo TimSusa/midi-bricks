@@ -6,21 +6,26 @@ import { makeStyles, useTheme } from '@material-ui/styles'
 import IconButton from '@material-ui/core/IconButton'
 import LeftIcon from '@material-ui/icons/KeyboardArrowLeft'
 import RightIcon from '@material-ui/icons/KeyboardArrowRight'
-import { thunkChangePage } from '../../global-state/actions/thunks/thunk-change-page'
-import { connect, useSelector } from 'react-redux'
-import { bindActionCreators } from 'redux'
+//import { thunkChangePage } from '../../global-state/actions/thunks/thunk-change-page'
+import { useSelector, useDispatch } from 'react-redux'
 import { Actions as ViewSettinsgsAction } from '../../global-state/actions/view-settings'
 import { Actions as SliderSettinsgsAction } from '../../global-state/actions/slider-list'
-import { thunkLiveModeToggle } from '../../global-state/actions/thunks/thunk-live-mode-toggle'
+// import { thunkLiveModeToggle } from '../../global-state/actions/thunks/thunk-live-mode-toggle'
 import { Button, Tooltip } from '@material-ui/core'
 import { PAGE_TYPES } from '../../global-state/reducers'
 
 const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
 
-export default connect(null, mapDispatchToProps)(Footer)
+const {
+  swapFooterPages,
+  setLastFocusedIndex,
+  toggleSettingsDialogMode,
+  setLastFocusedPage
+} = { ...ViewSettinsgsAction, ...SliderSettinsgsAction }
+
+export default Footer
 
 Footer.propTypes = {
-  actions: PropTypes.object,
   footerPages: PropTypes.array,
   isFullscreenOnLivemode: PropTypes.bool,
   isLiveMode: PropTypes.bool,
@@ -35,10 +40,11 @@ Footer.propTypes = {
 }
 
 function Footer(props) {
+  const dispatch = useDispatch()
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
   const {
-    footerPages,
+    //footerPages,
     pageTargets,
     lastFocusedPage,
 
@@ -50,7 +56,15 @@ function Footer(props) {
     isLiveMode,
     pageType
   } = useSelector((state) => state.viewSettings)
-  const { actions, thunkChangePage, thunkLiveModeToggle } = props
+
+  const { thunkChangePage, thunkLiveModeToggle } = props
+
+  // const {
+  //   swapFooterPages,
+  //   setLastFocusedIndex,
+  //   toggleSettingsDialogMode,
+  //   setLastFocusedPage
+  // } = actions
   const isOpen = isSettingsDialogMode && lastFocusedIdx === lastFocusedPage
   if (isOpen) {
     var MidiSettingsDialog = React.lazy(() =>
@@ -64,7 +78,7 @@ function Footer(props) {
           return (
             <div key={`footer-button-${item.id}`}>
               <IconButton
-                onClick={actions.swapFooterPages.bind(this, {
+                onClick={swapFooterPages.bind(this, {
                   srcIdx: item.id,
                   offset: -1
                 })}
@@ -80,12 +94,11 @@ function Footer(props) {
                 lastFocusedPage={lastFocusedPage}
                 item={item}
                 isSettingsMode={isSettingsMode}
-                actions={actions}
                 thunkChangePage={thunkChangePage}
               />
 
               <IconButton
-                onClick={actions.swapFooterPages.bind(this, {
+                onClick={swapFooterPages.bind(this, {
                   srcIdx: item.id,
                   offset: 1
                 })}
@@ -100,15 +113,17 @@ function Footer(props) {
                   <MidiSettingsDialog
                     open={isOpen}
                     onClose={() => {
-                      actions.setLastFocusedIndex({ i: '' })
-                      actions.toggleSettingsDialogMode({
-                        i: '',
-                        isSettingsDialogMode: false,
-                        lastFocusedPage
-                      })
+                      dispatch(setLastFocusedIndex({ i: '' }))
+                      dispatch(
+                        toggleSettingsDialogMode({
+                          i: '',
+                          isSettingsDialogMode: false,
+                          lastFocusedPage
+                        })
+                      )
                     }}
                     sliderEntry={pageTargets.find(
-                      (item) => item.id === lastFocusedPage
+                      (itemt) => itemt.id === lastFocusedPage
                     )}
                     iconColor={classes.iconColor}
                   />
@@ -122,8 +137,8 @@ function Footer(props) {
                   isSettingsDialogMode && lastFocusedIdx === lastFocusedPage
                 }
                 onClose={() => {
-                  actions.setLastFocusedIndex({ i: '' })
-                  actions.toggleSettingsDialogMode({
+                  setLastFocusedIndex({ i: '' })
+                  toggleSettingsDialogMode({
                     i: '',
                     isSettingsDialogMode: false,
                     lastFocusedPage
@@ -145,7 +160,6 @@ function Footer(props) {
             lastFocusedPage={lastFocusedPage}
             item={item}
             isSettingsMode={isSettingsMode}
-            actions={actions}
             thunkChangePage={thunkChangePage}
           />
         )
@@ -157,15 +171,7 @@ function Footer(props) {
             style={{
               boxShadow: isLiveMode && '0 0 3px 3px rgb(24, 164, 157)'
             }}
-            onClick={handleLiveButtonClick.bind(
-              this,
-              isLiveMode,
-              lastFocusedPage,
-              actions,
-              thunkLiveModeToggle,
-              footerPages,
-              isFullscreenOnLivemode
-            )}
+            onClick={handleLiveButtonClick}
           >
             Live
           </Button>
@@ -173,24 +179,16 @@ function Footer(props) {
       )}
     </div>
   )
-}
-
-function handleLiveButtonClick(
-  isLiveMode,
-  lastFocusedPage,
-  actions,
-  thunkLiveModeToggle,
-  footerPages,
-  isFullscreenOnLivemode
-) {
-  // TODO: Seems to make no sense at all, get rid of it
-  if (isLiveMode) {
-    isWebMode && isFullscreenOnLivemode && document.exitFullscreen()
-  } else {
-    isWebMode && isFullscreenOnLivemode && document.body.requestFullscreen()
+  async function handleLiveButtonClick() {
+    // TODO: Seems to make no sense at all, get rid of it
+    if (isLiveMode) {
+      isWebMode && isFullscreenOnLivemode && document.exitFullscreen()
+    } else {
+      isWebMode && isFullscreenOnLivemode && document.body.requestFullscreen()
+    }
+    dispatch(setLastFocusedPage({ lastFocusedPage }))
+    await dispatch(thunkLiveModeToggle())
   }
-  actions.setLastFocusedPage({ lastFocusedPage })
-  thunkLiveModeToggle()
 }
 
 function styles(theme) {
@@ -230,16 +228,5 @@ function styles(theme) {
       color: theme.palette.primary.contrastText,
       cursor: 'pointer'
     }
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(
-      { ...ViewSettinsgsAction, ...SliderSettinsgsAction },
-      dispatch
-    ),
-    thunkChangePage: bindActionCreators(thunkChangePage, dispatch),
-    thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
   }
 }

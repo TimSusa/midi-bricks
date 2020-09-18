@@ -1,4 +1,5 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { Button } from '@material-ui/core'
 import { PropTypes } from 'prop-types'
 
@@ -12,6 +13,7 @@ FooterButton.propTypes = {
 }
 
 export function FooterButton(props) {
+  const dispatch = useDispatch()
   const {
     classes,
     item: {
@@ -21,8 +23,8 @@ export function FooterButton(props) {
     },
     lastFocusedPage,
     isSettingsMode,
-    actions,
-    thunkChangePage 
+    //actions,
+    thunkChangePage
   } = props
 
   return (
@@ -33,37 +35,24 @@ export function FooterButton(props) {
         background: color,
         color: colorFont
       }}
-      onClick={
-        isSettingsMode
-          ? handleSettingsClick.bind(this, {
-            id,
-            actions,
-            thunkChangePage,
-            lastFocusedPage
-          })
-          : handleClick.bind(this, {
-            id,
-            actions,
-            thunkChangePage,
-            lastFocusedPage
-          })
-      }
+      onClick={isSettingsMode ? handleSettingsClick : handleClick}
       value={id}
     >
-      {label && label}
+      {label || ''}
     </Button>
   )
-}
+  function handleSettingsClick() {
+    dispatch(thunkChangePage(lastFocusedPage, id))
+    // dispatch(
+    //   toggleSettingsDialogMode({
+    //     i: id,
+    //     isSettingsDialogMode: true,
+    //     lastFocusedPage: id
+    //   })
+    // )
+  }
 
-function handleSettingsClick({ id, actions, thunkChangePage,  lastFocusedPage }) {
-  thunkChangePage(lastFocusedPage, id)
-  actions.toggleSettingsDialogMode({
-    i: id,
-    isSettingsDialogMode: true,
-    lastFocusedPage: id
-  })
-}
-
-function handleClick({ id, actions, thunkChangePage,  lastFocusedPage }) {
-  thunkChangePage(lastFocusedPage, id)
+  function handleClick() {
+    dispatch(thunkChangePage(lastFocusedPage, id))
+  }
 }
