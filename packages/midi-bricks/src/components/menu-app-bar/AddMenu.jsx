@@ -18,8 +18,7 @@ const {
   SLIDER,
   SLIDER_HORZ,
   LABEL,
-  PAGE,
-  XYPAD
+  PAGE
 } = STRIP_TYPE
 
 export default connect(null, mapDispatchToProps)(AddMenu)
@@ -91,9 +90,6 @@ function AddMenu(props) {
         <MenuItem onClick={handleAddLabel.bind(this, setAnchorEl, props)}>
           Add Label
         </MenuItem>
-        <MenuItem onClick={handleAddXyPad.bind(this, setAnchorEl, props)}>
-          Add X/Y Pad
-        </MenuItem>
       </Menu>
     </React.Fragment>
   )
@@ -103,7 +99,7 @@ function handleMenu(setAnchorEl, event) {
   setAnchorEl(event.currentTarget)
 }
 
-function handleClose(setAnchorEl, event) {
+function handleClose(setAnchorEl) {
   setAnchorEl(null)
 }
 
@@ -124,11 +120,6 @@ async function handleAddSliderHorz(setAnchorEl, { addElement }) {
 
 async function handleAddLabel(setAnchorEl, { addElement }) {
   await addElement(LABEL)
-  handleClose(setAnchorEl)
-}
-
-async function handleAddXyPad(setAnchorEl, { addElement }) {
-  await addElement(XYPAD)
   handleClose(setAnchorEl)
 }
 
