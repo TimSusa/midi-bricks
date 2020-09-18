@@ -1,6 +1,5 @@
 import React from 'react'
-import { connect, useSelector } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Actions as MidiSliderActions } from '../../../global-state/actions/slider-list.js'
 import MidiButton from './MidiButton'
 
@@ -17,8 +16,12 @@ const {
 
 const noop = () => ''
 
+const { toggleNote, handleSliderChange, sendProgramChange } = {
+  ...MidiSliderActions
+}
 // This component is supposed to configure the button type for rendering
 function MidiButtons(props) {
+  const dispatch = useDispatch()
   const { idx, height, width, isDisabled } = props
   const { isChangedTheme, isLayoutMode, lastFocusedPage } = useSelector(
     (state) => state.viewSettings
@@ -91,76 +94,59 @@ function MidiButtons(props) {
   }
 
   function handleButtonToggle() {
-    const {
-      actions
-      // sliderEntry: { i },
-      // lastFocusedPage
-    } = props
-    actions.toggleNote({ i, lastFocusedPage })
+    dispatch(toggleNote({ i, lastFocusedPage }))
   }
 
   function handleButtonCcTriggerOn(e) {
     e.preventDefault()
     e.stopPropagation()
-    const {
-      actions
-      // sliderEntry: { i, onVal },
-      //lastFocusedPage
-    } = props
-    actions.handleSliderChange({
-      i,
-      lastFocusedPage,
-      val: onVal
-    })
+    dispatch(
+      handleSliderChange({
+        i,
+        lastFocusedPage,
+        val: onVal
+      })
+    )
   }
 
   function handleButtonCcTriggerOff(e) {
     e.preventDefault()
     e.stopPropagation()
-    const {
-      actions
-      // sliderEntry: { i, offVal },
-      // lastFocusedPage
-    } = props
-    actions.handleSliderChange({
-      i,
-      lastFocusedPage,
-      val: offVal
-    })
+    dispatch(
+      handleSliderChange({
+        i,
+        lastFocusedPage,
+        val: offVal
+      })
+    )
   }
 
   function handleButtonCcToggle(e) {
     e.preventDefault()
     e.stopPropagation()
-    const {
-      actions
-      // sliderEntry: { i, isNoteOn, onVal, offVal },
-      // lastFocusedPage
-    } = props
     if (!isNoteOn) {
-      actions.handleSliderChange({
-        i,
-        lastFocusedPage,
-        val: onVal
-      })
+      dispatch(
+        handleSliderChange({
+          i,
+          lastFocusedPage,
+          val: onVal
+        })
+      )
     } else {
-      actions.handleSliderChange({
-        i,
-        lastFocusedPage,
-        val: offVal
-      })
+      dispatch(
+        handleSliderChange({
+          i,
+          lastFocusedPage,
+          val: offVal
+        })
+      )
     }
   }
 
   function handleButtonProgramChange(e) {
     e.preventDefault()
     e.stopPropagation()
-    const {
-      actions
-      // sliderEntry: { i },
-      // lastFocusedPage
-    } = props
-    actions.sendProgramChange({ i, lastFocusedPage })
+    dispatch(sendProgramChange({ i, lastFocusedPage }))
   }
 }
 
@@ -214,10 +200,4 @@ function getStyles(
   return { fontColorStyle, buttonStyle }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(MidiSliderActions, dispatch)
-  }
-}
-
-export default connect(null, mapDispatchToProps)(MidiButtons)
+export default MidiButtons

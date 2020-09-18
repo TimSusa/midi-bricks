@@ -26,7 +26,7 @@ function App() {
 
     return (
       <div className={classes.root}>
-        {!isLiveMode && (
+        {isLiveMode === false && (
           <div className={classes.appBar}>
             <Suspense fallback={<div>Loading Menu...</div>}>
               <MenuAppBar
