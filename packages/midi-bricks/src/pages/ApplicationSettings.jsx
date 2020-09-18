@@ -65,7 +65,7 @@ function ApplicationSettings(props) {
     <React.Fragment>
       <FormControlLabel
         control={
-          <Tooltip title='Please chose this value carefully, because it will highly depend on your cpu power.'>
+          <Tooltip title='Please note: If you experience with performance issues, after changing this value, please consider to save your changes to the preset and reload it, afterwards!'>
             <Input
               onChange={(e) => {
                 e.preventDefault()
