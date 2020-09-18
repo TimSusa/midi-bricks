@@ -24,7 +24,7 @@ export function LabelComponent(props) {
     isValueHidden,
     lastSavedVal
   } = sliderEntry
-  if (isValueHidden) return <div></div>
+  if (isValueHidden && isLabelShown === false) return <div></div>
   return (
     <div
       onClick={() =>
