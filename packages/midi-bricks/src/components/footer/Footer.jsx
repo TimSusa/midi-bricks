@@ -71,7 +71,6 @@ function Footer() {
       import('../midi-settings-dialog/MidiSettingsDialog')
     )
   }
-  console.log('sfa ', isOpen)
   return (
     <div className={classes.root}>
       {pageTargets.map((item) => {
