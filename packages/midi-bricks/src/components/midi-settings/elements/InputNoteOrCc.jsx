@@ -3,9 +3,8 @@ import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import { connect, useSelector } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { Actions as MidiSliderActions } from '../../../global-state/actions/slider-list.js'
+import { useDispatch, useSelector } from 'react-redux'
+import { Actions } from '../../../global-state/actions/slider-list.js'
 import { STRIP_TYPE } from '../../../global-state/reducers/slider-list.js'
 import MidiSuggestedInput from './MidiSuggestedInput'
 import { fromMidi } from '../../../utils/fromMidi'
@@ -21,18 +20,13 @@ InputNoteOrCc.propTypes = {
   yMidiCc: PropTypes.array
 }
 
+const { selectCc } = Actions
 function InputNoteOrCc(props) {
+  const dispatch = useDispatch()
   const { lastFocusedPage } = useSelector((state) => state.viewSettings)
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
-  const {
-    midiCC,
-    yMidiCc,
-    type,
-    i,
-    // lastFocusedPage,
-    actions: { selectCc = () => {} }
-  } = props
+  const { midiCC, type, i } = props
   const isCcInput = [
     STRIP_TYPE.SLIDER,
     STRIP_TYPE.SLIDER_HORZ,
@@ -55,22 +49,7 @@ function InputNoteOrCc(props) {
           startVal={midiCC || []}
           i={i}
           lastFocusedPage={lastFocusedPage}
-          handleChange={selectCc}
-        />
-      </FormControl>
-    )
-  } else if (type === STRIP_TYPE.XYPAD) {
-    return (
-      <FormControl className={classes.formControl}>
-        <InputLabel className={classes.label} htmlFor='cc'>
-          CC
-        </InputLabel>
-        <MidiSuggestedInput
-          suggestions={suggestionsMidiCc()}
-          startVal={yMidiCc || []}
-          i={i}
-          lastFocusedPage={lastFocusedPage}
-          handleChange={selectCcY.bind(this, props)}
+          handleChange={(e) => dispatch(selectCc(e))}
         />
       </FormControl>
     )
@@ -86,12 +65,7 @@ function InputNoteOrCc(props) {
           type='number'
           name={`input-prgChange-name-${i}`}
           value={midiCC[0] || 0}
-          onChange={handleProgramChange.bind(
-            this,
-            i,
-            lastFocusedPage,
-            selectCc
-          )}
+          onChange={handleProgramChange}
         />
       </FormControl>
     )
@@ -113,14 +87,15 @@ function InputNoteOrCc(props) {
       </FormControl>
     )
   }
-}
-
-function handleProgramChange(i, lastFocusedPage, selectCc, e) {
-  selectCc({
-    i,
-    val: [parseInt(e.target.value, 10)],
-    lastFocusedPage
-  })
+  function handleProgramChange(e) {
+    dispatch(
+      selectCc({
+        i,
+        val: [parseInt(e.target.value, 10)],
+        lastFocusedPage
+      })
+    )
+  }
 }
 
 function suggestionsMidiNote() {
@@ -152,17 +127,4 @@ function styles(theme) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(MidiSliderActions, dispatch)
-  }
-}
-
-export default connect(null, mapDispatchToProps)(InputNoteOrCc)
-
-function selectCcY({ i, actions }, e) {
-  actions.changeXypadSettings({
-    i,
-    yMidiCc: e.val
-  })
-}
+export default InputNoteOrCc
