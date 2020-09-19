@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import { connect, useSelector } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ViewSettingsAction } from '../../global-state/actions/view-settings'
 import { Actions as MidiSlidersAction } from '../../global-state/actions/slider-list.js'
 
@@ -31,9 +30,28 @@ import AddMenu from './AddMenu'
 import { PAGE_TYPES } from '../../global-state/reducers'
 import { ToolTipIconButton } from '../ToolTipIconButton'
 
-export const MenuAppBar = connect(null, mapDispatchToProps)(MenuAppBarCmp)
+const {
+  toggleCompactMode,
+  toggleAutoArrangeMode,
+  //resetValues,
+  triggerAllMidiElements,
+  toggleSettingsMode,
+  delete: deleteSmth,
+  toggleLayoutMode,
+  toggleMidiLearnMode,
+  //goBack,
+  selectMidiDriver,
+  selectMidiChannel,
+  selectCc,
+  selectMidiDriverInput,
+  //selectMidiChannelInput,
+  addMidiCcListener
+} = { ...ViewSettingsAction, ...MidiSlidersAction }
+
+export const MenuAppBar = MenuAppBarCmp
 
 function MenuAppBarCmp(props) {
+  const dispatch = useDispatch()
   const theme = useTheme()
   const {
     pageType,
@@ -50,7 +68,6 @@ function MenuAppBarCmp(props) {
 
   const { presetName, monitorVal } = useSelector((state) => state.sliders)
   const classes = makeStyles(styles.bind(this, theme))()
-  const { actions = {}, thunkCopyToNextPage, thunkUndoRedo } = props
 
   if (isLiveMode) {
     return <div />
@@ -87,14 +104,14 @@ function MenuAppBarCmp(props) {
           )}
           {isLayoutMode && (
             <ToolTipIconButton
-              handleClick={() => actions.toggleCompactMode()}
+              handleClick={() => dispatch(toggleCompactMode())}
               title={isCompactHorz ? 'Gravity horizontal' : 'Gravity vertical'}
               icon={isCompactHorz ? <SwapHorizIcon /> : <SwapVertIcon />}
             />
           )}
           {isLayoutMode && (
             <ToolTipIconButton
-              handleClick={() => actions.toggleAutoArrangeMode()}
+              handleClick={() => dispatch(toggleAutoArrangeMode())}
               title={isAutoArrangeMode ? 'Automatic Gravity' : 'Static Gravity'}
               icon={
                 isAutoArrangeMode ? (
@@ -116,14 +133,14 @@ function MenuAppBarCmp(props) {
               {/* <Button
                 className={classes.resetButton}
                 variant='contained'
-                onClick={(e) => actions.resetValues()}
+                onClick={(e) => dispatch(resetValues()}
               >
                 Reset To Saved Values
               </Button> */}
               <Button
                 className={classes.resetButton}
                 variant='contained'
-                onClick={() => actions.triggerAllMidiElements()}
+                onClick={() => dispatch(triggerAllMidiElements())}
               >
                 Trigger All MIDI
               </Button>
@@ -136,7 +153,7 @@ function MenuAppBarCmp(props) {
               <Button
                 className={classes.resetButton}
                 variant='contained'
-                onClick={async () => await props.initApp()}
+                onClick={async () => await dispatch(initApp())}
               >
                 Detect Driver
               </Button>
@@ -164,7 +181,7 @@ function MenuAppBarCmp(props) {
                 {!isMidiLearnMode && (
                   <>
                     <ToolTipIconButton
-                      handleClick={() => actions.toggleSettingsMode()}
+                      handleClick={() => dispatch(toggleSettingsMode())}
                       title={'Switch to Settings Mode.'}
                       icon={<ViewSettingsIcon />}
                     />
@@ -173,7 +190,7 @@ function MenuAppBarCmp(props) {
                       lastFocusedIdxs.length > 0 && (
                         <>
                           <ToolTipIconButton
-                            handleClick={() => thunkCopyToNextPage()}
+                            handleClick={() => dispatch(thunkCopyToNextPage())}
                             title={'Copy to last page.'}
                             icon={<CopyIcon />}
                           />
@@ -181,7 +198,7 @@ function MenuAppBarCmp(props) {
                           <ToolTipIconButton
                             handleClick={() => {
                               lastFocusedIdxs.forEach((id) => {
-                                actions.delete({ i: id, lastFocusedPage })
+                                dispatch(deleteSmth({ i: id, lastFocusedPage }))
                               })
                             }}
                             title={'Delete.'}
@@ -193,24 +210,13 @@ function MenuAppBarCmp(props) {
                 )}
                 {!isMidiLearnMode && (
                   <ToolTipIconButton
-                    handleClick={() => actions.toggleLayoutMode()}
+                    handleClick={() => dispatch(toggleLayoutMode())}
                     title={'Switch to Layout Mode.'}
                     icon={<LayoutIcon />}
                   />
                 )}
                 <ToolTipIconButton
-                  handleClick={toggleMidiLearnMode.bind(
-                    this,
-                    actions.toggleMidiLearnMode,
-                    null,
-                    isMidiLearnMode,
-                    null,
-                    initApp,
-                    actions,
-                    monitorVal,
-                    lastFocusedIdx,
-                    lastFocusedPage
-                  )}
+                  handleClick={toggleMidiLearn}
                   title={
                     isMidiLearnMode
                       ? 'Chose assigned element and finalize MIDI-Learn Mode.'
@@ -221,17 +227,7 @@ function MenuAppBarCmp(props) {
 
                 {isMidiLearnMode && (
                   <ToolTipIconButton
-                    handleClick={cancelMidiLeanMode.bind(
-                      this,
-                      actions.toggleMidiLearnMode,
-                      null,
-                      isMidiLearnMode,
-                      null,
-                      initApp,
-                      actions,
-                      monitorVal,
-                      lastFocusedIdx
-                    )}
+                    handleClick={cancelMidiLeanMode}
                     title={'Cancel MIDI Learn mode. Throw away changes.'}
                     icon={<CancelIcon />}
                   />
@@ -241,7 +237,7 @@ function MenuAppBarCmp(props) {
           {isLayoutMode && (
             <ToolTipIconButton
               handleClick={() =>
-                actions.toggleLayoutMode({ isLayoutMode: false })
+                dispatch(toggleLayoutMode({ isLayoutMode: false }))
               }
               title={'Commit changes and exit layout-mode.'}
               icon={<CheckIcon />}
@@ -250,8 +246,7 @@ function MenuAppBarCmp(props) {
           {isLayoutMode && (
             <ToolTipIconButton
               handleClick={() => {
-                //actions.goBack()
-                actions.toggleLayoutMode({ isLayoutMode: false })
+                dispatch(toggleLayoutMode({ isLayoutMode: false }))
               }}
               title={'Throw away changes and go back.'}
               icon={<CancelIcon />}
@@ -261,19 +256,11 @@ function MenuAppBarCmp(props) {
             <>
               {isLayoutMode && (
                 <ToolTipIconButton
-                  // isDisabled={past.length < 1}
-                  handleClick={() => thunkUndoRedo({ offset: -1 })}
+                  handleClick={() => dispatch(thunkUndoRedo({ offset: -1 }))}
                   title='Undo'
                   icon={<UndoIcon />}
                 />
               )}
-
-              {/* <ToolTipIconButton
-                isDisabled={future.length < 1}
-                handleClick={async () =>  await thunkUndoRedo({offset: 1})}
-                title={`Redo´s left ${future.length}`}
-                icon={<RedoIcon disabled />}
-              /> */}
             </>
           }
         </Toolbar>
@@ -285,14 +272,68 @@ function MenuAppBarCmp(props) {
       />
     </div>
   )
+  async function cancelMidiLeanMode() {
+    await dispatch(initApp())
+    dispatch(toggleMidiLearnMode({ isMidiLearnMode: !isMidiLearnMode }))
+  }
+  async function toggleMidiLearn() {
+    if (isMidiLearnMode) {
+      if (!monitorVal) return
+      dispatch(
+        selectMidiDriver({
+          driverName: monitorVal.driver,
+          i: lastFocusedIdx,
+          lastFocusedPage
+        })
+      )
+
+      dispatch(
+        selectMidiChannel({
+          val: `${monitorVal.channel}`,
+          i: lastFocusedIdx,
+          lastFocusedPage
+        })
+      )
+      dispatch(
+        selectCc({
+          val: [`${monitorVal.cC}`],
+          i: lastFocusedIdx,
+          lastFocusedPage
+        })
+      )
+      dispatch(
+        selectMidiDriverInput({
+          driverNameInput: monitorVal.driver,
+          i: lastFocusedIdx,
+          lastFocusedPage
+        })
+      )
+      // dispatch(selectMidiChannelInput({
+      //   val: `${monitorVal.channel}`,
+      //   i: lastFocusedIdx,
+      //   lastFocusedPage
+      // })
+
+      dispatch(
+        addMidiCcListener({
+          val: [`${monitorVal.cC}`],
+          i: lastFocusedIdx,
+          lastFocusedPage
+        })
+      )
+
+      await initApp()
+      //handleClose(setAncEl)
+    } else {
+      await initApp('all')
+      //handleClose(setAncEl)
+    }
+    dispatch(toggleMidiLearnMode({ isMidiLearnMode: !isMidiLearnMode }))
+  }
 }
 
 MenuAppBarCmp.propTypes = {
-  actions: PropTypes.object,
-  handleDrawerToggle: PropTypes.any,
-  initApp: PropTypes.func,
-  thunkCopyToNextPage: PropTypes.func,
-  thunkUndoRedo: PropTypes.func
+  handleDrawerToggle: PropTypes.any
 }
 
 function styles(theme) {
@@ -325,84 +366,5 @@ function styles(theme) {
       overflow: 'hidden',
       color: theme.palette.primary.contrastText
     }
-  }
-}
-
-async function toggleMidiLearnMode(
-  toggleMidiLearn,
-  setAncEl,
-  isMidiLearn,
-  initMidiLearn,
-  initApp,
-  actions,
-  monitorVal,
-  lastFocusedIdx,
-  lastFocusedPage
-) {
-  if (isMidiLearn) {
-    if (!monitorVal) return
-    actions.selectMidiDriver({
-      driverName: monitorVal.driver,
-      i: lastFocusedIdx,
-      lastFocusedPage
-    })
-
-    actions.selectMidiChannel({
-      val: `${monitorVal.channel}`,
-      i: lastFocusedIdx,
-      lastFocusedPage
-    })
-    actions.selectCc({
-      val: [`${monitorVal.cC}`],
-      i: lastFocusedIdx,
-      lastFocusedPage
-    })
-    actions.selectMidiDriverInput({
-      driverNameInput: monitorVal.driver,
-      i: lastFocusedIdx,
-      lastFocusedPage
-    })
-    // actions.selectMidiChannelInput({
-    //   val: `${monitorVal.channel}`,
-    //   i: lastFocusedIdx,
-    //   lastFocusedPage
-    // })
-
-    actions.addMidiCcListener({
-      val: [`${monitorVal.cC}`],
-      i: lastFocusedIdx,
-      lastFocusedPage
-    })
-
-    await initApp()
-    //handleClose(setAncEl)
-  } else {
-    await initApp('all')
-    //handleClose(setAncEl)
-  }
-  toggleMidiLearn({ isMidiLearnMode: !isMidiLearn })
-}
-
-async function cancelMidiLeanMode(
-  toggleMidiLearn,
-  setAncEl,
-  isMidiLearn,
-  initMidiLearn,
-  initApp
-) {
-  await initApp('all')
-
-  toggleMidiLearn({ isMidiLearnMode: !isMidiLearn })
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(
-      { ...MidiSlidersAction, ...ViewSettingsAction },
-      dispatch
-    ),
-    initApp: bindActionCreators(initApp, dispatch),
-    thunkUndoRedo: bindActionCreators(thunkUndoRedo, dispatch),
-    thunkCopyToNextPage: bindActionCreators(thunkCopyToNextPage, dispatch)
   }
 }
