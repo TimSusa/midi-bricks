@@ -18,7 +18,7 @@ function MidiSlider(props) {
   let send = useRef(null)
   const { idx, isHorz, height, sliderThumbHeight, width, isDisabled } = props
 
-  const { i, val, maxVal: tmpMax, minVal: tmpMin, colors } = useSelector(
+  const { i, val, maxVal, minVal, colors } = useSelector(
     (state) => state.sliders.sliderList[idx] || {}
   )
   const { color, colorActive } = colors || {}
@@ -37,10 +37,7 @@ function MidiSlider(props) {
       )
     }
   }, [dispatch, i, lastFocusedPage])
-
-  const maxVal = isHorz ? tmpMin : tmpMax
-  const minVal = isHorz ? tmpMax : tmpMin
-  const hOrW = isHorz ? width : height
+  const length = isHorz ? width : height
   return (
     <div
       onContextMenu={(e) => {
@@ -49,65 +46,10 @@ function MidiSlider(props) {
         return false
       }}
       ref={selfRef}
-      onPointerDown={
-        isDisabled
-          ? noop
-          : handlePointerStart.bind(
-              this,
-              selfRef,
-              isHorz,
-              setIsActivated,
-              onPointerMove,
-              isDragging,
-              parentOffset,
-              handlePointerMove,
-              send,
-              sliderThumbHeight,
-              hOrW,
-              maxVal,
-              minVal,
-              props
-            )
-      }
+      onPointerDown={isDisabled ? noop : handlePointerStart}
       onPointerMove={isDisabled ? noop : onPointerMove.current}
-      onPointerUp={
-        isDisabled
-          ? noop
-          : handlePointerEnd.bind(
-              this,
-              onPointerMove,
-              selfRef,
-              isHorz,
-              hOrW,
-              maxVal,
-              minVal,
-              parentOffset,
-              sliderThumbHeight,
-              send,
-              props,
-              setIsActivated,
-              isDragging
-            )
-      }
-      onPointerCancel={
-        isDisabled
-          ? noop
-          : handlePointerEnd.bind(
-              this,
-              onPointerMove,
-              selfRef,
-              isHorz,
-              hOrW,
-              maxVal,
-              minVal,
-              parentOffset,
-              sliderThumbHeight,
-              send,
-              props,
-              setIsActivated,
-              isDragging
-            )
-      }
+      onPointerUp={isDisabled ? noop : handlePointerEnd}
+      onPointerCancel={isDisabled ? noop : handlePointerEnd}
       onGotPointerCapture={
         isDisabled ? noop : onGotCapture.bind(this, isActivated, setIsActivated)
       }
@@ -124,50 +66,14 @@ function MidiSlider(props) {
         boxShadow: isActivated && '0 0 3px 3px rgb(24, 164, 157)'
       }}
     >
-      <div
-        style={getSliderThumbStyle(
-          valToPixel(hOrW, val, maxVal, minVal),
-          isHorz,
-          sliderThumbHeight,
-          colorActive,
-          isActivated
-        )}
-      />
+      <div style={getSliderThumbStyle(valToPixel(length, val))} />
     </div>
   )
 
-  function handlePointerStart(
-    selfRef,
-    isHorz,
-    setIsActivated,
-    onPointerMove,
-    isDragging,
-    parentOffset,
-    handlePointerMove,
-    send,
-    sliderThumbHeight,
-    hOrW,
-    maxVal,
-    minVal,
-    props,
-    e
-  ) {
+  function handlePointerStart(e) {
     selfRef.current.focus()
     setIsActivated(true)
-    onPointerMove.current =
-      onPointerMove &&
-      handlePointerMove.bind(
-        this,
-        isDragging,
-        isHorz,
-        hOrW,
-        maxVal,
-        minVal,
-        parentOffset,
-        sliderThumbHeight,
-        send,
-        props
-      )
+    onPointerMove.current = onPointerMove && handlePointerMove
     isDragging.current = true
     selfRef.current.setPointerCapture(e.pointerId)
 
@@ -175,130 +81,79 @@ function MidiSlider(props) {
     const { left, top } = selfRef.current.getBoundingClientRect()
     parentOffset.current = isHorz ? left : top
 
-    const val = pixelToVal(
-      isHorz ? e.clientX : e.clientY,
-      hOrW,
-      maxVal,
-      minVal,
-      parentOffset,
-      sliderThumbHeight
-    )
-    send.current(val, props)
+    const valttt = pixelToVal(isHorz ? e.clientX : e.clientY)
+    send.current(valttt, props)
   }
 
-  function handlePointerMove(
-    isDragging,
-    isHorz,
-    length,
-    maxVal,
-    minVal,
-    parentOffset,
-    sliderThumbHeight,
-    send,
-    props,
-    e
-  ) {
+  function handlePointerMove(e) {
     if (!isDragging.current) {
       return
     }
-    const val = pixelToVal(
-      isHorz ? e.clientX : e.clientY,
-      length,
-      maxVal,
-      minVal,
-      parentOffset,
-      sliderThumbHeight
-    )
-    send.current(val, props)
+    const valt = pixelToVal(isHorz ? e.clientX : e.clientY)
+    send.current(valt, props)
   }
 
-  function handlePointerEnd(
-    onPointerMove,
-    selfRef,
-    isHorz,
-    length,
-    maxVal,
-    minVal,
-    parentOffset,
-    sliderThumbHeight,
-    send,
-    props,
-    setIsActivated,
-    isDragging,
-    e
-  ) {
+  function handlePointerEnd(e) {
     onPointerMove = null
     selfRef.current.releasePointerCapture(e.pointerId)
 
-    const val = pixelToVal(
-      isHorz ? e.clientX : e.clientY,
-      length,
-      maxVal,
-      minVal,
-      parentOffset,
-      sliderThumbHeight
-    )
-    send.current(val, props)
+    const valtt = pixelToVal(isHorz ? e.clientX : e.clientY)
+    send.current(valtt, props)
     isDragging.current = false
     setIsActivated(false)
     send = null
+  }
+  function getSliderThumbStyle(thumbLocation) {
+    return {
+      position: 'relative',
+      cursor: 'pointer',
+      height: isHorz ? '100%' : sliderThumbHeight,
+      width: !isHorz ? '100%' : sliderThumbHeight,
+      borderRadius: 3,
+      background: colorActive ? colorActive : 'goldenrod',
+      top: isHorz ? 0 : thumbLocation,
+      left: !isHorz ? 0 : thumbLocation,
+      boxShadow: isActivated && '0 0 3px 3px rgb(24, 164, 157)'
+    }
+  }
+
+  function onGotCapture(isActivated, setIsActivated) {
+    !isActivated && setIsActivated(true)
+  }
+  function onLostCapture(isActivated, setIsActivated) {
+    isActivated && setIsActivated(false)
+  }
+  function valToPixel(heightOrWidth, val) {
+    if (isHorz) {
+      const y = heightOrWidth * (val / 127)
+      return y
+    } else {
+      const y = heightOrWidth * (1 - val / 127)
+      return y
+    }
+  }
+  function pixelToVal(actualOffset) {
+    const tmpPixel = actualOffset - parentOffset.current - sliderThumbHeight / 2
+    const tmpPixelGreaterZero = tmpPixel < 0 ? 0 : tmpPixel
+    const pixel = tmpPixelGreaterZero >= length ? length : tmpPixelGreaterZero
+    let oneToZeroScaledPixel = 0
+    if (isHorz) {
+      oneToZeroScaledPixel = pixel / length
+    } else {
+      oneToZeroScaledPixel = 1 - pixel / length
+    }
+    const valtttt = oneToZeroScaledPixel * 127
+    return valtttt >= maxVal ? maxVal : valtttt < minVal ? minVal : valtttt
   }
 }
 
 MidiSlider.propTypes = {
   height: PropTypes.any,
-  i: PropTypes.any,
   idx: PropTypes.any,
   isDisabled: PropTypes.any,
   isHorz: PropTypes.any,
-  sliderThumbHeight: PropTypes.any,
+  sliderThumbHeight: PropTypes.number,
   width: PropTypes.any
-}
-
-function onGotCapture(isActivated, setIsActivated) {
-  !isActivated && setIsActivated(true)
-}
-function onLostCapture(isActivated, setIsActivated) {
-  isActivated && setIsActivated(false)
-}
-function valToPixel(heightOrWidth, val, maxVal, minVal) {
-  const y = heightOrWidth * (1 - (val - minVal) / (maxVal - minVal))
-  return y
-}
-function pixelToVal(
-  actualOffset,
-  length,
-  maxVal,
-  minVal,
-  parentOffset,
-  sliderThumbHeight
-) {
-  const tmpPixel = actualOffset - parentOffset.current - sliderThumbHeight / 2
-  const tmpPixelGreaterZero = tmpPixel < 0 ? 0 : tmpPixel
-  const pixel = tmpPixelGreaterZero >= length ? length : tmpPixelGreaterZero
-  const oneToZeroScaledPixel = 1 - pixel / length
-  const val = minVal + oneToZeroScaledPixel * (maxVal - minVal)
-  return val
-}
-
-function getSliderThumbStyle(
-  thumbLocation,
-  isHorz,
-  sliderThumbHeight,
-  colorActive,
-  isActivated
-) {
-  return {
-    position: 'relative',
-    cursor: 'pointer',
-    height: isHorz ? '100%' : sliderThumbHeight,
-    width: !isHorz ? '100%' : sliderThumbHeight,
-    borderRadius: 3,
-    background: colorActive ? colorActive : 'goldenrod',
-    top: isHorz ? 0 : thumbLocation,
-    left: !isHorz ? 0 : thumbLocation,
-    boxShadow: isActivated && '0 0 3px 3px rgb(24, 164, 157)'
-  }
 }
 
 function noop() {}

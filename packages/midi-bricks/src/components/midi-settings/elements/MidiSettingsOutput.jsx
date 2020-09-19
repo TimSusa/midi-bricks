@@ -87,7 +87,7 @@ export function MidiSettingsOutput(props) {
               lastFocusedPage
             })
           }
-          value={midiChannel || 'None'}
+          value={`${midiChannel}` || 'None'}
         >
           {renderMidiChannelSelection(
             {

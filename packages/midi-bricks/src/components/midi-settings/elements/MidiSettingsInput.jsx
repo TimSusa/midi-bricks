@@ -22,13 +22,7 @@ MidiSettingsInput.propTypes = {
 
 export default function MidiSettingsInput(props) {
   const {
-    sliderEntry: {
-      i,
-      type,
-      driverNameInput,
-      midiChannelInput,
-      listenToCc
-    },
+    sliderEntry: { i, type, driverNameInput, midiChannelInput, listenToCc },
     lastFocusedPage,
     inputs,
     classes,
@@ -77,7 +71,7 @@ export default function MidiSettingsInput(props) {
         </InputLabel>
         <Select
           className={classes.select}
-          onChange={async e => {
+          onChange={async (e) => {
             props.actions.selectMidiChannelInput({
               i,
               val: e.target.value,
@@ -85,7 +79,7 @@ export default function MidiSettingsInput(props) {
             })
             await initApp()
           }}
-          value={midiChannelInput || 'None'}
+          value={`${midiChannelInput}` || 'None'}
         >
           {renderMidiChannelSelection(
             {

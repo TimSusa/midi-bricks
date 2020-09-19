@@ -10,7 +10,7 @@ import RightIcon from '@material-ui/icons/KeyboardArrowRight'
 import { useSelector, useDispatch } from 'react-redux'
 import { Actions as ViewSettinsgsAction } from '../../global-state/actions/view-settings'
 import { Actions as SliderSettinsgsAction } from '../../global-state/actions/slider-list'
-// import { thunkLiveModeToggle } from '../../global-state/actions/thunks/thunk-live-mode-toggle'
+import { thunkLiveModeToggle } from '../../global-state/actions/thunks/thunk-live-mode-toggle'
 import { Button, Tooltip } from '@material-ui/core'
 import { PAGE_TYPES } from '../../global-state/reducers'
 
@@ -39,7 +39,7 @@ Footer.propTypes = {
   thunkLiveModeToggle: PropTypes.func
 }
 
-function Footer(props) {
+function Footer() {
   const dispatch = useDispatch()
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
@@ -57,7 +57,7 @@ function Footer(props) {
     pageType
   } = useSelector((state) => state.viewSettings)
 
-  const { thunkLiveModeToggle } = props
+  //const { thunkLiveModeToggle } = props
 
   // const {
   //   swapFooterPages,
