@@ -36,40 +36,32 @@ const {
 
 export const sliders = {
   initMidiAccessPending(state) {
-    return createNextState(state, () => {
-      return state
-    })
+    return state
   },
 
-  initFailed(state) {
-    return createNextState(state, (draftState) => {
-      draftState.midi = {
-        midiAccess: {
-          inputs: {},
-          outputs: {}
-        }
+  initFailed(draftState) {
+    draftState.midi = {
+      midiAccess: {
+        inputs: {},
+        outputs: {}
       }
-      draftState.isMidiFailed = true
-      return draftState
-    })
+    }
+    draftState.isMidiFailed = true
+    return draftState
   },
 
-  initMidiAccessOk(state, action) {
-    return createNextState(state, (draftState) => {
-      draftState.midi = action.payload
-      draftState.isMidiFailed = false
-      return draftState
-    })
+  initMidiAccessOk(draftState, action) {
+    draftState.midi = action.payload
+    draftState.isMidiFailed = false
+    return draftState
   },
 
-  addMidiElement(state, action) {
-    const { isMidiFailed, sliderList, midi: tmpMidi } = transformAddState(state, action)
-    return createNextState(state, (draftState) => {
-      draftState.sliderList = sliderList
-      draftState.isMidiFailed = isMidiFailed
-      draftState.midi = tmpMidi
-      return draftState
-    })
+  addMidiElement(draftState, action) {
+    const { isMidiFailed, sliderList, midi: tmpMidi } = transformAddState(draftState, action)
+    draftState.sliderList = sliderList
+    draftState.isMidiFailed = isMidiFailed
+    draftState.midi = tmpMidi
+    return draftState
   },
 
   clone(state, action) {
@@ -139,13 +131,11 @@ export const sliders = {
       newArr
     )
   },
-  changeButtonType(state, action) {
+  changeButtonType(draftState, action) {
     const { i, val } = action.payload
-    return createNextState(state, (draftState) => {
-      const idx = state.sliderList.findIndex((item) => item.i === i)
-      draftState.sliderList[idx].type = val
-      return draftState
-    })
+    const idx = draftState.sliderList.findIndex((item) => item.i === i)
+    draftState.sliderList[idx].type = val
+    return draftState
   },
   delete(state, action) {
     const { i: sentIdx } = action.payload
@@ -249,44 +239,36 @@ export const sliders = {
     return state
   },
 
-  changeLabel(state, action) {
+  changeLabel(draftState, action) {
     const { i, val } = action.payload
-    return createNextState(state, (draftState) => {
-      const idx = state.sliderList.findIndex((er) => er.i === i)
-      const entry = state.sliderList.find((er) => er.i === i)
-      if (entry) {
-        draftState.sliderList[idx] = { ...entry, label: val }
-      }
-      return draftState
-    })
+    const idx = draftState.sliderList.findIndex((er) => er.i === i)
+    const entry = draftState.sliderList.find((er) => er.i === i)
+    if (entry) {
+      draftState.sliderList[idx] = { ...entry, label: val }
+    }
+    return draftState
   },
-  selectMidiDriver(state, action) {
+  selectMidiDriver(draftState, action) {
     const { i, driverName } = action.payload
-    const idx = state.sliderList.findIndex((item) => i === item.i)
+    const idx = draftState.sliderList.findIndex((item) => i === item.i)
 
-    return createNextState(state, (draftState) => {
-      draftState.sliderList[idx].driverName = driverName
-      return draftState
-    })
+    draftState.sliderList[idx].driverName = driverName
+    return draftState
   },
 
-  selectMidiDriverInput(state, action) {
+  selectMidiDriverInput(draftState, action) {
     const { i, driverNameInput } = action.payload
-    const idx = state.sliderList.findIndex((item) => i === item.i)
+    const idx = draftState.sliderList.findIndex((item) => i === item.i)
 
-    return createNextState(state, (draftState) => {
-      draftState.sliderList[idx].driverNameInput = driverNameInput
-      return draftState
-    })
+    draftState.sliderList[idx].driverNameInput = driverNameInput
+    return draftState
   },
 
-  selectCc(state, action) {
+  selectCc(draftState, action) {
     const { i, val } = action.payload
-    const idx = state.sliderList.findIndex((item) => i === item.i)
-    return createNextState(state, (draftState) => {
-      draftState.sliderList[idx].midiCC = val
-      return draftState
-    })
+    const idx = draftState.sliderList.findIndex((item) => i === item.i)
+    draftState.sliderList[idx].midiCC = val
+    return draftState
   },
   addMidiCcListener(state, action) {
     const { i, val } = action.payload
