@@ -40,9 +40,11 @@ function ApplicationSettingsDialog(props) {
         </Typography>
       </DialogTitle>
       <DialogContent>
-        <Suspense fallback={<div>Loading Application Settings...</div>}>
-          <ApplicationSettings />
-        </Suspense>
+        {isOpen && (
+          <Suspense fallback={<div>Loading Application Settings...</div>}>
+            <ApplicationSettings />
+          </Suspense>
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={() => onClose()} className={iconColor}>
