@@ -1,43 +1,27 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import DriverExpansionPanel from '../components/DriverExpansionPanel'
 import MidiDriverTable from '../components/MidiDriverTable'
-import { connect, useSelector } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Actions as MidiSliderActions } from '../global-state/actions/slider-list.js'
 import { Actions as ViewStuff } from '../global-state/actions/view-settings.js'
-import { thunkLiveModeToggle } from '../global-state/actions/thunks/thunk-live-mode-toggle'
 
-export const MidiDriversSettingsPage = connect(
-  null,
-  mapDispatchToProps
-)(MidiDriversSettingsPageComponent)
+const { setAvailableDrivers } = { ...MidiSliderActions, ...ViewStuff }
+export const MidiDriversSettingsPage = MidiDriversSettingsPageComponent
 
-MidiDriversSettingsPageComponent.propTypes = {
-  actions: PropTypes.object,
-  midi: PropTypes.object,
-  viewSettings: PropTypes.object,
-  thunkLiveModeToggle: PropTypes.func
-}
-
-function MidiDriversSettingsPageComponent(props) {
+function MidiDriversSettingsPageComponent() {
+  const dispatch = useDispatch()
   const { inputs: availableInputs, outputs: avalableOutputs } = useSelector(
     (state) => state.viewSettings.availableDrivers
   )
-  //const sliderList = useSelector((state) => state.sliders.sliderList)
   const { inputs, outputs } = useSelector(
     (state) => state.sliders.midi.midiAccess
   )
-  const {
-    actions
-    //midi: { midiAccess: { inputs, outputs } = { inputs: [], outputs: [] } } = {}
-  } = props
 
   const [isFirstPanelExpanded, setIsFirstPanelExpanded] = useState(true)
   const [isScndPanelExpanded, setIsScndPanelExpanded] = useState(true)
 
   if (!Array.isArray(outputs) || !inputs) return <div></div>
-
+  let isChecked = false
   return (
     <React.Fragment>
       <DriverExpansionPanel
@@ -69,11 +53,11 @@ function MidiDriversSettingsPageComponent(props) {
                   name={name}
                   handleCheckboxClickNote={handleCheckboxClickNoteOut.bind(
                     this,
-                    actions
+                    name
                   )}
                   handleCheckboxClickCc={handleCheckboxClickCcOut.bind(
                     this,
-                    actions
+                    name
                   )}
                 />
               </DriverExpansionPanel>
@@ -109,11 +93,11 @@ function MidiDriversSettingsPageComponent(props) {
                   name={name}
                   handleCheckboxClickNote={handleCheckboxClickNoteIn.bind(
                     this,
-                    actions
+                    name
                   )}
                   handleCheckboxClickCc={handleCheckboxClickCcIn.bind(
                     this,
-                    actions
+                    name
                   )}
                 />
               </DriverExpansionPanel>
@@ -122,6 +106,50 @@ function MidiDriversSettingsPageComponent(props) {
       </DriverExpansionPanel>
     </React.Fragment>
   )
+  function handleCheckboxClickNoteIn(name, e) {
+    dispatch(
+      setAvailableDrivers({
+        input: {
+          name,
+          noteChannel: e.target.value,
+          isChecked: !isChecked
+        }
+      })
+    )
+  }
+  function handleCheckboxClickCcIn(name, e) {
+    dispatch(
+      setAvailableDrivers({
+        input: {
+          name,
+          ccChannel: e.target.value,
+          isChecked: !isChecked
+        }
+      })
+    )
+  }
+  function handleCheckboxClickNoteOut(name, e) {
+    dispatch(
+      setAvailableDrivers({
+        output: {
+          name,
+          noteChannel: e.target.value,
+          isChecked: !isChecked
+        }
+      })
+    )
+  }
+  function handleCheckboxClickCcOut(name, e) {
+    dispatch(
+      setAvailableDrivers({
+        output: {
+          name,
+          ccChannel: e.target.value,
+          isChecked: !isChecked
+        }
+      })
+    )
+  }
 }
 
 // function handleChange(panel) {
@@ -131,50 +159,3 @@ function MidiDriversSettingsPageComponent(props) {
 //     })
 //   }
 // }
-
-function handleCheckboxClickNoteIn(actions, name, isChecked, e) {
-  actions.setAvailableDrivers({
-    input: {
-      name,
-      noteChannel: e.target.value,
-      isChecked: !isChecked
-    }
-  })
-}
-function handleCheckboxClickCcIn(actions, name, isChecked, e) {
-  actions.setAvailableDrivers({
-    input: {
-      name,
-      ccChannel: e.target.value,
-      isChecked: !isChecked
-    }
-  })
-}
-function handleCheckboxClickNoteOut(actions, name, isChecked, e) {
-  actions.setAvailableDrivers({
-    output: {
-      name,
-      noteChannel: e.target.value,
-      isChecked: !isChecked
-    }
-  })
-}
-function handleCheckboxClickCcOut(actions, name, isChecked, e) {
-  actions.setAvailableDrivers({
-    output: {
-      name,
-      ccChannel: e.target.value,
-      isChecked: !isChecked
-    }
-  })
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(
-      { ...MidiSliderActions, ...ViewStuff },
-      dispatch
-    ),
-    thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
-  }
-}

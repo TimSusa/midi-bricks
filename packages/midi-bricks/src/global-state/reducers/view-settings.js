@@ -6,7 +6,7 @@ import { createNextState } from '@reduxjs/toolkit'
 export const viewSettings = {
   [ActionTypeViewSettings.TOGGLE_PAGE](state, action) {
     return createNextState(state, (draftState) => {
-      draftState.pageType = action.payload.pageType ||  'HOME'
+      draftState.pageType = action.payload.pageType || 'HOME'
       return draftState
     })
   },
@@ -45,7 +45,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_COMPACT_MODE](state, action) {
+  [ActionTypeViewSettings.TOGGLE_COMPACT_MODE](state) {
     const castedVal = !!state.isCompactHorz
     return Object.assign({}, state, {
       isCompactHorz: !castedVal,
@@ -74,7 +74,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_AUTO_ARRANGE_MODE](state, action) {
+  [ActionTypeViewSettings.TOGGLE_AUTO_ARRANGE_MODE](state) {
     const castedVal = !!state.isAutoArrangeMode
     return Object.assign({}, state, {
       isAutoArrangeMode: !castedVal,
@@ -82,7 +82,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.CHANGE_THEME](state, action) {
+  [ActionTypeViewSettings.CHANGE_THEME](state) {
     const castedVal = !!state.isChangedTheme
     return Object.assign({}, state, {
       isChangedTheme: !castedVal,
@@ -91,7 +91,6 @@ export const viewSettings = {
   },
 
   [ActionTypeViewSettings.UPDATE_VIEW_SETTINGS](state, action) {
-    console.warn('DEPRECATED UPDATE_VIEW_SETTINGS')
     const {
       viewSettings,
       viewSettings: { availableDrivers } = {}
@@ -120,7 +119,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.DELETE_FOOTER_PAGES](state, action) {
+  [ActionTypeViewSettings.DELETE_FOOTER_PAGES](state) {
     return createNextState(state, (draftState) => {
       draftState.pageTargets = viewSettingsInitState.pageTargets
       draftState.footerPages = []
@@ -287,7 +286,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_AUTOSIZE](state, action) {
+  [ActionTypeViewSettings.TOGGLE_AUTOSIZE](state) {
     const castedVal = !!state.isAutoSize
     return Object.assign({}, state, {
       isAutoSize: !castedVal
