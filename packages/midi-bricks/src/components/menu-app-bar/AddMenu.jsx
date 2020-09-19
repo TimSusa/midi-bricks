@@ -1,9 +1,5 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { Actions as MidiSlidersAction } from '../../global-state/actions/slider-list.js'
-import { Actions as ViewSettinsgsAction } from '../../global-state/actions/view-settings'
+import { useDispatch } from 'react-redux'
 import { addElement } from '../../global-state/actions/thunks/thunk-add-element.js'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
@@ -21,13 +17,10 @@ const {
   PAGE
 } = STRIP_TYPE
 
-export default connect(null, mapDispatchToProps)(AddMenu)
+export default AddMenu
 
-AddMenu.propTypes = {
-  actions: PropTypes.object.isRequired
-}
-
-function AddMenu(props) {
+function AddMenu() {
+  const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   return (
@@ -36,7 +29,7 @@ function AddMenu(props) {
         <IconButton
           aria-owns={anchorEl ? 'menu-appbar-add' : null}
           aria-haspopup='true'
-          onClick={handleMenu.bind(this, setAnchorEl)}
+          onClick={handleMenu}
           color='inherit'
         >
           <AddIcon />
@@ -55,85 +48,53 @@ function AddMenu(props) {
           horizontal: 'right'
         }}
         open={open}
-        onClose={handleClose.bind(this, setAnchorEl)}
+        onClose={handleClose}
       >
-        <MenuItem onClick={handleAddPage.bind(this, props, setAnchorEl)}>
-          Add Page
-        </MenuItem>
-
-        <MenuItem onClick={handleAddSlider.bind(this, setAnchorEl, props)}>
-          Add Vertical Slider
-        </MenuItem>
-        <MenuItem onClick={handleAddSliderHorz.bind(this, setAnchorEl, props)}>
-          Add Horizontal Slider
-        </MenuItem>
-        <MenuItem
-          onClick={handleAddButton.bind(this, setAnchorEl, props, BUTTON)}
-        >
+        <MenuItem onClick={handleAddPage}>Add Page</MenuItem>
+        <MenuItem onClick={handleAddSlider}>Add Vertical Slider</MenuItem>
+        <MenuItem onClick={handleAddSliderHorz}>Add Horizontal Slider</MenuItem>
+        <MenuItem onClick={handleAddButton.bind(this, BUTTON)}>
           Add Button
         </MenuItem>
-        <MenuItem
-          onClick={handleAddButton.bind(this, setAnchorEl, props, BUTTON_CC)}
-        >
+        <MenuItem onClick={handleAddButton.bind(this, BUTTON_CC)}>
           Add Button CC
         </MenuItem>
-        <MenuItem
-          onClick={handleAddButton.bind(
-            this,
-            setAnchorEl,
-            props,
-            BUTTON_PROGRAM_CHANGE
-          )}
-        >
+        <MenuItem onClick={handleAddButton.bind(this, BUTTON_PROGRAM_CHANGE)}>
           Add Button Program Change
         </MenuItem>
-        <MenuItem onClick={handleAddLabel.bind(this, setAnchorEl, props)}>
-          Add Label
-        </MenuItem>
+        <MenuItem onClick={handleAddLabel}>Add Label</MenuItem>
       </Menu>
     </React.Fragment>
   )
-}
+  function handleMenu(event) {
+    setAnchorEl(event.currentTarget)
+  }
 
-function handleMenu(setAnchorEl, event) {
-  setAnchorEl(event.currentTarget)
-}
+  function handleClose() {
+    setAnchorEl(null)
+  }
 
-function handleClose(setAnchorEl) {
-  setAnchorEl(null)
-}
+  async function handleAddButton(type) {
+    await dispatch(addElement(type))
+    handleClose()
+  }
 
-async function handleAddButton(setAnchorEl, { addElement }, type) {
-  //addButton({ type })
-  await addElement(type)
-  handleClose(setAnchorEl)
-}
+  async function handleAddSlider() {
+    await dispatch(addElement(SLIDER))
+    handleClose()
+  }
+  async function handleAddSliderHorz() {
+    await dispatch(addElement(SLIDER_HORZ))
+    handleClose()
+  }
 
-async function handleAddSlider(setAnchorEl, { addElement }) {
-  await addElement(SLIDER)
-  handleClose(setAnchorEl)
-}
-async function handleAddSliderHorz(setAnchorEl, { addElement }) {
-  await addElement(SLIDER_HORZ)
-  handleClose(setAnchorEl)
-}
+  async function handleAddLabel() {
+    await dispatch(addElement(LABEL))
+    handleClose()
+  }
 
-async function handleAddLabel(setAnchorEl, { addElement }) {
-  await addElement(LABEL)
-  handleClose(setAnchorEl)
-}
-
-async function handleAddPage({ addElement }, setAnchorEl) {
-  await addElement(PAGE)
-  setAnchorEl(null)
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(
-      { ...MidiSlidersAction, ...ViewSettinsgsAction },
-      dispatch
-    ),
-    addElement: bindActionCreators(addElement, dispatch)
+  async function handleAddPage() {
+    await dispatch(addElement(PAGE))
+    setAnchorEl(null)
   }
 }
