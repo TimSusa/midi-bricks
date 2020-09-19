@@ -1,12 +1,10 @@
 import { FooterButton } from './FooterButton'
-// import MidiSettingsDialog from '../midi-settings-dialog/MidiSettingsDialog'
 import React, { Suspense } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import IconButton from '@material-ui/core/IconButton'
 import LeftIcon from '@material-ui/icons/KeyboardArrowLeft'
 import RightIcon from '@material-ui/icons/KeyboardArrowRight'
-//import { thunkChangePage } from '../../global-state/actions/thunks/thunk-change-page'
 import { useSelector, useDispatch } from 'react-redux'
 import { Actions as ViewSettinsgsAction } from '../../global-state/actions/view-settings'
 import { Actions as SliderSettinsgsAction } from '../../global-state/actions/slider-list'
@@ -44,7 +42,6 @@ function Footer() {
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
   const {
-    //footerPages,
     pageTargets,
     lastFocusedPage,
 
@@ -57,14 +54,6 @@ function Footer() {
     pageType
   } = useSelector((state) => state.viewSettings)
 
-  //const { thunkLiveModeToggle } = props
-
-  // const {
-  //   swapFooterPages,
-  //   setLastFocusedIndex,
-  //   toggleSettingsDialogMode,
-  //   setLastFocusedPage
-  // } = actions
   const isOpen = isSettingsDialogMode && lastFocusedIdx === lastFocusedPage
   if (isOpen) {
     var MidiSettingsDialog = React.lazy(() =>
@@ -94,7 +83,6 @@ function Footer() {
                 lastFocusedPage={lastFocusedPage}
                 item={item}
                 isSettingsMode={isSettingsMode}
-                //thunkChangePage={thunkChangePage}
               />
 
               <IconButton
@@ -131,24 +119,6 @@ function Footer() {
               ) : (
                 <div />
               )}
-
-              {/* <MidiSettingsDialog
-                open={
-                  isSettingsDialogMode && lastFocusedIdx === lastFocusedPage
-                }
-                onClose={() => {
-                  setLastFocusedIndex({ i: '' })
-                  toggleSettingsDialogMode({
-                    i: '',
-                    isSettingsDialogMode: false,
-                    lastFocusedPage
-                  })
-                }}
-                sliderEntry={pageTargets.find(
-                  (item) => item.id === lastFocusedPage
-                )}
-                iconColor={classes.iconColor}
-              /> */}
             </div>
           )
         }
@@ -160,7 +130,6 @@ function Footer() {
             lastFocusedPage={lastFocusedPage}
             item={item}
             isSettingsMode={isSettingsMode}
-            // thunkChangePage={thunkChangePage}
           />
         )
       })}

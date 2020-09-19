@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import { connect, useSelector } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Actions as MidiSliderActions } from '../global-state/actions/slider-list.js'
 import { Actions as ViewActions } from '../global-state/actions/view-settings.js'
 import Button from '@material-ui/core/Button'
@@ -13,10 +12,14 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DeleteIcon from '@material-ui/icons/Delete'
 
-export default connect(null, mapDispatchToProps)(DeleteModalComponent)
+const { delete: deleteSmth, deletePageFromFooter, setLastFocusedIndex } = {
+  ...MidiSliderActions,
+  ...ViewActions
+}
+
+export default DeleteModalComponent
 
 DeleteModalComponent.propTypes = {
-  actions: PropTypes.object,
   asButton: PropTypes.bool,
   isOpen: PropTypes.bool,
   lastFocusedPage: PropTypes.string,
@@ -27,6 +30,7 @@ DeleteModalComponent.propTypes = {
 }
 
 export function DeleteModalComponent(props) {
+  const dispatch = useDispatch()
   const { pageTargets, lastFocusedPage } = useSelector(
     (state) => state.viewSettings
   )
@@ -37,7 +41,6 @@ export function DeleteModalComponent(props) {
     asButton = false,
     isOpen = false,
     onAction = () => {},
-    actions = {},
     onClose = () => {}
   } = props
   const [open, setOpen] = useState(false)
@@ -67,60 +70,37 @@ export function DeleteModalComponent(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={handleCloseCancel.bind(this, setOpen)}
-            color='secondary'
-          >
+          <Button onClick={handleCloseCancel} color='secondary'>
             No
           </Button>
-          <Button
-            onClick={handleClose.bind(
-              this,
-              sliderEntry || pageTargets[lastFocusedPage],
-              lastFocusedPage,
-              onAction,
-              actions,
-              onClose,
-              setOpen
-            )}
-            color='secondary'
-            autoFocus
-          >
+          <Button onClick={handleClose} color='secondary' autoFocus>
             Yes, Delete
           </Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
   )
-}
-
-function handleClickOpen(setOpen) {
-  setOpen(true)
-}
-
-function handleCloseCancel(setOpen, e) {
-  setOpen(false)
-  e.preventDefault()
-}
-
-function handleClose(
-  { i, id },
-  lastFocusedPage,
-  onAction,
-  actions,
-  onClose,
-  setOpen
-) {
-  onAction && onAction()
-  if ((i || id) !== 'me') {
-    actions.delete({ lastFocusedPage, i: i || id })
+  function handleClose() {
+    const { i, id } = sliderEntry || pageTargets[lastFocusedPage]
+    onAction && onAction()
+    if ((i || id) !== 'me') {
+      dispatch(deleteSmth({ lastFocusedPage, i: i || id }))
+    }
+    if ((i || id).startsWith('page')) {
+      dispatch(deletePageFromFooter({ i: i || id }))
+      dispatch(setLastFocusedIndex())
+    }
+    onClose && onClose(false)
+    setOpen(false)
   }
-  if ((i || id).startsWith('page')) {
-    actions.deletePageFromFooter({ i: i || id })
-    actions.setLastFocusedIndex()
+  function handleClickOpen() {
+    setOpen(true)
   }
-  onClose && onClose(false)
-  setOpen(false)
+
+  function handleCloseCancel(e) {
+    setOpen(false)
+    e.preventDefault()
+  }
 }
 
 function styles(theme) {
@@ -134,14 +114,5 @@ function styles(theme) {
       color: theme.palette.primary.contrastText,
       cursor: 'pointer'
     }
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(
-      { ...MidiSliderActions, ...ViewActions },
-      dispatch
-    )
   }
 }

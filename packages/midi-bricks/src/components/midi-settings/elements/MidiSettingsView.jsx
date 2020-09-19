@@ -1,4 +1,5 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Typography, MenuItem } from '@material-ui/core'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -8,7 +9,20 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import ColorModal from './ColorModal'
 import { STRIP_TYPE } from '../../../global-state/reducers/slider-list'
+import { Actions as MidiSliderActions } from '../../../global-state/actions/slider-list.js'
+import { Actions as ViewActions } from '../../../global-state/actions/view-settings.js'
 
+const {
+  changeButtonType,
+  changeFontSize,
+  changeFontWeight,
+  changeColors,
+  setPageTargetSettings,
+  toggleHideValue
+} = {
+  ...MidiSliderActions,
+  ...ViewActions
+}
 const {
   BUTTON,
   BUTTON_CC,
@@ -19,7 +33,6 @@ const {
 } = STRIP_TYPE
 
 MidiSettingsView.propTypes = {
-  actions: PropTypes.object,
   classes: PropTypes.object,
   type: PropTypes.string,
   sliderEntry: PropTypes.object,
@@ -27,12 +40,12 @@ MidiSettingsView.propTypes = {
 }
 
 export function MidiSettingsView(props) {
+  const dispatch = useDispatch()
   const {
     classes,
     type: pageType,
     sliderEntry: { i, type, colors, fontSize, fontWeight, isValueHidden } = {},
-    pageTarget = {},
-    actions
+    pageTarget = {}
   } = props
   const color = !pageType
     ? colors.color
@@ -52,7 +65,7 @@ export function MidiSettingsView(props) {
             </InputLabel>
             <Select
               className={classes.select}
-              onChange={handleButtonTypeChange.bind(this, i, actions)}
+              onChange={handleButtonTypeChange}
               value={type}
             >
               {renderButtonTypeSelection(type)}
@@ -66,7 +79,9 @@ export function MidiSettingsView(props) {
           fieldName='color'
           color={color}
           onChange={
-            !pageType ? actions.changeColors : actions.setPageTargetSettings
+            !pageType
+              ? (e) => dispatch(changeColors(e))
+              : (e) => dispatch(setPageTargetSettings(e))
           }
         />
         {!pageType && (
@@ -79,7 +94,7 @@ export function MidiSettingsView(props) {
             i={i}
             fieldName='colorActive'
             color={colors.colorActive}
-            onChange={actions.changeColors}
+            onChange={(e) => dispatch(changeColors(e))}
           />
         )}
         <ColorModal
@@ -88,7 +103,7 @@ export function MidiSettingsView(props) {
           fieldName='colorFont'
           color={colorFont}
           onChange={
-            !pageType ? actions.changeColors : actions.setPageTargetSettings
+            !pageType ? (e) => dispatch(changeColors(e)) : setPageTargetSettings
           }
         />
 
@@ -98,7 +113,7 @@ export function MidiSettingsView(props) {
             i={i}
             fieldName='colorFontActive'
             color={colors.colorFontActive}
-            onChange={actions.changeColors}
+            onChange={(e) => dispatch(changeColors(e))}
           />
         ) : null}
       </FormControl>
@@ -113,7 +128,7 @@ export function MidiSettingsView(props) {
             min={8}
             max={54}
             value={fontSize || 16}
-            onChange={handleFontsizeChange.bind(this, i, actions)}
+            onChange={handleFontsizeChange}
           />
           <Typography className={classes.label} htmlFor='fontWeight'>
             {'Font Weight:  ' + (fontWeight || 500)}
@@ -124,7 +139,7 @@ export function MidiSettingsView(props) {
             max={900}
             step={100}
             value={fontWeight || 500}
-            onChange={handleFontweightChange.bind(this, i, actions)}
+            onChange={handleFontweightChange}
           />
         </FormControl>
       )}
@@ -135,9 +150,7 @@ export function MidiSettingsView(props) {
               <Checkbox
                 className={classes.iconColor}
                 checked={isValueHidden || false}
-                onChange={actions.toggleHideValue.bind(this, {
-                  i
-                })}
+                onChange={(e) => dispatch(toggleHideValue(e))}
               />
             }
             label='Hide Value'
@@ -146,6 +159,32 @@ export function MidiSettingsView(props) {
       )}
     </React.Fragment>
   )
+  function handleButtonTypeChange(e) {
+    dispatch(
+      changeButtonType({
+        i,
+        val: e.target.value
+      })
+    )
+  }
+
+  function handleFontsizeChange(e) {
+    dispatch(
+      changeFontSize({
+        i,
+        fontSize: e.target.value
+      })
+    )
+  }
+
+  function handleFontweightChange(e) {
+    dispatch(
+      changeFontWeight({
+        i,
+        fontWeight: e.target.value
+      })
+    )
+  }
 }
 
 function renderButtonTypeSelection(type) {
@@ -167,25 +206,4 @@ function renderButtonTypeSelection(type) {
       )
     })
   }
-}
-
-function handleButtonTypeChange(i, actions, e) {
-  actions.changeButtonType({
-    i,
-    val: e.target.value
-  })
-}
-
-function handleFontsizeChange(i, actions, e) {
-  actions.changeFontSize({
-    i,
-    fontSize: e.target.value
-  })
-}
-
-function handleFontweightChange(i, actions, e) {
-  actions.changeFontWeight({
-    i,
-    fontWeight: e.target.value
-  })
 }

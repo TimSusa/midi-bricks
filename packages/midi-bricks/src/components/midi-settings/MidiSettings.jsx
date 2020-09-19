@@ -49,14 +49,9 @@ function MidiSettings(props) {
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
   const {
-    //isSettingsMode,
     actions,
     initApp: initAppLocal,
-    // inputs = {},
-    // outputs = {},
     sliderEntry = {},
-    // pageTarget = {},
-    // lastFocusedPage,
     onClose = () => {}
   } = props
   const { i, label, type } = sliderEntry
@@ -77,7 +72,6 @@ function MidiSettings(props) {
           <MidiSettingsView
             pageTarget={pageTarget}
             classes={classes}
-            actions={actions}
             type={PAGE}
           />
         </DriverExpansionPanel>
@@ -118,11 +112,7 @@ function MidiSettings(props) {
             )}
           </DriverExpansionPanel>
           <DriverExpansionPanel label='View' isEmpty={false}>
-            <MidiSettingsView
-              sliderEntry={sliderEntry}
-              classes={classes}
-              actions={actions}
-            />
+            <MidiSettingsView sliderEntry={sliderEntry} classes={classes} />
           </DriverExpansionPanel>
           <Tooltip title='Clone'>
             <Button
@@ -141,7 +131,6 @@ function MidiSettings(props) {
         isOpen={false}
         sliderEntry={sliderEntry}
         onClose={onClose}
-        actions={actions}
       />
     </div>
   )
