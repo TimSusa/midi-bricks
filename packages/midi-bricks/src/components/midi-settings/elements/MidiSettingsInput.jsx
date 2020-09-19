@@ -3,6 +3,11 @@ import PropTypes from 'prop-types'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
+import { useDispatch } from 'react-redux'
+import { Actions as MidiSliderActions } from '../../../global-state/actions/slider-list.js'
+import { Actions as ViewActions } from '../../../global-state/actions/view-settings.js'
+
+import { initApp } from '../../../global-state/actions/init.js'
 import MidiSuggestedInput from './MidiSuggestedInput'
 import {
   renderDriverSelection,
@@ -10,9 +15,12 @@ import {
 } from '../MidiSettings'
 import { suggestionsMidiCc } from './suggestions'
 
+const { selectMidiDriverInput, selectMidiChannelInput, addMidiCcListener } = {
+  ...MidiSliderActions,
+  ...ViewActions
+}
 MidiSettingsInput.propTypes = {
   sliderEntry: PropTypes.object,
-  actions: PropTypes.object,
   classes: PropTypes.object,
   idx: PropTypes.number,
   initApp: PropTypes.func,
@@ -21,13 +29,12 @@ MidiSettingsInput.propTypes = {
 }
 
 export default function MidiSettingsInput(props) {
+  const dispatch = useDispatch()
   const {
     sliderEntry: { i, type, driverNameInput, midiChannelInput, listenToCc },
     lastFocusedPage,
     inputs,
-    classes,
-    actions,
-    initApp
+    classes
   } = props
 
   return (
@@ -41,7 +48,7 @@ export default function MidiSettingsInput(props) {
           startVal={listenToCc || []}
           i={i}
           lastFocusedPage={lastFocusedPage}
-          handleChange={handleAddCCListener.bind(this, props)}
+          handleChange={handleAddCCListener}
         />
       </FormControl>
       <FormControl className={classes.formControl}>
@@ -51,11 +58,13 @@ export default function MidiSettingsInput(props) {
         <Select
           className={classes.select}
           onChange={(e) =>
-            actions.selectMidiDriverInput({
-              i,
-              driverNameInput: e.target.value,
-              lastFocusedPage
-            })
+            dispatch(
+              selectMidiDriverInput({
+                i,
+                driverNameInput: e.target.value,
+                lastFocusedPage
+              })
+            )
           }
           value={driverNameInput}
         >
@@ -72,12 +81,14 @@ export default function MidiSettingsInput(props) {
         <Select
           className={classes.select}
           onChange={async (e) => {
-            props.actions.selectMidiChannelInput({
-              i,
-              val: e.target.value,
-              lastFocusedPage
-            })
-            await initApp()
+            dispatch(
+              selectMidiChannelInput({
+                i,
+                val: e.target.value,
+                lastFocusedPage
+              })
+            )
+            await dispatch(initApp())
           }}
           value={`${midiChannelInput}` || 'None'}
         >
@@ -92,9 +103,8 @@ export default function MidiSettingsInput(props) {
       </FormControl>
     </React.Fragment>
   )
-}
-
-async function handleAddCCListener(props, e) {
-  props.actions.addMidiCcListener(e)
-  await props.initApp()
+  async function handleAddCCListener(e) {
+    dispatch(addMidiCcListener(e))
+    await dispatch(initApp())
+  }
 }

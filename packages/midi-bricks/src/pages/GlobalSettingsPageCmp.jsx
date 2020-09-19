@@ -38,14 +38,16 @@ function GlobalSettingsPageComponent() {
     (state) => state.sliders || {}
   )
   const pages = useSelector((state) => state.pages)
-  const viewSettings = useSelector((state) => state.viewSettings)
+  const viewSettings = useSelector((state) => state.viewSettings || {})
   const {
     isSettingsDialogMode,
     lastFocusedPage,
     lastFocusedIdx,
-    availableDrivers: { outputs: chosenOutputs, inputs: chosenInputs },
+    availableDrivers,
     pageTargets
   } = viewSettings
+  const { outputs: chosenOutputs, inputs: chosenInputs } =
+    availableDrivers || {}
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
 

@@ -11,12 +11,13 @@ export const MidiDriversSettingsPage = MidiDriversSettingsPageComponent
 function MidiDriversSettingsPageComponent() {
   const dispatch = useDispatch()
   const { inputs: availableInputs, outputs: avalableOutputs } = useSelector(
-    (state) => state.viewSettings.availableDrivers
+    (state) => state.viewSettings.availableDrivers || {}
   )
   const { inputs, outputs } = useSelector(
-    (state) => state.sliders.midi.midiAccess
+    (state) => state.sliders.midi.midiAccess || { inputs: [], outputs: [] }
   )
-
+  const availOut = avalableOutputs || {}
+  const availIn = availableInputs || {}
   const [isFirstPanelExpanded, setIsFirstPanelExpanded] = useState(true)
   const [isScndPanelExpanded, setIsScndPanelExpanded] = useState(true)
 
@@ -32,7 +33,7 @@ function MidiDriversSettingsPageComponent() {
       >
         {outputs &&
           outputs.map((name, idx) => {
-            const { ccChannels, noteChannels } = avalableOutputs[name] || {
+            const { ccChannels, noteChannels } = availOut[name] || {
               ccChannels: [],
               noteChannels: []
             }
@@ -49,7 +50,7 @@ function MidiDriversSettingsPageComponent() {
                 <MidiDriverTable
                   labelPostfix='Out'
                   idx={idx}
-                  available={avalableOutputs}
+                  available={availOut}
                   name={name}
                   handleCheckboxClickNote={handleCheckboxClickNoteOut.bind(
                     this,
@@ -72,7 +73,7 @@ function MidiDriversSettingsPageComponent() {
       >
         {inputs &&
           inputs.map((name, idx) => {
-            const { ccChannels, noteChannels } = availableInputs[name] || {
+            const { ccChannels, noteChannels } = availIn[name] || {
               ccChannels: [],
               noteChannels: []
             }
@@ -89,7 +90,7 @@ function MidiDriversSettingsPageComponent() {
                 <MidiDriverTable
                   labelPostfix='In'
                   idx={idx}
-                  available={availableInputs}
+                  available={availIn}
                   name={name}
                   handleCheckboxClickNote={handleCheckboxClickNoteIn.bind(
                     this,

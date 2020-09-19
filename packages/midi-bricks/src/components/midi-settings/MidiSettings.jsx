@@ -5,12 +5,9 @@ import Tooltip from '@material-ui/core/Tooltip'
 import CopyIcon from '@material-ui/icons/NoteAdd'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import { connect, useSelector } from 'react-redux'
-import { initApp } from '../../global-state/actions/init.js'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { bindActionCreators } from 'redux'
 import { Actions as MidiSliderActions } from '../../global-state/actions/slider-list.js'
-import { Actions as ViewActions } from '../../global-state/actions/view-settings.js'
 import DeleteModal from '../DeleteModal'
 import DriverExpansionPanel from '../DriverExpansionPanel'
 import MidiSettingsInput from './elements/MidiSettingsInput'
@@ -21,13 +18,15 @@ import { DriverEmtpyRedirectButton } from './elements/DriverEmtpyRedirectButton'
 
 import { STRIP_TYPE } from '../../global-state/reducers/slider-list'
 
-export default connect(null, mapDispatchToProps)(MidiSettings)
+const { clone } = {
+  ...MidiSliderActions
+}
+
+export default MidiSettings
 
 const { BUTTON, BUTTON_TOGGLE, PAGE } = STRIP_TYPE
 
 MidiSettings.propTypes = {
-  actions: PropTypes.object,
-  initApp: PropTypes.func,
   inputs: PropTypes.object,
   isSettingsMode: PropTypes.bool,
   lastFocusedPage: PropTypes.string,
@@ -38,6 +37,7 @@ MidiSettings.propTypes = {
 }
 
 function MidiSettings(props) {
+  const dispatch = useDispatch()
   const {
     lastFocusedPage,
     isSettingsMode,
@@ -47,12 +47,7 @@ function MidiSettings(props) {
   const pageTarget = pageTargets.find((item) => item.id === lastFocusedPage)
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
-  const {
-    actions,
-    initApp: initAppLocal,
-    sliderEntry = {},
-    onClose = () => {}
-  } = props
+  const { sliderEntry = {}, onClose = () => {} } = props
   const { i, label, type } = sliderEntry
   const isOutputsEmpty = isAllEmpty(outputs)
   const isInputsEmpty = isAllEmpty(inputs)
@@ -75,12 +70,9 @@ function MidiSettings(props) {
         </DriverExpansionPanel>
       )}
       {type !== undefined && (
-        <DriverExpansionPanel
-          label={type === STRIP_TYPE.XYPAD ? 'Outputs X' : 'Outputs'}
-          isEmpty={isOutputsEmpty}
-        >
+        <DriverExpansionPanel label={'Outputs'} isEmpty={isOutputsEmpty}>
           {isOutputsEmpty ? (
-            <DriverEmtpyRedirectButton actions={actions} i={i} />
+            <DriverEmtpyRedirectButton i={i} />
           ) : (
             <MidiSettingsOutput
               classes={classes}
@@ -96,15 +88,13 @@ function MidiSettings(props) {
           {' '}
           <DriverExpansionPanel label={'Inputs'} isEmpty={isInputsEmpty}>
             {isInputsEmpty ? (
-              <DriverEmtpyRedirectButton actions={actions} i={i} />
+              <DriverEmtpyRedirectButton i={i} />
             ) : (
               <MidiSettingsInput
                 classes={classes}
                 sliderEntry={sliderEntry}
                 inputs={inputs}
-                actions={actions}
                 lastFocusedPage={lastFocusedPage}
-                initApp={initAppLocal}
               />
             )}
           </DriverExpansionPanel>
@@ -115,7 +105,7 @@ function MidiSettings(props) {
             <Button
               className={classes.button}
               variant='contained'
-              onClick={actions.clone.bind(this, sliderEntry)}
+              onClick={() => dispatch(clone(sliderEntry))}
             >
               <CopyIcon className={classes.iconColor} />
             </Button>
@@ -213,14 +203,4 @@ function getItem(name, idx) {
       {name}
     </MenuItem>
   )
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(
-      { ...MidiSliderActions, ...ViewActions },
-      dispatch
-    ),
-    initApp: bindActionCreators(initApp, dispatch)
-  }
 }
