@@ -7,11 +7,11 @@ import reducer from './reducers'
  */
 const timeoutScheduler = () => next => action => {
   if (action === undefined) return
-  if (!action.payload || !action.payload.meta || !action.payload.meta.delay) {
+  if (!action.meta || !action.meta.delay) {
     return next(action)
   }
 
-  const timeoutId = setTimeout(() => next(action), action.payload.meta.delay)
+  const timeoutId = setTimeout(() => next(action), action.meta.delay)
 
   return function cancel () {
     clearTimeout(timeoutId)
@@ -55,7 +55,7 @@ function rafScheduler () {
     }
 
     return (action) => {
-      if (!action.payload || !action.payload.meta || !action.payload.meta.raf) {
+      if (!action.meta || !action.meta.raf) {
         return next(action)
       }
 
