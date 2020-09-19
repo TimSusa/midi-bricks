@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.39-alpha.6](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.5...v1.3.39-alpha.6) (2020-09-19)
+
+
+### Bug Fixes
+
+* Crash when changing pages ([9c84f5b](https://github.com/TimSusa/midi-bricks-mono/commit/9c84f5bb5373ca9ece38414652977101f443a8ae))
+* Horz slider height [#224](https://github.com/TimSusa/midi-bricks-mono/issues/224) ([452ad38](https://github.com/TimSusa/midi-bricks-mono/commit/452ad387a1258ca3b86d7deffe836c5eb6c262e5))
+* Issue [#223](https://github.com/TimSusa/midi-bricks-mono/issues/223) with breaking slider ranges ([ede32c2](https://github.com/TimSusa/midi-bricks-mono/commit/ede32c2c0f4ba0776e184e956055dbb4f143c77d))
+* Label is hidden when "Hide Label" is active [#225](https://github.com/TimSusa/midi-bricks-mono/issues/225) ([3d2c5ec](https://github.com/TimSusa/midi-bricks-mono/commit/3d2c5ec0426a01253850b57a44b7a787363b6dca))
+
 ### [1.3.39-alpha.5](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.4...v1.3.39-alpha.5) (2020-09-18)
 
 
