@@ -1,9 +1,8 @@
 import { createNextState } from '@reduxjs/toolkit'
-import { ActionTypePages } from '../actions/pages'
 import { pagesInit } from '.'
 
 export const pages = {
-  [ActionTypePages.CREATE_PAGE](state, action) {
+  createPage(state, action) {
     const { id } = action.payload
 
     return createNextState(state, (draftState) => {
@@ -15,14 +14,14 @@ export const pages = {
       return draftState
     })
   },
-  [ActionTypePages.UPDATE_PAGES](state, action) {
+  updatePages(state, action) {
     const { pages } = action.payload
     return createNextState(state, (draftState) => {
       draftState = pages
       return draftState
     })
   },
-  [ActionTypePages.UPDATE_SLIDER_LIST_OF_PAGE](state, action) {
+  updateSliderListOfPage(state, action) {
     const { lastFocusedPage, sliderList } = action.payload
     return createNextState(state, (draftState) => {
       if (lastFocusedPage && Array.isArray(sliderList)) {
@@ -32,7 +31,7 @@ export const pages = {
     })
   },
 
-  [ActionTypePages.DELETE_PAGES](state) {
+  deletePages(state) {
     return createNextState(state, (draftState) => {
       draftState = pagesInit
       return draftState

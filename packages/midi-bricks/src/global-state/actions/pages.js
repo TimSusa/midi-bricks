@@ -1,12 +1,3 @@
-import { generateActions, createActionTypes } from 'redux-generate'
+import { actionsPages } from '../reducers'
 
-const TypePages = [
-  'CREATE_PAGE',
-  'UPDATE_PAGES',
-  'DELETE_PAGES',
-  'UPDATE_SLIDER_LIST_OF_PAGE'
-]
-
-export const ActionTypePages = createActionTypes(TypePages)
-
-export const Actions = {...generateActions(ActionTypePages)}
+export const Actions = actionsPages
