@@ -10,33 +10,30 @@ import {
 import { makeStyles, useTheme } from '@material-ui/styles'
 import React, { Suspense } from 'react'
 import PropTypes from 'prop-types'
-import { connect, useSelector } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Actions as MidiSliderActions } from '../global-state/actions/slider-list.js'
 import { Actions as ViewStuff } from '../global-state/actions/view-settings.js'
-import { thunkLiveModeToggle } from '../global-state/actions/thunks/thunk-live-mode-toggle'
 import { outputToDriverName } from '../utils/output-to-driver-name.js'
 import { STRIP_TYPE } from '../global-state/reducers/slider-list.js'
 import DriverExpansionPanel from '../components/DriverExpansionPanel.jsx'
 import { thunkChangePage } from '../global-state/actions/thunks/thunk-change-page'
 
-export const GlobalSettingsPage = connect(
-  null,
-  mapDispatchToProps
-)(GlobalSettingsPageComponent)
+const { toggleSettingsDialogMode, setLastFocusedIndex } = {
+  ...MidiSliderActions,
+  ...ViewStuff
+}
+export const GlobalSettingsPage = GlobalSettingsPageComponent
 
 GlobalSettingsPageComponent.propTypes = {
-  actions: PropTypes.object,
   isMidiFailed: PropTypes.bool,
   midi: PropTypes.object,
   pages: PropTypes.object,
   sliderList: PropTypes.array,
-  thunkChangePage: PropTypes.func,
-  thunkLiveModeToggle: PropTypes.func,
   viewSettings: PropTypes.object
 }
 
-function GlobalSettingsPageComponent(props) {
+function GlobalSettingsPageComponent() {
+  const dispatch = useDispatch()
   const { sliderList, midi, isMidiFailed } = useSelector(
     (state) => state.sliders || {}
   )
@@ -51,7 +48,6 @@ function GlobalSettingsPageComponent(props) {
   } = viewSettings
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
-  const { actions, thunkChangePage } = props
 
   if (isMidiFailed) return <div />
   const hasPage = Object.values(pages).length > 0
@@ -69,8 +65,8 @@ function GlobalSettingsPageComponent(props) {
         key={`exp-${idx}`}
         onChange={
           isExpanded
-            ? () => thunkChangePage(lastFocusedPage, '')
-            : () => thunkChangePage(lastFocusedPage, page.id)
+            ? () => dispatch(thunkChangePage(lastFocusedPage, ''))
+            : () => dispatch(thunkChangePage(lastFocusedPage, page.id))
         }
       >
         <Paper style={{ flexDirection: 'column' }} className={classes.root}>
@@ -122,11 +118,13 @@ function GlobalSettingsPageComponent(props) {
                         <MidiSettingsDialog
                           key={`glb-settings-${i}`}
                           open
-                          onClose={actions.toggleSettingsDialogMode.bind(this, {
-                            i,
-                            isSettingsDialogMode: false,
-                            lastFocusedPage
-                          })}
+                          onClose={dispatch(
+                            toggleSettingsDialogMode.bind(this, {
+                              i,
+                              isSettingsDialogMode: false,
+                              lastFocusedPage
+                            })
+                          )}
                           sliderEntry={sliderEntry}
                         />
                       </Suspense>
@@ -216,12 +214,14 @@ function GlobalSettingsPageComponent(props) {
                       <TableRow
                         style={rowStyle}
                         onClick={() => {
-                          actions.setLastFocusedIndex({ i })
-                          actions.toggleSettingsDialogMode({
-                            i,
-                            isSettingsDialogMode: true,
-                            lastFocusedPage
-                          })
+                          dispatch(setLastFocusedIndex({ i }))
+                          dispatch(
+                            toggleSettingsDialogMode({
+                              i,
+                              isSettingsDialogMode: true,
+                              lastFocusedPage
+                            })
+                          )
                         }}
                       >
                         <TableCell>{label || '-'}</TableCell>
@@ -318,17 +318,6 @@ function styles(theme) {
     heading: {
       marginTop: theme.spacing(2)
     }
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(
-      { ...MidiSliderActions, ...ViewStuff },
-      dispatch
-    ),
-    thunkChangePage: bindActionCreators(thunkChangePage, dispatch),
-    thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch)
   }
 }
 
