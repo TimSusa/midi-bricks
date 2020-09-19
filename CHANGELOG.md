@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.39-alpha.8](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.7...v1.3.39-alpha.8) (2020-09-19)
+
+
+### Bug Fixes
+
+* Fontsize and Fontweight settings input ([b813bb1](https://github.com/TimSusa/midi-bricks-mono/commit/b813bb1c0ac7c01f5aa32f061c46f7dad0eae5ea))
+* Toggle hide value ([90882b4](https://github.com/TimSusa/midi-bricks-mono/commit/90882b4babba9a754577ff680a62d6befe28f318))
+
 ### [1.3.39-alpha.7](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.6...v1.3.39-alpha.7) (2020-09-19)
 
 
