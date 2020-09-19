@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.39-alpha.9](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.8...v1.3.39-alpha.9) (2020-09-19)
+
+
+### Bug Fixes
+
+* Configure timescheduler and raf ([30cba3e](https://github.com/TimSusa/midi-bricks-mono/commit/30cba3ecbe4109e22fdcfb07b166380ba2b56e47))
+* Input listener performance ([184c13c](https://github.com/TimSusa/midi-bricks-mono/commit/184c13c76d46ff09c4904b968e1b0852e6b170b0))
+
 ### [1.3.39-alpha.8](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.7...v1.3.39-alpha.8) (2020-09-19)
 
 
