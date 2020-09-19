@@ -1,11 +1,17 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
+import { Actions as ViewSettinsgsAction } from '../../../global-state/actions/view-settings'
+import { Actions as SliderSettinsgsAction } from '../../../global-state/actions/slider-list'
 
+const { setPageTargetSettings, changeLabel } = {
+  ...ViewSettinsgsAction,
+  ...SliderSettinsgsAction
+}
 MidiSettingsLabelInput.propTypes = {
-  actions: PropTypes.object,
   classes: PropTypes.object,
   i: PropTypes.string,
   label: PropTypes.string,
@@ -18,9 +24,9 @@ export function MidiSettingsLabelInput({
   i,
   lastFocusedPage,
   classes,
-  actions,
   type
 }) {
+  const dispatch = useDispatch()
   return (
     <FormControl className={classes.formControl}>
       <InputLabel className={classes.label} htmlFor='label'>
@@ -32,27 +38,30 @@ export function MidiSettingsLabelInput({
         type='label'
         name={`input-label-name-${i}`}
         value={label}
-        onChange={handleLabelChange.bind(this, lastFocusedPage, i, actions, type)}
+        onChange={handleLabelChange}
         autoFocus
       />
     </FormControl>
   )
-}
+  function handleLabelChange(e) {
+    e.preventDefault()
+    e.stopPropagation()
 
-function handleLabelChange(lastFocusedPage, i, actions, type, e) {
-  e.preventDefault()
-  e.stopPropagation()
-
-  if (type === undefined) {
-    actions.setPageTargetSettings({
-      label: e.target.value,
-      lastFocusedPage
-    })
-  } else {
-    actions.changeLabel({
-      i,
-      val: e.target.value,
-      lastFocusedPage
-    })
+    if (type === undefined) {
+      dispatch(
+        setPageTargetSettings({
+          label: e.target.value,
+          lastFocusedPage
+        })
+      )
+    } else {
+      dispatch(
+        changeLabel({
+          i,
+          val: e.target.value,
+          lastFocusedPage
+        })
+      )
+    }
   }
 }

@@ -1,5 +1,6 @@
-import { MinMaxValInput } from './MinMaxValInput'
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { MinMaxValInput } from './MinMaxValInput'
 import PropTypes from 'prop-types'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
@@ -11,6 +12,21 @@ import {
 } from '../MidiSettings'
 
 import { STRIP_TYPE } from '../../../global-state/reducers/slider-list'
+
+import { Actions as ViewSettinsgsAction } from '../../../global-state/actions/view-settings'
+import { Actions as SliderSettinsgsAction } from '../../../global-state/actions/slider-list'
+
+const {
+  selectMidiDriver,
+  selectMidiChannel,
+  setMaxVal,
+  setMinVal,
+  setOnVal,
+  setOffVal
+} = {
+  ...ViewSettinsgsAction,
+  ...SliderSettinsgsAction
+}
 
 const {
   BUTTON,
@@ -32,9 +48,9 @@ MidiSettingsOutput.propTypes = {
 }
 
 export function MidiSettingsOutput(props) {
+  const dispatch = useDispatch()
   const {
     classes,
-    actions,
     sliderEntry: {
       i,
       type,
@@ -60,11 +76,13 @@ export function MidiSettingsOutput(props) {
         <Select
           className={classes.select}
           onChange={(e) =>
-            actions.selectMidiDriver({
-              i,
-              driverName: e.target.value,
-              lastFocusedPage
-            })
+            dispatch(
+              selectMidiDriver({
+                i,
+                driverName: e.target.value,
+                lastFocusedPage
+              })
+            )
           }
           value={driverName || 'None'}
         >
@@ -81,11 +99,13 @@ export function MidiSettingsOutput(props) {
         <Select
           className={classes.select}
           onChange={(e) =>
-            actions.selectMidiChannel({
-              i,
-              val: parseInt(e.target.value, 10),
-              lastFocusedPage
-            })
+            dispatch(
+              selectMidiChannel({
+                i,
+                val: parseInt(e.target.value, 10),
+                lastFocusedPage
+              })
+            )
           }
           value={`${midiChannel}` || 'None'}
         >
@@ -106,10 +126,12 @@ export function MidiSettingsOutput(props) {
             name={`input-maxval-name-${i}`}
             limitVal={127}
             onChange={(e) =>
-              actions.setMaxVal({
-                i,
-                val: e.target.value
-              })
+              dispatch(
+                setMaxVal({
+                  i,
+                  val: e.target.value
+                })
+              )
             }
           />
           <MinMaxValInput
@@ -118,10 +140,12 @@ export function MidiSettingsOutput(props) {
             name={`input-minval-name-${i}`}
             limitVal={0}
             onChange={(e) =>
-              actions.setMinVal({
-                i,
-                val: e.target.value
-              })
+              dispatch(
+                setMinVal({
+                  i,
+                  val: e.target.value
+                })
+              )
             }
           />
         </React.Fragment>
@@ -138,10 +162,12 @@ export function MidiSettingsOutput(props) {
                 name={`input-onval-name-${i}`}
                 limitVal={127}
                 onChange={(e) =>
-                  actions.setOnVal({
-                    i,
-                    val: e.target.value
-                  })
+                  dispatch(
+                    setOnVal({
+                      i,
+                      val: e.target.value
+                    })
+                  )
                 }
               />
               <MinMaxValInput
@@ -150,10 +176,12 @@ export function MidiSettingsOutput(props) {
                 name={`input-offval-name-${i}`}
                 limitVal={0}
                 onChange={(e) =>
-                  actions.setOffVal({
-                    i,
-                    val: e.target.value
-                  })
+                  dispatch(
+                    setOffVal({
+                      i,
+                      val: e.target.value
+                    })
+                  )
                 }
               />
             </React.Fragment>
