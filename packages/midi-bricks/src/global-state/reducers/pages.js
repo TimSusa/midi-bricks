@@ -32,7 +32,7 @@ export const pages = {
     })
   },
 
-  [ActionTypePages.DELETE_PAGES](state, action) {
+  [ActionTypePages.DELETE_PAGES](state) {
     return createNextState(state, (draftState) => {
       draftState = pagesInit
       return draftState

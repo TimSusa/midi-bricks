@@ -519,14 +519,13 @@ export const sliders = {
     const idx = state.sliderList.findIndex((item) => i === item.i)
 
     return createNextState(state, (draftState) => {
-      draftState.sliderList[idx].isValueHidden = !state.sliderList[idx]
-        .isValueHidden
+      draftState.sliderList[idx].isValueHidden = !state.sliderList[idx].isValueHidden || false
       return draftState
     })
   },
 
-  [ActionTypeSliderList.TRIGGER_ALL_MIDI_ELEMENTS](state, action) {
-    state.sliderList.forEach((item, idx) => {
+  [ActionTypeSliderList.TRIGGER_ALL_MIDI_ELEMENTS](state) {
+    state.sliderList.forEach((item) => {
       const {
         type,
         midiCC,

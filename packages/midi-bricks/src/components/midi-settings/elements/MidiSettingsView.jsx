@@ -167,7 +167,7 @@ export function MidiSettingsView(props) {
               <Checkbox
                 className={classes.iconColor}
                 checked={isValueHidden || false}
-                onChange={(e) => dispatch(toggleHideValue(e))}
+                onChange={() => dispatch(toggleHideValue({ i }))}
               />
             }
             label='Hide Value'
