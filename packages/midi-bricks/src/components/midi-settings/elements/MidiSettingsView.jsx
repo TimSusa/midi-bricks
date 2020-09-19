@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Typography, MenuItem } from '@material-ui/core'
 import InputLabel from '@material-ui/core/InputLabel'
+import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormControl from '@material-ui/core/FormControl'
@@ -41,6 +42,7 @@ MidiSettingsView.propTypes = {
 
 export function MidiSettingsView(props) {
   const dispatch = useDispatch()
+
   const {
     classes,
     type: pageType,
@@ -53,6 +55,9 @@ export function MidiSettingsView(props) {
   const colorFont = !pageType
     ? colors.colorFont
     : pageTarget && pageTarget.colors && pageTarget.colors.colorFont
+
+  const [fontSizeLocal, setFontSizeLocal] = useState(fontSize)
+  const [fontWeightLocal, setFontWeightLocal] = useState(fontWeight)
   return (
     <React.Fragment>
       <FormControl>
@@ -127,20 +132,32 @@ export function MidiSettingsView(props) {
             type='range'
             min={8}
             max={54}
-            value={fontSize || 16}
-            onChange={handleFontsizeChange}
+            value={fontSizeLocal || 16}
+            onChange={(e) => setFontSizeLocal(e.target.value)}
           />
+          <Button
+            variant='contained'
+            onClick={() => handleFontsizeChange(fontSizeLocal)}
+          >
+            OK
+          </Button>
           <Typography className={classes.label} htmlFor='fontWeight'>
-            {'Font Weight:  ' + (fontWeight || 500)}
+            {'Font Weight:  ' + (fontWeightLocal || 500)}
           </Typography>
           <input
             type='range'
             min={100}
             max={900}
             step={100}
-            value={fontWeight || 500}
-            onChange={handleFontweightChange}
+            value={fontWeightLocal || 500}
+            onChange={(e) => setFontWeightLocal(e.target.value)}
           />
+          <Button
+            onClick={() => handleFontweightChange(fontWeightLocal)}
+            variant='contained'
+          >
+            OK
+          </Button>
         </FormControl>
       )}
       {[SLIDER, SLIDER_HORZ].includes(type) && (
@@ -159,29 +176,29 @@ export function MidiSettingsView(props) {
       )}
     </React.Fragment>
   )
-  function handleButtonTypeChange(e) {
+  function handleButtonTypeChange(val) {
     dispatch(
       changeButtonType({
         i,
-        val: e.target.value
+        val
       })
     )
   }
 
-  function handleFontsizeChange(e) {
+  function handleFontsizeChange(val) {
     dispatch(
       changeFontSize({
         i,
-        fontSize: e.target.value
+        fontSize: val
       })
     )
   }
 
-  function handleFontweightChange(e) {
+  function handleFontweightChange(val) {
     dispatch(
       changeFontWeight({
         i,
-        fontWeight: e.target.value
+        fontWeight: val
       })
     )
   }
