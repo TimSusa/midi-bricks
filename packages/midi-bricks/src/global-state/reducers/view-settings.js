@@ -1,17 +1,16 @@
-import { ActionTypeViewSettings } from '../actions/view-settings'
 
 import { viewSettingsInitState } from '.'
 import { createNextState } from '@reduxjs/toolkit'
 
 export const viewSettings = {
-  [ActionTypeViewSettings.TOGGLE_PAGE](state, action) {
+  togglePage(state, action) {
     return createNextState(state, (draftState) => {
       draftState.pageType = action.payload.pageType || 'HOME'
       return draftState
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_LIVE_MODE](state, action) {
+  toggleLiveMode(state, action) {
     let castedVal = !!state.isLiveMode
     if (action.payload && action.payload.isLiveMode !== undefined) {
       castedVal = action.payload.isLiveMode
@@ -26,7 +25,7 @@ export const viewSettings = {
       return draftState
     })
   },
-  [ActionTypeViewSettings.TOGGLE_MIDI_LEARN_MODE](state, action) {
+  toggleMidiLearnMode(state, action) {
     const castedVal = !!state.isMidiLearnMode
     const { isMidiLearnMode } = action.payload || {}
     return Object.assign({}, state, {
@@ -36,7 +35,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_LAYOUT_MODE](state, action) {
+  toggleLayoutMode(state, action) {
     const { isLayoutMode: isStateLayoutMode } = state || {}
     const { isLayoutMode } = action.payload || {}
     return Object.assign({}, state, {
@@ -45,7 +44,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_COMPACT_MODE](state) {
+  toggleCompactMode(state) {
     const castedVal = !!state.isCompactHorz
     return Object.assign({}, state, {
       isCompactHorz: !castedVal,
@@ -53,7 +52,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_SETTINGS_MODE](state, action) {
+  toggleSettingsMode(state, action) {
     return createNextState(state, (draftState) => {
       const castedVal = !!state.isSettingsMode
       const { isSettingsMode } = action.payload || {}
@@ -66,7 +65,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.SET_FULLSCREEN_ON_LIVEMODE](state, action) {
+  setFullscreeOnLiveMode(state, action) {
     const castedVal = !!state.isFullscreenOnLivemode
     const { isFullscreenOnLivemode } = action.payload || {}
     return Object.assign({}, state, {
@@ -74,7 +73,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_AUTO_ARRANGE_MODE](state) {
+  toggleAutoArrangeMode(state) {
     const castedVal = !!state.isAutoArrangeMode
     return Object.assign({}, state, {
       isAutoArrangeMode: !castedVal,
@@ -82,7 +81,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.CHANGE_THEME](state) {
+  changeTheme(state) {
     const castedVal = !!state.isChangedTheme
     return Object.assign({}, state, {
       isChangedTheme: !castedVal,
@@ -90,7 +89,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.UPDATE_VIEW_SETTINGS](state, action) {
+  updateViewSettings(state, action) {
     const {
       viewSettings,
       viewSettings: { availableDrivers } = {}
@@ -109,7 +108,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.DELETE_PAGE_FROM_FOOTER](state, action) {
+  deletePageFromFooter(state, action) {
     const { i } = action.payload
     const pageTargets = state.pageTargets.filter((item) => item.id !== i)
 
@@ -119,7 +118,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.DELETE_FOOTER_PAGES](state) {
+  deleteFooterPages(state) {
     return createNextState(state, (draftState) => {
       draftState.pageTargets = viewSettingsInitState.pageTargets
       draftState.footerPages = []
@@ -130,7 +129,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.SET_LAST_FOCUSED_INDEX](state, action) {
+  setLastFocusedIndex(state, action) {
     return createNextState(state, (draftState) => {
       const { i = '' } = action.payload || {}
 
@@ -155,7 +154,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.SWAP_FOOTER_PAGES](state, action) {
+  swapFooterPages(state, action) {
     const { srcIdx: srcI, offset } = action.payload
     const srcItem = state.pageTargets.find((item) => item.id === srcI)
     const srcIdx = state.pageTargets.findIndex((item) => item.id === srcI)
@@ -182,7 +181,7 @@ export const viewSettings = {
       pageTargets: newArray
     })
   },
-  [ActionTypeViewSettings.TOGGLE_SETTINGS_DIALOG_MODE](state, action) {
+  toggleSettingsDialogMode(state, action) {
     const { isSettingsDialogMode, i, lastFocusedPage } = action.payload
     return createNextState(state, (draftState) => {
       draftState.isSettingsDialogMode = isSettingsDialogMode
@@ -195,7 +194,7 @@ export const viewSettings = {
     // })
   },
 
-  [ActionTypeViewSettings.SET_AVAILABLE_DRIVERS](state, action) {
+  setAvailableDrivers(state, action) {
     const {
       availableDrivers: { inputs: oldIn, outputs: oldOut }
     } = state || viewSettingsInitState
@@ -252,7 +251,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.SET_PAGE_TARGET_SETTINGS](state, action) {
+  setPageTargetSettings(state, action) {
     const { color, colorFont, label } = action.payload
 
     return createNextState(state, (draftState) => {
@@ -273,51 +272,51 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.SET_ROW_HEIGHT](state, action) {
+  setRowHeight(state, action) {
     const { rowHeight } = action.payload
     return Object.assign({}, state, {
       rowHeight
     })
   },
-  [ActionTypeViewSettings.SET_COLUMNS](state, action) {
+  setColumns(state, action) {
     const { columns } = action.payload
     return Object.assign({}, state, {
       columns
     })
   },
 
-  [ActionTypeViewSettings.TOGGLE_AUTOSIZE](state) {
+  toggleAutosize(state) {
     const castedVal = !!state.isAutoSize
     return Object.assign({}, state, {
       isAutoSize: !castedVal
     })
   },
-  [ActionTypeViewSettings.SET_X_MARGIN](state, action) {
+  setXMargin(state, action) {
     const { marginX } = action.payload
     return Object.assign({}, state, {
       marginX
     })
   },
-  [ActionTypeViewSettings.SET_Y_MARGIN](state, action) {
+  setYMargin(state, action) {
     const { marginY } = action.payload
     return Object.assign({}, state, {
       marginY
     })
   },
-  [ActionTypeViewSettings.SET_X_PADDING](state, action) {
+  setXPadding(state, action) {
     const { paddingX } = action.payload
     return Object.assign({}, state, {
       paddingX
     })
   },
-  [ActionTypeViewSettings.SET_Y_PADDING](state, action) {
+  setYPadding(state, action) {
     const { paddingY } = action.payload
     return Object.assign({}, state, {
       paddingY
     })
   },
 
-  [ActionTypeViewSettings.SET_ELECTRON_APP_SETTINGS](state, action) {
+  setElectronAppSettings(state, action) {
     const {
       isDevConsoleEnabled,
       isAllowedToUpdate,
@@ -362,7 +361,7 @@ export const viewSettings = {
     })
     //return { ...state, electronAppSettings }
   },
-  [ActionTypeViewSettings.SET_LAST_FOCUSED_PAGE](state, action) {
+  setLastFocusedPage(state, action) {
     return createNextState(state, (draftState) => {
       const {
         payload: { lastFocusedPage = '' }
@@ -373,7 +372,7 @@ export const viewSettings = {
     })
   },
 
-  [ActionTypeViewSettings.ADD_PAGE_TARGET](state, action) {
+  addPageTarget(state, action) {
     return createNextState(state, (draftState) => {
       const {
         payload: { pageTarget }
@@ -387,7 +386,7 @@ export const viewSettings = {
       return draftState
     })
   },
-  [ActionTypeViewSettings.CHANGE_GLOBAL_MIDI_INPUT_DELAY](state, action) {
+  changeGlobalMidiInputDelay(state, action) {
     return createNextState(state, (draftState) => {
       const {
         payload: { globalMidiInputDelay }

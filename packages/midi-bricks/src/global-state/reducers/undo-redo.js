@@ -1,8 +1,7 @@
 import { createNextState } from '@reduxjs/toolkit'
-import { ActionTypeUndoRedo } from '../actions/undo-redo'
 
 export const undoRedo = {
-  [ActionTypeUndoRedo.UNDO_REDO_UPDATE](state, action) {
+  undoRedoUpdate(state, action) {
     const {state: { pages, sliders, viewSettings }} = action.payload
 
     return createNextState(state, (draftState) => {
@@ -12,7 +11,7 @@ export const undoRedo = {
       return draftState
     })
   },
-  [ActionTypeUndoRedo.UNDO_REDO_DELETE](state, action) {
+  undoRedoDelete(state) {
     return createNextState(state, (draftState) => {
       draftState.pages = {}
       draftState.sliders = {}
@@ -20,7 +19,7 @@ export const undoRedo = {
       return draftState
     })
   },
-  [ActionTypeUndoRedo.UNDO_REDO_LOAD](state, action) {
+  undoRedoLoad(state, action) {
     const { state: updatedState } = action.payload
     return createNextState(state, (draftState) => {
       draftState = updatedState

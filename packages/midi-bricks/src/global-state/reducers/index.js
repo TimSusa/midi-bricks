@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux'
-import { generateReducers } from 'redux-generate'
 import { createSlice } from '@reduxjs/toolkit'
 import { sliders, initId } from './slider-list'
 import { viewSettings } from './view-settings'
@@ -99,9 +98,40 @@ const {reducer: reducerPagess, actions: actionsPagess} = createSlice({
 export const actionsPages = actionsPagess
 export const reducerPages = reducerPagess
 
+
+const {reducer: reducerSliderss, actions: actionsSliderss} = createSlice({
+  name: 'sliders',
+  initialState: slidersInitState,
+  reducers: sliders
+
+})
+
+export const actionsSliders = actionsSliderss
+export const reducerSliders = reducerSliderss
+
+const {reducer: reducerViewSettingss, actions: actionsViewSettingss} = createSlice({
+  name: 'viewSettings',
+  initialState: viewSettingsInitState,
+  reducers: viewSettings
+
+})
+
+export const actionsViewSettings = actionsViewSettingss
+export const reducerViewSettings= reducerViewSettingss
+
+const {reducer: reducerUndoRedod, actions: actionsUndoRedod} = createSlice({
+  name: 'undoRedo',
+  initialState: {},
+  reducers: undoRedo
+
+})
+
+export const actionsUndoRedo = actionsUndoRedod
+export const reducerUndoRedo= reducerUndoRedod
+
 export default combineReducers({
-  sliders: generateReducers(slidersInitState, sliders),
-  viewSettings: generateReducers(viewSettingsInitState, viewSettings),
+  sliders: reducerSliders,
+  viewSettings: reducerViewSettings,
   pages: reducerPages,
-  undoRedo: generateReducers({}, undoRedo)
+  undoRedo: reducerUndoRedo
 })

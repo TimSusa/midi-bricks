@@ -1,6 +1,5 @@
 import WebMIDI from 'webmidi'
 
-import { ActionTypeSliderList } from '../actions/slider-list'
 import { midi } from 'tonal'
 import { fromMidi } from '../../utils/fromMidi'
 import { map } from 'lodash'
@@ -36,13 +35,13 @@ const {
 } = STRIP_TYPE
 
 export const sliders = {
-  [ActionTypeSliderList.INIT_MIDI_ACCESS_PENDING](state) {
+  initMidiAccessPending(state) {
     return createNextState(state, () => {
       return state
     })
   },
 
-  [ActionTypeSliderList.INIT_FAILED](state) {
+  initFailed(state) {
     return createNextState(state, (draftState) => {
       draftState.midi = {
         midiAccess: {
@@ -55,7 +54,7 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.INIT_MIDI_ACCESS_OK](state, action) {
+  initMidiAccessOk(state, action) {
     return createNextState(state, (draftState) => {
       draftState.midi = action.payload
       draftState.isMidiFailed = false
@@ -63,7 +62,7 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.ADD_MIDI_ELEMENT](state, action) {
+  addMidiElement(state, action) {
     const { isMidiFailed, sliderList, midi: tmpMidi } = transformAddState(state, action)
     return createNextState(state, (draftState) => {
       draftState.sliderList = sliderList
@@ -73,7 +72,7 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.CLONE](state, action) {
+  clone(state, action) {
     const i = (action.payload && action.payload.i) || ''
     let tmpState = null
     const list = state.sliderList
@@ -140,7 +139,7 @@ export const sliders = {
       newArr
     )
   },
-  [ActionTypeSliderList.CHANGE_BUTTON_TYPE](state, action) {
+  changeButtonType(state, action) {
     const { i, val } = action.payload
     return createNextState(state, (draftState) => {
       const idx = state.sliderList.findIndex((item) => item.i === i)
@@ -148,7 +147,7 @@ export const sliders = {
       return draftState
     })
   },
-  [ActionTypeSliderList.DELETE](state, action) {
+  delete(state, action) {
     const { i: sentIdx } = action.payload
     const isPage = sentIdx.toString().startsWith('page')
 
@@ -170,7 +169,7 @@ export const sliders = {
       })
     }
   },
-  [ActionTypeSliderList.DELETE_ALL](state) {
+  deleteAll(state) {
     return createNextState(state, (draftState) => {
       draftState.sliderList = []
       draftState.presetName = ''
@@ -178,48 +177,44 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.HANDLE_SLIDER_CHANGE]({ sliderList }, action) {
+  handleSliderChange: createNextState((draftState, action) => {
     // At first send MIDI
     const { i, val } = action.payload
-    const idx = sliderList.findIndex((item) => item.i === i)
+    const idx = draftState.sliderList.findIndex((item) => item.i === i)
     const { midiCC, midiChannel, driverName, label, isNoteOn, type } =
-      sliderList[idx] || {}
+    draftState.sliderList[idx] || {}
     sendControlChanges({ midiCC, midiChannel, driverName, val, label })
+    // For CC Buttons we toggle the NoteOn state at each trigger
+    // Keep in mind, that the component button will take care of sending the right values for itself.
+    if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
+      draftState.sliderList[idx].isNoteOn = !isNoteOn
+    }
+    draftState.sliderList[idx].val = val
+    return draftState
+  }),
 
-    // Now, do view state changes
-    return createNextState({ sliderList }, (draftState) => {
-      // For CC Buttons we toggle the NoteOn state at each trigger
-      // Keep in mind, that the component button will take care of sending the right values for itself.
-      if ([BUTTON_CC, BUTTON_TOGGLE_CC].includes(type)) {
-        draftState.sliderList[idx].isNoteOn = !isNoteOn
-      }
-      draftState.sliderList[idx].val = val
-      return draftState
-    })
-  },
+  // [ActionTypeSliderList.SEND_MIDI_CC_Y](state, action) {
+  //   const { idx, yVal } = action.payload
+  //   let newStateTmp = state.sliderList
 
-  [ActionTypeSliderList.SEND_MIDI_CC_Y](state, action) {
-    const { idx, yVal } = action.payload
-    let newStateTmp = state.sliderList
+  //   // Handle multi CC
+  //   const tmp = newStateTmp[idx]
+  //   const { yMidiCc, yMidiChannel, yDriverName, label } = tmp
+  //   sendControlChanges({
+  //     midiCC: yMidiCc,
+  //     midiChannel: yMidiChannel,
+  //     driverName: yDriverName,
+  //     val: yVal,
+  //     label
+  //   })
+  //   return createNextState(state, (draftState) => {
+  //     const idxx = state.sliderList.findIndex((er) => er.i === idx)
+  //     draftState.sliderList[idxx].yVal = yVal
+  //     return draftState
+  //   })
+  // },
 
-    // Handle multi CC
-    const tmp = newStateTmp[idx]
-    const { yMidiCc, yMidiChannel, yDriverName, label } = tmp
-    sendControlChanges({
-      midiCC: yMidiCc,
-      midiChannel: yMidiChannel,
-      driverName: yDriverName,
-      val: yVal,
-      label
-    })
-    return createNextState(state, (draftState) => {
-      const idxx = state.sliderList.findIndex((er) => er.i === idx)
-      draftState.sliderList[idxx].yVal = yVal
-      return draftState
-    })
-  },
-
-  [ActionTypeSliderList.TOGGLE_NOTE](state, action) {
+  toggleNote(state, action) {
     const { i } = action.payload
 
     const {
@@ -245,7 +240,7 @@ export const sliders = {
     return updatePagesWithSliderlist(state, sliderList )
   },
 
-  [ActionTypeSliderList.SEND_PROGRAM_CHANGE](state, action) {
+  sendProgramChange(state, action) {
     const { i } = action.payload
     const tmp = state.sliderList.find((item) => item.i === i)
     const { midiCC, midiChannel, driverName } = tmp
@@ -255,7 +250,7 @@ export const sliders = {
     return state
   },
 
-  [ActionTypeSliderList.CHANGE_LABEL](state, action) {
+  changeLabel(state, action) {
     const { i, val } = action.payload
     return createNextState(state, (draftState) => {
       const idx = state.sliderList.findIndex((er) => er.i === i)
@@ -266,7 +261,7 @@ export const sliders = {
       return draftState
     })
   },
-  [ActionTypeSliderList.SELECT_MIDI_DRIVER](state, action) {
+  selectMidiDriver(state, action) {
     const { i, driverName } = action.payload
     const idx = state.sliderList.findIndex((item) => i === item.i)
 
@@ -276,7 +271,7 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.SELECT_MIDI_DRIVER_INPUT](state, action) {
+  selectMidiDriverInput(state, action) {
     const { i, driverNameInput } = action.payload
     const idx = state.sliderList.findIndex((item) => i === item.i)
 
@@ -286,7 +281,7 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.SELECT_CC](state, action) {
+  selectCc(state, action) {
     const { i, val } = action.payload
     const idx = state.sliderList.findIndex((item) => i === item.i)
     return createNextState(state, (draftState) => {
@@ -294,7 +289,7 @@ export const sliders = {
       return draftState
     })
   },
-  [ActionTypeSliderList.ADD_MIDI_CC_LISTENER](state, action) {
+  addMidiCcListener(state, action) {
     const { i, val } = action.payload
     const idx = state.sliderList.findIndex((item) => i === item.i)
 
@@ -303,7 +298,7 @@ export const sliders = {
       return draftState
     })
   },
-  [ActionTypeSliderList.SET_MAX_VAL](state, action) {
+  setMaxVal(state, action) {
     const { val, i } = action.payload
     const idx = state.sliderList.findIndex((item) => i === item.i)
 
@@ -313,7 +308,7 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.SET_MIN_VAL](state, action) {
+  setMinVal(state, action) {
     const { val, i } = action.payload
     const idx = state.sliderList.findIndex((item) => i === item.i)
 
@@ -323,7 +318,7 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.SET_ON_VAL](state, action) {
+  setOnVal(state, action) {
     const { val, i } = action.payload
     const idx = state.sliderList.findIndex((item) => i === item.i)
 
@@ -333,7 +328,7 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.SET_OFF_VAL](state, action) {
+  setOffVal(state, action) {
     const { val, i } = action.payload
     const idx = state.sliderList.findIndex((item) => i === item.i)
 
@@ -343,7 +338,7 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.SELECT_MIDI_CHANNEL](state, action) {
+  selectMidiChannel(state, action) {
     const { val, i } = action.payload
     const idx = state.sliderList.findIndex((item) => item.i === i)
 
@@ -353,7 +348,7 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.SELECT_MIDI_CHANNEL_INPUT](state, action) {
+  selectMidiChannelInput(state, action) {
     const { val, i } = action.payload
     const idx = state.sliderList.findIndex((item) => item.i === i)
 
@@ -363,7 +358,7 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.SAVE_FILE](state, action) {
+  saveFile(state, action) {
     // This is actuall only envolved in web app mode, not in electron mode
     const { viewSettings, sliders: tmpSliders, version, pages: pgs } = action.payload
 
@@ -397,7 +392,7 @@ export const sliders = {
     a.click()
     return state
   },
-  [ActionTypeSliderList.LOAD_FILE](state, action) {
+  loadFile(state, action) {
     // DEPRECATD??
     return createNextState(state, (draftState) => {
       const {
@@ -408,7 +403,7 @@ export const sliders = {
       return draftState
     })
   },
-  [ActionTypeSliderList.CHANGE_LIST_ORDER](state, action) {
+  changeListOrder(state, action) {
     return createNextState(state, (draftState) => {
       const { listOrder } = action.payload
 
@@ -423,10 +418,10 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.MIDI_MESSAGE_ARRIVED](state, action) {
+  midiMessageArrived: createNextState((draftState, action) => {
     const { val, cC, channel, driver, isNoteOn } = action.payload
 
-    const sliderList = map(state.sliderList, (item) => {
+    const sliderList = map(draftState.sliderList, (item) => {
       const { listenToCc, midiChannelInput, driverNameInput } = item
       if (listenToCc && listenToCc.length > 0) {
         const haveChannelsMatched =
@@ -442,14 +437,12 @@ export const sliders = {
       return { ...item }
     })
 
-    return createNextState(state, (draftState) => {
-      draftState.sliderList = sliderList
-      draftState.monitorVal = { val, cC, channel, driver, isNoteOn }
-      return draftState
-    })
-  },
+    draftState.sliderList = sliderList
+    draftState.monitorVal = { val, cC, channel, driver, isNoteOn }
+    return draftState
+  }),
 
-  [ActionTypeSliderList.CHANGE_COLORS](state, action) {
+  changeColors(state, action) {
     const { i, ...rest } = action.payload
     return createNextState(state, (draftState) => {
       const idx = state.sliderList.findIndex((item) => item.i === i)
@@ -461,7 +454,7 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.CHANGE_FONT_SIZE](state, action) {
+  changeFontSize(state, action) {
     const { i, fontSize } = action.payload
     const idx = state.sliderList.findIndex((item) => i === item.i)
 
@@ -471,7 +464,7 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.CHANGE_FONT_WEIGHT](state, action) {
+  changeFontWeight(state, action) {
     const { i, fontWeight } = action.payload
 
     const idx = state.sliderList.findIndex((item) => i === item.i)
@@ -482,39 +475,39 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.CHANGE_XYPAD_SETTINGS](state, action) {
-    const {
-      i,
-      yDriverName,
-      yMidiChannel,
-      yMaxVal,
-      yMinVal,
-      yMidiCc
-    } = action.payload
-    const idx = state.sliderList.findIndex((item) => i === item.i)
-    return createNextState(state, (draftState) => {
-      if (yMidiChannel) {
-        draftState.sliderList[idx].yMidiChannel = yMidiChannel
-      }
-      if (yDriverName) {
-        draftState.sliderList[idx].yDriverName = yDriverName
-      }
+  // [ActionTypeSliderList.CHANGE_XYPAD_SETTINGS](state, action) {
+  //   const {
+  //     i,
+  //     yDriverName,
+  //     yMidiChannel,
+  //     yMaxVal,
+  //     yMinVal,
+  //     yMidiCc
+  //   } = action.payload
+  //   const idx = state.sliderList.findIndex((item) => i === item.i)
+  //   return createNextState(state, (draftState) => {
+  //     if (yMidiChannel) {
+  //       draftState.sliderList[idx].yMidiChannel = yMidiChannel
+  //     }
+  //     if (yDriverName) {
+  //       draftState.sliderList[idx].yDriverName = yDriverName
+  //     }
 
-      if (yMidiCc && yMidiCc.length > 0) {
-        draftState.sliderList[idx].yMidiCc = yMidiCc
-      }
+  //     if (yMidiCc && yMidiCc.length > 0) {
+  //       draftState.sliderList[idx].yMidiCc = yMidiCc
+  //     }
 
-      if (yMaxVal) {
-        draftState.sliderList[idx].yMaxVal = yMaxVal
-      }
-      if (yMinVal) {
-        draftState.sliderList[idx].yMinVal = yMinVal
-      }
-      return draftState
-    })
-  },
+  //     if (yMaxVal) {
+  //       draftState.sliderList[idx].yMaxVal = yMaxVal
+  //     }
+  //     if (yMinVal) {
+  //       draftState.sliderList[idx].yMinVal = yMinVal
+  //     }
+  //     return draftState
+  //   })
+  // },
 
-  [ActionTypeSliderList.TOGGLE_HIDE_VALUE](state, action) {
+  toggleHideValue(state, action) {
     const { i } = action.payload
     const idx = state.sliderList.findIndex((item) => i === item.i)
 
@@ -524,7 +517,7 @@ export const sliders = {
     })
   },
 
-  [ActionTypeSliderList.TRIGGER_ALL_MIDI_ELEMENTS](state) {
+  triggerAllMidiElements(state) {
     state.sliderList.forEach((item) => {
       const {
         type,
@@ -639,13 +632,13 @@ export const sliders = {
     return state
   },
 
-  [ActionTypeSliderList.RESET_VALUES](state) {
+  resetValues(state) {
     return createNextState(state, (draftState) => {
       return draftState
     })
   },
 
-  [ActionTypeSliderList.SET_MIDI_PAGE](state, action) {
+  setMidiPage(state, action) {
     return createNextState(state, (draftState) => {
       const { sliderList } = action.payload
       draftState.sliderList = sliderList

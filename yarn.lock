@@ -13010,11 +13010,6 @@ redux-devtools-extension@2.13.8:
   resolved "https://registry.npmjs.org/redux-devtools-extension/-/redux-devtools-extension-2.13.8.tgz#37b982688626e5e4993ff87220c9bbb7cd2d96e1"
   integrity sha512-8qlpooP2QqPtZHQZRhx3x3OP5skEV1py/zUdMY28WNAocbafxdG2tRD1MWE7sp8obGMNYuLWanhhQ7EQvT1FBg==
 
-redux-generate@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/redux-generate/-/redux-generate-2.0.0.tgz#3484dd061ce5c66344ac62b4a0e765f3cba55305"
-  integrity sha512-i1b4gskkf1Si4YqudovzMeTOAXIhhKaK8x2C/FV3sdL75FBsaXTBvug+LkNCgUBbWgA+qV9yExGMIputvlHCGg==
-
 redux-mock-store@1.5.3:
   version "1.5.3"
   resolved "https://registry.npmjs.org/redux-mock-store/-/redux-mock-store-1.5.3.tgz#1f10528949b7ce8056c2532624f7cafa98576c6d"

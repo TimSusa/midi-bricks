@@ -60,9 +60,8 @@ function ChannelStripListCmp() {
     paddingX,
     paddingY
   } = useSelector((state) => state.viewSettings)
-  const { sliderList = [], monitorVal: monTmp } = useSelector(
-    (state) => state.sliders
-  )
+  const { monitorVal: monTmp } = useSelector((state) => state.sliders)
+  const sliderList = useSelector((state) => state.sliders.sliderList || [])
   const { driver, cC, channel } = monTmp || {
     driver: 'None',
     cC: 'None',

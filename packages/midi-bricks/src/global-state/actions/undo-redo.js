@@ -1,11 +1,3 @@
-import { generateActions, createActionTypes } from 'redux-generate'
+import { actionsUndoRedo } from '../reducers'
 
-const TypeUndoRedo = [
-  'UNDO_REDO_UPDATE',
-  'UNDO_REDO_DELETE',
-  'UNDO_REDO_LOAD',
-]
-
-export const ActionTypeUndoRedo = createActionTypes(TypeUndoRedo)
-
-export const Actions = {...generateActions(ActionTypeUndoRedo)}
+export const Actions = actionsUndoRedo

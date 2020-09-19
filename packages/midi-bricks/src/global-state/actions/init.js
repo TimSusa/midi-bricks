@@ -87,18 +87,17 @@ function registerCcListeners (listenersObj, name, input, dispatch, globalMidiInp
             channel,
             driver: name
           }
-          const myAction = (payload) => ({
-            type: 'MIDI_MESSAGE_ARRIVED',
-            payload,
-            meta: {
-              raf: true,
-              delay: globalMidiInputDelay
-            }
-          })
-          dispatch(myAction(obj))
+          // const myAction = (payload) => ({
+          //   type: 'sliders/MIDI_MESSAGE_ARRIVED',
+          //   payload,
+          //   meta: {
+          //     raf: true,
+          //     delay: globalMidiInputDelay
+          //   }
+          // })
+          dispatch(midiMessageArrived(obj))
         }
         if (!input.hasListener('controlchange', midiChIn, debounce(midiEventMapper, globalMidiInputDelay))) {
-          // console.log('ADDD LISTENERS CC', midiChIn, driverNameIn)
           input.addListener(
             'controlchange',
             midiChIn,
