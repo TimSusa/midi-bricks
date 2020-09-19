@@ -11,3 +11,4 @@ package-lock.json
 .npmrc
 .yarnrc
 *.tgz
+.vercel

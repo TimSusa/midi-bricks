@@ -2,7 +2,7 @@ import WebMIDI from 'webmidi'
 
 import { midi } from 'tonal'
 import { fromMidi } from '../../utils/fromMidi'
-import { map } from 'lodash'
+import  map  from 'lodash/map'
 import { getUniqueId } from '../../utils/get-unique-id'
 import { createNextState } from '@reduxjs/toolkit'
 
@@ -169,15 +169,14 @@ export const sliders = {
       })
     }
   },
-  deleteAll(state) {
-    return createNextState(state, (draftState) => {
-      draftState.sliderList = []
-      draftState.presetName = ''
-      return draftState
-    })
+  deleteAll (draftState)  {
+    draftState.sliderList = []
+    draftState.presetName = ''
+    //return draftState
+    // }
   },
 
-  handleSliderChange: createNextState((draftState, action) => {
+  handleSliderChange(draftState, action) {
     // At first send MIDI
     const { i, val } = action.payload
     const idx = draftState.sliderList.findIndex((item) => item.i === i)
@@ -190,8 +189,8 @@ export const sliders = {
       draftState.sliderList[idx].isNoteOn = !isNoteOn
     }
     draftState.sliderList[idx].val = val
-    return draftState
-  }),
+    //return draftState
+  },
 
   // [ActionTypeSliderList.SEND_MIDI_CC_Y](state, action) {
   //   const { idx, yVal } = action.payload
@@ -418,7 +417,7 @@ export const sliders = {
     })
   },
 
-  midiMessageArrived: createNextState((draftState, action) => {
+  midiMessageArrived(draftState, action) {
     const { val, cC, channel, driver, isNoteOn } = action.payload
 
     const sliderList = map(draftState.sliderList, (item) => {
@@ -439,8 +438,8 @@ export const sliders = {
 
     draftState.sliderList = sliderList
     draftState.monitorVal = { val, cC, channel, driver, isNoteOn }
-    return draftState
-  }),
+    //return draftState
+  },
 
   changeColors(state, action) {
     const { i, ...rest } = action.payload

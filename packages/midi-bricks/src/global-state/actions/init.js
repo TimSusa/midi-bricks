@@ -85,7 +85,11 @@ function registerCcListeners (listenersObj, name, input, dispatch, globalMidiInp
             val: value,
             cC: number,
             channel,
-            driver: name
+            driver: name,            
+            meta: {
+              raf: true,
+              delay: globalMidiInputDelay
+            }
           }
           // const myAction = (payload) => ({
           //   type: 'sliders/MIDI_MESSAGE_ARRIVED',
