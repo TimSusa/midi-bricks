@@ -37,7 +37,7 @@ export default function MidiSettingsDialogButton(props) {
         />
       )}
       {isOpen ? (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>Loading MidiSettingsDialog...</div>}>
           <MidiSettingsDialog
             open={isOpen}
             onClose={toggleSettings.bind(this, {
