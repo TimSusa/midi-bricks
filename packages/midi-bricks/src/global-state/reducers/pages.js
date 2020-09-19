@@ -1,4 +1,4 @@
-import { pagesInit } from '.'
+import { pagesInit } from '../'
 
 export const pages = {
   createPage(draftState, action) {

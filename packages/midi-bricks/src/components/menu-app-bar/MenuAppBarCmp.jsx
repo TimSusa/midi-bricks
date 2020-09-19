@@ -27,7 +27,7 @@ import CopyIcon from '@material-ui/icons/ArrowRightAlt'
 import DeleteIcon from '@material-ui/icons/Delete'
 import ViewSettingsIcon from '@material-ui/icons/Settings'
 import AddMenu from './AddMenu'
-import { PAGE_TYPES } from '../../global-state/reducers'
+import { PAGE_TYPES } from '../../global-state'
 import { ToolTipIconButton } from '../ToolTipIconButton'
 
 const {

@@ -1,3 +1,3 @@
-import { actionsUndoRedo } from '../reducers'
+import { actionsUndoRedo } from '../'
 
 export const Actions = actionsUndoRedo

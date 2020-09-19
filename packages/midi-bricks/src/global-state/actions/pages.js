@@ -1,3 +1,3 @@
-import { actionsPages } from '../reducers'
+import { actionsPages } from '../'
 
 export const Actions = actionsPages

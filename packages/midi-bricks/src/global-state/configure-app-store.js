@@ -1,5 +1,5 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
-import reducer from './reducers'
+import { reducer } from './'
 
 /**
  * Schedules actions with { meta: { delay: N } } to be delayed by N milliseconds.

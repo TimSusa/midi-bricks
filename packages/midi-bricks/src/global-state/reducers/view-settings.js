@@ -1,5 +1,5 @@
 
-import { viewSettingsInitState } from '.'
+import { viewSettingsInitState } from '../'
 import { createNextState } from '@reduxjs/toolkit'
 
 export const viewSettings = {

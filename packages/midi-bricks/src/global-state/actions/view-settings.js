@@ -1,3 +1,3 @@
-import { actionsViewSettings } from '../reducers'
+import { actionsViewSettings } from '../'
 
 export const Actions = actionsViewSettings

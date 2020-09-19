@@ -123,12 +123,12 @@ function MidiSlider(props) {
   function onLostCapture(isActivated, setIsActivated) {
     isActivated && setIsActivated(false)
   }
-  function valToPixel(heightOrWidth, val) {
+  function valToPixel(heightOrWidth, valv) {
     if (isHorz) {
-      const y = heightOrWidth * (val / 127)
+      const y = heightOrWidth * (valv / 127)
       return y
     } else {
-      const y = heightOrWidth * (1 - val / 127)
+      const y = heightOrWidth * (1 - valv / 127)
       return y
     }
   }

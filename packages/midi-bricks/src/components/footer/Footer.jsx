@@ -10,7 +10,7 @@ import { Actions as ViewSettinsgsAction } from '../../global-state/actions/view-
 import { Actions as SliderSettinsgsAction } from '../../global-state/actions/slider-list'
 import { thunkLiveModeToggle } from '../../global-state/actions/thunks/thunk-live-mode-toggle'
 import { Button, Tooltip } from '@material-ui/core'
-import { PAGE_TYPES } from '../../global-state/reducers'
+import { PAGE_TYPES } from '../../global-state'
 
 const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
 

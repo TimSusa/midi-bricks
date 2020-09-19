@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import { createSlice } from '@reduxjs/toolkit'
-import { sliders, initId } from './slider-list'
-import { viewSettings } from './view-settings'
-import { undoRedo } from './undo-redo'
+import { sliders, initId } from './reducers/slider-list'
+import { viewSettings } from './reducers/view-settings'
+import { undoRedo } from './reducers/undo-redo'
 
-import { pages } from './pages'
+import { pages } from './reducers/pages'
 
 export const PAGE_TYPES = {
   HOME_MODE: 'HOME_MODE',
@@ -129,7 +129,7 @@ const {reducer: reducerUndoRedod, actions: actionsUndoRedod} = createSlice({
 export const actionsUndoRedo = actionsUndoRedod
 export const reducerUndoRedo= reducerUndoRedod
 
-export default combineReducers({
+export const reducer = combineReducers({
   sliders: reducerSliders,
   viewSettings: reducerViewSettings,
   pages: reducerPages,

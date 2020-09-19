@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { initApp } from '../global-state/actions/init.js'
 import ChannelStripList from '../components/channel-strip-list/ChannelStripList'
-import { PAGE_TYPES } from '../global-state/reducers'
+import { PAGE_TYPES } from '../global-state'
 // import { preset } from '../utils/midi-bricks-preset-apc-40-2.js'
 // import { thunkLoadFile } from '../global-state/actions/thunks/thunk-load-file'
 export default Home
