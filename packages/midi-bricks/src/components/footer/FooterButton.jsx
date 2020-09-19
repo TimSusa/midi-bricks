@@ -3,7 +3,11 @@ import { useDispatch } from 'react-redux'
 import { Button } from '@material-ui/core'
 import { PropTypes } from 'prop-types'
 import { thunkChangePage } from '../../global-state/actions/thunks/thunk-change-page'
+import { Actions as ViewSettinsgsAction } from '../../global-state/actions/view-settings'
 
+const { toggleSettingsDialogMode } = {
+  ...ViewSettinsgsAction
+}
 FooterButton.propTypes = {
   actions: PropTypes.object,
   classes: PropTypes.object,
@@ -43,14 +47,14 @@ export function FooterButton(props) {
     </Button>
   )
   function handleSettingsClick() {
-    dispatch(thunkChangePage(lastFocusedPage, id))
-    // dispatch(
-    //   toggleSettingsDialogMode({
-    //     i: id,
-    //     isSettingsDialogMode: true,
-    //     lastFocusedPage: id
-    //   })
-    // )
+    // dispatch(thunkChangePage(lastFocusedPage, id))
+    dispatch(
+      toggleSettingsDialogMode({
+        i: id,
+        isSettingsDialogMode: true,
+        lastFocusedPage: id
+      })
+    )
   }
 
   function handleClick() {
