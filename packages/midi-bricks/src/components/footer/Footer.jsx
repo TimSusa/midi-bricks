@@ -97,7 +97,7 @@ function Footer() {
                 <RightIcon className={classes.iconColor} />
               </IconButton>
               {isOpen ? (
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<div>Loading MidiSettingsDialog...</div>}>
                   <MidiSettingsDialog
                     open={isOpen}
                     onClose={() => {

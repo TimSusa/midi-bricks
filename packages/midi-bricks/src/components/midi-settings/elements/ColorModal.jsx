@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import Button from '@material-ui/core/Button'
@@ -23,17 +23,6 @@ const DEF_VAL = {
   }
 }
 
-const handleColorChange = debounce((onChange, i, fieldName, c) => {
-  // Change output into a format,
-  // which directly can be used as css style for color
-  const rgba = `rgba(${c.rgb.r}, ${c.rgb.g}, ${c.rgb.b}, ${c.rgb.a})`
-  const resp = {
-    i,
-    [fieldName]: rgba
-  }
-  onChange(resp)
-}, 50)
-
 ColorModal.propTypes = {
   fieldName: PropTypes.any,
   i: PropTypes.string,
@@ -51,12 +40,22 @@ function ColorModal(props) {
     i = '',
     title = '',
     onClose = () => {},
-    onChange = () => {}
+    onChange = () => {},
+    color
   } = props
 
   const [open, setOpen] = useState(false)
+  const [changedColorVal, setChangedColorVal] = useState()
 
-  const calcColor = convertRgba(props.color).rgb
+  useEffect(() => {
+    const calcColor = convertRgba(color).rgb
+
+    setChangedColorVal(calcColor)
+  }, [color])
+  const handleColorChange = debounce((c) => {
+    setChangedColorVal(c.rgb)
+  }, 50)
+
   return (
     <div>
       <Tooltip title={'Change Color: ' + title}>
@@ -88,15 +87,12 @@ function ColorModal(props) {
           >
             Please, choose your color.
           </DialogContentText>
-          <SketchPicker
-            color={calcColor}
-            onChange={handleColorChange.bind(this, onChange, i, fieldName)}
-          />
+          <SketchPicker color={changedColorVal} onChange={handleColorChange} />
         </DialogContent>
         <DialogActions>
           <Button
             className={classes.iconColor}
-            onClick={handleClose.bind(this, setOpen, onClose)}
+            onClick={handleClose}
             color='primary'
             autoFocus
           >
@@ -106,11 +102,16 @@ function ColorModal(props) {
       </Dialog>
     </div>
   )
-}
-
-function handleClose(setOpen, onClose) {
-  setOpen(false)
-  onClose && onClose()
+  function handleClose() {
+    const rgba = `rgba(${changedColorVal.r}, ${changedColorVal.g}, ${changedColorVal.b}, ${changedColorVal.a})`
+    const resp = {
+      i,
+      [fieldName]: rgba
+    }
+    onChange(resp)
+    setOpen(false)
+    onClose && onClose()
+  }
 }
 
 // Since the color picker is using an object as
