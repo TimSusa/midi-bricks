@@ -7,16 +7,13 @@ import {
   Button,
   Input
 } from '@material-ui/core'
-import { connect, useSelector } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Actions as MidiSliderActions } from '../global-state/actions/slider-list.js'
 import { Actions as ViewStuff } from '../global-state/actions/view-settings.js'
-import { thunkLiveModeToggle } from '../global-state/actions/thunks/thunk-live-mode-toggle'
-import { initApp as initMidiApp } from '../global-state/actions/init'
+import { initApp } from '../global-state/actions/init'
 import { MinMaxValInput } from '../components/midi-settings/elements/MinMaxValInput'
 import { ValueInput } from '../components/midi-settings/elements/ValueInput'
 
-import { PropTypes } from 'prop-types'
 import {
   sendAppSettings,
   setActualWinCoords,
@@ -25,18 +22,26 @@ import {
 import LockIcon from '@material-ui/icons/Lock'
 import LockOpenIcon from '@material-ui/icons/LockOpen'
 
-export default connect(null, mapDispatchToProps)(ApplicationSettings)
+const {
+  changeGlobalMidiInputDelay,
+  setFullscreenOnLivemode,
+  setElectronAppSettings,
+  changeTheme,
+  toggleAutosize,
+  setColumns,
+  setRowHeight,
+  setXMargin,
+  setYMargin,
+  setXPadding,
+  setYPadding
+} = { ...MidiSliderActions, ...ViewStuff }
+
+export default ApplicationSettings
 
 const isWebMode = process.env.REACT_APP_IS_WEB_MODE === 'true'
 
-ApplicationSettings.propTypes = {
-  actions: PropTypes.object,
-  initApp: PropTypes.func,
-  thunkLiveModeToggle: PropTypes.func,
-  viewSettings: PropTypes.object
-}
-
-function ApplicationSettings(props) {
+function ApplicationSettings() {
+  const dispatch = useDispatch()
   const {
     electronAppSettings: {
       isDevConsoleEnabled = false,
@@ -54,7 +59,7 @@ function ApplicationSettings(props) {
     paddingY = 8,
     globalMidiInputDelay
   } = useSelector((state) => state.viewSettings)
-  const { actions, initApp } = props
+
   let windowCoords = winCood
   const [isViewPanelExpanded, setIsViewPanelExpanded] = useState(false)
   const [midiInputDelayValue, setMidiInputDelayValue] = useState(
@@ -81,10 +86,12 @@ function ApplicationSettings(props) {
       <Button
         variant='contained'
         onClick={async () => {
-          actions.changeGlobalMidiInputDelay({
-            globalMidiInputDelay: midiInputDelayValue
-          })
-          await initApp()
+          dispatch(
+            changeGlobalMidiInputDelay({
+              globalMidiInputDelay: midiInputDelayValue
+            })
+          )
+          await dispatch(initApp())
         }}
       >
         OK{' '}
@@ -104,7 +111,7 @@ function ApplicationSettings(props) {
                   onChange={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
-                    actions.setFullscreenOnLivemode()
+                    dispatch(setFullscreenOnLivemode())
                   }}
                   value={isFullscreenOnLivemode}
                   color='secondary'
@@ -127,7 +134,7 @@ function ApplicationSettings(props) {
                     const payload = {
                       isDevConsoleEnabled: !isDevConsoleEnabled
                     }
-                    actions.setElectronAppSettings(payload)
+                    dispatch(setElectronAppSettings(payload))
                     sendAppSettings(payload)
                   }}
                   value={isDevConsoleEnabled}
@@ -154,7 +161,7 @@ function ApplicationSettings(props) {
                         isWindowSizeLocked: !isWindowSizeLocked
                       }
                       sendAppSettings(payload)
-                      actions.setElectronAppSettings(payload)
+                      dispatch(setElectronAppSettings(payload))
                     }}
                     value={isWindowSizeLocked}
                     color='secondary'
@@ -169,10 +176,12 @@ function ApplicationSettings(props) {
               onClick={(e) => {
                 e.preventDefault()
                 addIpcWindowCoordsListenerOnce((windowCoo) =>
-                  actions.setElectronAppSettings({
-                    windowCoords: windowCoo,
-                    isWindowSizeLocked
-                  })
+                  dispatch(
+                    setElectronAppSettings({
+                      windowCoords: windowCoo,
+                      isWindowSizeLocked
+                    })
+                  )
                 )
                 setActualWinCoords()
               }}
@@ -197,10 +206,12 @@ function ApplicationSettings(props) {
                   .split(',')
                   .map((v) => parseInt(v, 10))
                 Array.isArray(windowCoordss) &&
-                  actions.setElectronAppSettings({
-                    windowCoords: windowCoordss,
-                    isWindowSizeLocked: false
-                  })
+                  dispatch(
+                    setElectronAppSettings({
+                      windowCoords: windowCoordss,
+                      isWindowSizeLocked: false
+                    })
+                  )
 
                 !isWindowSizeLocked &&
                   Array.isArray(windowCoords) &&
@@ -221,7 +232,7 @@ function ApplicationSettings(props) {
                 onChange={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
-                  actions.changeTheme({})
+                  dispatch(changeTheme({}))
                 }}
                 value={isChangedTheme}
                 color='secondary'
@@ -239,7 +250,7 @@ function ApplicationSettings(props) {
                 onChange={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
-                  actions.toggleAutosize({})
+                  dispatch(toggleAutosize({}))
                 }}
                 value={isAutoSize}
                 color='secondary'
@@ -255,7 +266,7 @@ function ApplicationSettings(props) {
           toolTip='Number of columns in this layout.'
           value={columns}
           onChange={(e) =>
-            actions.setColumns({ columns: parseInt(e.target.value, 10) })
+            dispatch(setColumns({ columns: parseInt(e.target.value, 10) }))
           }
         />
         <MinMaxValInput
@@ -264,9 +275,11 @@ function ApplicationSettings(props) {
           toolTip='Rows have a static height.'
           value={rowHeight}
           onChange={(e) =>
-            actions.setRowHeight({
-              rowHeight: parseInt(e.target.value, 10)
-            })
+            dispatch(
+              setRowHeight({
+                rowHeight: parseInt(e.target.value, 10)
+              })
+            )
           }
         />
         <MinMaxValInput
@@ -275,9 +288,11 @@ function ApplicationSettings(props) {
           toolTip='Set margin between items in x-direction.'
           value={marginX}
           onChange={(e) =>
-            actions.setXMargin({
-              marginX: parseInt(e.target.value, 10)
-            })
+            dispatch(
+              setXMargin({
+                marginX: parseInt(e.target.value, 10)
+              })
+            )
           }
         />
         <MinMaxValInput
@@ -286,9 +301,11 @@ function ApplicationSettings(props) {
           toolTip='Set margin between items in y-direction.'
           value={marginY}
           onChange={(e) =>
-            actions.setYMargin({
-              marginY: parseInt(e.target.value, 10)
-            })
+            dispatch(
+              setYMargin({
+                marginY: parseInt(e.target.value, 10)
+              })
+            )
           }
         />
 
@@ -298,9 +315,11 @@ function ApplicationSettings(props) {
           toolTip='Padding inside the container in y-direction.'
           value={paddingX}
           onChange={(e) =>
-            actions.setXPadding({
-              paddingX: parseInt(e.target.value, 10)
-            })
+            dispatch(
+              setXPadding({
+                paddingX: parseInt(e.target.value, 10)
+              })
+            )
           }
         />
         <MinMaxValInput
@@ -309,23 +328,14 @@ function ApplicationSettings(props) {
           toolTip='Padding inside the container in y-direction.'
           value={paddingY}
           onChange={(e) =>
-            actions.setYPadding({
-              paddingY: parseInt(e.target.value, 10)
-            })
+            dispatch(
+              setYPadding({
+                paddingY: parseInt(e.target.value, 10)
+              })
+            )
           }
         />
       </DriverExpansionPanel>
     </React.Fragment>
   )
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(
-      { ...MidiSliderActions, ...ViewStuff },
-      dispatch
-    ),
-    thunkLiveModeToggle: bindActionCreators(thunkLiveModeToggle, dispatch),
-    initApp: bindActionCreators(initMidiApp, dispatch)
-  }
 }
