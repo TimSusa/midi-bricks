@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.39-alpha.7](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.6...v1.3.39-alpha.7) (2020-09-19)
+
+
+### Bug Fixes
+
+* Crash when changing views without loaded a preset ([47c0fdb](https://github.com/TimSusa/midi-bricks-mono/commit/47c0fdbc1305d8ffc49ccfb96986cc2b49efafa2))
+* Opening of footer pages settings menu ([adb0111](https://github.com/TimSusa/midi-bricks-mono/commit/adb01117d7950b617d7d2d1e565e8887aa5e4250))
+
 ### [1.3.39-alpha.6](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.5...v1.3.39-alpha.6) (2020-09-19)
 
 
