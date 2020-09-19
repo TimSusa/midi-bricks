@@ -36,13 +36,13 @@ const {
 } = STRIP_TYPE
 
 export const sliders = {
-  [ActionTypeSliderList.INIT_MIDI_ACCESS_PENDING](state, action) {
-    return createNextState(state, (draftState) => {
+  [ActionTypeSliderList.INIT_MIDI_ACCESS_PENDING](state) {
+    return createNextState(state, () => {
       return state
     })
   },
 
-  [ActionTypeSliderList.INIT_FAILED](state, action) {
+  [ActionTypeSliderList.INIT_FAILED](state) {
     return createNextState(state, (draftState) => {
       draftState.midi = {
         midiAccess: {
@@ -170,7 +170,7 @@ export const sliders = {
       })
     }
   },
-  [ActionTypeSliderList.DELETE_ALL](state, action) {
+  [ActionTypeSliderList.DELETE_ALL](state) {
     return createNextState(state, (draftState) => {
       draftState.sliderList = []
       draftState.presetName = ''
@@ -639,7 +639,7 @@ export const sliders = {
     return state
   },
 
-  [ActionTypeSliderList.RESET_VALUES](state, action) {
+  [ActionTypeSliderList.RESET_VALUES](state) {
     return createNextState(state, (draftState) => {
       return draftState
     })
@@ -773,7 +773,7 @@ function toggleNotesInState(list, i) {
   })
 }
 
-function sendControlChanges({ midiCC, midiChannel, driverName, val, label }) {
+function sendControlChanges({ midiCC, midiChannel, driverName, val }) {
   WebMIDI.octaveOffset = -1
   const output = getCheckedMidiOut(driverName)
   if (Array.isArray(midiCC)) {
@@ -785,7 +785,6 @@ function sendControlChanges({ midiCC, midiChannel, driverName, val, label }) {
 }
 
 function toggleNotes({
-  label,
   onVal,
   offVal,
   midiCC,
