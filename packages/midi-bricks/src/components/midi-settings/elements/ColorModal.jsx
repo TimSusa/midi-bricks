@@ -1,8 +1,4 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { Actions as MidiSliderActions } from '../../../global-state/actions/slider-list.js'
-import { Actions as ViewSettingsActions } from '../../../global-state/actions/view-settings.js'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import Button from '@material-ui/core/Button'
@@ -16,7 +12,7 @@ import { SketchPicker } from 'react-color'
 import { debounce } from 'debounce'
 //import { debounce } from 'lodash'
 
-export default connect(null, mapDispatchToProps)(ColorModal)
+export default ColorModal
 
 const DEF_VAL = {
   rgb: {
@@ -27,7 +23,7 @@ const DEF_VAL = {
   }
 }
 
-const handleColorChange = debounce((onChange, i, actions, fieldName, c) => {
+const handleColorChange = debounce((onChange, i, fieldName, c) => {
   // Change output into a format,
   // which directly can be used as css style for color
   const rgba = `rgba(${c.rgb.r}, ${c.rgb.g}, ${c.rgb.b}, ${c.rgb.a})`
@@ -39,7 +35,6 @@ const handleColorChange = debounce((onChange, i, actions, fieldName, c) => {
 }, 50)
 
 ColorModal.propTypes = {
-  actions: PropTypes.any,
   fieldName: PropTypes.any,
   i: PropTypes.string,
   onClose: PropTypes.func,
@@ -52,7 +47,6 @@ function ColorModal(props) {
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
   let {
-    actions,
     fieldName,
     i = '',
     title = '',
@@ -96,13 +90,7 @@ function ColorModal(props) {
           </DialogContentText>
           <SketchPicker
             color={calcColor}
-            onChange={handleColorChange.bind(
-              this,
-              onChange,
-              i,
-              actions,
-              fieldName
-            )}
+            onChange={handleColorChange.bind(this, onChange, i, fieldName)}
           />
         </DialogContent>
         <DialogActions>
@@ -160,14 +148,5 @@ function styles(theme) {
     label: {
       color: theme.palette.primary.contrastText
     }
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(
-      { ...MidiSliderActions, ...ViewSettingsActions },
-      dispatch
-    )
   }
 }
