@@ -349,10 +349,8 @@ export const sliders = {
         isLiveMode: true,
         isSettingsDialogMode: false,
         isLayoutMode: false,
-        isCompactHorz: false,
         isSettingsMode: false,
         isMidiLearnMode: false,
-        isAutoArrangeMode: false
       },
       sliders: tmpSliders
     }

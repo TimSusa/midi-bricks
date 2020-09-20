@@ -217,7 +217,7 @@ async function createWindow() {
 function onSaveFileDialog(event, arg) {
   dialog.showSaveDialog(
     {
-      properties: ['openFile'],
+      properties: ['showHiddenFiles'],
       defaultPath: app.getPath('userData'),
       filters: [
         {
@@ -231,7 +231,16 @@ function onSaveFileDialog(event, arg) {
     if (filename === undefined) {
       return
     }
-    const json = JSON.stringify(arg)
+    const json = JSON.stringify({
+      ...arg, 
+      viewSettings: {
+        ...arg.viewSettings,
+        isLiveMode: true,
+        isSettingsDialogMode: false,
+        isLayoutMode: false,
+        isSettingsMode: false,
+        isMidiLearnMode: false,
+      }})
 
     fs.writeFile(filename, json, { flag: 'w' }, (err) => {
       if (err) {
@@ -247,7 +256,7 @@ function onSaveFileDialog(event, arg) {
   })
 }
 
-function onOpenFileDialog(event, arg) {
+function onOpenFileDialog(event) {
   dialog.showOpenDialog(
     {
       properties: ['openFile'],
@@ -265,17 +274,17 @@ function onOpenFileDialog(event, arg) {
       readFile(filenames[0], {}).then(
         (data) => {
           const args = JSON.parse(data)
-          const stuff = {
+          const stufff = {
             content: args,
             presetName: filenames[0]
           }
           appSettings = persistAppSettings(args)
-          event.sender.send('open-file-dialog-reply', {...stuff})
-          log.info('Object loaded: ', stuff)
+          event.sender.send('open-file-dialog-reply', {...stufff})
+          log.info('Object loaded: ', stufff)
           return data
         },
         (err) => {
-          console.error(err)
+          throw new Error (err)
         }
       )
     }
@@ -320,7 +329,7 @@ async function readoutPersistedAppsettings(appSettingss = appInitSettings) {
       persistedAppSettingsFileName,
       persJson,
       { flag: 'w' },
-      (err, data) => {
+      (err) => {
         if (err) {
           throw new Error(err)
         }
@@ -366,7 +375,7 @@ function persistAppSettings(arg) {
     persistedAppSettingsFileName,
     jsonRefreshed,
     { flag: 'w' },
-    (err, data) => {
+    (err) => {
       if (err) {
         throw new Error(err)
       } else {
