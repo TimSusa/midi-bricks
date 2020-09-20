@@ -21,7 +21,6 @@ export function addElement (type) {
     dispatch(undoRedoUpdate({state: getState()}))
 
     if (type === PAGE) {
-      // batch(() => {
       dispatch(
         addPageTarget({
           pageTarget: {
@@ -35,7 +34,6 @@ export function addElement (type) {
       )
       dispatch(createPage({ id: pageId, lastFocusedPage}))
       dispatch(thunkChangePage(lastFocusedPage, pageId))
-    // })
     } else {
       const id = getUniqueId()
       dispatch(addMidiElement({ type, id}))
