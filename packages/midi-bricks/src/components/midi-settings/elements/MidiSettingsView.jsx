@@ -180,7 +180,7 @@ export function MidiSettingsView(props) {
     dispatch(
       changeButtonType({
         i,
-        val
+        val: val.target.value
       })
     )
   }
