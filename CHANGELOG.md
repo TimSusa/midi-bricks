@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.39](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.10...v1.3.39) (2020-09-20)
+
+
+### Bug Fixes
+
+* Crash, when loading presets into livemode ([626c8f0](https://github.com/TimSusa/midi-bricks-mono/commit/626c8f0178f3e7da792b8473e5a19a60a3e88922))
+
 ### [1.3.39-alpha.10](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.9...v1.3.39-alpha.10) (2020-09-20)
 
 
