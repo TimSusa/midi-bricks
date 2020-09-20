@@ -1,7 +1,8 @@
 import WebMIDI from 'webmidi'
 // import { debounce } from 'debounce'
 import { Actions } from './slider-list'
-import { merge, debounce } from 'lodash'
+import merge from 'lodash/merge'
+import debounce from 'lodash/debounce'
 
 const { initMidiAccessPending, midiMessageArrived, initFailed, initMidiAccessOk } = Actions
 

@@ -1,29 +1,24 @@
 
 import { viewSettingsInitState } from '../'
-import { createNextState } from '@reduxjs/toolkit'
 
 export const viewSettings = {
-  togglePage(state, action) {
-    return createNextState(state, (draftState) => {
-      draftState.pageType = action.payload.pageType || 'HOME'
-      return draftState
-    })
+  togglePage(draftState, action) {
+    draftState.pageType = action.payload.pageType || 'HOME'
+    return draftState
   },
 
-  toggleLiveMode(state, action) {
-    let castedVal = !!state.isLiveMode
+  toggleLiveMode(draftState, action) {
+    let castedVal = !!draftState.isLiveMode
     if (action.payload && action.payload.isLiveMode !== undefined) {
       castedVal = action.payload.isLiveMode
     } else {
       castedVal = !castedVal
     }
-    return createNextState(state, (draftState) => {
-      draftState.isLiveMode = castedVal
-      draftState.isLayoutMode = false
-      draftState.isSettingsMode = false
-      draftState.isMidiLearnMode = false
-      return draftState
-    })
+    draftState.isLiveMode = castedVal
+    draftState.isLayoutMode = false
+    draftState.isSettingsMode = false
+    draftState.isMidiLearnMode = false
+    return draftState
   },
   toggleMidiLearnMode(state, action) {
     const castedVal = !!state.isMidiLearnMode
@@ -52,17 +47,15 @@ export const viewSettings = {
     })
   },
 
-  toggleSettingsMode(state, action) {
-    return createNextState(state, (draftState) => {
-      const castedVal = !!state.isSettingsMode
-      const { isSettingsMode } = action.payload || {}
+  toggleSettingsMode(draftState, action) {
+    const castedVal = !!draftState.isSettingsMode
+    const { isSettingsMode } = action.payload || {}
 
-      draftState.isSettingsMode = isSettingsMode || !castedVal
-      draftState.isMidiLearnMode = false
-      draftState.lastFocusedIdxs = []
-      draftState.lastFocusedIdxs.length = 0
-      return draftState
-    })
+    draftState.isSettingsMode = isSettingsMode || !castedVal
+    draftState.isMidiLearnMode = false
+    draftState.lastFocusedIdxs = []
+    draftState.lastFocusedIdxs.length = 0
+    return draftState
   },
 
   setFullscreeOnLiveMode(state, action) {
@@ -89,69 +82,61 @@ export const viewSettings = {
     })
   },
 
-  updateViewSettings(state, action) {
+  updateViewSettings(draftState, action) {
     const {
       viewSettings,
       viewSettings: { availableDrivers } = {}
     } = action.payload
 
-    return createNextState(state, (draftState) => {
-      draftState = {
-        ...state,
-        ...viewSettings
-      }
-      if (availableDrivers) {
-        draftState.availableDrivers = availableDrivers
-      }
+    draftState = {
+      ...draftState,
+      ...viewSettings
+    }
+    if (availableDrivers) {
+      draftState.availableDrivers = availableDrivers
+    }
 
-      return draftState
-    })
+    return draftState
   },
 
-  deletePageFromFooter(state, action) {
+  deletePageFromFooter(draftState, action) {
     const { i } = action.payload
-    const pageTargets = state.pageTargets.filter((item) => item.id !== i)
+    const pageTargets = draftState.pageTargets.filter((item) => item.id !== i)
 
-    return createNextState(state, (draftState) => {
-      draftState.pageTargets = pageTargets
-      return draftState
-    })
+    draftState.pageTargets = pageTargets
+    return draftState
   },
 
-  deleteFooterPages(state) {
-    return createNextState(state, (draftState) => {
-      draftState.pageTargets = viewSettingsInitState.pageTargets
-      draftState.footerPages = []
+  deleteFooterPages(draftState) {
+    draftState.pageTargets = viewSettingsInitState.pageTargets
+    draftState.footerPages = []
+    draftState.lastFocusedIdxs = []
+    draftState.lastFocusedPage = viewSettingsInitState.lastFocusedPage
+    draftState.isLayoutMode = viewSettingsInitState.isLayoutMode
+    return draftState
+  },
+
+  setLastFocusedIndex(draftState, action) {
+    const { i = '' } = action.payload || {}
+
+    // Multiselection
+    if (i !== 'none' && !i.startsWith('page')) {
+      draftState.lastFocusedIdx = i
+      draftState.lastFocusedIdxs.push(i)
+      // Remove duplicates
+      draftState.lastFocusedIdxs = [...new Set(draftState.lastFocusedIdxs)]
+
+      // clear all
+    } else if (i === 'none') {
       draftState.lastFocusedIdxs = []
-      draftState.lastFocusedPage = viewSettingsInitState.lastFocusedPage
-      draftState.isLayoutMode = viewSettingsInitState.isLayoutMode
-      return draftState
-    })
-  },
+      draftState.lastFocusedIdxs.length = 0
+      draftState.lastFocusedIdx = i
+    } else {
+      draftState.lastFocusedIdx = i
+      draftState.lastFocusedIdxs = []
+    }
 
-  setLastFocusedIndex(state, action) {
-    return createNextState(state, (draftState) => {
-      const { i = '' } = action.payload || {}
-
-      // Multiselection
-      if (i !== 'none' && !i.startsWith('page')) {
-        draftState.lastFocusedIdx = i
-        draftState.lastFocusedIdxs.push(i)
-        // Remove duplicates
-        draftState.lastFocusedIdxs = [...new Set(draftState.lastFocusedIdxs)]
-
-        // clear all
-      } else if (i === 'none') {
-        draftState.lastFocusedIdxs = []
-        draftState.lastFocusedIdxs.length = 0
-        draftState.lastFocusedIdx = i
-      } else {
-        draftState.lastFocusedIdx = i
-        draftState.lastFocusedIdxs = []
-      }
-
-      return draftState
-    })
+    return draftState
   },
 
   swapFooterPages(state, action) {
@@ -181,26 +166,24 @@ export const viewSettings = {
       pageTargets: newArray
     })
   },
-  toggleSettingsDialogMode(state, action) {
+  toggleSettingsDialogMode(draftState, action) {
     const { isSettingsDialogMode, i, lastFocusedPage } = action.payload
-    return createNextState(state, (draftState) => {
-      draftState.isSettingsDialogMode = isSettingsDialogMode
-      draftState.lastFocusedPage = lastFocusedPage
-      draftState.lastFocusedIdx = i
-      return draftState
-    })
+    draftState.isSettingsDialogMode = isSettingsDialogMode
+    draftState.lastFocusedPage = lastFocusedPage
+    draftState.lastFocusedIdx = i
+    return draftState
     // return Object.assign({}, state, {
     //   isSettingsDialogMode
     // })
   },
 
-  setAvailableDrivers(state, action) {
+  setAvailableDrivers(draftState, action) {
     const {
       availableDrivers: { inputs: oldIn, outputs: oldOut }
-    } = state || viewSettingsInitState
+    } = draftState || viewSettingsInitState
     const { input, output } = action.payload
 
-    let availableDrivers = { ...state.availableDrivers }
+    let availableDrivers = { ...draftState.availableDrivers }
     if (input) {
       const { name, noteChannel, ccChannel, isChecked } = input
       const {
@@ -245,31 +228,27 @@ export const viewSettings = {
       }
     }
 
-    return createNextState(state, (draftState) => {
-      draftState.availableDrivers = availableDrivers
-      return draftState
-    })
+    draftState.availableDrivers = availableDrivers
+    return draftState
   },
 
-  setPageTargetSettings(state, action) {
+  setPageTargetSettings(draftState, action) {
     const { color, colorFont, label } = action.payload
 
-    return createNextState(state, (draftState) => {
-      const idx = state.pageTargets.findIndex(
-        (item) => item.id === state.lastFocusedPage
-      )
-      if (idx < 0) return draftState
-      if (color) {
-        draftState.pageTargets[idx].colors.color = color
-      }
-      if (colorFont) {
-        draftState.pageTargets[idx].colors.colorFont = colorFont
-      }
-      if (label) {
-        draftState.pageTargets[idx].label = label
-      }
-      return draftState
-    })
+    const idx = draftState.pageTargets.findIndex(
+      (item) => item.id === draftState.lastFocusedPage
+    )
+    if (idx < 0) return draftState
+    if (color) {
+      draftState.pageTargets[idx].colors.color = color
+    }
+    if (colorFont) {
+      draftState.pageTargets[idx].colors.colorFont = colorFont
+    }
+    if (label) {
+      draftState.pageTargets[idx].label = label
+    }
+    return draftState
   },
 
   setRowHeight(state, action) {
@@ -316,7 +295,7 @@ export const viewSettings = {
     })
   },
 
-  setElectronAppSettings(state, action) {
+  setElectronAppSettings(draftState, action) {
     const {
       isDevConsoleEnabled,
       isAllowedToUpdate,
@@ -330,70 +309,62 @@ export const viewSettings = {
       isDevConsoleEnabled:
         isDevConsoleEnabled !== undefined
           ? isDevConsoleEnabled
-          : state.electronAppSettings.isDevConsoleEnabled,
+          : draftState.electronAppSettings.isDevConsoleEnabled,
       isAllowedToUpdate:
         isAllowedToUpdate !== undefined
           ? isAllowedToUpdate
-          : state.electronAppSettings.isAllowedToUpdate,
+          : draftState.electronAppSettings.isAllowedToUpdate,
       isAutoDownload:
         isAutoDownload !== undefined
           ? isAutoDownload
-          : state.electronAppSettings.isAutoDownload,
+          : draftState.electronAppSettings.isAutoDownload,
       isAllowedPrerelease:
         isAllowedPrerelease !== undefined
           ? isAllowedPrerelease
-          : state.electronAppSettings.isAllowedPrerelease,
+          : draftState.electronAppSettings.isAllowedPrerelease,
       isAllowedDowngrade:
         isAllowedDowngrade !== undefined
           ? isAllowedDowngrade
-          : state.electronAppSettings.isAllowedDowngrade,
+          : draftState.electronAppSettings.isAllowedDowngrade,
       isWindowSizeLocked:
         isWindowSizeLocked !== undefined
           ? isWindowSizeLocked
-          : state.electronAppSettings.isWindowSizeLoisAllwedcked,
+          : draftState.electronAppSettings.isWindowSizeLoisAllwedcked,
       windowCoords: Array.isArray(windowCoords)
         ? windowCoords
-        : state.electronAppSettings.windowCoords
+        : draftState.electronAppSettings.windowCoords
     }
-    return createNextState(state, (draftState) => {
-      draftState.electronAppSettings = electronAppSettings
-      return draftState
-    })
+    draftState.electronAppSettings = electronAppSettings
+    return draftState
     //return { ...state, electronAppSettings }
   },
-  setLastFocusedPage(state, action) {
-    return createNextState(state, (draftState) => {
-      const {
-        payload: { lastFocusedPage = '' }
-      } = action
+  setLastFocusedPage(draftState, action) {
+    const {
+      payload: { lastFocusedPage = '' }
+    } = action
 
-      draftState.lastFocusedPage = lastFocusedPage
-      return draftState
-    })
+    draftState.lastFocusedPage = lastFocusedPage
+    return draftState
   },
 
-  addPageTarget(state, action) {
-    return createNextState(state, (draftState) => {
-      const {
-        payload: { pageTarget }
-      } = action
-      //let pageTargets = [...(state.pageTargets || []), pageTarget]
+  addPageTarget(draftState, action) {
+    const {
+      payload: { pageTarget }
+    } = action
+    //let pageTargets = [...(state.pageTargets || []), pageTarget]
 
-      draftState.pageTargets = state.pageTargets || []
-      draftState.pageTargets.push(pageTarget)
-      draftState.lastFocusedPage = pageTarget.id
-      draftState.lastFocusedIdxs = []
-      return draftState
-    })
+    //draftState.pageTargets = draftState.pageTargets || []
+    draftState.pageTargets.push(pageTarget)
+    draftState.lastFocusedPage = pageTarget.id
+    draftState.lastFocusedIdxs = []
+    return draftState
   },
-  changeGlobalMidiInputDelay(state, action) {
-    return createNextState(state, (draftState) => {
-      const {
-        payload: { globalMidiInputDelay }
-      } = action
-      draftState.globalMidiInputDelay = globalMidiInputDelay
-      return draftState
-    })
+  changeGlobalMidiInputDelay(draftState, action) {
+    const {
+      payload: { globalMidiInputDelay }
+    } = action
+    draftState.globalMidiInputDelay = globalMidiInputDelay
+    return draftState
   }
 }
 
