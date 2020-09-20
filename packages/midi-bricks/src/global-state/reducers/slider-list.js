@@ -392,6 +392,11 @@ export const sliders = {
   },
 
   midiMessageArrived(draftState, action) {
+
+    if (!isEqual(draftState.monitorVal, action.payload)){
+      draftState.monitorVal = action.payload
+    }
+    
     const { val, cC, channel, driver, isNoteOn } = action.payload
 
     const sliderList = map(draftState.sliderList, (item) => {
@@ -412,7 +417,7 @@ export const sliders = {
     if (!isEqual(draftState.sliderList, sliderList)) {
       draftState.sliderList = sliderList
     }
-    draftState.monitorVal = { val, cC, channel, driver, isNoteOn }
+
     return draftState
   },
 
