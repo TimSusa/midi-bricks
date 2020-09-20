@@ -82,7 +82,7 @@ function InputNoteOrCc(props) {
           }
           i={i}
           lastFocusedPage={lastFocusedPage}
-          handleChange={selectCc}
+          handleChange={(e) => dispatch(selectCc(e))}
         />
       </FormControl>
     )
