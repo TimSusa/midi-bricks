@@ -3,6 +3,7 @@ import WebMIDI from 'webmidi'
 import { midi } from 'tonal'
 import { fromMidi } from '../../utils/fromMidi'
 import  map  from 'lodash/map'
+import  isEqual  from 'lodash/isEqual'
 import { getUniqueId } from '../../utils/get-unique-id'
 import { createNextState } from '@reduxjs/toolkit'
 
@@ -403,15 +404,16 @@ export const sliders = {
         if (hasCc && haveChannelsMatched && driverNameInput === driver) {
           return { ...item, val, isNoteOn }
         } else {
-          return { ...item }
+          return item
         }
       }
-      return { ...item }
+      return item
     })
-
-    draftState.sliderList = sliderList
+    if (!isEqual(draftState.sliderList, sliderList)) {
+      draftState.sliderList = sliderList
+    }
     draftState.monitorVal = { val, cC, channel, driver, isNoteOn }
-    //return draftState
+    return draftState
   },
 
   changeColors(draftState, action) {

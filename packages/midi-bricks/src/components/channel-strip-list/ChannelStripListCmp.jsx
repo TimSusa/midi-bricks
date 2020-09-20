@@ -1,6 +1,6 @@
 import { MIDIMonitorLabel } from '../MIDIMonitorLabel'
 import React, { useEffect } from 'react'
-import { map } from 'lodash'
+import map from 'lodash/map'
 import RGL, { WidthProvider } from 'react-grid-layout'
 import Typography from '@material-ui/core/Typography'
 import ChannelStrip from '../channel-strip/ChannelStrip'
