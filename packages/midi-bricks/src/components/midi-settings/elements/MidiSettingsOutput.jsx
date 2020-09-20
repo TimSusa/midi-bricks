@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Button from '@material-ui/core/Button'
 import { useDispatch } from 'react-redux'
 import { MinMaxValInput } from './MinMaxValInput'
 import PropTypes from 'prop-types'
@@ -34,8 +35,7 @@ const {
   BUTTON_TOGGLE,
   BUTTON_TOGGLE_CC,
   SLIDER,
-  SLIDER_HORZ,
-  XYPAD
+  SLIDER_HORZ
 } = STRIP_TYPE
 
 MidiSettingsOutput.propTypes = {
@@ -65,7 +65,10 @@ export function MidiSettingsOutput(props) {
     lastFocusedPage,
     outputs
   } = props
-
+  const [minV, setMinV] = useState(minVal)
+  const [onV, setOnV] = useState(onVal)
+  const [maxV, setMaxV] = useState(maxVal)
+  const [offV, setOffV] = useState(offVal)
   return (
     <React.Fragment>
       <InputNoteOrCc midiCC={midiCC} type={type} i={i} />
@@ -118,36 +121,48 @@ export function MidiSettingsOutput(props) {
           )}
         </Select>
       </FormControl>
-      {[SLIDER, SLIDER_HORZ, XYPAD].includes(type) && (
+      {[SLIDER, SLIDER_HORZ].includes(type) && (
         <React.Fragment>
           <MinMaxValInput
             label='Maximum Value'
-            value={parseInt(maxVal, 10)}
+            value={parseInt(maxV, 10)}
             name={`input-maxval-name-${i}`}
             limitVal={127}
-            onChange={(e) =>
+            onChange={(e) => setMaxV(e.target.value)}
+          />
+          <Button
+            variant='contained'
+            onClick={() =>
               dispatch(
                 setMaxVal({
                   i,
-                  val: e.target.value
+                  val: maxV
                 })
               )
             }
-          />
+          >
+            OK
+          </Button>
           <MinMaxValInput
             label='Minimum Value'
-            value={parseInt(minVal, 10)}
+            value={parseInt(minV, 10)}
             name={`input-minval-name-${i}`}
             limitVal={0}
-            onChange={(e) =>
+            onChange={(e) => setMinV(e.target.value)}
+          />
+          <Button
+            variant='contained'
+            onClick={() =>
               dispatch(
                 setMinVal({
                   i,
-                  val: e.target.value
+                  val: minV
                 })
               )
             }
-          />
+          >
+            OK
+          </Button>
         </React.Fragment>
       )}
       {
@@ -158,32 +173,44 @@ export function MidiSettingsOutput(props) {
             <React.Fragment>
               <MinMaxValInput
                 label='Value Button On'
-                value={onVal}
+                value={onV}
                 name={`input-onval-name-${i}`}
                 limitVal={127}
-                onChange={(e) =>
+                onChange={(e) => setOnV(e.target.value)}
+              />
+              <Button
+                variant='contained'
+                onClick={() =>
                   dispatch(
                     setOnVal({
                       i,
-                      val: e.target.value
+                      val: onV
                     })
                   )
                 }
-              />
+              >
+                OK
+              </Button>
               <MinMaxValInput
                 label='Value Button Off'
-                value={offVal}
+                value={offV}
                 name={`input-offval-name-${i}`}
                 limitVal={0}
-                onChange={(e) =>
+                onChange={(e) => setOffV(e.target.value)}
+              />
+              <Button
+                variant='contained'
+                onClick={() =>
                   dispatch(
                     setOffVal({
                       i,
-                      val: e.target.value
+                      val: offV
                     })
                   )
                 }
-              />
+              >
+                OK
+              </Button>
             </React.Fragment>
           )}
         </React.Fragment>

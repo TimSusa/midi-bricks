@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
+import Button from '@material-ui/core/Button'
 import { Actions as ViewSettinsgsAction } from '../../../global-state/actions/view-settings'
 import { Actions as SliderSettinsgsAction } from '../../../global-state/actions/slider-list'
 
@@ -27,6 +28,7 @@ export function MidiSettingsLabelInput({
   type
 }) {
   const dispatch = useDispatch()
+  const [value, setValue] = useState(label)
   return (
     <FormControl className={classes.formControl}>
       <InputLabel className={classes.label} htmlFor='label'>
@@ -37,10 +39,13 @@ export function MidiSettingsLabelInput({
         id='label'
         type='label'
         name={`input-label-name-${i}`}
-        value={label}
-        onChange={handleLabelChange}
+        value={value || ''}
+        onChange={(e) => setValue(e.target.value)}
         autoFocus
       />
+      <Button variant='contained' onClick={handleLabelChange}>
+        OK
+      </Button>
     </FormControl>
   )
   function handleLabelChange(e) {
@@ -58,7 +63,7 @@ export function MidiSettingsLabelInput({
       dispatch(
         changeLabel({
           i,
-          val: e.target.value,
+          val: value,
           lastFocusedPage
         })
       )
