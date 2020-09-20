@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.39-alpha.10](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.9...v1.3.39-alpha.10) (2020-09-20)
+
+
+### Bug Fixes
+
+* Copy To Last Page causing setting errors [#187](https://github.com/TimSusa/midi-bricks-mono/issues/187), will copy all to last end of page ([8626069](https://github.com/TimSusa/midi-bricks-mono/commit/86260691054df6b6de9eb7edb933e4b901218588))
+* Swap Footer pages ([a00f40e](https://github.com/TimSusa/midi-bricks-mono/commit/a00f40e46b3e4ed6ddfdd01e2f723eb2c82b751f))
+* Undo Redo for layout changs ([1b48965](https://github.com/TimSusa/midi-bricks-mono/commit/1b489653b945a297a055837d158a5641b3df3055))
+
 ### [1.3.39-alpha.9](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.8...v1.3.39-alpha.9) (2020-09-19)
 
 
