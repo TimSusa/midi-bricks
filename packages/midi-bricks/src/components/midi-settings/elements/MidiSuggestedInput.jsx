@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import keycode from 'keycode'
 import Downshift from 'downshift'
+import { uniqueId } from 'lodash'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import TextField from '@material-ui/core/TextField'
 
@@ -34,6 +35,7 @@ function MidiSuggestedInput(props) {
 
   return (
     <Downshift
+      key={`${i}-dwnshift`}
       inputValue={inputValue}
       onChange={handleChange.bind(
         this,
@@ -61,7 +63,7 @@ function MidiSuggestedInput(props) {
             InputProps: getInputProps({
               startAdornment: selectedItem.map((item) => (
                 <Chip
-                  key={item}
+                  key={`${i}-dwn-in-${uniqueId()}`}
                   tabIndex={-1}
                   label={item}
                   className={classes.chip}
@@ -84,7 +86,7 @@ function MidiSuggestedInput(props) {
                 selectedItem,
                 setSelectedItem
               ),
-              id: 'integration-downshift-multiple'
+              id: `integration-downshift-multiple-${i}-${uniqueId()}`
             })
           })}
           {isOpen ? (

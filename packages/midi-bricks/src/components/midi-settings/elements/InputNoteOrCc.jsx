@@ -15,7 +15,7 @@ import { suggestionsMidiNoteCC, suggestionsMidiCc } from './suggestions'
 InputNoteOrCc.propTypes = {
   i: PropTypes.string,
   lastFocusedPage: PropTypes.string,
-  midiCC: PropTypes.array.isRequired,
+  midiCC: PropTypes.array,
   type: PropTypes.string,
   yMidiCc: PropTypes.array
 }
@@ -64,7 +64,7 @@ function InputNoteOrCc(props) {
           id='number'
           type='number'
           name={`input-prgChange-name-${i}`}
-          value={midiCC[0] || 0}
+          value={(midiCC && midiCC[0]) || 0}
           onChange={handleProgramChange}
         />
       </FormControl>
