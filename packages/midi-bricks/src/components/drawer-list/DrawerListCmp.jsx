@@ -27,7 +27,7 @@ import { Actions as ViewSettingsActions } from '../../global-state/actions/view-
 import { useSelector, useDispatch } from 'react-redux'
 
 const version = process.env.REACT_APP_VERSION || 'dev'
-const { togglePage, saveFile, deleteFooterPages, deleteAll } = {
+const { togglePage, saveFile } = {
   ...MidiSliderActions,
   ...ViewSettingsActions
 }
@@ -125,16 +125,12 @@ function DrawerListCmp(props) {
       <List>
         {process.env.REACT_APP_IS_WEB_MODE === 'true' ? (
           <ListItemLoadFileOnWeb
-            onFileChange={(e) =>
-              handleFileChange(e, thunkLoadFile, onFileChange)
-            }
+            onFileChange={handleFileChange}
             iconColor={classes.iconColor}
           />
         ) : (
           <ListItemLoadFileOnElectron
-            onFileChange={(e) =>
-              handleFileChange(e, thunkLoadFile, onFileChange)
-            }
+            onFileChange={handleFileChange}
             iconColor={classes.iconColor}
           />
         )}
@@ -161,9 +157,7 @@ function DrawerListCmp(props) {
           </ListItem>
         ) : (
           <ListItemSaveFileOnElectron
-            onFileChange={(e) =>
-              handleFileChange(e, thunkLoadFile, onFileChange)
-            }
+            onFileChange={handleFileChange}
             iconColor={classes.iconColor}
           />
         )}
@@ -178,13 +172,7 @@ function DrawerListCmp(props) {
             sliderEntry={{
               i: 'me'
             }}
-            onAction={handleResetSliders.bind(
-              this,
-              thunkDelete,
-              handleResetSlidersTmp,
-              deleteAll,
-              deleteFooterPages
-            )}
+            onAction={handleResetSliders}
             onClose={setOpen}
           />
         </ListItem>
@@ -198,13 +186,13 @@ function DrawerListCmp(props) {
       <Divider />
     </React.Fragment>
   )
-  function handleResetSliders(thunkDeletet, cb) {
-    cb()
-    return dispatch(thunkDeletet('all'))
+  function handleResetSliders() {
+    handleResetSlidersTmp()
+    return dispatch(thunkDelete('all'))
   }
-  async function handleFileChange(content, thunkLoadFilet, cb) {
-    await thunkLoadFilet(content.content, content.presetName)
-    cb(content.content, content.presetName)
+  async function handleFileChange(content) {
+    await dispatch(thunkLoadFile(content.content, content.presetName))
+    onFileChange(content.content, content.presetName)
   }
 }
 

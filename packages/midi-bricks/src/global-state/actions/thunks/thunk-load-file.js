@@ -3,7 +3,7 @@ import { Actions as viewSettingsActions } from '../view-settings'
 import { Actions as pageActions } from '../pages'
 import { initApp } from '../init'
 import { initId } from '../../reducers/slider-list'
-
+import localforage from 'localforage'
 const { loadFile, deleteAll } = sliderListActions
 const { updateViewSettings, setLastFocusedPage, deleteFooterPages } = viewSettingsActions
 const { updatePages } = pageActions
@@ -24,6 +24,7 @@ export function thunkLoadFile(content, presetName) {
 
     if (pages) {
       promArray.push(dispatch(updatePages({ pages })))
+      await localforage.setItem('pages', pages)
     } else {
       const {
         pages: oldPages,

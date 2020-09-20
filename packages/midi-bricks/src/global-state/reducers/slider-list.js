@@ -343,7 +343,17 @@ export const sliders = {
     const tmpFilterStore = {
       version,
       pages,
-      viewSettings,
+      viewSettings:
+      {
+        ...viewSettings,   
+        isLiveMode: true,
+        isSettingsDialogMode: false,
+        isLayoutMode: false,
+        isCompactHorz: false,
+        isSettingsMode: false,
+        isMidiLearnMode: false,
+        isAutoArrangeMode: false
+      },
       sliders: tmpSliders
     }
     const content = JSON.stringify(tmpFilterStore)
