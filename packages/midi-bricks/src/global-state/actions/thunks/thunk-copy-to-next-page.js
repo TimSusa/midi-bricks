@@ -3,6 +3,7 @@ import { Actions as sliderListActions } from '../slider-list'
 import { Actions as viewSettingsActions } from '../view-settings'
 import { Actions as pageActions } from '../pages'
 import { getUniqueId } from '../../../utils/get-unique-id'
+import maxBy from 'lodash/maxBy'
 
 const { updateSliderListOfPage } = pageActions
 const { setMidiPage } = sliderListActions
@@ -20,14 +21,16 @@ export function thunkCopyToNextPage() {
       pages
     } = getState()
 
-    // TODO: Put a modal here to ask the user where to copy that shit
+    // TODO: Put a modal here to ask the user where to copy that stuff
     const nextPageIdx = Object.keys(pages).reduce((acc, cur) => {
       return pages[cur].id
     }, '')
+    const maxX = maxBy(pages[nextPageIdx].sliderList, 'x').x + 1
+    const maxY = maxBy(pages[nextPageIdx].sliderList, 'y').y +1 
     const sliderList = lastFocusedIdxs.reduce((acc, id) => {
       const entry = pages[lastFocusedPage].sliderList.find(er => er.i === id)
       if (entry){
-        acc.push({...entry, i: getUniqueId()})
+        acc.push({...entry, i: getUniqueId(), x: maxX , y: maxY})
       }
       return acc
     }, [...pages[nextPageIdx].sliderList])
