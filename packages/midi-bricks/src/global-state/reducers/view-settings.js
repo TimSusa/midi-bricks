@@ -161,10 +161,10 @@ export const viewSettings = {
         newArray.push(item)
       }
     })
-
-    return Object.assign({}, state, {
-      pageTargets: newArray
-    })
+    state.pageTargets = newArray
+    // return Object.assign({}, state, {
+    //   pageTargets: newArray
+    // })
   },
   toggleSettingsDialogMode(draftState, action) {
     const { isSettingsDialogMode, i, lastFocusedPage } = action.payload

@@ -3,9 +3,32 @@ import { createSlice } from '@reduxjs/toolkit'
 import { sliders, initId } from './reducers/slider-list'
 import { viewSettings } from './reducers/view-settings'
 import { undoRedo } from './reducers/undo-redo'
-
 import { pages } from './reducers/pages'
 
+//
+// PAGES
+//
+export const pagesInit = {
+  [initId]: {
+    sliderList: [],
+    id: initId,
+    label: 'Page 1'
+  }
+}
+
+const {reducer: reducerPagess, actions: actionsPagess} = createSlice({
+  name: 'pages',
+  initialState: pagesInit,
+  reducers: pages
+
+})
+
+export const actionsPages = actionsPagess
+export const reducerPages = reducerPagess
+
+//
+// ViewSettings
+//
 export const PAGE_TYPES = {
   HOME_MODE: 'HOME_MODE',
   GLOBAL_MODE: 'GLOBAL_MODE',
@@ -13,7 +36,7 @@ export const PAGE_TYPES = {
 // VIEW_SETTINGS_MODE: 'VIEW_SETTINGS_MODE'
 }
 
-const initState = {
+export const viewSettingsInitState = {
   columns: 18,
   rowHeight: 40,
   isAutoSize: false,
@@ -43,25 +66,7 @@ const initState = {
     isAllowedDowngrade: false,
     isWindowSizeLocked: true,
     windowCoords: [0, 0, 600, 800]
-  }
-}
-
-export const pagesInit = {
-  [initId]: {
-    sliderList: [],
-    id: initId,
-    label: 'Page 1'
-  }
-}
-
-const slidersInitState = {
-  isMidiFailed: false,
-  midi: null,
-  sliderList: []
-}
-
-export const viewSettingsInitState = {
-  ...initState,
+  },
   isLiveMode: false,
   isSettingsDialogMode: false,
   isLayoutMode: false,
@@ -87,18 +92,24 @@ export const viewSettingsInitState = {
     }
   ]
 }
-
-const {reducer: reducerPagess, actions: actionsPagess} = createSlice({
-  name: 'pages',
-  initialState: pagesInit,
-  reducers: pages
+const {reducer: reducerViewSettingss, actions: actionsViewSettingss} = createSlice({
+  name: 'viewSettings',
+  initialState: viewSettingsInitState,
+  reducers: viewSettings
 
 })
 
-export const actionsPages = actionsPagess
-export const reducerPages = reducerPagess
+export const actionsViewSettings = actionsViewSettingss
+export const reducerViewSettings = reducerViewSettingss
 
-
+//
+// SLIDERS
+//
+const slidersInitState = {
+  isMidiFailed: false,
+  midi: null,
+  sliderList: []
+}
 const {reducer: reducerSliderss, actions: actionsSliderss} = createSlice({
   name: 'sliders',
   initialState: slidersInitState,
@@ -109,16 +120,9 @@ const {reducer: reducerSliderss, actions: actionsSliderss} = createSlice({
 export const actionsSliders = actionsSliderss
 export const reducerSliders = reducerSliderss
 
-const {reducer: reducerViewSettingss, actions: actionsViewSettingss} = createSlice({
-  name: 'viewSettings',
-  initialState: viewSettingsInitState,
-  reducers: viewSettings
-
-})
-
-export const actionsViewSettings = actionsViewSettingss
-export const reducerViewSettings= reducerViewSettingss
-
+//
+// UNDO REDO
+//
 const {reducer: reducerUndoRedod, actions: actionsUndoRedod} = createSlice({
   name: 'undoRedo',
   initialState: {},
@@ -127,7 +131,7 @@ const {reducer: reducerUndoRedod, actions: actionsUndoRedod} = createSlice({
 })
 
 export const actionsUndoRedo = actionsUndoRedod
-export const reducerUndoRedo= reducerUndoRedod
+export const reducerUndoRedo = reducerUndoRedod
 
 export const reducer = combineReducers({
   sliders: reducerSliders,

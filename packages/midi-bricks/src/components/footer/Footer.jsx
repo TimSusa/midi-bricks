@@ -67,10 +67,14 @@ function Footer() {
           return (
             <div key={`footer-button-${item.id}`}>
               <IconButton
-                onClick={swapFooterPages.bind(this, {
-                  srcIdx: item.id,
-                  offset: -1
-                })}
+                onClick={() =>
+                  dispatch(
+                    swapFooterPages({
+                      srcIdx: item.id,
+                      offset: -1
+                    })
+                  )
+                }
                 className={classes.signButton}
                 color='inherit'
                 aria-label='Menu'
@@ -86,10 +90,14 @@ function Footer() {
               />
 
               <IconButton
-                onClick={swapFooterPages.bind(this, {
-                  srcIdx: item.id,
-                  offset: 1
-                })}
+                onClick={() =>
+                  dispatch(
+                    swapFooterPages({
+                      srcIdx: item.id,
+                      offset: 1
+                    })
+                  )
+                }
                 className={classes.signButton}
                 color='inherit'
                 aria-label='Menu'
