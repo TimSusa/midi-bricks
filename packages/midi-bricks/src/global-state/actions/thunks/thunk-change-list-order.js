@@ -1,4 +1,3 @@
-import { batch } from 'react-redux'
 import { Actions as sliderListActions } from '../slider-list'
 import { Actions as undoRedoActions } from '../undo-redo'
 // import { Actions as viewSettingsActions } from '../view-settings'
@@ -24,11 +23,9 @@ export function thunkChangeListOrder(listOrder) {
       }
       return acc
     }, [])
-    batch(() => {
-      dispatch(changeListOrder({ listOrder, lastFocusedPage }))
-      dispatch(
-        updateSliderListOfPage({ lastFocusedPage, sliderList: mergedList })
-      )
-    })
+    dispatch(changeListOrder({ listOrder, lastFocusedPage }))
+    dispatch(
+      updateSliderListOfPage({ lastFocusedPage, sliderList: mergedList })
+    )
   }
 }
