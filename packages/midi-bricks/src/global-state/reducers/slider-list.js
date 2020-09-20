@@ -270,73 +270,56 @@ export const sliders = {
     draftState.sliderList[idx].midiCC = val
     return draftState
   },
-  addMidiCcListener(state, action) {
+  addMidiCcListener(draftState, action) {
     const { i, val } = action.payload
-    const idx = state.sliderList.findIndex((item) => i === item.i)
-
-    return createNextState(state, (draftState) => {
-      draftState.sliderList[idx].listenToCc = val
-      return draftState
-    })
+    const idx = draftState.sliderList.findIndex((item) => i === item.i)
+    draftState.sliderList[idx].listenToCc = val
+    return draftState
   },
-  setMaxVal(state, action) {
+  setMaxVal(draftState, action) {
     const { val, i } = action.payload
-    const idx = state.sliderList.findIndex((item) => i === item.i)
-
-    return createNextState(state, (draftState) => {
-      draftState.sliderList[idx].maxVal = scaleToMinMax(val, 1, 127)
-      return draftState
-    })
+    const idx = draftState.sliderList.findIndex((item) => i === item.i)
+    draftState.sliderList[idx].maxVal = scaleToMinMax(val, 1, 127)
+    return draftState
   },
 
-  setMinVal(state, action) {
+  setMinVal(draftState, action) {
     const { val, i } = action.payload
-    const idx = state.sliderList.findIndex((item) => i === item.i)
-
-    return createNextState(state, (draftState) => {
-      draftState.sliderList[idx].minVal = scaleToMinMax(val, 0, 127)
-      return draftState
-    })
+    const idx = draftState.sliderList.findIndex((item) => i === item.i)
+    draftState.sliderList[idx].minVal = scaleToMinMax(val, 0, 127)
+    return draftState
   },
 
-  setOnVal(state, action) {
+  setOnVal(draftState, action) {
     const { val, i } = action.payload
-    const idx = state.sliderList.findIndex((item) => i === item.i)
-
-    return createNextState(state, (draftState) => {
-      draftState.sliderList[idx].onVal = scaleToMinMax(val, 0, 127)
-      return draftState
-    })
+    const idx = draftState.sliderList.findIndex((item) => i === item.i)
+    draftState.sliderList[idx].onVal = scaleToMinMax(val, 0, 127)
+    return draftState
+    
   },
 
-  setOffVal(state, action) {
+  setOffVal(draftState, action) {
     const { val, i } = action.payload
-    const idx = state.sliderList.findIndex((item) => i === item.i)
-
-    return createNextState(state, (draftState) => {
-      draftState.sliderList[idx].offVal = scaleToMinMax(val, 0, 127)
-      return draftState
-    })
+    const idx = draftState.sliderList.findIndex((item) => i === item.i)
+    draftState.sliderList[idx].offVal = scaleToMinMax(val, 0, 127)
+    return draftState
   },
 
-  selectMidiChannel(state, action) {
+  selectMidiChannel(draftState, action) {
     const { val, i } = action.payload
-    const idx = state.sliderList.findIndex((item) => item.i === i)
-
-    return createNextState(state, (draftState) => {
-      draftState.sliderList[idx].midiChannel = val
-      return draftState
-    })
+    const idx = draftState.sliderList.findIndex((item) => item.i === i)
+    draftState.sliderList[idx].midiChannel = val
+    return draftState
   },
 
-  selectMidiChannelInput(state, action) {
+  selectMidiChannelInput(draftState, action) {
     const { val, i } = action.payload
-    const idx = state.sliderList.findIndex((item) => item.i === i)
+    const idx = draftState.sliderList.findIndex((item) => item.i === i)
 
-    return createNextState(state, (draftState) => {
-      draftState.sliderList[idx].midiChannelInput = val
-      return draftState
-    })
+    
+    draftState.sliderList[idx].midiChannelInput = val
+    return draftState
+    
   },
 
   saveFile(state, action) {
@@ -373,30 +356,30 @@ export const sliders = {
     a.click()
     return state
   },
-  loadFile(state, action) {
+  loadFile(draftState, action) {
     // DEPRECATD??
-    return createNextState(state, (draftState) => {
-      const {
-        payload: { content: { sliders: { sliderList } } = {} } = {}
-      } = action
 
-      draftState.sliderList = sliderList
-      return draftState
-    })
+    const {
+      payload: { content: { sliders: { sliderList } } = {} } = {}
+    } = action
+
+    draftState.sliderList = sliderList
+    return draftState
+   
   },
-  changeListOrder(state, action) {
-    return createNextState(state, (draftState) => {
-      const { listOrder } = action.payload
+  changeListOrder(draftState, action) {
+  
+    const { listOrder } = action.payload
 
-      const sliderList =
-        state.sliderList.map((item, idx) => ({
-          ...item,
-          ...listOrder[idx.toString()]
-        })) || []
+    const sliderList =
+      draftState.sliderList.map((item, idx) => ({
+        ...item,
+        ...listOrder[idx.toString()]
+      })) || []
 
-      draftState.sliderList = sliderList
-      return draftState
-    })
+    draftState.sliderList = sliderList
+    return draftState
+    
   },
 
   midiMessageArrived(draftState, action) {
@@ -423,37 +406,37 @@ export const sliders = {
     //return draftState
   },
 
-  changeColors(state, action) {
+  changeColors(draftState, action) {
     const { i, ...rest } = action.payload
-    return createNextState(state, (draftState) => {
-      const idx = state.sliderList.findIndex((item) => item.i === i)
-      draftState.sliderList[idx].colors = {
-        ...state.sliderList[idx].colors,
-        ...rest
-      }
-      return draftState
-    })
+   
+    const idx = draftState.sliderList.findIndex((item) => item.i === i)
+    draftState.sliderList[idx].colors = {
+      ...draftState.sliderList[idx].colors,
+      ...rest
+    }
+    return draftState
+   
   },
 
-  changeFontSize(state, action) {
+  changeFontSize(draftState, action) {
     const { i, fontSize } = action.payload
-    const idx = state.sliderList.findIndex((item) => i === item.i)
+    const idx = draftState.sliderList.findIndex((item) => i === item.i)
 
-    return createNextState(state, (draftState) => {
-      draftState.sliderList[idx].fontSize = fontSize
-      return draftState
-    })
+   
+    draftState.sliderList[idx].fontSize = fontSize
+    return draftState
+    
   },
 
-  changeFontWeight(state, action) {
+  changeFontWeight(draftState, action) {
     const { i, fontWeight } = action.payload
 
-    const idx = state.sliderList.findIndex((item) => i === item.i)
+    const idx = draftState.sliderList.findIndex((item) => i === item.i)
 
-    return createNextState(state, (draftState) => {
-      draftState.sliderList[idx].fontWeight = fontWeight
-      return draftState
-    })
+   
+    draftState.sliderList[idx].fontWeight = fontWeight
+    return draftState
+    
   },
 
   // [ActionTypeSliderList.CHANGE_XYPAD_SETTINGS](state, action) {
@@ -488,14 +471,14 @@ export const sliders = {
   //   })
   // },
 
-  toggleHideValue(state, action) {
+  toggleHideValue(draftState, action) {
     const { i } = action.payload
-    const idx = state.sliderList.findIndex((item) => i === item.i)
+    const idx = draftState.sliderList.findIndex((item) => i === item.i)
 
-    return createNextState(state, (draftState) => {
-      draftState.sliderList[idx].isValueHidden = !state.sliderList[idx].isValueHidden || false
-      return draftState
-    })
+  
+    draftState.sliderList[idx].isValueHidden = !draftState.sliderList[idx].isValueHidden || false
+    return draftState
+    
   },
 
   triggerAllMidiElements(state) {
@@ -613,18 +596,18 @@ export const sliders = {
     return state
   },
 
-  resetValues(state) {
-    return createNextState(state, (draftState) => {
-      return draftState
-    })
+  resetValues(draftState) {
+    
+    return draftState
+ 
   },
 
-  setMidiPage(state, action) {
-    return createNextState(state, (draftState) => {
-      const { sliderList } = action.payload
-      draftState.sliderList = sliderList
-      return draftState
-    })
+  setMidiPage(draftState, action) {
+    
+    const { sliderList } = action.payload
+    draftState.sliderList = sliderList
+    return draftState
+    
   }
 }
 
