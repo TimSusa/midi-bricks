@@ -2,8 +2,8 @@ import WebMIDI from 'webmidi'
 
 import { midi } from 'tonal'
 import { fromMidi } from '../../utils/fromMidi'
-import  map  from 'lodash/map'
-import  isEqual  from 'lodash/isEqual'
+import map from 'lodash/map'
+import isEqual from 'lodash/isEqual'
 import { getUniqueId } from '../../utils/get-unique-id'
 import { createNextState } from '@reduxjs/toolkit'
 
@@ -31,8 +31,8 @@ const {
   SLIDER,
   SLIDER_HORZ,
   LABEL,
-  PAGE,
-  XYPAD
+  PAGE
+  // XYPAD
 } = STRIP_TYPE
 
 export const sliders = {
@@ -58,7 +58,10 @@ export const sliders = {
   },
 
   addMidiElement(draftState, action) {
-    const { isMidiFailed, sliderList, midi: tmpMidi } = transformAddState(draftState, action)
+    const { isMidiFailed, sliderList, midi: tmpMidi } = transformAddState(
+      draftState,
+      action
+    )
     draftState.sliderList = sliderList
     draftState.isMidiFailed = isMidiFailed
     draftState.midi = tmpMidi
@@ -92,13 +95,16 @@ export const sliders = {
     let x = 0
     let y = 0
     let lastItem = { x: 0, y: 0 }
+
     state.sliderList.forEach((item) => {
       if (item.x > lastItem.x) x = item.x
       if (item.y > lastItem.y) y = item.y
       lastItem = item
     })
-    let newEntry = i
-      ? {
+    let newEntry = null
+
+    if (i) {
+      newEntry = {
         ...tmpState,
         label: tmpState.label,
         i: newDate,
@@ -106,7 +112,8 @@ export const sliders = {
         x: x + 1,
         y: y + 1
       }
-      : {
+    } else {
+      newEntry = {
         ...list[idx],
         label: list[idx].label,
         i: newDate,
@@ -114,6 +121,23 @@ export const sliders = {
         x: x + 1,
         y: y + 1
       }
+    }
+    // ? {
+    //     ...tmpState,
+    //     label: tmpState.label,
+    //     i: newDate,
+    //     midiCC: [caclCCThresh],
+    //     x: x + 1,
+    //     y: y + 1
+    //   }
+    // : {
+    //     ...list[idx],
+    //     label: list[idx].label,
+    //     i: newDate,
+    //     midiCC: [caclCCThresh || 60],
+    //     x: x + 1,
+    //     y: y + 1
+    //   }
 
     newArr.splice(idx, 0, newEntry)
 
@@ -127,10 +151,7 @@ export const sliders = {
         }
       })
     })
-    return updatePagesWithSliderlist(
-      state,
-      newArr
-    )
+    return updatePagesWithSliderlist(state, newArr)
   },
   changeButtonType(draftState, action) {
     const { i, val } = action.payload
@@ -160,7 +181,7 @@ export const sliders = {
       })
     }
   },
-  deleteAll (draftState)  {
+  deleteAll(draftState) {
     draftState.sliderList = []
     draftState.presetName = ''
     //return draftState
@@ -172,7 +193,7 @@ export const sliders = {
     const { i, val } = action.payload
     const idx = draftState.sliderList.findIndex((item) => item.i === i)
     const { midiCC, midiChannel, driverName, label, isNoteOn, type } =
-    draftState.sliderList[idx] || {}
+      draftState.sliderList[idx] || {}
     sendControlChanges({ midiCC, midiChannel, driverName, val, label })
     // For CC Buttons we toggle the NoteOn state at each trigger
     // Keep in mind, that the component button will take care of sending the right values for itself.
@@ -227,7 +248,7 @@ export const sliders = {
       label
     })
     const sliderList = toggleNotesInState(state.sliderList, i)
-    return updatePagesWithSliderlist(state, sliderList )
+    return updatePagesWithSliderlist(state, sliderList)
   },
 
   sendProgramChange(state, action) {
@@ -296,7 +317,6 @@ export const sliders = {
     const idx = draftState.sliderList.findIndex((item) => i === item.i)
     draftState.sliderList[idx].onVal = scaleToMinMax(val, 0, 127)
     return draftState
-    
   },
 
   setOffVal(draftState, action) {
@@ -317,15 +337,18 @@ export const sliders = {
     const { val, i } = action.payload
     const idx = draftState.sliderList.findIndex((item) => item.i === i)
 
-    
     draftState.sliderList[idx].midiChannelInput = val
     return draftState
-    
   },
 
   saveFile(state, action) {
     // This is actuall only envolved in web app mode, not in electron mode
-    const { viewSettings, sliders: tmpSliders, version, pages: pgs } = action.payload
+    const {
+      viewSettings,
+      sliders: tmpSliders,
+      version,
+      pages: pgs
+    } = action.payload
 
     // Clean out older preset fields
     let pages = Object.values(pgs).reduce(
@@ -344,14 +367,13 @@ export const sliders = {
     const tmpFilterStore = {
       version,
       pages,
-      viewSettings:
-      {
-        ...viewSettings,   
+      viewSettings: {
+        ...viewSettings,
         isLiveMode: true,
         isSettingsDialogMode: false,
         isLayoutMode: false,
         isSettingsMode: false,
-        isMidiLearnMode: false,
+        isMidiLearnMode: false
       },
       sliders: tmpSliders
     }
@@ -374,10 +396,8 @@ export const sliders = {
 
     draftState.sliderList = sliderList
     return draftState
-   
   },
   changeListOrder(draftState, action) {
-  
     const { listOrder } = action.payload
 
     const sliderList =
@@ -388,15 +408,13 @@ export const sliders = {
 
     draftState.sliderList = sliderList
     return draftState
-    
   },
 
   midiMessageArrived(draftState, action) {
-
-    if (!isEqual(draftState.monitorVal, action.payload)){
+    if (!isEqual(draftState.monitorVal, action.payload)) {
       draftState.monitorVal = action.payload
     }
-    
+
     const { val, cC, channel, driver, isNoteOn } = action.payload
 
     const sliderList = map(draftState.sliderList, (item) => {
@@ -423,24 +441,21 @@ export const sliders = {
 
   changeColors(draftState, action) {
     const { i, ...rest } = action.payload
-   
+
     const idx = draftState.sliderList.findIndex((item) => item.i === i)
     draftState.sliderList[idx].colors = {
       ...draftState.sliderList[idx].colors,
       ...rest
     }
     return draftState
-   
   },
 
   changeFontSize(draftState, action) {
     const { i, fontSize } = action.payload
     const idx = draftState.sliderList.findIndex((item) => i === item.i)
 
-   
     draftState.sliderList[idx].fontSize = fontSize
     return draftState
-    
   },
 
   changeFontWeight(draftState, action) {
@@ -448,10 +463,8 @@ export const sliders = {
 
     const idx = draftState.sliderList.findIndex((item) => i === item.i)
 
-   
     draftState.sliderList[idx].fontWeight = fontWeight
     return draftState
-    
   },
 
   // [ActionTypeSliderList.CHANGE_XYPAD_SETTINGS](state, action) {
@@ -490,10 +503,9 @@ export const sliders = {
     const { i } = action.payload
     const idx = draftState.sliderList.findIndex((item) => i === item.i)
 
-  
-    draftState.sliderList[idx].isValueHidden = !draftState.sliderList[idx].isValueHidden || false
+    draftState.sliderList[idx].isValueHidden =
+      !draftState.sliderList[idx].isValueHidden || false
     return draftState
-    
   },
 
   triggerAllMidiElements(state) {
@@ -612,17 +624,13 @@ export const sliders = {
   },
 
   resetValues(draftState) {
-    
     return draftState
- 
   },
 
   setMidiPage(draftState, action) {
-    
     const { sliderList } = action.payload
     draftState.sliderList = sliderList
     return draftState
-    
   }
 }
 
@@ -638,7 +646,7 @@ function transformAddState(state, action) {
     lastSelectedDriverName !== 'None' && lastSelectedDriverName
 
   const addStateLength = () => oldSliderList.length + 1
-  const addMidiCCVal = () => 59 + addStateLength() > 119 && 119
+  const addMidiCCVal = () => 59 + 1 //addStateLength() > 119 && 119
 
   let midiCC = null
   let label = ''
@@ -671,16 +679,16 @@ function transformAddState(state, action) {
   if (type === PAGE) {
     label = 'Page ' + addStateLength()
   }
-  if (type === XYPAD) {
-    label = 'X / Y Pad ' + addStateLength()
-    yVal = 50
-    midiCC = [addMidiCCVal()]
-    yDriverName = 'None'
-    yMidiCc = [addMidiCCVal()]
-    yMidiChannel = 1
-    yMinVal = 0
-    yMaxVal = 127
-  }
+  // if (type === XYPAD) {
+  //   label = 'X / Y Pad ' + addStateLength()
+  //   yVal = 50
+  //   midiCC = [addMidiCCVal()]
+  //   yDriverName = 'None'
+  //   yMidiCc = [addMidiCCVal()]
+  //   yMidiChannel = 1
+  //   yMinVal = 0
+  //   yMaxVal = 127
+  // }
   const entry = {
     type,
     label,
