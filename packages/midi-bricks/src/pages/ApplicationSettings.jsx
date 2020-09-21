@@ -70,7 +70,7 @@ function ApplicationSettings() {
     <React.Fragment>
       <FormControlLabel
         control={
-          <Tooltip title='Please note: If you experience with performance issues, after changing this value, please consider to save your changes to the preset and reload it, afterwards!'>
+          <Tooltip title='Increase to >10 or >15, if incoming MIDI data is displayed with a lag on your system (caused by high amounts of data). Otherwise you can set lower values around 5 to display incoming MIDI data immediately and accurately for softer slider movements.'>
             <Input
               onChange={(e) => {
                 e.preventDefault()
