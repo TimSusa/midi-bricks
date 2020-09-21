@@ -679,16 +679,6 @@ function transformAddState(state, action) {
   if (type === PAGE) {
     label = 'Page ' + addStateLength()
   }
-  // if (type === XYPAD) {
-  //   label = 'X / Y Pad ' + addStateLength()
-  //   yVal = 50
-  //   midiCC = [addMidiCCVal()]
-  //   yDriverName = 'None'
-  //   yMidiCc = [addMidiCCVal()]
-  //   yMidiChannel = 1
-  //   yMinVal = 0
-  //   yMaxVal = 127
-  // }
   const entry = {
     type,
     label,
