@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.40-alpha.0](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39...v1.3.40-alpha.0) (2020-09-21)
+
+
+### Bug Fixes
+
+* CC init value when adding a slider ([bb3578a](https://github.com/TimSusa/midi-bricks-mono/commit/bb3578afefd8cc998ffb123016b9bfe25c430e77))
+* Crash when changing button types ([118298d](https://github.com/TimSusa/midi-bricks-mono/commit/118298db41788f3c93312e571e8676afc00b62a5))
+* Dialog Settings react duplication key warning ([fe39e92](https://github.com/TimSusa/midi-bricks-mono/commit/fe39e9264afb90e6c4c0e0716260a0e95424f6ab))
+* Input of note values for buttons ([9b82b4e](https://github.com/TimSusa/midi-bricks-mono/commit/9b82b4edb1018f2edc7e706b5477cff72eb032ff))
+
 ### [1.3.39](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39-alpha.10...v1.3.39) (2020-09-20)
 
 
