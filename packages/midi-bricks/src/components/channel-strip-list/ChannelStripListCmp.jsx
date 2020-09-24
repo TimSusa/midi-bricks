@@ -9,6 +9,7 @@ import { Actions as MidiSliderActions } from '../../global-state/actions/slider-
 import { Actions as ViewSettingsActions } from '../../global-state/actions/view-settings.js'
 import { thunkChangeListOrder } from '../../global-state/actions/thunks/thunk-change-list-order'
 import { thunkLiveModeToggle } from '../../global-state/actions/thunks/thunk-live-mode-toggle'
+import { thunkToggleLayoutMode } from '../../global-state/actions/thunks/thunk-toggle-layout-mode'
 import MidiSettingsDialogButton from '../midi-settings-dialog/MidiSettingsDialogButton'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import { SizeMe } from 'react-sizeme'
@@ -21,7 +22,7 @@ require('react-resizable/css/styles.css')
 
 const {
   //goBack,
-  toggleLayoutMode,
+  //toggleLayoutMode,
   toggleSettingsMode,
   toggleAutoArrangeMode,
   clone,
@@ -99,8 +100,9 @@ function ChannelStripListCmp() {
         useCSSTransforms
         //isRearrangeable={isAutoArrangeMode}
         preventCollision={!isAutoArrangeMode}
-        isDraggable={isLayoutMode}
-        isResizable={isLayoutMode}
+        // isDraggable={isLayoutMode}
+        // isResizable={isLayoutMode}
+        //isDroppable={isLayoutMode}
         compactType={isCompactHorz ? 'horizontal' : 'vertical'}
         layout={sliderList}
         onLayoutChange={isLayoutMode ? onLayoutChange.bind(this) : () => {}}
@@ -248,7 +250,7 @@ function ChannelStripListCmp() {
   }
 }
 
-function handleKeyPress(dispatch, isLayoutMode, e) {
+async function handleKeyPress(dispatch, isLayoutMode, e) {
   // e: midi driver settings
   // if (e.keyCode === 101) {
   //   const {
@@ -289,7 +291,7 @@ function handleKeyPress(dispatch, isLayoutMode, e) {
   // l: layout mode
   if (e.keyCode === 108) {
     e.preventDefault()
-    dispatch(toggleLayoutMode())
+    await dispatch(thunkToggleLayoutMode())
   }
 
   // s: settings mode

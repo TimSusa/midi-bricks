@@ -10,12 +10,33 @@ const { setLastFocusedIndex, setLastFocusedPage } = viewActions
 const { undoRedoUpdate } = undoRedoActions
 
 export function thunkChangePage(lastFocusedPage, focusedPage) {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     const {
-      viewSettings: { lastFocusedPage, isLiveMode },
+      viewSettings: { lastFocusedPage, isLiveMode, isLayoutMode },
       sliders: { sliderList = [] },
       pages: storedPages
     } = getState()
+    let tmpSliderList = []
+
+    if (!isLayoutMode) {
+      tmpSliderList = sliderList.map((item) => {
+        return {
+          ...item,
+          isDraggable: false,
+          isResizable: false,
+          static: true
+        }
+      })
+    } else {
+      tmpSliderList = sliderList.map((item) => {
+        return {
+          ...item,
+          isDraggable: true,
+          isResizable: true,
+          static: false
+        }
+      })
+    }
 
     if (isLiveMode) {
       const pages = await localforage.getItem('pages')
@@ -35,19 +56,33 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
       dispatch(undoRedoUpdate({ state: getState() }))
 
       if (storedPages[focusedPage]) {
-        dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList }))
-        dispatch(setLastFocusedIndex({ i: 'none' }))
         dispatch(
-          setMidiPage({ sliderList: storedPages[focusedPage].sliderList })
+          updateSliderListOfPage({ lastFocusedPage, sliderList: tmpSliderList })
         )
+        dispatch(setLastFocusedIndex({ i: 'none' }))
+        const tmpStoredList = storedPages[focusedPage].sliderList.map(
+          (item) => {
+            return {
+              ...item,
+              isDraggable: isLayoutMode,
+              isResizable: isLayoutMode,
+              static: !isLayoutMode
+            }
+          }
+        )
+
+        dispatch(setMidiPage({ sliderList: tmpStoredList }))
         dispatch(setLastFocusedPage({ lastFocusedPage: focusedPage }))
       } else {
-        dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList }))
+        dispatch(
+          updateSliderListOfPage({ lastFocusedPage, sliderList: tmpSliderList })
+        )
         dispatch(setLastFocusedIndex({ i: 'none' }))
         dispatch(setMidiPage({ sliderList: [] }))
         dispatch(setLastFocusedPage({ lastFocusedPage: focusedPage }))
       }
     }
+    //dispatch(toggleLayoutMode({ isLayoutMode: false }))
     dispatch(initApp())
 
     return Promise.resolve()

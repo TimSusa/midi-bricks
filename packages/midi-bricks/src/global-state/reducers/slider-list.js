@@ -450,6 +450,11 @@ export const sliders = {
     return draftState
   },
 
+  updateSliderList(state, action) {
+    state.sliderList = action.payload
+    return state
+  },
+
   changeFontSize(draftState, action) {
     const { i, fontSize } = action.payload
     const idx = draftState.sliderList.findIndex((item) => i === item.i)
@@ -680,33 +685,12 @@ function transformAddState(state, action) {
     label = 'Page ' + addStateLength()
   }
   const entry = {
-    type,
-    label,
-    val: 50,
-    lastSavedVal: 0,
-    minVal: 0,
-    maxVal: 127,
-    onVal: 127,
-    offVal: 0,
-    midiCC,
-    listenToCc: [],
-    driverName: newDriverName,
     driverNameInput: 'None',
-    yDriverName,
-    yVal,
-    yMidiCc,
-    yMidiChannel,
-    yMinVal,
-    yMaxVal,
     midiChannel: 1,
     midiChannelInput: 1,
     isNoteOn: false,
     isDraggable: true,
-    i: id,
-    x: addStateLength(),
-    y: addStateLength(),
-    w: type === PAGE ? 18 : 2,
-    h: type === SLIDER ? 6 : 3,
+    isResizable: true,
     static: false,
     colors: {
       color: 'rgba(126, 211, 33, 1)',
@@ -714,9 +698,31 @@ function transformAddState(state, action) {
       colorFont: 'rgba(244, 166, 34, 1)',
       colorFontActive: 'rgba(248, 233, 28, 1)'
     },
+    val: 50,
+    lastSavedVal: 0,
+    minVal: 0,
+    maxVal: 127,
+    onVal: 127,
+    offVal: 0,
     fontSize: 16,
     fontWeight: 500,
-    isValueHidden: false
+    isValueHidden: false,
+    yDriverName,
+    yVal,
+    yMidiCc,
+    yMidiChannel,
+    yMinVal,
+    yMaxVal,
+    i: id,
+    x: addStateLength(),
+    y: addStateLength(),
+    w: type === PAGE ? 18 : 2,
+    h: type === SLIDER ? 6 : 3,
+    type,
+    label,
+    midiCC,
+    listenToCc: [],
+    driverName: newDriverName
   }
   return createNextState(state, (draftState) => {
     if (type === PAGE) {

@@ -12,13 +12,15 @@ const { addMidiElement } = sliderListActions
 const { addPageTarget } = viewSettingsActions
 const { undoRedoUpdate } = undoRedoActions
 
-export function addElement (type) {
+export function addElement(type) {
   const pageId = `page-${getUniqueId()}`
 
   return function (dispatch, getState) {
-    const {viewSettings: { lastFocusedPage, pageTargets }} = getState()
+    const {
+      viewSettings: { lastFocusedPage, pageTargets }
+    } = getState()
 
-    dispatch(undoRedoUpdate({state: getState()}))
+    dispatch(undoRedoUpdate({ state: getState() }))
 
     if (type === PAGE) {
       dispatch(
@@ -32,14 +34,18 @@ export function addElement (type) {
           }
         })
       )
-      dispatch(createPage({ id: pageId, lastFocusedPage}))
+      dispatch(createPage({ id: pageId, lastFocusedPage }))
       dispatch(thunkChangePage(lastFocusedPage, pageId))
+      //dispatch(thunkToggleLayoutMode())
     } else {
       const id = getUniqueId()
-      dispatch(addMidiElement({ type, id}))
-      const {viewSettings: { lastFocusedPage }, sliders: { sliderList }} = getState()
+      dispatch(addMidiElement({ type, id }))
+      const {
+        viewSettings: { lastFocusedPage },
+        sliders: { sliderList }
+      } = getState()
 
-      dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList}))
+      dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList }))
     }
   }
 }

@@ -6,6 +6,7 @@ import { Actions as ViewSettingsAction } from '../../global-state/actions/view-s
 import { Actions as MidiSlidersAction } from '../../global-state/actions/slider-list.js'
 
 import { initApp } from '../../global-state/actions/init'
+import { thunkToggleLayoutMode } from '../../global-state/actions/thunks/thunk-toggle-layout-mode'
 import { thunkUndoRedo } from '../../global-state/actions/thunks/thunk-undo-redo'
 import { thunkCopyToNextPage } from '../../global-state/actions/thunks/thunk-copy-to-next-page.js'
 import AppBar from '@material-ui/core/AppBar'
@@ -37,7 +38,7 @@ const {
   triggerAllMidiElements,
   toggleSettingsMode,
   delete: deleteSmth,
-  toggleLayoutMode,
+  // toggleLayoutMode,
   toggleMidiLearnMode,
   //goBack,
   selectMidiDriver,
@@ -210,7 +211,11 @@ function MenuAppBarCmp(props) {
                 )}
                 {!isMidiLearnMode && (
                   <ToolTipIconButton
-                    handleClick={() => dispatch(toggleLayoutMode())}
+                    handleClick={async () =>
+                      await dispatch(
+                        thunkToggleLayoutMode({ isLayoutMode: true })
+                      )
+                    }
                     title={'Switch to Layout Mode.'}
                     icon={<LayoutIcon />}
                   />
@@ -236,8 +241,8 @@ function MenuAppBarCmp(props) {
             )}
           {isLayoutMode && (
             <ToolTipIconButton
-              handleClick={() =>
-                dispatch(toggleLayoutMode({ isLayoutMode: false }))
+              handleClick={async () =>
+                await dispatch(thunkToggleLayoutMode({ isLayoutMode: false }))
               }
               title={'Commit changes and exit layout-mode.'}
               icon={<CheckIcon />}
@@ -245,8 +250,8 @@ function MenuAppBarCmp(props) {
           )}
           {isLayoutMode && (
             <ToolTipIconButton
-              handleClick={() => {
-                dispatch(toggleLayoutMode({ isLayoutMode: false }))
+              handleClick={async () => {
+                await dispatch(thunkToggleLayoutMode({ isLayoutMode: false }))
               }}
               title={'Throw away changes and go back.'}
               icon={<CancelIcon />}
