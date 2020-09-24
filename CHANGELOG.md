@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.40-alpha.1](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.40-alpha.0...v1.3.40-alpha.1) (2020-09-24)
+
+
+### Bug Fixes
+
+* Setting to layout mode due to react-grid-layout update ([3c15f17](https://github.com/TimSusa/midi-bricks-mono/commit/3c15f179b9df29d695d48544a8e41c1d621308c4))
+
 ### [1.3.40-alpha.0](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.39...v1.3.40-alpha.0) (2020-09-21)
 
 
