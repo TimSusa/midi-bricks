@@ -10,16 +10,20 @@ export const MidiDriversSettingsPage = MidiDriversSettingsPageComponent
 
 function MidiDriversSettingsPageComponent() {
   const dispatch = useDispatch()
-  const { inputs: availableInputs, outputs: avalableOutputs } = useSelector(
-    (state) => state.viewSettings.availableDrivers || {}
+  const { availableDrivers, isMidiFailed } = useSelector(
+    (state) => state.viewSettings || {}
   )
-  const { inputs, outputs } = useSelector(
-    (state) => state.sliders.midi.midiAccess || { inputs: [], outputs: [] }
-  )
+
+  const { inputs: availableInputs, outputs: avalableOutputs } =
+    availableDrivers || {}
+  const { midiAccess } = useSelector((state) => state.sliders.midi || {})
+  const { inputs, outputs } = midiAccess || { inputs: [], outputs: [] }
   const availOut = avalableOutputs || {}
   const availIn = availableInputs || {}
   const [isFirstPanelExpanded, setIsFirstPanelExpanded] = useState(true)
   const [isScndPanelExpanded, setIsScndPanelExpanded] = useState(true)
+
+  if (isMidiFailed) return <div>No Midi Driver available!</div>
 
   if (!Array.isArray(outputs) || !inputs) return <div></div>
   let isChecked = false
