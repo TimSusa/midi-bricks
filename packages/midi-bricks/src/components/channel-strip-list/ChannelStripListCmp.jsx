@@ -113,8 +113,8 @@ function ChannelStripListCmp() {
           return (
             <div
               onClick={
-                !isLayoutMode &&
                 isSettingsMode &&
+                !isLayoutMode &&
                 !isSettingsDialogMode &&
                 !lastFocusedIdxs.includes(i)
                   ? handleClick.bind(this, { i })

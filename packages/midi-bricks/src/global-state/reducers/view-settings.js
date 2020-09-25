@@ -1,4 +1,3 @@
-
 import { viewSettingsInitState } from '../'
 
 export const viewSettings = {
@@ -118,9 +117,9 @@ export const viewSettings = {
 
   setLastFocusedIndex(draftState, action) {
     const { i = '' } = action.payload || {}
-
+    const { isMultiSelectionMode } = draftState
     // Multiselection
-    if (i !== 'none' && !i.startsWith('page')) {
+    if (i !== 'none' && !i.startsWith('page') && isMultiSelectionMode) {
       draftState.lastFocusedIdx = i
       draftState.lastFocusedIdxs.push(i)
       // Remove duplicates
@@ -133,12 +132,14 @@ export const viewSettings = {
       draftState.lastFocusedIdx = i
     } else {
       draftState.lastFocusedIdx = i
-      draftState.lastFocusedIdxs = []
+      draftState.lastFocusedIdxs = [i]
     }
 
     return draftState
   },
-
+  toggleMultiSelectionMode(state, action) {
+    state.isMultiSelectionMode = action.payload || !state.isMultiSelectionMode
+  },
   swapFooterPages(state, action) {
     const { srcIdx: srcI, offset } = action.payload
     const srcItem = state.pageTargets.find((item) => item.id === srcI)
@@ -441,8 +442,8 @@ function getChannels(
         noteChannel === 'all'
           ? chDummy
           : !oldNoteChannels.includes(noteChannel)
-            ? [...oldNoteChannels, noteChannel]
-            : oldNoteChannels
+          ? [...oldNoteChannels, noteChannel]
+          : oldNoteChannels
 
       channels = getObjFromNoteChannels(old, name, noteChannels)
     }
@@ -451,8 +452,8 @@ function getChannels(
         ccChannel === 'all'
           ? chDummy
           : !oldCcChannels.includes(ccChannel)
-            ? [...oldCcChannels, ccChannel]
-            : oldCcChannels
+          ? [...oldCcChannels, ccChannel]
+          : oldCcChannels
       channels = getObjFromCcChannels(old, name, ccChannels)
     }
   } else {

@@ -7,7 +7,8 @@ import { useTheme } from '@material-ui/styles'
 export function ToolTipIconButton(props) {
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
-  const { handleClick = () => {}, title = '', icon } = props
+  const { handleClick = () => {}, title = '', icon, isInvisible } = props
+  if (isInvisible) return <div></div>
   return (
     <Tooltip disableHoverListener={false} title={title}>
       <IconButton onClick={handleClick} className={classes.typoColorStyle}>
@@ -20,6 +21,7 @@ export function ToolTipIconButton(props) {
 ToolTipIconButton.propTypes = {
   handleClick: PropTypes.func,
   icon: PropTypes.any,
+  isInvisible: PropTypes.bool,
   title: PropTypes.string
 }
 

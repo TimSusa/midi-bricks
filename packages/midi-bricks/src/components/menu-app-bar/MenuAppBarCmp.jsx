@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,6 +15,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import MenuIcon from '@material-ui/icons/Menu'
 import UndoIcon from '@material-ui/icons/Undo'
+import IconFilter from '@material-ui/icons/Filter'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
 import SwapVertIcon from '@material-ui/icons/SwapVert'
 import CheckIcon from '@material-ui/icons/CheckCircle'
@@ -37,6 +38,7 @@ const {
   //resetValues,
   triggerAllMidiElements,
   toggleSettingsMode,
+  toggleMultiSelectionMode,
   delete: deleteSmth,
   // toggleLayoutMode,
   toggleMidiLearnMode,
@@ -59,6 +61,7 @@ function MenuAppBarCmp(props) {
     isLiveMode = false,
     isLayoutMode = false,
     isSettingsMode,
+    isMultiSelectionMode,
     isCompactHorz = true,
     isAutoArrangeMode = true,
     isMidiLearnMode = false,
@@ -92,7 +95,6 @@ function MenuAppBarCmp(props) {
               MIDI Learn Mode Running...
             </Typography>
           )}
-
           {isLayoutMode && (
             <Typography className={classes.typoColorStyle}>
               Layout Mode Running...
@@ -176,98 +178,102 @@ function MenuAppBarCmp(props) {
           )}
           {![PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
             pageType
-          ) &&
-            !isLayoutMode && (
-              <>
-                {!isMidiLearnMode && (
-                  <>
-                    <ToolTipIconButton
-                      handleClick={() => dispatch(toggleSettingsMode())}
-                      title={'Switch to Settings Mode.'}
-                      icon={<ViewSettingsIcon />}
-                    />
-
-                    {Array.isArray(lastFocusedIdxs) &&
-                      lastFocusedIdxs.length > 0 && (
-                        <>
-                          <ToolTipIconButton
-                            handleClick={() => dispatch(thunkCopyToNextPage())}
-                            title={'Copy to last page.'}
-                            icon={<CopyIcon />}
-                          />
-
-                          <ToolTipIconButton
-                            handleClick={() => {
-                              lastFocusedIdxs.forEach((id) => {
-                                dispatch(deleteSmth({ i: id, lastFocusedPage }))
-                              })
-                            }}
-                            title={'Delete.'}
-                            icon={<DeleteIcon />}
-                          />
-                        </>
-                      )}
-                  </>
-                )}
-                {!isMidiLearnMode && (
-                  <ToolTipIconButton
-                    handleClick={async () =>
-                      await dispatch(
-                        thunkToggleLayoutMode({ isLayoutMode: true })
-                      )
-                    }
-                    title={'Switch to Layout Mode.'}
-                    icon={<LayoutIcon />}
+          ) && (
+            <Fragment>
+              <ToolTipIconButton
+                handleClick={() => dispatch(toggleSettingsMode())}
+                title={'Switch to Settings Mode.'}
+                isInvisible={isMidiLearnMode || isLayoutMode}
+                icon={
+                  <ViewSettingsIcon
+                    color={isSettingsMode ? 'error' : 'inherit'}
                   />
-                )}
-                <ToolTipIconButton
-                  handleClick={toggleMidiLearn}
-                  title={
-                    isMidiLearnMode
-                      ? 'Chose assigned element and finalize MIDI-Learn Mode.'
-                      : 'Switch to MIDI Learn Mode. Please, double-click element for listening to changes.'
-                  }
-                  icon={!isMidiLearnMode ? <MidiLearnIcon /> : <CheckIcon />}
-                />
-
-                {isMidiLearnMode && (
+                }
+              />
+              <ToolTipIconButton
+                title='Switch to MultiselectionMode'
+                isInvisible={isMidiLearnMode || !isSettingsMode || isLayoutMode}
+                icon={
+                  <IconFilter
+                    color={isMultiSelectionMode ? 'error' : 'inherit'}
+                  ></IconFilter>
+                }
+                handleClick={() => dispatch(toggleMultiSelectionMode())}
+              ></ToolTipIconButton>
+              {Array.isArray(lastFocusedIdxs) && lastFocusedIdxs.length > 0 && (
+                <>
                   <ToolTipIconButton
-                    handleClick={cancelMidiLeanMode}
-                    title={'Cancel MIDI Learn mode. Throw away changes.'}
-                    icon={<CancelIcon />}
+                    handleClick={() => dispatch(thunkCopyToNextPage())}
+                    title={'Copy to last page.'}
+                    isInvisible={isMidiLearnMode || isLayoutMode}
+                    icon={<CopyIcon />}
                   />
-                )}
-              </>
-            )}
-          {isLayoutMode && (
-            <ToolTipIconButton
-              handleClick={async () =>
-                await dispatch(thunkToggleLayoutMode({ isLayoutMode: false }))
-              }
-              title={'Commit changes and exit layout-mode.'}
-              icon={<CheckIcon />}
-            />
-          )}
-          {isLayoutMode && (
-            <ToolTipIconButton
-              handleClick={async () => {
-                await dispatch(thunkToggleLayoutMode({ isLayoutMode: false }))
-              }}
-              title={'Throw away changes and go back.'}
-              icon={<CancelIcon />}
-            />
-          )}
-          {
-            <>
-              {isLayoutMode && (
-                <ToolTipIconButton
-                  handleClick={() => dispatch(thunkUndoRedo({ offset: -1 }))}
-                  title='Undo'
-                  icon={<UndoIcon />}
-                />
+
+                  <ToolTipIconButton
+                    handleClick={() => {
+                      lastFocusedIdxs.forEach((id) => {
+                        dispatch(deleteSmth({ i: id, lastFocusedPage }))
+                      })
+                    }}
+                    title={'Delete.'}
+                    isInvisible={isMidiLearnMode || isLayoutMode}
+                    icon={<DeleteIcon />}
+                  />
+                </>
               )}
-            </>
-          }
+              <ToolTipIconButton
+                handleClick={async () =>
+                  await dispatch(thunkToggleLayoutMode({ isLayoutMode: true }))
+                }
+                title={'Switch to Layout Mode.'}
+                isInvisible={isMidiLearnMode || isLayoutMode}
+                icon={<LayoutIcon />}
+              />
+
+              <ToolTipIconButton
+                handleClick={toggleMidiLearn}
+                title='Chose assigned element and finalize MIDI-Learn Mode.'
+                icon={<CheckIcon />}
+                isInvisible={!isMidiLearnMode}
+              />
+              <ToolTipIconButton
+                handleClick={toggleMidiLearn}
+                title='Switch to MIDI Learn Mode. Please, click element for listening to changes.'
+                icon={<MidiLearnIcon />}
+                isInvisible={
+                  lastFocusedIdxs.length <= 0 || !isSettingsMode || isLayoutMode
+                }
+              />
+              <ToolTipIconButton
+                handleClick={cancelMidiLeanMode}
+                title={'Cancel MIDI Learn mode. Throw away changes.'}
+                isInvisible={!isMidiLearnMode || isLayoutMode}
+                icon={<CancelIcon />}
+              />
+            </Fragment>
+          )}
+          <ToolTipIconButton
+            handleClick={async () =>
+              await dispatch(thunkToggleLayoutMode({ isLayoutMode: false }))
+            }
+            title={'Commit changes and exit layout-mode.'}
+            icon={<CheckIcon />}
+            isInvisible={!isLayoutMode}
+          />
+          <ToolTipIconButton
+            handleClick={() => dispatch(thunkUndoRedo({ offset: -1 }))}
+            title='Undo'
+            icon={<UndoIcon />}
+            isInvisible={!isLayoutMode}
+          />
+          <ToolTipIconButton
+            handleClick={async () => {
+              await dispatch(thunkToggleLayoutMode({ isLayoutMode: false }))
+            }}
+            title={'Throw away changes and go back.'}
+            icon={<CancelIcon />}
+            isInvisible={!isLayoutMode}
+          />
         </Toolbar>
       </AppBar>
       <div

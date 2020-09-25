@@ -70,6 +70,7 @@ export const viewSettingsInitState = {
   isLayoutMode: false,
   isCompactHorz: false,
   isSettingsMode: false,
+  isMultiSelectionMode: false,
   isMidiLearnMode: false,
   isAutoArrangeMode: false,
   isChangedTheme: false,
