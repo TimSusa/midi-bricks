@@ -55,7 +55,7 @@ export function MidiSettingsLabelInput({
     if (type === undefined) {
       dispatch(
         setPageTargetSettings({
-          label: e.target.value,
+          label: value,
           lastFocusedPage
         })
       )
