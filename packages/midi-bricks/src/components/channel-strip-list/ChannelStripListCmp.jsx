@@ -112,7 +112,6 @@ function ChannelStripListCmp() {
           const isFocused = lastFocusedIdxs.includes(i)
           return (
             <div
-              onDoubleClick={handleClick.bind(this, { i })}
               onClick={
                 !isLayoutMode &&
                 isSettingsMode &&
