@@ -1,26 +1,22 @@
 import { Actions as viewActions } from '../view-settings'
 import { Actions as pageActions } from '../pages'
-import { Actions as undoRedoActions } from '../undo-redo'
 
 import localforage from 'localforage'
 const { deletePages, updatePages } = pageActions
 const { toggleLiveMode } = viewActions
-const { undoRedoDelete } = undoRedoActions
 
 export function thunkLiveModeToggle() {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     const {
       viewSettings: { isLiveMode },
-      pages,
-      undoRedo
+      pages
     } = getState()
 
     if (!isLiveMode) {
       await save('pages', pages)
       dispatch(deletePages())
 
-      await save('undoRedo', undoRedo)
-      dispatch(undoRedoDelete())
+      window.sessionStorage.setItem('state', JSON.stringify({}))
     } else {
       dispatch(updatePages({ pages: await localforage.getItem('pages') }))
     }

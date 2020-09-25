@@ -1,15 +1,12 @@
 import { Actions as sliderListActions } from '../slider-list'
-import { Actions as undoRedoActions } from '../undo-redo'
-// import { Actions as viewSettingsActions } from '../view-settings'
 import { Actions as pageActions } from '../pages'
 
 const { changeListOrder } = sliderListActions
 const { updateSliderListOfPage } = pageActions
-const { undoRedoUpdate } = undoRedoActions
 
 export function thunkChangeListOrder(listOrder) {
-  return async function(dispatch, getState) {
-    dispatch(undoRedoUpdate({ state: getState() }))
+  return async function (dispatch, getState) {
+    window.sessionStorage.setItem('state', JSON.stringify(getState()))
 
     const {
       viewSettings: { lastFocusedPage },

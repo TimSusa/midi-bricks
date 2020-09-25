@@ -388,12 +388,9 @@ export const sliders = {
     return state
   },
   loadFile(draftState, action) {
-    // DEPRECATD??
-
-    const {
-      payload: { content: { sliders: { sliderList } } = {} } = {}
-    } = action
-
+    const { content } = action.payload || {}
+    const { sliders: slds } = content || {}
+    const { sliderList } = slds || {}
     draftState.sliderList = sliderList
     return draftState
   },

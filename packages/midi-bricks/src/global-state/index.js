@@ -2,7 +2,6 @@ import { combineReducers } from 'redux'
 import { createSlice } from '@reduxjs/toolkit'
 import { sliders, initId } from './reducers/slider-list'
 import { viewSettings } from './reducers/view-settings'
-import { undoRedo } from './reducers/undo-redo'
 import { pages } from './reducers/pages'
 
 //
@@ -16,11 +15,10 @@ export const pagesInit = {
   }
 }
 
-const {reducer: reducerPagess, actions: actionsPagess} = createSlice({
+const { reducer: reducerPagess, actions: actionsPagess } = createSlice({
   name: 'pages',
   initialState: pagesInit,
   reducers: pages
-
 })
 
 export const actionsPages = actionsPagess
@@ -32,8 +30,8 @@ export const reducerPages = reducerPagess
 export const PAGE_TYPES = {
   HOME_MODE: 'HOME_MODE',
   GLOBAL_MODE: 'GLOBAL_MODE',
-  MIDI_DRIVER_MODE: 'MIDI_DRIVER_MODE',
-// VIEW_SETTINGS_MODE: 'VIEW_SETTINGS_MODE'
+  MIDI_DRIVER_MODE: 'MIDI_DRIVER_MODE'
+  // VIEW_SETTINGS_MODE: 'VIEW_SETTINGS_MODE'
 }
 
 export const viewSettingsInitState = {
@@ -92,11 +90,13 @@ export const viewSettingsInitState = {
     }
   ]
 }
-const {reducer: reducerViewSettingss, actions: actionsViewSettingss} = createSlice({
+const {
+  reducer: reducerViewSettingss,
+  actions: actionsViewSettingss
+} = createSlice({
   name: 'viewSettings',
   initialState: viewSettingsInitState,
   reducers: viewSettings
-
 })
 
 export const actionsViewSettings = actionsViewSettingss
@@ -110,32 +110,17 @@ const slidersInitState = {
   midi: null,
   sliderList: []
 }
-const {reducer: reducerSliderss, actions: actionsSliderss} = createSlice({
+const { reducer: reducerSliderss, actions: actionsSliderss } = createSlice({
   name: 'sliders',
   initialState: slidersInitState,
   reducers: sliders
-
 })
 
 export const actionsSliders = actionsSliderss
 export const reducerSliders = reducerSliderss
 
-//
-// UNDO REDO
-//
-const {reducer: reducerUndoRedod, actions: actionsUndoRedod} = createSlice({
-  name: 'undoRedo',
-  initialState: {},
-  reducers: undoRedo
-
-})
-
-export const actionsUndoRedo = actionsUndoRedod
-export const reducerUndoRedo = reducerUndoRedod
-
 export const reducer = combineReducers({
   sliders: reducerSliders,
   viewSettings: reducerViewSettings,
-  pages: reducerPages,
-  undoRedo: reducerUndoRedo
+  pages: reducerPages
 })
