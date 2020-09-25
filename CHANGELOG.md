@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.40-alpha.3](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.40-alpha.1...v1.3.40-alpha.3) (2020-09-25)
+
+
+### Bug Fixes
+
+* Crash on mobile devices without midi support ([1f4bdd5](https://github.com/TimSusa/midi-bricks-mono/commit/1f4bdd57c998287a68d548a8b49f186f269d3929))
+
 ### [1.3.40-alpha.1](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.40-alpha.0...v1.3.40-alpha.1) (2020-09-24)
 
 
