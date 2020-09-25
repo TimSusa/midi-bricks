@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.40-alpha.4](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.40-alpha.3...v1.3.40-alpha.4) (2020-09-25)
+
+
+### Features
+
+* Establish Multiselection Mode for Multi copy of elements ([ac973c0](https://github.com/TimSusa/midi-bricks-mono/commit/ac973c05809161834d195de963abd78e7dcfc12b))
+
+
+### Bug Fixes
+
+* onDouble click distracting number input in settings ([a6764f2](https://github.com/TimSusa/midi-bricks-mono/commit/a6764f283613866e398e0d9056c3ce77d959fa4a))
+
 ### [1.3.40-alpha.3](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.40-alpha.1...v1.3.40-alpha.3) (2020-09-25)
 
 
