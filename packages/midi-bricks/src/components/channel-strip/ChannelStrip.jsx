@@ -118,10 +118,10 @@ function styles(theme) {
     root: {
       userSelect: 'none'
     },
-    iconColor: {
-      color: theme.palette.primary.contrastText,
-      cursor: 'pointer'
-    },
+    // iconColor: {
+    //   color: theme.palette.primary.contrastText,
+    //   cursor: 'pointer'
+    // },
     sliderChannelWrapper: {
       position: 'relative'
     },

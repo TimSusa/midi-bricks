@@ -2,10 +2,7 @@ import React from 'react'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import PropTypes from 'prop-types'
-import { makeStyles, useTheme } from '@material-ui/styles'
-
-
-
+import { makeStyles } from '@material-ui/styles'
 
 MidiButton.propTypes = {
   buttonStyle: PropTypes.object,
@@ -17,8 +14,7 @@ MidiButton.propTypes = {
 }
 
 function MidiButton(props) {
-  const theme = useTheme()
-  const classes = makeStyles(styles.bind(this, theme))()
+  const classes = makeStyles(styles)
   const {
     buttonStyle = {},
     onChangeStart = () => {},
@@ -38,16 +34,8 @@ function MidiButton(props) {
         root: classes.button
       }}
       variant='contained'
-      onMouseDown={
-        !isTouchDevice()
-          ? onChangeStart
-          : (e) => e.preventDefault()
-      }
-      onMouseUp={
-        !isTouchDevice()
-          ? onChangeEnd
-          : (e) => e.preventDefault()
-      }
+      onMouseDown={!isTouchDevice() ? onChangeStart : (e) => e.preventDefault()}
+      onMouseUp={!isTouchDevice() ? onChangeEnd : (e) => e.preventDefault()}
       onTouchStart={onChangeStart}
       onTouchEnd={onChangeEnd}
     >
@@ -75,7 +63,7 @@ function isTouchDevice() {
   return !!hasToch
 }
 
-function styles(theme) {
+function styles() {
   return {
     label: {
       width: '100%',
@@ -84,17 +72,17 @@ function styles(theme) {
       fontWeight: 600
     },
     group: {},
-    iconColor: {
-      color: theme.palette.primary.contrastText,
-      width: 18,
-      margin: 0,
-      padding: 0
-    },
+    // iconColor: {
+    //   color: theme.palette.primary.contrastText,
+    //   width: 18,
+    //   margin: 0,
+    //   padding: 0
+    // },
     button: {
       margin: 0,
       padding: 0,
       width: '100%',
-      background: theme.palette.button.background,
+      //background: theme.palette.button.background,
       textTransform: 'none',
       transition: 'unset'
     }
