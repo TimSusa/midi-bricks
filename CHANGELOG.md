@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.40-alpha.6](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.40-alpha.5...v1.3.40-alpha.6) (2020-09-26)
+
+
+### Bug Fixes
+
+* Crash, when trying to select a note/channel in  drivers mode ([ac63e33](https://github.com/TimSusa/midi-bricks-mono/commit/ac63e33aa392bd59ba85c9e181fb939f223c194c))
+* Regulate pixelToVal in Slider ([bcb31cf](https://github.com/TimSusa/midi-bricks-mono/commit/bcb31cf6b9c06a8c1e7b0df0e07ec135f69104b6))
+
 ### [1.3.40-alpha.5](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.40-alpha.4...v1.3.40-alpha.5) (2020-09-26)
 
 
