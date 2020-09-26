@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.40-alpha.5](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.40-alpha.4...v1.3.40-alpha.5) (2020-09-26)
+
+
+### Bug Fixes
+
+* Avoid returning empty divs ([8038607](https://github.com/TimSusa/midi-bricks-mono/commit/80386071a43008b6a1ccf947a4fe14fa8462e558))
+* BUG - fit Slider range to entire Slider length [#227](https://github.com/TimSusa/midi-bricks-mono/issues/227) ([da709bc](https://github.com/TimSusa/midi-bricks-mono/commit/da709bcd81ff745a93a377ffd8e682fd3a646df8))
+* Labelinput for page settings ([76fbba9](https://github.com/TimSusa/midi-bricks-mono/commit/76fbba91ed7d84526110b182e3db9c2cf54f7cc5))
+
 ### [1.3.40-alpha.4](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.40-alpha.3...v1.3.40-alpha.4) (2020-09-25)
 
 
