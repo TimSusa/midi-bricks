@@ -95,44 +95,67 @@ function MenuAppBarCmp(props) {
               MIDI Learn Mode Running...
             </Typography>
           )}
-          {isLayoutMode && (
-            <Typography className={classes.typoColorStyle}>
-              Layout Mode Running...
-            </Typography>
-          )}
+
           {isSettingsMode && !isLayoutMode && (
             <Typography className={classes.typoColorStyle}>
               Settings Mode Running...
             </Typography>
           )}
           {isLayoutMode && (
-            <ToolTipIconButton
-              handleClick={() => dispatch(toggleCompactMode())}
-              title={isCompactHorz ? 'Gravity horizontal' : 'Gravity vertical'}
-              icon={isCompactHorz ? <SwapHorizIcon /> : <SwapVertIcon />}
-            />
-          )}
-          {isLayoutMode && (
-            <ToolTipIconButton
-              handleClick={() => dispatch(toggleAutoArrangeMode())}
-              title={isAutoArrangeMode ? 'Automatic Gravity' : 'Static Gravity'}
-              icon={
-                isAutoArrangeMode ? (
-                  <AutoArrangeModeIcon />
-                ) : (
-                  <AutoArrangeModeIconFalse />
-                )
-              }
-            />
-          )}
-          {isLayoutMode && <AddMenu />}
-          {pageType === PAGE_TYPES.GLOBAL_MODE && (
-            <Typography className={classes.typoColorStyle}>
-              {presetName || ''}
-            </Typography>
+            <>
+              <Typography className={classes.typoColorStyle}>
+                Layout Mode Running...
+              </Typography>
+              <ToolTipIconButton
+                handleClick={() => dispatch(toggleCompactMode())}
+                title={
+                  isCompactHorz ? 'Gravity horizontal' : 'Gravity vertical'
+                }
+                icon={isCompactHorz ? <SwapHorizIcon /> : <SwapVertIcon />}
+              />
+              <ToolTipIconButton
+                handleClick={() => dispatch(toggleAutoArrangeMode())}
+                title={
+                  isAutoArrangeMode ? 'Automatic Gravity' : 'Static Gravity'
+                }
+                icon={
+                  isAutoArrangeMode ? (
+                    <AutoArrangeModeIcon />
+                  ) : (
+                    <AutoArrangeModeIconFalse />
+                  )
+                }
+              />
+              <AddMenu />
+              <ToolTipIconButton
+                handleClick={async () =>
+                  await dispatch(thunkToggleLayoutMode({ isLayoutMode: false }))
+                }
+                title={'Commit changes and exit layout-mode.'}
+                icon={<CheckIcon />}
+                isInvisible={!isLayoutMode}
+              />
+              <ToolTipIconButton
+                handleClick={() => dispatch(thunkUndoRedo({ offset: -1 }))}
+                title='Undo'
+                icon={<UndoIcon />}
+                isInvisible={!isLayoutMode}
+              />
+              <ToolTipIconButton
+                handleClick={async () => {
+                  await dispatch(thunkToggleLayoutMode({ isLayoutMode: false }))
+                }}
+                title={'Throw away changes and go back.'}
+                icon={<CancelIcon />}
+                isInvisible={!isLayoutMode}
+              />
+            </>
           )}
           {pageType === PAGE_TYPES.GLOBAL_MODE && (
             <>
+              <Typography className={classes.typoColorStyle}>
+                {presetName || ''}
+              </Typography>
               {/* <Button
                 className={classes.resetButton}
                 variant='contained'
@@ -176,9 +199,7 @@ function MenuAppBarCmp(props) {
               </Button>
             </>
           )}
-          {![PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
-            pageType
-          ) && (
+          {[PAGE_TYPES.HOME_MODE].includes(pageType) && (
             <Fragment>
               <ToolTipIconButton
                 handleClick={() => dispatch(toggleSettingsMode())}
@@ -191,7 +212,7 @@ function MenuAppBarCmp(props) {
                 }
               />
               <ToolTipIconButton
-                title='Switch to MultiselectionMode'
+                title='Switch to Multi SelectionMode'
                 isInvisible={isMidiLearnMode || !isSettingsMode || isLayoutMode}
                 icon={
                   <IconFilter
@@ -199,7 +220,7 @@ function MenuAppBarCmp(props) {
                   ></IconFilter>
                 }
                 handleClick={() => dispatch(toggleMultiSelectionMode())}
-              ></ToolTipIconButton>
+              />
               {Array.isArray(lastFocusedIdxs) && lastFocusedIdxs.length > 0 && (
                 <>
                   <ToolTipIconButton
@@ -252,28 +273,6 @@ function MenuAppBarCmp(props) {
               />
             </Fragment>
           )}
-          <ToolTipIconButton
-            handleClick={async () =>
-              await dispatch(thunkToggleLayoutMode({ isLayoutMode: false }))
-            }
-            title={'Commit changes and exit layout-mode.'}
-            icon={<CheckIcon />}
-            isInvisible={!isLayoutMode}
-          />
-          <ToolTipIconButton
-            handleClick={() => dispatch(thunkUndoRedo({ offset: -1 }))}
-            title='Undo'
-            icon={<UndoIcon />}
-            isInvisible={!isLayoutMode}
-          />
-          <ToolTipIconButton
-            handleClick={async () => {
-              await dispatch(thunkToggleLayoutMode({ isLayoutMode: false }))
-            }}
-            title={'Throw away changes and go back.'}
-            icon={<CancelIcon />}
-            isInvisible={!isLayoutMode}
-          />
         </Toolbar>
       </AppBar>
       <div
