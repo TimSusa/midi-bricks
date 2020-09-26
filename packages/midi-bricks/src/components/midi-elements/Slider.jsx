@@ -117,18 +117,12 @@ function MidiSlider(props) {
     }
   }
 
-  function onGotCapture(isActivated, setIsActivated) {
-    !isActivated && setIsActivated(true)
-  }
-  function onLostCapture(isActivated, setIsActivated) {
-    isActivated && setIsActivated(false)
-  }
   function valToPixel(heightOrWidth, valv) {
     if (isHorz) {
-      const y = heightOrWidth * (valv / 127)
+      const y = heightOrWidth * ((valv - minVal) / (maxVal - minVal))
       return y
     } else {
-      const y = heightOrWidth * (1 - valv / 127)
+      const y = heightOrWidth * (1 - (valv - minVal) / (maxVal - minVal))
       return y
     }
   }
@@ -144,6 +138,12 @@ function MidiSlider(props) {
     }
     const valtttt = oneToZeroScaledPixel * 127
     return valtttt >= maxVal ? maxVal : valtttt < minVal ? minVal : valtttt
+  }
+  function onGotCapture(isActivated, setIsActivated) {
+    !isActivated && setIsActivated(true)
+  }
+  function onLostCapture(isActivated, setIsActivated) {
+    isActivated && setIsActivated(false)
   }
 }
 
