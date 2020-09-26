@@ -95,13 +95,14 @@ function MidiDriverTable(props) {
                   Array.isArray(available[name].noteChannels) &&
                   available[name].noteChannels.length === 16
                 }
-                onClick={handleCheckboxClickNote.bind(
-                  this,
+                onClick={handleCheckboxClickNote.bind(this, {
                   name,
-                  available[name] &&
+                  isChecked:
+                    available[name] &&
                     Array.isArray(available[name].noteChannels) &&
-                    available[name].noteChannels.length === 16
-                )}
+                    available[name].noteChannels.length === 16,
+                  ch: 'all'
+                })}
               />
             </TableCell>
             {channelDummy.map((item, idx) => (
@@ -109,11 +110,11 @@ function MidiDriverTable(props) {
                 <Checkbox
                   value={`${idx + 1}`}
                   checked={isCheckedNote(available, name, `${idx + 1}`)}
-                  onClick={handleCheckboxClickNote.bind(
-                    this,
+                  onClick={handleCheckboxClickNote.bind(this, {
                     name,
-                    isCheckedNote(available, name, `${idx + 1}`)
-                  )}
+                    isChecked: isCheckedNote(available, name, `${idx + 1}`),
+                    ch: `${idx + 1}`
+                  })}
                 />
               </TableCell>
             ))}
@@ -136,13 +137,14 @@ function MidiDriverTable(props) {
                   Array.isArray(available[name].ccChannels) &&
                   available[name].ccChannels.length === 16
                 }
-                onClick={handleCheckboxClickCc.bind(
-                  this,
+                onClick={handleCheckboxClickCc.bind(this, {
                   name,
-                  available[name] &&
+                  isChecked:
+                    available[name] &&
                     Array.isArray(available[name].ccChannels) &&
-                    available[name].ccChannels.length === 16
-                )}
+                    available[name].ccChannels.length === 16,
+                  ch: 'all'
+                })}
               />
             </TableCell>
             {channelDummy.map((item, idx) => (
@@ -150,11 +152,11 @@ function MidiDriverTable(props) {
                 <Checkbox
                   value={`${idx + 1}`}
                   checked={isCheckedCc(available, name, `${idx + 1}`)}
-                  onClick={handleCheckboxClickCc.bind(
-                    this,
+                  onClick={handleCheckboxClickCc.bind(this, {
                     name,
-                    isCheckedCc(available, name, `${idx + 1}`)
-                  )}
+                    isChecked: isCheckedCc(available, name, `${idx + 1}`),
+                    ch: `${idx + 1}`
+                  })}
                 />
               </TableCell>
             ))}

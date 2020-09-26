@@ -56,14 +56,15 @@ function MidiDriversSettingsPageComponent() {
                   idx={idx}
                   available={availOut}
                   name={name}
-                  handleCheckboxClickNote={handleCheckboxClickNoteOut.bind(
-                    this,
-                    name
-                  )}
-                  handleCheckboxClickCc={handleCheckboxClickCcOut.bind(
-                    this,
-                    name
-                  )}
+                  handleCheckboxClickNote={(cbData) =>
+                    handleCheckboxClickNoteOut({ name, cbData })
+                  }
+                  handleCheckboxClickCc={(cbData) =>
+                    handleCheckboxClickCcOut({
+                      name,
+                      cbData
+                    })
+                  }
                 />
               </DriverExpansionPanel>
             )
@@ -96,14 +97,12 @@ function MidiDriversSettingsPageComponent() {
                   idx={idx}
                   available={availIn}
                   name={name}
-                  handleCheckboxClickNote={handleCheckboxClickNoteIn.bind(
-                    this,
-                    name
-                  )}
-                  handleCheckboxClickCc={handleCheckboxClickCcIn.bind(
-                    this,
-                    name
-                  )}
+                  handleCheckboxClickNote={(cbData) =>
+                    handleCheckboxClickNoteIn({ name, cbData })
+                  }
+                  handleCheckboxClickCc={(cbData) =>
+                    handleCheckboxClickCcIn({ name, cbData })
+                  }
                 />
               </DriverExpansionPanel>
             )
@@ -111,45 +110,52 @@ function MidiDriversSettingsPageComponent() {
       </DriverExpansionPanel>
     </React.Fragment>
   )
-  function handleCheckboxClickNoteIn(name, e) {
+  function handleCheckboxClickNoteIn({ name, cbData }) {
+    const { ch } = cbData
+
     dispatch(
       setAvailableDrivers({
         input: {
           name,
-          noteChannel: e.target.value,
+          noteChannel: ch,
           isChecked: !isChecked
         }
       })
     )
   }
-  function handleCheckboxClickCcIn(name, e) {
+  function handleCheckboxClickCcIn({ name, cbData }) {
+    const { ch } = cbData
+
     dispatch(
       setAvailableDrivers({
         input: {
           name,
-          ccChannel: e.target.value,
+          ccChannel: ch,
           isChecked: !isChecked
         }
       })
     )
   }
-  function handleCheckboxClickNoteOut(name, e) {
+  function handleCheckboxClickNoteOut({ name, cbData }) {
+    const { ch } = cbData
     dispatch(
       setAvailableDrivers({
         output: {
           name,
-          noteChannel: e.target.value,
+          noteChannel: ch,
           isChecked: !isChecked
         }
       })
     )
   }
-  function handleCheckboxClickCcOut(name, e) {
+  function handleCheckboxClickCcOut({ name, cbData }) {
+    const { ch } = cbData
+
     dispatch(
       setAvailableDrivers({
         output: {
           name,
-          ccChannel: e.target.value,
+          ccChannel: ch,
           isChecked: !isChecked
         }
       })
