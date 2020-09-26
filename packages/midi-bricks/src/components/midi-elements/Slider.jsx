@@ -131,12 +131,13 @@ function MidiSlider(props) {
     const tmpPixelGreaterZero = tmpPixel < 0 ? 0 : tmpPixel
     const pixel = tmpPixelGreaterZero >= length ? length : tmpPixelGreaterZero
     let oneToZeroScaledPixel = 0
+    const minMaxDiff = maxVal - minVal
     if (isHorz) {
-      oneToZeroScaledPixel = pixel / length
+      oneToZeroScaledPixel = pixel / length + minVal / minMaxDiff
     } else {
-      oneToZeroScaledPixel = 1 - pixel / length
+      oneToZeroScaledPixel = 1 - pixel / length + minVal / minMaxDiff
     }
-    const valtttt = oneToZeroScaledPixel * 127
+    const valtttt = oneToZeroScaledPixel * minMaxDiff
     return valtttt >= maxVal ? maxVal : valtttt < minVal ? minVal : valtttt
   }
   function onGotCapture(isActivated, setIsActivated) {
