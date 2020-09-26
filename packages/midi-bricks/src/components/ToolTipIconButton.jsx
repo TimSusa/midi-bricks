@@ -8,7 +8,7 @@ export function ToolTipIconButton(props) {
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
   const { handleClick = () => {}, title = '', icon, isInvisible } = props
-  if (isInvisible) return <div></div>
+  if (isInvisible) return <></>
   return (
     <Tooltip disableHoverListener={false} title={title}>
       <IconButton onClick={handleClick} className={classes.typoColorStyle}>
