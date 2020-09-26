@@ -4,7 +4,6 @@ import { PropTypes } from 'prop-types'
 
 export function MIDIMonitorLabel({
   midiLearnTypo,
-  isSettings,
   midiInfo: { driver = 'None', cC = 'None', channel = 'None' }
 }) {
   return (
