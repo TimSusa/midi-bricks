@@ -122,6 +122,6 @@ export const reducerSliders = reducerSliderss
 
 export const reducer = combineReducers({
   sliders: reducerSliders,
-  viewSettings: reducerViewSettings,
-  pages: reducerPages
+  viewSettings: reducerViewSettings
+  //pages: reducerPages
 })

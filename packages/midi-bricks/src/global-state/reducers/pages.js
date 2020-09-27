@@ -13,16 +13,17 @@ export const pages = {
   },
   updatePages(draftState, action) {
     draftState = action.payload.pages
-    return draftState
-  },
-  updateSliderListOfPage(draftState, action) {
-    const { lastFocusedPage, sliderList } = action.payload
 
-    if (lastFocusedPage && Array.isArray(sliderList)) {
-      draftState[lastFocusedPage].sliderList = sliderList
-    }
     return draftState
   },
+  // updateSliderListOfPage(draftState, action) {
+  //   const { lastFocusedPage, sliderList } = action.payload
+
+  //   if (lastFocusedPage && Array.isArray(sliderList)) {
+  //     draftState[lastFocusedPage].sliderList = sliderList
+  //   }
+  //   return draftState
+  // },
 
   deletePages(draftState) {
     draftState = pagesInit

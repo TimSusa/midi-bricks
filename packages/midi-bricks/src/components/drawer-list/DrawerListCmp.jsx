@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Divider,
   List,
@@ -25,6 +25,7 @@ import { thunkDelete } from '../../global-state/actions/thunks/thunk-delete'
 import { Actions as MidiSliderActions } from '../../global-state/actions/slider-list'
 import { Actions as ViewSettingsActions } from '../../global-state/actions/view-settings'
 import { useSelector, useDispatch } from 'react-redux'
+import localforage from 'localforage'
 
 const version = process.env.REACT_APP_VERSION || 'dev'
 const { togglePage, saveFile } = {
@@ -35,7 +36,6 @@ export const DrawerList = DrawerListCmp
 
 function DrawerListCmp(props) {
   const dispatch = useDispatch()
-  const pages = useSelector((state) => state.pages)
   const viewSettings = useSelector((state) => state.viewSettings)
   const sliders = useSelector((state) => state.sliders)
   const {
@@ -46,7 +46,6 @@ function DrawerListCmp(props) {
 
   const [open, setOpen] = useState(false)
   const [isOpenViewSettings, setIsOpenViewSettings] = useState(false)
-
   return (
     <React.Fragment>
       <div className={classes.drawerHeader} />
@@ -139,10 +138,10 @@ function DrawerListCmp(props) {
         {process.env.REACT_APP_IS_WEB_MODE === 'true' ? (
           <ListItem
             button
-            onClick={() =>
+            onClick={async () =>
               dispatch(
                 saveFile({
-                  pages,
+                  pages: await localforage.getItem('pages'),
                   viewSettings,
                   sliders,
                   version

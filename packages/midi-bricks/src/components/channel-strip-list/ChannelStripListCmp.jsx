@@ -1,9 +1,10 @@
-import { MIDIMonitorLabel } from '../MIDIMonitorLabel'
 import React, { useEffect } from 'react'
+import localforage from 'localforage'
 import map from 'lodash/map'
 import RGL, { WidthProvider } from 'react-grid-layout'
 import Typography from '@material-ui/core/Typography'
 import ChannelStrip from '../channel-strip/ChannelStrip'
+import { Button } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { Actions as MidiSliderActions } from '../../global-state/actions/slider-list.js'
 import { Actions as ViewSettingsActions } from '../../global-state/actions/view-settings.js'
@@ -11,10 +12,11 @@ import { thunkChangeListOrder } from '../../global-state/actions/thunks/thunk-ch
 import { thunkLiveModeToggle } from '../../global-state/actions/thunks/thunk-live-mode-toggle'
 import { thunkToggleLayoutMode } from '../../global-state/actions/thunks/thunk-toggle-layout-mode'
 import MidiSettingsDialogButton from '../midi-settings-dialog/MidiSettingsDialogButton'
+import { MIDIMonitorLabel } from '../MIDIMonitorLabel'
+
 import { makeStyles, useTheme } from '@material-ui/styles'
 import { SizeMe } from 'react-sizeme'
 import { PAGE_TYPES } from '../../global-state'
-import { Button } from '@material-ui/core'
 import { thunkLoadFile } from '../../global-state/actions/thunks/thunk-load-file'
 import { preset } from '../../utils/midi-bricks-preset-apc-40.js'
 require('react-grid-layout/css/styles.css')
@@ -68,7 +70,6 @@ function ChannelStripListCmp() {
     cC: 'None',
     channel: 'None'
   }
-  const hasPages = useSelector((state) => Object.keys(state.pages).length > 1)
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
 
@@ -191,7 +192,7 @@ function ChannelStripListCmp() {
         })}
       </GridLayout>
     )
-  } else if (!hasPages) {
+  } else if (Object.keys(localforage.getItem('pages')).length <= 1) {
     return (
       <div style={{ height: 'calc(100vh - 132px)', background: 'white' }}>
         <Typography variant='h4' className={classes.noMidiTypography}>

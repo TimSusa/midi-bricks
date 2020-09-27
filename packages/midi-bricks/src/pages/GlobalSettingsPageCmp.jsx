@@ -7,7 +7,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import Paper from '@material-ui/core/Paper'
 
 import { makeStyles, useTheme } from '@material-ui/styles'
-import React, { Suspense } from 'react'
+import React, { Suspense, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { Actions as MidiSliderActions } from '../global-state/actions/slider-list.js'
@@ -16,6 +16,7 @@ import { outputToDriverName } from '../utils/output-to-driver-name.js'
 import { STRIP_TYPE } from '../global-state/reducers/slider-list.js'
 import DriverExpansionPanel from '../components/DriverExpansionPanel.jsx'
 import { thunkChangePage } from '../global-state/actions/thunks/thunk-change-page'
+import localforage from 'localforage'
 
 const { toggleSettingsDialogMode, setLastFocusedIndex } = {
   ...MidiSliderActions,
@@ -36,7 +37,8 @@ function GlobalSettingsPageComponent() {
   const { sliderList, midi, isMidiFailed } = useSelector(
     (state) => state.sliders || {}
   )
-  const pages = useSelector((state) => state.pages)
+  let pages = useRef({})
+  // const pages = useSelector((state) => state.pages)
   const viewSettings = useSelector((state) => state.viewSettings || {})
   const {
     isSettingsDialogMode,
@@ -50,9 +52,15 @@ function GlobalSettingsPageComponent() {
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
 
+  useEffect(() => {
+    const fetchPages = async () => {
+      pages.current = (await localforage.getItem('pages')) || {}
+    }
+    fetchPages()
+  }, [])
   if (isMidiFailed) return <div />
-  const hasPage = Object.values(pages).length > 0
-  const pagesArray = hasPage ? Object.values(pages) : []
+  const hasPage = Object.values(pages.current).length > 0
+  const pagesArray = hasPage ? Object.values(pages.current) : []
   const { midiAccess } = midi || {}
   const { inputs = [], outputs = [] } = midiAccess || {}
 
@@ -80,12 +88,18 @@ function GlobalSettingsPageComponent() {
         </Suspense>
       )
     } else {
-      return <div></div>
+      return <></>
     }
   }
 
-  const Pages = () =>
-    (hasPage ? pagesArray : ['OK']).map((page, idx) => {
+  return (
+    <>
+      <Pages></Pages>
+      <Settings></Settings>
+    </>
+  )
+  function Pages() {
+    return (hasPage ? pagesArray : ['OK']).map((page, idx) => {
       const label = (pageTargets[idx] && pageTargets[idx].label) || page.label
       const isExpanded = lastFocusedPage === page.id
       return (
@@ -321,13 +335,7 @@ function GlobalSettingsPageComponent() {
         </DriverExpansionPanel>
       )
     })
-
-  return (
-    <>
-      <Pages></Pages>
-      <Settings></Settings>
-    </>
-  )
+  }
 }
 
 function renderListeners(tmp) {

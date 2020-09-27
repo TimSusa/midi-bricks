@@ -1,8 +1,8 @@
 import { Actions as sliderListActions } from '../slider-list'
-import { Actions as pageActions } from '../pages'
-
+//import { Actions as pageActions } from '../pages'
+import { updateSliderListOfPage } from './update-slider-list-of-page'
 const { changeListOrder } = sliderListActions
-const { updateSliderListOfPage } = pageActions
+//const { updateSliderListOfPage } = pageActions
 
 export function thunkChangeListOrder(listOrder) {
   return async function (dispatch, getState) {
@@ -21,8 +21,7 @@ export function thunkChangeListOrder(listOrder) {
       return acc
     }, [])
     dispatch(changeListOrder({ listOrder, lastFocusedPage }))
-    dispatch(
-      updateSliderListOfPage({ lastFocusedPage, sliderList: mergedList })
-    )
+
+    await updateSliderListOfPage({ lastFocusedPage, sliderList: mergedList })
   }
 }

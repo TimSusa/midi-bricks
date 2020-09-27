@@ -5,17 +5,19 @@ import { thunkChangePage } from './thunk-change-page'
 import { getUniqueId } from '../../../utils/get-unique-id'
 import { STRIP_TYPE } from '../../reducers/slider-list'
 import { Actions as pageActions } from '../pages'
+import { updateSliderListOfPage } from './update-slider-list-of-page'
+import localForage from 'localforage'
 
-const { createPage, updateSliderListOfPage } = pageActions
+const { createPage } = pageActions
 const { PAGE } = STRIP_TYPE
-const { addMidiElement } = sliderListActions
+const { addMidiElement, updateSliderList } = sliderListActions
 const { addPageTarget } = viewSettingsActions
 //const { undoRedoUpdate } = undoRedoActions
 
 export function addElement(type) {
   const pageId = `page-${getUniqueId()}`
 
-  return function (dispatch, getState) {
+  return async function (dispatch, getState) {
     const {
       viewSettings: { lastFocusedPage, pageTargets }
     } = getState()
@@ -34,7 +36,18 @@ export function addElement(type) {
           }
         })
       )
-      dispatch(createPage({ id: pageId, lastFocusedPage }))
+      // dispatch(createPage({ id: pageId, lastFocusedPage }))
+      let tmpPages = localForage.getItem('pages')
+
+      tmpPages = {
+        ...tmpPages,
+        [pageId]: {
+          sliderList: [],
+          id: pageId,
+          label: `Page ${Object.keys(tmpPages).length + 1}`
+        }
+      }
+      localForage.setItem('pages', tmpPages)
       dispatch(thunkChangePage(lastFocusedPage, pageId))
       //dispatch(thunkToggleLayoutMode())
     } else {
@@ -45,7 +58,7 @@ export function addElement(type) {
         sliders: { sliderList }
       } = getState()
 
-      dispatch(updateSliderListOfPage({ lastFocusedPage, sliderList }))
+      await updateSliderListOfPage({ lastFocusedPage, sliderList })
     }
   }
 }
