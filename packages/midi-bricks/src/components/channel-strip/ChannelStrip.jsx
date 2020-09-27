@@ -32,11 +32,13 @@ function ChannelStrip(props) {
 
   const measuredRef = useCallback((node) => {
     if (node !== null) {
-      const tmpHeight = node.getBoundingClientRect().height
+      const {
+        height: tmpHeight,
+        width: tmpWidth
+      } = node.getBoundingClientRect()
       if (tmpHeight !== height) {
         setHeight(tmpHeight)
       }
-      const tmpWidth = node.getBoundingClientRect().width
       if (tmpWidth !== width) {
         setWidth(tmpWidth)
       }
