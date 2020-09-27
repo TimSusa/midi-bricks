@@ -27,7 +27,13 @@
     "typeface-roboto": "0.0.75",
     "webmidi": "2.5.1"
   },
-  "devDependencies": {
+  "devDependencies": {   
+    "@babel/core": "^7.11.6",
+    "@babel/plugin-transform-runtime": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "parcel-bundler": "^1.12.4",
+    "@types/react": "^16.8.6",
     "babel-eslint": "^10.1.0",
     "concurrently": "5.3.0",
     "electron": "10.1.2",
@@ -40,8 +46,7 @@
     "eslint-plugin-react": "7.20.6",
     "eslint-plugin-react-hooks": "4.1.2",
     "lerna": "3.22.1",
-    "now": "20.1.0",
-    "react-scripts": "3.4.3",
+    "vercel": "latest",
     "redux-devtools-extension": "2.13.8",
     "redux-mock-store": "1.5.3",
     "standard-version": "9.0.0"
