@@ -12,7 +12,6 @@ import { thunkLiveModeToggle } from '../../global-state/actions/thunks/thunk-liv
 import { thunkToggleLayoutMode } from '../../global-state/actions/thunks/thunk-toggle-layout-mode'
 import MidiSettingsDialogButton from '../midi-settings-dialog/MidiSettingsDialogButton'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import { SizeMe } from 'react-sizeme'
 import { PAGE_TYPES } from '../../global-state'
 import { Button } from '@material-ui/core'
 import { thunkLoadFile } from '../../global-state/actions/thunks/thunk-load-file'
@@ -73,7 +72,6 @@ function ChannelStripListCmp() {
   const classes = makeStyles(styles.bind(this, theme))()
 
   let elem = document.body
-
   useEffect(() => {
     const keypressRef = (e) => handleKeyPress(dispatch, isLayoutMode, e)
 
@@ -98,11 +96,7 @@ function ChannelStripListCmp() {
         rowHeight={rowHeight}
         cols={columns}
         useCSSTransforms
-        //isRearrangeable={isAutoArrangeMode}
         preventCollision={!isAutoArrangeMode}
-        // isDraggable={isLayoutMode}
-        // isResizable={isLayoutMode}
-        //isDroppable={isLayoutMode}
         compactType={isCompactHorz ? 'horizontal' : 'vertical'}
         layout={sliderList}
         onLayoutChange={isLayoutMode ? onLayoutChange.bind(this) : () => {}}
@@ -132,60 +126,53 @@ function ChannelStripListCmp() {
                 }
               }
             >
-              <SizeMe monitorHeight>
-                {({ size }) => {
-                  return (
-                    <div
-                      style={{
-                        height: '100%',
-                        borderRadius: 3,
-                        background: getBackgroundColor
-                      }}
-                    >
-                      {isMidiLearnMode && isFocused && (
-                        <MIDIMonitorLabel
-                          isSettings={false}
-                          midiInfo={{ driver, cC, channel }}
-                          midiLearnTypo={classes.midiLearnTypo}
-                        />
-                      )}
-                      <ChannelStrip
-                        idx={idx}
-                        size={size}
-                        isDisabled={isLayoutMode || isSettingsMode}
-                        isMidiLearnMode={isMidiLearnMode}
-                      />
-                      {!isMidiLearnMode && isSettingsMode && !isLayoutMode && (
-                        <span
-                          className='settings'
-                          style={{
-                            position: 'absolute',
-                            right: -12,
-                            top: -16,
-                            cursor: 'pointer'
-                          }}
-                        >
-                          <MidiSettingsDialogButton
-                            isOpen={
-                              !!(
-                                isSettingsDialogMode &&
-                                lastFocusedIdxs !== undefined &&
-                                isFocused
-                              )
-                            }
-                            toggleSettings={toggleSettings.bind(
-                              this,
-                              lastFocusedPage,
-                              i
-                            )}
-                            sliderEntry={sliderEntry}
-                          />
-                        </span>
-                      )}
-                    </div>
-                  )
+              <div
+                style={{
+                  height: '100%',
+                  borderRadius: 3,
+                  background: getBackgroundColor
                 }}
-              </SizeMe>
+              >
+                {isMidiLearnMode && isFocused && (
+                  <MIDIMonitorLabel
+                    isSettings={false}
+                    midiInfo={{ driver, cC, channel }}
+                    midiLearnTypo={classes.midiLearnTypo}
+                  />
+                )}
+                <ChannelStrip
+                  idx={idx}
+                  isDisabled={isLayoutMode || isSettingsMode}
+                  isMidiLearnMode={isMidiLearnMode}
+                />
+                {!isMidiLearnMode && isSettingsMode && !isLayoutMode && (
+                  <span
+                    className='settings'
+                    style={{
+                      position: 'absolute',
+                      right: -12,
+                      top: -16,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <MidiSettingsDialogButton
+                      isOpen={
+                        !!(
+                          isSettingsDialogMode &&
+                          lastFocusedIdxs !== undefined &&
+                          isFocused
+                        )
+                      }
+                      toggleSettings={toggleSettings.bind(
+                        this,
+                        lastFocusedPage,
+                        i
+                      )}
+                      sliderEntry={sliderEntry}
+                    />
+                  </span>
+                )}
+              </div>
             </div>
           )
         })}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import { useSelector } from 'react-redux'
@@ -22,21 +22,37 @@ ChannelStrip.propTypes = {
 function ChannelStrip(props) {
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
-  const { idx, size, isDisabled, isMidiLearnMode } = props
+  const { idx, isDisabled, isMidiLearnMode } = props
   const { type, isValueHidden, fontSize } = useSelector(
     (state) => state.sliders.sliderList[idx] || {}
   )
   //const { type, isValueHidden, fontSize } = sliderEntry
+  const [height, setHeight] = useState(0)
+  const [width, setWidth] = useState(0)
 
-  const tmpH = (size && size.height) || 0
-  const tmpW = (size && size.width) || 0
+  const measuredRef = useCallback((node) => {
+    if (node !== null) {
+      const tmpHeight = node.getBoundingClientRect().height
+      if (tmpHeight !== height) {
+        setHeight(tmpHeight)
+      }
+      const tmpWidth = node.getBoundingClientRect().width
+      if (tmpWidth !== width) {
+        setWidth(tmpWidth)
+      }
+    }
+  })
+
+  const tmpH = height //(size && size.height) || 0
+  const tmpW = width //(size && size.width) || 0
+
   const isButton = ![
     STRIP_TYPE.SLIDER,
     STRIP_TYPE.SLIDER_HORZ,
     STRIP_TYPE.LABEL
   ].includes(type)
   return (
-    <div className={classes.root}>
+    <div className={classes.root} ref={measuredRef}>
       {type === STRIP_TYPE.SLIDER && !isMidiLearnMode && (
         <div className={classes.sliderChannelWrapper}>
           <Label
@@ -116,7 +132,8 @@ function calcLengthIfHidden(tmpH, { isValueHidden, fontSize }) {
 function styles(theme) {
   return {
     root: {
-      userSelect: 'none'
+      userSelect: 'none',
+      height: '100%'
     },
     // iconColor: {
     //   color: theme.palette.primary.contrastText,
