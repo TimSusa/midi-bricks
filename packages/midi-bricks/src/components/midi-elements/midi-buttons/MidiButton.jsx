@@ -1,5 +1,4 @@
 import React from 'react'
-import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
@@ -14,7 +13,7 @@ MidiButton.propTypes = {
 }
 
 function MidiButton(props) {
-  const classes = makeStyles(styles)
+  const classes = makeStyles(styles)()
   const {
     buttonStyle = {},
     onChangeStart = () => {},
@@ -24,16 +23,11 @@ function MidiButton(props) {
     isDisabled
   } = props
   return (
-    <Button
-      disableTouchRipple
-      disableFocusRipple
+    <button
       style={buttonStyle}
+      className={classes.root}
       disabled={isDisabled}
       onContextMenu={preventCtxMenu}
-      classes={{
-        root: classes.button
-      }}
-      variant='contained'
       onMouseDown={!isTouchDevice() ? onChangeStart : (e) => e.preventDefault()}
       onMouseUp={!isTouchDevice() ? onChangeEnd : (e) => e.preventDefault()}
       onTouchStart={onChangeStart}
@@ -46,7 +40,7 @@ function MidiButton(props) {
       >
         {label}
       </Typography>
-    </Button>
+    </button>
   )
 }
 
@@ -65,26 +59,24 @@ function isTouchDevice() {
 
 function styles() {
   return {
+    root: {
+      margin: 0,
+      padding: 0,
+      width: 80,
+      height: 80,
+      textTransform: 'none',
+      transition: 'unset',
+      border: 'none',
+      lineHeight: 1.75,
+      borderRadius: 5,
+      letterSpacing: '0.02857em',
+      outline: 'none'
+    },
     label: {
       width: '100%',
       margin: 0,
       padding: 0,
       fontWeight: 600
-    },
-    group: {},
-    // iconColor: {
-    //   color: theme.palette.primary.contrastText,
-    //   width: 18,
-    //   margin: 0,
-    //   padding: 0
-    // },
-    button: {
-      margin: 0,
-      padding: 0,
-      width: '100%',
-      //background: theme.palette.button.background,
-      textTransform: 'none',
-      transition: 'unset'
     }
   }
 }

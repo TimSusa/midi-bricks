@@ -17,7 +17,7 @@ import { Button } from '@material-ui/core'
 import { thunkLoadFile } from '../../global-state/actions/thunks/thunk-load-file'
 import { preset } from '../../utils/midi-bricks-preset-apc-40.js'
 require('react-grid-layout/css/styles.css')
-require('react-resizable/css/styles.css')
+//require('react-resizable/css/styles.css')
 
 const {
   //goBack,
