@@ -47,7 +47,7 @@ export function FooterButton(props) {
     </Button>
   )
   function handleSettingsClick() {
-    // dispatch(thunkChangePage(lastFocusedPage, id))
+    dispatch(thunkChangePage(lastFocusedPage, id))
     dispatch(
       toggleSettingsDialogMode({
         i: id,

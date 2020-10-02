@@ -192,9 +192,6 @@ function ChannelStripListCmp() {
           >
             LOAD EXAMPLE
           </Button>
-          <br />
-          <br />
-          <img alt={'cubefx'} src={'cube_fx.gif'}></img>
         </Typography>
       </div>
     )
