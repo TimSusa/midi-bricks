@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.41-alpha.0](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.40...v1.3.41-alpha.0) (2020-10-02)
+
+
+### Bug Fixes
+
+* [#239](https://github.com/TimSusa/midi-bricks-mono/issues/239) [#234](https://github.com/TimSusa/midi-bricks-mono/issues/234) Copy elements to specific page ([944ff19](https://github.com/TimSusa/midi-bricks-mono/commit/944ff19e33e192bc501ae9e19b840fbf6b9a7a50))
+
 ### [1.3.40-alpha.0](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.40...v1.3.40-alpha.0) (2020-10-02)
 
 
