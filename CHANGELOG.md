@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.40](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.40-alpha.9...v1.3.40) (2020-10-02)
+
+
+### Bug Fixes
+
+* Settings Mode: selecting another Page pretends to change the actual page [#237](https://github.com/TimSusa/midi-bricks-mono/issues/237) ([ae706ac](https://github.com/TimSusa/midi-bricks-mono/commit/ae706ac0d1106b1e4d7a99b9865eca33cfb1b1c7))
+
 ### [1.3.40-alpha.9](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.40-alpha.8...v1.3.40-alpha.9) (2020-10-02)
 
 ### [1.3.40-alpha.8](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.40-alpha.7...v1.3.40-alpha.8) (2020-09-28)
