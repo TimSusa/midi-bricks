@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
@@ -31,6 +31,7 @@ import ViewSettingsIcon from '@material-ui/icons/Settings'
 import AddMenu from './AddMenu'
 import { PAGE_TYPES } from '../../global-state'
 import { ToolTipIconButton } from '../ToolTipIconButton'
+import { CopyToPageDialog } from './CopyToPageDialog'
 
 const {
   toggleCompactMode,
@@ -72,7 +73,7 @@ function MenuAppBarCmp(props) {
 
   const { presetName, monitorVal } = useSelector((state) => state.sliders)
   const classes = makeStyles(styles.bind(this, theme))()
-
+  const [isCopyDialogOpen, setIsCopyDialogOpen] = useState(false)
   if (isLiveMode) {
     return <div />
   }
@@ -224,11 +225,21 @@ function MenuAppBarCmp(props) {
               {Array.isArray(lastFocusedIdxs) && lastFocusedIdxs.length > 0 && (
                 <>
                   <ToolTipIconButton
-                    handleClick={() => dispatch(thunkCopyToNextPage())}
+                    handleClick={() => setIsCopyDialogOpen(true)}
                     title={'Copy to last page.'}
                     isInvisible={isMidiLearnMode || isLayoutMode}
                     icon={<CopyIcon />}
                   />
+                  {isCopyDialogOpen && (
+                    <CopyToPageDialog
+                      isOpen={isCopyDialogOpen}
+                      onOk={(pageId) => {
+                        dispatch(thunkCopyToNextPage(pageId))
+                        setIsCopyDialogOpen(false)
+                      }}
+                      onClose={() => setIsCopyDialogOpen(false)}
+                    ></CopyToPageDialog>
+                  )}
 
                   <ToolTipIconButton
                     handleClick={() => {

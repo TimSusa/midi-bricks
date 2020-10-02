@@ -13,30 +13,38 @@ const {
   toggleSettingsMode
 } = viewSettingsActions
 
-export function thunkCopyToNextPage() {
-  return async function(dispatch, getState) {
+export function thunkCopyToNextPage(pageId) {
+  return async function (dispatch, getState) {
     const {
       viewSettings: { lastFocusedIdxs, lastFocusedPage },
       pages
     } = getState()
 
-    // TODO: Put a modal here to ask the user where to copy that stuff
-    const nextPageIdx = Object.keys(pages).reduce((acc, cur) => {
-      return pages[cur].id
-    }, '')
-    const maxX = maxBy(pages[nextPageIdx].sliderList, 'x').x + 1
-    const maxY = maxBy(pages[nextPageIdx].sliderList, 'y').y +1 
-    const sliderList = lastFocusedIdxs.reduce((acc, id) => {
-      const entry = pages[lastFocusedPage].sliderList.find(er => er.i === id)
-      if (entry){
-        acc.push({...entry, i: getUniqueId(), x: maxX , y: maxY})
-      }
-      return acc
-    }, [...pages[nextPageIdx].sliderList])
+    const maxX = maxBy(pages[pageId].sliderList, 'x').x + 1
+    const maxY = maxBy(pages[pageId].sliderList, 'y').y + 1
+    const sliderList = lastFocusedIdxs.reduce(
+      (acc, id) => {
+        const entry = pages[lastFocusedPage].sliderList.find(
+          (er) => er.i === id
+        )
+        if (entry) {
+          acc.push({
+            ...entry,
+            i: getUniqueId(),
+            x: maxX,
+            y: maxY,
+            isDraggable: false,
+            isResizable: false
+          })
+        }
+        return acc
+      },
+      [...pages[pageId].sliderList]
+    )
     dispatch(setLastFocusedIndex({ i: 'none' }))
-    dispatch(setLastFocusedPage({ lastFocusedPage: nextPageIdx }))
-    dispatch(updateSliderListOfPage({lastFocusedPage: nextPageIdx, sliderList}))
-    dispatch(setMidiPage({sliderList}))
+    dispatch(setLastFocusedPage({ lastFocusedPage: pageId }))
+    dispatch(updateSliderListOfPage({ lastFocusedPage: pageId, sliderList }))
+    dispatch(setMidiPage({ sliderList }))
     dispatch(toggleSettingsMode(false))
     return Promise.resolve()
   }
