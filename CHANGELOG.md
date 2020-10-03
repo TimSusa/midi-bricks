@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.41-alpha.4](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41-alpha.3...v1.3.41-alpha.4) (2020-10-03)
+
+
+### Features
+
+* fixed typo ([a97487c](https://github.com/TimSusa/midi-bricks-mono/commit/a97487c67edd2a372e52d534dc29ff334eae53fc))
+
+
+### Bug Fixes
+
+* Fix crash on user journey, when adding an element and chosing a midi driver ([712e8ab](https://github.com/TimSusa/midi-bricks-mono/commit/712e8ab7a0b0988a7bb3051ff962e5f7d259ec10))
+
 ### [1.3.41-alpha.3](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41-alpha.2...v1.3.41-alpha.3) (2020-10-03)
 
 
