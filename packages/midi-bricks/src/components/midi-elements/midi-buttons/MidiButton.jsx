@@ -8,8 +8,7 @@ MidiButton.propTypes = {
   fontColorStyle: PropTypes.object,
   label: PropTypes.string,
   onChangeEnd: PropTypes.func,
-  onChangeStart: PropTypes.func,
-  isDisabled: PropTypes.bool
+  onChangeStart: PropTypes.func
 }
 
 function MidiButton(props) {
@@ -19,14 +18,13 @@ function MidiButton(props) {
     onChangeStart = () => {},
     onChangeEnd = () => {},
     fontColorStyle = {},
-    label = '',
-    isDisabled
+    label = ''
   } = props
   return (
     <button
       style={buttonStyle}
       className={classes.root}
-      disabled={isDisabled}
+      disabled={false}
       onContextMenu={preventCtxMenu}
       onMouseDown={!isTouchDevice() ? onChangeStart : (e) => e.preventDefault()}
       onMouseUp={!isTouchDevice() ? onChangeEnd : (e) => e.preventDefault()}

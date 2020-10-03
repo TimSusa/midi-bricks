@@ -22,7 +22,7 @@ const { toggleNote, handleSliderChange, sendProgramChange } = {
 // This component is supposed to configure the button type for rendering
 function MidiButtons(props) {
   const dispatch = useDispatch()
-  const { idx, height, width, isDisabled } = props
+  const { idx, height, width } = props
   const { isChangedTheme, isLayoutMode, lastFocusedPage } = useSelector(
     (state) => state.viewSettings
   )
@@ -55,7 +55,6 @@ function MidiButtons(props) {
       onChangeEnd={onChangeEnd}
       fontColorStyle={fontColorStyle}
       buttonStyle={buttonStyle}
-      isDisabled={isDisabled}
     />
   )
 
@@ -155,7 +154,6 @@ MidiButtons.propTypes = {
   height: PropTypes.any,
   idx: PropTypes.any,
   isChangedTheme: PropTypes.bool,
-  isDisabled: PropTypes.bool,
   isLayoutMode: PropTypes.bool,
   lastFocusedPage: PropTypes.string,
   sliderEntry: PropTypes.object,
