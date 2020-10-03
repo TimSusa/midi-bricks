@@ -114,7 +114,9 @@ function renderInput(inputProps) {
 
   return (
     <TextField
+      type='number'
       InputProps={{
+        type: 'number',
         inputRef: ref,
         classes: {
           root: classes.inputRoot
