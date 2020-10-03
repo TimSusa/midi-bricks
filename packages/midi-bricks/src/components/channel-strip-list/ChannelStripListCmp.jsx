@@ -184,6 +184,7 @@ function ChannelStripListCmp() {
         <Typography variant='h4' className={classes.noMidiTypography}>
           <br />
           <br />
+
           <Button
             variant='outlined'
             onClick={async () =>
@@ -192,6 +193,12 @@ function ChannelStripListCmp() {
           >
             LOAD EXAMPLE
           </Button>
+          <br />
+          <br />
+          <Typography variant='h5'>
+            {window.navigator.userAgent.toLowerCase().includes('mobile') &&
+              'Sorry for inconvenience! Due to a lack of technical support MIDI is not working on mobile devices (android, ios) with Chrome.'}
+          </Typography>
         </Typography>
       </div>
     )
