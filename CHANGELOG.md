@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.41-alpha.2](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41-alpha.1...v1.3.41-alpha.2) (2020-10-03)
+
+
+### Features
+
+* range inputs allow <0 and >127 [#230](https://github.com/TimSusa/midi-bricks-mono/issues/230) ([aa9f33b](https://github.com/TimSusa/midi-bricks-mono/commit/aa9f33bce529b49968f2bb5a9f654cd6ffec7745))
+
 ### [1.3.41-alpha.1](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41-alpha.0...v1.3.41-alpha.1) (2020-10-03)
 
 
