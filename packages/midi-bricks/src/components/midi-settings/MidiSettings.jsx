@@ -44,7 +44,8 @@ function MidiSettings(props) {
     pageTargets = [],
     availableDrivers: { inputs = {}, outputs = {} } = {}
   } = useSelector((state) => state.viewSettings)
-  const pageTarget = pageTargets.find((item) => item.id === lastFocusedPage)
+  const pageTarget =
+    pageTargets.find((item) => item.id === lastFocusedPage) || {}
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
   const { sliderEntry = {}, onClose = () => {} } = props

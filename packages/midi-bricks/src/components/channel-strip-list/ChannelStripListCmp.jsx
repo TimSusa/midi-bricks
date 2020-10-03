@@ -195,10 +195,8 @@ function ChannelStripListCmp() {
           </Button>
           <br />
           <br />
-          <Typography variant='h5'>
-            {window.navigator.userAgent.toLowerCase().includes('mobile') &&
-              'Sorry for inconvenience! Due to a lack of technical support MIDI is not working on mobile devices (android, ios). Please, use a desktop operation system!'}
-          </Typography>
+          {window.navigator.userAgent.toLowerCase().includes('mobile') &&
+            'Sorry for inconvenience! Due to a lack of technical support MIDI is not working on mobile devices (android, ios). Please, use a desktop operation system!'}
         </Typography>
       </div>
     )

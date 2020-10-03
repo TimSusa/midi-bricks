@@ -28,8 +28,6 @@ export function FooterButton(props) {
     },
     lastFocusedPage,
     isSettingsMode
-    //actions,
-    // thunkChangePage
   } = props
 
   return (

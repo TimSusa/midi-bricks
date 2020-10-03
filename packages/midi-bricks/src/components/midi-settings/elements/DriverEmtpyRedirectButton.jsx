@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button'
 import Tooltip from '@material-ui/core/Tooltip'
 import { useDispatch } from 'react-redux'
 import { Actions as ViewActions } from '../../../global-state/actions/view-settings.js'
-
 import { PAGE_TYPES } from '../../../global-state'
 import PropTypes from 'prop-types'
 
@@ -20,8 +19,7 @@ export function DriverEmtpyRedirectButton({ i }) {
           dispatch(
             toggleSettingsDialogMode({
               i,
-              isSettingsDialogMode: false,
-              lastFocusedPage: i
+              isSettingsDialogMode: false
             })
           )
           dispatch(
