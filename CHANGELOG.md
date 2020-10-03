@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.41-alpha.6](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41-alpha.5...v1.3.41-alpha.6) (2020-10-03)
+
+
+### Bug Fixes
+
+* Fix crash, when canceling load / save dialog ([d29a66e](https://github.com/TimSusa/midi-bricks-mono/commit/d29a66eae7220759677f62e629e95f3b29db3f5d))
+
 ### [1.3.41-alpha.5](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41-alpha.4...v1.3.41-alpha.5) (2020-10-03)
 
 
