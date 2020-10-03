@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.41-alpha.3](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41-alpha.2...v1.3.41-alpha.3) (2020-10-03)
+
+
+### Bug Fixes
+
+* buttons were not changeable in layout mode ([b8048e1](https://github.com/TimSusa/midi-bricks-mono/commit/b8048e124d3d8e9d517040b427b75cb01637ac7e))
+
 ### [1.3.41-alpha.2](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41-alpha.1...v1.3.41-alpha.2) (2020-10-03)
 
 
