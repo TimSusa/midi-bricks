@@ -68,7 +68,7 @@ function styles() {
       lineHeight: 1.75,
       borderRadius: 5,
       letterSpacing: '0.02857em',
-      outline: 'none'
+      outlineStyle: 'none'
     },
     label: {
       width: '100%',

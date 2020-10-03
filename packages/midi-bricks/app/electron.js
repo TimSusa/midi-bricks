@@ -61,14 +61,14 @@ if (!gotTheLock) {
   app.on('ready', createWindow)
 
   // Quit when all windows are closed.
-  app.on('window-all-closed', function() {
+  app.on('window-all-closed', function () {
     // On macOS it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     appSettings = null
     if (process.platform !== 'darwin') app.quit()
   })
 
-  app.on('activate', function() {
+  app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (win === null) createWindow()
@@ -76,7 +76,6 @@ if (!gotTheLock) {
 }
 
 async function createWindow() {
-
   // app.allowRendererProcessReuse = false
   // eslint-disable-next-line require-atomic-updates
   appSettings = (await readoutPersistedAppsettings(appSettings)) || {}
@@ -126,13 +125,12 @@ async function createWindow() {
   const [xx, yy, w, h] = process.argv[windowIndex].split(',')
 
   const [xSet, ySet, widthSet, heightSet] = appSettings.windowCoords || []
-  const { x, y, width, height } =
-    {
-      x: parseInt(((yy && w && h && xx) || xSet ) || 0, 10),
-      y: parseInt((yy || ySet), 10),
-      width: parseInt((w || widthSet), 10),
-      height: parseInt((h || heightSet), 10)
-    } 
+  const { x, y, width, height } = {
+    x: parseInt((yy && w && h && xx) || xSet || 0, 10),
+    y: parseInt(yy || ySet, 10),
+    width: parseInt(w || widthSet, 10),
+    height: parseInt(h || heightSet, 10)
+  }
   // Create the window using the state information
   win = new BrowserWindow({
     x,
@@ -144,7 +142,7 @@ async function createWindow() {
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js')
     },
-    title: 'MIDI Bricks',
+    title: 'MIDI Bricks'
     // vibrancy: 'dark'
     // titlebarAppearsTransparent: true
   })
@@ -178,7 +176,7 @@ async function createWindow() {
   // isAllowedToUpdate && sendStatusToWindow('Software-Updates enabled.')
 
   //  Emitted when the window is closed.
-  win.on('closed', function() {
+  win.on('closed', function () {
     //sendStatusToWindow('Gracefully shutting down.')
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
@@ -215,8 +213,8 @@ async function createWindow() {
 // }
 
 function onSaveFileDialog(event, arg) {
-  dialog.showSaveDialog(
-    {
+  dialog
+    .showSaveDialog({
       properties: ['showHiddenFiles'],
       defaultPath: app.getPath('userData'),
       filters: [
@@ -225,40 +223,42 @@ function onSaveFileDialog(event, arg) {
           extensions: ['json', 'js']
         }
       ]
-    }
-  ).then((stuff) => {
-    const {filePath: filename} = stuff
-    if (filename === undefined) {
-      return
-    }
-    const json = JSON.stringify({
-      ...arg, 
-      viewSettings: {
-        ...arg.viewSettings,
-        isLiveMode: true,
-        isSettingsDialogMode: false,
-        isLayoutMode: false,
-        isSettingsMode: false,
-        isMidiLearnMode: false,
-      }})
-
-    fs.writeFile(filename, json, { flag: 'w' }, (err) => {
-      if (err) {
-        throw new Error(err)
+    })
+    .then((stuff) => {
+      const { filePath: filename, canceled } = stuff
+      if (filename === undefined) {
+        return
       }
-    })
+      if (canceled) return
+      const json = JSON.stringify({
+        ...arg,
+        viewSettings: {
+          ...arg.viewSettings,
+          isLiveMode: true,
+          isSettingsDialogMode: false,
+          isLayoutMode: false,
+          isSettingsMode: false,
+          isMidiLearnMode: false
+        }
+      })
 
-    appSettings = persistAppSettings(arg)
-    event.sender.send('save-file-dialog-reply', {
-      presetName: filename,
-      content: arg
+      fs.writeFile(filename, json, { flag: 'w' }, (err) => {
+        if (err) {
+          throw new Error(err)
+        }
+      })
+
+      appSettings = persistAppSettings(arg)
+      event.sender.send('save-file-dialog-reply', {
+        presetName: filename,
+        content: arg
+      })
     })
-  })
 }
 
 function onOpenFileDialog(event) {
-  dialog.showOpenDialog(
-    {
+  dialog
+    .showOpenDialog({
       properties: ['openFile'],
       filters: [
         {
@@ -266,11 +266,10 @@ function onOpenFileDialog(event) {
           extensions: ['json', 'js']
         }
       ]
-    }
-  ).then(
-    (stuff)=> {
-
-      const {filePaths: filenames} = stuff
+    })
+    .then((stuff) => {
+      const { filePaths: filenames, canceled } = stuff
+      if (canceled) return
       readFile(filenames[0], {}).then(
         (data) => {
           const args = JSON.parse(data)
@@ -279,16 +278,15 @@ function onOpenFileDialog(event) {
             presetName: filenames[0]
           }
           appSettings = persistAppSettings(args)
-          event.sender.send('open-file-dialog-reply', {...stufff})
+          event.sender.send('open-file-dialog-reply', { ...stufff })
           log.info('Object loaded: ', stufff)
           return data
         },
         (err) => {
-          throw new Error (err)
+          throw new Error(err)
         }
       )
-    }
-  )
+    })
 }
 
 function onSetAppSettings(event, arg) {
