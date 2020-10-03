@@ -123,46 +123,64 @@ export function MidiSettingsOutput(props) {
       </FormControl>
       {[SLIDER, SLIDER_HORZ].includes(type) && (
         <React.Fragment>
-          <MinMaxValInput
-            label='Maximum Value'
-            value={parseInt(maxV, 10)}
-            name={`input-maxval-name-${i}`}
-            limitVal={127}
-            onChange={(e) => setMaxV(e.target.value)}
-          />
-          <Button
-            variant='contained'
-            onClick={() =>
-              dispatch(
-                setMaxVal({
-                  i,
-                  val: maxV
-                })
-              )
-            }
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
           >
-            OK
-          </Button>
-          <MinMaxValInput
-            label='Minimum Value'
-            value={parseInt(minV, 10)}
-            name={`input-minval-name-${i}`}
-            limitVal={0}
-            onChange={(e) => setMinV(e.target.value)}
-          />
-          <Button
-            variant='contained'
-            onClick={() =>
-              dispatch(
-                setMinVal({
-                  i,
-                  val: minV
-                })
-              )
-            }
+            <MinMaxValInput
+              label='Max Value'
+              value={parseInt(maxV, 10)}
+              name={`input-maxval-name-${i}`}
+              limitVal={127}
+              onChange={(e) => setMaxV(e.target.value)}
+            />
+            <Button
+              style={{ height: '60%' }}
+              variant='contained'
+              onClick={() =>
+                dispatch(
+                  setMaxVal({
+                    i,
+                    val: maxV
+                  })
+                )
+              }
+            >
+              OK
+            </Button>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
           >
-            OK
-          </Button>
+            <MinMaxValInput
+              label='Min Value'
+              value={parseInt(minV, 10)}
+              name={`input-minval-name-${i}`}
+              limitVal={0}
+              onChange={(e) => setMinV(e.target.value)}
+            />
+            <Button
+              variant='contained'
+              style={{ height: '60%' }}
+              onClick={() =>
+                dispatch(
+                  setMinVal({
+                    i,
+                    val: minV
+                  })
+                )
+              }
+            >
+              OK
+            </Button>
+          </div>
         </React.Fragment>
       )}
       {

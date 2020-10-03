@@ -36,6 +36,10 @@ export function MinMaxValInput({
           className={classes.input}
           id='number'
           type='number'
+          inputProps={{
+            min: 0,
+            max: 127
+          }}
           name={name}
           value={value || limitVal}
           onChange={onChange}
