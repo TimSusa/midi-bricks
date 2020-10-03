@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.41-alpha.5](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41-alpha.4...v1.3.41-alpha.5) (2020-10-03)
+
+
+### Bug Fixes
+
+* Build for the right environment web or app ([874300e](https://github.com/TimSusa/midi-bricks-mono/commit/874300e83602867cca948d9fe822d5a2db31e785))
+
 ### [1.3.41-alpha.4](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41-alpha.3...v1.3.41-alpha.4) (2020-10-03)
 
 
