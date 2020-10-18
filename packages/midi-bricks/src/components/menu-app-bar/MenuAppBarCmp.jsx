@@ -226,7 +226,7 @@ function MenuAppBarCmp(props) {
                 <>
                   <ToolTipIconButton
                     handleClick={() => setIsCopyDialogOpen(true)}
-                    title={'Copy to last page.'}
+                    title={'Copy to page.'}
                     isInvisible={isMidiLearnMode || isLayoutMode}
                     icon={<CopyIcon />}
                   />
