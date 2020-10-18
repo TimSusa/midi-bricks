@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import 'typeface-roboto'
 import { darkTheme } from '../themes/dark-theme'
 import { lightTheme } from '../themes/light-theme'
-import App from '../App'
+import { App } from '../App'
 
 export default MuiWrappedApp
 

@@ -4,14 +4,29 @@ import { useTheme } from '@material-ui/styles'
 import Footer from './components/footer/Footer'
 import { makeStyles } from '@material-ui/styles'
 import { useSelector } from 'react-redux'
+import isEmpty from 'lodash/isEmpty'
+import { useBeforeUnload } from './utils/useBeforeUnload'
+import { openIpcUnsavedChanges, exitApp } from './utils/ipc-renderer'
 
-export default App
-
-function App() {
+export function App() {
   const isLiveMode = useSelector((state) => state.viewSettings.isLiveMode)
+  const state = useSelector((state) => state)
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
   const [isMobileOpen, setIsMobileOpen] = useState(false)
+
+  useBeforeUnload((event) => {
+    // Cancel the event as stated by the standard.
+    event.preventDefault()
+    // Older browsers supported custom message
+    event.returnValue = ''
+    if (process.env.REACT_APP_IS_WEB_MODE === 'true') {
+      !isEmpty(sessionStorage.state) && window.alert()
+    } else {
+      // call ipc here
+      !isEmpty(sessionStorage.state) ? openIpcUnsavedChanges(state) : exitApp()
+    }
+  })
 
   if (!isLiveMode) {
     const MenuAppBar = React.lazy(() =>

@@ -167,7 +167,48 @@ async function createWindow() {
   ipcMain.on('save-file-dialog', onSaveFileDialog)
   ipcMain.on('send-app-settings', onSetAppSettings)
   ipcMain.on('set-to-actual-win-coords', onSetActualWinCoords)
+  ipcMain.on('exit-app', () => app.exit(0))
 
+  let forceQuit = false
+  ipcMain.on('open-unsaved-changes-dialog', (e, arg) => {
+    if (!forceQuit) {
+
+      dialog.showMessageBox(win, {
+        type: 'warning',
+        buttons: ['Cancel', 'Leave'],
+        cancelId: 1,
+        title: 'Confirm',
+        message: 'You have unsaved work!'
+      }).then(({response: clickedButtonId}) => {
+        // if (clickedButtonId === 0) {
+        //   e.preventDefault()
+        //   forceQuit = true
+  
+        //   console.log('Saving ', arg)
+        //   win.close()
+
+        //   onSaveFileDialog(e, arg, true)
+  
+        // } else 
+        
+        if (clickedButtonId === 0) {
+          e.preventDefault()
+          console.log('Cancel')
+          forceQuit = true
+          win.close()
+        } else if (clickedButtonId === 1) {
+        //forceQuit = true
+          console.log('Leave exit')
+          win.close()
+          app.exit(0)
+        }
+      })
+    } else {
+      forceQuit = false
+    }
+  })
+  
+  
   const url = isDev
     ? 'http://localhost:3000/'
     : `file://${path.join(__dirname, '../index.html')}`
@@ -212,7 +253,8 @@ async function createWindow() {
 //   })
 // }
 
-function onSaveFileDialog(event, arg) {
+function onSaveFileDialog(event, arg, shouldExitTmp) {
+  const shouldExit = shouldExitTmp || false
   dialog
     .showSaveDialog({
       properties: ['showHiddenFiles'],
@@ -230,7 +272,7 @@ function onSaveFileDialog(event, arg) {
         return
       }
       if (canceled) return
-      const json = JSON.stringify({
+      const tmpObj = {
         ...arg,
         viewSettings: {
           ...arg.viewSettings,
@@ -240,19 +282,23 @@ function onSaveFileDialog(event, arg) {
           isSettingsMode: false,
           isMidiLearnMode: false
         }
-      })
+      }
+      const json = JSON.stringify(tmpObj)
 
       fs.writeFile(filename, json, { flag: 'w' }, (err) => {
         if (err) {
           throw new Error(err)
         }
       })
+      if (!shouldExit) {
+        appSettings = persistAppSettings(arg)
+        event.sender.send('save-file-dialog-reply', {
+          presetName: filename,
+          content: arg
+        })
+      }
 
-      appSettings = persistAppSettings(arg)
-      event.sender.send('save-file-dialog-reply', {
-        presetName: filename,
-        content: arg
-      })
+      shouldExit && app.exit(0)
     })
 }
 

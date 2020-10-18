@@ -18,7 +18,7 @@ localforage.config({
 
 ReduxWrappedMuiApp.propTypes = {
   children: PropTypes.any,
-  store: PropTypes.any
+  store: PropTypes.object
 }
 
 export function ReduxWrappedMuiApp(props) {

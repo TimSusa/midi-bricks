@@ -11,6 +11,14 @@ export function openIpcFileDialog () {
   sendAsyncMsg('open-file-dialog', {})
 }
 
+export function openIpcUnsavedChanges (state) {
+  sendAsyncMsg('open-unsaved-changes-dialog', state)
+}
+
+export function exitApp () {
+  sendAsyncMsg('exit-app', {})
+}
+
 export function addIpcSaveFileListenerOnce (cb) {
   ipcRenderer.once('save-file-dialog-reply', (event) => {
     cb(event)
