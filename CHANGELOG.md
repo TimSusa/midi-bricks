@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.41-alpha.8](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41-alpha.6...v1.3.41-alpha.8) (2020-10-18)
+
+
+### Features
+
+* Establish reminder on unsaved changes [#228](https://github.com/TimSusa/midi-bricks-mono/issues/228) ([18e989a](https://github.com/TimSusa/midi-bricks-mono/commit/18e989acfc30612514c7eba1004dec709d6535c1))
+* Load background image for labels ([cab55f3](https://github.com/TimSusa/midi-bricks-mono/commit/cab55f36610291d99786737688727a88bd86d85e))
+
 ### [1.3.41-alpha.6](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41-alpha.5...v1.3.41-alpha.6) (2020-10-03)
 
 
