@@ -23,7 +23,7 @@ function ChannelStrip(props) {
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
   const { idx, isDisabled, isMidiLearnMode } = props
-  const { type, isValueHidden, fontSize } = useSelector(
+  const { type, isValueHidden, fontSize, backgroundImage } = useSelector(
     (state) => state.sliders.sliderList[idx] || {}
   )
   //const { type, isValueHidden, fontSize } = sliderEntry
@@ -55,6 +55,9 @@ function ChannelStrip(props) {
   ].includes(type)
   return (
     <div className={classes.root} ref={measuredRef}>
+      {backgroundImage && (
+        <img style={{ height, width }} src={backgroundImage}></img>
+      )}
       {type === STRIP_TYPE.SLIDER && !isMidiLearnMode && (
         <div className={classes.sliderChannelWrapper}>
           <Label

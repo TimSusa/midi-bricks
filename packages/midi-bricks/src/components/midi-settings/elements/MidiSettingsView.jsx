@@ -8,10 +8,12 @@ import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
+
 import ColorModal from './ColorModal'
 import { STRIP_TYPE } from '../../../global-state/reducers/slider-list'
 import { Actions as MidiSliderActions } from '../../../global-state/actions/slider-list.js'
 import { Actions as ViewActions } from '../../../global-state/actions/view-settings.js'
+import { ReadFileButton } from './ReadFileButton'
 
 const {
   changeButtonType,
@@ -19,7 +21,8 @@ const {
   changeFontWeight,
   changeColors,
   setPageTargetSettings,
-  toggleHideValue
+  toggleHideValue,
+  setBackgroundImage
 } = {
   ...MidiSliderActions,
   ...ViewActions
@@ -30,7 +33,8 @@ const {
   BUTTON_TOGGLE,
   BUTTON_TOGGLE_CC,
   SLIDER,
-  SLIDER_HORZ
+  SLIDER_HORZ,
+  LABEL
 } = STRIP_TYPE
 
 MidiSettingsView.propTypes = {
@@ -46,7 +50,15 @@ export function MidiSettingsView(props) {
   const {
     classes,
     type: pageType,
-    sliderEntry: { i, type, colors, fontSize, fontWeight, isValueHidden } = {},
+    sliderEntry: {
+      i,
+      type,
+      colors,
+      fontSize,
+      fontWeight,
+      isValueHidden,
+      backgroundImage
+    } = {},
     pageTarget = {}
   } = props
   const color = !pageType
@@ -160,6 +172,25 @@ export function MidiSettingsView(props) {
           </Button>
         </FormControl>
       )}
+
+      {type === LABEL && (
+        <>
+          {!backgroundImage && (
+            <ReadFileButton onFileChange={onFileChange}></ReadFileButton>
+          )}
+          {backgroundImage && (
+            <Button
+              variant='contained'
+              style={{ width: '100%', marginTop: 8 }}
+              onClick={() =>
+                dispatch(setBackgroundImage({ backgroundImage: null, i }))
+              }
+            >
+              Unload Background Image
+            </Button>
+          )}
+        </>
+      )}
       {[SLIDER, SLIDER_HORZ].includes(type) && (
         <FormControl>
           <FormControlLabel
@@ -176,6 +207,10 @@ export function MidiSettingsView(props) {
       )}
     </React.Fragment>
   )
+  function onFileChange(_, file) {
+    const contentRaw = file[0][0].target.result
+    dispatch(setBackgroundImage({ backgroundImage: contentRaw, i }))
+  }
   function handleButtonTypeChange(val) {
     dispatch(
       changeButtonType({

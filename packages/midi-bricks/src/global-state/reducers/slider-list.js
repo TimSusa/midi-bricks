@@ -341,6 +341,14 @@ export const sliders = {
     return draftState
   },
 
+  setBackgroundImage(draftState, action){
+    const { backgroundImage, i } = action.payload
+    const idx = draftState.sliderList.findIndex((item) => item.i === i)
+
+    draftState.sliderList[idx].backgroundImage = backgroundImage
+    return draftState
+  },
+
   saveFile(state, action) {
     // This is actuall only envolved in web app mode, not in electron mode
     const {
@@ -683,6 +691,7 @@ function transformAddState(state, action) {
   }
   const entry = {
     driverNameInput: 'None',
+    backgroundImage: null,
     midiChannel: 1,
     midiChannelInput: 1,
     isNoteOn: false,
