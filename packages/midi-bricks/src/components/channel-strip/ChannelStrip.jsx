@@ -56,7 +56,16 @@ function ChannelStrip(props) {
   return (
     <div className={classes.root} ref={measuredRef}>
       {backgroundImage && (
-        <img style={{ height, width }} src={backgroundImage}></img>
+        <img
+          style={{
+            height,
+            width,
+            position: 'absolute',
+            left: 0,
+            borderRadius: '5px'
+          }}
+          src={backgroundImage}
+        ></img>
       )}
       {type === STRIP_TYPE.SLIDER && !isMidiLearnMode && (
         <div className={classes.sliderChannelWrapper}>
