@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.41](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41-alpha.8...v1.3.41) (2020-10-23)
+
+
+### Bug Fixes
+
+* Image is not loaded over the top of the label [#243](https://github.com/TimSusa/midi-bricks-mono/issues/243) ([63d05ad](https://github.com/TimSusa/midi-bricks-mono/commit/63d05ad0a43844b8eef944d8455eff060b406ef6))
+
 ### [1.3.41-alpha.8](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41-alpha.6...v1.3.41-alpha.8) (2020-10-18)
 
 
