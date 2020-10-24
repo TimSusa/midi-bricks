@@ -24,7 +24,7 @@ import LockOpenIcon from '@material-ui/icons/LockOpen'
 
 const {
   changeGlobalMidiInputDelay,
-  setFullscreenOnLivemode,
+  // setFullscreenOnLivemode,
   setElectronAppSettings,
   changeTheme,
   toggleAutosize,
@@ -52,7 +52,7 @@ function ApplicationSettings() {
     rowHeight = 40,
     isAutoSize = false,
     isChangedTheme = false,
-    isFullscreenOnLivemode = false,
+    // isFullscreenOnLivemode = false,
     marginX = 8,
     marginY = 8,
     paddingX = 8,
