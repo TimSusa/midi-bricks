@@ -102,7 +102,7 @@ function ApplicationSettings() {
         noPadding={false}
         onChange={() => setIsViewPanelExpanded(!isViewPanelExpanded)}
       >
-        {isWebMode && (
+        {/* {isWebMode && (
           <FormControlLabel
             control={
               <Tooltip title='Set to fullscreen, when switching to livemode'>
@@ -120,7 +120,7 @@ function ApplicationSettings() {
             }
             label='Live Mode Fullscreen'
           />
-        )}
+        )} */}
 
         {!isWebMode && (
           <FormControlLabel

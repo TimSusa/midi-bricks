@@ -37,6 +37,8 @@ Footer.propTypes = {
   thunkLiveModeToggle: PropTypes.func
 }
 
+let MidiSettingsDialog = null
+
 function Footer() {
   const dispatch = useDispatch()
   const theme = useTheme()
@@ -55,8 +57,8 @@ function Footer() {
   } = useSelector((state) => state.viewSettings)
 
   const isOpen = isSettingsDialogMode && lastFocusedIdx === lastFocusedPage
-  if (isOpen) {
-    var MidiSettingsDialog = React.lazy(() =>
+  if (isOpen && !MidiSettingsDialog) {
+    MidiSettingsDialog = React.lazy(() =>
       import('../midi-settings-dialog/MidiSettingsDialog')
     )
   }
@@ -118,9 +120,7 @@ function Footer() {
                         })
                       )
                     }}
-                    sliderEntry={pageTargets.find(
-                      (itemt) => itemt.id === lastFocusedPage
-                    )}
+                    i={lastFocusedPage}
                     iconColor={classes.iconColor}
                   />
                 </Suspense>

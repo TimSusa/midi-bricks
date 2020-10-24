@@ -6,6 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import Dialog from '@material-ui/core/Dialog'
 import { Typography } from '@material-ui/core'
+import keycode from 'keycode'
 
 export default ApplicationSettingsDialog
 
@@ -17,11 +18,12 @@ ApplicationSettingsDialog.propTypes = {
   value: PropTypes.string
 }
 
+let ApplicationSettings = null
 function ApplicationSettingsDialog(props) {
   const { isOpen = true, onClose, iconColor, ...other } = props
 
-  if (isOpen) {
-    var ApplicationSettings = React.lazy(() =>
+  if (isOpen && !ApplicationSettings) {
+    ApplicationSettings = React.lazy(() =>
       import('../pages/ApplicationSettings')
     )
   }
@@ -57,7 +59,7 @@ function ApplicationSettingsDialog(props) {
 
 function handleKeydown(onClose, e) {
   // Enter key will close dialog
-  if (e.keyCode === 13) {
+  if (keycode(e) === 'esc') {
     onClose()
     e.preventDefault()
   }

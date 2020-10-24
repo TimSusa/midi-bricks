@@ -7,6 +7,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import Dialog from '@material-ui/core/Dialog'
 import MidiSettings from '../midi-settings/MidiSettings'
 import { Typography } from '@material-ui/core'
+import keycode from 'keycode'
 
 function MidiSettingsDialog(props) {
   const { i, onClose, iconColor, ...other } = props
@@ -36,7 +37,7 @@ function MidiSettingsDialog(props) {
 
 function handleKeydown(onClose, e) {
   // Enter key will close dialog
-  if (e.keyCode === 13) {
+  if (keycode(e) === 'esc') {
     onClose()
     e.preventDefault()
   }
