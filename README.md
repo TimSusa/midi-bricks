@@ -6,10 +6,10 @@
 
 # Midi-Bricks
 
-MIDI Bricks was invented for usage as interactive MIDI-Controller-Interface or even for Touch-Device purposes. We use the native MIDI API which is exposed from chrome browser. Please note, that MIDI functionality is not provided on mobile devices. In most cases our users provide them selves with some kind of extra Touch Device, which can be wired via USB to your Desktop / Laptop.
+MIDI Bricks was invented for usage as interactive MIDI-Controller-Interface or even for Touch-Device purposes. We use the native MIDI API, which is exposed from chrome browser. Please note, that because of a sad story MIDI functionality is not provided on mobile devices. Therefore, in most cases our users provide them selves with some kind of extra physical Touch Device, which can be wired via USB to your Desktop / Laptop.
 
 ## Mono Repository
-This is a mono-repository for midi-bricks, its electron app and deployment. 
+This is a mono-repository for midi-bricks and its documentation. 
 
 ## Live-Web-Demo
 https://midi-bricks.timsusa.now.sh
@@ -21,11 +21,6 @@ https://midi-bricks.timsusa.now.sh
 ## Official Webpage and Documentation
 https://timsusa.github.io/midi-bricks-mono/
 
-## More Help
-More help can be found in each sub project folder´s README.md, 
-which you can find under packages/. 
-In order to get information about building an executable
-for your OS please be refered to the midi-bricks-electron folder.
 
 ## Bootstrapping the Monorepo:
 ```
