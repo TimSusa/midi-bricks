@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.41.alpha-0](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41...v1.3.41.alpha-0) (2020-10-24)
+
+
+### Features
+
+* Element Settings dialog - don't disappear and close tabs on OK [#231](https://github.com/TimSusa/midi-bricks-mono/issues/231) ([eba1266](https://github.com/TimSusa/midi-bricks-mono/commit/eba12669a150832ab791ef881d52429ec550d9a9))
+
 ### [1.3.41](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41-alpha.8...v1.3.41) (2020-10-23)
 
 
