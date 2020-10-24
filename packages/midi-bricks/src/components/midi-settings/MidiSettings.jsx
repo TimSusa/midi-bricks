@@ -52,7 +52,7 @@ function MidiSettings(props) {
   const classes = makeStyles(styles.bind(this, theme))()
   const { i, onClose = () => {} } = props
   const sliderList = useSelector((state) => state.sliders.sliderList)
-  const sliderEntry = sliderList.find((item) => item.i === i)
+  const sliderEntry = sliderList.find((item) => item.i === i) || {}
   const { label, type } = sliderEntry
   const isOutputsEmpty = isAllEmpty(outputs)
   const isInputsEmpty = isAllEmpty(inputs)
