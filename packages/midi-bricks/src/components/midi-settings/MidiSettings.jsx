@@ -27,6 +27,7 @@ export default MidiSettings
 const { BUTTON, BUTTON_TOGGLE, PAGE } = STRIP_TYPE
 
 MidiSettings.propTypes = {
+  i: PropTypes.string,
   inputs: PropTypes.object,
   isSettingsMode: PropTypes.bool,
   lastFocusedPage: PropTypes.string,
@@ -46,10 +47,13 @@ function MidiSettings(props) {
   } = useSelector((state) => state.viewSettings)
   const pageTarget =
     pageTargets.find((item) => item.id === lastFocusedPage) || {}
+
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
-  const { sliderEntry = {}, onClose = () => {} } = props
-  const { i, label, type } = sliderEntry
+  const { i, onClose = () => {} } = props
+  const sliderList = useSelector((state) => state.sliders.sliderList)
+  const sliderEntry = sliderList.find((item) => item.i === i)
+  const { label, type } = sliderEntry
   const isOutputsEmpty = isAllEmpty(outputs)
   const isInputsEmpty = isAllEmpty(inputs)
   return (

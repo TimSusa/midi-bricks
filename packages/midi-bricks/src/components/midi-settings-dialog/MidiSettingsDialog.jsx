@@ -9,7 +9,7 @@ import MidiSettings from '../midi-settings/MidiSettings'
 import { Typography } from '@material-ui/core'
 
 function MidiSettingsDialog(props) {
-  const { sliderEntry, onClose, iconColor, ...other } = props
+  const { i, onClose, iconColor, ...other } = props
   return (
     <Dialog
       onKeyDown={handleKeydown.bind(this, onClose)}
@@ -23,7 +23,7 @@ function MidiSettingsDialog(props) {
         </Typography>
       </DialogTitle>
       <DialogContent>
-        <MidiSettings sliderEntry={sliderEntry} onClose={onClose} />
+        <MidiSettings i={i} onClose={onClose} />
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} className={iconColor}>
@@ -43,6 +43,7 @@ function handleKeydown(onClose, e) {
 }
 
 MidiSettingsDialog.propTypes = {
+  i: PropTypes.string,
   iconColor: PropTypes.any,
   onClose: PropTypes.func,
   sliderEntry: PropTypes.any,

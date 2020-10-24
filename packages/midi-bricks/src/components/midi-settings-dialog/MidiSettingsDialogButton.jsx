@@ -10,13 +10,19 @@ MidiSettingsDialogButton.propTypes = {
   toggleSettings: PropTypes.func
 }
 
+// Bad hack go away! (fixes re-running midi-settings dialog, when giving input changes)
+let MidiSettingsDialog = null
+
 export default function MidiSettingsDialogButton(props) {
-  const { isOpen, toggleSettings, sliderEntry } = props
+  const {
+    isOpen,
+    toggleSettings,
+    sliderEntry: { i }
+  } = props
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
-
-  if (isOpen) {
-    var MidiSettingsDialog = React.lazy(() => import('./MidiSettingsDialog'))
+  if (isOpen && !MidiSettingsDialog) {
+    MidiSettingsDialog = React.lazy(() => import('./MidiSettingsDialog'))
   }
 
   return (
@@ -43,7 +49,7 @@ export default function MidiSettingsDialogButton(props) {
             onClose={toggleSettings.bind(this, {
               isSettingsDialogMode: false
             })}
-            sliderEntry={sliderEntry}
+            i={i}
           />
         </Suspense>
       ) : (
