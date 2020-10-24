@@ -2,12 +2,24 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://facebook.github.io/midi-bricks-mono/blog</id>
     <title>MIDI Bricks Blog</title>
-    <updated>2020-02-08T06:00:00Z</updated>
+    <updated>1970-01-01T00:00:00Z</updated>
     <generator>Feed for Node.js</generator>
     <link rel="alternate" href="https://facebook.github.io/midi-bricks-mono/blog"/>
     <subtitle>The best place to stay up-to-date with the latest MIDI Bricks news and events.</subtitle>
     <logo>https://facebook.github.io/midi-bricks-mono/img/docusaurus.svg</logo>
     <rights>Copyright © 2020 Tim Susa</rights>
+    <entry>
+        <title type="html"><![CDATA[New Release 1.3.41]]></title>
+        <id>https://facebook.github.io/midi-bricks-mono/blog/2020/24/10/blog-post.html</id>
+        <link href="https://facebook.github.io/midi-bricks-mono/blog/2020/24/10/blog-post.html">
+        </link>
+        <updated>1970-01-01T00:00:00Z</updated>
+        <summary type="html"><![CDATA[<h1><a class="anchor" aria-hidden="true" id="changelog"></a><a href="#changelog" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>Changelog</h1> <p>All notable changes to this project will be documented in this file. See <a href="https://github.com/conventional-changelog/standard-version">standard-version</a> for commit guidelines.</p> <h2><a class="anchor" aria-hidden="true" id="1341alpha-1-https-githubcom-timsusa-midi-bricks-mono-compare-v1341v1341alpha-1-2020-10-24"></a><a href="#1341alpha-1-https-githubcom-timsusa-midi-bricks-mono-compare-v1341v1341alpha-1-2020-10-24" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a><a href="https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41...v1.3.41.alpha-1">1.3.41.alpha-1</a> (2020-10-24)</h2> <h3><a class="anchor" aria-hidden="true" id="features"></a><a href="#features" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>Features</h3> <ul> <li>Element Settings dialog - don't disappear and close tabs on OK <a href="https://github.com/TimSusa/midi-bricks-mono/issues/231">#231</a> (<a href="https://github.com/TimSusa/midi-bricks-mono/commit/eba12669a150832ab791ef881d52429ec550d9a9">eba1266</a>)</li> <li>Element Set...</li></ul>]]></summary>
+        <author>
+            <name>Tim Susa</name>
+            <uri>https://twitter.com/tim_susa</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[New Release 1.3.33]]></title>
         <id>https://facebook.github.io/midi-bricks-mono/blog/2020/02/08/blog-post.html</id>
