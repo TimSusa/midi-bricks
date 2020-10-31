@@ -1,6 +1,6 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { reducer } from './'
-
+import isEmpty from 'lodash/isEmpty'
 /**
  * Schedules actions with { meta: { delay: N } } to be delayed by N milliseconds.
  * Makes `dispatch` return a function to cancel the timeout in this case.
@@ -18,10 +18,41 @@ const timeoutScheduler = () => next => action => {
   }
 }
 
+
+//const HISTORY_LENGTH = 20
+const setToSessionStorage = store => next => action => {
+  let result = next(action)
+  if ( !['update', 'init', 'toggleLive', 'delete', 'setLast'].some(type => action&&action.type.includes(type))) {
+    const state = store.getState()
+    const tmpList = JSON.parse(window.sessionStorage.getItem('history'))
+    let historyList = !isEmpty(tmpList) ? tmpList : []
+    if (!state.viewSettings.isLiveMode && historyList.length <= state.viewSettings.historyMaxLength) {
+      historyList.unshift(state)
+      if ((historyList.length+1) > state.viewSettings.historyMaxLength) {
+        historyList.pop()
+      }
+      // console.log('afsdftim ', action.type)
+      window.sessionStorage.setItem('history', JSON.stringify(historyList))
+      // console.log('dispatching', action)
+      // console.log('session history', historyList)
+    }
+
+    
+
+  }
+  // if (action.type === 'removeSession') {
+  //   console.log('dispatching', action)
+  //   window.sessionStorage.setItem('history', JSON.stringify(null))
+  //   //window.sessionStorage.setItem('state', JSON.stringify(null))
+  // }
+  return result
+}
+
+
 export function configureAppStore () {
   const obj = {
     reducer,
-    middleware: getDefaultMiddleware().concat(timeoutScheduler, rafScheduler)
+    middleware: getDefaultMiddleware().concat(setToSessionStorage,timeoutScheduler, rafScheduler )
   }
   const store = configureStore(obj)
   return store

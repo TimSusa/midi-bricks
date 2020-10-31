@@ -80,6 +80,7 @@ export const viewSettingsInitState = {
   lastFocusedIdx: '',
   lastFocusedIdxs: [],
   globalMidiInputDelay: 15,
+  historyMaxLength: 10,
   pageTargets: [
     {
       colors: {

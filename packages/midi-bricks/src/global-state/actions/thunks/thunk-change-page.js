@@ -52,7 +52,7 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
       dispatch(setLastFocusedPage({ lastFocusedPage: focusedPage }))
     } else {
       //dispatch(undoRedoUpdate({ state: getState() }))
-      window.sessionStorage.setItem('state', JSON.stringify(getState()))
+      //window.sessionStorage.setItem('state', JSON.stringify(getState()))
 
       if (storedPages[focusedPage]) {
         dispatch(
