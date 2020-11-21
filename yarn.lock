@@ -3102,20 +3102,20 @@
     "@typescript-eslint/types" "4.8.1"
     eslint-visitor-keys "^2.0.0"
 
-"@vercel/build-utils@2.5.1":
-  version "2.5.1"
-  resolved "https://registry.npmjs.org/@vercel/build-utils/-/build-utils-2.5.1.tgz#2f687c2d82464dd85e0ed8130bc01e5dac9b11a4"
-  integrity sha512-689ov8fGrgVnLwPbJUvgUKdSTseZiOMobR4XoZjmSmeF8+gaOpycsdGuVFzNtdFneUiQWO/k5AkY5diZj8fNgg==
+"@vercel/build-utils@2.6.1-canary.0":
+  version "2.6.1-canary.0"
+  resolved "https://registry.npmjs.org/@vercel/build-utils/-/build-utils-2.6.1-canary.0.tgz#ba549e7817c5a13e9ce271f88db3c3b9432d0d8b"
+  integrity sha512-lwTNPC4xCTeqzdHSsfIzHD5h/SwwcIemA5MDRUVdFEuYyF9X38i5A01ad1l/WedCQDi7IP3Q1IGOJ9g7XKJXOg==
 
 "@vercel/go@1.1.6":
   version "1.1.6"
   resolved "https://registry.npmjs.org/@vercel/go/-/go-1.1.6.tgz#45ac3a6bd98a15b8bf1028b8c141a51fd971ac15"
   integrity sha512-swA2crS08fkPmw4UkR9yjmoL8FOCzuNHLFDqj8oM1V9ni610ibJ7Xk57jI8uyS7bTecQVh8VUxihb+SF0GT+aw==
 
-"@vercel/node@1.8.1":
-  version "1.8.1"
-  resolved "https://registry.npmjs.org/@vercel/node/-/node-1.8.1.tgz#aa0a04f425638874d19be64f7905018ef6f9b1c5"
-  integrity sha512-vQsYMrulghMaHEKbqxJCQPfHrGEBmYmQMLYrx+m8kolKDq1LQDWFx2MRh4DyMnGfYSoYoW5PI2HP7NAfbEjzmg==
+"@vercel/node@1.8.5":
+  version "1.8.5"
+  resolved "https://registry.npmjs.org/@vercel/node/-/node-1.8.5.tgz#2c8b9532f1bb25734a9964c52973386ed78022d4"
+  integrity sha512-1iw7FSR8Oau6vZB1MWfBnA5q2a/IqRHiSZSbt8lz0dyTF599q8pc5GcSv/TvmrYaEGzh3+N0S4cbmuMCqVlwJg==
   dependencies:
     "@types/node" "*"
     ts-node "8.9.1"
@@ -6167,10 +6167,10 @@ electron-to-chromium@^1.3.570:
   resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.3.571.tgz#e57977f1569f8326ae2a7905e26f3943536ba28f"
   integrity sha512-UYEQ2Gtc50kqmyOmOVtj6Oqi38lm5yRJY3pLuWt6UIot0No1L09uu6Ja6/1XKwmz/p0eJFZTUZi+khd1PV1hHA==
 
-electron@10.1.2:
-  version "10.1.2"
-  resolved "https://registry.npmjs.org/electron/-/electron-10.1.2.tgz#30b6fd7669f8daf08c56219a61dfa053fa2b0c70"
-  integrity sha512-SvN8DcKCmPZ0UcQSNAJBfaUu+LGACqtRhUn1rW0UBLHgdbbDM76L0GU5/XGQEllH5pu5bwlCZwax3srzIl+Aeg==
+electron@11.0.2:
+  version "11.0.2"
+  resolved "https://registry.npmjs.org/electron/-/electron-11.0.2.tgz#c7bd2b9abdc1446f4578dbfa22573014b6b2df58"
+  integrity sha512-FTYtCm0oj8B8EJhp99BQSW2bd40xYEG/txMj+W3Ed0CNu5zVIIXb5WIrhXLvhcasN5LKy9nkmSZ+u220lCaARg==
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^12.0.12"
@@ -10560,14 +10560,14 @@ normalize-url@^4.1.0:
   resolved "https://registry.npmjs.org/normalize-url/-/normalize-url-4.5.0.tgz#453354087e6ca96957bd8f5baf753f5982142129"
   integrity sha512-2s47yzUxdexf1OhyRi4Em83iQk0aPvwTddtFz4hnSSw9dCEsLEGf6SwIO8ss/19S9iBb5sJaOuTvTGDeZI00BQ==
 
-now@20.1.0:
-  version "20.1.0"
-  resolved "https://registry.npmjs.org/now/-/now-20.1.0.tgz#32a69994320675050cce67e696529f0adb2feddb"
-  integrity sha512-RojyvdioMVE5u+Oa+/E97bJ2OT8w1NZsrt4eBqeKQRB+XJ2DsVS0nor9PXy7oJkCXKJhdmhWoTFsBPVuIsKADQ==
+now@21.0.0:
+  version "21.0.0"
+  resolved "https://registry.npmjs.org/now/-/now-21.0.0.tgz#e61e9b520d420ccca5173ffb49bd996c5c7f517b"
+  integrity sha512-Fx0OUvMItg/UR+/sVnXq1Nqd+AQ0VFXGws0BXdSZvT+Nah6lN0lqYbDrmxEpK+CU+aZrrp+1isHqh/lSY2DdGA==
   dependencies:
-    "@vercel/build-utils" "2.5.1"
+    "@vercel/build-utils" "2.6.1-canary.0"
     "@vercel/go" "1.1.6"
-    "@vercel/node" "1.8.1"
+    "@vercel/node" "1.8.5"
     "@vercel/python" "1.2.3"
     "@vercel/ruby" "1.2.4"
     update-notifier "4.1.0"
