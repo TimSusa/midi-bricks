@@ -147,15 +147,6 @@ function MenuAppBarCmp(props) {
               />
             </>
           )}
-          <ToolTipIconButton
-            handleClick={() => dispatch(thunkUndoRedo({ offset: -1 }))}
-            title='Undo'
-            icon={<UndoIcon />}
-            isInvisible={
-              !JSON.parse(window.sessionStorage.getItem('history')) ||
-              JSON.parse(window.sessionStorage.getItem('history')).length < 1
-            }
-          />
           {pageType === PAGE_TYPES.GLOBAL_MODE && (
             <>
               <Typography className={classes.typoColorStyle}>
@@ -285,6 +276,16 @@ function MenuAppBarCmp(props) {
                 title={'Cancel MIDI Learn mode. Throw away changes.'}
                 isInvisible={!isMidiLearnMode || isLayoutMode}
                 icon={<CancelIcon />}
+              />
+              <ToolTipIconButton
+                handleClick={() => dispatch(thunkUndoRedo({ offset: -1 }))}
+                title='Undo'
+                icon={<UndoIcon />}
+                isInvisible={
+                  !JSON.parse(window.sessionStorage.getItem('history')) ||
+                  JSON.parse(window.sessionStorage.getItem('history')).length <
+                    1
+                }
               />
             </Fragment>
           )}
