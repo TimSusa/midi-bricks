@@ -24,7 +24,6 @@ export function ValueInput({
   value,
   onChange = () => {},
   name,
-  limitVal = 0,
   toolTip,
   icon
 }) {

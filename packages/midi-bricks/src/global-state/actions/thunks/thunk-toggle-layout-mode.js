@@ -14,11 +14,11 @@ export function thunkToggleLayoutMode() {
     let sliderList = []
     if (isLayoutMode) {
       sliderList = tmpSliderList.map((item) => {
-        return { ...item, isDraggable: false, isResizable: false, static: true }
+        return { ...item, isDraggable: false, isResizable: false }
       })
     } else {
       sliderList = tmpSliderList.map((item) => {
-        return { ...item, isDraggable: true, isResizable: true, static: false }
+        return { ...item, isDraggable: true, isResizable: true }
       })
     }
 

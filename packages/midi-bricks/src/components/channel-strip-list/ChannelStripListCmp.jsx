@@ -144,6 +144,7 @@ function ChannelStripListCmp() {
                   idx={idx}
                   isDisabled={isLayoutMode || isSettingsMode}
                   isMidiLearnMode={isMidiLearnMode}
+                  isLiveMode={isLiveMode}
                 />
                 {!isMidiLearnMode && isSettingsMode && !isLayoutMode && (
                   <span

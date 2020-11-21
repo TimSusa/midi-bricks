@@ -476,7 +476,11 @@ export const sliders = {
     draftState.sliderList[idx].fontWeight = fontWeight
     return draftState
   },
-
+  toggleIsStatic(draftState, action){
+    const {i, isStatic} = action.payload
+    const idx = draftState.sliderList.findIndex ((item)=> item.i === i)
+    draftState.sliderList[idx].static = !isStatic
+  },
   // [ActionTypeSliderList.CHANGE_XYPAD_SETTINGS](state, action) {
   //   const {
   //     i,

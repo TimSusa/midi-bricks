@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
+import LockIcon from '@material-ui/icons/Lock'
+
 import { useSelector } from 'react-redux'
 import Slider from '../midi-elements/Slider'
 import MidiButtons from '../midi-elements/midi-buttons/MidiButtons'
@@ -13,19 +15,22 @@ const sliderThumbHeight = 30
 
 ChannelStrip.propTypes = {
   idx: PropTypes.number,
-  classes: PropTypes.object,
   isDisabled: PropTypes.bool,
-  isMidiLearnMode: PropTypes.any,
-  size: PropTypes.object
+  isLiveMode: PropTypes.bool,
+  isMidiLearnMode: PropTypes.bool
 }
 
 function ChannelStrip(props) {
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
-  const { idx, isDisabled, isMidiLearnMode } = props
-  const { type, isValueHidden, fontSize, backgroundImage } = useSelector(
-    (state) => state.sliders.sliderList[idx] || {}
-  )
+  const { idx, isDisabled, isMidiLearnMode, isLiveMode } = props
+  const {
+    type,
+    isValueHidden,
+    fontSize,
+    backgroundImage,
+    static: isStatic
+  } = useSelector((state) => state.sliders.sliderList[idx] || {})
   //const { type, isValueHidden, fontSize } = sliderEntry
   const [height, setHeight] = useState(0)
   const [width, setWidth] = useState(0)
@@ -66,6 +71,21 @@ function ChannelStrip(props) {
           }}
           src={backgroundImage}
         ></img>
+      )}
+      {!isLiveMode && isStatic && (
+        <span
+          className='settings'
+          style={{
+            position: 'absolute',
+            left: 0,
+            bottom: 14,
+            cursor: 'pointer',
+            color: 'dimgrey',
+            zIndex: 9
+          }}
+        >
+          <LockIcon></LockIcon>
+        </span>
       )}
       {type === STRIP_TYPE.SLIDER && !isMidiLearnMode && (
         <div className={classes.sliderChannelWrapper}>

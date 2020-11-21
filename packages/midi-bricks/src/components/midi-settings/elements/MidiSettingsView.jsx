@@ -22,7 +22,8 @@ const {
   changeColors,
   setPageTargetSettings,
   toggleHideValue,
-  setBackgroundImage
+  setBackgroundImage,
+  toggleIsStatic
 } = {
   ...MidiSliderActions,
   ...ViewActions
@@ -57,7 +58,8 @@ export function MidiSettingsView(props) {
       fontSize,
       fontWeight,
       isValueHidden,
-      backgroundImage
+      backgroundImage,
+      static: isStatic
     } = {},
     pageTarget = {}
   } = props
@@ -170,6 +172,16 @@ export function MidiSettingsView(props) {
           >
             OK
           </Button>
+          <FormControlLabel
+            control={
+              <Checkbox
+                className={classes.iconColor}
+                checked={isStatic || false}
+                onChange={() => dispatch(toggleIsStatic({ i, isStatic }))}
+              />
+            }
+            label='Set Element to static'
+          />
         </FormControl>
       )}
 

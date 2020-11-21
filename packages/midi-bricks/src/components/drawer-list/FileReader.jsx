@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -8,6 +9,7 @@ export default class FileInput extends React.PureComponent {
     super(props)
     const win = typeof window === 'object' ? window : {}
     if (!win.File || !win.FileReader || !win.FileList || !win.Blob) {
+      // eslint-disable-next-line no-console
       console.warn(
         '[react-file-reader-input] Some file APIs detected as not supported.' +
           ' File reader functionality may not fully work.'
@@ -16,15 +18,14 @@ export default class FileInput extends React.PureComponent {
   }
 
   render() {
-    const { as, children, style, ...props } = this.props
-    const hiddenInputStyle = children
-      ? {
-        // If user passes in children, display children and hide input.
+    const { children, style, ...props } = this.props
+    let hiddenInputStyle = {}
+    if (children) {
+      hiddenInputStyle = {
         position: 'absolute',
-        // top: '-9999px',
         display: 'none'
       }
-      : {}
+    }
 
     return (
       <div onClick={this.triggerInput} style={style}>
@@ -53,7 +54,7 @@ export default class FileInput extends React.PureComponent {
     Promise.all(
       files.map(
         (file) =>
-          new Promise((resolve, reject) => {
+          new Promise((resolve) => {
             let reader = new window.FileReader()
 
             reader.addEventListener('load', (result) => {
@@ -90,9 +91,17 @@ export default class FileInput extends React.PureComponent {
   }
 
   triggerInput = () => {
+    // eslint-disable-next-line react/no-find-dom-node
     const input = ReactDOM.findDOMNode(this._reactFileReaderInput)
     if (input) {
       input.click()
     }
   }
+}
+
+FileInput.propTypes = {
+  as: PropTypes.string,
+  children: PropTypes.any,
+  onChange: PropTypes.func,
+  style: PropTypes.any
 }

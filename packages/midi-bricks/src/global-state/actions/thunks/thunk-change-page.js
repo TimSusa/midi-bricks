@@ -22,7 +22,7 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
           ...item,
           isDraggable: false,
           isResizable: false,
-          static: true
+          //static: true
         }
       })
     } else {
@@ -31,7 +31,7 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
           ...item,
           isDraggable: true,
           isResizable: true,
-          static: false
+          //static: false
         }
       })
     }
@@ -65,7 +65,7 @@ export function thunkChangePage(lastFocusedPage, focusedPage) {
               ...item,
               isDraggable: isLayoutMode,
               isResizable: isLayoutMode,
-              static: !isLayoutMode
+              //static: !isLayoutMode
             }
           }
         )
