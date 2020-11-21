@@ -1,7 +1,9 @@
 import React, { useCallback, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import LockIcon from '@material-ui/icons/Lock'
+import LockIconOpen from '@material-ui/icons/LockOpen'
 
 import { useSelector } from 'react-redux'
 import Slider from '../midi-elements/Slider'
@@ -9,6 +11,13 @@ import MidiButtons from '../midi-elements/midi-buttons/MidiButtons'
 import StripLabel from '../midi-elements/StripLabel'
 import { STRIP_TYPE } from '../../global-state/reducers/slider-list'
 import { Label } from '../midi-elements/Label'
+
+import { Actions as MidiSliderActions } from '../../global-state/actions/slider-list.js'
+
+const { toggleIsStatic } = {
+  ...MidiSliderActions
+}
+
 export default ChannelStrip
 
 const sliderThumbHeight = 30
@@ -21,15 +30,20 @@ ChannelStrip.propTypes = {
 }
 
 function ChannelStrip(props) {
+  const dispatch = useDispatch()
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
-  const { idx, isDisabled, isMidiLearnMode, isLiveMode } = props
+  const { idx, isDisabled } = props
+  const { isMidiLearnMode, isSettingsMode, isLayoutMode } = useSelector(
+    (state) => state.viewSettings || {}
+  )
   const {
     type,
     isValueHidden,
     fontSize,
     backgroundImage,
-    static: isStatic
+    static: isStatic,
+    i
   } = useSelector((state) => state.sliders.sliderList[idx] || {})
   //const { type, isValueHidden, fontSize } = sliderEntry
   const [height, setHeight] = useState(0)
@@ -72,21 +86,38 @@ function ChannelStrip(props) {
           src={backgroundImage}
         ></img>
       )}
-      {!isLiveMode && isStatic && (
-        <span
-          className='settings'
-          style={{
-            position: 'absolute',
-            left: 0,
-            bottom: 14,
-            cursor: 'pointer',
-            color: 'dimgrey',
-            zIndex: 9
-          }}
-        >
-          <LockIcon></LockIcon>
-        </span>
-      )}
+      {(isSettingsMode || isLayoutMode) &&
+        (isStatic ? (
+          <span
+            className='settings'
+            style={{
+              position: 'absolute',
+              left: 0,
+              bottom: 8,
+              cursor: 'pointer',
+              color: 'dimgrey',
+              zIndex: 9
+            }}
+            onClick={() => dispatch(toggleIsStatic({ i, isStatic }))}
+          >
+            <LockIcon style={{ width: 16 }}></LockIcon>
+          </span>
+        ) : (
+          <span
+            className='settings'
+            style={{
+              position: 'absolute',
+              left: 0,
+              bottom: 8,
+              cursor: 'pointer',
+              color: 'dimgrey',
+              zIndex: 9
+            }}
+            onClick={() => dispatch(toggleIsStatic({ i, isStatic }))}
+          >
+            <LockIconOpen style={{ width: 16 }}></LockIconOpen>
+          </span>
+        ))}
       {type === STRIP_TYPE.SLIDER && !isMidiLearnMode && (
         <div className={classes.sliderChannelWrapper}>
           <Label
