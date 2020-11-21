@@ -93,7 +93,7 @@ function ChannelStrip(props) {
             style={{
               position: 'absolute',
               left: 0,
-              bottom: 8,
+              bottom: type.includes('SLIDER') ? 8 : -8,
               cursor: 'pointer',
               color: 'dimgrey',
               zIndex: 9
@@ -108,7 +108,7 @@ function ChannelStrip(props) {
             style={{
               position: 'absolute',
               left: 0,
-              bottom: 8,
+              bottom: type.includes('SLIDER') ? (isValueHidden ? 8 : 16) : -8,
               cursor: 'pointer',
               color: 'dimgrey',
               zIndex: 9
