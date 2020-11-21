@@ -5,7 +5,7 @@ const { updateSliderList } = sliderActions
 
 export function thunkToggleLayoutMode() {
   return async function (dispatch, getState) {
-    window.sessionStorage.setItem('state', JSON.stringify(getState()))
+    //window.sessionStorage.setItem('state', JSON.stringify(getState()))
     const {
       viewSettings: { isLayoutMode },
       sliders: { sliderList: tmpSliderList }

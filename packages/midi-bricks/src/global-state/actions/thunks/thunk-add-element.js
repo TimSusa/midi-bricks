@@ -19,7 +19,7 @@ export function addElement(type) {
     const {
       viewSettings: { lastFocusedPage, pageTargets }
     } = getState()
-    window.sessionStorage.setItem('state', JSON.stringify(getState()))
+    //window.sessionStorage.setItem('state', JSON.stringify(getState()))
     //dispatch(undoRedoUpdate({ state: getState() }))
 
     if (type === PAGE) {

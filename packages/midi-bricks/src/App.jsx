@@ -21,12 +21,15 @@ export function App() {
     // Older browsers supported custom message
     event.returnValue = ''
     if (process.env.REACT_APP_IS_WEB_MODE === 'true') {
-      !isEmpty(sessionStorage.state) && window.alert()
+      // console.log('tim', tmp)
+      // if (tmp !== null) window.alert()
     } else {
-      // call ipc here
-      !isEmpty(sessionStorage.state) ? openIpcUnsavedChanges(state) : exitApp()
+      //call ipc here
+      !isEmpty(window.sessionStorage.getItem('history'))
+        ? openIpcUnsavedChanges(state)
+        : exitApp()
     }
-  })
+  }, !!JSON.parse(window.sessionStorage.getItem('history')))
 
   if (!isLiveMode) {
     const MenuAppBar = React.lazy(() =>

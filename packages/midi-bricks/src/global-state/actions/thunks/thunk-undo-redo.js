@@ -7,8 +7,15 @@ const { updateViewSettings } = viewActions
 const { updateSliderList } = sliderActions
 
 export function thunkUndoRedo() {
+
   return async function (dispatch) {
-    const undoRedo = JSON.parse(window.sessionStorage.getItem('state'))
+    let historyList = JSON.parse(window.sessionStorage.getItem('history'))
+    const undoRedo = historyList.shift()
+    if (historyList.length > 0) {
+      window.sessionStorage.setItem('history', JSON.stringify(historyList))
+    }
+    console.log('thunkUndoRedo ', historyList)
+
     const { viewSettings, pages, sliders } = undoRedo
     const { sliderList } = sliders || {}
     dispatch(

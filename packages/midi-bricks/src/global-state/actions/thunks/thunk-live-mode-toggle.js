@@ -16,7 +16,7 @@ export function thunkLiveModeToggle() {
       await save('pages', pages)
       dispatch(deletePages())
 
-      window.sessionStorage.setItem('state', JSON.stringify({}))
+      //window.sessionStorage.setItem('state', JSON.stringify(null))
     } else {
       dispatch(updatePages({ pages: await localforage.getItem('pages') }))
     }

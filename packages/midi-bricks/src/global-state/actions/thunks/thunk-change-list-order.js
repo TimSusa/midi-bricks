@@ -6,7 +6,7 @@ const { updateSliderListOfPage } = pageActions
 
 export function thunkChangeListOrder(listOrder) {
   return async function (dispatch, getState) {
-    window.sessionStorage.setItem('state', JSON.stringify(getState()))
+    //window.sessionStorage.setItem('state', JSON.stringify(getState()))
 
     const {
       viewSettings: { lastFocusedPage },

@@ -8,13 +8,15 @@ const { loadFile, deleteAll } = sliderListActions
 const { updateViewSettings, setLastFocusedPage, deleteFooterPages } = viewSettingsActions
 const { updatePages } = pageActions
 
+
+// todo: get rid of promise.all
 export function thunkLoadFile(content, presetName) {
   return async function(dispatch, getState) {
     let promArray = []
 
     promArray.push(dispatch(deleteAll()))
     window.localStorage.clear()
-
+    window.sessionStorage.clear()
     const {
       viewSettings = {},
       viewSettings: { availableDrivers } = {},
@@ -50,7 +52,6 @@ export function thunkLoadFile(content, presetName) {
     )
 
     promArray.push(dispatch(setLastFocusedPage({ lastFocusedPage: initId })))
-
     const drivers = availableDrivers || {
       inputs: {
         None: {
@@ -88,6 +89,7 @@ export function thunkLoadFile(content, presetName) {
         )
       )
     promArray.push(dispatch(initApp()))
+    window.sessionStorage.clear()
     return Promise.all(promArray)
   }
 }

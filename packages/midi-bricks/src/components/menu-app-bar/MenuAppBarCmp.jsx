@@ -136,12 +136,7 @@ function MenuAppBarCmp(props) {
                 icon={<CheckIcon />}
                 isInvisible={!isLayoutMode}
               />
-              <ToolTipIconButton
-                handleClick={() => dispatch(thunkUndoRedo({ offset: -1 }))}
-                title='Undo'
-                icon={<UndoIcon />}
-                isInvisible={!isLayoutMode}
-              />
+
               <ToolTipIconButton
                 handleClick={async () => {
                   await dispatch(thunkToggleLayoutMode({ isLayoutMode: false }))
@@ -152,6 +147,15 @@ function MenuAppBarCmp(props) {
               />
             </>
           )}
+          <ToolTipIconButton
+            handleClick={() => dispatch(thunkUndoRedo({ offset: -1 }))}
+            title='Undo'
+            icon={<UndoIcon />}
+            isInvisible={
+              !JSON.parse(window.sessionStorage.getItem('history')) ||
+              JSON.parse(window.sessionStorage.getItem('history')).length < 1
+            }
+          />
           {pageType === PAGE_TYPES.GLOBAL_MODE && (
             <>
               <Typography className={classes.typoColorStyle}>

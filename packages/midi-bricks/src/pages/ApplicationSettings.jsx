@@ -24,6 +24,7 @@ import LockOpenIcon from '@material-ui/icons/LockOpen'
 
 const {
   changeGlobalMidiInputDelay,
+  changeHistoryMaxLength,
   // setFullscreenOnLivemode,
   setElectronAppSettings,
   changeTheme,
@@ -57,13 +58,17 @@ function ApplicationSettings() {
     marginY = 8,
     paddingX = 8,
     paddingY = 8,
-    globalMidiInputDelay
+    globalMidiInputDelay,
+    historyMaxLength
   } = useSelector((state) => state.viewSettings)
 
   let windowCoords = winCood
   const [isViewPanelExpanded, setIsViewPanelExpanded] = useState(false)
   const [midiInputDelayValue, setMidiInputDelayValue] = useState(
     globalMidiInputDelay
+  )
+  const [historyMaxLengthValue, setHistoryMaxLength] = useState(
+    historyMaxLength
   )
 
   return (
@@ -96,6 +101,36 @@ function ApplicationSettings() {
       >
         OK{' '}
       </Button>
+
+      <FormControlLabel
+        control={
+          <Tooltip title='Number of undo steps, which are available. If you have performance trouble, consider setting it to zero.'>
+            <Input
+              onChange={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                setHistoryMaxLength(e.target.value)
+              }}
+              value={historyMaxLengthValue || 15}
+            />
+          </Tooltip>
+        }
+        label='Number of available undo steps'
+      />
+      <Button
+        variant='contained'
+        onClick={async () => {
+          dispatch(
+            changeHistoryMaxLength({
+              historyMaxLength: historyMaxLengthValue
+            })
+          )
+          await dispatch(initApp())
+        }}
+      >
+        OK{' '}
+      </Button>
+
       <DriverExpansionPanel
         label='Views'
         expanded={isViewPanelExpanded}
