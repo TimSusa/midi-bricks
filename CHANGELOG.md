@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.43-alpha.3](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.43-alpha.1...v1.3.43-alpha.3) (2020-11-21)
+
+
+### Bug Fixes
+
+* Application Settings Inputs ([c8cac70](https://github.com/TimSusa/midi-bricks-mono/commit/c8cac70b19cfb7e3c1a7fb78f2e8747d7339e309))
+* Taking over window position ([d90a2af](https://github.com/TimSusa/midi-bricks-mono/commit/d90a2afb605806282879ae97d608c8de869d298b))
+
 ### [1.3.43-alpha.1](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.43-alpha.0...v1.3.43-alpha.1) (2020-11-21)
 
 
