@@ -303,7 +303,7 @@ export const viewSettings = {
       isAutoDownload,
       isAllowedPrerelease,
       isAllowedDowngrade,
-      isWindowSizeLocked,
+      //isWindowSizeLocked,
       windowCoords
     } = action.payload
     const electronAppSettings = {
@@ -327,10 +327,10 @@ export const viewSettings = {
         isAllowedDowngrade !== undefined
           ? isAllowedDowngrade
           : draftState.electronAppSettings.isAllowedDowngrade,
-      isWindowSizeLocked:
-        isWindowSizeLocked !== undefined
-          ? isWindowSizeLocked
-          : draftState.electronAppSettings.isWindowSizeLoisAllwedcked,
+      // isWindowSizeLocked:
+      //   isWindowSizeLocked !== undefined
+      //     ? isWindowSizeLocked
+      //     : draftState.electronAppSettings.isWindowSizeLoisAllwedcked,
       windowCoords: Array.isArray(windowCoords)
         ? windowCoords
         : draftState.electronAppSettings.windowCoords

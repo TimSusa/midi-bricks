@@ -46,18 +46,7 @@ export function addIpcWindowCoordsListenerOnce (cb) {
 }
 
 function sendAsyncMsg (msg, payload) {
-  
   ipcRenderer.send(msg, payload)
-  // if (Array.isArray(payload)) {
-  //   ipcRenderer.send(msg, {...payload})
-
-  // } else if (isEmpty(payload)) {
-  //   ipcRenderer.send(msg, {})
-  // } 
-  // else {
-  //   if (!isObject(payload)) console.warn('NO OBJECT IN IPC!!', payload)
-  //   ipcRenderer.send(msg, payload)
-  // }
 }
 
 // function sendSyncMsgGetResult (msg) {

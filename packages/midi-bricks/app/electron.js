@@ -21,7 +21,7 @@ let win = null
 let appSettings = null
 let appInitSettings = {
   isDevConsoleEnabled: isDev,
-  isWindowSizeLocked: true,
+  //isWindowSizeLocked: true,
   windowCoords: [0, 0, 300, 400],
   isAllowedToUpdate: true,
   isAutoDownload: false,
@@ -393,7 +393,7 @@ function persistAppSettings(arg) {
         isAutoDownload,
         isAllowedDowngrade,
         isAllowedPrerelease,
-        isWindowSizeLocked,
+        // isWindowSizeLocked,
         windowCoords
       } = appInitSettings
     }
@@ -409,8 +409,8 @@ function persistAppSettings(arg) {
       isAllowedPrerelease !== undefined ? isAllowedPrerelease : undefined,
     isDevConsoleEnabled:
       isDevConsoleEnabled !== undefined ? isDevConsoleEnabled : undefined,
-    isWindowSizeLocked:
-      isWindowSizeLocked !== undefined ? isWindowSizeLocked : undefined,
+    // isWindowSizeLocked:
+    //   isWindowSizeLocked !== undefined ? isWindowSizeLocked : undefined,
     windowCoords: Array.isArray(windowCoords) ? windowCoords : undefined
   }
 

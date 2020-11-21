@@ -1287,7 +1287,7 @@ export const preset = {
       isAutoDownload: false,
       isAllowedPrerelease: false,
       isAllowedDowngrade: false,
-      isWindowSizeLocked: true,
+      //isWindowSizeLocked: true,
       windowCoords: [0, 0, 600, 800]
     },
     isLiveMode: true,

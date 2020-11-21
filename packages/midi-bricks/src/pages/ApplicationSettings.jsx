@@ -19,7 +19,7 @@ import {
   setActualWinCoords,
   addIpcWindowCoordsListenerOnce
 } from '../utils/ipc-renderer'
-import LockIcon from '@material-ui/icons/Lock'
+import LockIconOpen from '@material-ui/icons/LockOpen'
 //import LockOpenIcon from '@material-ui/icons/LockOpen'
 
 const {
@@ -46,7 +46,7 @@ function ApplicationSettings() {
   const {
     electronAppSettings: {
       isDevConsoleEnabled = false,
-      isWindowSizeLocked = true,
+      //isWindowSizeLocked = true,
       windowCoords: winCood = [69, 69, 690, 690]
     } = {},
     columns = 18,
@@ -70,9 +70,16 @@ function ApplicationSettings() {
   const [historyMaxLengthValue, setHistoryMaxLength] = useState(
     historyMaxLength
   )
-  const [isDevConsoleEnabledLocal, setIsDevConsoleEnabledLocal] = useState(
-    isDevConsoleEnabled
-  )
+  // const [isDevConsoleEnabledLocal, setIsDevConsoleEnabledLocal] = useState(
+  //   isDevConsoleEnabled
+  // )
+  const [rowHeightLocal, setRowHeightLocal] = useState(rowHeight)
+  const [columnsLocal, setColumnsLocal] = useState(columns)
+  const [marginXLocal, setMarginXLocal] = useState(marginX)
+  const [marginYLocal, setMarginYLocal] = useState(marginY)
+  const [paddingXLocal, setPaddingXLocal] = useState(paddingX)
+  const [paddingYLocal, setPaddingYLocal] = useState(paddingY)
+
   return (
     <React.Fragment>
       <FormControlLabel
@@ -165,18 +172,24 @@ function ApplicationSettings() {
               control={
                 <Tooltip title='Show developer console from startup. Keep in mind, that this settings comes into play after restart.'>
                   <Switch
-                    checked={isDevConsoleEnabledLocal}
-                    onChange={() => {
-                      setIsDevConsoleEnabledLocal(!isDevConsoleEnabledLocal)
+                    checked={isDevConsoleEnabled}
+                    onChange={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      const payload = {
+                        isDevConsoleEnabled: !isDevConsoleEnabled
+                      }
+                      dispatch(setElectronAppSettings(payload))
+                      sendAppSettings(payload)
                     }}
-                    value={isDevConsoleEnabledLocal}
+                    value={isDevConsoleEnabled}
                     color='secondary'
                   />
                 </Tooltip>
               }
               label='Show Dev Console'
             />
-            <Button
+            {/* <Button
               variant='contained'
               onClick={(e) => {
                 e.preventDefault()
@@ -189,7 +202,7 @@ function ApplicationSettings() {
               }}
             >
               OK{' '}
-            </Button>
+            </Button> */}
           </>
         )}
 
@@ -225,8 +238,8 @@ function ApplicationSettings() {
                 addIpcWindowCoordsListenerOnce((windowCoo) => {
                   dispatch(
                     setElectronAppSettings({
-                      windowCoords: windowCoo,
-                      isWindowSizeLocked
+                      windowCoords: windowCoo
+                      //isWindowSizeLocked
                     })
                   )
                 })
@@ -237,8 +250,8 @@ function ApplicationSettings() {
             </Button>
 
             <ValueInput
-              isDisabled={isWindowSizeLocked}
-              icon={<LockIcon />}
+              isDisabled={true}
+              icon={<LockIconOpen />}
               label='Change Window Size'
               name='app-window-coords'
               value={
@@ -255,16 +268,15 @@ function ApplicationSettings() {
                 Array.isArray(windowCoordss) &&
                   dispatch(
                     setElectronAppSettings({
-                      windowCoords: windowCoordss,
-                      isWindowSizeLocked: false
+                      windowCoords: windowCoordss
+                      //isWindowSizeLocked: false
                     })
                   )
 
-                !isWindowSizeLocked &&
-                  Array.isArray(windowCoords) &&
+                Array.isArray(windowCoords) &&
                   sendAppSettings({
-                    windowCoords,
-                    isWindowSizeLocked: false
+                    windowCoords
+                    //isWindowSizeLocked: false
                   })
               }}
             />
@@ -307,80 +319,164 @@ function ApplicationSettings() {
           label='Auto Size'
         />
 
-        <MinMaxValInput
-          label='Columns'
-          name='columns'
-          toolTip='Number of columns in this layout.'
-          value={columns}
-          onChange={(e) =>
-            dispatch(setColumns({ columns: parseInt(e.target.value, 10) }))
+        <FormControlLabel
+          control={
+            <>
+              <MinMaxValInput
+                label='Columns'
+                name='columns'
+                toolTip='Number of columns in this layout.'
+                value={columnsLocal}
+                onChange={(e) => setColumnsLocal(parseInt(e.target.value, 10))}
+              />
+              <Button
+                variant='contained'
+                onClick={() => {
+                  dispatch(setColumns({ columns: columnsLocal }))
+                }}
+              >
+                OK{' '}
+              </Button>
+            </>
           }
-        />
-        <MinMaxValInput
-          label='Row Height'
-          name='rowHeight'
-          toolTip='Rows have a static height.'
-          value={rowHeight}
-          onChange={(e) =>
-            dispatch(
-              setRowHeight({
-                rowHeight: parseInt(e.target.value, 10)
-              })
-            )
-          }
-        />
-        <MinMaxValInput
-          label='X Margin'
-          name='xMargin'
-          toolTip='Set margin between items in x-direction.'
-          value={marginX}
-          onChange={(e) =>
-            dispatch(
-              setXMargin({
-                marginX: parseInt(e.target.value, 10)
-              })
-            )
-          }
-        />
-        <MinMaxValInput
-          label='Y Margin'
-          name='yMargin'
-          toolTip='Set margin between items in y-direction.'
-          value={marginY}
-          onChange={(e) =>
-            dispatch(
-              setYMargin({
-                marginY: parseInt(e.target.value, 10)
-              })
-            )
-          }
+          label=''
         />
 
-        <MinMaxValInput
-          label='X Container Padding'
-          name='xPadding'
-          toolTip='Padding inside the container in y-direction.'
-          value={paddingX}
-          onChange={(e) =>
-            dispatch(
-              setXPadding({
-                paddingX: parseInt(e.target.value, 10)
-              })
-            )
+        <FormControlLabel
+          control={
+            <>
+              <MinMaxValInput
+                label='Row Height'
+                name='rowHeight'
+                toolTip='Rows have a static height.'
+                value={rowHeightLocal}
+                onChange={(e) =>
+                  setRowHeightLocal(parseInt(e.target.value, 10))
+                }
+              />
+              <Button
+                variant='contained'
+                onClick={() => {
+                  dispatch(
+                    setRowHeight({
+                      rowHeight: rowHeightLocal
+                    })
+                  )
+                }}
+              >
+                OK{' '}
+              </Button>
+            </>
           }
+          label=''
         />
-        <MinMaxValInput
-          label='Y Container Padding'
-          name='yPadding'
-          toolTip='Padding inside the container in y-direction.'
-          value={paddingY}
-          onChange={(e) =>
-            dispatch(
-              setYPadding({
-                paddingY: parseInt(e.target.value, 10)
-              })
-            )
+
+        <FormControlLabel
+          control={
+            <>
+              <MinMaxValInput
+                label='X Margin'
+                name='xMargin'
+                toolTip='Set margin between items in x-direction.'
+                value={marginXLocal}
+                onChange={(e) => setMarginXLocal(parseInt(e.target.value, 10))}
+              />
+              <Button
+                variant='contained'
+                onClick={() => {
+                  dispatch(
+                    setXMargin({
+                      marginX: marginXLocal
+                    })
+                  )
+                }}
+              >
+                OK{' '}
+              </Button>
+            </>
           }
+          label=''
+        />
+
+        <FormControlLabel
+          control={
+            <>
+              <MinMaxValInput
+                label='Y Margin'
+                name='yMargin'
+                toolTip='Set margin between items in y-direction.'
+                value={marginYLocal}
+                onChange={(e) => setMarginYLocal(parseInt(e.target.value, 10))}
+              />
+              <Button
+                variant='contained'
+                onClick={() => {
+                  dispatch(
+                    setYMargin({
+                      marginY: marginYLocal
+                    })
+                  )
+                }}
+              >
+                OK{' '}
+              </Button>
+            </>
+          }
+          label=''
+        />
+
+        <FormControlLabel
+          control={
+            <>
+              <MinMaxValInput
+                label='X Container Padding'
+                name='xPadding'
+                toolTip='Padding inside the container in y-direction.'
+                value={paddingXLocal}
+                onChange={(e) => setPaddingXLocal(parseInt(e.target.value, 10))}
+              />
+              <Button
+                variant='contained'
+                onClick={() => {
+                  dispatch(
+                    setXPadding({
+                      paddingX: paddingXLocal
+                    })
+                  )
+                }}
+              >
+                OK{' '}
+              </Button>
+            </>
+          }
+          label=''
+        />
+
+        <FormControlLabel
+          control={
+            <>
+              <MinMaxValInput
+                label='Y Container Padding'
+                name='yPadding'
+                toolTip='Padding inside the container in y-direction.'
+                value={paddingYLocal}
+                onChange={(e) => setPaddingYLocal(parseInt(e.target.value, 10))}
+              />
+              <Button
+                variant='contained'
+                onClick={() => {
+                  dispatch(
+                    setYPadding({
+                      paddingY: paddingYLocal
+                    })
+                  )
+                }}
+              >
+                OK{' '}
+              </Button>
+            </>
+          }
+          label=''
         />
       </DriverExpansionPanel>
     </React.Fragment>

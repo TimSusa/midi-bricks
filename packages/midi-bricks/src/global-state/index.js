@@ -62,7 +62,7 @@ export const viewSettingsInitState = {
     isAutoDownload: false,
     isAllowedPrerelease: false,
     isAllowedDowngrade: false,
-    isWindowSizeLocked: true,
+    //isWindowSizeLocked: true,
     windowCoords: [0, 0, 600, 800]
   },
   isLiveMode: false,
