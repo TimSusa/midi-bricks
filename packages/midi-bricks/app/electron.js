@@ -170,7 +170,7 @@ async function createWindow() {
   ipcMain.on('exit-app', () => app.exit(0))
 
   let forceQuit = false
-  ipcMain.on('open-unsaved-changes-dialog', (e, arg) => {
+  ipcMain.on('open-unsaved-changes-dialog', (e) => {
     if (!forceQuit) {
 
       dialog.showMessageBox(win, {
@@ -184,7 +184,7 @@ async function createWindow() {
         //   e.preventDefault()
         //   forceQuit = true
   
-        //   console.log('Saving ', arg)
+        //   log.info('Saving ', arg)
         //   win.close()
 
         //   onSaveFileDialog(e, arg, true)
@@ -193,12 +193,12 @@ async function createWindow() {
         
         if (clickedButtonId === 0) {
           e.preventDefault()
-          console.log('Cancel')
+          log.info('Cancel')
           forceQuit = true
           win.close()
         } else if (clickedButtonId === 1) {
         //forceQuit = true
-          console.log('Leave exit')
+          log.info('Leave exit')
           win.close()
           app.exit(0)
         }
@@ -343,7 +343,9 @@ function onSetAppSettings(event, arg) {
   })
 }
 function onSetActualWinCoords(event) {
+  log.info('onSetActualWinCoords ')
   const { x, y, width, height } = win.getBounds()
+  event.sender.send('set-to-actual-win-coords-reply', [x, y, width, height])
   appSettings = persistAppSettings({
     viewSettings: {
       electronAppSettings: {
@@ -352,7 +354,6 @@ function onSetActualWinCoords(event) {
       }
     }
   })
-  event.sender.send('set-to-actual-win-coords-reply', [x, y, width, height])
   return [x, y, width, height]
 }
 async function readoutPersistedAppsettings(appSettingss = appInitSettings) {

@@ -37,10 +37,10 @@ export function sendAppSettings (payload) {
   sendAsyncMsg('send-app-settings', payload)
 }
 export function setActualWinCoords (payload) {
-  sendAsyncMsg('set-to-actual-win-coords', {...payload})
+  sendAsyncMsg('set-to-actual-win-coords', payload)
 }
 export function addIpcWindowCoordsListenerOnce (cb) {
-  ipcRenderer.once('set-to-actual-win-coords-reply', (event, payload) => {
+  ipcRenderer.once('set-to-actual-win-coords-reply', (payload) => {
     cb(payload)
   })
 }

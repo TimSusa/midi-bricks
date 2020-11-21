@@ -20,7 +20,7 @@ import {
   addIpcWindowCoordsListenerOnce
 } from '../utils/ipc-renderer'
 import LockIcon from '@material-ui/icons/Lock'
-import LockOpenIcon from '@material-ui/icons/LockOpen'
+//import LockOpenIcon from '@material-ui/icons/LockOpen'
 
 const {
   changeGlobalMidiInputDelay,
@@ -70,7 +70,9 @@ function ApplicationSettings() {
   const [historyMaxLengthValue, setHistoryMaxLength] = useState(
     historyMaxLength
   )
-
+  const [isDevConsoleEnabledLocal, setIsDevConsoleEnabledLocal] = useState(
+    isDevConsoleEnabled
+  )
   return (
     <React.Fragment>
       <FormControlLabel
@@ -158,32 +160,42 @@ function ApplicationSettings() {
         )} */}
 
         {!isWebMode && (
-          <FormControlLabel
-            control={
-              <Tooltip title='Show developer console from startup. Keep in mind, that this settings comes into play after restart.'>
-                <Switch
-                  checked={isDevConsoleEnabled}
-                  onChange={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    const payload = {
-                      isDevConsoleEnabled: !isDevConsoleEnabled
-                    }
-                    dispatch(setElectronAppSettings(payload))
-                    sendAppSettings(payload)
-                  }}
-                  value={isDevConsoleEnabled}
-                  color='secondary'
-                />
-              </Tooltip>
-            }
-            label='Show Dev Console'
-          />
+          <>
+            <FormControlLabel
+              control={
+                <Tooltip title='Show developer console from startup. Keep in mind, that this settings comes into play after restart.'>
+                  <Switch
+                    checked={isDevConsoleEnabledLocal}
+                    onChange={() => {
+                      setIsDevConsoleEnabledLocal(!isDevConsoleEnabledLocal)
+                    }}
+                    value={isDevConsoleEnabledLocal}
+                    color='secondary'
+                  />
+                </Tooltip>
+              }
+              label='Show Dev Console'
+            />
+            <Button
+              variant='contained'
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                const payload = {
+                  isDevConsoleEnabled: isDevConsoleEnabledLocal
+                }
+                dispatch(setElectronAppSettings(payload))
+                sendAppSettings(payload)
+              }}
+            >
+              OK{' '}
+            </Button>
+          </>
         )}
 
         {!isWebMode && (
           <>
-            <FormControlLabel
+            {/* <FormControlLabel
               icon={isWindowSizeLocked ? <LockIcon /> : <LockOpenIcon />}
               control={
                 <Tooltip title='Lock startup window position and size, so changes will not be saved immediately.'>
@@ -204,21 +216,21 @@ function ApplicationSettings() {
                 </Tooltip>
               }
               label='Lock Initial Window Pos/Size'
-            />
+            /> */}
             <Button
-              disabled={isWindowSizeLocked}
+              disabled={false}
               variant='outlined'
               onClick={(e) => {
                 e.preventDefault()
-                addIpcWindowCoordsListenerOnce((windowCoo) =>
+                addIpcWindowCoordsListenerOnce((windowCoo) => {
                   dispatch(
                     setElectronAppSettings({
                       windowCoords: windowCoo,
                       isWindowSizeLocked
                     })
                   )
-                )
-                setActualWinCoords()
+                })
+                setActualWinCoords(windowCoords)
               }}
             >
               Take over position
