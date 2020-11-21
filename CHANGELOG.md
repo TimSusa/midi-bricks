@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.43-alpha.1](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.43-alpha.0...v1.3.43-alpha.1) (2020-11-21)
+
+
+### Features
+
+* Lock icon can now be toggled ([cb5b78f](https://github.com/TimSusa/midi-bricks-mono/commit/cb5b78fc0da48a5dadf866bfe84df2889002404d))
+
 ### [1.3.43-alpha.0](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.42...v1.3.43-alpha.0) (2020-11-21)
 
 
