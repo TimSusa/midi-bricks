@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.42](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41...v1.3.42) (2020-11-21)
+
+
+### Features
+
+* Element Settings dialog - don't disappear and close tabs on OK [#231](https://github.com/TimSusa/midi-bricks-mono/issues/231) ([eba1266](https://github.com/TimSusa/midi-bricks-mono/commit/eba12669a150832ab791ef881d52429ec550d9a9))
+* Element Settings: Input Field - Enter closes Settings dialog [#229](https://github.com/TimSusa/midi-bricks-mono/issues/229) ([1754465](https://github.com/TimSusa/midi-bricks-mono/commit/175446533d105378af9396998cd17d5f826a028c))
+* IMPROVE - only save Preset changes in Undo history [#246](https://github.com/TimSusa/midi-bricks-mono/issues/246) ([80a1339](https://github.com/TimSusa/midi-bricks-mono/commit/80a133952e1ab57b1d41c9574043da2d6ee9af92))
+* Undo Redo Renewed and fix: Unsaved Changes notification ([8973b12](https://github.com/TimSusa/midi-bricks-mono/commit/8973b1205e8c3c144f08130487e9af220ec26aab))
+
+
+### Bug Fixes
+
+* Crash when opening footer button settings ([4200af3](https://github.com/TimSusa/midi-bricks-mono/commit/4200af3386bf673745d2c294e62d3412083c03d9))
+
 ## [1.3.41.alpha-3](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41...v1.3.41.alpha-3) (2020-11-21)
 
 
