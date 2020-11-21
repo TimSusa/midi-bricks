@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.43-alpha.0](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.42...v1.3.43-alpha.0) (2020-11-21)
+
+
+### Features
+
+* FEATURE - Ability to set elements to static [#151](https://github.com/TimSusa/midi-bricks-mono/issues/151), update react-scripts, layout-grid ([bfd5aa5](https://github.com/TimSusa/midi-bricks-mono/commit/bfd5aa5a5d62017198a7282ead27fea79f65ce36))
+* IMPROVE - remain Undo button on position [#245](https://github.com/TimSusa/midi-bricks-mono/issues/245) ([698a59b](https://github.com/TimSusa/midi-bricks-mono/commit/698a59ba6bd472e0272b38fe0b7acfd85187be1b))
+
 ### [1.3.42](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41...v1.3.42) (2020-11-21)
 
 
