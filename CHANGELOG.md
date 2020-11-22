@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.43-alpha.4](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.43-alpha.3...v1.3.43-alpha.4) (2020-11-22)
+
+
+### Features
+
+* Beautify preferences ([4d14fcd](https://github.com/TimSusa/midi-bricks-mono/commit/4d14fcd332895a9c0bfda3ad263f7a7f8215dd29))
+
 ### [1.3.43-alpha.3](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.43-alpha.1...v1.3.43-alpha.3) (2020-11-21)
 
 
