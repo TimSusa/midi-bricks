@@ -23,7 +23,8 @@ export function MinMaxValInput({
   onChange = () => {},
   name,
   limitVal = 0,
-  toolTip
+  toolTip,
+  max = 127
 }) {
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
@@ -38,7 +39,7 @@ export function MinMaxValInput({
           type='number'
           inputProps={{
             min: 0,
-            max: 127
+            max
           }}
           name={name}
           value={value || limitVal}

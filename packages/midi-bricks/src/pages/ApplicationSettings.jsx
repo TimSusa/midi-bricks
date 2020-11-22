@@ -208,6 +208,7 @@ function ApplicationSettings() {
                   name='x'
                   toolTip='Window Coordinates: X Offset'
                   value={winCoordsLocal[0]}
+                  max={10000}
                   onChange={(e) =>
                     setWinCoordsLocal([
                       parseInt(e.target.value),
@@ -220,6 +221,7 @@ function ApplicationSettings() {
                 <MinMaxValInput
                   label='y'
                   name='y'
+                  max={10000}
                   toolTip='Window Coordinates: Y Offset'
                   value={winCoordsLocal[1]}
                   onChange={(e) =>
@@ -234,6 +236,7 @@ function ApplicationSettings() {
                 <MinMaxValInput
                   label='width'
                   name='width'
+                  max={10000}
                   toolTip='Window Coordinates: width '
                   value={winCoordsLocal[2]}
                   onChange={(e) =>
@@ -248,6 +251,7 @@ function ApplicationSettings() {
                 <MinMaxValInput
                   label='height'
                   name='height'
+                  max={10000}
                   toolTip='Window Coordinates: height Offset'
                   value={winCoordsLocal[3]}
                   onChange={(e) =>
