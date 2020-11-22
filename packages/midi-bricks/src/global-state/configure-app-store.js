@@ -1,8 +1,10 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { reducer } from './'
 import isEmpty from 'lodash/isEmpty'
+import isObject from 'lodash/isObject'
 
 const setToSessionStorage = store => next => action => {
+  if (!isObject(action)) return
   let result = next(action)
   if ( !['update', 'init', 'viewSettings', 'delete'].some(type => action&&action.type.includes(type))) {
     const state = store.getState()
