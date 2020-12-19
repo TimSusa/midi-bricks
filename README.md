@@ -54,9 +54,9 @@ can be found in its public folder.
 yarn dev:midi-bricks-electron
 ```
 
-## Build for MacOSX and Win
+## Build for MacOSX, Rasperry Pi and Win
 ```
-yarn build:midi-bricks-electron
+yarn build:midi-bricks-electron-ci
 ```
 
 

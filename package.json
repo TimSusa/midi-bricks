@@ -1,6 +1,6 @@
 {
   "name": "midi-bricks-mono",
-  "version": "1.3.43-alpha.4",
+  "version": "1.3.44",
   "private": false,
   "license": "MIT",
   "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
@@ -55,7 +55,7 @@
     "test": "yarn lint && yarn test:midi-bricks && yarn test:midi-bricks-electron",
     "test:midi-bricks": "cd packages/midi-bricks && yarn test && cd ..",
     "test:midi-bricks-electron": "cd packages/midi-bricks && yarn test-e2e && cd ..",
-    "build": "yarn build:midi-bricks-doc && yarn build:midi-bricks && yarn build:midi-bricks-electron",
+    "build": "yarn build:midi-bricks-doc && yarn build:midi-bricks && yarn build:midi-bricks-electron-ci",
     "build:midi-bricks": "cd packages/midi-bricks && yarn build && cd ..",
     "build:midi-bricks-doc": "cd packages/midi-bricks-doc && yarn && yarn build && cd ..",
     "build:midi-bricks-electron": "cd packages/midi-bricks && yarn && yarn build && cd ..",
