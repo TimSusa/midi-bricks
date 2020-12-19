@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.44](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.43-alpha.4...v1.3.44) (2020-12-19)
+
+
+### Features
+
+* Add raspberry pi build target ([8abd17f](https://github.com/TimSusa/midi-bricks-mono/commit/8abd17f8ae8c8c537ebacdfec2295633cb737bb4))
+
+
+### Bug Fixes
+
+* Input limit for win coords ([f1af784](https://github.com/TimSusa/midi-bricks-mono/commit/f1af78454c883f657bc62c073868aab2a1422e56))
+
 ### [1.3.43-alpha.4](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.43-alpha.3...v1.3.43-alpha.4) (2020-11-22)
 
 
