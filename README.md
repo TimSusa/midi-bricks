@@ -4,7 +4,7 @@
 </p>
 
 
-# Midi-Bricks-Tauri -MVP - POC
+# Midi-Bricks-Tauri 
 
 MIDI Bricks was invented for usage as interactive MIDI-Controller-Interface or even for Touch-Device purposes. We use the native MIDI API, which is exposed from chrome browser. Please note, that because of a sad story MIDI functionality is not provided on mobile devices. Therefore, in most cases our users provide them selves with some kind of extra physical Touch Device, which can be wired via USB to your Desktop / Laptop.
 
