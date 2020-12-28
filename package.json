@@ -1,17 +1,19 @@
 {
-  "name": "midi-bricks-mono",
-  "version": "1.3.44-alpha.0",
+  "name": "midi-bricks",
+  "author": "timmsusa@googlemail.com",
+  "description": "MIDI Bricks was invented for usage as interactive MIDI-Controller-Interface or even for Touch-Device purposes. We use the native MIDI API, which is exposed from chrome browser. Please note, that because of a sad story MIDI functionality is not provided on mobile devices. Therefore, in most cases our users provide them selves with some kind of extra physical Touch Device, which can be wired via USB to your Desktop or Laptop.",
+  "version": "1.3.44-alpha.1",
   "main": "./app/electron.js",
   "homepage": ".",
   "private": false,
   "license": "MIT",
-  "repository": "https://github.com/TimSusa/midi-bricks-mono.git",
+  "repository": "https://github.com/TimSusa/midi-bricks.git",
   "files": [
     "build/**/*",
     "node_modules/**/*"
   ],
   "build": {
-    "appId": "com.electron.midi-bricks-electron",
+    "appId": "com.electron.midi-bricks",
     "asar": true,
     "asarUnpack": true,
     "releaseInfo": {
@@ -53,12 +55,12 @@
     }
   },
   "dependencies": {
-    "@material-ui/core": "4.11.0",
-    "@material-ui/icons": "4.9.1",
-    "@material-ui/lab": "^4.0.0-alpha.56",
-    "@material-ui/styles": "4.10.0",
-    "@material-ui/system": "4.9.14",
-    "@reduxjs/toolkit": "1.4.0",
+    "@material-ui/core": "4.11.2",
+    "@material-ui/icons": "4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
+    "@material-ui/styles": "4.11.2",
+    "@material-ui/system": "4.11.2",
+    "@reduxjs/toolkit": "1.5.0",
     "debounce": "1.2.0",
     "downshift": "6.0.6",
     "keycode": "2.2.0",
@@ -70,7 +72,7 @@
     "react-grid-layout": "1.2.0",
     "react-redux": "7.2.2",
     "redux": "4.0.5",
-    "source-map-explorer": "2.5.0",
+    "source-map-explorer": "2.5.1",
     "tonal": "2.2.2",
     "typeface-roboto": "1.1.13",
     "webmidi": "2.5.1",
@@ -99,7 +101,7 @@
     "eslint-plugin-react": "7.21.5",
     "eslint-plugin-react-hooks": "4.2.0",
     "vercel": "latest",
-    "react-scripts": "4.0.0",
+    "react-scripts": "4.0.1",
     "redux-devtools-extension": "2.13.8",
     "redux-mock-store": "1.5.3",
     "standard-version": "9.0.0"
