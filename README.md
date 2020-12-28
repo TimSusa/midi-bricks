@@ -8,6 +8,12 @@
 
 MIDI Bricks was invented for usage as interactive MIDI-Controller-Interface or even for Touch-Device purposes. We use the native MIDI API, which is exposed from chrome browser. Please note, that because of a sad story MIDI functionality is not provided on mobile devices. Therefore, in most cases our users provide them selves with some kind of extra physical Touch Device, which can be wired via USB to your Desktop / Laptop.
 
+## Hardware Suggestions (tested successfully)
+### Working Device
+- https://www.raspberrypi.org/products/raspberry-pi-400/ or win or macosx device
+
+### Touch Device
+https://www.waveshare.com/wiki/7inch_HDMI_LCD_(H)_(with_case)
 
 ## Download and Install
 
