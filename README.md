@@ -11,7 +11,7 @@ MIDI Bricks was invented for usage as interactive MIDI-Controller-Interface or e
 
 ## Download and Install
 
-Go To https://github.com/TimSusa/midi-bricks/releases
+Go To https://github.com/TimSusa/midi-bricks/releases and fine the latest release or beta release. There is a caret with "assets". Please click the caret to have the download links available.
 
 - Mac OSX: Please, download the *.dmg File (can be seen on "assets" at the bottom here) and double click
 - Windows 7 and above: Please, download the *.exe File (can be seen on "assets" at the bottom here) and double click
