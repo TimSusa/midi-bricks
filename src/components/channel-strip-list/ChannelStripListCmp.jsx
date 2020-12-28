@@ -185,14 +185,32 @@ function ChannelStripListCmp() {
 
           <Button
             variant='outlined'
-            onClick={async () =>
+            onClick={async () => {
               await dispatch(thunkLoadFile(preset, preset.presetName))
+            }
             }
           >
             LOAD EXAMPLE
           </Button>
           <br />
           <br />
+
+          <Button
+            variant='outlined'
+            onClick={
+
+              ()=> dispatch(
+                togglePage({
+                  pageType: PAGE_TYPES.MIDI_DRIVER_MODE
+                })
+              )
+            }
+          >
+            ENABLE MIDI DRIVER
+          </Button>
+          <br />
+          <br />
+
           {window.navigator.userAgent.toLowerCase().includes('mobile') &&
             'Sorry for inconvenience! Due to a lack of technical support MIDI is not working on mobile devices (android, ios). Please, use a desktop operation system!'}
         </Typography>
