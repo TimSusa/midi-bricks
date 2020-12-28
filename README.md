@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img width="250" src="midi-bricks-logo.png">
+  <img width="250" src="./docs/midi-bricks-logo.png">
 </p>
 
 
@@ -12,7 +12,7 @@ MIDI Bricks was invented for usage as interactive MIDI-Controller-Interface or e
 https://midi-bricks.timsusa.now.sh
 
 <p align="center">
-  <img width="250" src="MIDI-bricks-shortcut-d.gif">
+  <img width="250" src="./docs/MIDI-bricks-shortcut-d.gif">
 </p>
 
 ## Official Webpage and Documentation
