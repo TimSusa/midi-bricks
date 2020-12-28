@@ -17,7 +17,7 @@ Go To https://github.com/TimSusa/midi-bricks/releases and find the latest or bet
 - raspberry-pi 4 and above: Please, download the AppImage File, chmod +x the file to make it executable and then start it
 
 ## Live-Web-Demo
-https://midi-bricks.timsusa.now.sh
+https://midi-bricks.timsusa.vercel.app/
 
 <p align="center">
   <img width="250" src="./docs/MIDI-bricks-shortcut-d.gif">

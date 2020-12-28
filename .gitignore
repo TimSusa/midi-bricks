@@ -39,3 +39,5 @@ yarn-error.log*
 
 
 .eslintcache
+
+/midi-bricks-doc/node_modules
