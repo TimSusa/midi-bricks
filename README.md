@@ -15,7 +15,7 @@ Go To https://github.com/TimSusa/midi-bricks/releases
 
 - Mac OSX: Please, download the *.dmg File (can be seen on "assets" at the bottom here) and double click
 - Windows 7 and above: Please, download the *.exe File (can be seen on "assets" at the bottom here) and double click
-- raspberry-pi 4 and above: Please, download, chmod +x the executable and then start it (can be seen on "assets" at the bottom here) and you know, what to do
+- raspberry-pi 4 and above: Please, download the AppImage File, chmod +x the file to make it executable and then start it (can be seen on "assets" at the bottom here) and you know, what to do
 
 ## Live-Web-Demo
 https://midi-bricks.timsusa.now.sh
