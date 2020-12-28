@@ -1,10 +1,5 @@
 node_modules/
-lerna-debug.log
 npm-debug.log
-packages/midi-bricks-doc
-packages/*/lib
-packages/*/dist
-packages/*/build
 .idea
 .vscode
 .github

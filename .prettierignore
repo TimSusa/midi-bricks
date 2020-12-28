@@ -3,17 +3,8 @@ dist
 .next
 **/*.ts
 **/*.md
-packages/*/*.md
 *.md
 node_modules
-packages/*/yarn.lock
-packages/*/*.yml
-packages/*/README*
-packages/*/node_modules
-packages/midi-bricks/build
-packages/midi-bricks-electron/dist
-packages/midi-bricks-electron/build
-packages/*/*/yarn.lock
 **/*.lock
 package.json
 package-lock.json

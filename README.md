@@ -8,9 +8,6 @@
 
 MIDI Bricks was invented for usage as interactive MIDI-Controller-Interface or even for Touch-Device purposes. We use the native MIDI API, which is exposed from chrome browser. Please note, that because of a sad story MIDI functionality is not provided on mobile devices. Therefore, in most cases our users provide them selves with some kind of extra physical Touch Device, which can be wired via USB to your Desktop / Laptop.
 
-## Mono Repository
-This is a mono-repository for midi-bricks and its documentation. 
-
 ## Live-Web-Demo
 https://midi-bricks.timsusa.now.sh
 
@@ -22,41 +19,33 @@ https://midi-bricks.timsusa.now.sh
 https://timsusa.github.io/midi-bricks-mono/
 
 
-## Bootstrapping the Monorepo:
+## Installation
 ```
-yarn && yarn bootstrap
+yarn 
 ```
 
 
 # Webapp
-The midi-bricks folder poses the core source, which is a standalone webapp.
-Furthermore, it is deployed to the great guys from https://zeit.co/now. 
-
 ## Start Development
 ```
-yarn dev:midi-bricks
+yarn start
 ```
 
 ## Build for Production
 ```
-yarn build:midi-bricks
+yarn build
 ```
 
 
 # Electron App
-The core web app will be copied into the electron ecosystem. 
-Further code for configuration, especially ```electron.js```,
-can be found in its public folder. 
-
-
 ## Start Development
 ```
-yarn dev:midi-bricks-electron
+yarn dev
 ```
 
 ## Build for MacOSX, Rasperry Pi and Win
 ```
-yarn build:midi-bricks-electron-ci
+yarn build-ci
 ```
 
 
