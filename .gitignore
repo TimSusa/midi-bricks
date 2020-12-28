@@ -37,6 +37,5 @@ package-lock.json
 yarn-debug.log*
 yarn-error.log*
 
-.env
 
 .eslintcache

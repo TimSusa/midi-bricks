@@ -8,12 +8,22 @@
 
 MIDI Bricks was invented for usage as interactive MIDI-Controller-Interface or even for Touch-Device purposes. We use the native MIDI API, which is exposed from chrome browser. Please note, that because of a sad story MIDI functionality is not provided on mobile devices. Therefore, in most cases our users provide them selves with some kind of extra physical Touch Device, which can be wired via USB to your Desktop / Laptop.
 
+
+## Download and Install
+
+Go To https://github.com/TimSusa/midi-bricks/releases
+
+- Mac OSX: Please, download the *.dmg File (can be seen on "assets" at the bottom here) and double click
+- Windows 7 and above: Please, download the *.exe File (can be seen on "assets" at the bottom here) and double click
+- raspberry-pi 4 and above: Please, download, chmod +x the executable and then start it (can be seen on "assets" at the bottom here) and you know, what to do
+
 ## Live-Web-Demo
 https://midi-bricks.timsusa.now.sh
 
 <p align="center">
   <img width="250" src="./docs/MIDI-bricks-shortcut-d.gif">
 </p>
+
 
 ## Official Webpage and Documentation
 https://timsusa.github.io/midi-bricks-mono/
