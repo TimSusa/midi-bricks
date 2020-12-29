@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-import {
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon
-} from '@material-ui/core'
+import Divider from '@material-ui/core/Divider'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+
 import SaveIcon from '@material-ui/icons/Save'
 import HomeIcon from '@material-ui/icons/Home'
 import GlobalIcon from '@material-ui/icons/Public'

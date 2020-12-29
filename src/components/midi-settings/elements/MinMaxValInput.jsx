@@ -4,7 +4,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import { Tooltip } from '@material-ui/core'
+import Tooltip from '@material-ui/core/Tooltip'
 
 MinMaxValInput.propTypes = {
   label: PropTypes.string,

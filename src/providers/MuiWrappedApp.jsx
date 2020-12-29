@@ -1,4 +1,6 @@
-import { CssBaseline, createMuiTheme } from '@material-ui/core'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import { createMuiTheme } from '@material-ui/core'
+
 import { ThemeProvider } from '@material-ui/styles'
 import React from 'react'
 import PropTypes from 'prop-types'

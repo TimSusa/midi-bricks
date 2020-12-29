@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import {
-  Typography,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails
-} from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
+
+import Accordion from '@material-ui/core/Accordion'
+import AccordionSummary from '@material-ui/core/AccordionSummary'
+import AccordionDetails from '@material-ui/core/AccordionDetails'
+
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 function DriverExpansionPanel({

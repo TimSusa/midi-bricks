@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import Dialog from '@material-ui/core/Dialog'
 import MidiSettings from '../midi-settings/MidiSettings'
-import { Typography } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
 import keycode from 'keycode'
 
 function MidiSettingsDialog(props) {

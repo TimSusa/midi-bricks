@@ -1,6 +1,7 @@
 import React from 'react'
 import IconButton from '@material-ui/core/IconButton'
-import { Tooltip, makeStyles } from '@material-ui/core'
+import Tooltip from '@material-ui/core/Tooltip'
+import { makeStyles } from '@material-ui/core'
 import { PropTypes } from 'prop-types'
 import { useTheme } from '@material-ui/styles'
 
@@ -8,7 +9,7 @@ export function ToolTipIconButton(props) {
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
   const { handleClick = () => {}, title = '', icon, isInvisible } = props
-  if (isInvisible) return <></>
+  if (isInvisible) return <React.Fragment></React.Fragment>
   return (
     <Tooltip disableHoverListener={false} title={title}>
       <IconButton onClick={handleClick} className={classes.typoColorStyle}>

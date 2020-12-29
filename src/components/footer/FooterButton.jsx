@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { Button } from '@material-ui/core'
+import Button from '@material-ui/core/Button'
 import { PropTypes } from 'prop-types'
 import { thunkChangePage } from '../../global-state/actions/thunks/thunk-change-page'
 import { Actions as ViewSettinsgsAction } from '../../global-state/actions/view-settings'

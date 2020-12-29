@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import DriverExpansionPanel from '../components/DriverExpansionPanel'
-import {
-  FormControlLabel,
-  Switch,
-  Tooltip,
-  Button,
-  Input,
-  List,
-  ListItem
-} from '@material-ui/core'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Switch from '@material-ui/core/Switch'
+import Tooltip from '@material-ui/core/Tooltip'
+import Button from '@material-ui/core/Button'
+import Input from '@material-ui/core/Input'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+
 import { useSelector, useDispatch } from 'react-redux'
 import { Actions as MidiSliderActions } from '../global-state/actions/slider-list.js'
 import { Actions as ViewStuff } from '../global-state/actions/view-settings.js'
