@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.44-alpha.3](https://github.com/TimSusa/midi-bricks/compare/v1.3.44-alpha.1...v1.3.44-alpha.3) (2020-12-29)
+
+
+### Features
+
+* Establish midi driver enabling button on startup ([613e33b](https://github.com/TimSusa/midi-bricks/commit/613e33b58134bde09da57f0d4fc663bcfa901027))
+
+
+### Bug Fixes
+
+* Cross env in package.json ([dea15b8](https://github.com/TimSusa/midi-bricks/commit/dea15b8e9fda32fc04dd770944bfe3302109000b))
+
 ### [1.3.44-alpha.1](https://github.com/TimSusa/midi-bricks/compare/v1.3.44...v1.3.44-alpha.1) (2020-12-28)
 
 ### [1.3.44](https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.43-alpha.4...v1.3.44) (2020-12-19)
