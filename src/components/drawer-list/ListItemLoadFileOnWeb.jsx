@@ -21,7 +21,7 @@ export function ListItemLoadFileOnWeb({ onFileChange, iconColor }) {
         <ListItemIcon className={iconColor}>
           <LoadIcon />
         </ListItemIcon>
-        <ListItemText primary='Load Preset' />
+        <ListItemText>Load Preset</ListItemText>
       </ListItem>
     </FileReader>
   )

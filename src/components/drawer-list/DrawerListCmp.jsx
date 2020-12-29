@@ -64,7 +64,7 @@ function DrawerListCmp(props) {
           <ListItemIcon className={classes.iconColor}>
             <HomeIcon />
           </ListItemIcon>
-          <ListItemText primary='Main' />
+          <ListItemText>Main</ListItemText>
         </ListItem>
         <ListItem
           button
@@ -79,7 +79,7 @@ function DrawerListCmp(props) {
           <ListItemIcon className={classes.iconColor}>
             <GlobalIcon />
           </ListItemIcon>
-          <ListItemText primary='Controllers' />
+          <ListItemText>Controllers</ListItemText>
         </ListItem>
 
         <ListItem
@@ -95,7 +95,7 @@ function DrawerListCmp(props) {
           <ListItemIcon className={classes.iconColor}>
             <IconDriverSettings />
           </ListItemIcon>
-          <ListItemText primary='Drivers' />
+          <ListItemText>Drivers</ListItemText>
         </ListItem>
 
         <ListItem
@@ -109,7 +109,7 @@ function DrawerListCmp(props) {
           <ListItemIcon className={classes.iconColor}>
             <ViewIcon />
           </ListItemIcon>
-          <ListItemText primary='Preferences' />
+          <ListItemText>Preferences</ListItemText>
           <ViewSettingsDialog
             isOpen={isOpenViewSettings}
             onClose={() => {
@@ -152,7 +152,7 @@ function DrawerListCmp(props) {
             <ListItemIcon className={classes.iconColor}>
               <SaveIcon />
             </ListItemIcon>
-            <ListItemText primary='Save Preset' />
+            <ListItemText>Save Preset</ListItemText>
           </ListItem>
         ) : (
           <ListItemSaveFileOnElectron
@@ -164,7 +164,7 @@ function DrawerListCmp(props) {
           <ListItemIcon className={classes.iconColor}>
             <DeleteIcon />
           </ListItemIcon>
-          <ListItemText primary='Delete All' />
+          <ListItemText>Delete All</ListItemText>
           <DeleteModal
             isOpen={open}
             asButton={false}
@@ -179,7 +179,7 @@ function DrawerListCmp(props) {
           <ListItemIcon className={classes.iconColor}>
             <VersionIcon />
           </ListItemIcon>
-          <ListItemText primary={`${version}`} />
+          <ListItemText>{`${version}`}</ListItemText>
         </ListItem>
       </List>
       <Divider />

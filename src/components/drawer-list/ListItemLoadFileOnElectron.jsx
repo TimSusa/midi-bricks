@@ -27,7 +27,7 @@ export function ListItemLoadFileOnElectron({ onFileChange, iconColor }) {
       <ListItemIcon className={iconColor}>
         <LoadIcon />
       </ListItemIcon>
-      <ListItemText primary='Load Preset' />
+      <ListItemText>Load Preset</ListItemText>
     </ListItem>
   )
 }
