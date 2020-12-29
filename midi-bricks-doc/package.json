@@ -4,7 +4,7 @@
   "private": true,
   "description": "Documentation for midi-bricks",
   "author": "TimSusa <timsusa@altus-insight.de>",
-  "homepage": "https://github.com/TimSusa/midi-bricks-mono#readme",
+  "homepage": "https://github.com/TimSusa/midi-bricks#readme",
   "license": "ISC",
   "main": "lib/midi-bricks-doc.js",
   "directories": {
@@ -14,7 +14,7 @@
   "files": [
     "lib"
   ],
-  "repository": "https://github.com/TimSusa/midi-bricks-mono/tree/master/packages/midi-bricks-doc",
+  "repository": "https://github.com/TimSusa/midi-bricks/tree/master/midi-bricks-doc",
   "scripts": {
     "start": "cd website && yarn start && cd ..",
     "build": "cd website && yarn build && cd ..",
@@ -22,7 +22,7 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
-    "url": "https://github.com/TimSusa/midi-bricks-mono/issues"
+    "url": "https://github.com/TimSusa/midi-bricks/issues"
   },
   "gitHead": "7a8cfbeaa7eeb21f5a28e53626ce8552eee114b6",
   "devDependencies": {

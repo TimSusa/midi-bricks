@@ -25,7 +25,7 @@ https://midi-bricks.timsusa.vercel.app/
 
 
 ## Official Webpage and Documentation
-https://timsusa.github.io/midi-bricks-mono/
+https://timsusa.github.io/midi-bricks/
 
 
 ## Hardware Suggestions (tested successfully)

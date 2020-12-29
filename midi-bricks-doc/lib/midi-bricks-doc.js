@@ -1,10 +1,8 @@
-'use strict';
+'use strict'
 
-module.exports = midiBricksDoc;
+module.exports = midiBricksDoc
 
 function midiBricksDoc() {
-    // TODO
-    return (
-      <div>I do not understand wtf</div>
-    )
+  // TODO
+  return <div>I do not understand wtf</div>
 }
