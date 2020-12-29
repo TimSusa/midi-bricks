@@ -49,7 +49,8 @@ const {
   selectCc,
   selectMidiDriverInput,
   //selectMidiChannelInput,
-  addMidiCcListener
+  addMidiCcListener,
+  togglePage
 } = { ...ViewSettingsAction, ...MidiSlidersAction }
 
 export const MenuAppBar = MenuAppBarCmp
@@ -103,7 +104,7 @@ function MenuAppBarCmp(props) {
             </Typography>
           )}
           {isLayoutMode && (
-            <>
+            <React.Fragment>
               <Typography className={classes.typoColorStyle}>
                 Layout Mode Running...
               </Typography>
@@ -145,10 +146,10 @@ function MenuAppBarCmp(props) {
                 icon={<CancelIcon />}
                 isInvisible={!isLayoutMode}
               />
-            </>
+            </React.Fragment>
           )}
           {pageType === PAGE_TYPES.GLOBAL_MODE && (
-            <>
+            <React.Fragment>
               <Typography className={classes.typoColorStyle}>
                 {presetName || ''}
               </Typography>
@@ -166,12 +167,26 @@ function MenuAppBarCmp(props) {
               >
                 Trigger All MIDI
               </Button>
-            </>
+            </React.Fragment>
           )}
           {[PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
             pageType
           ) && (
-            <>
+            <React.Fragment>
+              <Button
+                className={classes.resetButton}
+                variant='contained'
+                onClick={() =>
+                  dispatch(
+                    togglePage({
+                      pageType: PAGE_TYPES.HOME_MODE
+                    })
+                  )
+                }
+              >
+                Go Back To Main View
+              </Button>
+
               <Button
                 className={classes.resetButton}
                 variant='contained'
@@ -179,21 +194,7 @@ function MenuAppBarCmp(props) {
               >
                 Detect Driver
               </Button>
-              <Button
-                className={classes.resetButton}
-                variant='contained'
-                onClick={() => window.location.reload()}
-              >
-                Reload
-              </Button>
-              <Button
-                className={classes.resetButton}
-                variant='contained'
-                onClick={() => window.localStorage.clear()}
-              >
-                Clear Cache
-              </Button>
-            </>
+            </React.Fragment>
           )}
           {[PAGE_TYPES.HOME_MODE].includes(pageType) && (
             <Fragment>

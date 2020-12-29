@@ -65,6 +65,14 @@ function ChannelStripListCmp() {
     channel: 'None'
   }
   const hasPages = useSelector((state) => Object.keys(state.pages).length > 1)
+  const isPageEmpty = useSelector(
+    (state) => Object.values(state.pages)[0].sliderList.length < 1
+  )
+  const hasDrivers = useSelector(
+    (state) =>
+      Object.keys(state.viewSettings.availableDrivers.inputs).length > 1 ||
+      Object.keys(state.viewSettings.availableDrivers.outputs).length > 1
+  )
   const theme = useTheme()
   const classes = makeStyles(styles.bind(this, theme))()
 
@@ -182,32 +190,40 @@ function ChannelStripListCmp() {
         <Typography variant='h4' className={classes.noMidiTypography}>
           <br />
           <br />
-
-          <Button
-            variant='outlined'
-            onClick={async () => {
-              await dispatch(thunkLoadFile(preset, preset.presetName))
-            }
-            }
-          >
-            LOAD EXAMPLE
-          </Button>
+          {hasDrivers && isPageEmpty && (
+            <Typography>
+              Great! Feel free to add now elements like sliders or buttons via
+              changing to layout mode and clicking the plus button in the top
+              right corner of this app!
+            </Typography>
+          )}
+          {!hasDrivers && (
+            <Button
+              variant='outlined'
+              onClick={async () => {
+                await dispatch(thunkLoadFile(preset, preset.presetName))
+              }}
+            >
+              LOAD EXAMPLE
+            </Button>
+          )}
           <br />
           <br />
+          {!hasDrivers && (
+            <Button
+              variant='outlined'
+              onClick={() =>
+                dispatch(
+                  togglePage({
+                    pageType: PAGE_TYPES.MIDI_DRIVER_MODE
+                  })
+                )
+              }
+            >
+              ENABLE MIDI DRIVER
+            </Button>
+          )}
 
-          <Button
-            variant='outlined'
-            onClick={
-
-              ()=> dispatch(
-                togglePage({
-                  pageType: PAGE_TYPES.MIDI_DRIVER_MODE
-                })
-              )
-            }
-          >
-            ENABLE MIDI DRIVER
-          </Button>
           <br />
           <br />
 
