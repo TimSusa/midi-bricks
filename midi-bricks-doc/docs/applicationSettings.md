@@ -4,7 +4,7 @@ title: Application Settings
 sidebar_label: Application Settings
 ---
 
-![Global Menu](/midi-bricks-mono/img/midi-briqks-normal-view-explained.png)
+![Global Menu](/midi-bricks/img/midi-briqks-normal-view-explained.png)
 
 To get the feeling of a common workflow, please get to know about the main areas of the application.
 In the screen-shot above you can observe marked regions with numbers from one to four, which are explained here furher:
@@ -25,7 +25,7 @@ In this mode you just need to click one of the elements, so that is has a focus.
 The app has different areas, which support you to have a comfortable workflow.  
 On the top left burger menu you can open a drawer list with basic functionality.
 
-![Global Menu](/midi-bricks-mono/img/global-menu.png)
+![Global Menu](/midi-bricks/img/global-menu.png)
 
 ### Main
 Go to the main page 
@@ -33,7 +33,7 @@ Go to the main page
 ### Controllers
 Gives you a birds eye view to your layout, where you can see all different settings of each element in a table view.
 
-![Global Menu](/midi-bricks-mono/img/controllers.png)
+![Global Menu](/midi-bricks/img/controllers.png)
 
 #### Open Elements Settings
 By clicking on one of the table columns the settings menu for the MIDI Element will be opened.
