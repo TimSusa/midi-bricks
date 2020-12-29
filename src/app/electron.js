@@ -10,10 +10,13 @@ const fs = require('fs')
 const isDev = require('electron-is-dev')
 const windowStateKeeper = require('electron-window-state')
 const log = require('electron-log')
+
 const util = require('util')
 const readFile = util.promisify(fs.readFile)
-const doesFileExist = util.promisify(fs.stat)
 
+const doesFileExist = util.promisify(fs.stat)
+// eslint-disable-next-line no-unused-expressions
+isDev && require('electron-reload')
 // eslint-disable-next-line no-unused-expressions
 require('electron').process
 
@@ -47,7 +50,7 @@ if (!gotTheLock) {
   app.on('second-instance', () => {
     // Someone tried to run a second instance, we should focus our window.
     log.info(
-      'Someone tried to run a second instance, we should focus our window.'
+      'Someoned tried to run a second instance, we should focus our window.'
     )
     if (win) {
       if (win.isMinimized()) win.restore()
