@@ -1,5 +1,11 @@
 {
   "docs": {
-    "Help": ["introduction", "downloadAndInstall", "applicationSettings", "firstLayout"]
+    "Help": [
+      "introduction",
+      "downloadAndInstall",
+      "applicationSettings",
+      "firstLayout",
+      "themes"
+    ]
   }
 }
