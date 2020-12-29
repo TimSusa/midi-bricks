@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://facebook.github.io/midi-bricks-mono/blog</id>
+    <id>https://facebook.github.io/midi-bricks/blog</id>
     <title>MIDI Bricks Blog</title>
     <updated>1970-01-01T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://facebook.github.io/midi-bricks-mono/blog"/>
+    <link rel="alternate" href="https://facebook.github.io/midi-bricks/blog"/>
     <subtitle>The best place to stay up-to-date with the latest MIDI Bricks news and events.</subtitle>
-    <logo>https://facebook.github.io/midi-bricks-mono/img/docusaurus.svg</logo>
+    <logo>https://facebook.github.io/midi-bricks/img/docusaurus.svg</logo>
     <rights>Copyright © 2020 Tim Susa</rights>
     <entry>
         <title type="html"><![CDATA[New Release 1.3.41]]></title>
-        <id>https://facebook.github.io/midi-bricks-mono/blog/2020/24/10/blog-post.html</id>
-        <link href="https://facebook.github.io/midi-bricks-mono/blog/2020/24/10/blog-post.html"/>
+        <id>https://facebook.github.io/midi-bricks/blog/2020/24/10/blog-post.html</id>
+        <link href="https://facebook.github.io/midi-bricks/blog/2020/24/10/blog-post.html"/>
         <updated>1970-01-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<h1><a class="anchor" aria-hidden="true" id="changelog"></a><a href="#changelog" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>Changelog</h1> <p>All notable changes to this project will be documented in this file. See <a href="https://github.com/conventional-changelog/standard-version">standard-version</a> for commit guidelines.</p> <h2><a class="anchor" aria-hidden="true" id="1341alpha-1httpsgithubcomtimsusamidi-bricks-monocomparev1341v1341alpha-1-2020-10-24"></a><a href="#1341alpha-1httpsgithubcomtimsusamidi-bricks-monocomparev1341v1341alpha-1-2020-10-24" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a><a href="https://github.com/TimSusa/midi-bricks-mono/compare/v1.3.41...v1.3.41.alpha-1">1.3.41.alpha-1</a> (2020-10-24)</h2> <h3><a class="anchor" aria-hidden="true" id="features"></a><a href="#features" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>Features</h3> <ul> <li>Element Settings dialog - don't disappear and close tabs on OK <a href="https://github.com/TimSusa/midi-bricks-mono/issues/231">#231</a> (<a href="https://github.com/TimSusa/midi-bricks-mono/commit/eba12669a150832ab791ef881d52429ec550d9a9">eba1266</a>)</li> <li>Element Set...</li></ul>]]></summary>
         <author>
@@ -21,8 +21,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[New Release 1.3.33]]></title>
-        <id>https://facebook.github.io/midi-bricks-mono/blog/2020/02/08/blog-post.html</id>
-        <link href="https://facebook.github.io/midi-bricks-mono/blog/2020/02/08/blog-post.html"/>
+        <id>https://facebook.github.io/midi-bricks/blog/2020/02/08/blog-post.html</id>
+        <link href="https://facebook.github.io/midi-bricks/blog/2020/02/08/blog-post.html"/>
         <updated>2020-02-08T06:00:00.000Z</updated>
         <summary type="html"><![CDATA[<h1><a class="anchor" aria-hidden="true" id="performance-improvements"></a><a href="#performance-improvements" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>Performance Improvements</h1> <p>In order to reduce bundlesize different views can be lazyloaded via dynamic imports. This will speedup performance especially on weak mobile devices.</p> <ul> <li>configured build and deploychain</li> <li>adapted driver view</li> <li>adapted settings view...</li></ul>]]></summary>
         <author>
@@ -32,8 +32,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[New Release 1.3.27 Fix CC Toggle Button Issue]]></title>
-        <id>https://facebook.github.io/midi-bricks-mono/blog/2019/16/10/blog-post.html</id>
-        <link href="https://facebook.github.io/midi-bricks-mono/blog/2019/16/10/blog-post.html"/>
+        <id>https://facebook.github.io/midi-bricks/blog/2019/16/10/blog-post.html</id>
+        <link href="https://facebook.github.io/midi-bricks/blog/2019/16/10/blog-post.html"/>
         <updated>1970-01-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<h1><a class="anchor" aria-hidden="true" id="fix-cc-toggle-button-issue"></a><a href="#fix-cc-toggle-button-issue" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>Fix CC Toggle Button Issue</h1> <p>Power User Alec Troniq has found an issue with CC Toggle Buttons, not sending the right values when switching state.</p> <p>This is fixed now.</p> <p>You can auto-update your app or download new Release: <a href="https://github.com/TimSusa/midi-bricks-mono/releases/tag/v1.3.27">https://github.com/TimSusa/midi-b...</a></p>]]></summary>
         <author>
@@ -43,8 +43,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[New Release 1.3.25 Fix Slider Scaling Issues]]></title>
-        <id>https://facebook.github.io/midi-bricks-mono/blog/2019/13/10/blog-post.html</id>
-        <link href="https://facebook.github.io/midi-bricks-mono/blog/2019/13/10/blog-post.html"/>
+        <id>https://facebook.github.io/midi-bricks/blog/2019/13/10/blog-post.html</id>
+        <link href="https://facebook.github.io/midi-bricks/blog/2019/13/10/blog-post.html"/>
         <updated>1970-01-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<h1><a class="anchor" aria-hidden="true" id="fix-slider-scaling-issues"></a><a href="#fix-slider-scaling-issues" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>Fix Slider Scaling Issues</h1> <p>We have found solutions to get the sliders more precise for scaling purposes and furthermore optimized in performance.</p> <p>The first fix is concerning about having the full scale of the slider available, even if you have chosen ...</p>]]></summary>
         <author>
@@ -54,8 +54,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[New Release 1.3.16 Massive Codeminimizations]]></title>
-        <id>https://facebook.github.io/midi-bricks-mono/blog/2019/08/06/blog-post.html</id>
-        <link href="https://facebook.github.io/midi-bricks-mono/blog/2019/08/06/blog-post.html"/>
+        <id>https://facebook.github.io/midi-bricks/blog/2019/08/06/blog-post.html</id>
+        <link href="https://facebook.github.io/midi-bricks/blog/2019/08/06/blog-post.html"/>
         <updated>2019-08-06T06:00:00.000Z</updated>
         <summary type="html"><![CDATA[<h1><a class="anchor" aria-hidden="true" id="performance-improvements-1316"></a><a href="#performance-improvements-1316" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>Performance Improvements 1.3.16</h1> <p>In order to save code, we expose this release.</p> <p>You can auto-update your app or download new Release: <a href="https://github.com/TimSusa/midi-bricks-mono/releases/tag/v1.3.16">https://github.com/TimSusa/midi-bricks-mono/releases/tag/v1.3.16</a> manually.</p> ]]></summary>
         <author>
@@ -65,8 +65,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[New Release 1.3.15 Performance Improvements]]></title>
-        <id>https://facebook.github.io/midi-bricks-mono/blog/2019/08/05/blog-post.html</id>
-        <link href="https://facebook.github.io/midi-bricks-mono/blog/2019/08/05/blog-post.html"/>
+        <id>https://facebook.github.io/midi-bricks/blog/2019/08/05/blog-post.html</id>
+        <link href="https://facebook.github.io/midi-bricks/blog/2019/08/05/blog-post.html"/>
         <updated>2019-08-05T06:00:00.000Z</updated>
         <summary type="html"><![CDATA[<h1><a class="anchor" aria-hidden="true" id="performance-improvements-1315"></a><a href="#performance-improvements-1315" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>Performance Improvements 1.3.15</h1> <p>In order to save performance and yield to new misc improvements for the slider component, we expose this release.</p> <p>You can auto-update your app or download new Release: <a href="https://github.com/TimSusa/midi-bricks-mono/releases/tag/v1.3.15">https://github.com/TimSusa/midi-bricks-mono/releas...</a></p>]]></summary>
         <author>
@@ -76,8 +76,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[New Release 1.3.12 Bugfixes]]></title>
-        <id>https://facebook.github.io/midi-bricks-mono/blog/2019/08/04/blog-post.html</id>
-        <link href="https://facebook.github.io/midi-bricks-mono/blog/2019/08/04/blog-post.html"/>
+        <id>https://facebook.github.io/midi-bricks/blog/2019/08/04/blog-post.html</id>
+        <link href="https://facebook.github.io/midi-bricks/blog/2019/08/04/blog-post.html"/>
         <updated>2019-08-04T06:00:00.000Z</updated>
         <summary type="html"><![CDATA[<h1><a class="anchor" aria-hidden="true" id="app-was-rebuilt-with-release-1312"></a><a href="#app-was-rebuilt-with-release-1312" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>App was rebuilt with Release 1.3.12</h1> <p>In order to get the app more working some bugfixes haven been established.</p> <p>You can auto-update your app or download new Release: <a href="https://github.com/TimSusa/midi-bricks-mono/releases/tag/v1.3.12">https://github.com/TimSusa/midi-bricks-mono/releases/tag/v1.3.12</a> manually.</p> ]]></summary>
         <author>
@@ -87,8 +87,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[New Release 1.3.11 Bugfixes]]></title>
-        <id>https://facebook.github.io/midi-bricks-mono/blog/2019/08/03/blog-post.html</id>
-        <link href="https://facebook.github.io/midi-bricks-mono/blog/2019/08/03/blog-post.html"/>
+        <id>https://facebook.github.io/midi-bricks/blog/2019/08/03/blog-post.html</id>
+        <link href="https://facebook.github.io/midi-bricks/blog/2019/08/03/blog-post.html"/>
         <updated>2019-08-03T06:00:00.000Z</updated>
         <summary type="html"><![CDATA[<h1><a class="anchor" aria-hidden="true" id="app-was-rebuilt-with-release-1311"></a><a href="#app-was-rebuilt-with-release-1311" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>App was rebuilt with Release 1.3.11</h1> <p>In order to get the app more working some bugfixes haven been established.</p> <p>You can auto-update your app or download new Release: <a href="https://github.com/TimSusa/midi-bricks-mono/releases/tag/v1.3.11">https://github.com/TimSusa/midi-bricks-mono/releases/tag/v1.3.11</a> manually.</p> ]]></summary>
         <author>
@@ -98,8 +98,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[New Release 1.3.8 Clever Page Concept]]></title>
-        <id>https://facebook.github.io/midi-bricks-mono/blog/2019/07/21/blog-post.html</id>
-        <link href="https://facebook.github.io/midi-bricks-mono/blog/2019/07/21/blog-post.html"/>
+        <id>https://facebook.github.io/midi-bricks/blog/2019/07/21/blog-post.html</id>
+        <link href="https://facebook.github.io/midi-bricks/blog/2019/07/21/blog-post.html"/>
         <updated>2019-07-21T06:00:00.000Z</updated>
         <summary type="html"><![CDATA[<h1><a class="anchor" aria-hidden="true" id="app-was-rebuilt-for-new-page-concept-with-release-138"></a><a href="#app-was-rebuilt-for-new-page-concept-with-release-138" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>App was rebuilt for new Page Concept with Release 1.3.8</h1> <p>In order to improve performance and internal software architecture a new page concept was established. This was a really huge step, where about 200 Commits have be done. Furthermore, we have the...</p>]]></summary>
         <author>
@@ -109,8 +109,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[Problems, when loading in preset with the app]]></title>
-        <id>https://facebook.github.io/midi-bricks-mono/blog/2019/05/07/blog-post.html</id>
-        <link href="https://facebook.github.io/midi-bricks-mono/blog/2019/05/07/blog-post.html"/>
+        <id>https://facebook.github.io/midi-bricks/blog/2019/05/07/blog-post.html</id>
+        <link href="https://facebook.github.io/midi-bricks/blog/2019/05/07/blog-post.html"/>
         <updated>2019-05-07T06:00:00.000Z</updated>
         <summary type="html"><![CDATA[<h1><a class="anchor" aria-hidden="true" id="fix-for-problems-when-loading-presets"></a><a href="#fix-for-problems-when-loading-presets" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>Fix for problems, when loading presets</h1> <p>Power user Aleq Troniq complained about problems when loading a new preset. Thanks for that hint. This should be fixed now with version 1.2.8.</p> <p>Either update your app or download new Release: <a href="https://github.com/TimSusa/midi-bricks-mono/releases/tag/v1.2.8">https://github.com/T...</a></p>]]></summary>
         <author>
@@ -120,8 +120,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[Launching MIDI Bricks Manpage]]></title>
-        <id>https://facebook.github.io/midi-bricks-mono/blog/2019/05/05/blog-post.html</id>
-        <link href="https://facebook.github.io/midi-bricks-mono/blog/2019/05/05/blog-post.html"/>
+        <id>https://facebook.github.io/midi-bricks/blog/2019/05/05/blog-post.html</id>
+        <link href="https://facebook.github.io/midi-bricks/blog/2019/05/05/blog-post.html"/>
         <updated>2019-05-05T06:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>Launching MIDI Bricks Manpage</p>
 <p>After a long way through almost every issue, that you can imagine, we are going to launch now the official MIDI Bricks manpage.</p>
@@ -133,8 +133,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[Never forget about manifest.json]]></title>
-        <id>https://facebook.github.io/midi-bricks-mono/blog/2019/05/03/blog-post.html</id>
-        <link href="https://facebook.github.io/midi-bricks-mono/blog/2019/05/03/blog-post.html"/>
+        <id>https://facebook.github.io/midi-bricks/blog/2019/05/03/blog-post.html</id>
+        <link href="https://facebook.github.io/midi-bricks/blog/2019/05/03/blog-post.html"/>
         <updated>2019-05-03T06:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>Suddenly we had poor performance for sliders. Getting back to manifest.json with display standalone saved our day.</p> ]]></summary>
         <author>
