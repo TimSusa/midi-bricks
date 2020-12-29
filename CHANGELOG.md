@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.44-alpha.8](https://github.com/TimSusa/midi-bricks/compare/v1.3.44-alpha.6...v1.3.44-alpha.8) (2020-12-29)
+
+
+### Features
+
+* Improve first user journey ([4f6e159](https://github.com/TimSusa/midi-bricks/commit/4f6e1595a069c485a88dd4ae01b440a5dbdb12a7))
+
+
+### Bug Fixes
+
+* Assets path for blogpost images ([f2c1eaf](https://github.com/TimSusa/midi-bricks/commit/f2c1eaff8264fa86dd4d4f9995868fc9ca74460e))
+* Avoid distracting user, while enabling midi drivers ([e514641](https://github.com/TimSusa/midi-bricks/commit/e51464141f7e58b122214c839de41b192801a09b))
+
 ### [1.3.44-alpha.6](https://github.com/TimSusa/midi-bricks/compare/v1.3.44-alpha.5...v1.3.44-alpha.6) (2020-12-29)
 
 
