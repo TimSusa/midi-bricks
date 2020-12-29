@@ -32,9 +32,6 @@ function Home() {
   useEffect(() => {
     async function initAsync() {
       await dispatch(initApp())
-
-      // GO AWAY!!!
-      //await dispatch(thunkLoadFile(preset, preset.presetName))
     }
 
     if (pageType !== PAGE_TYPES.HOME_MODE) {

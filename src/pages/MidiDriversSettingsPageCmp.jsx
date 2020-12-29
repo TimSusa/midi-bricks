@@ -49,6 +49,7 @@ function MidiDriversSettingsPageComponent() {
                 key={`output-midi-${idx}`}
                 label={name}
                 isEmpty={!isNotEmpty}
+                expanded={true}
                 noPadding={true}
               >
                 <MidiDriverTable
@@ -87,6 +88,7 @@ function MidiDriversSettingsPageComponent() {
               (noteChannels && noteChannels.length > 0)
             return (
               <DriverExpansionPanel
+                expanded={true}
                 key={`input-midi-${idx}`}
                 label={name}
                 isEmpty={!isNotEmpty}
