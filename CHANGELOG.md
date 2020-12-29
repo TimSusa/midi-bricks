@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.44-alpha.5](https://github.com/TimSusa/midi-bricks/compare/v1.3.44-alpha.3...v1.3.44-alpha.5) (2020-12-29)
+
+
+### Bug Fixes
+
+* CI Build ([093308c](https://github.com/TimSusa/midi-bricks/commit/093308c4237b298332b9f137ea925e376c165593))
+
 ### [1.3.44-alpha.3](https://github.com/TimSusa/midi-bricks/compare/v1.3.44-alpha.1...v1.3.44-alpha.3) (2020-12-29)
 
 
