@@ -112,11 +112,11 @@
   "scripts": {
     "start": "cross-env REACT_APP_IS_WEB_MODE=true react-scripts start",
     "dev": "cross-env REACT_APP_IS_WEB_MODE=false yarn run clean && concurrently \"BROWSER=none react-scripts start\" \"wait-for-localhost 3000 && nodemon --exec \"\"electron ./\"\"\"",
-    "build-ci": "cross-env REACT_APP_IS_WEB_MODE=false yarn clean:dist && yarn build && yarn cp-src-electron && yarn build:app-ci",
+    "build-ci": "cross-env REACT_APP_IS_WEB_MODE=false yarn clean:dist && react-scripts build && yarn cp-src-electron && yarn build:app-ci",
     "build:app": "electron-builder -c.extraMetadata.main=build/app/electron.js --mac",
     "build:app-ci": "electron-builder -c.extraMetadata.main=build/app/electron.js -mwl",
     "cp-src-electron": "mkdir build/app && cp -r ./src/app/ build/app",
-    "build": "cross-env REACT_APP_IS_WEB_MODE=false react-scripts build",
+    "build": "cross-env REACT_APP_IS_WEB_MODE=true react-scripts build",
     "build:doc": "cd midi-bricks-doc && yarn build && cd ../..",
     "lint": "eslint . -c .eslintrc",
     "test": "yarn lint && yarn test",
