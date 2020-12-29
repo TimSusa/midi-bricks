@@ -5,7 +5,9 @@
       "downloadAndInstall",
       "applicationSettings",
       "firstLayout",
-      "themes"
+      "themes",
+      "pages",
+      "liveMode"
     ]
   }
 }
