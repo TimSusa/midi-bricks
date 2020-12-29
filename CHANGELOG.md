@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.44-alpha.6](https://github.com/TimSusa/midi-bricks/compare/v1.3.44-alpha.5...v1.3.44-alpha.6) (2020-12-29)
+
+
+### Bug Fixes
+
+* DrawerList Labels ([1fefb74](https://github.com/TimSusa/midi-bricks/commit/1fefb742ba3fc15e2d30d0568e64c34b12bfd223))
+
 ### [1.3.44-alpha.5](https://github.com/TimSusa/midi-bricks/compare/v1.3.44-alpha.3...v1.3.44-alpha.5) (2020-12-29)
 
 
