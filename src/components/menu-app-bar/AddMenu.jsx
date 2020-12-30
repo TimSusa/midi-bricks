@@ -11,6 +11,7 @@ const {
   BUTTON,
   BUTTON_CC,
   BUTTON_PROGRAM_CHANGE,
+  BUTTON_SOUND,
   SLIDER,
   SLIDER_HORZ,
   LABEL,
@@ -61,6 +62,9 @@ function AddMenu() {
         </MenuItem>
         <MenuItem onClick={handleAddButton.bind(this, BUTTON_PROGRAM_CHANGE)}>
           Add Button Program Change
+        </MenuItem>
+        <MenuItem onClick={handleAddButton.bind(this, BUTTON_SOUND)}>
+          Add Button Sound
         </MenuItem>
         <MenuItem onClick={handleAddLabel}>Add Label</MenuItem>
       </Menu>

@@ -3,6 +3,8 @@ import Typography from '@material-ui/core/Typography'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 
+export default MidiButton
+
 MidiButton.propTypes = {
   buttonStyle: PropTypes.object,
   fontColorStyle: PropTypes.object,
@@ -26,9 +28,10 @@ function MidiButton(props) {
       className={classes.root}
       disabled={false}
       onContextMenu={preventCtxMenu}
-      onMouseDown={!isTouchDevice() ? onChangeStart : (e) => e.preventDefault()}
-      onMouseUp={!isTouchDevice() ? onChangeEnd : (e) => e.preventDefault()}
+      onMouseDown={!isTouchDevice() ? onChangeStart : noop}
+      onMouseUp={!isTouchDevice() ? onChangeEnd : noop}
       onTouchStart={onChangeStart}
+      // onTouchMove={onChangeEnd}
       onTouchEnd={onChangeEnd}
     >
       <Typography
@@ -51,7 +54,7 @@ function preventCtxMenu(e) {
 }
 
 function isTouchDevice() {
-  const hasToch = 'ontouchstart' in window || navigator.maxTouchPoints // works on most browsers // works on IE10/11 and Surface
+  const hasToch = 'ontouchstart' in window || navigator.maxTouchPoints
   return !!hasToch
 }
 
@@ -79,4 +82,6 @@ function styles() {
   }
 }
 
-export default MidiButton
+function noop(e) {
+  e.preventDefault()
+}

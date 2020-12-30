@@ -186,9 +186,11 @@ export function MidiSettingsView(props) {
       )}
 
       {type === LABEL && (
-        <>
+        <React.Fragment>
           {!backgroundImage && (
-            <ReadFileButton onFileChange={onFileChange}></ReadFileButton>
+            <ReadFileButton
+              onFileChange={onBackgroundImageFileChange}
+            ></ReadFileButton>
           )}
           {backgroundImage && (
             <Button
@@ -201,7 +203,7 @@ export function MidiSettingsView(props) {
               Unload Background Image
             </Button>
           )}
-        </>
+        </React.Fragment>
       )}
       {[SLIDER, SLIDER_HORZ].includes(type) && (
         <FormControl>
@@ -219,7 +221,7 @@ export function MidiSettingsView(props) {
       )}
     </React.Fragment>
   )
-  function onFileChange(_, file) {
+  function onBackgroundImageFileChange(_, file) {
     const contentRaw = file[0][0].target.result
     dispatch(setBackgroundImage({ backgroundImage: contentRaw, i }))
   }

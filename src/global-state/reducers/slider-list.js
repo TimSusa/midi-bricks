@@ -6,6 +6,7 @@ import map from 'lodash/map'
 import isEqual from 'lodash/isEqual'
 import { getUniqueId } from '../../utils/get-unique-id'
 import { createNextState } from '@reduxjs/toolkit'
+import { Howl, Howler } from 'howler'
 
 export const initId = `page-${getUniqueId()}`
 
@@ -15,6 +16,7 @@ export const STRIP_TYPE = {
   BUTTON_CC: 'BUTTON_CC',
   BUTTON_TOGGLE_CC: 'BUTTON_TOGGLE_CC',
   BUTTON_PROGRAM_CHANGE: 'BUTTON_PROGRAM_CHANGE',
+  BUTTON_SOUND: 'BUTTON_SOUND',
   SLIDER: 'SLIDER',
   SLIDER_HORZ: 'SLIDER_HORZ',
   LABEL: 'LABEL',
@@ -261,6 +263,30 @@ export const sliders = {
     return state
   },
 
+  sendSoundChange(state, action) {
+    const { i } = action.payload
+    const tmp = state.sliderList.find((item) => item.i === i)
+    const { soundData } = tmp
+    // Setup the new Howl.
+    const sound = new Howl({
+      src: [soundData]
+    })
+
+    // Play the sound.
+    sound.play()
+
+    // Change global volume.
+    Howler.volume(0.5)
+  },
+
+  setSoundData(state, action) {
+    const { i, soundData } = action.payload
+    // const tmp = state.sliderList.find((item) => item.i === i)
+    // const { soundData } = tmp
+    const idx = state.sliderList.findIndex((er) => er.i === i)
+    state.sliderList[idx].soundData = soundData
+  },
+
   changeLabel(draftState, action) {
     const { i, val } = action.payload
     const idx = draftState.sliderList.findIndex((er) => er.i === i)
@@ -341,7 +367,7 @@ export const sliders = {
     return draftState
   },
 
-  setBackgroundImage(draftState, action){
+  setBackgroundImage(draftState, action) {
     const { backgroundImage, i } = action.payload
     const idx = draftState.sliderList.findIndex((item) => item.i === i)
 
@@ -476,9 +502,9 @@ export const sliders = {
     draftState.sliderList[idx].fontWeight = fontWeight
     return draftState
   },
-  toggleIsStatic(draftState, action){
-    const {i, isStatic} = action.payload
-    const idx = draftState.sliderList.findIndex ((item)=> item.i === i)
+  toggleIsStatic(draftState, action) {
+    const { i, isStatic } = action.payload
+    const idx = draftState.sliderList.findIndex((item) => item.i === i)
     draftState.sliderList[idx].static = !isStatic
   },
   // [ActionTypeSliderList.CHANGE_XYPAD_SETTINGS](state, action) {
@@ -696,6 +722,7 @@ function transformAddState(state, action) {
   const entry = {
     driverNameInput: 'None',
     backgroundImage: null,
+    soundData: null,
     midiChannel: 1,
     midiChannelInput: 1,
     isNoteOn: false,

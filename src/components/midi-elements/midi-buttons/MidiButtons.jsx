@@ -11,21 +11,25 @@ const {
   BUTTON_CC,
   BUTTON_TOGGLE,
   BUTTON_TOGGLE_CC,
-  BUTTON_PROGRAM_CHANGE
+  BUTTON_PROGRAM_CHANGE,
+  BUTTON_SOUND
 } = STRIP_TYPE
 
 const noop = () => ''
 
-const { toggleNote, handleSliderChange, sendProgramChange } = {
+const { toggleNote, handleSliderChange, sendProgramChange, sendSoundChange } = {
   ...MidiSliderActions
 }
 // This component is supposed to configure the button type for rendering
 function MidiButtons(props) {
   const dispatch = useDispatch()
   const { idx, height, width } = props
-  const { isChangedTheme, isLayoutMode, lastFocusedPage } = useSelector(
-    (state) => state.viewSettings
-  )
+  const {
+    isChangedTheme,
+    isLayoutMode,
+    lastFocusedPage,
+    isLiveMode
+  } = useSelector((state) => state.viewSettings)
   const {
     i,
     onVal,
@@ -82,6 +86,11 @@ function MidiButtons(props) {
     } else if (type === BUTTON_PROGRAM_CHANGE) {
       return {
         onChangeStart: !isLayoutMode ? handleButtonProgramChange : noop,
+        onChangeEnd: noop
+      }
+    } else if (type === BUTTON_SOUND) {
+      return {
+        onChangeStart: isLiveMode ? handleButtonSoundChange : noop,
         onChangeEnd: noop
       }
     } else {
@@ -146,6 +155,11 @@ function MidiButtons(props) {
     e.preventDefault()
     e.stopPropagation()
     dispatch(sendProgramChange({ i, lastFocusedPage }))
+  }
+  function handleButtonSoundChange(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    dispatch(sendSoundChange({ i, lastFocusedPage }))
   }
 }
 

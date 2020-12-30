@@ -15,16 +15,17 @@ import { MidiSettingsLabelInput } from './elements/MidiSettingsLabelInput'
 import { MidiSettingsOutput } from './elements/MidiSettingsOutput'
 import { MidiSettingsView } from './elements/MidiSettingsView'
 import { DriverEmtpyRedirectButton } from './elements/DriverEmtpyRedirectButton'
+import { ReadSoundButton } from './elements/ReadSoundButton'
 
 import { STRIP_TYPE } from '../../global-state/reducers/slider-list'
 
-const { clone } = {
+const { clone, setSoundData } = {
   ...MidiSliderActions
 }
 
 export default MidiSettings
 
-const { BUTTON, BUTTON_TOGGLE, PAGE } = STRIP_TYPE
+const { BUTTON, BUTTON_TOGGLE, PAGE, BUTTON_SOUND } = STRIP_TYPE
 
 MidiSettings.propTypes = {
   i: PropTypes.string,
@@ -53,7 +54,7 @@ function MidiSettings(props) {
   const { i, onClose = () => {} } = props
   const sliderList = useSelector((state) => state.sliders.sliderList)
   const sliderEntry = sliderList.find((item) => item.i === i) || {}
-  const { label, type } = sliderEntry
+  const { label, type, soundData } = sliderEntry
   const isOutputsEmpty = isAllEmpty(outputs)
   const isInputsEmpty = isAllEmpty(inputs)
   return (
@@ -65,6 +66,24 @@ function MidiSettings(props) {
         lastFocusedPage={lastFocusedPage}
         type={type}
       />
+      {type === BUTTON_SOUND && (
+        <React.Fragment>
+          {!soundData && (
+            <ReadSoundButton
+              onFileChange={onSoundDataFileChange}
+            ></ReadSoundButton>
+          )}
+          {soundData && (
+            <Button
+              variant='contained'
+              style={{ width: '100%', marginTop: 8 }}
+              onClick={() => dispatch(setSoundData({ soundData: null, i }))}
+            >
+              Unload Sound File
+            </Button>
+          )}
+        </React.Fragment>
+      )}
       {type === undefined && isSettingsMode && (
         <DriverExpansionPanel label='View' isEmpty={false}>
           <MidiSettingsView
@@ -90,7 +109,6 @@ function MidiSettings(props) {
       )}
       {type !== undefined ? (
         <React.Fragment>
-          {' '}
           <DriverExpansionPanel label={'Inputs'} isEmpty={isInputsEmpty}>
             {isInputsEmpty ? (
               <DriverEmtpyRedirectButton i={i} />
@@ -126,6 +144,10 @@ function MidiSettings(props) {
       />
     </div>
   )
+  function onSoundDataFileChange(_, file) {
+    const contentRaw = file[0][0].target.result
+    dispatch(setSoundData({ soundData: contentRaw, i }))
+  }
 }
 
 function styles(theme) {
