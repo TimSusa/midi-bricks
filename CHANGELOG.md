@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.44-alpha.9](https://github.com/TimSusa/midi-bricks/compare/v1.3.44-alpha.8...v1.3.44-alpha.9) (2021-04-03)
+
+
+### Features
+
+* Build for arm64 and arm7l ([636b838](https://github.com/TimSusa/midi-bricks/commit/636b838967a95c4779a006c94100e7e482f6c419))
+
 ### [1.3.44-alpha.8](https://github.com/TimSusa/midi-bricks/compare/v1.3.44-alpha.6...v1.3.44-alpha.8) (2020-12-29)
 
 
