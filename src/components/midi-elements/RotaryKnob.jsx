@@ -10,12 +10,12 @@ export default RotaryKnob
 
 function RotaryKnob(props) {
   const dispatch = useDispatch()
-  const { idx, height, width, isDisabled, showValueLabel } = props
-  const { i, val, maxVal, colors } = useSelector(
+  const { idx, height, width, showValueLabel } = props
+  const { i, val, maxVal, colors, fontWeight } = useSelector(
     (state) => state.sliders.sliderList[idx] || {}
   )
   const { color, colorActive } = colors || {}
-  const { lastFocusedPage } = useSelector(
+  const { lastFocusedPage, isLayoutMode, isSettingsMode } = useSelector(
     (state) => state.viewSettings
   )
 
@@ -30,13 +30,14 @@ function RotaryKnob(props) {
       <Rotary
         width={width}
         height={height}
-        isDisabled={isDisabled}
+        isDisabled={isLayoutMode || isSettingsMode}
         showValueLabel={showValueLabel}
-        cbValChanged={isDisabled ? () => { } : handleChange}
+        cbValChanged={(isLayoutMode || isSettingsMode) ? () => { } : handleChange}
         max={maxVal}
         backgroundColor={color}
         color={colorActive}
         value={val}
+        lineWidth={100 - fontWeight / 10}
       >
       </Rotary>
     </div>

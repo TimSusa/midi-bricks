@@ -179,7 +179,7 @@ function ChannelStrip(props) {
             isLabelShown={true}
           ></Label>
           <RotaryKnob
-            isDisabled={isDisabled}
+            //isDisabled={isDisabled}
             idx={idx}
             height={calcLengthIfHidden(tmpH, { isValueHidden, fontSize })}
             width={calcLengthIfHidden(tmpW + 64, {

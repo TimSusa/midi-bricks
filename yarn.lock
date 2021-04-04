@@ -11251,8 +11251,8 @@ react-app-polyfill@^2.0.0:
     whatwg-fetch "^3.4.1"
 
 "react-canvas-rotary-knob@https://github.com/TimSusa/react-canvas-rotary-knob":
-  version "0.1.2"
-  resolved "https://github.com/TimSusa/react-canvas-rotary-knob#484c4200751efb3722eb19b36f16659086bd070a"
+  version "0.1.3"
+  resolved "https://github.com/TimSusa/react-canvas-rotary-knob#a91da408be9005da8ed00040c47356d5ed73f884"
   dependencies:
     debounce "1.2.0"
     react "17.0.1"
