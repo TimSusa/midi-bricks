@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import Rotary from 'react-canvas-rotary-knob/dist/RotaryKnob.js'
+import Rotary from 'react-canvas-rotary-knob/lib/RotaryKnob.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { Actions as MidiSliderActions } from '../../global-state/actions/slider-list.js'
 
