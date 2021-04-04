@@ -13,6 +13,7 @@ import { STRIP_TYPE } from '../../global-state/reducers/slider-list'
 import { Label } from '../midi-elements/Label'
 
 import { Actions as MidiSliderActions } from '../../global-state/actions/slider-list.js'
+import RotaryKnob from '../midi-elements/RotaryKnob'
 
 const { toggleIsStatic } = {
   ...MidiSliderActions
@@ -70,8 +71,11 @@ function ChannelStrip(props) {
   const isButton = ![
     STRIP_TYPE.SLIDER,
     STRIP_TYPE.SLIDER_HORZ,
-    STRIP_TYPE.LABEL
+    STRIP_TYPE.LABEL,
+    STRIP_TYPE.ROTARY_KNOB
   ].includes(type)
+
+
   return (
     <div className={classes.root} ref={measuredRef}>
       {backgroundImage && (
@@ -167,6 +171,31 @@ function ChannelStrip(props) {
           ></Label>
         </div>
       )}
+      {type === STRIP_TYPE.ROTARY_KNOB && (
+        <div className={classes.sliderChannelWrapper}>
+          <Label
+            idx={idx}
+            labelStyle={classes.label}
+            isLabelShown={true}
+          ></Label>
+          <RotaryKnob
+            //isDisabled={isDisabled}
+            idx={idx}
+            height={calcLengthIfHidden(tmpH, { isValueHidden, fontSize })}
+            width={calcLengthIfHidden(tmpW + 64, {
+              isValueHidden,
+              fontSize
+            })}
+            showValueLabel={false}
+          ></RotaryKnob>
+          <Label
+            idx={idx}
+            //labelStyle={classes.bottomLabel}
+            isLabelShown={false}
+          ></Label>
+        </div>
+      )}
+
       {isButton && (
         <MidiButtons
           isDisabled={isDisabled}
@@ -175,6 +204,7 @@ function ChannelStrip(props) {
           width={tmpW}
         />
       )}
+
       {type === STRIP_TYPE.LABEL && (
         <StripLabel
           isDisabled={isDisabled}
