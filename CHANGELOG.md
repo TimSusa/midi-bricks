@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.44-alpha.10](https://github.com/TimSusa/midi-bricks/compare/v1.3.44-alpha.9...v1.3.44-alpha.10) (2021-04-04)
+
+
+### Features
+
+* Establish rotary slider ([6e1c8ca](https://github.com/TimSusa/midi-bricks/commit/6e1c8ca10a9d51b2bde53a3ca4dd56e3efc550f7))
+* Map fontweight to rotary linewidth ([92c3ae0](https://github.com/TimSusa/midi-bricks/commit/92c3ae0440c2ec34918f008a260d62bc8df04035))
+
 ### [1.3.44-alpha.9](https://github.com/TimSusa/midi-bricks/compare/v1.3.44-alpha.8...v1.3.44-alpha.9) (2021-04-03)
 
 
