@@ -13,6 +13,7 @@ const {
   BUTTON_PROGRAM_CHANGE,
   SLIDER,
   SLIDER_HORZ,
+  ROTARY_KNOB,
   LABEL,
   PAGE
 } = STRIP_TYPE
@@ -53,6 +54,7 @@ function AddMenu() {
         <MenuItem onClick={handleAddPage}>Add Page</MenuItem>
         <MenuItem onClick={handleAddSlider}>Add Vertical Slider</MenuItem>
         <MenuItem onClick={handleAddSliderHorz}>Add Horizontal Slider</MenuItem>
+        <MenuItem onClick={handleAddRotaryKnob}>Add Rotary Knob</MenuItem>
         <MenuItem onClick={handleAddButton.bind(this, BUTTON)}>
           Add Button
         </MenuItem>
@@ -85,6 +87,10 @@ function AddMenu() {
   }
   async function handleAddSliderHorz() {
     await dispatch(addElement(SLIDER_HORZ))
+    handleClose()
+  }
+  async function handleAddRotaryKnob() {
+    await dispatch(addElement(ROTARY_KNOB))
     handleClose()
   }
 

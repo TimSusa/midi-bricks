@@ -17,6 +17,7 @@ export const STRIP_TYPE = {
   BUTTON_PROGRAM_CHANGE: 'BUTTON_PROGRAM_CHANGE',
   SLIDER: 'SLIDER',
   SLIDER_HORZ: 'SLIDER_HORZ',
+  ROTARY_KNOB: 'ROTARY_KNOB',
   LABEL: 'LABEL',
   PAGE: 'PAGE',
   XYPAD: 'XYPAD'
@@ -30,6 +31,7 @@ const {
   BUTTON_PROGRAM_CHANGE,
   SLIDER,
   SLIDER_HORZ,
+  ROTARY_KNOB,
   LABEL,
   PAGE
   // XYPAD
@@ -201,7 +203,7 @@ export const sliders = {
       draftState.sliderList[idx].isNoteOn = !isNoteOn
     }
     draftState.sliderList[idx].val = val
-    //return draftState
+    return draftState
   },
 
   // [ActionTypeSliderList.SEND_MIDI_CC_Y](state, action) {
@@ -341,7 +343,7 @@ export const sliders = {
     return draftState
   },
 
-  setBackgroundImage(draftState, action){
+  setBackgroundImage(draftState, action) {
     const { backgroundImage, i } = action.payload
     const idx = draftState.sliderList.findIndex((item) => item.i === i)
 
@@ -476,9 +478,9 @@ export const sliders = {
     draftState.sliderList[idx].fontWeight = fontWeight
     return draftState
   },
-  toggleIsStatic(draftState, action){
-    const {i, isStatic} = action.payload
-    const idx = draftState.sliderList.findIndex ((item)=> item.i === i)
+  toggleIsStatic(draftState, action) {
+    const { i, isStatic } = action.payload
+    const idx = draftState.sliderList.findIndex((item) => item.i === i)
     draftState.sliderList[idx].static = !isStatic
   },
   // [ActionTypeSliderList.CHANGE_XYPAD_SETTINGS](state, action) {
@@ -652,24 +654,24 @@ function transformAddState(state, action) {
   const { id, type } = action.payload
   const oldSliderList = state.sliderList || []
 
-  const lastSelectedDriverName =
-    (oldSliderList.length > 0 &&
-      oldSliderList[oldSliderList.length - 1].driverName) ||
-    'None'
-  const newDriverName =
-    lastSelectedDriverName !== 'None' && lastSelectedDriverName
+  // const lastSelectedDriverName =
+  //   ((oldSliderList.length > 0) &&
+  //     oldSliderList[oldSliderList.length - 1].driverName) ||
+  //   'None'
+  // const newDriverName =
+  //   lastSelectedDriverName !== 'None' && lastSelectedDriverName
 
   const addStateLength = () => oldSliderList.length + 1
   const addMidiCCVal = () => 59 + 1 //addStateLength() > 119 && 119
 
   let midiCC = null
   let label = ''
-  let yVal = undefined
-  let yDriverName = undefined
-  let yMidiCc = undefined
-  let yMidiChannel = undefined
-  let yMinVal = undefined
-  let yMaxVal = undefined
+  // let yVal = undefined
+  // let yDriverName = undefined
+  // let yMidiCc = undefined
+  // let yMidiChannel = undefined
+  // let yMinVal = undefined
+  // let yMaxVal = undefined
 
   if ([BUTTON, BUTTON_TOGGLE].includes(type)) {
     label = 'Button ' + addStateLength()
@@ -681,6 +683,10 @@ function transformAddState(state, action) {
   }
   if ([SLIDER, SLIDER_HORZ].includes(type)) {
     label = 'Slider ' + addStateLength()
+    midiCC = [addMidiCCVal()]
+  }
+  if (type === ROTARY_KNOB) {
+    label = 'Rotary ' + addStateLength()
     midiCC = [addMidiCCVal()]
   }
   if ([BUTTON_PROGRAM_CHANGE].includes(type)) {
@@ -717,12 +723,12 @@ function transformAddState(state, action) {
     fontSize: 16,
     fontWeight: 500,
     isValueHidden: false,
-    yDriverName,
-    yVal,
-    yMidiCc,
-    yMidiChannel,
-    yMinVal,
-    yMaxVal,
+    // yDriverName,
+    // yVal,
+    // yMidiCc,
+    // yMidiChannel,
+    // yMinVal,
+    // yMaxVal,
     i: id,
     x: addStateLength(),
     y: addStateLength(),
@@ -732,7 +738,7 @@ function transformAddState(state, action) {
     label,
     midiCC,
     listenToCc: [],
-    driverName: newDriverName
+    driverName: 'None'
   }
   return createNextState(state, (draftState) => {
     if (type === PAGE) {
@@ -798,8 +804,7 @@ function toggleNotes({
 }
 
 function getCheckedMidiOut(driverName) {
-  const output = driverName !== 'None' && WebMIDI.getOutputByName(driverName)
-  return output
+  return (driverName !== 'None') && WebMIDI.enabled && WebMIDI.getOutputByName(driverName)
 }
 
 function updatePagesWithSliderlist(state, refreshedSliderList = []) {
