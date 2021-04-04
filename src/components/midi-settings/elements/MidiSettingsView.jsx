@@ -35,6 +35,7 @@ const {
   BUTTON_TOGGLE_CC,
   SLIDER,
   SLIDER_HORZ,
+  ROTARY_KNOB,
   LABEL
 } = STRIP_TYPE
 
@@ -72,14 +73,18 @@ export function MidiSettingsView(props) {
 
   const [fontSizeLocal, setFontSizeLocal] = useState(fontSize)
   const [fontWeightLocal, setFontWeightLocal] = useState(fontWeight)
+  const isButton = [BUTTON, BUTTON_CC, BUTTON_TOGGLE, BUTTON_TOGGLE_CC].includes(
+    type
+  )
   return (
     <React.Fragment>
       <FormControl>
-        {[BUTTON, BUTTON_CC, BUTTON_TOGGLE, BUTTON_TOGGLE_CC].includes(
-          type
-        ) && (
+        {isButton && (
           <React.Fragment>
-            <InputLabel className={classes.label} htmlFor='button-type'>
+            <InputLabel
+              className={classes.label}
+              htmlFor='button-type'
+            >
               Type
             </InputLabel>
             <Select
@@ -186,7 +191,7 @@ export function MidiSettingsView(props) {
       )}
 
       {type === LABEL && (
-        <>
+        <React.Fragment>
           {!backgroundImage && (
             <ReadFileButton onFileChange={onFileChange}></ReadFileButton>
           )}
@@ -201,9 +206,9 @@ export function MidiSettingsView(props) {
               Unload Background Image
             </Button>
           )}
-        </>
+        </React.Fragment>
       )}
-      {[SLIDER, SLIDER_HORZ].includes(type) && (
+      {[SLIDER, SLIDER_HORZ, ROTARY_KNOB].includes(type) && (
         <FormControl>
           <FormControlLabel
             control={
