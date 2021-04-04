@@ -38,11 +38,11 @@ function Home() {
       return
     }
     initAsync()
-    return () => {}
+    return () => { }
   }, [dispatch, pageType])
 
   const objLM = {
-    height: 'calc(100vh - 66px)',
+    height: 'calc(100vh - 56px)',
     overflowY: 'hidden'
   }
   const objNLM = {
