@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce'
 
 const { initMidiAccessPending, midiMessageArrived, initFailed, initMidiAccessOk } = Actions
 
-export function initApp () {
+export function initApp() {
   return function (dispatch, getState) {
     return new Promise((resolve, reject) => {
       WebMIDI.disable()
@@ -18,7 +18,7 @@ export function initApp () {
           reject(dispatch(initFailed('Midi could not be enabled.')))
         }
         const { inputs = [], outputs = [] } = WebMIDI
-        const { sliders: { sliderList  }, viewSettings: { globalMidiInputDelay } } = getState()
+        const { sliders: { sliderList }, viewSettings: { globalMidiInputDelay } } = getState()
         const allCcListenersFound = findCcListeners(sliderList)
         const allNoteListenersFound = findNoteListeners(sliderList)
 
@@ -28,14 +28,14 @@ export function initApp () {
           registerCcListeners(allCcListenersFound, name, tmpIn, dispatch, globalMidiInputDelay)
           const tmpInNoteOn = tmpIn.removeListener('noteon')
           const tmpInNoteOff = tmpInNoteOn.removeListener('noteoff')
-          registerNoteListeners(allNoteListenersFound, name, tmpInNoteOff , dispatch, globalMidiInputDelay)
+          registerNoteListeners(allNoteListenersFound, name, tmpInNoteOff, dispatch, globalMidiInputDelay)
         })
         if (hasContent(outputs) || hasContent(inputs)) {
           const midiAccess = {
             inputs: inputs.map((e) => e.name),
             outputs: outputs.map((e) => e.name)
           }
-          dispatch(initMidiAccessOk({ midiAccess}))
+          dispatch(initMidiAccessOk({ midiAccess }))
           resolve(midiAccess)
         } else {
           resolve(dispatch(initFailed('No Midi Output available.')))
@@ -45,15 +45,15 @@ export function initApp () {
   }
 }
 
-function findCcListeners (sliderList) {
-  return findByElementType(['LABEL', 'SLIDER_HORZ', 'SLIDER', 'BUTTON_CC'], sliderList)
+function findCcListeners(sliderList) {
+  return findByElementType(['LABEL', 'SLIDER_HORZ', 'SLIDER', 'BUTTON_CC', 'ROTARY_KNOB'], sliderList)
 }
 
-function findNoteListeners (sliderList) {
+function findNoteListeners(sliderList) {
   return findByElementType(['BUTTON', 'BUTTON_TOGGLE'], sliderList)
 }
 
-function findByElementType (arrayOfTypes, array) {
+function findByElementType(arrayOfTypes, array) {
   return array.reduce((acc, cur) => {
     const { driverNameInput, midiChannelInput, listenToCc, type } = cur
     if (arrayOfTypes.includes(type)) {
@@ -63,16 +63,16 @@ function findByElementType (arrayOfTypes, array) {
           [midiChannelInput || 'None']: [...new Set([...cc, ...listenToCc])]
         }
       })
-    }else {
+    } else {
       return acc
     }
   }, {})
 }
-function hasContent (arr) {
+function hasContent(arr) {
   return arr.length > 0
 }
 
-function registerCcListeners (listenersObj, name, input, dispatch, globalMidiInputDelay) {
+function registerCcListeners(listenersObj, name, input, dispatch, globalMidiInputDelay) {
   Object.keys(listenersObj).forEach((driverNameIn) => {
     const enty = listenersObj[driverNameIn]
     if (driverNameIn !== 'None') {
@@ -110,7 +110,7 @@ function registerCcListeners (listenersObj, name, input, dispatch, globalMidiInp
   })
 }
 
-function registerNoteListeners (notesObj, name, input, dispatch, globalMidiInputDelay) {
+function registerNoteListeners(notesObj, name, input, dispatch, globalMidiInputDelay) {
   Object.keys(notesObj).forEach((driverNameIn) => {
     const enty = notesObj[driverNameIn]
     if (driverNameIn !== 'None') {
@@ -119,7 +119,7 @@ function registerNoteListeners (notesObj, name, input, dispatch, globalMidiInput
         // const cCs = enty[midiChIn]
 
         const midiEventNoteOnMapper = (event) => {
-          const {rawVelocity, channel, note: { number }} = event
+          const { rawVelocity, channel, note: { number } } = event
           const obj = {
             isNoteOn: true,
             val: rawVelocity,
@@ -139,7 +139,7 @@ function registerNoteListeners (notesObj, name, input, dispatch, globalMidiInput
         }
 
         const midiEventNoteOffMapper = (event) => {
-          const {rawVelocity, channel, note: { number }} = event
+          const { rawVelocity, channel, note: { number } } = event
           const obj = {
             isNoteOn: false,
             val: rawVelocity,
