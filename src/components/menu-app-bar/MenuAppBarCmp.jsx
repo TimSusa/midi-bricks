@@ -75,12 +75,16 @@ function MenuAppBarCmp(props) {
   const { presetName, monitorVal } = useSelector((state) => state.sliders)
   const classes = makeStyles(styles.bind(this, theme))()
   const [isCopyDialogOpen, setIsCopyDialogOpen] = useState(false)
+  const isPage = [PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
+    pageType
+  )
   if (isLiveMode) {
     return <div />
   }
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root}
+    >
       <AppBar className={classes.appBar} position='fixed'>
         <Toolbar>
           <ToolTipIconButton
@@ -169,9 +173,7 @@ function MenuAppBarCmp(props) {
               </Button>
             </React.Fragment>
           )}
-          {[PAGE_TYPES.MIDI_DRIVER_MODE, PAGE_TYPES.GLOBAL_MODE].includes(
-            pageType
-          ) && (
+          {isPage && (
             <React.Fragment>
               <Button
                 className={classes.resetButton}
@@ -219,7 +221,7 @@ function MenuAppBarCmp(props) {
                 handleClick={() => dispatch(toggleMultiSelectionMode())}
               />
               {Array.isArray(lastFocusedIdxs) && lastFocusedIdxs.length > 0 && (
-                <>
+                <React.Fragment>
                   <ToolTipIconButton
                     handleClick={() => setIsCopyDialogOpen(true)}
                     title={'Copy to page.'}
@@ -247,7 +249,7 @@ function MenuAppBarCmp(props) {
                     isInvisible={isMidiLearnMode || isLayoutMode}
                     icon={<DeleteIcon />}
                   />
-                </>
+                </React.Fragment>
               )}
               <ToolTipIconButton
                 handleClick={async () =>
@@ -285,7 +287,7 @@ function MenuAppBarCmp(props) {
                 isInvisible={
                   !JSON.parse(window.sessionStorage.getItem('history')) ||
                   JSON.parse(window.sessionStorage.getItem('history')).length <
-                    1
+                  1
                 }
               />
             </Fragment>
@@ -366,10 +368,13 @@ MenuAppBarCmp.propTypes = {
 function styles(theme) {
   return {
     root: {
-      flexGrow: 1
+      flexGrow: 1,
+      background: theme.palette.appBar.background,
+      backgroundColor: theme.palette.appBar.background,
     },
     appBar: {
       background: theme.palette.appBar.background,
+      backgroundColor: theme.palette.appBar.background,
       fontWeight: 600
     },
     typoColorStyle: {

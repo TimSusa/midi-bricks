@@ -104,7 +104,7 @@ function ChannelStripListCmp() {
         preventCollision={!isAutoArrangeMode}
         compactType={isCompactHorz ? 'horizontal' : 'vertical'}
         layout={sliderList}
-        onLayoutChange={isLayoutMode ? onLayoutChange.bind(this) : () => {}}
+        onLayoutChange={isLayoutMode ? onLayoutChange.bind(this) : () => { }}
       >
         {map(sliderList, (sliderEntry, idx) => {
           const { i } = sliderEntry
@@ -113,11 +113,11 @@ function ChannelStripListCmp() {
             <div
               onClick={
                 isSettingsMode &&
-                !isLayoutMode &&
-                !isSettingsDialogMode &&
-                !lastFocusedIdxs.includes(i)
+                  !isLayoutMode &&
+                  !isSettingsDialogMode &&
+                  !lastFocusedIdxs.includes(i)
                   ? handleClick.bind(this, { i })
-                  : () => {}
+                  : () => { }
               }
               key={i}
               style={
@@ -233,7 +233,7 @@ function ChannelStripListCmp() {
       </div>
     )
   } else {
-    return <></>
+    return <React.Fragment></React.Fragment>
   }
   async function onLayoutChange(layout) {
     if (isLayoutMode) {

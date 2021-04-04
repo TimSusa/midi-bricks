@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.45](https://github.com/TimSusa/midi-bricks/compare/v1.3.44-alpha.10...v1.3.45) (2021-04-04)
+
+
+### Bug Fixes
+
+* hide value for knob ([7ced4f2](https://github.com/TimSusa/midi-bricks/commit/7ced4f2a79231546e357a288e7309ce2859e70d7))
+* menu app bar background color and update mui ([ef73eec](https://github.com/TimSusa/midi-bricks/commit/ef73eece53ebc19ebbf0c61d66dcc6ad1a98343d))
+* midi learn for knob ([16e3396](https://github.com/TimSusa/midi-bricks/commit/16e33963cb52531b53f38fc4244bf276ade1502a))
+* update path to knob lib ([cf03017](https://github.com/TimSusa/midi-bricks/commit/cf030172a0f1c45deb72a4d8b5737a718ae49f98))
+
 ### [1.3.44-alpha.10](https://github.com/TimSusa/midi-bricks/compare/v1.3.44-alpha.9...v1.3.44-alpha.10) (2021-04-04)
 
 
