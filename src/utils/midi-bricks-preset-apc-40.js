@@ -1,5 +1,5 @@
 export const preset = {
-  "version": "1.3.44-alpha.10",
+  "version": "1.3.45",
   "pages": {
     "page-15595424091230.d16be927299392": {
       "sliderList": [
@@ -1265,6 +1265,44 @@ export const preset = {
             "15",
             "16"
           ]
+        },
+        "Impact LX61+ MIDI1": {
+          "noteChannels": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16"
+          ],
+          "ccChannels": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16"
+          ]
         }
       },
       "outputs": {
@@ -1534,7 +1572,7 @@ export const preset = {
     "isFullscreenOnLivemode": false,
     "pageType": "HOME_MODE",
     "lastFocusedPage": "page-16175039754180.96e59126dc5092",
-    "lastFocusedIdx": "16175039789990.c836299723aea4",
+    "lastFocusedIdx": "16175039815110.85e1c6c4ce7266",
     "lastFocusedIdxs": [],
     "globalMidiInputDelay": 3,
     "historyMaxLength": 10,
@@ -1574,13 +1612,16 @@ export const preset = {
           "midi-iac IAC Bus 1",
           "midi-iac IAC Bus 2",
           "midi-iac IAC Bus 3",
-          "Network Session 1"
+          "Network Session 1",
+          "Impact LX61+ MIDI1",
+          "Impact LX61+ MIDI2"
         ],
         "outputs": [
           "midi-iac IAC Bus 1",
           "midi-iac IAC Bus 2",
           "midi-iac IAC Bus 3",
-          "Network Session 1"
+          "Network Session 1",
+          "Impact LX61+ MIDI1"
         ]
       }
     },
@@ -1624,10 +1665,10 @@ export const preset = {
         "moved": false
       },
       {
-        "driverNameInput": "None",
+        "driverNameInput": "Impact LX61+ MIDI1",
         "backgroundImage": null,
         "midiChannel": 1,
-        "midiChannelInput": 1,
+        "midiChannelInput": "16",
         "isNoteOn": false,
         "isDraggable": false,
         "isResizable": false,
@@ -1657,7 +1698,10 @@ export const preset = {
         "midiCC": [
           60
         ],
-        "listenToCc": [],
+        "listenToCc": [
+          "21",
+          "12"
+        ],
         "driverName": "None",
         "moved": false
       }
