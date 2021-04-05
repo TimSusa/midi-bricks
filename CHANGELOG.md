@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.46](https://github.com/TimSusa/midi-bricks/compare/v1.3.45...v1.3.46) (2021-04-05)
+
+
+### Features
+
+* adapt caret color ([a2911b7](https://github.com/TimSusa/midi-bricks/commit/a2911b773e001e9cda32494656327a7af2c8745b))
+
+
+### Bug Fixes
+
+* Midi listener and learning with all channels ([4ccafe7](https://github.com/TimSusa/midi-bricks/commit/4ccafe711efe0ca530f7d4a5656e6398b6b6f0c9))
+
 ### [1.3.45](https://github.com/TimSusa/midi-bricks/compare/v1.3.44-alpha.10...v1.3.45) (2021-04-04)
 
 
