@@ -434,7 +434,7 @@ export const sliders = {
         if (hasCc && haveChannelsMatched && driverNameInput === driver) {
           return { ...item, val, isNoteOn }
         } else {
-          return item
+          return { ...item, midiChannelInput: channel, driverNameInput: driver }
         }
       }
       return item

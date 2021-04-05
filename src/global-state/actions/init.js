@@ -6,7 +6,14 @@ import debounce from 'lodash/debounce'
 
 const { initMidiAccessPending, midiMessageArrived, initFailed, initMidiAccessOk } = Actions
 
-export function initApp() {
+export function initApp(opts) {
+
+  const { listenToAllChannels = false } = opts || {}
+  if (listenToAllChannels) {
+    console.log('INIT AP and listen to all channels')
+  } else {
+    console.log('normal inti')
+  }
   return function (dispatch, getState) {
     return new Promise((resolve, reject) => {
       WebMIDI.disable()
@@ -21,14 +28,15 @@ export function initApp() {
         const { sliders: { sliderList }, viewSettings: { globalMidiInputDelay } } = getState()
         const allCcListenersFound = findCcListeners(sliderList)
         const allNoteListenersFound = findNoteListeners(sliderList)
-
         inputs.forEach((input) => {
           const { name } = input
+          input.removeListener()
+
           const tmpIn = input.removeListener('controlchange')
-          registerCcListeners(allCcListenersFound, name, tmpIn, dispatch, globalMidiInputDelay)
+          registerCcListeners(allCcListenersFound, name, tmpIn, dispatch, globalMidiInputDelay, listenToAllChannels)
           const tmpInNoteOn = tmpIn.removeListener('noteon')
           const tmpInNoteOff = tmpInNoteOn.removeListener('noteoff')
-          registerNoteListeners(allNoteListenersFound, name, tmpInNoteOff, dispatch, globalMidiInputDelay)
+          registerNoteListeners(allNoteListenersFound, name, tmpInNoteOff, dispatch, globalMidiInputDelay, listenToAllChannels)
         })
         if (hasContent(outputs) || hasContent(inputs)) {
           const midiAccess = {
@@ -72,7 +80,7 @@ function hasContent(arr) {
   return arr.length > 0
 }
 
-function registerCcListeners(listenersObj, name, input, dispatch, globalMidiInputDelay) {
+function registerCcListeners(listenersObj, name, input, dispatch, globalMidiInputDelay, listenToAllChannels) {
   Object.keys(listenersObj).forEach((driverNameIn) => {
     const enty = listenersObj[driverNameIn]
     if (driverNameIn !== 'None') {
@@ -101,7 +109,7 @@ function registerCcListeners(listenersObj, name, input, dispatch, globalMidiInpu
         if (!input.hasListener('controlchange', midiChIn, debounce(midiEventMapper, globalMidiInputDelay))) {
           input.addListener(
             'controlchange',
-            midiChIn,
+            (!listenToAllChannels ? midiChIn : 'all'),
             debounce(midiEventMapper, globalMidiInputDelay)
           )
         }
@@ -110,7 +118,7 @@ function registerCcListeners(listenersObj, name, input, dispatch, globalMidiInpu
   })
 }
 
-function registerNoteListeners(notesObj, name, input, dispatch, globalMidiInputDelay) {
+function registerNoteListeners(notesObj, name, input, dispatch, globalMidiInputDelay, listenToAllChannels) {
   Object.keys(notesObj).forEach((driverNameIn) => {
     const enty = notesObj[driverNameIn]
     if (driverNameIn !== 'None') {
@@ -133,7 +141,7 @@ function registerNoteListeners(notesObj, name, input, dispatch, globalMidiInputD
           // console.log('ADDD LISTENERS NOTE ON', midiChIn, driverNameIn)
           input.addListener(
             'noteon',
-            midiChIn,
+            (!listenToAllChannels ? midiChIn : 'all'),
             debounce(midiEventNoteOnMapper, globalMidiInputDelay)
           )
         }
@@ -154,7 +162,7 @@ function registerNoteListeners(notesObj, name, input, dispatch, globalMidiInputD
           // console.log('ADDD LISTENERS NOTE OFF', midiChIn, driverNameIn)
           input.addListener(
             'noteoff',
-            midiChIn,
+            (!listenToAllChannels ? midiChIn : 'all'),
             debounce(midiEventNoteOffMapper, globalMidiInputDelay)
           )
         }

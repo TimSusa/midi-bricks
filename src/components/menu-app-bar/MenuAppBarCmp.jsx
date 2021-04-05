@@ -354,7 +354,7 @@ function MenuAppBarCmp(props) {
       await initApp()
       //handleClose(setAncEl)
     } else {
-      await initApp('all')
+      await initApp({ listenToAllChannels: true })
       //handleClose(setAncEl)
     }
     dispatch(toggleMidiLearnMode({ isMidiLearnMode: !isMidiLearnMode }))
