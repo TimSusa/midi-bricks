@@ -14,7 +14,7 @@ function RotaryKnob(props) {
   const { i, val, maxVal, colors, fontWeight } = useSelector(
     (state) => state.sliders.sliderList[idx] || {}
   )
-  const { color, colorActive } = colors || {}
+  const { color, colorActive, colorFontActive } = colors || {}
   const { lastFocusedPage, isLayoutMode, isSettingsMode } = useSelector(
     (state) => state.viewSettings
   )
@@ -36,6 +36,7 @@ function RotaryKnob(props) {
         max={maxVal}
         backgroundColor={color}
         color={colorActive}
+        caretColor={colorFontActive}
         value={val}
         lineWidth={100 - fontWeight / 10}
       >
