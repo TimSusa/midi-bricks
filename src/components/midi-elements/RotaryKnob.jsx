@@ -11,7 +11,14 @@ export default RotaryKnob
 function RotaryKnob(props) {
   const dispatch = useDispatch()
   const { idx, height, width, showValueLabel } = props
-  const { i, val, maxVal, colors, fontWeight } = useSelector(
+  const {
+    i,
+    val,
+    maxVal,
+    minVal,
+    colors,
+    fontWeight
+  } = useSelector(
     (state) => state.sliders.sliderList[idx] || {}
   )
   const { color, colorActive, colorFontActive } = colors || {}
@@ -34,11 +41,13 @@ function RotaryKnob(props) {
         showValueLabel={showValueLabel}
         cbValChanged={(isLayoutMode || isSettingsMode) ? () => { } : handleChange}
         max={maxVal}
+        min={minVal}
         backgroundColor={color}
         color={colorActive}
         caretColor={colorFontActive}
         value={val}
-        lineWidth={100 - fontWeight / 10}
+        lineWidth={fontWeight * 0.01}
+        caretWidth={fontWeight * 0.1}
       >
       </Rotary>
     </div>
