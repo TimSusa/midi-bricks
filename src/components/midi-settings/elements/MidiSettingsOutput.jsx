@@ -35,7 +35,8 @@ const {
   BUTTON_TOGGLE,
   BUTTON_TOGGLE_CC,
   SLIDER,
-  SLIDER_HORZ
+  SLIDER_HORZ,
+  ROTARY_KNOB
 } = STRIP_TYPE
 
 MidiSettingsOutput.propTypes = {
@@ -69,6 +70,10 @@ export function MidiSettingsOutput(props) {
   const [onV, setOnV] = useState(onVal)
   const [maxV, setMaxV] = useState(maxVal)
   const [offV, setOffV] = useState(offVal)
+
+  const isButton = [BUTTON, BUTTON_CC, BUTTON_TOGGLE, BUTTON_TOGGLE_CC].includes(
+    type
+  )
   return (
     <React.Fragment>
       <InputNoteOrCc midiCC={midiCC} type={type} i={i} />
@@ -121,7 +126,7 @@ export function MidiSettingsOutput(props) {
           )}
         </Select>
       </FormControl>
-      {[SLIDER, SLIDER_HORZ].includes(type) && (
+      {[SLIDER, SLIDER_HORZ, ROTARY_KNOB].includes(type) && (
         <React.Fragment>
           <div
             style={{
@@ -185,52 +190,51 @@ export function MidiSettingsOutput(props) {
       )}
       {
         <React.Fragment>
-          {[BUTTON, BUTTON_CC, BUTTON_TOGGLE, BUTTON_TOGGLE_CC].includes(
-            type
-          ) && (
-            <React.Fragment>
-              <MinMaxValInput
-                label='Value Button On'
-                value={onV}
-                name={`input-onval-name-${i}`}
-                limitVal={127}
-                onChange={(e) => setOnV(e.target.value)}
-              />
-              <Button
-                variant='contained'
-                onClick={() =>
-                  dispatch(
-                    setOnVal({
-                      i,
-                      val: onV
-                    })
-                  )
-                }
-              >
-                OK
-              </Button>
-              <MinMaxValInput
-                label='Value Button Off'
-                value={offV}
-                name={`input-offval-name-${i}`}
-                limitVal={0}
-                onChange={(e) => setOffV(e.target.value)}
-              />
-              <Button
-                variant='contained'
-                onClick={() =>
-                  dispatch(
-                    setOffVal({
-                      i,
-                      val: offV
-                    })
-                  )
-                }
-              >
-                OK
-              </Button>
-            </React.Fragment>
-          )}
+          {
+            isButton && (
+              <React.Fragment>
+                <MinMaxValInput
+                  label='Value Button On'
+                  value={onV}
+                  name={`input-onval-name-${i}`}
+                  limitVal={127}
+                  onChange={(e) => setOnV(e.target.value)}
+                />
+                <Button
+                  variant='contained'
+                  onClick={() =>
+                    dispatch(
+                      setOnVal({
+                        i,
+                        val: onV
+                      })
+                    )
+                  }
+                >
+                  OK
+                </Button>
+                <MinMaxValInput
+                  label='Value Button Off'
+                  value={offV}
+                  name={`input-offval-name-${i}`}
+                  limitVal={0}
+                  onChange={(e) => setOffV(e.target.value)}
+                />
+                <Button
+                  variant='contained'
+                  onClick={() =>
+                    dispatch(
+                      setOffVal({
+                        i,
+                        val: offV
+                      })
+                    )
+                  }
+                >
+                  OK
+                </Button>
+              </React.Fragment>
+            )}
         </React.Fragment>
       }
     </React.Fragment>
