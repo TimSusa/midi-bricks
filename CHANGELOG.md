@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.47](https://github.com/TimSusa/midi-bricks/compare/v1.3.46...v1.3.47) (2021-04-25)
+
+
+### Features
+
+* establish min max for rotary knob ([f204c49](https://github.com/TimSusa/midi-bricks/commit/f204c49742052d75d4aaa9486bce7d98f1a4faa0))
+
+
+### Bug Fixes
+
+* Rotary new vers ([29fb5fd](https://github.com/TimSusa/midi-bricks/commit/29fb5fd23b5a3df1ccb91dbd62b266e52053bea5))
+
 ### [1.3.46](https://github.com/TimSusa/midi-bricks/compare/v1.3.45...v1.3.46) (2021-04-05)
 
 
