@@ -1,6 +1,6 @@
 let appRuntime = null
 
-if (process.env.REACT_APP_IS_WEB_MODE === 'false') {
+if (process.env.REACT_APP_IS_WEB_MODE !== 'true') {
   appRuntime = window.appRuntime
 }
 

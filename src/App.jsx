@@ -8,6 +8,7 @@ import isEmpty from 'lodash/isEmpty'
 import { useBeforeUnload } from './utils/useBeforeUnload'
 import { openIpcUnsavedChanges, exitApp } from './utils/ipc-renderer'
 
+
 export function App() {
   const isLiveMode = useSelector((state) => state.viewSettings.isLiveMode)
   const state = useSelector((state) => state)
@@ -15,13 +16,14 @@ export function App() {
   const classes = makeStyles(styles.bind(this, theme))()
   const [isMobileOpen, setIsMobileOpen] = useState(false)
 
+
+
   useBeforeUnload((event) => {
     // Cancel the event as stated by the standard.
     event.preventDefault()
     // Older browsers supported custom message
     event.returnValue = ''
-    if (process.env.REACT_APP_IS_WEB_MODE === 'true') {
-      // console.log('tim', tmp)
+    if (isWebMode()) {
       // if (tmp !== null) window.alert()
     } else {
       //call ipc here
@@ -123,3 +125,15 @@ function styles(theme) {
     }
   }
 }
+
+function isWebMode() {
+
+  if (process.env.REACT_APP_IS_WEB_MODE === 'true') {
+    return true
+  } else {
+    return false
+  }
+
+}
+
+
