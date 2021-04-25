@@ -13,11 +13,11 @@ function RotaryKnob(props) {
   const { idx, height, width, showValueLabel } = props
   const {
     i,
-    val,
-    maxVal,
-    minVal,
+    val = 0,
+    maxVal = 127,
+    minVal = 0,
     colors,
-    fontWeight
+    fontWeight = 200
   } = useSelector(
     (state) => state.sliders.sliderList[idx] || {}
   )
